@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="wonderlab.Views.Pages.NotificationCenterPage">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*" MaxHeight="55"/>
+			<RowDefinition MinHeight="1" MaxHeight="1"/>
+			<RowDefinition Height="1*"/>
+		</Grid.RowDefinitions>
+		
+		<TextBlock Text="通知中心" VerticalAlignment="Top"
+		   HorizontalAlignment="Left" Grid.Row="0"
+		   Margin="16" FontWeight="Bold"
+		   FontSize="18" />
+		
+		<Button Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Height="20"
+				Margin="20" Classes="rotatebutton" ToolTip.Tip="关闭 WonderLab"/>
+		
+		<ListBox Items="{Binding Notifications}" Grid.Row="2">
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="16,6"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Grid>
+									<Border HorizontalAlignment="Stretch"
+											VerticalAlignment="Stretch"
+											Background="{DynamicResource ControlFillColorDefault}"
+											BorderThickness="1"
+											BorderBrush="{DynamicResource DialogContentBorderBrush}"
+											CornerRadius="8">
+										<Grid>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="1*"/>
+												<RowDefinition Height="5"/>
+												<RowDefinition Height="1*"/>
+												<RowDefinition Height="0"/>
+												<RowDefinition Height="1*"/>
+												<RowDefinition Height="10"/>
+											</Grid.RowDefinitions>
+											<TextBlock Margin="15 10 15 0" Text="{Binding Title}"
+													   FontWeight="Bold" FontSize="15"/>
+
+											<DockPanel Grid.Row="2" Margin="15 0 15 3">
+												<TextBlock DockPanel.Dock="Left" Text="{Binding Progress}"/>
+												<TextBlock DockPanel.Dock="Right" 
+														   Text="{Binding RunTime}"
+														   HorizontalAlignment="Right"/>
+											</DockPanel>
+											
+											<ProgressBar Value="{Binding ProgressOfBar}" Grid.Row="4" 
+														 Margin="15 0 15 0"
+														 Foreground="#F4D03F"/>
+										</Grid>
+									</Border>									
+								</Grid>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+				</Styles>
+			</ListBox.Styles>
+		</ListBox>
+		
+		<TextBlock Text="没有新通知" IsVisible="{Binding HasNotification}"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Center"
+				   FontSize="16"
+				   FontWeight="Bold"
+				   Grid.Row="2"/>
+	</Grid>
+</UserControl>

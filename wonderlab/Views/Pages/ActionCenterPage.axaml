@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Initialized="InitializedAction"
+             x:Class="wonderlab.Views.Pages.ActionCenterPage">
+	<Grid>
+		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Margin="15"
+				BorderThickness="1"
+				CornerRadius="4"
+				Background="{DynamicResource DialogContentBackground}">				
+			<Grid Margin="12.5 10 25 10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition MaxWidth="10" Width="10"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<!--Icon-->
+				<StackPanel VerticalAlignment="Center"
+					        HorizontalAlignment="Left" Grid.Column="0"
+							Spacing="5" Orientation="Horizontal">
+					<Border Name="icon1" Height="0" Width="8" Background="#F4D03F"
+							VerticalAlignment="Bottom">
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Duration="0:0:0.3"
+												  Easing="ExponentialEaseOut"
+												  Property="Height"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
+					<Border Name="icon2" Height="0" Width="8" Background="#F4D03F"
+							VerticalAlignment="Bottom">
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Duration="0:0:0.3"
+												  Easing="ExponentialEaseOut"
+												  Property="Height"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
+					<Border Name="icon3" Height="0" Width="8" Background="#F4D03F"
+							VerticalAlignment="Bottom">
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Duration="0:0:0.3"
+												  Easing="ExponentialEaseOut"
+												  Property="Height"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
+				</StackPanel>
+
+				<StackPanel HorizontalAlignment="Left"
+					VerticalAlignment="Center" Grid.Column="2">
+					<TextBlock FontSize="18" Text="操作中心"/>
+					<TextBlock Text="在这里点击下面的按钮以体验 WonderLab 更多精彩功能"/>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<!--Button Grounp-->
+		<StackPanel  Spacing="10" 
+			  HorizontalAlignment="Center" 
+			  VerticalAlignment="Center">
+			<Border Background="{DynamicResource DialogContentBackground}" Padding="15"
+					CornerRadius="15">
+				<StackPanel Spacing="10">
+					<Border Width="35" Height="35" CornerRadius="4" HorizontalAlignment="Left" >
+						<!--<Border.Background>
+							<ImageBrush Source="/Assets/avalonia-logo.ico"/>
+						</Border.Background>-->
+					</Border>
+					<TextBlock Text="正在播放：还是你的笑容最可爱"/>
+
+					<Grid HorizontalAlignment="Center">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="15"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+
+						<Button/>
+						<Button Grid.Column="2"/>
+						<Button Grid.Column="4"/>
+					</Grid>
+				</StackPanel>
+			</Border>
+
+			<Border>
+				<Grid>
+					
+				</Grid>
+			</Border>
+
+			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="10">
+				<Button Command="{Binding ReturnAction}" HorizontalAlignment="Right" Content="返回"></Button>
+				
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+</UserControl>

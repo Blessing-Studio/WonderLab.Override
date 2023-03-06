@@ -1,0 +1,99 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="800" Height="450"
+		MinWidth="800" MinHeight="450"
+        x:Class="wonderlab.MainWindow"
+		xmlns:wp="using:wonderlab.Views.Pages"
+	    xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcb="using:wonderlab.control.Controls.Bar"
+        Title="MainWindow" CornerRadius="4"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		Initialized="WindowsInitialized">
+	<Grid>
+		<Image Stretch="UniformToFill"
+			   Source="/Assets/y.jpg"/>
+		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
+		<Grid Background="Transparent" Name="Drop"/>
+
+		<Border Name="Back" Opacity="0" IsHitTestVisible="False" Background="#99FFFFFF">
+		</Border>
+
+		<Border VerticalAlignment="Stretch"
+		HorizontalAlignment="Stretch"
+		BorderBrush="#F4D03F"
+		BorderThickness="1"/>
+
+		<Border Name="OpenBar" Width="100" Background="Transparent" HorizontalAlignment="Left"/>
+
+		<ContentControl Name="Page" Margin="0 25 0 0" Content="{Binding CurrentPage}">
+			<ContentControl.Transitions>
+				<Transitions>
+					<DoubleTransition Easing="QuinticEaseOut" Duration="0:0:0.35" Property="Opacity"/>
+				</Transitions>
+			</ContentControl.Transitions>
+		</ContentControl>
+
+		<wcb:ToolBar Name="ToolBar" HorizontalAlignment="Right"/>
+
+		<!--Height="400"-->
+		<Border Background="{DynamicResource DialogContentBackground}"
+				VerticalAlignment="Top"
+				BorderThickness="1" Height="0"
+				BoxShadow="0 4 32 0 #66000000"
+				BorderBrush="{DynamicResource DialogContentBorderBrush}"
+				HorizontalAlignment="Stretch"
+				x:Name="CenterContent">
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.37" Property="Height" Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Border.Transitions>
+
+			<wp:NotificationCenterPage/>
+		</Border>
+
+
+		<Border Height="25" Name="topbar"
+				VerticalAlignment="Top"
+				Background="#F4D03F"
+			    BoxShadow="0 1 4 0 #66000000">
+			<Grid>
+				<TextBlock Text="WonderLab -Preview"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"/>
+
+				<TextBlock Text="下拉打开通知中心" Margin="10 0 10 0"
+		                   VerticalAlignment="Center" Opacity="0"
+		                   HorizontalAlignment="Right">
+					<TextBlock.Styles>
+						<Styles>
+							<Style Selector="TextBlock">
+								<Style.Animations>
+									<Animation Duration="0:0:5" IterationCount="Infinite">
+										<KeyFrame KeyTime="0:0:0" KeySpline="0.4,0,0.6,1">
+											<Setter Property="Opacity" Value="0"/>
+										</KeyFrame>
+										<KeyFrame KeyTime="0:0:3" KeySpline="0.4,0,0.6,1">
+											<Setter Property="Opacity" Value="1"/>
+										</KeyFrame>
+										<KeyFrame KeyTime="0:0:5" KeySpline="0.4,0,0.6,1">
+											<Setter Property="Opacity" Value="0"/>
+										</KeyFrame>
+									</Animation>
+								</Style.Animations>
+							</Style>
+						</Styles>
+					</TextBlock.Styles>
+				</TextBlock>
+			</Grid>
+		</Border>
+
+		<wcd:MessageDialog x:Name="MainDialog"/>
+		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}"/>
+
+		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+	</Grid>
+</Window>

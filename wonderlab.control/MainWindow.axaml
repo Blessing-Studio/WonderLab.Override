@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="wonderlab.control.MainWindow" 
+		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcb="using:wonderlab.control.Controls.Bar"
+        Title="wonder style">
+	<Grid>
+		<TextBlock Text="Dialog" FontSize="20" Margin="10 10 0 0"
+				   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Button HorizontalAlignment="Left"
+				VerticalAlignment="Top" Margin="10 50 0 0"
+				Content="Open Dialog" Name="button"/>
+
+		<TextBlock Text="Button" FontSize="20" Margin="10 90 0 0"
+		   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<StackPanel Spacing="10" HorizontalAlignment="Left" VerticalAlignment="Top"
+					Margin="10 120 0 0">
+			<Button Content="Click Me" Click="ShowDialogClick"/>
+			<Button Content="Click Me" Classes="wonderaccentbutton"
+				    Click="ShowDialogClick"/>
+		</StackPanel>
+ 
+		<wcb:ToolBar HorizontalAlignment="Right"
+					 Margin="15" Name="tb"/>
+		
+		<TextBlock FontSize="20" Margin="10 200 0 0" IsVisible="False"
+				   Text="Change Theme"/>
+		<ToggleSwitch Margin="10 230 0 0" IsVisible="False"
+					  VerticalAlignment="Top"
+					  OnContent="" OffContent=""
+					  Name="ThemeChange"/>
+		
+		<wcb:BottomActionBar Name="bab"/>
+		
+		<wcd:UpdateDialog Title="Info" x:Name="d"
+				  Message="This is message in MessageDialog!"/>
+
+
+		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center">
+		</Grid>		
+	</Grid>
+</Window>
