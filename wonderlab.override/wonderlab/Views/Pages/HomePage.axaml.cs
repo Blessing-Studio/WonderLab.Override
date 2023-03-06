@@ -6,6 +6,7 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
+using MinecraftLaunch.Modules.Models.Launch;
 
 namespace wonderlab.Views.Pages
 {
