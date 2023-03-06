@@ -6,27 +6,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage">
 	<ScrollViewer AllowAutoHide="True">
-		<StackPanel HorizontalAlignment="Left" Spacing="10" Margin="15 0 15 15"
+		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Red" Margin="15 30 15 15"
 	          VerticalAlignment="Top">
 			<TextBlock Text="全局启动设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
-
-			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light"/>
-			<TextBlock Text="选择一个 Java 运行时，这是您启动游戏的重要条件"
-					   FontSize="13" FontWeight="Light"
-					   Opacity="0.85" Margin="0 -8"/>
-						
-			<StackPanel Margin="0 5 0 0" Spacing="10" Orientation="Horizontal">
-				<ComboBox MinWidth="300"/>
-				<Button Content="搜索 Java"/>
-				<Button Content="手动添加"/>
-			</StackPanel>
-
-			<TextBlock Text="也就是 .minecraft 目录，不同的目录可以管理不同的游戏核心"
-		               FontSize="13" FontWeight="Light"
-		               Opacity="0.85" Margin="0 -2"/>
-
-			<ToggleSwitch OnContent="开" Margin="0 -8 0 0"
-						  OffContent="关"/>
 			
 			<TextBlock Text="游戏路径" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
 			<TextBlock Text="也就是 .minecraft 目录，不同的目录可以管理不同的游戏核心"
@@ -37,6 +19,38 @@
 				<Button Content="添加"/>
 				<Button Content="移除" Classes="wonderaccentbutton"
 						Background="#FF0000"/>
+			</StackPanel>
+
+			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
+			<TextBlock Text="选择一个 Java 运行时，这是您启动游戏的重要条件"
+					   FontSize="13" FontWeight="Light"
+					   Opacity="0.85" Margin="0 -8"/>
+						
+			<StackPanel Margin="0 5 0 0" Spacing="10" Orientation="Horizontal">
+				<ComboBox MinWidth="300"/>
+				<Button Content="搜索 Java"/>
+				<Button Content="手动添加"/>
+			</StackPanel>
+
+			<TextBlock Text="自动选择 Java 运行时"
+		               FontSize="13" FontWeight="Light"
+		               Opacity="0.85" Margin="0 -2"/>
+
+			<ToggleSwitch OnContent="开" Margin="0 -8 0 0"
+						  OffContent="关"/>
+
+			<TextBlock Text="游戏运行设置" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
+			<TextBlock Text="此处设置项将决定游戏启动后窗口及部分内容的效果"
+		               FontSize="13" FontWeight="Light"
+		               Opacity="0.85" Margin="0 -8"/>
+
+			<TextBlock Text="游戏窗口分辨率" Margin="0 12 0 0"
+		               FontSize="14.5" FontWeight="Light"/>
+			<StackPanel Margin="0 -2 0 0" Spacing="10" Orientation="Horizontal">
+				<TextBox Watermark="最小内存"/>
+				<TextBlock Text="X" HorizontalAlignment="Center"
+						   VerticalAlignment="Center"/>
+				<TextBox Watermark="最大内存"/>
 			</StackPanel>
 		</StackPanel>
 	</ScrollViewer>

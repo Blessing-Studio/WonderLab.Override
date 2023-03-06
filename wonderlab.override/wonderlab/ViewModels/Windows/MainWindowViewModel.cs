@@ -22,7 +22,7 @@ namespace wonderlab.ViewModels.Windows
         }
 
         [Reactive]
-        public UserControl CurrentPage { get; set; } = new LaunchConfigPage();
+        public UserControl CurrentPage { get; set; } = new HomePage();
 
         [Reactive]
         public double DownloadProgress { get; set; } = 0.0;

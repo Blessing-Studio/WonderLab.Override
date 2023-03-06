@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Initialized="InitializedAction"
              x:Class="wonderlab.Views.Pages.ActionCenterPage">
-	<Grid>
+	<Grid Background="Red">
 		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
@@ -63,46 +63,21 @@
 			</Grid>
 		</Border>
 
-		<!--Button Grounp-->
-		<StackPanel  Spacing="10" 
-			  HorizontalAlignment="Center" 
-			  VerticalAlignment="Center">
-			<Border Background="{DynamicResource DialogContentBackground}" Padding="15"
-					CornerRadius="15">
-				<StackPanel Spacing="10">
-					<Border Width="35" Height="35" CornerRadius="4" HorizontalAlignment="Left" >
-						<!--<Border.Background>
-							<ImageBrush Source="/Assets/avalonia-logo.ico"/>
-						</Border.Background>-->
-					</Border>
-					<TextBlock Text="正在播放：还是你的笑容最可爱"/>
+		<AutoCompleteBox Height="35" HorizontalAlignment="Left" Width="550"
+				 VerticalAlignment="Top" Margin="15 90 100 015" Watermark="欢迎使用 WonderLab Polymerize！我能为您展示些什么？"/>
 
-					<Grid HorizontalAlignment="Center">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="1*"/>
-							<ColumnDefinition Width="15"/>
-							<ColumnDefinition Width="1*"/>
-							<ColumnDefinition Width="15"/>
-							<ColumnDefinition Width="1*"/>
-						</Grid.ColumnDefinitions>
-
-						<Button/>
-						<Button Grid.Column="2"/>
-						<Button Grid.Column="4"/>
-					</Grid>
-				</StackPanel>
-			</Border>
-
-			<Border>
-				<Grid>
-					
-				</Grid>
-			</Border>
-
-			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="10">
-				<Button Command="{Binding ReturnAction}" HorizontalAlignment="Right" Content="返回"></Button>
-				
+		<StackPanel Spacing="10" Margin="15 135 0 10">
+			<StackPanel Spacing="20" Orientation="Horizontal">
+				<Button Width="40" Height="40" CornerRadius="114"/>
+				<Button Width="40" Height="40" CornerRadius="114"/>
+				<Button Width="40" Height="40" CornerRadius="114"/>
 			</StackPanel>
 		</StackPanel>
+
+		<Button Command="{Binding ReturnAction}" HorizontalAlignment="Left" Content="返回"
+				VerticalAlignment="Bottom" Margin="15" Width="130" HorizontalContentAlignment="Center"/>
+
+		<Carousel Background="Green" Items="1,2,3,4,5" Height="20" Width="10">
+		</Carousel>
 	</Grid>
 </UserControl>
