@@ -46,7 +46,6 @@
   <ItemGroup>
     <ProjectReference Include="..\wonderlab.control\wonderlab.control.csproj" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
   </PropertyGroup>
