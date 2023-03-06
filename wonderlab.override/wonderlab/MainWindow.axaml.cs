@@ -47,7 +47,6 @@ namespace wonderlab
                     topbar.RenderTransform = transform;
                 }
 
-                Trace.WriteLine($"[???] IsOpen ?? {IsOpen}");
                 if (IsOpen)
                 {
                     transform!.Y = WindowHeight - 125;
@@ -178,7 +177,7 @@ namespace wonderlab
                     });
                 };
 
-                UpdateDialog.Message = $"?汾??? {res.TagName}\n?? {res.CreatedAt.ToString(@"yyyy\-MM\-dd hh\:mm")} ?? {res.Author.Name} ????????";
+                UpdateDialog.Message = $"版本编号 {res.TagName}\n于 {res.CreatedAt.ToString(@"yyyy\-MM\-dd hh\:mm")} 由 {res.Author.Name} 修改并推送";
                 await Task.Delay(1000);
                 UpdateDialog.ShowDialog();
             }
