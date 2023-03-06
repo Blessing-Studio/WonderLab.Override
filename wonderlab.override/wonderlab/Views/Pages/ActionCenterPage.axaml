@@ -5,13 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Initialized="InitializedAction"
              x:Class="wonderlab.Views.Pages.ActionCenterPage">
-	<Grid Background="Red">
+	<Grid>
 		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
 				Margin="15"
 				BorderThickness="1"
-				CornerRadius="4"
+				CornerRadius="10"
 				Background="{DynamicResource DialogContentBackground}">				
 			<Grid Margin="12.5 10 25 10">
 				<Grid.ColumnDefinitions>
@@ -63,21 +63,90 @@
 			</Grid>
 		</Border>
 
-		<AutoCompleteBox Height="35" HorizontalAlignment="Left" Width="550"
+		<AutoCompleteBox Height="35" HorizontalAlignment="Left" Width="550" CornerRadius="114"
 				 VerticalAlignment="Top" Margin="15 90 100 015" Watermark="欢迎使用 WonderLab Polymerize！我能为您展示些什么？"/>
 
 		<StackPanel Spacing="10" Margin="15 135 0 10">
 			<StackPanel Spacing="20" Orientation="Horizontal">
-				<Button Width="40" Height="40" CornerRadius="114"/>
-				<Button Width="40" Height="40" CornerRadius="114"/>
-				<Button Width="40" Height="40" CornerRadius="114"/>
+				<Button Width="40" Height="40" CornerRadius="114" Padding="0">
+					<Grid>
+						<Viewbox Width="14" Margin="0 0 0 8">
+							<PathIcon Data="M489.4 662.6c12.5 12.5 32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L544 562.7V160c0-17.6-14.4-32-32-32s-32 14.4-32 32v402.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0-6.2 6.2-9.4 14.4-9.4 22.6s3.1 16.4 9.4 22.6l112.1 112.1z"/>
+						</Viewbox>
+						<PathIcon Margin="0 8 0 0" Data="M896 576c-17.7 0-32 14.3-32 32v137.8c0 22.9-9 44.5-25.3 60.8s-38 25.4-60.9 25.4H246.2c-22.9 0-44.5-9-60.8-25.3-16.4-16.4-25.4-38-25.4-60.9V608c0-17.7-14.3-32-32-32s-32 14.3-32 32v137.8C96 828.6 163.4 896 246.2 896h531.7c82.8 0 150.2-67.4 150.2-150.2V608c-0.1-17.7-14.4-32-32.1-32z"/>
+					</Grid>
+				</Button>
+				<Button Width="40" Height="40" CornerRadius="114">
+					<Viewbox Width="18" HorizontalAlignment="Center"
+							 VerticalAlignment="Center" Margin="0.1 1 0 0">
+						<PathIcon Data="M896.3584 512.3584c0-23.9104-2.56-41.3184-2.56-41.3184a46.2848 46.2848 0 0 1 20.992-43.1616l52.224-30.208a29.0816 29.0816 0 0 0 10.6496-39.5776l-99.1232-171.52a29.1328 29.1328 0 0 0-39.6288-10.5984l-52.224 30.1056a46.7456 46.7456 0 0 1-48.0256-3.328s-13.9264-10.8032-34.2016-22.528c-20.3776-11.776-37.4272-18.688-37.4272-18.688a46.7456 46.7456 0 0 1-26.88-39.936V61.2864a29.0816 29.0816 0 0 0-28.9792-29.0304H412.9792a29.0816 29.0816 0 0 0-29.0304 29.0304v60.3136a46.7456 46.7456 0 0 1-26.8288 39.936s-17.0496 6.9632-37.376 18.6368c-20.3264 11.776-34.304 22.5792-34.304 22.5792a46.7456 46.7456 0 0 1-48.0256 3.328l-52.224-30.1568a29.0816 29.0816 0 0 0-39.5776 10.5984L46.4896 358.0928a29.0816 29.0816 0 0 0 10.6496 39.6288l52.224 30.1056c13.824 7.9872 23.2448 27.4432 20.9408 43.2128 0 0-2.56 17.408-2.56 41.3184 0 24.0128 2.56 41.3696 2.56 41.3696a46.2848 46.2848 0 0 1-20.992 43.2128l-52.1728 30.1056a29.0816 29.0816 0 0 0-10.5984 39.5776l99.1232 171.52c7.9872 13.824 25.8048 18.6368 39.6288 10.6496l52.224-30.1056a46.592 46.592 0 0 1 47.9744 3.328s12.8 9.984 32.4096 21.504c20.8384 12.1856 39.2192 19.6608 39.2192 19.6608a46.7456 46.7456 0 0 1 26.8288 39.936v60.3136c0 15.9744 13.056 29.0304 29.0304 29.0304h198.144a29.0816 29.0816 0 0 0 29.0304-29.0304V903.168c0-15.9232 12.0832-33.8944 26.88-39.936 0 0 16.896-6.8608 37.12-18.4832 20.3776-11.776 34.4576-22.7328 34.4576-22.7328a46.6944 46.6944 0 0 1 48.0256-3.2768l52.224 30.1056c13.824 7.9872 31.744 3.2256 39.68-10.5984l99.072-171.52a29.0816 29.0816 0 0 0-10.5984-39.6288l-52.224-30.1056a46.2336 46.2336 0 0 1-20.992-43.2128s2.56-17.3568 2.56-41.3696z m-384.3072 160.0512a160.0512 160.0512 0 1 1 0-320.0512 160.0512 160.0512 0 1 1 0 320z"/>
+					</Viewbox>
+				</Button>
+				<Button Width="40" Height="40" CornerRadius="114">
+					<Viewbox Margin="0 1 0 0" Width="20">
+						<PathIcon Data="M512 127.62500029C300.12499971 127.62500029 127.62500029 300.12499971 127.62500029 512S300.12499971 896.37499971 512 896.37499971 896.37499971 723.87500029 896.37499971 512 723.87500029 127.62500029 512 127.62500029zM315.125 774.50000029c0-108.74999971 88.12500029-196.875 196.875-196.875S708.875 665.74999971 708.875 774.50000029c-54.37500029 41.24999971-123.75 65.62500029-196.875 65.62499942s-142.49999971-24.37499971-196.875-65.62499942z m112.5-337.5c0-46.87499971 37.50000029-84.375 84.375-84.375s84.375 37.50000029 84.375 84.375-37.50000029 84.375-84.375 84.375-84.375-37.50000029-84.375-84.375z m331.875 288.74999971c-16.875-84.375-74.99999971-153.74999971-153.74999971-185.625 28.125-26.25000029 45-61.875 45-103.12499971 0-76.87500029-63.74999971-140.625-140.625-140.625s-140.625 63.74999971-140.625 140.625c0 41.24999971 16.875 76.87500029 45 103.12499971-78.75 31.87500029-136.87499971 101.25-153.75000058 185.625-48.75000029-58.12499971-80.62499971-131.24999971-80.62499971-213.75 0-180 148.12499971-328.12499971 328.12499971-328.12499971S840.12499971 332 840.12499971 512c0 82.50000029-29.99999971 155.62500029-80.62499971 213.75z"/>
+					</Viewbox>
+				</Button>
 			</StackPanel>
+
+			<Border CornerRadius="10" Width="770" HorizontalAlignment="Left"
+					Height="60" Background="AliceBlue" Margin="0 5 15 0">
+				<StackPanel VerticalAlignment="Center" Margin="10 0">
+					<TextBlock Text="哼哼哼，啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"
+							   FontSize="15" FontWeight="SemiBold" Margin="8"
+							   TextTrimming="CharacterEllipsis"/>
+					<TextBlock Text="-- 田所浩二" Margin="8 -8 8 0"/>
+				</StackPanel>
+			</Border>
 		</StackPanel>
+
+		<Grid Margin="15 265 0 60" VerticalAlignment="Top" Height="130">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*" MaxWidth="480"/>
+				<ColumnDefinition Width="15"/>
+				<ColumnDefinition Width="0.6*"/>
+			</Grid.ColumnDefinitions>
+
+			<Border CornerRadius="10" ClipToBounds="True" >
+				<Grid ClipToBounds="True">
+					<Image Source="avares://wonderlab/Assets/y.jpg"
+						   Stretch="UniformToFill" StretchDirection="DownOnly"
+						    />
+
+					<Grid Background="AliceBlue" VerticalAlignment="Bottom">
+						<TextBlock Text="Minecraft Java版 1.14.514 震撼发布"
+								   TextAlignment="Right" FontWeight="UltraBold"
+								   VerticalAlignment="Bottom"
+								   FontSize="18"
+								   Margin="10 5 15 22.5"/>
+
+						<TextBlock Text="BugJang" Margin="10 0 15 5"
+								   TextAlignment="Right"
+								   VerticalAlignment="Bottom"/>
+					</Grid>
+				</Grid>
+			</Border>
+
+			<Grid Grid.Column="2" MaxWidth="400" Margin="0 0 15 0" HorizontalAlignment="Left">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="8"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+
+				<Button Width="275" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+						CornerRadius="10" Content="敬请期待"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"/>
+				
+				<Button Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+						CornerRadius="10" Content="敬请期待"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"/>
+			</Grid>
+		</Grid>
 
 		<Button Command="{Binding ReturnAction}" HorizontalAlignment="Left" Content="返回"
 				VerticalAlignment="Bottom" Margin="15" Width="130" HorizontalContentAlignment="Center"/>
-
-		<Carousel Background="Green" Items="1,2,3,4,5" Height="20" Width="10">
-		</Carousel>
 	</Grid>
 </UserControl>
