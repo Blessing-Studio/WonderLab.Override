@@ -246,9 +246,6 @@ namespace wonderlab
                     Back.Opacity = transform.X / WindowWidth;
                     //CenterContent.Width = transform.X;
                 }
-
-                Trace.WriteLine($"[???] X ?? {transform.X}");
-                Trace.WriteLine($"[???] ????? {(transform.X / WindowWidth)}");
             }
         }
 
