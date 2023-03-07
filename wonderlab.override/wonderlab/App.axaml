@@ -4,5 +4,14 @@
     <Application.Styles>
         <FluentTheme Mode="Light"/>
 		<StyleInclude Source="avares://wonderlab.control/ImprotStyles.axaml"/>
+
+		<Style Selector="ProgressBar /template/ Border#PART_Indicator">
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.35" Property="Width" Easing="ExponentialEaseOut"/>
+					<!--<ThicknessTransition Duration="0:0:0.35" Property="Margin"/>-->
+				</Transitions>
+			</Setter>
+		</Style>
 	</Application.Styles>
 </Application>

@@ -127,7 +127,7 @@ namespace wonderlab
 
         private async void WindowsInitialized(object? sender, EventArgs e)
         {
-            await Task.Delay(1000);
+            await Task.Delay(800);
             DataContext = ViewModel = new();
             ToolBar.InitStartAnimation();
             ToolBar.HostWindows = Instance = this;
@@ -143,7 +143,7 @@ namespace wonderlab
             OpenBar.PointerReleased += OpenBar_PointerReleased;
 
             var res = await UpdateUtils.GetLatestUpdateInfoAsync();
-            if (res.CanUpdate())
+            if (res is not null && res.CanUpdate())
             {
                 UpdateDialog.ButtonClick += (_, _) => {
                     UpdateUtils.UpdateAsync(res, x => {
