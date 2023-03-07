@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wonderlab", "wonderlab\wonderlab.csproj", "{C1896779-D3A3-498C-953B-3C671E32C5DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab", "wonderlab\wonderlab.csproj", "{C1896779-D3A3-498C-953B-3C671E32C5DB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.control", "wonderlab.control\wonderlab.control.csproj", "{A903D303-84E3-4277-B930-B653ABDA939B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FC0DDF19-3D95-40A4-84C5-295A919D2271}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

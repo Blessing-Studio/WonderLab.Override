@@ -1,8 +1,13 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
+﻿using Avalonia.Media.Imaging;
+using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +18,7 @@ namespace wonderlab.Class.Utils
     public class HttpUtils {
         const string MojangNewsAPI = "https://launchercontent.mojang.com/news.json";
 
-        public static async IAsyncEnumerable<New> GetMojangNewsAsync() {
+        public static async ValueTask<IEnumerable<New>> GetMojangNewsAsync() {
             var result = new List<New>();
 
 			try {			
@@ -21,12 +26,20 @@ namespace wonderlab.Class.Utils
                 result = json.ToJsonEntity<MojangNewsModel>().Entries;
             }
             catch (Exception ex) {
+                Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
+                Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
+
                 $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
 			}
 
-            foreach (var i in result!) {           
-                yield return i;
-            }
+            return result;
+        }
+
+        public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) { 
+            return await Task.Run(async () => {  
+                var bytes = await (await HttpWrapper.HttpGetAsync(url)).Content.ReadAsByteArrayAsync();
+                return new Bitmap(new MemoryStream(bytes));
+            });
         }
     }
 }

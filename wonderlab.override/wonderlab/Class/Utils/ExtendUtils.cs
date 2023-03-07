@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Models.Launch;
+﻿using Avalonia.Data.Core;
+using MinecraftLaunch.Modules.Models.Launch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,14 @@ namespace wonderlab.Class.Utils
 
         public static double ToDouble(this object obj) { 
             return Convert.ToDouble(obj);
+        }
+
+        public static IEnumerable<T> ToEnumerable<T>(this IAsyncEnumerable<T> obj) {
+            var enumerator = obj.GetAsyncEnumerator();
+
+            while (enumerator.MoveNextAsync().Result) {           
+                yield return enumerator.Current;
+            }
         }
 
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> obj) {             

@@ -142,7 +142,7 @@ namespace wonderlab
             OpenBar.PointerPressed += OpenBar_PointerPressed;
             OpenBar.PointerReleased += OpenBar_PointerReleased;
 
-            var res = await UpdateUtils.GetLatestUpdateInfoAsync();
+            UpdateInfo res = new();//await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate())
             {
                 UpdateDialog.ButtonClick += (_, _) => {

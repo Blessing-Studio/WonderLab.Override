@@ -109,18 +109,18 @@
 
 			<Border CornerRadius="10" ClipToBounds="True" >
 				<Grid ClipToBounds="True">
-					<Image Source="avares://wonderlab/Assets/y.jpg"
-						   Stretch="UniformToFill" StretchDirection="DownOnly"
-						    />
+					<Image Source="{Binding NewImage}"
+						   Stretch="UniformToFill"/>
 
 					<Grid Background="AliceBlue" VerticalAlignment="Bottom">
-						<TextBlock Text="Minecraft Java版 1.14.514 震撼发布"
+						<TextBlock Text="{Binding NewTitle}"
+								   TextTrimming="CharacterEllipsis"
 								   TextAlignment="Right" FontWeight="UltraBold"
 								   VerticalAlignment="Bottom"
 								   FontSize="18"
 								   Margin="10 5 15 22.5"/>
 
-						<TextBlock Text="BugJang" Margin="10 0 15 5"
+						<TextBlock Text="{Binding NewTag}" Margin="10 0 15 5"
 								   TextAlignment="Right"
 								   VerticalAlignment="Bottom"/>
 					</Grid>
