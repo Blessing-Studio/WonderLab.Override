@@ -17,6 +17,7 @@ namespace wonderlab.Class.Utils
 {
     public class HttpUtils {
         const string MojangNewsAPI = "https://launchercontent.mojang.com/news.json";
+        const string HitokotoAPI = "https://v1.hitokoto.cn/";
 
         public static async ValueTask<IEnumerable<New>> GetMojangNewsAsync() {
             var result = new List<New>();
@@ -31,6 +32,23 @@ namespace wonderlab.Class.Utils
 
                 $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
 			}
+
+            return result;
+        }
+
+        public static async ValueTask<HitokotoModel> GetHitokotoTextAsync() { 
+            var result = new HitokotoModel();
+
+            try {
+                var json = await (await HttpWrapper.HttpGetAsync(HitokotoAPI)).Content.ReadAsStringAsync();
+                result = json.ToJsonEntity<HitokotoModel>();
+            }
+            catch (Exception ex) {
+                Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
+                Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
+
+                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
+            }
 
             return result;
         }

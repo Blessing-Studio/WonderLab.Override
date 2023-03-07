@@ -19,6 +19,7 @@ namespace wonderlab.ViewModels.Pages
         public ActionCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             GetMojangNewsAction();
+            GetHitokotoAction();
         }
 
         public void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
@@ -36,6 +37,12 @@ namespace wonderlab.ViewModels.Pages
         public string? NewTag { get; set; } = "Loading...";
 
         [Reactive]
+        public string? HitokotoTitle { get; set; }
+
+        [Reactive]
+        public string? HitokotoCreator { get; set; }
+
+        [Reactive]
         public Bitmap NewImage { get; set; }
 
         public async void GetMojangNewsAction() {
@@ -46,6 +53,15 @@ namespace wonderlab.ViewModels.Pages
                 NewTag = result.Tag;
 
                 NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+            }
+        }
+
+        public async void GetHitokotoAction() {
+            var result = await HttpUtils.GetHitokotoTextAsync();
+
+            if(result != null) { 
+                HitokotoCreator = $"-- {result.Creator.Trim()}";
+                HitokotoTitle = result.Text;
             }
         }
 

@@ -92,10 +92,10 @@
 			<Border CornerRadius="10" Width="770" HorizontalAlignment="Left"
 					Height="60" Background="AliceBlue" Margin="0 5 15 0">
 				<StackPanel VerticalAlignment="Center" Margin="10 0">
-					<TextBlock Text="哼哼哼，啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"
+					<TextBlock Text="{Binding HitokotoTitle}"
 							   FontSize="15" FontWeight="SemiBold" Margin="8"
 							   TextTrimming="CharacterEllipsis"/>
-					<TextBlock Text="-- 田所浩二" Margin="8 -8 8 0"/>
+					<TextBlock Text="{Binding HitokotoCreator}" Margin="8 -8 8 0"/>
 				</StackPanel>
 			</Border>
 		</StackPanel>
