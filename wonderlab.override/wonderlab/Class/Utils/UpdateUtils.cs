@@ -16,7 +16,7 @@ namespace wonderlab.Class.Utils
     {
         public const string VersionType = "Lsaac";
 
-        public const int Version = 1020;
+        public const int Version = 1021;
 
         const string API = "https://gitee.com/api/v5/repos/baka_hs/xilu-baka/releases/latest";
 
@@ -24,8 +24,8 @@ namespace wonderlab.Class.Utils
             var responseMessage = await HttpWrapper.HttpGetAsync(API);
 
             var json = await responseMessage.Content.ReadAsStringAsync();
-            if (json.StartsWith("403")) {
-                return new();
+            if (json.StartsWith("403")) {//访问过快导致的问题
+                return null;
             }
             
             return json.ToJsonEntity<UpdateInfo>();
