@@ -200,24 +200,55 @@
 							<TextBlock Text="选择 Minecraft 版本核心"
 									   Margin="15" FontSize="16" FontWeight="SemiBold"/>
 
-							<ListBox Margin="0 40 0 0"
-									 Background="AliceBlue" CornerRadius="8">
+							<ListBox Margin="0 40 0 0" Items="{Binding GameCores}"
+									 Background="Transparent" CornerRadius="8">
 								<ListBox.Styles>
 									<Style Selector="ListBoxItem">
+										<Setter Property="Margin" Value="15 5"/>
 										<Setter Property="Template">
 											<ControlTemplate>
-												<Grid Background="AliceBlue"> 
-													<Image Source="C:\Users\w\Desktop\Image\Block.png"/>
-													<TextBlock Text="1.19.2"/>
+												<Grid>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="30"/>
+														<ColumnDefinition Width="15"/>
+														<ColumnDefinition Width="1*"/>
+													</Grid.ColumnDefinitions>
+													
+													<Image Height="35" Width="35" 
+														   HorizontalAlignment="Left"
+														   VerticalAlignment="Center"
+														   Source="C:\Users\w\Desktop\Image\Block.png"/>
+
+													<Grid Grid.Column="2" HorizontalAlignment="Left"
+														  VerticalAlignment="Center">
+														<Grid.RowDefinitions>
+															<RowDefinition Height="1*"/>
+															<RowDefinition Height="1*"/>
+														</Grid.RowDefinitions>
+														<TextBlock Text="{Binding Id}"
+																   FontSize="15"/>
+														
+														<TextBlock Text="{Binding Type}"
+																   Grid.Row="1"
+																   FontSize="12"
+																   Opacity="0.65"/>
+													</Grid>
 												</Grid>
 											</ControlTemplate>
 										</Setter>
 									</Style>
 								</ListBox.Styles>
-								<ListBoxItem/>
 							</ListBox>
 						</Grid>
 					</Border>
+					
+					<Button VerticalAlignment="Bottom"
+							HorizontalAlignment="Center"
+							Margin="0 0 0 -50"
+							Classes="wonderaccentbutton"
+							Width="200" Height="40"
+							Content="开始安装"
+							VerticalContentAlignment="Center"/>
 				</Grid>
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>

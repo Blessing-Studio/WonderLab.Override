@@ -22,6 +22,8 @@ namespace wonderlab.ViewModels.Windows
     {
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
+
+            GetGameCoresAction();
         }
 
         [Reactive]
@@ -31,7 +33,7 @@ namespace wonderlab.ViewModels.Windows
         public double DownloadProgress { get; set; } = 0.0;
 
         [Reactive]
-        public ObservableCollection<GameCoreEmtity> GameCores { get; set; }
+        public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
 
         private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {
@@ -39,23 +41,28 @@ namespace wonderlab.ViewModels.Windows
             }
 
             if (e.PropertyName == nameof(GameCores)) {
-                GameCores.Clear();
+            }
+        }
 
-                var temp = GameCores.Where(x => {
-                    x.Type = x.Type switch {
-                        "snapshot" => "快照版",
-                        "release" => "正式版",
-                        "old_alpha" => "远古版",
-                        _ => "Fuck"
-                    };
-
-                    return true;
-                });
-
-                foreach (var item in temp) {
-                    await Task.Delay(50);
-                    GameCores.Add(item);
-                }
+        public async void GetGameCoresAction() {
+            var res = await GameCoreInstaller.GetGameCoresAsync();
+            GameCores.Clear();
+            
+            var temp = res.Cores.Where(x => {
+                x.Type = x.Type switch {
+                    "snapshot" => "快照版本",
+                    "release" => "正式版本",
+                    "old_alpha" => "远古版本",
+                    "old_beta" => "远古版本",
+                    _ => "Fuck"
+                } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+            
+                return true;
+            });
+            
+            foreach (var item in temp) {
+                await Task.Delay(20);
+                GameCores.Add(item);
             }
         }
     }
