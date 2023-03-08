@@ -26,7 +26,13 @@
 								Name="BackgroundBorder" Opacity="0.5"/>
 
 						<!--DialogContent-->
-						<ContentControl Content="{TemplateBinding Content}"/>
+						<ContentControl Content="{TemplateBinding Content}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										HorizontalContentAlignment="Stretch"
+										VerticalContentAlignment="Stretch"
+										Padding="0"
+										ClipToBounds="False"/>
 					</Grid>
 				</Border>
 			</ControlTemplate>

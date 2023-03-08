@@ -129,6 +129,29 @@ namespace wonderlab
         {
             await Task.Delay(800);
             DataContext = ViewModel = new();
+
+            foreach (Button i in Installer.Children) {
+                if (i.Tag as string is "Optifine") {
+                    i.PointerEnter += (_, _) => {
+                        i.Margin = new(0, 0, -75, 0);
+                    };
+
+                    i.PointerLeave += (_, _) => {
+                        i.Margin = new(0);
+                    };
+
+                    continue;
+                }
+
+                i.PointerEnter += (_, _) => {
+                    i.Margin = new(0, 0, -60, 0);
+                };
+
+                i.PointerLeave += (_, _) => {
+                    i.Margin = new(0);
+                };
+            }
+
             ToolBar.InitStartAnimation();
             ToolBar.HostWindows = Instance = this;
             PropertyChanged += MainWindow_PropertyChanged;
@@ -141,7 +164,7 @@ namespace wonderlab
             OpenBar.PointerMoved += OpenBar_PointerMoved;
             OpenBar.PointerPressed += OpenBar_PointerPressed;
             OpenBar.PointerReleased += OpenBar_PointerReleased;
-
+            InstallDialog.ShowDialog();
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate())
             {

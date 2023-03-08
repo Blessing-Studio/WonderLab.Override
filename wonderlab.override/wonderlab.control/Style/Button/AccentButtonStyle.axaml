@@ -10,17 +10,26 @@
     <!-- Add Styles Here -->
 	<Style Selector="Button.wonderaccentbutton">
 		<Setter Property="Background" Value="#F4D03F"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="CornerRadius" Value="3"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+		<Setter Property="Transitions">
+			<Transitions>
+				<ThicknessTransition Duration="0:0:0.35" Property="Margin" Easing="CubicEaseOut"/>
+			</Transitions>
+		</Setter>
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Grid>
-					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+					<Border Background="{TemplateBinding Background}" 
+							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="1"
-							CornerRadius="3" HorizontalAlignment="Stretch"
+							CornerRadius="{TemplateBinding CornerRadius}" HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"/>
 
 					<Border Name="pointerover" HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch" CornerRadius="3">
+							VerticalAlignment="Stretch" CornerRadius="{TemplateBinding CornerRadius}">
 						<Border.Transitions>
 							<Transitions>
 								<BrushTransition Property="Background" Duration="0:0:0.1"/>
@@ -28,11 +37,13 @@
 						</Border.Transitions>
 					</Border>
 					
-					<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+					<ContentPresenter
                                   Content="{TemplateBinding Content}"
                                   ContentTemplate="{TemplateBinding ContentTemplate}"
                                   CornerRadius="{TemplateBinding CornerRadius}"
                                   Padding="{TemplateBinding Padding}"
+							      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+							      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                   VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
 				</Grid>
@@ -51,6 +62,7 @@
 	<Style Selector="Button.wonderaccentbutton:pressed /template/ Border#pointerover">
 		<Setter Property="Background" Value="#33FFFFFF"/>
 	</Style>
+	
 	<!--#00FFFFFF-->
 	<Style Selector="Button.transparent">
 		<Setter Property="Background" Value="Transparent" />

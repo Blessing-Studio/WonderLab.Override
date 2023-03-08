@@ -5,6 +5,7 @@
         mc:Ignorable="d" Width="800" Height="450"
 		MinWidth="800" MinHeight="450"
         x:Class="wonderlab.MainWindow"
+		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		xmlns:wp="using:wonderlab.Views.Pages"
 	    xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
@@ -90,8 +91,137 @@
 				</TextBlock>
 			</Grid>
 		</Border>
-
+		
 		<wcd:MessageDialog x:Name="MainDialog"/>
+		  
+		<!--Game Install Dialog-->
+		<wcd:ContentDialog IsOpen="True" Name="InstallDialog">
+			<wcd:ContentDialog.Content>
+				<Grid>
+					<StackPanel Spacing="10" Margin="0 0 -40 0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Center" Name="Installer">
+						<Button Background="{DynamicResource DialogContentBackground}"
+								Padding="0"
+								CornerRadius="8"
+								Height="40" Tag="Forge"
+								Width="200"
+								HorizontalAlignment="Right"
+								Classes="wonderaccentbutton">
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Forge" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="0 0 10 0"
+										   FontSize="16"/>
+								
+								<Image Source="C:\Users\w\Desktop\Image\Forge.png"
+									   Grid.Column="2" Width="35" Height="35" Margin="0 0 5 0"/>
+							</Grid>
+						</Button>
+
+						<Button Background="{DynamicResource DialogContentBackground}"
+								Padding="0"
+								CornerRadius="8"
+								Height="40" Tag="Fabric"
+								Width="200"
+								HorizontalAlignment="Right"
+								Classes="wonderaccentbutton">
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Fabric" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="0 0 6 0"
+										   FontSize="16"/>
+
+								<Image Source="C:\Users\w\Desktop\Image\Fabric.png"
+									   Grid.Column="2" Width="35" Height="35" Margin="0 0 5 0"/>
+							</Grid>
+						</Button>
+
+						<Button Background="{DynamicResource DialogContentBackground}"
+								Padding="0"
+								CornerRadius="8"
+								Height="40"
+								Width="200" Tag="Optifine"
+								HorizontalAlignment="Right"
+								Classes="wonderaccentbutton">
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Optifine" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="0 0 10 0"
+										   FontSize="16" TextAlignment="Right"/>
+
+								<Image Source="C:\Users\w\Desktop\Image\Optifine.png"
+									   Grid.Column="2" Height="28" Width="28" Margin="0 0 7 0"/>
+							</Grid>
+						</Button>
+
+						<Button Background="{DynamicResource DialogContentBackground}"
+								Padding="0"
+								CornerRadius="8"
+								Height="40" Tag="Quilt"
+								Width="200"
+								HorizontalAlignment="Right"
+								Classes="wonderaccentbutton">
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Quilt" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="0 0 10 0"
+										   FontSize="16"/>
+
+								<Image Source="C:\Users\w\Desktop\Image\Quilt.png"
+									   Grid.Column="2" Height="30" Width="30" Margin="0 0 7 0"/>
+							</Grid>
+						</Button>
+					</StackPanel> 
+					
+					<Border CornerRadius="8" IsHitTestVisible="True"
+		                    Height="300" IsVisible="True"
+		                    Width="570"
+						    Background="{DynamicResource DialogContentBackground}"
+							BorderThickness="1"
+							BorderBrush="{DynamicResource DialogContentBorderBrush}">
+						<Grid>
+							<TextBlock Text="选择 Minecraft 版本核心"
+									   Margin="15" FontSize="16" FontWeight="SemiBold"/>
+
+							<ListBox Margin="0 40 0 0"
+									 Background="AliceBlue" CornerRadius="8">
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="Template">
+											<ControlTemplate>
+												<Grid Background="AliceBlue"> 
+													<Image Source="C:\Users\w\Desktop\Image\Block.png"/>
+													<TextBlock Text="1.19.2"/>
+												</Grid>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+								</ListBox.Styles>
+								<ListBoxItem/>
+							</ListBox>
+						</Grid>
+					</Border>
+				</Grid>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
+		
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}"/>
 
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>

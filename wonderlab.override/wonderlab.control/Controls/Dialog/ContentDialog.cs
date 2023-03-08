@@ -29,8 +29,7 @@ namespace wonderlab.control.Controls.Dialog
         public static readonly StyledProperty<bool> IsOpenProperty =
             AvaloniaProperty.Register<MessageDialog, bool>(nameof(IsOpen), false);
 
-        public ContentDialog()
-        {
+        public ContentDialog() {       
             IsOpen = false;
         }
 
