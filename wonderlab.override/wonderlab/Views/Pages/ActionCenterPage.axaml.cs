@@ -12,8 +12,7 @@ namespace wonderlab.Views.Pages
             DataContext = ViewModel = new();
         }
 
-        private async void InitializedAction(object? sender, System.EventArgs e) {       
-            await Task.Delay(200);
+        private void InitializedAction(object? sender, System.EventArgs e) {       
             RunIconAnimation();
         }
 

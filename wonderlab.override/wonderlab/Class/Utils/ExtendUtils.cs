@@ -41,11 +41,11 @@ namespace wonderlab.Class.Utils
                 return false;
             }
 
-            if(info.Title.Split('-').First() is not UpdateUtils.VersionType) { 
+            if(info.Title is not UpdateUtils.VersionType) { 
                 return false;
             }
 
-            var intVersion = Convert.ToInt32(info.Title.Split('-').Last().Replace(".", string.Empty));
+            var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
             return intVersion > UpdateUtils.Version;
         }
     }
