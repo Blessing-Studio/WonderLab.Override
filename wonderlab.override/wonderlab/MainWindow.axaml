@@ -201,41 +201,64 @@
 									   Margin="15" FontSize="16" FontWeight="SemiBold"/>
 
 							<ListBox Margin="0 40 0 0" Items="{Binding GameCores}"
-									 Background="Transparent" CornerRadius="8">
+									 Background="Transparent" CornerRadius="8"
+									 SelectedItem="{Binding	CurrentGameCore}">
 								<ListBox.Styles>
 									<Style Selector="ListBoxItem">
-										<Setter Property="Margin" Value="15 5"/>
+										<Setter Property="Margin" Value="0 5"/>
 										<Setter Property="Template">
 											<ControlTemplate>
 												<Grid>
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="30"/>
-														<ColumnDefinition Width="15"/>
-														<ColumnDefinition Width="1*"/>
-													</Grid.ColumnDefinitions>
-													
-													<Image Height="35" Width="35" 
-														   HorizontalAlignment="Left"
-														   VerticalAlignment="Center"
-														   Source="C:\Users\w\Desktop\Image\Block.png"/>
+													<Border Name="Select" Opacity="0.75">
+														<Border.Transitions>
+															<Transitions>
+																<BrushTransition Duration="0:0:0.35" Property="Background"
+																				 Easing="CubicEaseOut"/>
+															</Transitions>
+														</Border.Transitions>
+													</Border>
+													<Grid Margin="15 0">
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="30"/>
+															<ColumnDefinition Width="15"/>
+															<ColumnDefinition Width="1*"/>
+														</Grid.ColumnDefinitions>
 
-													<Grid Grid.Column="2" HorizontalAlignment="Left"
-														  VerticalAlignment="Center">
-														<Grid.RowDefinitions>
-															<RowDefinition Height="1*"/>
-															<RowDefinition Height="1*"/>
-														</Grid.RowDefinitions>
-														<TextBlock Text="{Binding Id}"
-																   FontSize="15"/>
-														
-														<TextBlock Text="{Binding Type}"
-																   Grid.Row="1"
-																   FontSize="12"
-																   Opacity="0.65"/>
+														<Image Height="35" Width="35"
+															   HorizontalAlignment="Left"
+															   VerticalAlignment="Center"
+															   Source="C:\Users\w\Desktop\Image\Block.png"/>
+
+														<Grid Grid.Column="2" HorizontalAlignment="Left"
+															  VerticalAlignment="Center">
+															<Grid.RowDefinitions>
+																<RowDefinition Height="1*"/>
+																<RowDefinition Height="1*"/>
+															</Grid.RowDefinitions>
+															<TextBlock Text="{Binding Id}"
+																	   FontSize="15"/>
+
+															<TextBlock Text="{Binding Type}"
+																	   Grid.Row="1"
+																	   FontSize="12"
+																	   Opacity="0.65"/>
+														</Grid>
 													</Grid>
 												</Grid>
 											</ControlTemplate>
 										</Setter>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/	Border#Select">
+										<Setter Property="Background" Value="Transparent"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
+										<Setter Property="Background" Value="Red"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:selected /template/ Border#Select">
+										<Setter Property="Background" Value="Red"/>
 									</Style>
 								</ListBox.Styles>
 							</ListBox>
@@ -248,7 +271,8 @@
 							Classes="wonderaccentbutton"
 							Width="200" Height="40"
 							Content="开始安装"
-							VerticalContentAlignment="Center"/>
+							VerticalContentAlignment="Center"
+							Command="{Binding GameCoreInstallAction}"/>
 				</Grid>
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>

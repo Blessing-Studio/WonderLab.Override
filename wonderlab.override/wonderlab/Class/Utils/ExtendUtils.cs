@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.ViewData;
+using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
 namespace wonderlab.Class.Utils
 {
@@ -15,6 +16,18 @@ namespace wonderlab.Class.Utils
     {
         public static void ShowMessage(this string message) {
             MainWindow.Instance?.ShowInfoBar("信息", message);
+        }
+
+        public static void ShowMessage(this string message,string title) {       
+            MainWindow.Instance?.ShowInfoBar(title, message);
+        }
+
+        public static void ShowMessage(this string message, HideOfRunAction action) {
+            MainWindow.Instance?.ShowInfoBar("信息", message, action);
+        }
+
+        public static void ShowMessage(this string message, string title,HideOfRunAction action) {       
+            MainWindow.Instance?.ShowInfoBar(title, message, action);
         }
 
         public static double ToDouble(this object obj) { 

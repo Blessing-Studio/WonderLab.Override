@@ -3,6 +3,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace wonderlab.ViewModels.Pages
             Notifications.CollectionChanged += Notifications_CollectionChanged;
         }
 
-        private void Notifications_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {       
+        private void Notifications_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {       
             if (Notifications.Count != 0) {            
                 HasNotification = false;
             } else HasNotification = true;               

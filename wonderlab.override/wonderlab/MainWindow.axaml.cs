@@ -35,6 +35,16 @@ namespace wonderlab
             WindowHeight = Height;
         }
 
+        public void ShowTopBar() {
+            var draggableElement = topbar as IVisual;
+            var transform = draggableElement!.RenderTransform as TranslateTransform ?? new();
+
+            TranslateYAnimation animation = new(transform!.Y, WindowHeight - 125);
+            animation.RunAnimation(topbar);
+            IsOpen = true;
+            CenterContent.Height = WindowHeight - 125;
+        }
+
         private void MainWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.Property == HeightProperty)

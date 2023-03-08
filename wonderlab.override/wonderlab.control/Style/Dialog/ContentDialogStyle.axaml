@@ -32,6 +32,7 @@
 										HorizontalContentAlignment="Stretch"
 										VerticalContentAlignment="Stretch"
 										Padding="0"
+										Name="content"
 										ClipToBounds="False"/>
 					</Grid>
 				</Border>

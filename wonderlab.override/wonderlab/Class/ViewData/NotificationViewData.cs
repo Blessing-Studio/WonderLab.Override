@@ -11,12 +11,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using wonderlab.Class.Interface;
 using wonderlab.Class.Utils;
+using Timer = System.Timers.Timer;
 
 namespace wonderlab.Class.ViewData
 {
-    public class NotificationViewData : ReactiveObject, INotification
+    public class NotificationViewData : ReactiveObject
     {
         [Reactive]
         public string Title { set; get; } = "A notification";
@@ -30,49 +30,22 @@ namespace wonderlab.Class.ViewData
         [Reactive]
         public double ProgressOfBar { set; get; } = 0;
 
+        [Reactive]
         public DateTime Time { set; get; }
 
+        public Timer Timer { set; get; } = new (1000);
 
-        public NotificationViewData() {
-            PropertyChanged += OnPropertyChanged;
-            Task.Run(Begin);
-        }
-
-        public void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
-            Trace.WriteLine($"[信息] 更改的属性为 {e.PropertyName}");
-        }
-
-        public async void Begin() {
-            await GameInstall();
-        }
-
-        async ValueTask GameInstall() {
-            GameCoreInstaller installer = new("C:\\Users\\w\\Desktop\\temp\\text\\.minecraft", "1.19.3");
-            Title = $"游戏 {installer.Id} 安装任务";
-            System.Timers.Timer timer = new(1000);
-            timer.Elapsed += Timer_Elapsed;
+        public void TimerStart() {
+            Timer.Elapsed += TimerElapsed;
             Time = DateTime.Now;
-            timer.Start();
-
-            installer.ProgressChanged += (_, x) =>
-            {
-                Thread.Sleep(0);
-                var round = Math.Round(x.Progress * 100, 0);
-                ProgressOfBar = x.Progress * 100;
-                Progress = $"{round}%";
-            };
-            
-            var res = await installer.InstallAsync();
-            if (res.Success) {
-                timer.Stop();
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    MainWindow.Instance.ShowInfoBar("信息", $"游戏核心 {res.GameCore.Id} 安装完成");
-                });
-            }
+            Timer.Start();
         }
 
-        void Timer_Elapsed(object? sender, ElapsedEventArgs e) {       
+        public void TimerStop() {
+            Timer.Stop();
+        }
+
+        void TimerElapsed(object? sender, ElapsedEventArgs e) {       
             RunTime = (DateTime.Now - Time).ToString(@"hh\:mm\:ss");
         }
     }

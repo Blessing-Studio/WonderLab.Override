@@ -5,6 +5,7 @@ using Avalonia.Controls.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.control.Animation;
@@ -19,6 +20,7 @@ namespace wonderlab.control.Controls.Dialog
     public class ContentDialog : ContentControl, IDialog
     {
         Border BackgroundBorder = null!;
+        ContentControl control = null!;
 
         public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
 
@@ -38,6 +40,8 @@ namespace wonderlab.control.Controls.Dialog
             BackgroundBorder.IsHitTestVisible = false;
             OpacityChangeAnimation animation = new(true);
             animation.RunAnimation(BackgroundBorder);
+            animation.AnimationCompleted += (_, _) => control.IsHitTestVisible = false;
+            animation.RunAnimation(control);
         }
 
         public void ShowDialog()
@@ -46,6 +50,7 @@ namespace wonderlab.control.Controls.Dialog
 
             OpacityChangeAnimation animation = new(false);
             animation.RunAnimation(BackgroundBorder);
+            animation.RunAnimation(control);
         }
 
         protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> e)
@@ -67,6 +72,8 @@ namespace wonderlab.control.Controls.Dialog
             base.OnApplyTemplate(e);
 
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
+            control = e.NameScope.Find<ContentControl>("content");
+            
         }
 
         private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

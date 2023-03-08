@@ -12,7 +12,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.control.Controls.Dialog;
 using wonderlab.Views.Pages;
 
@@ -33,14 +35,20 @@ namespace wonderlab.ViewModels.Windows
         public double DownloadProgress { get; set; } = 0.0;
 
         [Reactive]
+        public GameCoreEmtity CurrentGameCore { get; set; }
+
+        [Reactive]
         public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
 
-        private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+        public ObservableCollection<ModLoaderViewData<ModLoaderModel>> ModLoaders { get; set; } = new();
+
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {
                 Trace.WriteLine("[信息] 活动页面已改变");
             }
 
-            if (e.PropertyName == nameof(GameCores)) {
+            if (e.PropertyName == nameof(CurrentGameCore)) { 
+
             }
         }
 
@@ -63,6 +71,40 @@ namespace wonderlab.ViewModels.Windows
             foreach (var item in temp) {
                 await Task.Delay(20);
                 GameCores.Add(item);
+            }
+        }
+
+
+        public async void GameCoreInstallAction() {
+            if (CurrentGameCore is null) {
+                "无法进行安装，因为您还未选择任何游戏核心！".ShowMessage("提示");
+                return;
+            }
+
+            if (ModLoaders.Count <= 0) {
+                NotificationViewData data = new();
+                var installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
+                data.Title = $"游戏 {CurrentGameCore.Id} 的安装任务";
+                installer.ProgressChanged += (_, x) => {
+                    data.ProgressOfBar = x.Progress * 100;
+                    data.Progress = x.ProgressDescription!;
+                };
+                data.TimerStart();
+                $"开始安装游戏 {CurrentGameCore.Id}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
+                    MainWindow.Instance.ShowTopBar();
+                });
+
+                MainWindow.Instance.InstallDialog.HideDialog();
+                NotificationCenterPage.ViewModel.Notifications.Add(data);
+
+                await Task.Delay(2000);
+                var res = await installer.InstallAsync();
+                if (res.Success) {
+                    $"游戏 {CurrentGameCore.Id} 安装完成！".ShowMessage();
+                    data.TimerStop();
+                }
+
+                return;
             }
         }
     }
