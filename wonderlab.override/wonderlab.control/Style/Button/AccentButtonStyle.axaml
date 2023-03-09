@@ -16,7 +16,7 @@
 		<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
 		<Setter Property="Transitions">
 			<Transitions>
-				<ThicknessTransition Duration="0:0:0.35" Property="Margin" Easing="CubicEaseOut"/>
+				<ThicknessTransition Duration="0:0:0.85" Property="Margin" Easing="ExponentialEaseOut"/>
 			</Transitions>
 		</Setter>
 		<Setter Property="Template">
