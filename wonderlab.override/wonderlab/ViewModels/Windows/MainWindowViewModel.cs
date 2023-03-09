@@ -23,7 +23,8 @@ namespace wonderlab.ViewModels.Windows
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        private List<ModLoaderModel> forges, fabrics, quilt, optifine;
+        public List<ModLoaderViewData<ModLoaderModel>> InstallQueue = new();
+        public List<ModLoaderModel> forges, fabrics, quilt, optifine;
 
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
@@ -56,6 +57,12 @@ namespace wonderlab.ViewModels.Windows
         public bool HasOptifine { get; set; } = false;
 
         [Reactive]
+        public bool ModLoaderVisible { get; set; } = false;
+
+        [Reactive]
+        public bool McVersionVisible { get; set; } = true;
+
+        [Reactive]
         public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
@@ -74,6 +81,7 @@ namespace wonderlab.ViewModels.Windows
 
             if (e.PropertyName == nameof(CurrentGameCore)) { 
                 HideAllLoaderButton();
+                InstallQueue.Clear();
 
                 await Task.Run(async () => { 
                     var forges = await Task.Run(async () => {
@@ -81,7 +89,8 @@ namespace wonderlab.ViewModels.Windows
                             ModLoaderType = ModLoaderType.Forge,
                             ModLoaderBuild = x,
                             GameCoreVersion = x.McVersion,
-                            Id = x.ForgeVersion
+                            Id = x.ForgeVersion,
+                            Time = x.ModifiedTime
                         });
                     
                         if (!result.Any()) {
@@ -99,7 +108,8 @@ namespace wonderlab.ViewModels.Windows
                             ModLoaderType = ModLoaderType.OptiFine,
                             ModLoaderBuild = x,
                             GameCoreVersion = x.McVersion,
-                            Id = x.Type
+                            Id = x.Type,
+                            Time = DateTime.Now
                         });
                     
                         if (!result.Any()) {
@@ -117,7 +127,8 @@ namespace wonderlab.ViewModels.Windows
                             ModLoaderType = ModLoaderType.Fabric,
                             GameCoreVersion = x.Intermediary.Version,
                             ModLoaderBuild = x,
-                            Id = x.Loader.Version
+                            Id = x.Loader.Version,
+                            Time = DateTime.Now
                         });
                     
                         if (!result.Any()) {
@@ -135,7 +146,8 @@ namespace wonderlab.ViewModels.Windows
                             ModLoaderType = ModLoaderType.Quilt,
                             GameCoreVersion = x.Intermediary.Version,
                             ModLoaderBuild = x,
-                            Id = x.Loader.Version
+                            Id = x.Loader.Version,
+                            Time = DateTime.Now
                         });
                     
                         if (!result.Any()) {
@@ -148,6 +160,35 @@ namespace wonderlab.ViewModels.Windows
                         return result.ToList();
                     });
                 });
+            }
+
+            if (e.PropertyName == nameof(CurrentModLoader) && CurrentModLoader is not null) {
+                foreach (var i in InstallQueue) {
+                    if (i.Data.ModLoaderType == CurrentModLoader.Data.ModLoaderType) {
+                        CurrentModLoader = null!;
+                        return;
+                    }
+                }
+
+                ChangeTitle("选择一个 Minecraft 版本核心");
+                ModLoaderVisible = false;
+                McVersionVisible = true;
+                InstallQueue.Add(CurrentModLoader);
+
+                //switch (CurrentModLoader.Data.ModLoaderType) {
+                //    case ModLoaderType.Forge:
+                //        ForgeMargin = new(0, 0, -60, 0);
+                //        break;
+                //    case ModLoaderType.Fabric:
+                //        ForgeMargin = new(0, 0, -60, 0);
+                //        break;
+                //    case ModLoaderType.OptiFine:
+                //        ForgeMargin = new(0, 0, -60, 0);
+                //        break;
+                //    case ModLoaderType.Quilt:
+                //        ForgeMargin = new(0, 0, -60, 0);
+                //        break;
+                //}
             }
         }
 

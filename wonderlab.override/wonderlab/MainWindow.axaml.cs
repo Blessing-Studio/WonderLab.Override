@@ -10,7 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.control.Animation;
 using wonderlab.control.Controls.Bar;
 using wonderlab.control.Controls.Dialog;
@@ -146,8 +148,43 @@ namespace wonderlab
                     var sender = x as Button;
 
                     ViewModel.ChangeTitle($"选择一个 {sender.Tag} 版本");
-                };
+                    ViewModel.CurrentModLoader = null;
+                    ViewModel.McVersionVisible = false;
+                    ViewModel.ModLoaderVisible = true;
 
+                    ViewModel.ModLoaders = sender.Tag switch { 
+                        "Forge" => ViewModel.forges.Select(x =>
+                        {
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                            return data;
+                        }).ToObservableCollection(),
+                        "Fabric" => ViewModel.fabrics.Select(x =>
+                        {
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                            return data;
+                        }).ToObservableCollection(),
+                        "Optifine" => ViewModel.optifine.Select(x =>
+                        {
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                            return data;
+                        }).ToObservableCollection(),
+                        "Quilt" => ViewModel.quilt.Select(x =>
+                        {
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                            return data;
+                        }).ToObservableCollection(),
+                        _ => new()
+                    };
+                };
+                
                 if (i.Tag as string is "Optifine") {
                     i.PointerEnter += (_, _) => {
                         i.Margin = new(0, 0, -75, 0);

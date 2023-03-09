@@ -20,5 +20,7 @@ namespace wonderlab.Class.Models
         public string ModLoader => ModLoaderType.ToString();
         
         public object ModLoaderBuild { get; set; }
+
+        public DateTime Time { get; set; }
     }
 }

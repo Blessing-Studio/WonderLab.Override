@@ -218,7 +218,7 @@
 
 							<Grid>
 								<ListBox Margin="0 45 0 0" Items="{Binding GameCores}"
-								 Background="Transparent" CornerRadius="0 8" IsVisible="False"
+								 Background="Transparent" CornerRadius="0 8" IsVisible="{Binding McVersionVisible}"
 								 SelectedItem="{Binding	CurrentGameCore}">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
@@ -281,9 +281,11 @@
 
 								<Button Margin="15 42" Content="移除此加载器并返回核心选择页面" Foreground="Black"
 										HorizontalAlignment="Left" Classes="wonderaccentbutton"
-										VerticalAlignment="Top"/>
+										VerticalAlignment="Top"
+								     	IsVisible="{Binding ModLoaderVisible}"
+										IsHitTestVisible="{Binding ModLoaderVisible}"/>
 								
-								<ListBox Margin="0 80 0 0" IsVisible="True"
+								<ListBox Margin="0 80 0 0" IsVisible="{Binding ModLoaderVisible}"
 								 Background="Transparent" CornerRadius="8"
 								 SelectedItem="{Binding CurrentModLoader}"
 								 Items="{Binding ModLoaders}">
