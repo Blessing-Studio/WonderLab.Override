@@ -107,7 +107,8 @@
 								Height="40" Tag="Forge"
 								Width="200"
 								HorizontalAlignment="Right"
-								Classes="wonderaccentbutton">
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasForge}">
 							<Grid HorizontalAlignment="Right">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="1*"/>
@@ -129,7 +130,8 @@
 								Height="40" Tag="Fabric"
 								Width="200"
 								HorizontalAlignment="Right"
-								Classes="wonderaccentbutton">
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasFabric}">
 							<Grid HorizontalAlignment="Right">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="1*"/>
@@ -151,7 +153,8 @@
 								Height="40"
 								Width="200" Tag="Optifine"
 								HorizontalAlignment="Right"
-								Classes="wonderaccentbutton">
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasOptifine}">
 							<Grid HorizontalAlignment="Right">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="1*"/>
@@ -173,7 +176,8 @@
 								Height="40" Tag="Quilt"
 								Width="200"
 								HorizontalAlignment="Right"
-								Classes="wonderaccentbutton">
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasQuilt}">
 							<Grid HorizontalAlignment="Right">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="1*"/>
@@ -197,71 +201,144 @@
 							BorderThickness="1"
 							BorderBrush="{DynamicResource DialogContentBorderBrush}">
 						<Grid>
-							<TextBlock Text="选择 Minecraft 版本核心"
+							<TextBlock Text="选择一个 Minecraft 版本核心"
 									   Margin="15" FontSize="16" FontWeight="SemiBold"/>
 
-							<ListBox Margin="0 40 0 0" Items="{Binding GameCores}"
-									 Background="Transparent" CornerRadius="8"
-									 SelectedItem="{Binding	CurrentGameCore}">
-								<ListBox.Styles>
-									<Style Selector="ListBoxItem">
-										<Setter Property="Margin" Value="0 5"/>
-										<Setter Property="Template">
-											<ControlTemplate>
-												<Grid>
-													<Border Name="Select" Opacity="0.75">
-														<Border.Transitions>
-															<Transitions>
-																<BrushTransition Duration="0:0:0.35" Property="Background"
-																				 Easing="CubicEaseOut"/>
-															</Transitions>
-														</Border.Transitions>
-													</Border>
-													<Grid Margin="15 0">
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition Width="30"/>
-															<ColumnDefinition Width="15"/>
-															<ColumnDefinition Width="1*"/>
-														</Grid.ColumnDefinitions>
+							<Button Margin="15" Foreground="Black"
+									Content="6" Classes="rotatebutton"
+									HorizontalAlignment="Right"
+									VerticalAlignment="Top"
+									Command="{Binding HideInstallDialogAction}"/>
 
-														<Image Height="35" Width="35"
-															   HorizontalAlignment="Left"
-															   VerticalAlignment="Center"
-															   Source="C:\Users\w\Desktop\Image\Block.png"/>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<ListBox Margin="0 40 0 0" Items="{Binding GameCores}"
+								 Background="Transparent" CornerRadius="0 8"
+								 SelectedItem="{Binding	CurrentGameCore}">
+									<ListBox.Styles>
+										<Style Selector="ListBoxItem">
+											<Setter Property="Margin" Value="0 0"/>
+											<Setter Property="Template">
+												<ControlTemplate>
+													<Grid>
+														<Border Name="Select" Opacity="0.75">
+															<Border.Transitions>
+																<Transitions>
+																	<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																</Transitions>
+															</Border.Transitions>
+														</Border>
+														<Grid Margin="15 5">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="30"/>
+																<ColumnDefinition Width="15"/>
+																<ColumnDefinition Width="1*"/>
+															</Grid.ColumnDefinitions>
 
-														<Grid Grid.Column="2" HorizontalAlignment="Left"
-															  VerticalAlignment="Center">
-															<Grid.RowDefinitions>
-																<RowDefinition Height="1*"/>
-																<RowDefinition Height="1*"/>
-															</Grid.RowDefinitions>
-															<TextBlock Text="{Binding Id}"
-																	   FontSize="15"/>
+															<Image Height="35" Width="35"
+																   HorizontalAlignment="Left"
+																   VerticalAlignment="Center"
+																   Source="C:\Users\w\Desktop\Image\Block.png"/>
 
-															<TextBlock Text="{Binding Type}"
-																	   Grid.Row="1"
-																	   FontSize="12"
-																	   Opacity="0.65"/>
+															<Grid Grid.Column="2" HorizontalAlignment="Left"
+																  VerticalAlignment="Center">
+																<Grid.RowDefinitions>
+																	<RowDefinition Height="1*"/>
+																	<RowDefinition Height="1*"/>
+																</Grid.RowDefinitions>
+																<TextBlock Text="{Binding Id}"
+																		   FontSize="15"/>
+
+																<TextBlock Text="{Binding Type}"
+																		   Grid.Row="1"
+																		   FontSize="12"
+																		   Opacity="0.65"/>
+															</Grid>
 														</Grid>
 													</Grid>
-												</Grid>
-											</ControlTemplate>
-										</Setter>
-									</Style>
+												</ControlTemplate>
+											</Setter>
+										</Style>
 
-									<Style Selector="ListBoxItem /template/	Border#Select">
-										<Setter Property="Background" Value="Transparent"/>
-									</Style>
+										<Style Selector="ListBoxItem /template/	Border#Select">
+											<Setter Property="Background" Value="Transparent"/>
+										</Style>
 
-									<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
-										<Setter Property="Background" Value="Red"/>
-									</Style>
+										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
+											<Setter Property="Background" Value="#F4D03F"/>
+										</Style>
 
-									<Style Selector="ListBoxItem:selected /template/ Border#Select">
-										<Setter Property="Background" Value="Red"/>
-									</Style>
-								</ListBox.Styles>
-							</ListBox>
+										<Style Selector="ListBoxItem:selected /template/ Border#Select">
+											<Setter Property="Background" Value="#F4D03F"/>
+										</Style>
+									</ListBox.Styles>
+								</ListBox>
+
+								<ListBox Margin="5 40 0 0" IsVisible="False"
+								 Background="Transparent" CornerRadius="8" Width="285.5"
+								 Grid.Column="1">
+									<ListBox.Styles>
+										<Style Selector="ListBoxItem">
+											<Setter Property="Margin" Value="0 0"/>
+											<Setter Property="Template">
+												<ControlTemplate>
+													<Grid>
+														<Border Name="Select" Opacity="0.75">
+															<Border.Transitions>
+																<Transitions>
+																	<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																</Transitions>
+															</Border.Transitions>
+														</Border>
+														<Grid Margin="15 5">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="30"/>
+																<ColumnDefinition Width="15"/>
+																<ColumnDefinition Width="1*"/>
+															</Grid.ColumnDefinitions>
+
+															<Image Height="35" Width="35"
+																   HorizontalAlignment="Left"
+																   VerticalAlignment="Center"
+																   Source="C:\Users\w\Desktop\Image\Block.png"/>
+
+															<Grid Grid.Column="2" HorizontalAlignment="Left"
+																  VerticalAlignment="Center">
+																<Grid.RowDefinitions>
+																	<RowDefinition Height="1*"/>
+																	<RowDefinition Height="1*"/>
+																</Grid.RowDefinitions>
+																<TextBlock Text="{Binding Id}"
+																		   FontSize="15"/>
+
+																<TextBlock Text="{Binding Type}"
+																		   Grid.Row="1"
+																		   FontSize="12"
+																		   Opacity="0.65"/>
+															</Grid>
+														</Grid>
+													</Grid>
+												</ControlTemplate>
+											</Setter>
+										</Style>
+
+										<Style Selector="ListBoxItem /template/	Border#Select">
+											<Setter Property="Background" Value="Transparent"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
+											<Setter Property="Background" Value="#F4D03F"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:selected /template/ Border#Select">
+											<Setter Property="Background" Value="#F4D03F"/>
+										</Style>
+									</ListBox.Styles>
+								</ListBox>
+							</Grid>
 						</Grid>
 					</Border>
 					
