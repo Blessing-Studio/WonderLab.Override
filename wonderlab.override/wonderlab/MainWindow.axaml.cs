@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using Microsoft.VisualBasic;
+using MinecraftLaunch.Modules.Installer;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -141,6 +142,12 @@ namespace wonderlab
             DataContext = ViewModel = new();
 
             foreach (Button i in Installer.Children) {
+                i.Click += (x, _) => {
+                    var sender = x as Button;
+
+                    ViewModel.ChangeTitle($"选择一个 {sender.Tag} 版本");
+                };
+
                 if (i.Tag as string is "Optifine") {
                     i.PointerEnter += (_, _) => {
                         i.Margin = new(0, 0, -75, 0);
@@ -149,7 +156,7 @@ namespace wonderlab
                     i.PointerLeave += (_, _) => {
                         i.Margin = new(0);
                     };
-
+                    
                     continue;
                 }
 

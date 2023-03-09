@@ -1,6 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="wonderlab.App">
+             x:Class="wonderlab.App"
+			 xmlns:c="using:wonderlab.Views.Converters">
     <Application.Styles>
         <FluentTheme Mode="Light"/>
 		<StyleInclude Source="avares://wonderlab.control/ImprotStyles.axaml"/>
@@ -13,4 +14,10 @@
 			</Setter>
 		</Style>
 	</Application.Styles>
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>

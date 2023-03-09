@@ -9,5 +9,7 @@ namespace wonderlab.Class.ViewData
     public class ModLoaderViewData<T> : ViewDataBase<T> { 
         public ModLoaderViewData(T data) : base(data) {       
         }
+
+        public string Type { get; set; }
     }
 }

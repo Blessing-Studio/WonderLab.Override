@@ -201,8 +201,14 @@
 							BorderThickness="1"
 							BorderBrush="{DynamicResource DialogContentBorderBrush}">
 						<Grid>
-							<TextBlock Text="选择一个 Minecraft 版本核心"
-									   Margin="15" FontSize="16" FontWeight="SemiBold"/>
+							<TextBlock Text="{Binding InstallerTitle}" Opacity="{Binding InstallerTitleOpacity}"
+									   Margin="15" FontSize="16" FontWeight="SemiBold">
+								<TextBlock.Transitions>
+									<Transitions>
+										<DoubleTransition Property="Opacity" Duration="0:0:0.35"/>
+									</Transitions>
+								</TextBlock.Transitions>
+							</TextBlock>
 
 							<Button Margin="15" Foreground="Black"
 									Content="6" Classes="rotatebutton"
@@ -211,12 +217,8 @@
 									Command="{Binding HideInstallDialogAction}"/>
 
 							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="1*"/>
-									<ColumnDefinition Width="Auto"/>
-								</Grid.ColumnDefinitions>
-								<ListBox Margin="0 40 0 0" Items="{Binding GameCores}"
-								 Background="Transparent" CornerRadius="0 8"
+								<ListBox Margin="0 45 0 0" Items="{Binding GameCores}"
+								 Background="Transparent" CornerRadius="0 8" IsVisible="False"
 								 SelectedItem="{Binding	CurrentGameCore}">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
@@ -277,9 +279,14 @@
 									</ListBox.Styles>
 								</ListBox>
 
-								<ListBox Margin="5 40 0 0" IsVisible="False"
-								 Background="Transparent" CornerRadius="8" Width="285.5"
-								 Grid.Column="1">
+								<Button Margin="15 42" Content="移除此加载器并返回核心选择页面" Foreground="Black"
+										HorizontalAlignment="Left" Classes="wonderaccentbutton"
+										VerticalAlignment="Top"/>
+								
+								<ListBox Margin="0 80 0 0" IsVisible="True"
+								 Background="Transparent" CornerRadius="8"
+								 SelectedItem="{Binding CurrentModLoader}"
+								 Items="{Binding ModLoaders}">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
 											<Setter Property="Margin" Value="0 0"/>
@@ -302,8 +309,8 @@
 
 															<Image Height="35" Width="35"
 																   HorizontalAlignment="Left"
-																   VerticalAlignment="Center"
-																   Source="C:\Users\w\Desktop\Image\Block.png"/>
+																   VerticalAlignment="Center" 
+																   Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}"/>
 
 															<Grid Grid.Column="2" HorizontalAlignment="Left"
 																  VerticalAlignment="Center">
@@ -311,7 +318,7 @@
 																	<RowDefinition Height="1*"/>
 																	<RowDefinition Height="1*"/>
 																</Grid.RowDefinitions>
-																<TextBlock Text="{Binding Id}"
+																<TextBlock Text="{Binding Data.Id}"
 																		   FontSize="15"/>
 
 																<TextBlock Text="{Binding Type}"

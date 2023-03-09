@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace wonderlab.control.Controls.Dialog
         protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> e)
         {
             base.OnPropertyChanged(e);
-
+            
             if (e.Property == IsOpenProperty && IsOpen is false)
             {
                 PseudoClasses.Set(":close", e.NewValue.GetValueOrDefault<bool>());

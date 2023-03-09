@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
 using ReactiveUI;
@@ -22,6 +23,8 @@ namespace wonderlab.ViewModels.Windows
 {
     public class MainWindowViewModel : ReactiveObject
     {
+        private List<ModLoaderModel> forges, fabrics, quilt, optifine;
+
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
 
@@ -32,7 +35,13 @@ namespace wonderlab.ViewModels.Windows
         public UserControl CurrentPage { get; set; } = new HomePage();
 
         [Reactive]
+        public string InstallerTitle { get; set; } = "选择一个 Minecraft 版本核心";
+
+        [Reactive]
         public double DownloadProgress { get; set; } = 0.0;
+
+        [Reactive]
+        public double InstallerTitleOpacity { get; set; } = 1;
 
         [Reactive]
         public bool HasForge { get; set; } = false;
@@ -50,8 +59,12 @@ namespace wonderlab.ViewModels.Windows
         public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
+        public ModLoaderViewData<ModLoaderModel> CurrentModLoader { get; set; }
+
+        [Reactive]
         public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
 
+        [Reactive]
         public ObservableCollection<ModLoaderViewData<ModLoaderModel>> ModLoaders { get; set; } = new();
 
         private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
@@ -62,62 +75,88 @@ namespace wonderlab.ViewModels.Windows
             if (e.PropertyName == nameof(CurrentGameCore)) { 
                 HideAllLoaderButton();
 
-                var result = await Task.Run(async () => { 
+                await Task.Run(async () => { 
                     var forges = await Task.Run(async () => {
-                        var result = await ForgeInstaller.GetForgeBuildsOfVersionAsync(CurrentGameCore.Id);
+                        var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(CurrentGameCore.Id)).Select(x => new ModLoaderModel() {                       
+                            ModLoaderType = ModLoaderType.Forge,
+                            ModLoaderBuild = x,
+                            GameCoreVersion = x.McVersion,
+                            Id = x.ForgeVersion
+                        });
                     
                         if (!result.Any()) {
                             HasForge = false;
-                            return new List<ForgeInstallEntity>();
+                            return new List<ModLoaderModel>();
                         }
 
                         HasForge = true;
-                        Trace.WriteLine($"游戏 {CurrentGameCore.Id} 共有 {result.Count()} 个 Forge 版本");
+                        this.forges = result.ToList();
                         return result.ToList();
                     });
                     
                     var optifines = await Task.Run(async () => {
-                        var result = await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(CurrentGameCore.Id);
+                        var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(CurrentGameCore.Id)).Select(x => new ModLoaderModel() { 
+                            ModLoaderType = ModLoaderType.OptiFine,
+                            ModLoaderBuild = x,
+                            GameCoreVersion = x.McVersion,
+                            Id = x.Type
+                        });
                     
                         if (!result.Any()) {
                             HasOptifine = false;
-                            return new List<OptiFineInstallEntity>();
+                            return new List<ModLoaderModel>();
                         }
 
                         HasOptifine = true;
-                        Trace.WriteLine($"游戏 {CurrentGameCore.Id} 共有 {result.Count()} 个 Optifine 版本");
+                        this.optifine = result.ToList();
                         return result.ToList();
                     });
                     
                     var fabrics = await Task.Run(async () => {
-                        var result = await FabricInstaller.GetFabricBuildsByVersionAsync(CurrentGameCore.Id);
+                        var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(CurrentGameCore.Id)).Select(x => new ModLoaderModel() { 
+                            ModLoaderType = ModLoaderType.Fabric,
+                            GameCoreVersion = x.Intermediary.Version,
+                            ModLoaderBuild = x,
+                            Id = x.Loader.Version
+                        });
                     
                         if (!result.Any()) {
                             HasFabric = false;
-                            return new List<FabricInstallBuild>();
+                            return new List<ModLoaderModel>();
                         }
 
                         HasFabric = true;
-                        Trace.WriteLine($"游戏 {CurrentGameCore.Id} 共有 {result.Count()} 个 Fabric 版本");
+                        this.fabrics = result.ToList();
                         return result.ToList();
                     });
                     
                     var quilts = await Task.Run(async () => {
-                        var result = await QuiltInstaller.GetQuiltBuildsByVersionAsync(CurrentGameCore.Id);
+                        var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(CurrentGameCore.Id)).Select(x => new ModLoaderModel() { 
+                            ModLoaderType = ModLoaderType.Quilt,
+                            GameCoreVersion = x.Intermediary.Version,
+                            ModLoaderBuild = x,
+                            Id = x.Loader.Version
+                        });
                     
                         if (!result.Any()) {
                             HasQuilt = false;
-                            return new List<QuiltInstallBuild>();
+                            return new List<ModLoaderModel>();
                         }
 
                         HasQuilt = true;
-                        Trace.WriteLine($"游戏 {CurrentGameCore.Id} 共有 {result.Count()} 个 Quilt 版本");
+                        this.quilt = result.ToList();
                         return result.ToList();
                     });
-
-                    return (forges, optifines, fabrics, quilts);
                 });
             }
+        }
+
+        public async void ChangeTitle(string title) {
+            InstallerTitleOpacity = 0;
+            await Task.Delay(360);
+            InstallerTitle = title;
+            await Task.Delay(200);
+            InstallerTitleOpacity = 1;
         }
 
         public void HideAllLoaderButton() {
