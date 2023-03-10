@@ -38,6 +38,11 @@ namespace wonderlab
             WindowHeight = Height;
         }
 
+        private void RemoveModLoaderClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            var modloader = (sender as Button)!.DataContext as ModLoaderViewData;
+            ViewModel.CurrentModLoaders.Remove(modloader);
+        }
+
         public void ShowTopBar() {
             var draggableElement = topbar as IVisual;
             var transform = draggableElement!.RenderTransform as TranslateTransform ?? new();
@@ -155,28 +160,28 @@ namespace wonderlab
                     ViewModel.ModLoaders = sender.Tag switch { 
                         "Forge" => ViewModel.forges.Select(x =>
                         {
-                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                             return data;
                         }).ToObservableCollection(),
                         "Fabric" => ViewModel.fabrics.Select(x =>
                         {
-                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                             return data;
                         }).ToObservableCollection(),
                         "Optifine" => ViewModel.optifine.Select(x =>
                         {
-                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                             return data;
                         }).ToObservableCollection(),
                         "Quilt" => ViewModel.quilt.Select(x =>
                         {
-                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData<ModLoaderModel>>();
+                            var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                             return data;

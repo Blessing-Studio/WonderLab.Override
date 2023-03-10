@@ -279,7 +279,7 @@
 									</ListBox.Styles>
 								</ListBox>
 
-								<Button Margin="15 42" Content="移除此加载器并返回核心选择页面" Foreground="Black"
+								<Button Margin="15 42" Content="返回核心选择页面" Foreground="Black"
 										HorizontalAlignment="Left" Classes="wonderaccentbutton"
 										VerticalAlignment="Top"
 								     	IsVisible="{Binding ModLoaderVisible}"
@@ -350,6 +350,72 @@
 							</Grid>
 						</Grid>
 					</Border>
+
+					<ListBox Background="Transparent"
+							 Items="{Binding CurrentModLoaders}"
+							 VerticalAlignment="Top"
+							 Margin="0 -45 0 0">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal"/>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Margin" Value="0 0 10 0"/>
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Background="{DynamicResource DialogContentBackground}"
+												BorderBrush="{DynamicResource DialogContentBorderBrush}"
+												BorderThickness="1"
+												HorizontalAlignment="Left"
+												CornerRadius="8" Height="40">
+											<Grid>
+												<Grid>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="30"/>
+														<ColumnDefinition Width="5"/>
+														<ColumnDefinition Width="1*"/>
+														<ColumnDefinition Width="0"/>
+														<ColumnDefinition Width="1*"/>
+													</Grid.ColumnDefinitions>
+													<Image Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}"
+														   Height="30"
+														   Width="30" Margin="5"
+														   HorizontalAlignment="Left"
+														   VerticalAlignment="Center"/>
+
+													<StackPanel Orientation="Horizontal"
+																Margin="0 0 5 0"
+																Spacing="6" Grid.Column="2">
+														<TextBlock Text="{Binding Data.ModLoader}"		   
+		                                                           FontSize="15"
+		                                                           HorizontalAlignment="Left"
+		                                                           VerticalAlignment="Center"/>
+
+														<TextBlock Text="{Binding Data.Id}"
+		                                                           Grid.Column="2"
+		                                                           FontSize="15"
+		                                                           HorizontalAlignment="Left"
+		                                                           VerticalAlignment="Center"/>
+													</StackPanel>
+													<!---->
+													<Button Margin="0 0 5 0"
+															Height="20"
+															Width="20"
+		                                                    Classes="rotatebuttonX"
+		                                                    HorizontalAlignment="Right"
+		                                                    VerticalAlignment="Center"
+															Grid.Column="4" 
+														    Click="RemoveModLoaderClick"/>
+												</Grid>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
 					
 					<Button VerticalAlignment="Bottom"
 							HorizontalAlignment="Center"

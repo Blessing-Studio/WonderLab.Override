@@ -23,7 +23,6 @@ namespace wonderlab.ViewModels.Windows
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        public List<ModLoaderViewData<ModLoaderModel>> InstallQueue = new();
         public List<ModLoaderModel> forges, fabrics, quilt, optifine;
 
         public MainWindowViewModel() {
@@ -66,13 +65,16 @@ namespace wonderlab.ViewModels.Windows
         public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
-        public ModLoaderViewData<ModLoaderModel> CurrentModLoader { get; set; }
+        public ModLoaderViewData CurrentModLoader { get; set; }
 
         [Reactive]
         public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
 
         [Reactive]
-        public ObservableCollection<ModLoaderViewData<ModLoaderModel>> ModLoaders { get; set; } = new();
+        public ObservableCollection<ModLoaderViewData> ModLoaders { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderViewData> CurrentModLoaders { get; set; } = new();
 
         private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {
@@ -81,7 +83,7 @@ namespace wonderlab.ViewModels.Windows
 
             if (e.PropertyName == nameof(CurrentGameCore)) { 
                 HideAllLoaderButton();
-                InstallQueue.Clear();
+                CurrentModLoaders.Clear();
 
                 await Task.Run(async () => { 
                     var forges = await Task.Run(async () => {
@@ -163,9 +165,36 @@ namespace wonderlab.ViewModels.Windows
             }
 
             if (e.PropertyName == nameof(CurrentModLoader) && CurrentModLoader is not null) {
-                foreach (var i in InstallQueue) {
+                foreach (var i in CurrentModLoaders) {
                     if (i.Data.ModLoaderType == CurrentModLoader.Data.ModLoaderType) {
                         CurrentModLoader = null!;
+
+                        ModLoaderVisible = false;
+                        McVersionVisible = true;
+                        "无法选择多个相同类型的加载器！".ShowMessage();
+                        return;
+                    }
+
+                    if (i.Data.ModLoaderType == ModLoaderType.Forge && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
+                        "Forge 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        return;
+                    }
+                    else if (i.Data.ModLoaderType == ModLoaderType.OptiFine && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
+                        "Optifine 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        return;
+                    }
+                    else if (i.Data.ModLoaderType == ModLoaderType.Fabric && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
+                        "Fabric 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        return;
+                    }
+                    else if (i.Data.ModLoaderType == ModLoaderType.Quilt && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
+                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
+                        "Quilt 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
                         return;
                     }
                 }
@@ -173,22 +202,7 @@ namespace wonderlab.ViewModels.Windows
                 ChangeTitle("选择一个 Minecraft 版本核心");
                 ModLoaderVisible = false;
                 McVersionVisible = true;
-                InstallQueue.Add(CurrentModLoader);
-
-                //switch (CurrentModLoader.Data.ModLoaderType) {
-                //    case ModLoaderType.Forge:
-                //        ForgeMargin = new(0, 0, -60, 0);
-                //        break;
-                //    case ModLoaderType.Fabric:
-                //        ForgeMargin = new(0, 0, -60, 0);
-                //        break;
-                //    case ModLoaderType.OptiFine:
-                //        ForgeMargin = new(0, 0, -60, 0);
-                //        break;
-                //    case ModLoaderType.Quilt:
-                //        ForgeMargin = new(0, 0, -60, 0);
-                //        break;
-                //}
+                CurrentModLoaders.Add(CurrentModLoader);
             }
         }
 
@@ -239,7 +253,7 @@ namespace wonderlab.ViewModels.Windows
                 return;
             }
 
-            if (ModLoaders.Count <= 0) {
+            if (CurrentModLoaders.Count <= 0) {
                 NotificationViewData data = new();
                 var installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
                 data.Title = $"游戏 {CurrentGameCore.Id} 的安装任务";
