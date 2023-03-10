@@ -46,13 +46,18 @@ namespace wonderlab.ViewModels.Pages
         public Bitmap NewImage { get; set; }
 
         public async void GetMojangNewsAction() {
-            var result = (await HttpUtils.GetMojangNewsAsync()).First();
+            try {           
+                var result = (await HttpUtils.GetMojangNewsAsync()).First();
 
-            if (result != null) { 
-                NewTitle = result.Title;
-                NewTag = result.Tag;
+                if (result != null) {               
+                    NewTitle = result.Title;
+                    NewTag = result.Tag;
 
-                NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+                    NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+                }
+            }
+            catch (Exception) {           
+                
             }
         }
 

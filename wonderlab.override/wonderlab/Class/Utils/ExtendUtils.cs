@@ -1,4 +1,5 @@
 ﻿using Avalonia.Data.Core;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Launch;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,22 @@ namespace wonderlab.Class.Utils
 
             var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
             return intVersion > UpdateUtils.Version;
+        }
+
+        public static ModLoaderViewData GetForge(this ObservableCollection<ModLoaderViewData> data) {
+            if (data.First().Data.ModLoaderType == ModLoaderType.Forge) { 
+                return data.First();
+            }
+
+            return data.Last();
+        }
+
+        public static ModLoaderViewData GetOptiFine(this ObservableCollection<ModLoaderViewData> data) {       
+            if (data.First().Data.ModLoaderType == ModLoaderType.OptiFine) {           
+                return data.First();
+            }
+
+            return data.Last();
         }
     }
 }

@@ -2,7 +2,9 @@
 using Avalonia.Controls;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
+using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -12,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
@@ -165,8 +168,10 @@ namespace wonderlab.ViewModels.Windows
             }
 
             if (e.PropertyName == nameof(CurrentModLoader) && CurrentModLoader is not null) {
+                var currentmodLoaderType = CurrentModLoader.Data.ModLoaderType;
+
                 foreach (var i in CurrentModLoaders) {
-                    if (i.Data.ModLoaderType == CurrentModLoader.Data.ModLoaderType) {
+                    if (i.Data.ModLoaderType == currentmodLoaderType) {
                         CurrentModLoader = null!;
 
                         ModLoaderVisible = false;
@@ -175,28 +180,27 @@ namespace wonderlab.ViewModels.Windows
                         return;
                     }
 
-                    if (i.Data.ModLoaderType == ModLoaderType.Forge && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
+                    if (i.Data.ModLoaderType == ModLoaderType.Forge && (currentmodLoaderType == ModLoaderType.Fabric ||
+                        currentmodLoaderType == ModLoaderType.Quilt)) {
                         "Forge 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
                         ReturnMcListAction();
                         return;
                     }
-                    else if (i.Data.ModLoaderType == ModLoaderType.OptiFine && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
+                    else if (i.Data.ModLoaderType == ModLoaderType.OptiFine && (currentmodLoaderType == ModLoaderType.Fabric ||
+                        currentmodLoaderType == ModLoaderType.Quilt)) {
                         "Optifine 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
                         ReturnMcListAction();
                         return;
                     }
-                    else if (i.Data.ModLoaderType == ModLoaderType.Fabric && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
+                    else if (i.Data.ModLoaderType == ModLoaderType.Fabric && (currentmodLoaderType == ModLoaderType.Forge ||
+                        currentmodLoaderType == ModLoaderType.Quilt || currentmodLoaderType == ModLoaderType.OptiFine))
+                        {
                         "Fabric 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
                         ReturnMcListAction();
                         return;
                     }
-                    else if (i.Data.ModLoaderType == ModLoaderType.Quilt && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
-                        CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
+                    else if (i.Data.ModLoaderType == ModLoaderType.Quilt && (currentmodLoaderType == ModLoaderType.Forge ||
+                        currentmodLoaderType == ModLoaderType.Fabric || currentmodLoaderType == ModLoaderType.OptiFine)) {                       
                         "Quilt 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
                         ReturnMcListAction();
                         return;
@@ -260,31 +264,109 @@ namespace wonderlab.ViewModels.Windows
                 "无法进行安装，因为您还未选择任何游戏核心！".ShowMessage("提示");
                 return;
             }
+            ModLoaderType currentmodloaderType = CurrentModLoaders.Any() ? CurrentModLoaders.First().Data.ModLoaderType : ModLoaderType.Any;
+            NotificationViewData data = new();
+            InstallerBase<InstallerResponse> installer = null;
+            string customId = string.Empty;
 
-            if (CurrentModLoaders.Count <= 0) {
-                NotificationViewData data = new();
-                var installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
-                data.Title = $"游戏 {CurrentGameCore.Id} 的安装任务";
-                installer.ProgressChanged += (_, x) => {
-                    data.ProgressOfBar = x.Progress * 100;
-                    data.Progress = x.ProgressDescription!;
-                };
-                data.TimerStart();
-                $"开始安装游戏 {CurrentGameCore.Id}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
-                    MainWindow.Instance.ShowTopBar();
-                });
-
+            if (!CurrentModLoaders.Any()) {
+                installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
                 MainWindow.Instance.InstallDialog.HideDialog();
-                NotificationCenterPage.ViewModel.Notifications.Add(data);
-
-                await Task.Delay(2000);
-                var result = await Task.Run(async () => await installer.InstallAsync());
-                if (result.Success) {
-                    $"游戏 {CurrentGameCore.Id} 安装完成！".ShowMessage();
-                    data.TimerStop();
+                customId = CurrentGameCore.Id;
+            }
+            else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Forge) {
+                if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {
+                    "无法继续安装，因为未选择任何 Java！".ShowMessage();
+                    return;
                 }
 
+                var installerdata = CurrentModLoaders.First().Data;
+                customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
+                installer = await Task.Run(() => new ForgeInstaller(App.LaunchInfoData.GameDirectoryPath,
+                    installerdata.ModLoaderBuild as ForgeInstallEntity, App.LaunchInfoData.JavaRuntimePath,
+                    customId));
+            }
+            else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Fabric) {
+                var installerdata = CurrentModLoaders.First().Data;
+                customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
+                installer = await Task.Run(() => new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, installerdata.ModLoaderBuild as FabricInstallBuild, customId));
+            }
+            else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Quilt) {
+                var installerdata = CurrentModLoaders.First().Data;
+                customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
+                installer = await Task.Run(() => new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, installerdata.ModLoaderBuild as QuiltInstallBuild, customId));
+            }
+            else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.OptiFine) {           
+                if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {               
+                    "无法继续安装，因为未选择任何 Java！".ShowMessage();
+                    return;
+                }
+
+                var installerdata = CurrentModLoaders.First().Data;
+                customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
+                installer = await Task.Run(() => new OptiFineInstaller(App.LaunchInfoData.GameDirectoryPath,
+                    installerdata.ModLoaderBuild as OptiFineInstallEntity, App.LaunchInfoData.JavaRuntimePath,
+                    customId: customId));
+            }
+            else if (CurrentModLoaders.Count == 2) {
+                CompositeGameCoreAction(data);
                 return;
+            }
+
+            data.Title = $"游戏 {customId} 的安装任务";           
+            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
+                MainWindow.Instance.InstallDialog.HideDialog();
+                MainWindow.Instance.ShowTopBar();
+            });
+            NotificationCenterPage.ViewModel.Notifications.Add(data);
+            await Task.Delay(2000);
+            data.TimerStart();
+            installer.ProgressChanged += async (_, x) => {
+                var progress = x.Progress * 100;
+                data.ProgressOfBar = progress;
+                data.Progress = $"{Math.Round(progress, 2)}%";
+                //await Task.Run(() => Thread.Sleep(1000));
+            };
+
+            var result = await Task.Run(async () => await installer!.InstallAsync());
+            if (result.Success) {           
+                $"游戏 {customId} 安装完成！".ShowMessage();
+                data.TimerStop();
+            }
+        }
+
+        public async void CompositeGameCoreAction(NotificationViewData data) {
+            if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {           
+                "无法继续安装，因为未选择任何 Java！".ShowMessage();
+            }
+
+            NotificationCenterPage.ViewModel.Notifications.Add(data);
+            var forgedata = CurrentModLoaders.GetForge().Data;
+            var optifinrdata = CurrentModLoaders.GetOptiFine().Data;
+            var customId = $"{forgedata.GameCoreVersion}-{forgedata.ModLoader.ToLower()}-{forgedata.Id}";
+            data.Title = customId;
+            data.TimerStart();
+            ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, forgedata.ModLoaderBuild as ForgeInstallEntity,
+               App.LaunchInfoData.JavaRuntimePath, customId);
+
+            installer.ProgressChanged += ProcessOutPut;
+            var result = await Task.Run(async () => await installer!.InstallAsync());
+
+            if(result.Success) {
+                OptiFineInstaller optiFineInstaller = new(App.LaunchInfoData.GameDirectoryPath, optifinrdata.ModLoaderBuild as OptiFineInstallEntity,
+               App.LaunchInfoData.JavaRuntimePath, customId: customId);
+                optiFineInstaller.ProgressChanged += ProcessOutPut;
+                var Optifineresult = await Task.Run(async () => await optiFineInstaller!.InstallAsync());
+                if (Optifineresult.Success) {
+                    $"游戏 {customId} 安装完成！".ShowMessage();
+                    data.TimerStop();
+                }
+            }
+
+            async void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
+                var progress = x.Progress * 100;
+                data.ProgressOfBar = progress;
+                data.Progress = $"{Math.Round(progress, 2)}%";
             }
         }
     }
