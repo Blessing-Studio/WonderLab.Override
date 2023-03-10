@@ -60,6 +60,8 @@ namespace wonderlab.control.Controls.Bar
         {
             if (IsOpen) {
                 IsOpen = false;
+
+                IsHitTestVisible = false;
                 OpacityChangeAnimation animation = new(true);
                 animation.RunAnimation(this);
             }
@@ -69,8 +71,10 @@ namespace wonderlab.control.Controls.Bar
         {
             if (IsOpen) {
                 IsOpen = false;
+
+                IsHitTestVisible = false;
                 MessageTipsBarClickAnimation animation = new();
-                animation.RunAnimation(this);
+                animation.RunAnimation(this);                
 
                 animation.AnimationCompleted += (_, _) => { if (HideOfRun is not null) HideOfRun(); };
             }

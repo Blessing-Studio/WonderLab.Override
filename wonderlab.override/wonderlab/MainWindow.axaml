@@ -283,7 +283,8 @@
 										HorizontalAlignment="Left" Classes="wonderaccentbutton"
 										VerticalAlignment="Top"
 								     	IsVisible="{Binding ModLoaderVisible}"
-										IsHitTestVisible="{Binding ModLoaderVisible}"/>
+										IsHitTestVisible="{Binding ModLoaderVisible}"
+										Command="{Binding ReturnMcListAction}"/>
 								
 								<ListBox Margin="0 80 0 0" IsVisible="{Binding ModLoaderVisible}"
 								 Background="Transparent" CornerRadius="8"

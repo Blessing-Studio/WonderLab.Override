@@ -178,30 +178,32 @@ namespace wonderlab.ViewModels.Windows
                     if (i.Data.ModLoaderType == ModLoaderType.Forge && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
                         "Forge 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        ReturnMcListAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.OptiFine && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt)) {
                         "Optifine 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        ReturnMcListAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.Fabric && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.Quilt ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
                         "Fabric 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        ReturnMcListAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.Quilt && (CurrentModLoader.Data.ModLoaderType == ModLoaderType.Forge ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.Fabric ||
                         CurrentModLoader.Data.ModLoaderType == ModLoaderType.OptiFine)) {
                         "Quilt 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
+                        ReturnMcListAction();
                         return;
                     }
                 }
 
-                ChangeTitle("选择一个 Minecraft 版本核心");
-                ModLoaderVisible = false;
-                McVersionVisible = true;
+                ReturnMcListAction();
                 CurrentModLoaders.Add(CurrentModLoader);
             }
         }
@@ -241,6 +243,12 @@ namespace wonderlab.ViewModels.Windows
                 await Task.Delay(20);
                 GameCores.Add(item);
             }
+        }
+
+        public void ReturnMcListAction() {
+            ChangeTitle("选择一个 Minecraft 版本核心");
+            ModLoaderVisible = false;
+            McVersionVisible = true;            
         }
 
         public void HideInstallDialogAction() {
