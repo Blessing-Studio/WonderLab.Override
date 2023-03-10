@@ -17,5 +17,13 @@ namespace wonderlab.Class.Utils
                 return new Bitmap(s);
             }
         }
+
+        public static IImage GetIconBitmap(string uri) {       
+            var al = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            using (var s = al.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}")))
+            {
+                return new Bitmap(s);
+            }
+        }
     }
 }

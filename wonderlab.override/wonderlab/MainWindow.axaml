@@ -119,7 +119,7 @@
 										   FontWeight="SemiBold" Margin="0 0 10 0"
 										   FontSize="16"/>
 								
-								<Image Source="C:\Users\w\Desktop\Image\Forge.png"
+								<Image Source="/Assets/Icons/Forge.png"
 									   Grid.Column="2" Width="35" Height="35" Margin="0 0 5 0"/>
 							</Grid>
 						</Button>
@@ -142,7 +142,7 @@
 										   FontWeight="SemiBold" Margin="0 0 6 0"
 										   FontSize="16"/>
 
-								<Image Source="C:\Users\w\Desktop\Image\Fabric.png"
+								<Image Source="/Assets/Icons/Fabric.png"
 									   Grid.Column="2" Width="35" Height="35" Margin="0 0 5 0"/>
 							</Grid>
 						</Button>
@@ -165,7 +165,7 @@
 										   FontWeight="SemiBold" Margin="0 0 10 0"
 										   FontSize="16" TextAlignment="Right"/>
 
-								<Image Source="C:\Users\w\Desktop\Image\Optifine.png"
+								<Image Source="/Assets/Icons/OptiFine.png"
 									   Grid.Column="2" Height="28" Width="28" Margin="0 0 7 0"/>
 							</Grid>
 						</Button>
@@ -188,7 +188,7 @@
 										   FontWeight="SemiBold" Margin="0 0 10 0"
 										   FontSize="16"/>
 
-								<Image Source="C:\Users\w\Desktop\Image\Quilt.png"
+								<Image Source="avares://wonderlab/Assets/Icons/Quilt.png"
 									   Grid.Column="2" Height="30" Width="30" Margin="0 0 7 0"/>
 							</Grid>
 						</Button>

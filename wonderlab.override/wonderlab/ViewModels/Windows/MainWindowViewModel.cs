@@ -271,7 +271,6 @@ namespace wonderlab.ViewModels.Windows
 
             if (!CurrentModLoaders.Any()) {
                 installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
-                MainWindow.Instance.InstallDialog.HideDialog();
                 customId = CurrentGameCore.Id;
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Forge) {
@@ -313,9 +312,9 @@ namespace wonderlab.ViewModels.Windows
                 return;
             }
 
+            MainWindow.Instance.InstallDialog.HideDialog();
             data.Title = $"游戏 {customId} 的安装任务";           
             $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
-                MainWindow.Instance.InstallDialog.HideDialog();
                 MainWindow.Instance.ShowTopBar();
             });
             NotificationCenterPage.ViewModel.Notifications.Add(data);
@@ -325,7 +324,6 @@ namespace wonderlab.ViewModels.Windows
                 var progress = x.Progress * 100;
                 data.ProgressOfBar = progress;
                 data.Progress = $"{Math.Round(progress, 2)}%";
-                //await Task.Run(() => Thread.Sleep(1000));
             };
 
             var result = await Task.Run(async () => await installer!.InstallAsync());

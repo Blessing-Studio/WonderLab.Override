@@ -20,9 +20,19 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="Assets\Fonts\MiSans-Normal.ttf" />
+    <None Remove="Assets\Icons\Block.png" />
+    <None Remove="Assets\Icons\Fabric.png" />
+    <None Remove="Assets\Icons\Forge.png" />
+    <None Remove="Assets\Icons\OptiFine.png" />
+    <None Remove="Assets\Icons\Quilt.png" />
     <None Remove="Assets\y.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Assets\Icons\Block.png" />
+    <AvaloniaResource Include="Assets\Icons\Fabric.png" />
+    <AvaloniaResource Include="Assets\Icons\Forge.png" />
+    <AvaloniaResource Include="Assets\Icons\OptiFine.png" />
+    <AvaloniaResource Include="Assets\Icons\Quilt.png" />
     <AvaloniaResource Include="Assets\y.jpg" />
   </ItemGroup>
   <ItemGroup>

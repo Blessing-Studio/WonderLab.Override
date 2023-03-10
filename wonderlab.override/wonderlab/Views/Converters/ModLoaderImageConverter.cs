@@ -16,7 +16,7 @@ namespace wonderlab.Views.Converters
             var type = (ModLoaderType)value;
 
             try {
-                return new Bitmap(string.Format(@"C:\Users\w\Desktop\Image\{0}.png", type.ToString()));
+                return BitmapUtils.GetIconBitmap($"{type}.png");
             }
             catch (Exception ex) {
 
