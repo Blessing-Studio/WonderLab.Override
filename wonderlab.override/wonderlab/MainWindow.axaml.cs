@@ -30,8 +30,7 @@ namespace wonderlab
         private bool isDragging, IsOpen, IsUseDragging;
         public static MainWindowViewModel ViewModel { get; private set; }
         public static MainWindow Instance { get; private set; }
-        public MainWindow()
-        {
+        public MainWindow() {       
             InitializeComponent();
             new ColorHelper().Load();
             WindowWidth = Width;
@@ -211,6 +210,8 @@ namespace wonderlab
                 };
             }
 
+            InstallDialog.HideDialog();
+            //GameProcessDialog.ShowDialog();
             ToolBar.InitStartAnimation();
             ToolBar.HostWindows = Instance = this;
             PropertyChanged += MainWindow_PropertyChanged;
@@ -223,7 +224,6 @@ namespace wonderlab
             OpenBar.PointerMoved += OpenBar_PointerMoved;
             OpenBar.PointerPressed += OpenBar_PointerPressed;
             OpenBar.PointerReleased += OpenBar_PointerReleased;
-            InstallDialog.ShowDialog();
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate())
             {

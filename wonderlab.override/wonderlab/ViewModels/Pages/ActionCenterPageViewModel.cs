@@ -74,6 +74,10 @@ namespace wonderlab.ViewModels.Pages
             MainWindow.Instance.InstallDialog.ShowDialog();
         }
 
+        public void OpenSelectConfigPageAction() {
+            MainWindow.Instance.NavigationPage(new SelectConfigPage());
+        }
+
         public void ReturnAction() {
             MainWindow.Instance.NavigationPage(new HomePage());
             var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;

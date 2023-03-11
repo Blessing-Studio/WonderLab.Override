@@ -41,12 +41,13 @@ namespace wonderlab.control.Controls.Dialog
             BackgroundBorder.IsHitTestVisible = false;
             OpacityChangeAnimation animation = new(true);
             animation.RunAnimation(BackgroundBorder);
-            animation.AnimationCompleted += (_, _) => control.IsHitTestVisible = false;
+            animation.AnimationCompleted += (_, _) => { control.IsHitTestVisible = false; IsVisible = false; };
             animation.RunAnimation(control);
         }
 
         public void ShowDialog()
         {
+            IsVisible = true;
             BackgroundBorder.IsHitTestVisible = true;
 
             OpacityChangeAnimation animation = new(false);
@@ -75,7 +76,7 @@ namespace wonderlab.control.Controls.Dialog
 
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
             control = e.NameScope.Find<ContentControl>("content");
-            
+            IsVisible = false;
         }
 
         private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

@@ -429,6 +429,141 @@
 				</Grid>
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>
+
+		<wcd:ContentDialog Name="GameProcessDialog">
+			<wcd:ContentDialog.Content>
+				<Grid>
+					<Border CornerRadius="8" IsHitTestVisible="True"
+	                        Height="340" IsVisible="True"
+	                        Width="680"
+	                        Background="{DynamicResource DialogContentBackground}"
+	                        BorderThickness="1"
+	                        BorderBrush="{DynamicResource DialogContentBorderBrush}">
+						<Grid>
+							<TextBlock Text="游戏进程管理器"
+									   FontSize="16"
+									   Margin="15"
+									   FontWeight="SemiBold"/>
+
+							<Button Margin="15" Foreground="Black"
+		                            Classes="rotatebutton"
+		                            HorizontalAlignment="Right"
+		                            VerticalAlignment="Top"
+		                            Command="{Binding HideInstallDialogAction}"/>
+
+							<Grid Margin="0 40 0 0">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+
+								<ListBox Margin="15 0 50 0" Background="Transparent">
+									<ListBox.Styles>
+										<Styles>
+											<Style Selector="ListBoxItem">
+												<Setter Property="Template">
+													<ControlTemplate>
+														<Grid>
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="40"/>
+																<ColumnDefinition Width="5"/>
+																<ColumnDefinition Width="Auto"/>
+															</Grid.ColumnDefinitions>
+															<Image Height="35"
+																   Width="35"
+																   Margin="5"
+																   Grid.Column="0"
+																   VerticalAlignment="Center"
+																   HorizontalAlignment="Left"
+																   Source="/Assets/Icons/Block.png"/>
+
+
+															<Grid Grid.Column="2" HorizontalAlignment="Left"
+																  VerticalAlignment="Center">
+																<Grid.RowDefinitions>
+																	<RowDefinition Height="1*"/>
+																	<RowDefinition Height="1*"/>
+																</Grid.RowDefinitions>
+																<TextBlock Text="游戏 1.16.5-forge-1.14.514 的进程"
+																		   FontSize="15"/>
+ 
+																<TextBlock Text="于 2023-3-10 23:14 启动"
+																		   Grid.Row="1"
+																		   FontSize="12"
+																		   Opacity="0.65"/>
+															</Grid>
+														</Grid>
+													</ControlTemplate>
+												</Setter>
+											</Style>
+										</Styles>
+									</ListBox.Styles>
+									<ListBoxItem/>
+									<ListBoxItem/>
+									<ListBoxItem/>
+								</ListBox>
+
+								<Grid Grid.Column="1">
+									<StackPanel VerticalAlignment="Top"
+												HorizontalAlignment="Right"
+										        Orientation="Horizontal"
+												Spacing="10" Margin="0 0 15 0">
+										<!--还有其它的按钮以后慢慢加罢-->
+										<Button Classes="wonderaccentbutton" IsVisible="False"
+												Content="结束此游戏进程" FontSize="12"/>
+									</StackPanel>
+
+									<ListBox Background="Transparent"
+											 Margin="0 0 0 0">
+										<ListBox.Styles>
+											<Styles>
+												<Style Selector="ListBoxItem">
+													<Setter Property="Template">
+														<ControlTemplate>
+															<Grid Margin="0 0 0 10">
+																<Grid.ColumnDefinitions>
+																	<ColumnDefinition Width="Auto"/>
+																	<ColumnDefinition Width="5"/>
+																	<ColumnDefinition Width="Auto"/>
+																</Grid.ColumnDefinitions>
+
+																<Border Background="Red"
+																		CornerRadius="4">
+																	<TextBlock Text="错误" Margin="5 2.5"/>
+																</Border>
+																
+																<TextBlock Grid.Column="2"
+																		   MaxWidth="230"
+																		   VerticalAlignment="Center"
+																		   Text="{TemplateBinding Content}"
+																		   TextAlignment="Left"
+																		   TextTrimming="CharacterEllipsis"/>
+															</Grid>
+														</ControlTemplate>
+													</Setter>
+												</Style>
+											</Styles>
+										</ListBox.Styles>
+										<ListBoxItem Content="123456789"/>
+										<ListBoxItem Content="12345"/>
+										<ListBoxItem Content="5rngfrgtg"/>
+										<ListBoxItem Content="nrstmengkegneltkhnr"/>
+										<ListBoxItem Content="gerg"/>
+										<ListBoxItem Content="rgwrklgnerjgrmtklntegmet"/>
+										<ListBoxItem Content="etnglketrgowrgnteklHmgeeklthnh"/>
+										<ListBoxItem Content="geththth"/>
+										<ListBoxItem Content="rwgteh eth get het hth rt"/>
+										<ListBoxItem Content="rger ge rg r"/>
+										<ListBoxItem Content="egteg etrg"/>
+										<ListBoxItem Content="rw grw gr"/>
+									</ListBox>
+								</Grid>
+							</Grid>
+						</Grid>
+					</Border>
+				</Grid>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
 		
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}"/>
 

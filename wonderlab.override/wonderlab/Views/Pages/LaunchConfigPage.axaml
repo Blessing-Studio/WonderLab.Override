@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage">
 	<ScrollViewer AllowAutoHide="True">
-		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Red" Margin="15 30 15 15"
+		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Transparent" Margin="15 0 15 15"
 	          VerticalAlignment="Top">
 			<TextBlock Text="全局启动设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
 			
