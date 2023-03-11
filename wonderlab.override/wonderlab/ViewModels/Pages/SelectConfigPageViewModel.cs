@@ -18,8 +18,7 @@ namespace wonderlab.ViewModels.Pages
         [Reactive]
         public object SelectConfigPage { get; set; } = new LaunchConfigPage();
 
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {       
-            
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
         }
     }
 }

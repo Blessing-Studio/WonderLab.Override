@@ -3,6 +3,7 @@ using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -30,6 +31,10 @@ namespace wonderlab.Class.Utils
             });
 
             return cores is null ? new ObservableCollection<GameCore>() : cores.ToObservableCollection();
+        }
+
+        public static string GetGameCoreVersionPath(GameCore core) {
+            return Path.Combine(core.Root.FullName, "versions", core.Id);
         }
     }
 }

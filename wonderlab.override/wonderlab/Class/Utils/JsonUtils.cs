@@ -11,8 +11,8 @@ namespace wonderlab.Class.Utils
 {
     public class JsonUtils
     {
-        static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"wonderlab");
-        static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"wonderlab","user");
+        static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab");
+        static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "user");
 
         public static async void CraftLaunchInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launchdata.json");

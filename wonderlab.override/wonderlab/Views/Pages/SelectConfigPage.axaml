@@ -5,22 +5,24 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.SelectConfigPage">
 	<Grid>
-		<ContentControl Content="{Binding SelectConfigPage}"/>
+		<ContentControl Content="{Binding SelectConfigPage}"
+						Background="{x:Null}"/>
 		<!--Background="{DynamicResource DialogContentBackground}"-->
 		<Border HorizontalAlignment="Right" Height="40" Width="400"
 				VerticalAlignment="Bottom" Margin="0 0 -20 10"
-			    Background="Red"
+			    Background="{DynamicResource DialogContentBackground}"
 				BorderThickness="1"  
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				RenderTransform="rotate(-15deg)">
 			<StackPanel Orientation="Horizontal"
 						Spacing="10"
 						Margin="115 0 0 0"
-						HorizontalAlignment="Center">
-				<ToggleButton Content="启动" Background="Transparent"/>
+						HorizontalAlignment="Center"
+						Name="ButtonGroup">
+				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"/>
 				<ToggleButton Content="下载" Background="Transparent"/>
 				<ToggleButton Content="个性化" Background="Transparent"/>
-				<Button Content="返回" Background="Transparent"/>
+				<Button Content="返回" Background="Transparent" Name="button"/>
 			</StackPanel> 
 		</Border>
 	</Grid>

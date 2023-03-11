@@ -17,6 +17,7 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

@@ -3,28 +3,50 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Background="{x:Null}"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage">
-	<ScrollViewer AllowAutoHide="True">
+	<ScrollViewer Background="{x:Null}">
 		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Transparent" Margin="15 0 15 15"
 	          VerticalAlignment="Top">
 			<TextBlock Text="全局启动设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
 			
 			<TextBlock Text="游戏路径" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
 			<StackPanel Spacing="10" Orientation="Horizontal">
-				<ComboBox MinWidth="300"/>
-				<Button Content="添加"/>
+				<ComboBox MinWidth="300" Items="{Binding GameDirectorys}"
+						  SelectedItem="{Binding CurrentGameDirectory}"/>
+				<Button Content="添加" Command="{Binding	DirectoryDialogOpenAction}"/>
 				<Button Content="移除" Classes="wonderaccentbutton"
 						Background="#FF0000"/>
 			</StackPanel>
 
 			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>						
 			<StackPanel Spacing="10" Orientation="Horizontal">
-				<ComboBox MinWidth="300"/>
-				<Button Content="">
+				<ComboBox MinWidth="300" Items="{Binding Javas}"
+						  SelectedItem="{Binding CurrentJava}">
+					<ComboBox.DataTemplates>
+						<DataTemplate>
+							<StackPanel VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+								Orientation="Horizontal">
+								<TextBlock Text="Java " FontWeight="SemiBold"/>
+								<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
+								<TextBlock Text=" ("/>
+								<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
+								<TextBlock Text=", " />
+								<TextBlock Text="{Binding JavaVersion}" FontWeight="SemiBold"/>
+								<TextBlock Text="), "/>
+								<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.DataTemplates>
+				</ComboBox>
+				
+				<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
+						Command="{Binding LoadJavaAction}">
 					<Grid>
-						<TextBlock Text="搜索 Java" IsVisible="False"/>
-						<ProgressBar Classes="Circle" IsIndeterminate="True"/> 
+						<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
+						<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
+									 Width="20" IsVisible="{Binding IsLoadJavaNow}"/> 
 					</Grid>
 				</Button>
 				<Button Content="手动添加"/>

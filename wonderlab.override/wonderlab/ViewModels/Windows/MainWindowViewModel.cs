@@ -338,10 +338,15 @@ namespace wonderlab.ViewModels.Windows
                 "无法继续安装，因为未选择任何 Java！".ShowMessage();
             }
 
+            MainWindow.Instance.InstallDialog.HideDialog();
             NotificationCenterPage.ViewModel.Notifications.Add(data);
             var forgedata = CurrentModLoaders.GetForge().Data;
             var optifinrdata = CurrentModLoaders.GetOptiFine().Data;
             var customId = $"{forgedata.GameCoreVersion}-{forgedata.ModLoader.ToLower()}-{forgedata.Id}";
+            data.Title = $"游戏 {customId} 的安装任务";
+            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
+                MainWindow.Instance.ShowTopBar();
+            });
             data.Title = customId;
             data.TimerStart();
             ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, forgedata.ModLoaderBuild as ForgeInstallEntity,

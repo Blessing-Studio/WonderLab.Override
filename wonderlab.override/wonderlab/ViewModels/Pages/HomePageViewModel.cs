@@ -1,4 +1,6 @@
 ﻿using MinecraftLaunch.Launch;
+using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -49,7 +51,7 @@ namespace wonderlab.ViewModels.Pages
 
         public async void SeachGameCore(string text) { 
             GameCores.Clear();
-            GameCores = (await GameCoreUtils.SearchGameCoreAsync(new LaunchInfoDataModel().GameDirectoryPath, text))
+            GameCores = (await GameCoreUtils.SearchGameCoreAsync(App.LaunchInfoData.GameDirectoryPath, text))
                 .Distinct().ToObservableCollection();
 
             if (!GameCores.Any()) {
@@ -60,7 +62,7 @@ namespace wonderlab.ViewModels.Pages
 
         public async void GetGameCoresAction() {
             GameCores.Clear();
-            var cores = await GameCoreUtils.GetLocalGameCores(new LaunchInfoDataModel().GameDirectoryPath);
+            var cores = await GameCoreUtils.GetLocalGameCores(App.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
 
             foreach (var i in cores) {
@@ -70,9 +72,31 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async void LaunchTaskAction() {
-            JavaMinecraftLauncher launcher = new(new(), App.LaunchInfoData.GameDirectoryPath, true);
+            var config = new LaunchConfig()
+            {
+                JvmConfig = new()
+                {
+                    MaxMemory = App.LaunchInfoData.MaxMemory,
+                    MinMemory = App.LaunchInfoData.MiniMemory,
+                    JavaPath = App.LaunchInfoData.JavaRuntimePath.ToJavaw().ToFile(),
+                },
+                Account = Account.Default,
+                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(SelectGameCore).ToDirectory()
+            };
 
-            using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore);            
+            JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
+
+            using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
+                Trace.WriteLine(x.Item2);
+            });
+            if (gameProcess.State is LaunchState.Succeess) {
+                Trace.WriteLine("[信息] 启动成功！");
+
+                Trace.WriteLine($"[信息] 游戏进程是否退出 {gameProcess.Process.HasExited}");
+                //gameProcess.Process. += (_, x) => {
+                //    Trace.WriteLine(x.Raw);
+                //};
+            }
         }
     }
 }

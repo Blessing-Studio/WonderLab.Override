@@ -35,6 +35,10 @@ namespace wonderlab
             new ColorHelper().Load();
             WindowWidth = Width;
             WindowHeight = Height;
+
+            Closed += (_, x) => {
+                JsonUtils.WriteLaunchInfoJson();
+            };
         }
 
         private void RemoveModLoaderClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
@@ -383,11 +387,16 @@ namespace wonderlab
 
         public async void NavigationPage(UserControl control)
         {
-            Page.Opacity = 0;
-            await Task.Delay(200);
-            Page.Content = control;
-            await Task.Delay(150);
-            Page.Opacity = 1;
+            try
+            {
+                Page.Opacity = 0;
+                await Task.Delay(200);
+                Page.Content = control;
+                await Task.Delay(150);
+                Page.Opacity = 1;
+            }
+            catch (Exception)
+            { }           
         }
 
         public async void OutBar()
@@ -406,27 +415,3 @@ namespace wonderlab
     }
 }
 
-//void addSubDirectory(DirectoryInfo directory, string pattern)
-//{
-//    try
-//    {
-//        foreach (FileInfo fi in directory.GetFiles(pattern))
-//        {
-//            addrelativeDocument(fi.FullName);
-//        }
-
-//        foreach (DirectoryInfo di in directory.GetDirectories())
-//        {
-//            addSubDirectory(di, pattern);
-//        }
-//    }
-//    catch (Exception)
-//    {
-
-//    }
-//}
-
-//void addrelativeDocument(string path)
-//{
-//    ra++;
-//}

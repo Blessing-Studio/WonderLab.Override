@@ -28,9 +28,9 @@ namespace wonderlab.Class.Models
         public int MiniMemory { get; set; } = 512;
 
         [JsonProperty("javaRuntimes")]
-        public List<string> JavaRuntimes { get; set; }
+        public List<string> JavaRuntimes { get; set; } = new();
 
         [JsonProperty("gameDirectorys")]
-        public List<string> GameDirectorys { get; set; }
+        public List<string> GameDirectorys { get; set; } = new();
     }
 }

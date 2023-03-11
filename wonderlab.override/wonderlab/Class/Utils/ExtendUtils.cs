@@ -1,10 +1,12 @@
 ﻿using Avalonia.Data.Core;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +79,41 @@ namespace wonderlab.Class.Utils
             }
 
             return data.Last();
+        }
+
+        public static JavaInfo ToJava(this string path) { 
+            if (!string.IsNullOrEmpty(path) && path.IsFile()) {
+                var info = new FileInfo(path);
+                return JavaToolkit.GetJavaInfo(Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
+            }
+
+            return null;
+        }
+
+        public static string ToJavaw(this string path) {
+            if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
+                var info = new FileInfo(path);
+                return Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw");
+            }
+
+            return path;
+        }
+
+        public static FileInfo ToFile(this string path) {       
+            if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
+                var info = new FileInfo(path);
+                return new(Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw"));
+            }
+
+            return new(path);
+        }
+
+        public static DirectoryInfo ToDirectory(this string path) {       
+            if (!string.IsNullOrEmpty(path) && path.IsDirectory()) {           
+                return new(path);
+            }
+
+            return null;
         }
     }
 }
