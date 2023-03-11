@@ -39,6 +39,8 @@
 				  Message="This is message in MessageDialog!"/>
 
 
+		<ProgressBar HorizontalAlignment="Left" Classes="Circle"
+					 Margin="15" IsIndeterminate="True"/>
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center">
 		</Grid>		
 	</Grid>

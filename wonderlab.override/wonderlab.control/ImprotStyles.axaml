@@ -14,4 +14,5 @@
 	<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
 	<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
 	<StyleInclude Source="/Style/Dialog/ContentDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
 </Styles>

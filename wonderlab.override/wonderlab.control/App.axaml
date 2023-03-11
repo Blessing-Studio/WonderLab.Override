@@ -9,6 +9,7 @@
 		<StyleInclude Source="/Style/Dialog/UpdateDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
+		<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
     </Application.Styles>
 
 	<Application.Resources>
