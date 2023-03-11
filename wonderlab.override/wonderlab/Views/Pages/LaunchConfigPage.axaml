@@ -21,7 +21,12 @@
 			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>						
 			<StackPanel Spacing="10" Orientation="Horizontal">
 				<ComboBox MinWidth="300"/>
-				<Button Content="搜索 Java"/>
+				<Button Content="">
+					<Grid>
+						<TextBlock Text="搜索 Java" IsVisible="False"/>
+						<ProgressBar Classes="Circle" IsIndeterminate="True"/> 
+					</Grid>
+				</Button>
 				<Button Content="手动添加"/>
 			</StackPanel>
 
