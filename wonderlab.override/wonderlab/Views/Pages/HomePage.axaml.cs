@@ -52,14 +52,13 @@ namespace wonderlab.Views.Pages
         }
 
         private void OnLaunchButtonClick(object? sender, System.EventArgs e) {       
-            MainWindow.Instance.ShowInfoBar("Info", $"开始尝试启动游戏 \"{bab.GameCoreId}\"");
+            MainWindow.Instance.ShowInfoBar("信息", $"开始尝试启动游戏 \"{bab.GameCoreId}\"");
+            ViewModel.LaunchTaskAction();
+        }
+    }
+}
             //Process.Start(new ProcessStartInfo("https://vdse.bdstatic.com//192d9a98d782d9c74c96f09db9378d93.mp4")
             //{
             //    UseShellExecute = true,
             //    Verb = "open"
             //});
-
-            ViewModel.LaunchTaskAction();
-        }
-    }
-}

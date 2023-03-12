@@ -1,5 +1,6 @@
 ﻿using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using ReactiveUI;
@@ -85,18 +86,21 @@ namespace wonderlab.ViewModels.Pages
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
-
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine(x.Item2);
             });
             if (gameProcess.State is LaunchState.Succeess) {
-                Trace.WriteLine("[信息] 启动成功！");
+                stopwatch.Stop();
+                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed}".ShowMessage("喜报");
 
-                Trace.WriteLine($"[信息] 游戏进程是否退出 {gameProcess.Process.HasExited}");
-                //gameProcess.Process. += (_, x) => {
-                //    Trace.WriteLine(x.Raw);
-                //};
+                gameProcess.ProcessOutput += ProcessOutput;
             }
+        }
+
+        private void ProcessOutput(object? sender, IProcessOutput e) {
+            Trace.WriteLine(e.Raw);
         }
     }
 }
