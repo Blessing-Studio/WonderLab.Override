@@ -16,7 +16,7 @@ namespace wonderlab.Class.Utils
     {
         public const string VersionType = "Lsaac";
 
-        public const int Version = 1021;
+        public const int Version = 1022;
 
         const string API = "https://gitee.com/api/v5/repos/baka_hs/xilu-baka/releases/latest";
 
@@ -25,7 +25,7 @@ namespace wonderlab.Class.Utils
 
             var json = await responseMessage.Content.ReadAsStringAsync();
             if (json.StartsWith("403")) {//访问过快导致的问题
-                return null;
+                return null!;
             }
             
             return json.ToJsonEntity<UpdateInfo>();
@@ -37,6 +37,7 @@ namespace wonderlab.Class.Utils
                 {
                     action(p);
                 }, "WonderLab.update");
+
                 if (downloadResponse.HttpStatusCode is System.Net.HttpStatusCode.OK) {
                     ok();
                 }
@@ -44,8 +45,7 @@ namespace wonderlab.Class.Utils
         }
     }
     
-    public class Author
-    {
+    public class Author {   
         [JsonProperty("id")]
         public int Id { get; set; }
 
@@ -98,8 +98,7 @@ namespace wonderlab.Class.Utils
         public string Type { get; set; }
     }
 
-    public class UpdateAsset
-    {
+    public class UpdateAsset {   
         [JsonProperty("browser_download_url")]
         public string DownloadUrl { get; set; }
 
@@ -107,8 +106,7 @@ namespace wonderlab.Class.Utils
         public string Name { get; set; }
     }
 
-    public class UpdateInfo
-    {
+    public class UpdateInfo {   
         [JsonProperty("id")]
         public int Id { get; set; }
 
@@ -125,7 +123,7 @@ namespace wonderlab.Class.Utils
         public string Title { get; set; }
 
         [JsonProperty("body")]
-        public string Body { get; set; }
+        public string Message { get; set; }
 
         [JsonProperty("author")]
         public Author Author { get; set; }

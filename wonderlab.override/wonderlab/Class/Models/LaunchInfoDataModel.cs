@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MinecraftLaunch.Modules.Models.Launch;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ namespace wonderlab.Class.Models
         public string GameDirectoryPath { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),".minecraft");
 
         [JsonProperty("javaruntimePath")]
-        public string JavaRuntimePath { get; set; }
+        public JavaInfo JavaRuntimePath { get; set; }
 
         [JsonProperty("selectgameCore")]
         public string SelectGameCore { get; set; }
@@ -27,8 +28,11 @@ namespace wonderlab.Class.Models
         [JsonProperty("miniMemory")]
         public int MiniMemory { get; set; } = 512;
 
+        [JsonProperty("isautoSelectjava")]
+        public bool IsAutoSelectJava { get; set; } = false;
+
         [JsonProperty("javaRuntimes")]
-        public List<string> JavaRuntimes { get; set; } = new();
+        public List<JavaInfo> JavaRuntimes { get; set; } = new();
 
         [JsonProperty("gameDirectorys")]
         public List<string> GameDirectorys { get; set; } = new();

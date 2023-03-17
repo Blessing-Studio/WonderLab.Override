@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using Microsoft.VisualBasic;
@@ -38,6 +39,25 @@ namespace wonderlab
 
             Closed += (_, x) => {
                 JsonUtils.WriteLaunchInfoJson();
+            };
+
+            PointerMoved += (_, x) => {           
+                Point position = x.GetPosition(BackgroundImage);
+                int xOffset = 50, yOffset = 50;
+                double num = BackgroundImage.DesiredSize.Height - position.X / (double)xOffset - BackgroundImage.DesiredSize.Height;
+                double num2 = BackgroundImage.DesiredSize.Width - position.Y / (double)yOffset - BackgroundImage.DesiredSize.Width;
+                if (!(BackgroundImage.RenderTransform is TranslateTransform)) {               
+                    BackgroundImage.RenderTransform = new TranslateTransform(num, num2);
+                    return;
+                }
+                TranslateTransform translateTransform = (TranslateTransform)BackgroundImage.RenderTransform;
+                if (xOffset > 0) {               
+                    translateTransform.X = num;
+                }
+
+                if (yOffset > 0) {               
+                    translateTransform.Y = num2;
+                }
             };
         }
 
@@ -214,8 +234,7 @@ namespace wonderlab
                 };
             }
 
-            InstallDialog.HideDialog();
-            //GameProcessDialog.ShowDialog();
+            InstallDialog.HideDialog();            
             ToolBar.InitStartAnimation();
             ToolBar.HostWindows = Instance = this;
             PropertyChanged += MainWindow_PropertyChanged;
@@ -263,11 +282,13 @@ namespace wonderlab
                     });
                 };
 
-                UpdateDialog.Message = $"版本编号 {res.TagName}\n于 {res.CreatedAt.ToString(@"yyyy\-MM\-dd hh\:mm")} 由 {res.Author.Name} 修改并推送";
+                BodyMessage.Text = res.Message;
+                UpdateDialog.Title = $"有新的版本推送，版本编号 {res.TagName}";
+                EndMessage.Text = $"于 {res.CreatedAt.ToString(@"yyyy\-MM\-dd hh\:mm")} 由 {res.Author.Name} 修改并推送";
                 await Task.Delay(1000);
                 UpdateDialog.ShowDialog();
             }
-
+            
             JsonUtils.CraftLaunchInfoJson();
         }
 

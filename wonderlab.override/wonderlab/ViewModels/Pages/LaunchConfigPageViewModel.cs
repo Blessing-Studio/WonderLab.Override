@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using DynamicData;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
@@ -24,8 +25,15 @@ namespace wonderlab.ViewModels.Pages
             if (App.LaunchInfoData.JavaRuntimes.Any()) {
                 ThreadPool.QueueUserWorkItem(x =>
                 {
-                    Javas = App.LaunchInfoData.JavaRuntimes.Select(x => x.ToJava()).ToObservableCollection();
-                    CurrentJava = App.LaunchInfoData.JavaRuntimePath.ToJava();
+                    Javas = App.LaunchInfoData.JavaRuntimes.ToObservableCollection();
+                    CurrentJava = Javas.Where(x =>
+                    {
+                        if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) { 
+                            return true;
+                        }
+
+                        return false;
+                    })?.First()!;
                 });
             }
 
@@ -33,19 +41,39 @@ namespace wonderlab.ViewModels.Pages
                 CurrentGameDirectory = App.LaunchInfoData.GameDirectoryPath;
                 GameDirectorys = App.LaunchInfoData.GameDirectorys.ToObservableCollection();
             }
+
+            IsAutoSelectJava = App.LaunchInfoData.IsAutoSelectJava;
+            MaxMemory = App.LaunchInfoData.MaxMemory;
+            MiniMemory = App.LaunchInfoData.MiniMemory;
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(Javas)) {
-                App.LaunchInfoData.JavaRuntimes = Javas.Select(x => x.JavaPath).ToList();
+                App.LaunchInfoData.JavaRuntimes = Javas.ToList();
+            }
+
+            if (e.PropertyName == nameof(GameDirectorys)) { 
+                App.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
             }
 
             if(e.PropertyName == nameof(CurrentJava)) { 
-                App.LaunchInfoData.JavaRuntimePath = CurrentJava.JavaPath;
+                App.LaunchInfoData.JavaRuntimePath = CurrentJava;
             }
 
             if (e.PropertyName == nameof(CurrentGameDirectory)) {
                 App.LaunchInfoData.GameDirectoryPath = CurrentGameDirectory;
+            }
+
+            if (e.PropertyName == nameof(MaxMemory)) {
+                App.LaunchInfoData.MaxMemory = MaxMemory;
+            }
+
+            if (e.PropertyName == nameof(MiniMemory)) {           
+                App.LaunchInfoData.MiniMemory = MiniMemory;
+            }
+
+            if (e.PropertyName == nameof(IsAutoSelectJava)) {           
+                App.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
             }
         }
 
@@ -53,7 +81,16 @@ namespace wonderlab.ViewModels.Pages
         public bool IsLoadJavaFinish { get; set; } = true;
 
         [Reactive]
+        public bool IsAutoSelectJava { get; set; } = false;
+
+        [Reactive]
         public bool IsLoadJavaNow { get; set; } = false;
+
+        [Reactive]
+        public int MaxMemory { get; set; }
+
+        [Reactive]
+        public int MiniMemory { get; set; }
 
         [Reactive]
         public JavaInfo CurrentJava { get; set; }
@@ -104,7 +141,7 @@ namespace wonderlab.ViewModels.Pages
         public void AddRelativeDocument(string path) {
             var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(new FileInfo(path).Directory.FullName, "java.exe"));
             Javas.Add(javaInfo);
-            App.LaunchInfoData.JavaRuntimes.Add(path);
+            App.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
             CurrentJava = javaInfo;
             Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
         }

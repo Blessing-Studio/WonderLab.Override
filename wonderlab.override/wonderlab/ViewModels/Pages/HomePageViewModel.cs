@@ -3,6 +3,7 @@ using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -79,24 +80,44 @@ namespace wonderlab.ViewModels.Pages
                 {
                     MaxMemory = App.LaunchInfoData.MaxMemory,
                     MinMemory = App.LaunchInfoData.MiniMemory,
-                    JavaPath = App.LaunchInfoData.JavaRuntimePath.ToJavaw().ToFile(),
+                    JavaPath = GetCurrentJava().ToFile(),
                 },
                 Account = Account.Default,
                 WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(SelectGameCore).ToDirectory()
             };
 
+            Trace.WriteLine($"[信息] 自动选择的 Java 为 {GetCurrentJava()}");
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
             Stopwatch stopwatch = new();
             stopwatch.Start();
             using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
-                Trace.WriteLine(x.Item2);
+                Trace.WriteLine($"[信息] {x.Item2}");
             });
             if (gameProcess.State is LaunchState.Succeess) {
                 stopwatch.Stop();
-                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed}".ShowMessage("喜报");
+                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed}".ShowMessage("启动成功");
 
                 gameProcess.ProcessOutput += ProcessOutput;
             }
+        }
+
+        public string GetCurrentJava() {
+            if (App.LaunchInfoData.IsAutoSelectJava) {
+                var first = App.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit && 
+                x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
+                .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);                
+
+                if (first.Any()) { 
+                    return first.First().JavaPath.ToJavaw();   
+                } else {
+                    var second = App.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
+                   .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);
+
+                    return second.Any() ? second.First().JavaPath.ToJavaw() : App.LaunchInfoData.JavaRuntimePath.JavaPath?.ToJavaw() ?? string.Empty;
+                }
+            }
+
+            return App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw();
         }
 
         private void ProcessOutput(object? sender, IProcessOutput e) {

@@ -84,7 +84,7 @@
 						BorderBrush="{DynamicResource DialogContentBorderBrush}"
 						Background="{TemplateBinding Background}"
 						Height="200" BoxShadow="0 3 12 0 #66000000">
-						<Border CornerRadius="6" Width="40" Margin="0 7"
+						<Border CornerRadius="6" Width="38" Margin="0 7"
 								Background="#F4D03F" Height="0" Name="MainBorder">
 							<Border.Transitions>
 								<Transitions>

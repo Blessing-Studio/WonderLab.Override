@@ -270,11 +270,11 @@ namespace wonderlab.ViewModels.Windows
             string customId = string.Empty;
 
             if (!CurrentModLoaders.Any()) {
-                installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", CurrentGameCore.Id));
+                installer = await Task.Run(() => new GameCoreInstaller(App.LaunchInfoData.GameDirectoryPath, CurrentGameCore.Id));
                 customId = CurrentGameCore.Id;
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Forge) {
-                if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {
+                if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
                     "无法继续安装，因为未选择任何 Java！".ShowMessage();
                     return;
                 }
@@ -282,7 +282,7 @@ namespace wonderlab.ViewModels.Windows
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
                 installer = await Task.Run(() => new ForgeInstaller(App.LaunchInfoData.GameDirectoryPath,
-                    installerdata.ModLoaderBuild as ForgeInstallEntity, App.LaunchInfoData.JavaRuntimePath,
+                    installerdata.ModLoaderBuild as ForgeInstallEntity, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                     customId));
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Fabric) {
@@ -296,7 +296,7 @@ namespace wonderlab.ViewModels.Windows
                 installer = await Task.Run(() => new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, installerdata.ModLoaderBuild as QuiltInstallBuild, customId));
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.OptiFine) {           
-                if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {               
+                if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {               
                     "无法继续安装，因为未选择任何 Java！".ShowMessage();
                     return;
                 }
@@ -304,7 +304,7 @@ namespace wonderlab.ViewModels.Windows
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
                 installer = await Task.Run(() => new OptiFineInstaller(App.LaunchInfoData.GameDirectoryPath,
-                    installerdata.ModLoaderBuild as OptiFineInstallEntity, App.LaunchInfoData.JavaRuntimePath,
+                    installerdata.ModLoaderBuild as OptiFineInstallEntity, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                     customId: customId));
             }
             else if (CurrentModLoaders.Count == 2) {
@@ -334,7 +334,7 @@ namespace wonderlab.ViewModels.Windows
         }
 
         public async void CompositeGameCoreAction(NotificationViewData data) {
-            if (!App.LaunchInfoData.JavaRuntimePath.IsFile()) {           
+            if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {           
                 "无法继续安装，因为未选择任何 Java！".ShowMessage();
             }
 
@@ -344,20 +344,22 @@ namespace wonderlab.ViewModels.Windows
             var optifinrdata = CurrentModLoaders.GetOptiFine().Data;
             var customId = $"{forgedata.GameCoreVersion}-{forgedata.ModLoader.ToLower()}-{forgedata.Id}";
             data.Title = $"游戏 {customId} 的安装任务";
+
             $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
                 MainWindow.Instance.ShowTopBar();
             });
+
             data.Title = customId;
             data.TimerStart();
             ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, forgedata.ModLoaderBuild as ForgeInstallEntity,
-               App.LaunchInfoData.JavaRuntimePath, customId);
+               App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId);
 
             installer.ProgressChanged += ProcessOutPut;
             var result = await Task.Run(async () => await installer!.InstallAsync());
 
             if(result.Success) {
                 OptiFineInstaller optiFineInstaller = new(App.LaunchInfoData.GameDirectoryPath, optifinrdata.ModLoaderBuild as OptiFineInstallEntity,
-               App.LaunchInfoData.JavaRuntimePath, customId: customId);
+               App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId: customId);
                 optiFineInstaller.ProgressChanged += ProcessOutPut;
                 var Optifineresult = await Task.Run(async () => await optiFineInstaller!.InstallAsync());
                 if (Optifineresult.Success) {
@@ -366,7 +368,7 @@ namespace wonderlab.ViewModels.Windows
                 }
             }
 
-            async void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
+            void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
                 var progress = x.Progress * 100;
                 data.ProgressOfBar = progress;
                 data.Progress = $"{Math.Round(progress, 2)}%";
