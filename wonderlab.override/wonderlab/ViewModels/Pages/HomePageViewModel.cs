@@ -86,7 +86,6 @@ namespace wonderlab.ViewModels.Pages
                 WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(SelectGameCore).ToDirectory()
             };
 
-            Trace.WriteLine($"[信息] 自动选择的 Java 为 {GetCurrentJava()}");
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
             Stopwatch stopwatch = new();
             stopwatch.Start();

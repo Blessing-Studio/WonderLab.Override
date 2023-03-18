@@ -15,5 +15,17 @@ namespace wonderlab.Class.Utils
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+        [Obsolete]//屁玩意啥用没有
+        public static T TryRun<T>(Func<T> action) {
+            try {
+                return action();
+            }
+            catch (Exception ex) {
+                "焯，这辣鸡启动器又炸了".ShowMessage("错误");
+            }
+
+            return default!;
+        }
     }
 }

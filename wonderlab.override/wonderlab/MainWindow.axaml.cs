@@ -36,7 +36,6 @@ namespace wonderlab
             new ColorHelper().Load();
             WindowWidth = Width;
             WindowHeight = Height;
-
             Closed += (_, x) => {
                 JsonUtils.WriteLaunchInfoJson();
             };

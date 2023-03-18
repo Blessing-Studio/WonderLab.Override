@@ -16,19 +16,26 @@ namespace wonderlab.Class.Utils
     {
         public const string VersionType = "Lsaac";
 
-        public const int Version = 1022;
+        public const int Version = 1023;
 
         const string API = "https://gitee.com/api/v5/repos/baka_hs/xilu-baka/releases/latest";
 
-        public static async ValueTask<UpdateInfo> GetLatestUpdateInfoAsync() { 
-            var responseMessage = await HttpWrapper.HttpGetAsync(API);
-
-            var json = await responseMessage.Content.ReadAsStringAsync();
-            if (json.StartsWith("403")) {//访问过快导致的问题
-                return null!;
+        public static async ValueTask<UpdateInfo> GetLatestUpdateInfoAsync() {
+            try {           
+                var responseMessage = await HttpWrapper.HttpGetAsync(API);
+                
+                var json = await responseMessage.Content.ReadAsStringAsync();
+                if (json.StartsWith("403")) {//访问过快导致的问题
+                    return null!;
+                }
+                
+                return json.ToJsonEntity<UpdateInfo>();
             }
-            
-            return json.ToJsonEntity<UpdateInfo>();
+            catch (Exception ex) {
+                $"网络异常，{ex.Message}".ShowMessage("错误");
+            }
+
+            return null!;
         }
 
         public static async void UpdateAsync(UpdateInfo info,Action<float> action, Action ok) {

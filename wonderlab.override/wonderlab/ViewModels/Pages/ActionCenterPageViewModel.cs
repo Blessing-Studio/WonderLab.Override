@@ -65,8 +65,8 @@ namespace wonderlab.ViewModels.Pages
             var result = await HttpUtils.GetHitokotoTextAsync();
 
             if(result != null) { 
-                HitokotoCreator = $"-- {result.Creator.Trim()}";
-                HitokotoTitle = result.Text;
+                HitokotoCreator ??= $"-- {result.Creator?.Trim()}";
+                HitokotoTitle ??= result.Text ?? "焯";
             }
         }
 

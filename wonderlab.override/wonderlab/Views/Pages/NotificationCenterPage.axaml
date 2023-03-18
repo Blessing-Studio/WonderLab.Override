@@ -17,7 +17,8 @@
 		   FontSize="18" />
 		
 		<Button Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Height="20"
-				Margin="20" Classes="rotatebutton" ToolTip.Tip="关闭 WonderLab"/>
+				Margin="20" Classes="rotatebutton" ToolTip.Tip="关闭 WonderLab"
+				Command="{Binding CloseLauncherAction}"/>
 		
 		<ListBox Items="{Binding Notifications}" Grid.Row="2">
 			<ListBox.Styles>

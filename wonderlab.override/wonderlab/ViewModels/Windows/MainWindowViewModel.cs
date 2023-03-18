@@ -228,24 +228,29 @@ namespace wonderlab.ViewModels.Windows
         }
 
         public async void GetGameCoresAction() {
-            var res = await GameCoreInstaller.GetGameCoresAsync();
-            GameCores.Clear();
-            
-            var temp = res.Cores.Where(x => {
-                x.Type = x.Type switch {
-                    "snapshot" => "快照版本",
-                    "release" => "正式版本",
-                    "old_alpha" => "远古版本",
-                    "old_beta" => "远古版本",
-                    _ => "Fuck"
-                } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
-            
-                return true;
-            });
-            
-            foreach (var item in temp) {
-                await Task.Delay(20);
-                GameCores.Add(item);
+            try { 
+                var res = await GameCoreInstaller.GetGameCoresAsync();
+                GameCores.Clear();
+                
+                var temp = res.Cores.Where(x => {
+                    x.Type = x.Type switch {
+                        "snapshot" => "快照版本",
+                        "release" => "正式版本",
+                        "old_alpha" => "远古版本",
+                        "old_beta" => "远古版本",
+                        _ => "Fuck"
+                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+                
+                    return true;
+                });
+                
+                foreach (var item in temp) {
+                    await Task.Delay(20);
+                    GameCores.Add(item);
+                }
+            }
+            catch (Exception ex) {
+                $"网络异常，{ex.Message}".ShowMessage("错误");
             }
         }
 

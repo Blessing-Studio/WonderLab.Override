@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Avalonia;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,10 @@ namespace wonderlab.ViewModels.Pages
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             Trace.WriteLine($"[信息] 更改的属性为 {e.PropertyName}");
+        }
+
+        public void CloseLauncherAction() {
+            MainWindow.Instance.Close();
         }
     }
 }
