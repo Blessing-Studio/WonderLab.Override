@@ -373,10 +373,12 @@ namespace wonderlab.ViewModels.Windows
                 }
             }
 
-            void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
+            async void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
                 var progress = x.Progress * 100;
                 data.ProgressOfBar = progress;
                 data.Progress = $"{Math.Round(progress, 2)}%";
+
+                await Task.Delay(1000);
             }
         }
     }

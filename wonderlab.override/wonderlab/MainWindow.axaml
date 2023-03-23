@@ -27,7 +27,31 @@
 		BorderBrush="#F4D03F"
 		BorderThickness="1"/>
 
-		<Border Name="OpenBar" Width="100" Background="Transparent" HorizontalAlignment="Left"/>
+		<Border Name="OpenBar" Margin="10 0 0 0"
+				Height="200"
+				BorderBrush="{DynamicResource DialogContentBorderBrush}"
+				Background="{DynamicResource DialogContentBackground}"
+				CornerRadius="10"
+				BorderThickness="1"
+				HorizontalAlignment="Left">
+			<Border.Styles>
+				<Style Selector="Border">
+					<Setter Property="Width" Value="8"/>
+				</Style>
+
+				<Style Selector="Border:pointerover">
+					<Setter Property="Width" Value="15"/>
+				</Style>
+			</Border.Styles>
+
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.35"
+									  Property="Width"
+									  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Border.Transitions>
+		</Border>
 
 		<ContentControl Name="Page" Margin="0 25 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>
