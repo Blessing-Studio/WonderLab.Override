@@ -9,6 +9,8 @@ namespace wonderlab
     {
         public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
 
+        public static LauncherDataModel LauncherData { get; set; } = new();
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

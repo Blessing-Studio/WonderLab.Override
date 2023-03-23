@@ -24,6 +24,7 @@ namespace wonderlab.Class.Utils
                 return;
             }
 
+            App.LauncherData.Users = await GameAccountUtils.GetUsersAsync() ?? new();
             var json = await File.ReadAllTextAsync(jsonPath);
             App.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
         }

@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             x:Class="wonderlab.Views.Pages.UserPage">
+	<Grid>
+		<TextBlock Text="账户中心" Margin="16"
+				   FontSize="17" FontWeight="SemiBold"/>
+		
+		<Button Classes="wonderaccentbutton"
+				Margin="16" HorizontalAlignment="Right"
+				VerticalAlignment="Top" Content="创建或添加新的游戏账户"/>
+		<ListBox Background="{x:Null}" Margin="0 70 0 0">
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="15 6"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10">
+									<Grid>
+										<Border Height="35" Width="35"
+												HorizontalAlignment="Left"
+												Margin="10" CornerRadius="114514"
+												BoxShadow="0 4 16 0 #66000000">
+											<Border.Background>
+												<ImageBrush Source="avares://wonderlab/Assets/y.jpg" Stretch="UniformToFill"/>
+											</Border.Background>
+										</Border>
+
+										<Grid VerticalAlignment="Center" Margin="60 0 0 0">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto"/>
+												<ColumnDefinition Width="10"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+											<TextBlock VerticalAlignment="Center" Text="Xilu"
+													   FontSize="16" FontWeight="SemiBold"/>
+
+											<Border Height="26" CornerRadius="4" Grid.Column="2"
+													Background="{DynamicResource SystemAccentColor}" Margin="2 2 10 2"
+													HorizontalAlignment="Left">
+												<Grid VerticalAlignment="Center" Margin="6 0">
+													<TextBlock FontSize="13"
+															   Text="离线" TextAlignment="Left"
+															   TextTrimming="CharacterEllipsis"/>
+												</Grid>
+											</Border>
+										</Grid>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+				</Styles>
+			</ListBox.Styles>
+
+			<ListBoxItem/>
+		</ListBox>
+	</Grid>
+</UserControl>
