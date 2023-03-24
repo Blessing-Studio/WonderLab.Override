@@ -1,4 +1,5 @@
 ﻿using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Models.Auth;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,14 @@ namespace wonderlab.Class.Models
         [JsonProperty("accessToken")]
         public string AccessToken { get; set; }
 
-        [JsonProperty("yggdrasilskinUrl")]
-        public string YggdrasilSkinUrl { get; set; }
+        [JsonProperty("yggdrasilUrl")]
+        public string YggdrasilUrl { get; set; }
+
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
+        [JsonProperty("password")]
+        public string Password { get; set; }
 
         [JsonProperty("userType")]
         public AccountType UserType { get; set; } = AccountType.Offline;

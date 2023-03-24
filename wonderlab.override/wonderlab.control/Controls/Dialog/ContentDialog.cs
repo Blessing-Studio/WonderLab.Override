@@ -50,7 +50,9 @@ namespace wonderlab.control.Controls.Dialog
             IsVisible = true;
             BackgroundBorder.IsHitTestVisible = true;
 
-            OpacityChangeAnimation animation = new(false);
+            OpacityChangeAnimation animation = new(false) {
+                RunValue = 0
+            };
             animation.RunAnimation(BackgroundBorder);
             animation.AnimationCompleted += (_, _) => control.IsHitTestVisible = true;
             animation.RunAnimation(control);

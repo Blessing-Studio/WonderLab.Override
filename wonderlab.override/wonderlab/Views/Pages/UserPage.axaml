@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.UserPage">
 	<Grid>
@@ -11,15 +12,27 @@
 		
 		<Button Classes="wonderaccentbutton"
 				Margin="16" HorizontalAlignment="Right"
-				VerticalAlignment="Top" Content="创建或添加新的游戏账户"/>
+				VerticalAlignment="Top" Content="创建或添加新的游戏账户"
+				Command="{Binding CreateAccountAction}"/>
+		
 		<ListBox Background="{x:Null}" Margin="0 70 0 0">
 			<ListBox.Styles>
 				<Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="Margin" Value="15 6"/>
+						<Setter Property="ClipToBounds" Value="False"/>
 						<Setter Property="Template">
 							<ControlTemplate>
-								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10">
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+										Name="Main">
+									<Border.Transitions>
+										<Transitions>
+											<BoxShadowsTransition Property="BoxShadow"
+																  Easing="ExponentialEaseOut"
+																  Duration="0:0:0.35"/>
+										</Transitions>
+									</Border.Transitions>
+									
 									<Grid>
 										<Border Height="35" Width="35"
 												HorizontalAlignment="Left"
@@ -40,7 +53,7 @@
 													   FontSize="16" FontWeight="SemiBold"/>
 
 											<Border Height="26" CornerRadius="4" Grid.Column="2"
-													Background="{DynamicResource SystemAccentColor}" Margin="2 2 10 2"
+													Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
 													HorizontalAlignment="Left">
 												<Grid VerticalAlignment="Center" Margin="6 0">
 													<TextBlock FontSize="13"
@@ -54,9 +67,24 @@
 							</ControlTemplate>
 						</Setter>
 					</Style>
+
+					<Style Selector="ListBoxItem /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+					</Style>
+
+					<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+					</Style>
+
+					<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+					</Style>
 				</Styles>
 			</ListBox.Styles>
 
+			<ListBoxItem/>
+			<ListBoxItem/>
+			<ListBoxItem/>
 			<ListBoxItem/>
 		</ListBox>
 	</Grid>

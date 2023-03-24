@@ -18,6 +18,7 @@
 		<ResourceDictionary>
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
+			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

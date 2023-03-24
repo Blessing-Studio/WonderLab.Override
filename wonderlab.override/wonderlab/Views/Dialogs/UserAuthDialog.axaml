@@ -1,0 +1,218 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+			 HorizontalAlignment="Stretch"
+			 VerticalAlignment="Stretch"
+             x:Class="wonderlab.Views.Dialogs.UserAuthDialog">
+	<Grid>
+		<wcd:ContentDialog Name="TypeSelecter">
+			<wcd:ContentDialog.Content>
+				<!--DialogContent-->
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 8 32 0 #66000000" Margin="20 25"
+						CornerRadius="8" HorizontalAlignment="Center"
+						BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						VerticalAlignment="Center">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition MaxHeight="20" Height="1*"/>
+							<RowDefinition Height="1*"/>
+							<RowDefinition MaxHeight="16" Height="0.2*"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+						<TextBlock Margin="16 16 16 0" FontSize="18" Text="请选择账户类型" FontWeight="Bold"/>
+						<Button Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Height="20"
+		                        Margin="16" Classes="rotatebutton" Name="closeTypeSelecter"/>
+						
+						<TextBlock Margin="16 5 16 16" TextWrapping="WrapWithOverflow"
+								   FontSize="14" Text="请选择一种账户类型，如果您没有正版账户建议前往购买，不建议使用离线登录！" Grid.Row="2"/>
+
+						<StackPanel Grid.Row="4" Spacing="10"
+									Orientation="Horizontal"
+									HorizontalAlignment="Right"
+									Margin="16 0 16 16">
+							<Button Classes="wonderaccentbutton" Content="离线"
+									Foreground="Black" Name="offline"/>
+
+							<Button Classes="wonderaccentbutton" Content="外置"
+									Foreground="Black" Name="yggdrasil"/>
+
+							<Button Classes="wonderaccentbutton" Content="微软"
+									Foreground="Black" Name="microsoft"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
+
+		<wcd:ContentDialog Name="YggdrasilAccountSelector">
+			<wcd:ContentDialog.Content>
+				<!--DialogContent-->
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 8 32 0 #66000000" Margin="20 25"
+						CornerRadius="8" HorizontalAlignment="Center"
+						BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						VerticalAlignment="Center">
+					<Grid VerticalAlignment="Stretch" Width="480">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition MaxHeight="20" Height="1*"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition MaxHeight="16" Height="0.2*"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+						<TextBlock Margin="16 16 16 0" FontSize="18" Text="选择游戏角色" FontWeight="Bold"/>
+
+						<ListBox Margin="0 14" Grid.Row="2" 
+								 ClipToBounds="False"
+								 MaxHeight="180"
+								 Items="{Binding YggdrasilAccounts}"
+								 SelectedItem="{Binding CurrentYggdrasilAccount}">
+							<ListBox.Styles>
+								<Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="ClipToBounds" Value="False"/>
+										<Setter Property="Margin" Value="15 4"/>
+										<Setter Property="Template">
+											<ControlTemplate>
+												<Grid Background="Transparent">
+													<Border Name="lay">
+														<Border.Transitions>
+															<Transitions>
+																<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																<BoxShadowsTransition Property="BoxShadow"
+																					  Easing="ExponentialEaseOut"
+																					  Duration="0:0:0.35"/>
+															</Transitions>
+														</Border.Transitions>
+
+														<StackPanel Margin="8">
+															<TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Name}"/>
+															<TextBlock FontSize="12" Text="{Binding Uuid}"/>
+														</StackPanel>
+													</Border>
+												</Grid>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/	Border#lay">
+										<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/	Border#lay">
+										<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pressed /template/ Border#lay">
+										<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+									</Style>
+									
+									<Style Selector="ListBoxItem:selected /template/ Border#lay">
+										<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+									</Style>
+								</Styles>
+							</ListBox.Styles>
+						</ListBox>
+						
+						<StackPanel Grid.Row="4" Spacing="10"
+									Orientation="Horizontal"
+									HorizontalAlignment="Right"
+									Margin="16 0 16 16">
+							<Button Classes="wonderaccentbutton" Content="确定"
+									Foreground="Black"
+									Command="{Binding SaveYggdrasilAccountAction}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
+		
+		<wcd:ContentDialog Name="AuthDialog">
+			<wcd:ContentDialog.Content>
+				<!--DialogContent-->
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 8 32 0 #66000000" Margin="20 25"
+						CornerRadius="8" HorizontalAlignment="Center"
+						BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						VerticalAlignment="Center" Name="DialogContent">
+					<Grid Width="480" Margin="18">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="1*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							FontSize="18"
+							FontWeight="Bold"
+							Text="{Binding AuthDialogTitle}" />
+
+						<Grid Margin="0 10" Grid.Row="1" HorizontalAlignment="Stretch">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="1*" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							
+							<StackPanel Name="InfoPanel">
+								<TextBox IsVisible="{Binding IsUrlVisible}"
+									Margin="0,0,0,15" Text="{Binding Url}"
+									DragDrop.AllowDrop="True"
+									Watermark="外置登录服务器地址" x:Name="YggUrl" Classes="clearButton"/>
+								
+								<TextBox Text="{Binding Email}" 
+									Watermark="用户名" IsVisible="{Binding IsEmailVisible}"
+										 Classes="clearButton"/>
+								
+								<TextBox Text="{Binding Password}"
+									PasswordChar="*" IsVisible="{Binding IsPasswordVisible}"
+									Margin="0,15,0,0"
+									Watermark="密码" Classes="revealPasswordButton">
+								</TextBox>
+								
+								<TextBlock Text="{Binding MicrosoftTip}" Margin="0,0,0,5" FontSize="18" Opacity="0.85" Name="dcheader"/>
+								<TextBlock Text="{Binding MicrosoftTip1}" TextWrapping="Wrap" FontSize="13" Opacity="0.65" Name="dcInfo"/>
+								<TextBlock Margin="0,5,0,0" TextWrapping="Wrap" FontSize="12" Opacity="0.65" Name="dcstate"/>
+								<ProgressBar IsVisible="{Binding IsMicrosoftAuth}" Name="load" Margin="0,5,0,0" IsIndeterminate="True"/>
+							</StackPanel>
+						</Grid>
+
+						<StackPanel Grid.Row="4" Spacing="10"
+									Orientation="Horizontal"
+									HorizontalAlignment="Right">
+							<Button Classes="wonderaccentbutton" Content="确认"
+									Foreground="Black" Width="75" 
+									IsVisible="{Binding IsMicrosoftAuth, Converter={StaticResource BoolReverseConverter}}"
+									Command="{Binding UserAuthAction}"/>
+
+							<Button IsVisible="{Binding IsMicrosoftAuth}"
+									Command="{Binding CopyCodeAction}"
+		                            Classes="wonderaccentbutton" Content="将代码复制至剪贴板"/>
+							
+							<Button Content="取消" Name="close"
+									Command="{Binding ResettingAction}"
+									Foreground="Black" Width="75"
+									HorizontalContentAlignment="Center"
+									VerticalContentAlignment="Center"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
+	</Grid>
+</UserControl>
+<!--<Border Height="80" Width="100">
+	<Border.Background>
+		<RadialGradientBrush>
+			<GradientStop Color="Transparent" Offset="1"/>
+			<GradientStop Color="#33FFFFFF" Offset="0.082"/>
+		</RadialGradientBrush>
+	</Border.Background>
+</Border>-->

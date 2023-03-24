@@ -9,13 +9,13 @@
 
     <!-- Add Styles Here -->
 	<Style Selector="Button.wonderaccentbutton">
-		<Setter Property="Background" Value="#F4D03F"/>
+		<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 		<Setter Property="HorizontalAlignment" Value="Center"/>
 		<Setter Property="CornerRadius" Value="3"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
-		<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
 		<Setter Property="Transitions">
 			<Transitions>
+				<BrushTransition Duration="0:0:0.45" Property="Background" Easing="ExponentialEaseOut"/>
 				<ThicknessTransition Duration="0:0:0.85" Property="Margin" Easing="ExponentialEaseOut"/>
 			</Transitions>
 		</Setter>
@@ -23,8 +23,6 @@
 			<ControlTemplate>
 				<Grid>
 					<Border Background="{TemplateBinding Background}" 
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="1"
 							CornerRadius="{TemplateBinding CornerRadius}" HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"/>
 

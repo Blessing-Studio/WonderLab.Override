@@ -9,6 +9,7 @@
 		xmlns:wp="using:wonderlab.Views.Pages"
 	    xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
+		xmlns:wcdx="using:wonderlab.Views.Dialogs"
         Title="MainWindow" CornerRadius="4"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
@@ -453,6 +454,8 @@
 				</Grid>
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>
+		
+		<wcdx:UserAuthDialog Name="Auth"/>
 		<!--Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"-->
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>

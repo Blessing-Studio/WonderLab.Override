@@ -13,6 +13,7 @@ namespace wonderlab.Views.Pages
 {
     public partial class HomePage : UserControl
     {
+        public bool Isopen { get; set; } = false;
         public static HomePageViewModel ViewModel { get; set; }
         public HomePage()
         {
@@ -28,6 +29,7 @@ namespace wonderlab.Views.Pages
         }
 
         private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            Isopen = false;
             Polymerize.Opacity = 0;
             await Task.Delay(60);
 
@@ -36,10 +38,10 @@ namespace wonderlab.Views.Pages
         }
 
         private async void OnGameChangeClick(object? sender, System.EventArgs e) {
+            Isopen = true;
             ViewModel.GetGameCoresAction();
 
             Spotlight.IsHitTestVisible = true;            
-            //Spotlight.Height = 320;
             Spotlight.Height = MainWindow.Instance.Height - 160;
 
             await Task.Delay(60);

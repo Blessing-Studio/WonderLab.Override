@@ -25,7 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Animation\Events\" />
-    <Folder Include="Controls\Button\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
