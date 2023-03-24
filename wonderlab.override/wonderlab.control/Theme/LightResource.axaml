@@ -14,5 +14,5 @@
 
 	<BoxShadow x:Key="BottomActionBarBoxShadow">0 8 32 0 #4C000000</BoxShadow>
 	<!--Font Color-->
-	<SolidColorBrush x:Key="FontColorBrush" Color="white"/>
+	<SolidColorBrush x:Key="FontColorBrush" Color="Black"/>
 </ResourceDictionary>

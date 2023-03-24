@@ -39,7 +39,8 @@ namespace wonderlab.Views.Pages
             ViewModel.GetGameCoresAction();
 
             Spotlight.IsHitTestVisible = true;            
-            Spotlight.Height = 320;
+            //Spotlight.Height = 320;
+            Spotlight.Height = MainWindow.Instance.Height - 160;
 
             await Task.Delay(60);
             Polymerize.Opacity = 1;

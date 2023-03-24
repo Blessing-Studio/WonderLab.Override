@@ -53,9 +53,16 @@
 			</StackPanel>
 
 			<TextBlock Text="自动选择 Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-
 			<ToggleSwitch OnContent="开" Margin="0 -8 0 0"
-						  OffContent="关" IsChecked="{Binding IsAutoSelectJava}"/>
+						  OffContent="关" IsChecked="{Binding IsAutoSelectJava}">
+				<ToggleSwitch.Styles>
+					<Styles>
+						<Style Selector="ToggleSwitch:pressed /template/ Border#OuterBorder"> 
+							<Setter Property="Background" Value="Red"/>
+						</Style>
+					</Styles>
+				</ToggleSwitch.Styles>
+			</ToggleSwitch>
 
 			<TextBlock Text="游戏窗口分辨率" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
 			<StackPanel Margin="0 -2 0 0" Spacing="10" Orientation="Horizontal">

@@ -94,6 +94,9 @@ namespace wonderlab.ViewModels.Pages
         public int MiniMemory { get; set; }
 
         [Reactive]
+        public int CurrentAction { get; set; } = 1;
+
+        [Reactive]
         public JavaInfo CurrentJava { get; set; }
 
         [Reactive]
@@ -104,6 +107,13 @@ namespace wonderlab.ViewModels.Pages
 
         [Reactive]
         public ObservableCollection<string> GameDirectorys { get; set; } = new();
+
+        public ObservableCollection<string> Actions => new()
+        {
+            "最小化",
+            "无任何行为",
+            "关闭 WonderLab",
+        };
 
         public async void LoadJavaAction() { 
             IsLoadJavaFinish = false;
@@ -160,17 +170,9 @@ namespace wonderlab.ViewModels.Pages
             }
         }
 
-        public async void RemoveDirectoryAction() {
-            ThemeUtils utils = new();
-            utils.SetAccentColor(Colors.Red);
-            await Task.Delay(1000);
-            utils.SetAccentColor(Colors.Yellow);
-            await Task.Delay(1000);
-            utils.SetAccentColor(Colors.Black);
-            await Task.Delay(1000);
-            utils.SetAccentColor(Colors.Blue);
-            await Task.Delay(1000);
-            utils.SetAccentColor(Colors.Green);
+        public void RemoveDirectoryAction() {
+            GameDirectorys.Remove(CurrentGameDirectory);
+            CurrentGameDirectory = GameDirectorys.Any() ? GameDirectorys.First() : string.Empty;
         }
     }
 }

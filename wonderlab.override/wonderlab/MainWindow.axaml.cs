@@ -80,6 +80,12 @@ namespace wonderlab
         {
             if (e.Property == HeightProperty)
             {
+                if (ViewModel.CurrentPage is HomePage)
+                {
+                    var page = ViewModel.CurrentPage as HomePage;
+                    page.Spotlight.Height = Height - 160;
+                }
+
                 WindowHeight = e.NewValue!.ToDouble();
                 var transform = topbar.RenderTransform as TranslateTransform;
                 if (transform == null)
