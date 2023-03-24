@@ -23,6 +23,8 @@ namespace wonderlab.control.Animation
         /// </summary>
         public bool IsReversed { get; set; }
 
+        public double RunValue { get; set; } = 1d;
+
         public OpacityChangeAnimation(bool isReversed) {
             IsReversed = isReversed;
         }
@@ -39,7 +41,7 @@ namespace wonderlab.control.Animation
                     {
                         Setters =
                         {
-                            new Setter(Visual.OpacityProperty, IsReversed ? 1d : 0.0),
+                            new Setter(Visual.OpacityProperty, RunValue),
                         },
                         Cue = new Cue(0d)
                     },

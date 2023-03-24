@@ -100,68 +100,9 @@ namespace wonderlab
 
                 CenterContent.Height = transform!.Y;
             }
-
             else if (e.Property == WidthProperty)
             {
                 WindowWidth = e.NewValue!.ToDouble();
-            }
-        }
-
-        private void Topbar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
-        {
-            isDragging = false;
-            var draggableElement = sender as IVisual;
-            var transform = draggableElement!.RenderTransform as TranslateTransform;
-
-            if (transform!.Y != 0 && transform.Y <= WindowHeight / 2)
-            {
-                TranslateYAnimation animation = new(transform.Y, 0);
-                animation.RunAnimation(topbar);
-                IsOpen = false;
-                CenterContent.Height = 0;
-            }
-            else
-            {
-                TranslateYAnimation animation = new(transform.Y, WindowHeight - 125);
-                animation.RunAnimation(topbar);
-                IsOpen = true;
-                CenterContent.Height = WindowHeight - 125;
-            }
-        }
-
-        private void Topbar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
-            isDragging = true;
-            var draggableElement = sender as IVisual;
-            var clickPosition = e.GetPosition(this);
-
-            var transform = draggableElement.RenderTransform as TranslateTransform;
-            if (transform == null)
-            {
-                transform = new TranslateTransform();
-                draggableElement.RenderTransform = transform;
-            }
-
-            Y = clickPosition.Y - transform.Y;
-        }
-
-        private void Topbar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
-        {
-            var draggableElement = sender as IVisual;
-            if (isDragging && draggableElement != null)
-            {
-                Point currentPosition = e.GetPosition(this.Parent);
-                var transform = draggableElement.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    draggableElement.RenderTransform = transform;
-                }
-                if (transform.Y <= WindowHeight)
-                {
-                    transform.Y = currentPosition.Y - Y;
-                    CenterContent.Height = transform.Y;
-                }
             }
         }
 
@@ -169,7 +110,7 @@ namespace wonderlab
         {
             await Task.Delay(800);
             DataContext = ViewModel = new();
-
+            
             foreach (Button i in Installer.Children) {
                 i.Click += (x, _) => {
                     var sender = x as Button;
@@ -291,69 +232,6 @@ namespace wonderlab
             JsonUtils.CraftLaunchInfoJson();
         }
 
-        private void OpenBar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
-        {
-            IsUseDragging = false;
-            var draggableElement = sender as IVisual;
-            var transform = draggableElement!.RenderTransform as TranslateTransform;
-
-            if (transform!.X != 0 && transform.X <= WindowWidth / 2)
-            {
-                TranslateXAnimation animation = new(transform.X, 0);
-                animation.RunAnimation(OpenBar);
-                OpacityChangeAnimation opacity = new(true);
-                opacity.RunAnimation(Back);
-            }
-            else
-            {
-                TranslateXAnimation animation = new(transform.X, WindowWidth);
-                animation.RunAnimation(OpenBar);
-                OutBar();
-                OpacityChangeAnimation opacity = new(false);
-                opacity.RunAnimation(Back);
-                NavigationPage(new ActionCenterPage());
-            }
-
-        }
-
-        private void OpenBar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
-            IsUseDragging = true;
-
-            var draggableElement = sender as IVisual;
-            var clickPosition = e.GetPosition(this);
-
-            var transform = draggableElement.RenderTransform as TranslateTransform;
-            if (transform == null)
-            {
-                transform = new TranslateTransform();
-                draggableElement.RenderTransform = transform;
-            }
-
-            X = clickPosition.X - transform.X;
-        }
-
-        private void OpenBar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
-        {
-            var draggableElement = sender as IVisual;
-            if (IsUseDragging && draggableElement != null)
-            {
-                Point currentPosition = e.GetPosition(this.Parent);
-                var transform = draggableElement.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    draggableElement.RenderTransform = transform;
-                }
-                if (transform.X <= WindowWidth)
-                {
-                    transform.X = currentPosition.X - X;
-                    Back.Opacity = transform.X / WindowWidth;
-                    //CenterContent.Width = transform.X;
-                }
-            }
-        }
-
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
         {
             BeginMoveDrag(e);
@@ -432,6 +310,138 @@ namespace wonderlab
                 animation1.RunAnimation((ViewModel.CurrentPage as HomePage).bab);
             }
         }
+
+        #region 拖动组件事件
+
+        private void Topbar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
+        {
+            isDragging = false;
+            var draggableElement = sender as IVisual;
+            var transform = draggableElement!.RenderTransform as TranslateTransform;
+
+            if (transform!.Y != 0 && transform.Y <= WindowHeight / 2)
+            {
+                TranslateYAnimation animation = new(transform.Y, 0);
+                animation.RunAnimation(topbar);
+                IsOpen = false;
+                CenterContent.Height = 0;
+            }
+            else
+            {
+                TranslateYAnimation animation = new(transform.Y, WindowHeight - 125);
+                animation.RunAnimation(topbar);
+                IsOpen = true;
+                CenterContent.Height = WindowHeight - 125;
+            }
+        }
+
+        private void Topbar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            isDragging = true;
+            var draggableElement = sender as IVisual;
+            var clickPosition = e.GetPosition(this);
+
+            var transform = draggableElement.RenderTransform as TranslateTransform;
+            if (transform == null)
+            {
+                transform = new TranslateTransform();
+                draggableElement.RenderTransform = transform;
+            }
+
+            Y = clickPosition.Y - transform.Y;
+        }
+
+        private void Topbar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
+        {
+            var draggableElement = sender as IVisual;
+            if (isDragging && draggableElement != null)
+            {
+                Point currentPosition = e.GetPosition(this.Parent);
+                var transform = draggableElement.RenderTransform as TranslateTransform;
+                if (transform == null)
+                {
+                    transform = new TranslateTransform();
+                    draggableElement.RenderTransform = transform;
+                }
+                if (transform.Y <= WindowHeight)
+                {
+                    transform.Y = currentPosition.Y - Y;
+                    CenterContent.Height = transform.Y;
+                }
+            }
+        }
+
+        private void OpenBar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
+        {
+            IsUseDragging = false;
+            var draggableElement = sender as IVisual;
+            var transform = draggableElement!.RenderTransform as TranslateTransform;
+
+            if (transform!.X != 0 && transform.X <= WindowWidth / 4)
+            {
+                TranslateXAnimation animation = new(transform.X, 0);
+                animation.RunAnimation(OpenBar);
+                OpacityChangeAnimation opacity = new(true) {
+                    RunValue = Back.Opacity
+                };
+                opacity.RunAnimation(Back);
+            }
+            else
+            {
+                TranslateXAnimation animation = new(transform.X, WindowWidth);
+                animation.RunAnimation(OpenBar);
+                OutBar();
+                OpacityChangeAnimation opacity = new(false) {               
+                    RunValue = Back.Opacity
+                };
+                opacity.AnimationCompleted += (_, _) => { OpenBar.IsVisible = false; OpenBar.IsHitTestVisible = false;};
+                opacity.RunAnimation(Back);
+                NavigationPage(new ActionCenterPage());
+                
+                
+            }
+
+        }
+
+        private void OpenBar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            IsUseDragging = true;
+
+            var draggableElement = sender as IVisual;
+            var clickPosition = e.GetPosition(this);
+
+            var transform = draggableElement.RenderTransform as TranslateTransform;
+            if (transform == null)
+            {
+                transform = new TranslateTransform();
+                draggableElement.RenderTransform = transform;
+            }
+
+            X = clickPosition.X - transform.X;
+        }
+
+        private void OpenBar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
+        {
+            var draggableElement = sender as IVisual;
+            if (IsUseDragging && draggableElement != null)
+            {
+                Point currentPosition = e.GetPosition(this.Parent);
+                var transform = draggableElement.RenderTransform as TranslateTransform;
+                if (transform == null)
+                {
+                    transform = new TranslateTransform();
+                    draggableElement.RenderTransform = transform;
+                }
+                if (transform.X <= WindowWidth)
+                {
+                    transform.X = currentPosition.X - X;
+                    Back.Opacity = transform.X / WindowWidth;
+                    //CenterContent.Width = transform.X;
+                }
+            }
+        }
+
+        #endregion
     }
 }
 

@@ -7,6 +7,7 @@ using wonderlab.Class.Utils;
 using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
 using MinecraftLaunch.Modules.Models.Launch;
+using System.Threading.Tasks;
 
 namespace wonderlab.Views.Pages
 {
@@ -22,33 +23,26 @@ namespace wonderlab.Views.Pages
             bab.LaunchButtonClick += OnLaunchButtonClick;
             bab.GameChangeClick += OnGameChangeClick;
 
-            TransformYAnimation animation = new(true);
-            animation.RunTime = 0.0000001;
-            animation.RunAnimation(Spotlight);
+            Polymerize.Opacity = 0;
+            Spotlight.Height = 0;
         }
 
-        private void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            TransformYAnimation animation = new(true);
-            animation.RunTime = 0.85;
-            animation.RunAnimation(Spotlight);
+        private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            Polymerize.Opacity = 0;
+            await Task.Delay(60);
 
+            Spotlight.Height = 0;
+            Spotlight.IsHitTestVisible = false;
         }
 
-        private void OnGameChangeClick(object? sender, System.EventArgs e) {
-            var button = sender as Button;
-            var form = Spotlight.RenderTransform as ScaleTransform;
-            
-            if (form is not null && form.ScaleY is 1) {
-                return;
-            }
-
-            button.IsEnabled = false;
+        private async void OnGameChangeClick(object? sender, System.EventArgs e) {
             ViewModel.GetGameCoresAction();
 
-            TransformYAnimation animation = new(false);
-            animation.RunTime = 0.85;
-            animation.AnimationCompleted += (_, _) => button.IsEnabled = true;
-            animation.RunAnimation(Spotlight);
+            Spotlight.IsHitTestVisible = true;            
+            Spotlight.Height = 320;
+
+            await Task.Delay(60);
+            Polymerize.Opacity = 1;
         }
 
         private void OnLaunchButtonClick(object? sender, System.EventArgs e) {       
@@ -57,8 +51,8 @@ namespace wonderlab.Views.Pages
         }
     }
 }
-            //Process.Start(new ProcessStartInfo("https://vdse.bdstatic.com//192d9a98d782d9c74c96f09db9378d93.mp4")
-            //{
-            //    UseShellExecute = true,
-            //    Verb = "open"
-            //});
+//Process.Start(new ProcessStartInfo("https://vdse.bdstatic.com//192d9a98d782d9c74c96f09db9378d93.mp4")
+//{
+//    UseShellExecute = true,
+//    Verb = "open"
+//});

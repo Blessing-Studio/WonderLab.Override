@@ -28,7 +28,7 @@
 		BorderThickness="1"/>
 
 		<Border Name="OpenBar" Margin="10 0 0 0"
-				Height="200"
+				Height="200" ToolTip.Tip="向右滑动以打开操作中心"
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				Background="{DynamicResource DialogContentBackground}"
 				CornerRadius="10"

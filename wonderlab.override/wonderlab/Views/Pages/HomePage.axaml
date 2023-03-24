@@ -9,14 +9,31 @@
 	<Grid>
 		<wcb:BottomActionBar x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"
 							 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"/>
-
+		<!--{DynamicResource DialogContentBackground}-->
 		<Border HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch" RenderTransformOrigin="1,1"
-				Margin="85 20 85 130" Background="{DynamicResource DialogContentBackground}"
+				VerticalAlignment="Bottom"
+				Margin="85 20 85 120"
+				Background="{DynamicResource DialogContentBackground}"
+				IsHitTestVisible="False"
 				CornerRadius="8" Name="Spotlight" 
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				BorderThickness="1">
-			<Grid>
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.65"
+									  Property="Height"
+									  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Border.Transitions>	
+			
+			<Grid Name="Polymerize">
+				<Grid.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.35"
+										  Property="Opacity"
+										  Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</Grid.Transitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="35"/>
 					<RowDefinition Height="20"/>
