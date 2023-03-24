@@ -121,17 +121,17 @@ namespace wonderlab
         {
             await Task.Delay(800);
             DataContext = ViewModel = new();
-            var res1 = (await GameAccountUtils.GetUsersAsync()).First();
-            YggdrasilAuthenticator yggdrasil = new(true, "3424968114@qq.com", "wxysdsb12");
-            var r = await yggdrasil.RefreshAsync(new()
-            {
-                ClientToken = res1.AccessToken,
-                AccessToken = res1.UserToken,
-                Uuid = Guid.Parse(res1.Uuid)
-            });
+            //var res1 = (await GameAccountUtils.GetUsersAsync()).First();
+            //YggdrasilAuthenticator yggdrasil = new(true, "3424968114@qq.com", "wxysdsb12");
+            //var r = await yggdrasil.RefreshAsync(new()
+            //{
+            //    ClientToken = res1.AccessToken,
+            //    AccessToken = res1.UserToken,
+            //    Uuid = Guid.Parse(res1.Uuid)
+            //});
 
-            Trace.WriteLine(r.Name);
-            await GameAccountUtils.RefreshUserDataAsync(res1, r);
+            //Trace.WriteLine(r.Name);
+            //await GameAccountUtils.RefreshUserDataAsync(res1, r);
 
             foreach (Button i in Installer.Children) {
                 i.Click += (x, _) => {

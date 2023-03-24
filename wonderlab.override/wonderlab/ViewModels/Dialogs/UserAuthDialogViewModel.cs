@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
+using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Dialogs
 {
@@ -149,7 +150,7 @@ namespace wonderlab.ViewModels.Dialogs
                 }
             }
 
-            ResettingAction();
+            ResettingAction();            
             $"账户 {accountData.Name} 已成功添加至启动器！欢迎回来，{accountData.Name}！".ShowMessage("成功");
         }
 
@@ -171,10 +172,12 @@ namespace wonderlab.ViewModels.Dialogs
             });
 
             MainWindow.Instance.Auth.YggdrasilAccountSelector.HideDialog();
+            $"账户 {CurrentYggdrasilAccount.Name} 已成功添加至启动器！欢迎回来，{CurrentYggdrasilAccount.Name}！".ShowMessage("成功");
             ResettingAction();
         }
 
         public void ResettingAction() {
+            UserPage.ViewModel.Init();
             Email = string.Empty;
             Password = string.Empty;
             Url = string.Empty;
