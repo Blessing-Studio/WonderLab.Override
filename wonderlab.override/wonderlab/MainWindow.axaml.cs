@@ -34,6 +34,7 @@ namespace wonderlab
         public MainWindow() {       
             InitializeComponent();
             new ColorHelper().Load();
+            ThemeUtils.Init();
             WindowWidth = Width;
             WindowHeight = Height;
             Closed += (_, x) => {
@@ -394,11 +395,9 @@ namespace wonderlab
                 OpacityChangeAnimation opacity = new(false) {               
                     RunValue = Back.Opacity
                 };
-                opacity.AnimationCompleted += (_, _) => { OpenBar.IsVisible = false; OpenBar.IsHitTestVisible = false;};
+                opacity.AnimationCompleted += (_, _) => { OpenBar.IsVisible = false; OpenBar.IsHitTestVisible = false; };
                 opacity.RunAnimation(Back);
-                NavigationPage(new ActionCenterPage());
-                
-                
+                NavigationPage(new ActionCenterPage());                                
             }
 
         }

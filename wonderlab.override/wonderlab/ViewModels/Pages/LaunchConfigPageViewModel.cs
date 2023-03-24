@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Media;
 using DynamicData;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
@@ -157,6 +158,19 @@ namespace wonderlab.ViewModels.Pages
                 App.LaunchInfoData.GameDirectorys.Add(result);
                 CurrentGameDirectory = result;
             }
+        }
+
+        public async void RemoveDirectoryAction() {
+            ThemeUtils utils = new();
+            utils.SetAccentColor(Colors.Red);
+            await Task.Delay(1000);
+            utils.SetAccentColor(Colors.Yellow);
+            await Task.Delay(1000);
+            utils.SetAccentColor(Colors.Black);
+            await Task.Delay(1000);
+            utils.SetAccentColor(Colors.Blue);
+            await Task.Delay(1000);
+            utils.SetAccentColor(Colors.Green);
         }
     }
 }

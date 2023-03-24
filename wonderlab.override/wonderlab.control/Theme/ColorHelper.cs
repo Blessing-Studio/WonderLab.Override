@@ -16,6 +16,7 @@ namespace wonderlab.control.Theme
     /// <summary>
     /// 颜色帮助器
     /// </summary>
+    [Obsolete]
     public class ColorHelper
     {
         public void GetSystemAccentColor() {       
