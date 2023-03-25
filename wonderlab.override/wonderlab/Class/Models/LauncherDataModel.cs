@@ -13,7 +13,7 @@ namespace wonderlab.Class.Models
     /// </summary>
     public class LauncherDataModel {
         [JsonProperty("accentColor")]
-        public Color AccentColor { get; set; }
+        public Color AccentColor { get; set; } = Color.FromRgb(255, 185, 0);
 
         [JsonProperty("bakgroundType")]
         public string BakgroundType { get; set; } = "主题色背景";

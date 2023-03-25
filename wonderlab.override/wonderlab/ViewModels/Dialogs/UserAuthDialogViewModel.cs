@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
@@ -23,10 +24,10 @@ namespace wonderlab.ViewModels.Dialogs
             PropertyChanged += OnPropertyChanged;
         }
 
-        internal string Code { get; set; }
+        internal string Code, VerificationUrl;
 
         [Reactive]
-        public int CurrentAuthenticatorType { get; set; }
+        public int CurrentAuthenticatorType { get; set; } = -1;
 
         [Reactive]
         public string Email { set; get; }
@@ -57,6 +58,9 @@ namespace wonderlab.ViewModels.Dialogs
 
         [Reactive]
         public bool IsMicrosoftAuth { set; get; } = false;
+
+        [Reactive]
+        public bool IsLoadingComplete { set; get; } = false;
 
         [Reactive]
         public ObservableCollection<YggdrasilAccount> YggdrasilAccounts { set; get; } = new();
@@ -113,12 +117,17 @@ namespace wonderlab.ViewModels.Dialogs
                 });
             }
             else if (CurrentAuthenticatorType == 1) {
-                YggdrasilAuthenticator authenticator = new(Url, Email, Password);
-                var result = await authenticator.AuthAsync();
+                try {
+                    YggdrasilAuthenticator authenticator = new(Url, Email, Password);
+                    var result = await authenticator.AuthAsync();
 
-                YggdrasilAccounts = result.ToObservableCollection();
-                MainWindow.Instance.Auth.AuthDialog.HideDialog();
-                MainWindow.Instance.Auth.YggdrasilAccountSelector.ShowDialog();
+                    YggdrasilAccounts = result.ToObservableCollection();
+                    MainWindow.Instance.Auth.AuthDialog.HideDialog();
+                    MainWindow.Instance.Auth.YggdrasilAccountSelector.ShowDialog();
+                }
+                catch (Exception ex) {
+                    $"WonderLab 遭遇了不可描述的 Bug，详细信息：{ex.Message}".ShowMessage("我日，炸了");
+                }
                 return;
             }
             else if (CurrentAuthenticatorType == 2) {
@@ -128,13 +137,11 @@ namespace wonderlab.ViewModels.Dialogs
 
                 var codeInfo = await authenticator.GetDeviceInfo();
                 Code = codeInfo.UserCode;
+
+                VerificationUrl = codeInfo.VerificationUrl;
                 MicrosoftTip = $"使用一次性验证代码 {codeInfo.UserCode} 登录您的账户";
                 MicrosoftTip1 = $"请使用浏览器访问 {codeInfo.VerificationUrl} 并输入代码 {codeInfo.UserCode} 以完成登录";
-
-                Process.Start(new ProcessStartInfo(codeInfo.VerificationUrl) {               
-                    UseShellExecute = true,
-                    Verb = "open"
-                });
+                IsLoadingComplete = true;
 
                 try {               
                     var token = await authenticator.GetTokenResponse(codeInfo);
@@ -165,6 +172,11 @@ namespace wonderlab.ViewModels.Dialogs
         public async void CopyCodeAction() {
             await Application.Current!.Clipboard!.SetTextAsync(Code);
             $"已成功将代码 {Code} 复制到剪贴板".ShowMessage("信息");
+
+            Process.Start(new ProcessStartInfo(VerificationUrl) {           
+                UseShellExecute = true,
+                Verb = "open"
+            });
         }
 
         public async void SaveYggdrasilAccountAction() {
@@ -193,6 +205,7 @@ namespace wonderlab.ViewModels.Dialogs
             MicrosoftTip1 = string.Empty;
             YggdrasilAccounts = new();
             CurrentYggdrasilAccount = null!;
+            IsLoadingComplete = false;
         }
 
         public void GameLaunchAction() {

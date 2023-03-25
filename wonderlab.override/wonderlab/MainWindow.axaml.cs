@@ -208,8 +208,20 @@ namespace wonderlab
             OpenBar.PointerMoved += OpenBar_PointerMoved;
             OpenBar.PointerPressed += OpenBar_PointerPressed;
             OpenBar.PointerReleased += OpenBar_PointerReleased;
+
+            BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "图片背景";
+            if (BackgroundImage.IsVisible) {           
+                BackgroundImage.Background = new ImageBrush(new Bitmap(App.LauncherData.ImagePath)) {               
+                    Stretch = Stretch.UniformToFill
+                };
+            }
+
+            ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
+            CanParallax = App.LauncherData.ParallaxType is not "无";
+
+
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
-            if (res is not null && res.CanUpdate())
+            if (res is not null && res.CanUpdate() && SystemUtils.IsWindows)
             {
                 UpdateDialog.ButtonClick += (_, _) => {
                     UpdateUtils.UpdateAsync(res, x => {
@@ -219,8 +231,7 @@ namespace wonderlab
                         string name = Process.GetCurrentProcess().ProcessName;
                         string filename = $"{name}.exe";
 
-                        string psCommand =
-                                    $"Stop-Process -Id {currentPID} -Force;" +
+                        string psCommand = $"Stop-Process -Id {currentPID} -Force;" +                                  
                                     $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                                     "Start-Sleep -Milliseconds 500;" +
                                     $"Remove-Item {filename} -Force;" +
@@ -245,20 +256,11 @@ namespace wonderlab
 
                 BodyMessage.Text = res.Message;
                 UpdateDialog.Title = $"有新的版本推送，版本编号 {res.TagName}";
-                EndMessage.Text = $"于 {res.CreatedAt.ToString(@"yyyy\-MM\-dd hh\:mm")} 由 {res.Author.Name} 修改并推送";
+                EndMessage.Text = $"于 {res.CreatedAt} 由 Xilu 修改并推送";
                 await Task.Delay(1000);
                 UpdateDialog.ShowDialog();
             }
 
-            BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "图片背景";
-            if (BackgroundImage.IsVisible) {
-                BackgroundImage.Background = new ImageBrush(new Bitmap(App.LauncherData.ImagePath)) {               
-                    Stretch = Stretch.UniformToFill
-                };
-            }
-
-            ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
-            CanParallax = App.LauncherData.ParallaxType is not "无";
             JsonUtils.CraftLaunchInfoJson();
         }
 

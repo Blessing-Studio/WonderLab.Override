@@ -36,13 +36,13 @@
 									HorizontalAlignment="Right"
 									Margin="16 0 16 16">
 							<Button Classes="wonderaccentbutton" Content="离线"
-									Foreground="Black" Name="offline"/>
+									Foreground="Black" Width="75" Name="offline"/>
 
 							<Button Classes="wonderaccentbutton" Content="外置"
-									Foreground="Black" Name="yggdrasil"/>
+									Foreground="Black" Width="75" Name="yggdrasil"/>
 
 							<Button Classes="wonderaccentbutton" Content="微软"
-									Foreground="Black" Name="microsoft"/>
+									Foreground="Black" Width="75" Name="microsoft"/>
 						</StackPanel>
 					</Grid>
 				</Border>
@@ -193,9 +193,9 @@
 									IsVisible="{Binding IsMicrosoftAuth, Converter={StaticResource BoolReverseConverter}}"
 									Command="{Binding UserAuthAction}"/>
 
-							<Button IsVisible="{Binding IsMicrosoftAuth}"
+							<Button IsVisible="{Binding IsLoadingComplete}"
 									Command="{Binding CopyCodeAction}"
-		                            Classes="wonderaccentbutton" Content="将代码复制至剪贴板"/>
+		                            Classes="wonderaccentbutton" Content="复制代码并打开浏览器"/>
 							
 							<Button Content="取消" Name="close"
 									Command="{Binding ResettingAction}"

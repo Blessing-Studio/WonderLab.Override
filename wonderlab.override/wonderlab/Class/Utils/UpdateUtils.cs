@@ -16,20 +16,24 @@ namespace wonderlab.Class.Utils
     {
         public const string VersionType = "Lsaac";
 
-        public const int Version = 1023;
+        public const int Version = 1025;
 
-        const string API = "https://gitee.com/api/v5/repos/baka_hs/xilu-baka/releases/latest";
+        const string API = "http://api.2018k.cn/getExample?id=f08e3a0d2d8f47d6b5aee68ec2499a21&data=version|notice|url|remark|lasttime";
 
         public static async ValueTask<UpdateInfo> GetLatestUpdateInfoAsync() {
             try {           
-                var responseMessage = await HttpWrapper.HttpGetAsync(API);
-                
+                var responseMessage = await HttpWrapper.HttpGetAsync(API);                
                 var json = await responseMessage.Content.ReadAsStringAsync();
-                if (json.StartsWith("403")) {//访问过快导致的问题
-                    return null!;
-                }
-                
-                return json.ToJsonEntity<UpdateInfo>();
+                var texts = json.Split('|');
+
+                return new()
+                {
+                    Title = texts[1],
+                    TagName = texts[0],
+                    Message = texts[3],
+                    DownloadUrl = texts[2],
+                    CreatedAt = texts.Last(),
+                };
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -40,7 +44,7 @@ namespace wonderlab.Class.Utils
 
         public static async void UpdateAsync(UpdateInfo info,Action<float> action, Action ok) {
             if (info.CanUpdate()) {
-                var downloadResponse = await HttpWrapper.HttpDownloadAsync(info.Assets.First().DownloadUrl, Directory.GetCurrentDirectory(), (p, s) =>
+                var downloadResponse = await HttpWrapper.HttpDownloadAsync(info.DownloadUrl, Directory.GetCurrentDirectory(), (p, s) =>
                 {
                     action(p);
                 }, "WonderLab.update");
@@ -52,94 +56,16 @@ namespace wonderlab.Class.Utils
         }
     }
     
-    public class Author {   
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("login")]
-        public string Login { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("avatar_url")]
-        public string AvatarUrl { get; set; }
-
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("html_url")]
-        public string HtmlUrl { get; set; }
-
-        [JsonProperty("remark")]
-        public string Remark { get; set; }
-
-        [JsonProperty("followers_url")]
-        public string FollowersUrl { get; set; }
-
-        [JsonProperty("following_url")]
-        public string FollowingUrl { get; set; }
-
-        [JsonProperty("gists_url")]
-        public string GistsUrl { get; set; }
- 
-        [JsonProperty("starred_url")]
-        public string StarredUrl { get; set; }
-
-        [JsonProperty("subscriptions_url")]
-        public string SubscriptionsUrl { get; set; }
-
-        [JsonProperty("organizations_url")]
-        public string OrganizationsUrl { get; set; }
-
-        [JsonProperty("repos_url")]
-        public string ReposUrl { get; set; }
-
-        [JsonProperty("events_url")]
-        public string EventsUrl { get; set; }
-
-        [JsonProperty("received_events_url")]
-        public string ReceivedEventsUrl { get; set; }
-
-        [JsonProperty("type")]
-        public string Type { get; set; }
-    }
-
-    public class UpdateAsset {   
-        [JsonProperty("browser_download_url")]
-        public string DownloadUrl { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-    }
-
     public class UpdateInfo {   
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("tag_name")]
         public string TagName { get; set; }
 
-        [JsonProperty("target_commitish")]
-        public string TargetCommitish { get; set; }
-
-        [JsonProperty("prerelease")]
-        public string PreRelease { get; set; }
-
-        [JsonProperty("name")]
         public string Title { get; set; }
 
-        [JsonProperty("body")]
         public string Message { get; set; }
 
-        [JsonProperty("author")]
-        public Author Author { get; set; }
+        public string CreatedAt { get; set; }
 
-        [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
-
-        [JsonProperty("assets")]
-        public List<UpdateAsset> Assets { get; set; }
+        public string DownloadUrl { get; set; }
     }
 
 }
