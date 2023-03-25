@@ -130,7 +130,7 @@ namespace wonderlab.ViewModels.Pages
             });
             if (gameProcess.State is LaunchState.Succeess) {
                 stopwatch.Stop();
-                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed}".ShowMessage("启动成功");
+                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}".ShowMessage("启动成功");
 
                 gameProcess.Process.Exited += (sender, e) => {
                     Trace.WriteLine("[信息] 游戏退出！");

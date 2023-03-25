@@ -26,6 +26,11 @@ namespace wonderlab.Views.Pages
             Polymerize.Opacity = 0;
         }
 
+        private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            MainWindow.Instance.NavigationPage(new GameCoreConfigPage());
+            MainWindow.Instance.OutBar();
+        }
+
         private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             ViewModel.Isopen = false;
             Polymerize.Opacity = 0;
@@ -34,7 +39,7 @@ namespace wonderlab.Views.Pages
             ViewModel.PanelHeight = 0;
             Spotlight.IsHitTestVisible = false;
         }
-
+        
         private async void OnGameChangeClick(object? sender, System.EventArgs e) {
             ViewModel.Isopen = true;
             ViewModel.GetGameCoresAction();

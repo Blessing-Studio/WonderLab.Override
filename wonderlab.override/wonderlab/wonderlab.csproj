@@ -62,4 +62,7 @@
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Pages\GameCoreConfigPage.axaml" />
+  </ItemGroup>
 </Project>
