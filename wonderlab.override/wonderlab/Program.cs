@@ -30,6 +30,19 @@ namespace wonderlab
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+
+                 #if WINDOWS
+                 .With(new Win32PlatformOptions
+                 {
+                     UseWgl = true,
+                     AllowEglInitialization = true,
+                 })
+                 .With(new SkiaOptions
+                 {
+                     MaxGpuResourceSizeBytes = long.MaxValue,
+                 })
+                #endif
+
                 .LogToTrace();
     }
 }
