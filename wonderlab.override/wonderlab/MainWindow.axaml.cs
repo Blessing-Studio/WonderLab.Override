@@ -94,8 +94,8 @@ namespace wonderlab
                 if (ViewModel.CurrentPage is HomePage)
                 {
                     var page = ViewModel.CurrentPage as HomePage;
-                    if (page.Isopen) {
-                        page.Spotlight.Height = Height - 160;
+                    if (HomePage.ViewModel.Isopen) {
+                        HomePage.ViewModel.PanelHeight = Height - 160;
                     }
                 }
 

@@ -17,7 +17,7 @@ namespace wonderlab.Class.Utils
                 return new GameCoreToolkit(root).GetGameCores();
             });
 
-            return cores is null ? new ObservableCollection<GameCore>() : cores.ToObservableCollection();
+            return cores is null ? new() : cores.ToObservableCollection();
         }
 
         public static async ValueTask<ObservableCollection<GameCore>> SearchGameCoreAsync(string root,string text) { 
@@ -30,7 +30,7 @@ namespace wonderlab.Class.Utils
                 return null;
             });
 
-            return cores is null ? new ObservableCollection<GameCore>() : cores.ToObservableCollection();
+            return cores is null ? new() : cores.ToObservableCollection();
         }
 
         public static string GetGameCoreVersionPath(GameCore core) {

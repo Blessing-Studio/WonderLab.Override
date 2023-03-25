@@ -55,7 +55,7 @@
 											
 											<ProgressBar Value="{Binding ProgressOfBar}" Grid.Row="4" 
 														 Margin="15 0 15 0"
-														 Foreground="#F4D03F"/>
+														 Foreground="{DynamicResource AccentBrushDark1}"/>
 										</Grid>
 									</Border>									
 								</Grid>

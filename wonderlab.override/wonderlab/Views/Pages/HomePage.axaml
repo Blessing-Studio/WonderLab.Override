@@ -15,6 +15,7 @@
 				Margin="85 20 85 120"
 				Background="{DynamicResource DialogContentBackground}"
 				IsHitTestVisible="False"
+			    Height="{Binding PanelHeight}"
 				CornerRadius="8" Name="Spotlight" 
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				BorderThickness="1">

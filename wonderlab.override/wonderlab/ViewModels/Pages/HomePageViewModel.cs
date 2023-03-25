@@ -26,6 +26,8 @@ namespace wonderlab.ViewModels.Pages
             HasGameCore = GameCores.Any() ? 0 : 1;
         }
 
+        public bool Isopen { get; set; } = false;
+
         public Account CurrentAccount { get; set; } = Account.Default;
 
         [Reactive]
@@ -38,8 +40,11 @@ namespace wonderlab.ViewModels.Pages
         public double HasGameCore { get; set; } = 0;
 
         [Reactive]
-        public GameCore SelectGameCore { get; set; }
+        public double PanelHeight { get; set; } = 0;
 
+        [Reactive]
+        public GameCore SelectGameCore { get; set; }
+        
         [Reactive]
         public ObservableCollection<GameCore> GameCores { get; set; } = new();
 
@@ -53,7 +58,11 @@ namespace wonderlab.ViewModels.Pages
             }
         }
 
-        public async void SeachGameCore(string text) { 
+        public async void SeachGameCore(string text) {
+            if (!GameCores.Any()) {             
+                return;
+            }
+
             GameCores.Clear();
             GameCores = (await GameCoreUtils.SearchGameCoreAsync(App.LaunchInfoData.GameDirectoryPath, text))
                 .Distinct().ToObservableCollection();
@@ -75,7 +84,15 @@ namespace wonderlab.ViewModels.Pages
             }
         }
 
-        public void SelectAccountAction() {
+        public async void SelectAccountAction() {
+            var user = (await GameAccountUtils.GetUsersAsync());
+
+            if (user.Count == 1) {
+                CurrentAccount = user.First().ToAccount();
+                LaunchTaskAction();
+                return;
+            }
+
             MainWindow.Instance.Auth.Show();            
         }
 
