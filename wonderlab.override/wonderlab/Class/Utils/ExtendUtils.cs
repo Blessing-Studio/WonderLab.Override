@@ -1,5 +1,6 @@
 ﻿using Avalonia.Data.Core;
 using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using System;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
@@ -114,6 +116,38 @@ namespace wonderlab.Class.Utils
             }
 
             return null;
+        }
+
+        public static Account ToAccount(this UserModel user) { 
+            return user.UserType switch { 
+                AccountType.Offline => new OfflineAccount() {   
+                    Name = user.UserName,
+                    Uuid = Guid.Parse(user.Uuid),
+                    AccessToken = user.UserToken,
+                    Type = AccountType.Offline,                    
+                },
+
+                AccountType.Microsoft => new MicrosoftAccount() {
+                    Name = user.UserName,
+                    Uuid = Guid.Parse(user.Uuid),
+                    AccessToken = user.UserToken,
+                    Type = AccountType.Microsoft,
+                    RefreshToken = user.AccessToken,                   
+                },
+
+                AccountType.Yggdrasil => new YggdrasilAccount() {
+                    Name = user.UserName,
+                    Uuid = Guid.Parse(user.Uuid),
+                    AccessToken = user.UserToken,
+                    ClientToken = user.AccessToken,
+                    Email = user.Email,
+                    Password = user.Password,
+                    YggdrasilServerUrl = user.YggdrasilUrl,
+                    Type = AccountType.Microsoft,
+                },
+
+                _ => Account.Default
+            };
         }
     }
 }

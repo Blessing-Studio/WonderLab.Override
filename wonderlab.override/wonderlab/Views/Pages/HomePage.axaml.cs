@@ -49,8 +49,7 @@ namespace wonderlab.Views.Pages
         }
 
         private void OnLaunchButtonClick(object? sender, System.EventArgs e) {       
-            MainWindow.Instance.ShowInfoBar("信息", $"开始尝试启动游戏 \"{bab.GameCoreId}\"");
-            ViewModel.LaunchTaskAction();
+            ViewModel.SelectAccountAction();
         }
     }
 }

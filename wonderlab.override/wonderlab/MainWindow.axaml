@@ -16,8 +16,12 @@
 		ExtendClientAreaChromeHints="NoChrome"
 		Initialized="WindowsInitialized">
 	<Grid>
-		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False"
-			   Source="/Assets/y.jpg" Name="BackgroundImage"/>
+		<Border Margin="-20" IsVisible="False" Name="BackgroundImage">
+			
+		</Border>
+		
+		<!--<Image Stretch="UniformToFill" Margin="-20" IsVisible="False"
+			   Source="/Assets/y.jpg" />-->
 		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
 		<Grid Background="Transparent" Name="Drop"/>
 

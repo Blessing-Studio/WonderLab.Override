@@ -1,6 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using MinecraftLaunch.Modules.Models.Auth;
 using System;
+using System.Threading;
+using wonderlab.Class.Utils;
 using wonderlab.ViewModels.Dialogs;
 
 namespace wonderlab.Views.Dialogs
@@ -53,6 +56,11 @@ namespace wonderlab.Views.Dialogs
 
         public void Close() {
             AuthDialog.HideDialog();
+        }
+
+        public async void Show() {
+            ViewModel.GameAccounts = (await GameAccountUtils.GetUsersAsync()).ToObservableCollection();
+            AccountSelector.ShowDialog();
         }
     }
 }

@@ -26,6 +26,8 @@ namespace wonderlab.ViewModels.Pages
             HasGameCore = GameCores.Any() ? 0 : 1;
         }
 
+        public Account CurrentAccount { get; set; } = Account.Default;
+
         [Reactive]
         public string SearchCondition { get; set; }
 
@@ -73,7 +75,13 @@ namespace wonderlab.ViewModels.Pages
             }
         }
 
+        public void SelectAccountAction() {
+            MainWindow.Instance.Auth.Show();            
+        }
+
         public async void LaunchTaskAction() {
+            $"开始尝试启动游戏 \"{SelectGameCore.Id}\"".ShowMessage();
+
             var config = new LaunchConfig()
             {
                 JvmConfig = new()
@@ -82,8 +90,9 @@ namespace wonderlab.ViewModels.Pages
                     MinMemory = App.LaunchInfoData.MiniMemory,
                     JavaPath = GetCurrentJava().ToFile(),
                 },
-                Account = Account.Default,
-                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(SelectGameCore).ToDirectory()
+                
+                Account = CurrentAccount,
+                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(SelectGameCore).ToDirectory(),
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);

@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
@@ -62,6 +63,12 @@ namespace wonderlab.ViewModels.Dialogs
 
         [Reactive]
         public YggdrasilAccount CurrentYggdrasilAccount { set; get; } = null;
+
+        [Reactive]
+        public ObservableCollection<UserModel> GameAccounts { set; get; } = new();
+
+        [Reactive]
+        public UserModel CurrentAccount { set; get; } = null;
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentAuthenticatorType)) {
@@ -186,6 +193,14 @@ namespace wonderlab.ViewModels.Dialogs
             MicrosoftTip1 = string.Empty;
             YggdrasilAccounts = new();
             CurrentYggdrasilAccount = null!;
+        }
+
+        public void GameLaunchAction() {
+            MainWindow.Instance.Auth.AccountSelector.HideDialog();
+            HomePage.ViewModel.CurrentAccount = CurrentAccount.ToAccount();
+
+            //此时已选择完账户，直接启动
+            HomePage.ViewModel.LaunchTaskAction();
         }
     }
 }

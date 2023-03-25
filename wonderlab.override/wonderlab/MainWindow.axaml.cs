@@ -252,15 +252,14 @@ namespace wonderlab
 
             BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
             if (BackgroundImage.IsVisible) {
-                BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
+                BackgroundImage.Background = new ImageBrush(new Bitmap(App.LauncherData.ImagePath)) {               
+                    Stretch = Stretch.UniformToFill
+                };
             }
 
             ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
             CanParallax = App.LauncherData.ParallaxType is not "ÎÞ";
             JsonUtils.CraftLaunchInfoJson();
-
-            await Task.Delay(5000);
-            Show();
         }
 
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
