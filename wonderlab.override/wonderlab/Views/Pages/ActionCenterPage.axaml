@@ -23,7 +23,7 @@
 				<StackPanel VerticalAlignment="Center"
 					        HorizontalAlignment="Left" Grid.Column="0"
 							Spacing="5" Orientation="Horizontal">
-					<Border Name="icon1" Height="0" Width="8" Background="#F4D03F"
+					<Border Name="icon1" Height="0" Width="8" Background="{DynamicResource AccentBrush}"
 							VerticalAlignment="Bottom">
 						<Border.Transitions>
 							<Transitions>
@@ -33,7 +33,7 @@
 							</Transitions>
 						</Border.Transitions>
 					</Border>
-					<Border Name="icon2" Height="0" Width="8" Background="#F4D03F"
+					<Border Name="icon2" Height="0" Width="8" Background="{DynamicResource AccentBrush}"
 							VerticalAlignment="Bottom">
 						<Border.Transitions>
 							<Transitions>
@@ -43,7 +43,7 @@
 							</Transitions>
 						</Border.Transitions>
 					</Border>
-					<Border Name="icon3" Height="0" Width="8" Background="#F4D03F"
+					<Border Name="icon3" Height="0" Width="8" Background="{DynamicResource AccentBrush}"
 							VerticalAlignment="Bottom">
 						<Border.Transitions>
 							<Transitions>
@@ -106,7 +106,7 @@
 			</Border>
 		</StackPanel>
 
-		<Grid Margin="15 265 0 60" VerticalAlignment="Top" Height="130">
+		<Grid Margin="15 265 0 60" VerticalAlignment="Top" Height="130" ClipToBounds="False">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*" MaxWidth="480"/>
 				<ColumnDefinition Width="15"/>

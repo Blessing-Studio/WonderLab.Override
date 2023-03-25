@@ -12,10 +12,11 @@
 		xmlns:wcdx="using:wonderlab.Views.Dialogs"
         Title="MainWindow" CornerRadius="4"
 		ExtendClientAreaToDecorationsHint="True"
+		Background="{DynamicResource AccentBrushDark1}"
 		ExtendClientAreaChromeHints="NoChrome"
 		Initialized="WindowsInitialized">
 	<Grid>
-		<Image Stretch="UniformToFill" Margin="-20"
+		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False"
 			   Source="/Assets/y.jpg" Name="BackgroundImage"/>
 		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
 		<Grid Background="Transparent" Name="Drop"/>
@@ -25,7 +26,7 @@
 
 		<Border VerticalAlignment="Stretch"
 		HorizontalAlignment="Stretch"
-		BorderBrush="#F4D03F"
+		BorderBrush="{DynamicResource AccentBrush}"
 		BorderThickness="1"/>
 
 		<Border Name="OpenBar" Margin="10 0 0 0"
@@ -80,12 +81,13 @@
 
 			<wp:NotificationCenterPage/>
 		</Border>
-
-
+		
+		
 		<Border Height="25" Name="topbar"
 				VerticalAlignment="Top"
-				Background="#F4D03F"
+				Background="{DynamicResource AccentBrush}"
 			    BoxShadow="0 1 4 0 #66000000">
+			
 			<Grid>
 				<TextBlock Text="WonderLab -Preview"
 						   VerticalAlignment="Center"
@@ -295,11 +297,11 @@
 										</Style>
 
 										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
-											<Setter Property="Background" Value="#F4D03F"/>
+											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 										</Style>
 
 										<Style Selector="ListBoxItem:selected /template/ Border#Select">
-											<Setter Property="Background" Value="#F4D03F"/>
+											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 										</Style>
 									</ListBox.Styles>
 								</ListBox>
@@ -365,11 +367,11 @@
 										</Style>
 
 										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
-											<Setter Property="Background" Value="#F4D03F"/>
+											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 										</Style>
 
 										<Style Selector="ListBoxItem:selected /template/ Border#Select">
-											<Setter Property="Background" Value="#F4D03F"/>
+											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 										</Style>
 									</ListBox.Styles>
 								</ListBox>

@@ -12,6 +12,16 @@
 				</Transitions>
 			</Setter>
 		</Style>
+
+		<Style Selector="Border">
+			<Setter Property="Transitions">
+				<Transitions>
+					<BrushTransition Property="Background"
+									 Easing="ExponentialEaseOut"
+									 Duration="0:0:0.35"/>
+				</Transitions>
+			</Setter>
+		</Style>
 	</Application.Styles>
 
 	<Application.Resources>

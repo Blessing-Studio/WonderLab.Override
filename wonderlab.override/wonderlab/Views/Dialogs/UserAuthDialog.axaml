@@ -69,6 +69,7 @@
 
 						<ListBox Margin="0 14" Grid.Row="2" 
 								 ClipToBounds="False"
+								 VirtualizationMode="None"
 								 MaxHeight="180"
 								 Items="{Binding YggdrasilAccounts}"
 								 SelectedItem="{Binding CurrentYggdrasilAccount}">

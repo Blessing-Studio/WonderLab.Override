@@ -2,9 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:wcb="using:wonderlab.control.Controls.Bar">
     <Design.PreviewWith>
-        <Border Height="100" Width="500">
+        <Border >
             <!-- Add Controls for Previewer Here -->
-			<wcb:MessageTipsBar Width="400" Height="80"/>
+			<wcb:MessageTipsBar/>
         </Border>
     </Design.PreviewWith>
 
@@ -19,13 +19,13 @@
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Border Padding="20" ClipToBounds="False">
+				<Border ClipToBounds="False">
 					<Border Background="{DynamicResource DialogContentBackground}"
-							Width="{TemplateBinding	Width}"
+							MaxWidth="{TemplateBinding	Width}"
 							BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
 							BoxShadow="0 3 12 0 #66000000" CornerRadius="8">
 						<Grid>
-							<Grid>
+							<Grid Width="{TemplateBinding Width}" MaxWidth="{TemplateBinding Width}">
 								<Grid.RowDefinitions>
 									<RowDefinition Height="1*"/>
 									<RowDefinition MaxHeight="5" MinHeight="5"/>
@@ -34,12 +34,13 @@
 
 								<TextBlock Margin="15 15 15 0" Text="{TemplateBinding Title}" FontSize="16" FontWeight="Bold"/>
 
-								<TextBlock Margin="15 0 15 15" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-										   FontSize="13" Text="{TemplateBinding Message}" Grid.Row="2"/>
-
 								<TextBlock VerticalAlignment="Top" HorizontalAlignment="Right"
-										   Text="{TemplateBinding Time}" Margin="15 15 15 0"
-										   FontSize="12.5"/>
+		                                   Text="{TemplateBinding Time}" Margin="15 15 15 0"
+		                                   FontSize="12.5" Grid.Column="0"/>
+								
+								<TextBlock Margin="15 0 15 15" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
+										   FontSize="13" Text="{TemplateBinding	Message}" 
+										   Grid.Row="2" MaxWidth="380"/>
 							</Grid>
 						</Grid>
 					</Border>

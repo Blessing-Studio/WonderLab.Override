@@ -3,76 +3,99 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.PersonalizeConfigPage">
 	<ScrollViewer Background="{x:Null}">
 		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Transparent" Margin="15 0 15 15"
 	          VerticalAlignment="Top">
-			<TextBlock Text="全局启动设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
+			<TextBlock Text="个性化设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
 
-			<TextBlock Text="游戏路径" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
-			<StackPanel Spacing="10" Orientation="Horizontal">
-				<ComboBox MinWidth="300" Items="{Binding GameDirectorys}"
-						  SelectedItem="{Binding CurrentGameDirectory}"/>
-				<Button Content="添加" Command="{Binding	DirectoryDialogOpenAction}"/>
-				<Button Content="移除" Classes="wonderaccentbutton"
-						Background="#FF0000"/>
+			<TextBlock Text="背景类型" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
+			<ComboBox MinWidth="300"
+					  SelectedItem="{Binding CurrentBakgroundType}"
+					  Items="{Binding BakgroundTypes}"/>
+			
+			<StackPanel Spacing="10" HorizontalAlignment="Left" IsVisible="{Binding IsImageVisible}">
+				<TextBlock Text="选择壁纸" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
+				<Button Classes="wonderaccentbutton" Content="浏览" Width="95" HorizontalAlignment="Left"
+						HorizontalContentAlignment="Center" 
+						Command="{Binding GetImageFileAction}"/>
+				
+				<TextBlock Text="背景视差效果" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
+				<ComboBox MinWidth="300"
+						  SelectedItem="{Binding CurrentParallaxType}"
+					      Items="{Binding ParallaxTypes}"/>
 			</StackPanel>
 
-			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-			<StackPanel Spacing="10" Orientation="Horizontal">
-				<ComboBox MinWidth="300" Items="{Binding Javas}"
-						  SelectedItem="{Binding CurrentJava}"
-						  MaxWidth="600">
-					<ComboBox.DataTemplates>
-						<DataTemplate>
-							<StackPanel VerticalAlignment="Center"
-										HorizontalAlignment="Left"
-								Orientation="Horizontal">
-								<TextBlock Text="Java " FontWeight="SemiBold"/>
-								<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
-								<TextBlock Text=" ("/>
-								<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
-								<TextBlock Text=", " />
-								<TextBlock Text="{Binding JavaVersion}" FontWeight="SemiBold"/>
-								<TextBlock Text="), "/>
-								<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
-							</StackPanel>
-						</DataTemplate>
-					</ComboBox.DataTemplates>
-				</ComboBox>
+			
+			<TextBlock Text="主题色" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
+			<ListBox Items="{Binding PredefinedColors}"
+					 SelectedItem="{Binding CurrentAccentColor}"
+		             MaxWidth="441"
+					 Background="Transparent"
+		             AutoScrollToSelectedItem="False"
+		             HorizontalAlignment="Left">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel />
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Width" Value="35" />
+						<Setter Property="Height" Value="35" />
+						<Setter Property="MinWidth" Value="0" />
+						<Setter Property="Margin" Value="1 1 0 0" />
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Panel>
+									<Border CornerRadius="4"
+											BorderThickness="2"
+											Name="Root">
+										<Border.Background>
+											<SolidColorBrush Color="{Binding}" />
+										</Border.Background>
+									</Border>
 
-				<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
-						Command="{Binding LoadJavaAction}">
-					<Grid>
-						<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
-						<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
-									 Width="20" IsVisible="{Binding IsLoadJavaNow}"/>
-					</Grid>
-				</Button>
-				<Button Content="手动添加"/>
-			</StackPanel>
+									<Border Name="Check"
+											Background="White"
+											Width="16" Height="16"
+											HorizontalAlignment="Right"
+											VerticalAlignment="Top"
+											Margin="0 2 2 0">
+										<Viewbox Width="10">
+											<Path Data="M282.4 902.4c-9.6 0-20.8-3.2-28.8-11.2L12 649.6c-16-16-16-41.6 0-56 16-16 41.6-16 56 0l214.4 214.4L956 132.8c16-16 41.6-16 56 0 16 16 16 41.6 0 56L311.2 891.2c-8 8-17.6 11.2-28.8 11.2z"
+												  Fill="Black"/>
+										</Viewbox>
+									</Border>
+								</Panel>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+					
+					<Style Selector="ListBoxItem /template/ Border#Check">
+						<Setter Property="IsVisible" Value="False" />
+					</Style>
+					<Style Selector="ListBoxItem:pointerover /template/ Border#Root">
+						<Setter Property="BorderBrush" Value="White" />
+					</Style>
 
-			<TextBlock Text="自动选择 Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-			<ToggleSwitch OnContent="开" Margin="0 -8 0 0"
-						  OffContent="关" IsChecked="{Binding IsAutoSelectJava}">
-				<ToggleSwitch.Styles>
-					<Styles>
-						<Style Selector="ToggleSwitch:pressed /template/ Border#OuterBorder"> 
-							<Setter Property="Background" Value="Red"/>
-						</Style>
-					</Styles>
-				</ToggleSwitch.Styles>
-			</ToggleSwitch>
+					<Style Selector="ListBoxItem:selected /template/ Border#Root">
+						<Setter Property="BorderBrush" Value="White" />
+					</Style>
+					<Style Selector="ListBoxItem:selected /template/ Border#Check">
+						<Setter Property="IsVisible" Value="True" />
+					</Style>
+				</ListBox.Styles>
 
-			<TextBlock Text="游戏窗口分辨率" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
-			<StackPanel Margin="0 -2 0 0" Spacing="10" Orientation="Horizontal">
-				<TextBox Watermark="最小内存" MinWidth="100"
-						 Text="{Binding	MaxMemory}"/>
-				<TextBlock Text="X" HorizontalAlignment="Center"
-						   VerticalAlignment="Center"/>
-				<TextBox Watermark="最大内存" MinWidth="100"
-						 Text="{Binding MiniMemory}"/>
-			</StackPanel>
+			</ListBox>
+			
+
+			<TextBlock Text="主题模式" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
+			<ComboBox MinWidth="300"
+					  SelectedItem="{Binding CurrentThemeType}"
+					  Items="{Binding ThemeTypes}"/>
 
 		</StackPanel>
 	</ScrollViewer>

@@ -30,7 +30,7 @@ namespace wonderlab
     public partial class MainWindow : Window
     {
         private double X, Y, WindowHeight, WindowWidth;
-        private bool isDragging, IsOpen, IsUseDragging;
+        public bool isDragging, IsOpen, IsUseDragging, CanParallax;
         public static MainWindowViewModel ViewModel { get; private set; }
         public static MainWindow Instance { get; private set; }
         public MainWindow() {       
@@ -42,23 +42,28 @@ namespace wonderlab
             Closed += (_, x) => {
                 JsonUtils.WriteLaunchInfoJson();
             };
-
-            PointerMoved += (_, x) => {           
-                Point position = x.GetPosition(BackgroundImage);
-                int xOffset = 50, yOffset = 50;
-                double num = BackgroundImage.DesiredSize.Height - position.X / (double)xOffset - BackgroundImage.DesiredSize.Height;
-                double num2 = BackgroundImage.DesiredSize.Width - position.Y / (double)yOffset - BackgroundImage.DesiredSize.Width;
-                if (!(BackgroundImage.RenderTransform is TranslateTransform)) {               
-                    BackgroundImage.RenderTransform = new TranslateTransform(num, num2);
-                    return;
+            
+            PointerMoved += (_, x) => {
+                if (CanParallax) { 
+                    Point position = x.GetPosition(BackgroundImage);
+                    int xOffset = 50, yOffset = 50;
+                    double num = BackgroundImage.DesiredSize.Height - position.X / (double)xOffset - BackgroundImage.DesiredSize.Height;
+                    double num2 = BackgroundImage.DesiredSize.Width - position.Y / (double)yOffset - BackgroundImage.DesiredSize.Width;
+                    if (!(BackgroundImage.RenderTransform is TranslateTransform)) {               
+                        BackgroundImage.RenderTransform = new TranslateTransform(num, num2);
+                        return;
+                    }
+                    TranslateTransform translateTransform = (TranslateTransform)BackgroundImage.RenderTransform;
+                    if (xOffset > 0) {               
+                        translateTransform.X = num;
+                    }
+                    
+                    if (yOffset > 0) {               
+                        translateTransform.Y = num2;
+                    }                
                 }
-                TranslateTransform translateTransform = (TranslateTransform)BackgroundImage.RenderTransform;
-                if (xOffset > 0) {               
-                    translateTransform.X = num;
-                }
-
-                if (yOffset > 0) {               
-                    translateTransform.Y = num2;
+                else {
+                    BackgroundImage.RenderTransform = new TranslateTransform(0, 0);
                 }
             };
         }

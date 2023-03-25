@@ -43,7 +43,7 @@ namespace wonderlab.ViewModels.Dialogs
         public string MicrosoftTip1 { set; get; }
 
         [Reactive]
-        public string AuthDialogTitle { set; get; }
+        public string AuthDialogTitle { set; get; } = "验证";
 
         [Reactive]
         public bool IsEmailVisible { set; get; } = true;
@@ -150,7 +150,8 @@ namespace wonderlab.ViewModels.Dialogs
                 }
             }
 
-            ResettingAction();            
+            ResettingAction();
+            MainWindow.Instance.Auth.AuthDialog.HideDialog();
             $"账户 {accountData.Name} 已成功添加至启动器！欢迎回来，{accountData.Name}！".ShowMessage("成功");
         }
 

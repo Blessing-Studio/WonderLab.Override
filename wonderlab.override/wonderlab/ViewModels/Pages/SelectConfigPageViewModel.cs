@@ -20,5 +20,13 @@ namespace wonderlab.ViewModels.Pages
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
         }
+
+        public void GoLaunchConfigPageAction() {
+            SelectConfigPage = new LaunchConfigPage();
+        }
+
+        public void GoPersonalizeConfigPageAction() {       
+            SelectConfigPage = new PersonalizeConfigPage();
+        }
     }
 }

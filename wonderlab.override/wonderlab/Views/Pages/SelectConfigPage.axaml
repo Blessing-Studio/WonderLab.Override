@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.SelectConfigPage">
 	<Grid>
 		<ContentControl Content="{Binding SelectConfigPage}"
@@ -19,9 +20,11 @@
 						Margin="115 0 0 0"
 						HorizontalAlignment="Center"
 						Name="ButtonGroup">
-				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"/>
+				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"
+							  Command="{Binding	GoLaunchConfigPageAction}"/>
 				<ToggleButton Content="下载" Background="Transparent"/>
-				<ToggleButton Content="个性化" Background="Transparent"/>
+				<ToggleButton Content="个性化" Background="Transparent"
+							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
 				<Button Content="返回" Background="Transparent" Name="button"/>
 			</StackPanel> 
 		</Border>
