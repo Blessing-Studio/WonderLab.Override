@@ -102,8 +102,10 @@ namespace wonderlab.ViewModels.Pages
             $"开始尝试启动游戏 \"{SelectGameCore.Id}\"".ShowMessage();
 
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
-                await HttpToolkit.HttpDownloadAsync("https://bmclapi2.bangbang93.com/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
+                var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
                     JsonUtils.DataPath, "authlib-injector.jar");
+
+                Trace.WriteLine($"[信息] Http状态码为 {result.HttpStatusCode}");
             }
 
             var config = new LaunchConfig()
@@ -130,6 +132,9 @@ namespace wonderlab.ViewModels.Pages
                 stopwatch.Stop();
                 $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed}".ShowMessage("启动成功");
 
+                gameProcess.Process.Exited += (sender, e) => {
+                    Trace.WriteLine("[信息] 游戏退出！");
+                };
                 gameProcess.ProcessOutput += ProcessOutput;
             }
         }

@@ -211,9 +211,7 @@ namespace wonderlab
 
             BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
             if (BackgroundImage.IsVisible) {           
-                BackgroundImage.Background = new ImageBrush(new Bitmap(App.LauncherData.ImagePath)) {               
-                    Stretch = Stretch.UniformToFill
-                };
+                BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
             }
 
             ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);

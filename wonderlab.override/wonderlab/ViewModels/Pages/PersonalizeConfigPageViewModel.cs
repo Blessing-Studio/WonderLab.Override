@@ -134,9 +134,7 @@ namespace wonderlab.ViewModels.Pages
 
             try {           
                 var result = (await dialog.ShowAsync(MainWindow.Instance))!.First();
-                MainWindow.Instance.BackgroundImage.Background = new ImageBrush(new Bitmap(result)) { 
-                    Stretch = Stretch.UniformToFill,                   
-                };
+                MainWindow.Instance.BackgroundImage.Source = new Bitmap(result);
                 App.LauncherData.ImagePath = result;
             }
             catch (Exception)
