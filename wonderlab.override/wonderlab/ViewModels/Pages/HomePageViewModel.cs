@@ -4,6 +4,7 @@ using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
+using Natsurainko.Toolkits.Network;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,10 +101,16 @@ namespace wonderlab.ViewModels.Pages
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCore.Id}\"".ShowMessage();
 
+            if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
+                await HttpToolkit.HttpDownloadAsync("https://bmclapi2.bangbang93.com/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
+                    JsonUtils.DataPath, "authlib-injector.jar");
+            }
+
             var config = new LaunchConfig()
             {
                 JvmConfig = new()
                 {
+                    AdvancedArguments = new List<string>() { GetJvmArguments() },
                     MaxMemory = App.LaunchInfoData.MaxMemory,
                     MinMemory = App.LaunchInfoData.MiniMemory,
                     JavaPath = GetCurrentJava().ToFile(),
@@ -143,6 +151,15 @@ namespace wonderlab.ViewModels.Pages
             }
 
             return App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw();
+        }
+
+        public string GetJvmArguments() {
+            if (CurrentAccount.Type == AccountType.Yggdrasil) { 
+                var account = CurrentAccount as YggdrasilAccount;
+                return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account.YggdrasilServerUrl}";
+            }
+
+            return string.Empty;
         }
 
         private void ProcessOutput(object? sender, IProcessOutput e) {
