@@ -23,32 +23,39 @@ namespace wonderlab.ViewModels.Pages
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(CurrentAccentColor)) {
                 ThemeUtils.SetAccentColor(CurrentAccentColor);
+                App.LauncherData.AccentColor = CurrentAccentColor;
             }
 
             if (e.PropertyName is nameof(CurrentBakgroundType)) {
                 IsImageVisible = CurrentBakgroundType is "图片背景";
                 MainWindow.Instance.BackgroundImage.IsVisible = IsImageVisible;
+                App.LauncherData.BakgroundType = CurrentBakgroundType;
             }
 
             if (e.PropertyName is nameof(CurrentParallaxType)) {
                 MainWindow.Instance.CanParallax = CurrentParallaxType is not "无";
+                App.LauncherData.ParallaxType = CurrentParallaxType;
+            }
+
+            if (e.PropertyName is nameof(CurrentThemeType)) { 
+                App.LauncherData.ThemeType = CurrentThemeType;
             }
         }
 
         [Reactive]
-        public Color CurrentAccentColor { get; set; }
+        public Color CurrentAccentColor { get; set; } = App.LauncherData.AccentColor;
 
         [Reactive]
-        public bool IsImageVisible { get; set; } = false;
+        public bool IsImageVisible { get; set; } = App.LauncherData.BakgroundType is "图片背景";
 
         [Reactive]
-        public string CurrentBakgroundType { get; set; } = "图片背景";
+        public string CurrentBakgroundType { get; set; } = App.LauncherData.BakgroundType;
 
         [Reactive]
-        public string CurrentThemeType { get; set; } = "亮色主题";
+        public string CurrentThemeType { get; set; } = App.LauncherData.ThemeType;
 
         [Reactive]
-        public string CurrentParallaxType { get; set; } = "无";
+        public string CurrentParallaxType { get; set; } = App.LauncherData.ParallaxType;
 
         public ObservableCollection<string> BakgroundTypes => new() { 
             "主题色背景",
@@ -125,8 +132,15 @@ namespace wonderlab.ViewModels.Pages
                 }
             };
 
-            var result = (await dialog.ShowAsync(MainWindow.Instance))!.First();
-            MainWindow.Instance.BackgroundImage.Source = new Bitmap(result);
+            try {           
+                var result = (await dialog.ShowAsync(MainWindow.Instance))!.First();
+                MainWindow.Instance.BackgroundImage.Source = new Bitmap(result);
+                App.LauncherData.ImagePath = result;
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }

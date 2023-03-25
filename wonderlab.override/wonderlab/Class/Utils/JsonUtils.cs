@@ -24,7 +24,6 @@ namespace wonderlab.Class.Utils
                 return;
             }
 
-            App.LauncherData.Users = await GameAccountUtils.GetUsersAsync() ?? new();
             var json = await File.ReadAllTextAsync(jsonPath);
             App.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
         }
@@ -34,6 +33,27 @@ namespace wonderlab.Class.Utils
             DirectoryCheck();
 
             await File.WriteAllTextAsync(jsonPath, App.LaunchInfoData.ToJson() ?? new(""));
+        }
+
+        public static async void CraftLauncherInfoJson() {
+            var jsonPath = Path.Combine(DataPath, "launcherdata.json");
+            DirectoryCheck();
+
+            if (!File.Exists(jsonPath)) {           
+                await File.WriteAllTextAsync(jsonPath, new LauncherDataModel().ToJson());
+                App.LauncherData = new();
+                return;
+            }
+
+            var json = await File.ReadAllTextAsync(jsonPath);
+            App.LauncherData = json.ToJsonEntity<LauncherDataModel>();
+        }
+
+        public static async void WriteLauncherInfoJson() {
+            var jsonPath = Path.Combine(DataPath, "launcherdata.json");
+            DirectoryCheck();
+
+            await File.WriteAllTextAsync(jsonPath, App.LauncherData.ToJson() ?? new(""));
         }
 
         internal static void DirectoryCheck() {

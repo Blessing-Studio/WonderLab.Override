@@ -22,6 +22,7 @@ namespace wonderlab
             catch (Exception)
             {
                 JsonUtils.WriteLaunchInfoJson();
+                JsonUtils.WriteLauncherInfoJson();
             }
         }
 

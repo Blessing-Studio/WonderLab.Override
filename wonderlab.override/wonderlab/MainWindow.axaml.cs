@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using Microsoft.VisualBasic;
 using MinecaftOAuth.Authenticator;
@@ -37,10 +38,13 @@ namespace wonderlab
             InitializeComponent();
             new ColorHelper().Load();
             ThemeUtils.Init();
+            JsonUtils.CraftLauncherInfoJson();
+
             WindowWidth = Width;
             WindowHeight = Height;
             Closed += (_, x) => {
                 JsonUtils.WriteLaunchInfoJson();
+                JsonUtils.WriteLauncherInfoJson();
             };
             
             PointerMoved += (_, x) => {
@@ -124,19 +128,9 @@ namespace wonderlab
 
         private async void WindowsInitialized(object? sender, EventArgs e)
         {
+            this.Hide();
             await Task.Delay(800);
             DataContext = ViewModel = new();
-            //var res1 = (await GameAccountUtils.GetUsersAsync()).First();
-            //YggdrasilAuthenticator yggdrasil = new(true, "3424968114@qq.com", "wxysdsb12");
-            //var r = await yggdrasil.RefreshAsync(new()
-            //{
-            //    ClientToken = res1.AccessToken,
-            //    AccessToken = res1.UserToken,
-            //    Uuid = Guid.Parse(res1.Uuid)
-            //});
-
-            //Trace.WriteLine(r.Name);
-            //await GameAccountUtils.RefreshUserDataAsync(res1, r);
 
             foreach (Button i in Installer.Children) {
                 i.Click += (x, _) => {
@@ -255,8 +249,18 @@ namespace wonderlab
                 await Task.Delay(1000);
                 UpdateDialog.ShowDialog();
             }
-            
+
+            BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
+            if (BackgroundImage.IsVisible) {
+                BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
+            }
+
+            ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
+            CanParallax = App.LauncherData.ParallaxType is not "ÎÞ";
             JsonUtils.CraftLaunchInfoJson();
+
+            await Task.Delay(5000);
+            Show();
         }
 
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
