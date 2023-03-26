@@ -264,7 +264,11 @@ namespace wonderlab
 
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
         {
-            BeginMoveDrag(e);
+            try {           
+                BeginMoveDrag(e);
+            }
+            catch (Exception) {           
+            }
         }
 
         public void ShowInfoDialog(string title, string message)

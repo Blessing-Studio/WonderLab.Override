@@ -16,7 +16,7 @@
 				<Button Content="返回" Width="130"
 						Margin="-30 0 0 0"
 						Command="{Binding BackHomePageAction}"
-						Background="{DynamicResource AccentBrushDark1}"
+						Background="{DynamicResource AccentBrushDark3}"
 						HorizontalAlignment="Left"
 						Classes="wonderaccentbutton"/>
 				
@@ -37,11 +37,11 @@
 								BoxShadow="0 1 4 0 #66000000"
 								CornerRadius="4"
 								VerticalAlignment="Bottom">
-							<StackPanel Margin="6">
+							<StackPanel Margin="6 6 16 6">
 								<TextBlock Text="已装载" FontSize="11.5"
 										   FontWeight="SemiBold"/>
 
-								<TextBlock Text="Forge14.23.5.2860"/>
+								<TextBlock Text="{Binding ModLoaders}"/>
 							</StackPanel>
 						</Border>
 
@@ -73,7 +73,7 @@
 					VerticalAlignment="Stretch">
 			</Border>
 
-			<Grid RenderTransform="rotate(7deg)"	             
+			<Grid RenderTransform="rotate(8deg)"	             
 				  Grid.Column="2"
 	              Margin="0 0 20 0">
 				<Grid.RowDefinitions>
@@ -83,11 +83,12 @@
 					<RowDefinition Height="1*"/>
 				</Grid.RowDefinitions>
 
-				<Border RenderTransform="rotate(-2deg)" Grid.Row="1"
+				<Border RenderTransform="rotate(0deg)" Grid.Row="1"
 						VerticalAlignment="Top"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}"
 						BorderThickness="1"
 						Margin="20 0 35 20"
+						CornerRadius="4"
 						HorizontalAlignment="Stretch"
 						Background="{DynamicResource DialogContentBackground}"
 						BoxShadow="0 2 8 0 #66000000">
@@ -99,6 +100,7 @@
 						</Grid.ColumnDefinitions>
 
 						<Button Content="打开版本文件夹"
+								Command="{Binding OpenFolderAction}"
 								Classes="wonderaccentbutton"
 								HorizontalAlignment="Stretch"/>
 
@@ -110,8 +112,8 @@
 					</Grid>
 				</Border>
 
-				<TextBlock Text="1.12.2-Forge14.23.5.2860-OptiFine_HD_U_G5"
-						   RenderTransform="rotate(-2deg)"
+				<TextBlock Text="{Binding Current.Id}"
+						   RenderTransform="rotate(0deg)"
 						   HorizontalAlignment="Center"
 						   FontSize="24" Grid.Row="0"
 						   Margin="20 25 20 16"
@@ -119,10 +121,16 @@
 						   TextTrimming="CharacterEllipsis"
 						   FontWeight="SemiBold"/>
 
+				<ContentControl Background="Transparent" Grid.Row="3"
+				Content="{Binding CurrentPage}"
+				Margin="0 0 0 10"
+				ClipToBounds="True"
+				RenderTransform="rotate(0deg)"/>
+
 				<StackPanel Orientation="Horizontal"
 							Spacing="10"
 							Margin="20 -30 35 10"
-							RenderTransform="rotate(-2deg)" Grid.Row="2"
+							RenderTransform="rotate(0deg)" Grid.Row="2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Top"
 							Name="ButtonGroup">
@@ -130,31 +138,7 @@
 					<ToggleButton Content="光影" Background="Transparent"/>
 					<ToggleButton Content="存档" Background="Transparent"/>
 					<ToggleButton Content="资源包" Background="Transparent"/>
-				</StackPanel>
-
-				<StackPanel HorizontalAlignment="Center"
-							VerticalAlignment="Center" Grid.Row="3"
-							RenderTransform="rotate(-2deg)"
-							Spacing="5" Opacity="{Binding HasGameCore}">
-					<StackPanel.Transitions>
-						<Transitions>
-							<DoubleTransition Duration="0:0:0.25" Property="Opacity" Easing="ExponentialEaseOut"/>
-						</Transitions>
-					</StackPanel.Transitions>
-
-					<Viewbox Width="50" Margin="0 0 0 10">
-						<PathIcon Opacity="0.45" Data="M590.208 454.176v210.496a32 32 0 1 0 64 0V454.176a32 32 0 1 0-64 0m-192 0v210.496a32 32 0 1 0 64 0V454.176a32 32 0 1 0-64 0m-20.544-194.592l-8.896-63.36 253.504-35.648 8.928 63.392-253.536 35.616z m443.616-62.336L694.56 215.04l-11.872-84.416a36.512 36.512 0 0 0-14.432-24.224c-16.416-12.384-41.28-11.072-54.752-9.216l-253.824 35.68c-46.592 6.56-60.16 30.688-57.28 51.072l11.84 84.544-126.72 17.824a32 32 0 1 0 8.928 63.36l45.92-6.432a31.36 31.36 0 0 0-4.192 14.976v447.936c0 35.328 28.704 64.032 64 64.032h447.968a64.096 64.096 0 0 0 64-64.032V358.208a32 32 0 1 0-64 0v447.968l-448-0.032V358.208a31.744 31.744 0 0 0-8.992-22.112l537.056-75.488a32 32 0 0 0 27.2-36.16 31.648 31.648 0 0 0-36.16-27.2z"/>
-					</Viewbox>
-
-					<TextBlock FontWeight="Bold" Text="没有任何模组"
-							   FontSize="20" TextAlignment="Center"
-							   HorizontalAlignment="Center"/>
-
-					<TextBlock Text="请检查您是否安装了模组"
-							   FontSize="13" Opacity="0.75"
-							   TextAlignment="Center"
-							   HorizontalAlignment="Center"/>
-				</StackPanel>
+				</StackPanel>			
 			</Grid>
 		</Grid>
 	</Grid>

@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 ClipToBounds="True"
+             x:Class="wonderlab.Views.Pages.ModConfigPage">
+	<Grid ClipToBounds="True">
+		<StackPanel HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			Spacing="5" Opacity="{Binding HasModPack}">
+			<StackPanel.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.25" Property="Opacity" Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</StackPanel.Transitions>
+
+			<Viewbox Width="50" Margin="0 0 0 10">
+				<PathIcon Opacity="0.45" Data="M590.208 454.176v210.496a32 32 0 1 0 64 0V454.176a32 32 0 1 0-64 0m-192 0v210.496a32 32 0 1 0 64 0V454.176a32 32 0 1 0-64 0m-20.544-194.592l-8.896-63.36 253.504-35.648 8.928 63.392-253.536 35.616z m443.616-62.336L694.56 215.04l-11.872-84.416a36.512 36.512 0 0 0-14.432-24.224c-16.416-12.384-41.28-11.072-54.752-9.216l-253.824 35.68c-46.592 6.56-60.16 30.688-57.28 51.072l11.84 84.544-126.72 17.824a32 32 0 1 0 8.928 63.36l45.92-6.432a31.36 31.36 0 0 0-4.192 14.976v447.936c0 35.328 28.704 64.032 64 64.032h447.968a64.096 64.096 0 0 0 64-64.032V358.208a32 32 0 1 0-64 0v447.968l-448-0.032V358.208a31.744 31.744 0 0 0-8.992-22.112l537.056-75.488a32 32 0 0 0 27.2-36.16 31.648 31.648 0 0 0-36.16-27.2z"/>
+			</Viewbox>
+
+			<TextBlock FontWeight="Bold" Text="没有任何模组"
+					   FontSize="20" TextAlignment="Center"
+					   HorizontalAlignment="Center"/>
+
+			<TextBlock Text="请检查您是否安装了模组"
+					   FontSize="13" Opacity="0.75"
+					   TextAlignment="Center"
+					   HorizontalAlignment="Center"/>
+		</StackPanel>
+
+		<ListBox Background="{x:Null}"
+				 VerticalAlignment="Top"
+				 VirtualizationMode="None"
+				 Items="{Binding ModPacks}"
+				 ClipToBounds="True"
+			     RenderTransform="rotate(0deg)">
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="15 6"/>
+						<Setter Property="ClipToBounds" Value="False"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+										Name="Main">
+									<Border.Transitions>
+										<Transitions>
+											<BoxShadowsTransition Property="BoxShadow"
+																  Easing="ExponentialEaseOut"
+																  Duration="0:0:0.35"/>											
+										</Transitions>
+									</Border.Transitions>
+
+									<Grid Height="55">
+										<Grid VerticalAlignment="Center" Margin="15 0 0 0">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto"/>
+												<RowDefinition Height="1*"/>
+											</Grid.RowDefinitions>
+											<TextBlock VerticalAlignment="Center" Text="{Binding Data.Id}"
+													   FontSize="16" FontWeight="SemiBold" Margin="0 0 20 0"
+													   TextTrimming="CharacterEllipsis"/>
+											
+											<TextBlock Text="{Binding Data.FileName}" Grid.Row="2" Margin="0 0 20 0"
+													   TextTrimming="CharacterEllipsis"/>
+										</Grid>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+
+					<Style Selector="ListBoxItem /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+					</Style>
+
+					<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+					</Style>
+
+					<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+					</Style>
+				</Styles>
+			</ListBox.Styles>
+		</ListBox>
+	</Grid>
+</UserControl>
