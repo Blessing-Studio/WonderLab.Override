@@ -215,5 +215,9 @@ namespace wonderlab.ViewModels.Dialogs
             //此时已选择完账户，直接启动
             HomePage.ViewModel.LaunchTaskAction();
         }
+
+        public void HideSelectorDialogAction() {
+            MainWindow.Instance.Auth.AccountSelector.HideDialog();
+        }
     }
 }

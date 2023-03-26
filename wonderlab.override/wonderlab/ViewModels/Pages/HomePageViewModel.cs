@@ -128,14 +128,18 @@ namespace wonderlab.ViewModels.Pages
             using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine($"[信息] {x.Item2}");
             });
+
+            stopwatch.Stop();
             if (gameProcess.State is LaunchState.Succeess) {
-                stopwatch.Stop();
                 $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}".ShowMessage("启动成功");
 
                 gameProcess.Process.Exited += (sender, e) => {
                     Trace.WriteLine("[信息] 游戏退出！");
                 };
                 gameProcess.ProcessOutput += ProcessOutput;
+            }
+            else {
+                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
             }
         }
 

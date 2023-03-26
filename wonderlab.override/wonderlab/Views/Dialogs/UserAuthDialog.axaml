@@ -230,7 +230,7 @@
 		                        Content="6" Classes="rotatebutton"
 		                        HorizontalAlignment="Right"
 		                        VerticalAlignment="Top"
-		                        />
+							Command="{Binding HideSelectorDialogAction}"/>
 						<!--Command="{Binding HideInstallDialogAction}"-->
 						<ListBox Margin="0 14" Grid.Row="2"
 								 ClipToBounds="False"

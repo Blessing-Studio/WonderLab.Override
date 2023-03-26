@@ -127,18 +127,25 @@
 				ClipToBounds="True"
 				RenderTransform="rotate(0deg)"/>
 
-				<StackPanel Orientation="Horizontal"
-							Spacing="10"
-							Margin="20 -30 35 10"
-							RenderTransform="rotate(0deg)" Grid.Row="2"
-							HorizontalAlignment="Stretch"
-							VerticalAlignment="Top"
-							Name="ButtonGroup">
-					<ToggleButton Content="模组" Background="Transparent" IsChecked="True"/>
-					<ToggleButton Content="光影" Background="Transparent"/>
-					<ToggleButton Content="存档" Background="Transparent"/>
-					<ToggleButton Content="资源包" Background="Transparent"/>
-				</StackPanel>			
+				<Border Margin="20 -35 35 10"
+						Padding="6"
+						BorderThickness="1"
+						CornerRadius="4"
+						Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 2 8 0 #66000000"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						RenderTransform="rotate(0deg)" Grid.Row="2"
+                        VerticalAlignment="Top"
+						HorizontalAlignment="Left">
+					<StackPanel Orientation="Horizontal"
+			                    Spacing="10"			                    			                    			                    
+			                    Name="ButtonGroup">
+						<ToggleButton Content="模组" Background="Transparent" IsChecked="True"/>
+						<ToggleButton Content="光影" Background="Transparent"/>
+						<ToggleButton Content="存档" Background="Transparent"/>
+						<ToggleButton Content="资源包" Background="Transparent"/>
+					</StackPanel>
+				</Border>
 			</Grid>
 		</Grid>
 	</Grid>
