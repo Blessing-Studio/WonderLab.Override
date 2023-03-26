@@ -71,7 +71,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void OpenInstallDialogAction() {
-            MainWindow.Instance.InstallDialog.ShowDialog();
+            MainWindow.Instance.Install.InstallDialog.ShowDialog();
         }
 
         public void OpenSelectConfigPageAction() {
