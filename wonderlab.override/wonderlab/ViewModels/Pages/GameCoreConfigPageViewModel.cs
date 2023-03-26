@@ -65,5 +65,21 @@ namespace wonderlab.ViewModels.Pages
                 Verb = "open"
             });
         }
+
+        public void GoModPackAction() {
+            CurrentPage = new ModConfigPage(Current);
+        }
+
+        public void GoSharePackAction() {
+            CurrentPage = new SharePackConfigPage();
+        }
+
+        public void GoResourePackAction() {
+            CurrentPage = new ResourePackConfigPage(Current);
+        }
+
+        public void GoSaveAction() {
+            CurrentPage = new SaveConfigPage();
+        }
     }
 }

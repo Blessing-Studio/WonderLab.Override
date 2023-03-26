@@ -29,6 +29,7 @@
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
 			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
+			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

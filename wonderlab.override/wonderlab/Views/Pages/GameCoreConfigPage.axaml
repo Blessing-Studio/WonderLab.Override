@@ -83,6 +83,53 @@
 					<RowDefinition Height="1*"/>
 				</Grid.RowDefinitions>
 
+				<TextBlock Text="{Binding Current.Id}"
+						   RenderTransform="rotate(0deg)"
+						   HorizontalAlignment="Center"
+						   FontSize="24" Grid.Row="0"
+						   Margin="20 25 20 16"
+						   TextAlignment="Center"
+						   TextTrimming="CharacterEllipsis"
+						   FontWeight="SemiBold"/>
+
+				<ContentControl Background="Transparent" Grid.Row="3"
+				Content="{Binding CurrentPage}"
+				Margin="0 0 0 10"
+				ClipToBounds="True"
+				RenderTransform="rotate(0deg)"/>
+
+				<Border Margin="20 -35 35 10"
+						Padding="6"
+						BorderThickness="1"
+						CornerRadius="4"
+						Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 2 8 0 #66000000"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						RenderTransform="rotate(0deg)" Grid.Row="2"
+                        VerticalAlignment="Top"
+						HorizontalAlignment="Left">
+					<StackPanel Orientation="Horizontal"
+			                    Spacing="10"			                    			                    			                    
+			                    Name="ButtonGroup">
+						<ToggleButton Content="模组" 
+									  Background="Transparent" 
+									  Command="{Binding	GoModPackAction}"
+									  IsChecked="True"/>
+						
+						<ToggleButton Content="光影" 
+									  Command="{Binding	GoSharePackAction}"									  
+									  Background="Transparent"/>
+						
+						<ToggleButton Content="存档" 
+									  Command="{Binding	GoSaveAction}"									  
+									  Background="Transparent"/>
+						
+						<ToggleButton Content="资源包" 
+									  Command="{Binding	GoResourePackAction}"									  
+									  Background="Transparent"/>
+					</StackPanel>
+				</Border>
+
 				<Border RenderTransform="rotate(0deg)" Grid.Row="1"
 						VerticalAlignment="Top"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}"
@@ -112,40 +159,6 @@
 					</Grid>
 				</Border>
 
-				<TextBlock Text="{Binding Current.Id}"
-						   RenderTransform="rotate(0deg)"
-						   HorizontalAlignment="Center"
-						   FontSize="24" Grid.Row="0"
-						   Margin="20 25 20 16"
-						   TextAlignment="Center"
-						   TextTrimming="CharacterEllipsis"
-						   FontWeight="SemiBold"/>
-
-				<ContentControl Background="Transparent" Grid.Row="3"
-				Content="{Binding CurrentPage}"
-				Margin="0 0 0 10"
-				ClipToBounds="True"
-				RenderTransform="rotate(0deg)"/>
-
-				<Border Margin="20 -35 35 10"
-						Padding="6"
-						BorderThickness="1"
-						CornerRadius="4"
-						Background="{DynamicResource DialogContentBackground}"
-						BoxShadow="0 2 8 0 #66000000"
-						BorderBrush="{DynamicResource DialogContentBorderBrush}"
-						RenderTransform="rotate(0deg)" Grid.Row="2"
-                        VerticalAlignment="Top"
-						HorizontalAlignment="Left">
-					<StackPanel Orientation="Horizontal"
-			                    Spacing="10"			                    			                    			                    
-			                    Name="ButtonGroup">
-						<ToggleButton Content="模组" Background="Transparent" IsChecked="True"/>
-						<ToggleButton Content="光影" Background="Transparent"/>
-						<ToggleButton Content="存档" Background="Transparent"/>
-						<ToggleButton Content="资源包" Background="Transparent"/>
-					</StackPanel>
-				</Border>
 			</Grid>
 		</Grid>
 	</Grid>
