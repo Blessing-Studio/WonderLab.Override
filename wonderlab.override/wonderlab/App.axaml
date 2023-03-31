@@ -30,6 +30,7 @@
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
 			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
 			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
+			<c:MaxWidthConverter x:Key="MaxWidthConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

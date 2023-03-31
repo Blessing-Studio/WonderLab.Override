@@ -137,14 +137,18 @@
 								 SelectedItem="{Binding	CurrentGameCore}">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
-											<Setter Property="Margin" Value="0 0"/>
+											<Setter Property="Margin" Value="2 2.5"/>
+											<Setter Property="ClipToBounds" Value="False"/>
 											<Setter Property="Template">
 												<ControlTemplate>
 													<Grid>
-														<Border Name="Select" Opacity="0.75">
+														<Border Background="Transparent" Name="Select" Opacity="0.75">
 															<Border.Transitions>
 																<Transitions>
 																	<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																	<BoxShadowsTransition Property="BoxShadow"
+					                                                                      Easing="ExponentialEaseOut"
+					                                                                      Duration="0:0:0.35"/>
 																</Transitions>
 															</Border.Transitions>
 														</Border>
@@ -180,7 +184,7 @@
 											</Setter>
 										</Style>
 
-										<Style Selector="ListBoxItem /template/	Border#Select">
+										<!--<Style Selector="ListBoxItem /template/	Border#Select">
 											<Setter Property="Background" Value="Transparent"/>
 										</Style>
 
@@ -190,6 +194,21 @@
 
 										<Style Selector="ListBoxItem:selected /template/ Border#Select">
 											<Setter Property="Background" Value="{DynamicResource AccentBrushDark1}"/>
+										</Style>-->
+
+										<Style Selector="ListBoxItem /template/	Border#Select">
+											<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="True"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
+											<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="False"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:selected /template/ Border#Select">
+											<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="False"/>
 										</Style>
 									</ListBox.Styles>
 								</ListBox>
@@ -202,19 +221,23 @@
 										Command="{Binding ReturnMcListAction}"/>
 
 								<ListBox Margin="0 80 0 0" IsVisible="{Binding ModLoaderVisible}"
-								 Background="Transparent" CornerRadius="8"
+								 Background="Transparent" CornerRadius="0 8 0 8"
 								 SelectedItem="{Binding CurrentModLoader}"
 								 Items="{Binding ModLoaders}">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
-											<Setter Property="Margin" Value="0 0"/>
+											<Setter Property="Margin" Value="2 2.5"/>
+											<Setter Property="ClipToBounds" Value="False"/>
 											<Setter Property="Template">
 												<ControlTemplate>
 													<Grid>
-														<Border Name="Select" Opacity="0.75">
+														<Border Background="Transparent" Name="Select" Opacity="0.75">
 															<Border.Transitions>
 																<Transitions>
 																	<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																	<BoxShadowsTransition Property="BoxShadow"
+					                                                                      Easing="ExponentialEaseOut"
+					                                                                      Duration="0:0:0.35"/>
 																</Transitions>
 															</Border.Transitions>
 														</Border>
@@ -251,15 +274,18 @@
 										</Style>
 
 										<Style Selector="ListBoxItem /template/	Border#Select">
-											<Setter Property="Background" Value="Transparent"/>
+											<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="True"/>
 										</Style>
 
 										<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
-											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+											<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="False"/>
 										</Style>
 
 										<Style Selector="ListBoxItem:selected /template/ Border#Select">
-											<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+											<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+											<Setter Property="ClipToBounds" Value="False"/>
 										</Style>
 									</ListBox.Styles>
 								</ListBox>
@@ -278,7 +304,7 @@
 						</ListBox.ItemsPanel>
 						<ListBox.Styles>
 							<Style Selector="ListBoxItem">
-								<Setter Property="Margin" Value="0 0 10 0"/>
+								<Setter Property="Margin" Value="0 0 10 5"/>
 								<Setter Property="Template">
 									<ControlTemplate>
 										<Border Background="{DynamicResource DialogContentBackground}"

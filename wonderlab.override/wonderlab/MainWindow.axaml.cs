@@ -190,8 +190,6 @@ namespace wonderlab
             }
 
             JsonUtils.CraftLaunchInfoJson();
-            Install.InstallDialog.ShowDialog();
-
         }
 
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)

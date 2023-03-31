@@ -69,73 +69,94 @@
 					</Grid.ColumnDefinitions>
 					<Grid Grid.Column="0" Margin="12 0">
 						<ListBox Background="Transparent" Items="{Binding GameCores}"
-	                             FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 								 SelectedItem="{Binding SelectGameCore}">
 							<ListBox.Styles>
 								<Styles>
 									<Style Selector="ListBoxItem">
 										<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-										<Setter Property="Margin" Value="4"/>
+										<Setter Property="HorizontalAlignment" Value="Stretch"/>
+										<Setter Property="Margin" Value="8 8 16 8"/>
+										<Setter Property="Background" Value="Transparent"/>
+										<Setter Property="ClipToBounds" Value="False"/>
 										<Setter Property="CornerRadius" Value="4"/>
 										<Setter Property="Template">
 											<ControlTemplate>
-												<DockPanel Background="AliceBlue">
-													<Grid DockPanel.Dock="Left" >
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition Width="40"/>
-															<ColumnDefinition Width="0"/>
-															<ColumnDefinition Width="1*"/>
-														</Grid.ColumnDefinitions>
-														<PathIcon Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Left"
-																  Margin="10 8 0 8"
-															Data="M170.666667 85.333333h682.666666a85.333333 85.333333 0 0 1 85.333334 85.333334v682.666666a85.333333 85.333333 0 0 1-85.333334 85.333334H170.666667a85.333333 85.333333 0 0 1-85.333334-85.333334V170.666667a85.333333 85.333333 0 0 1 85.333334-85.333334m85.333333 170.666667v170.666667h170.666667v85.333333H341.333333v256h85.333334v-85.333333h170.666666v85.333333h85.333334v-256h-85.333334v-85.333333h170.666667V256h-170.666667v170.666667h-170.666666V256H256z"/>
-
-														<Grid Name="TextGrounp" Grid.Column="2" HorizontalAlignment="Left" Height="45"
-															  VerticalAlignment="Center">
-															<Grid.Transitions>
-																<Transitions>
-																	<ThicknessTransition Duration="0:0:0.35" Property="Margin"
-																						 Easing="ExponentialEaseOut"/>
-																</Transitions>
-															</Grid.Transitions>
+												<Border Background="Transparent" HorizontalAlignment="Stretch" Name="Main">
+													<Border.Transitions>
+														<Transitions>
+															<BoxShadowsTransition Property="BoxShadow"
+																				  Easing="ExponentialEaseOut"
+																				  Duration="0:0:0.35"/>
+														</Transitions>
+													</Border.Transitions>
+													
+													<Grid>
+														<Grid HorizontalAlignment="Left" MaxWidth="{Binding	Main,Converter={StaticResource MaxWidthConverter}}">
 															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="40"/>
+																<ColumnDefinition Width="0"/>
 																<ColumnDefinition Width="1*"/>
-																<ColumnDefinition Width="10"/>
-																<ColumnDefinition Width="Auto"/>
 															</Grid.ColumnDefinitions>
-															<TextBlock Text="{Binding Id}" FontSize="17"
-																	   VerticalAlignment="Center"/>
+															<PathIcon Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Left"
+																	  Margin="10 8 0 8"
+																Data="M170.666667 85.333333h682.666666a85.333333 85.333333 0 0 1 85.333334 85.333334v682.666666a85.333333 85.333333 0 0 1-85.333334 85.333334H170.666667a85.333333 85.333333 0 0 1-85.333334-85.333334V170.666667a85.333333 85.333333 0 0 1 85.333334-85.333334m85.333333 170.666667v170.666667h170.666667v85.333333H341.333333v256h85.333334v-85.333333h170.666666v85.333333h85.333334v-256h-85.333334v-85.333333h170.666667V256h-170.666667v170.666667h-170.666666V256H256z"/>
 
-															<Border Height="26" CornerRadius="4" Grid.Column="2"
-																	Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
-																	HorizontalAlignment="Left">
-																<Grid VerticalAlignment="Center" Margin="6 0">
-																	<TextBlock FontSize="13"
-																			   Text="{Binding Source}" TextAlignment="Left"
-																			   TextTrimming="CharacterEllipsis"/>
-																</Grid>
-															</Border>
-														</Grid>
-													</Grid>
+															<Grid Name="TextGrounp" Grid.Column="2"
+																  HorizontalAlignment="Left" Height="45"
+																  IsHitTestVisible="False"
+																  VerticalAlignment="Center">
+																<Grid.Transitions>
+																	<Transitions>
+																		<ThicknessTransition Duration="0:0:0.35" Property="Margin"
+																							 Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Grid.Transitions>
+																<Grid.ColumnDefinitions>
+																	<ColumnDefinition Width="1*"/>
+																	<ColumnDefinition Width="10"/>
+																	<ColumnDefinition Width="Auto"/>
+																</Grid.ColumnDefinitions>
+																<TextBlock Text="{Binding Id}" FontSize="17"
+																		   VerticalAlignment="Center"
+																		   TextTrimming="CharacterEllipsis"/>
 
-													<StackPanel DockPanel.Dock="Right"
-																Orientation="Horizontal"
-																Margin="0 0 10 0" Name="ButtonGroup"
-																VerticalAlignment="Center"
-																HorizontalAlignment="Right">
-														<Button Height="30" Width="30" Classes="transparent" ToolTip.Tip="启动此游戏核心">
-															<Grid>
-																<PathIcon FontSize="1" Data="M511.871696 838.389485a36.765826 36.765826 0 0 1-9.302793-1.237074 773.467865 773.467865 0 0 0-367.212912-12.271769 36.815309 36.815309 0 0 1-46.810863-35.380304A247.41471 247.41471 0 0 1 201.811582 561.136561a255.480429 255.480429 0 0 1 78.479946-30.679424C291.029326 173.338746 480.400545 15.042814 488.911611 8.313134a36.815309 36.815309 0 0 1 46.513965 0c8.263651 6.72968 197.63487 165.025611 208.620084 522.144003a255.480429 255.480429 0 0 1 78.479945 30.679424 247.959022 247.959022 0 0 1 112.771625 228.363777 36.815309 36.815309 0 0 1-46.860346 35.380304 773.072002 773.072002 0 0 0-367.163429 12.271769 36.815309 36.815309 0 0 1-9.401759 1.237074z m-226.384459-103.2709a933.891563 933.891563 0 0 1 226.384459 28.353726 889.010534 889.010534 0 0 1 346.380593-19.793177 161.314391 161.314391 0 0 0-152.357978-145.182952 36.815309 36.815309 0 0 1-35.528752-36.815308c0-266.910989-109.406785-418.724654-158.345414-473.30434-49.087078 54.431236-158.345414 206.442834-158.345414 473.551754a36.815309 36.815309 0 0 1-35.726684 36.815309 161.116459 161.116459 0 0 0-152.160047 145.133469 795.289842 795.289842 0 0 1 119.649754-8.758481z m232.520344 127.616507a44.089301 44.089301 0 0 1-12.27177 0c-19.793177 0-74.224413 12.27177 6.135885 161.264908 80.657195-149.389002 26.225959-161.264908 6.135885-161.264908z"/>
+																<Border Height="26" CornerRadius="4" Grid.Column="2"
+																		Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
+																		HorizontalAlignment="Left">
+																	<Grid VerticalAlignment="Center" Margin="6 0">
+																		<TextBlock FontSize="13"
+																				   Text="{Binding Source}" TextAlignment="Left"
+																				   TextTrimming="CharacterEllipsis"/>
+																	</Grid>
+																</Border>
 															</Grid>
-														</Button>
-														
-														<Button Height="30" Width="30" Classes="transparent" Click="GoConfigClick">
-															<PathIcon VerticalAlignment="Center"
-																	  HorizontalAlignment="Center"
-																	  Data="M512 853.333333a341.333333 341.333333 0 1 0 0-682.666666 341.333333 341.333333 0 0 0 0 682.666666z m0 85.333334C276.352 938.666667 85.333333 747.648 85.333333 512S276.352 85.333333 512 85.333333s426.666667 191.018667 426.666667 426.666667-191.018667 426.666667-426.666667 426.666667z m-42.666667-469.333334v256h85.333334v-256h-85.333334z m0-170.666666h85.333334v85.333333h-85.333334V298.666667z"/>
-														</Button>
-													</StackPanel>
-												</DockPanel>
+														</Grid>
+
+														<StackPanel Orientation="Horizontal"
+																	Grid.Column="2"
+																	Margin="0 0 10 0" Name="ButtonGroup"
+																	VerticalAlignment="Center"
+																	HorizontalAlignment="Right">
+															<StackPanel.Background>
+																<LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+																	<GradientStop Color="Transparent" Offset="0"/>
+																	<GradientStop Color="#fff3f3f3" Offset="0.1"/>
+																</LinearGradientBrush>
+															</StackPanel.Background>
+															<Button Height="30" Width="30" Classes="transparent" ToolTip.Tip="启动此游戏核心">
+																<Grid>
+																	<PathIcon FontSize="1" Data="M511.871696 838.389485a36.765826 36.765826 0 0 1-9.302793-1.237074 773.467865 773.467865 0 0 0-367.212912-12.271769 36.815309 36.815309 0 0 1-46.810863-35.380304A247.41471 247.41471 0 0 1 201.811582 561.136561a255.480429 255.480429 0 0 1 78.479946-30.679424C291.029326 173.338746 480.400545 15.042814 488.911611 8.313134a36.815309 36.815309 0 0 1 46.513965 0c8.263651 6.72968 197.63487 165.025611 208.620084 522.144003a255.480429 255.480429 0 0 1 78.479945 30.679424 247.959022 247.959022 0 0 1 112.771625 228.363777 36.815309 36.815309 0 0 1-46.860346 35.380304 773.072002 773.072002 0 0 0-367.163429 12.271769 36.815309 36.815309 0 0 1-9.401759 1.237074z m-226.384459-103.2709a933.891563 933.891563 0 0 1 226.384459 28.353726 889.010534 889.010534 0 0 1 346.380593-19.793177 161.314391 161.314391 0 0 0-152.357978-145.182952 36.815309 36.815309 0 0 1-35.528752-36.815308c0-266.910989-109.406785-418.724654-158.345414-473.30434-49.087078 54.431236-158.345414 206.442834-158.345414 473.551754a36.815309 36.815309 0 0 1-35.726684 36.815309 161.116459 161.116459 0 0 0-152.160047 145.133469 795.289842 795.289842 0 0 1 119.649754-8.758481z m232.520344 127.616507a44.089301 44.089301 0 0 1-12.27177 0c-19.793177 0-74.224413 12.27177 6.135885 161.264908 80.657195-149.389002 26.225959-161.264908 6.135885-161.264908z"/>
+																</Grid>
+															</Button>
+
+															<Button Height="30" Width="30" Classes="transparent" Click="GoConfigClick">
+																<PathIcon VerticalAlignment="Center"
+																		  HorizontalAlignment="Center"
+																		  Data="M512 853.333333a341.333333 341.333333 0 1 0 0-682.666666 341.333333 341.333333 0 0 0 0 682.666666z m0 85.333334C276.352 938.666667 85.333333 747.648 85.333333 512S276.352 85.333333 512 85.333333s426.666667 191.018667 426.666667 426.666667-191.018667 426.666667-426.666667 426.666667z m-42.666667-469.333334v256h85.333334v-256h-85.333334z m0-170.666666h85.333334v85.333333h-85.333334V298.666667z"/>
+															</Button>
+														</StackPanel>
+													</Grid>
+												</Border>
 											</ControlTemplate>
 										</Setter>
 									</Style>
@@ -154,6 +175,18 @@
 
 									<Style Selector="ListBoxItem:pointerover /template/ StackPanel#ButtonGroup">
 										<Setter Property="IsVisible" Value="True"/>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
 									</Style>
 								</Styles>
 							</ListBox.Styles>
