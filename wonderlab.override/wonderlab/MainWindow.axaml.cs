@@ -76,6 +76,8 @@ namespace wonderlab
             var transform = draggableElement!.RenderTransform as TranslateTransform ?? new();
 
             TranslateYAnimation animation = new(transform!.Y, WindowHeight - 125);
+
+            animation.AnimationCompleted += (_, _) => { topbar.RenderTransform = new TranslateTransform() { Y = WindowHeight - 125 }; };
             animation.RunAnimation(topbar);
             IsOpen = true;
             CenterContent.Height = WindowHeight - 125;
