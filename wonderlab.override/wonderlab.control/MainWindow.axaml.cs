@@ -35,7 +35,6 @@ namespace wonderlab.control
             };
 
             bar.ShowDialog();
-            bab.ShowErrorBar();
         }
 
         private void ThemeChange_Checked(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -70,8 +69,6 @@ namespace wonderlab.control
 
         private void D_CloseButtonClick(object? sender, Controls.Dialog.Events.CloseButtonClick e)
         {
-            d.HideDialog();
-            bab.HideErrorBar();
         }
 
         private void ShowDialogClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

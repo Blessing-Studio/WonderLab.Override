@@ -7,8 +7,7 @@
 		     xmlns:wcb="using:wonderlab.control.Controls.Bar"
              x:Class="wonderlab.Views.Pages.HomePage">
 	<Grid>
-		<wcb:BottomActionBar x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"
-							 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"/>
+		<wcb:BottomActionBar x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"/>
 		<!--{DynamicResource DialogContentBackground}-->
 		<Border HorizontalAlignment="Stretch"
 				VerticalAlignment="Bottom"

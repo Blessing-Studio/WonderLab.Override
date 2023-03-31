@@ -51,7 +51,12 @@ namespace wonderlab.Views.Pages
             Polymerize.Opacity = 1;
         }
 
-        private void OnLaunchButtonClick(object? sender, System.EventArgs e) {       
+        private void OnLaunchButtonClick(object? sender, System.EventArgs e) {
+            if (ViewModel.SelectGameCore is null) {
+                "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
+                return;
+            }
+
             ViewModel.SelectAccountAction();
         }
     }

@@ -15,7 +15,6 @@ namespace wonderlab.control.Controls.Bar
     /// </summary>
     public class BottomActionBar : TemplatedControl
     {
-        Border BorderBorder;
         public event EventHandler<EventArgs>? LaunchButtonClick;
         public event EventHandler<EventArgs>? GameChangeClick;
         public ICommand? LaunchButtonCommand { get => GetValue(LaunchButtonCommandProperty); set => SetValue(LaunchButtonCommandProperty, value); }
@@ -45,7 +44,6 @@ namespace wonderlab.control.Controls.Bar
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {       
             base.OnApplyTemplate(e);
             
-            BorderBorder = e.NameScope.Find<Border>("ErrorBorder");
             var res = e.NameScope.Find<Button>("LaunchButton");
             var res1 = e.NameScope.Find<Button>("GameChangeButton");
             res.Click += OnLaunchClick;
@@ -59,17 +57,6 @@ namespace wonderlab.control.Controls.Bar
         private void OnLaunchClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {       
             LaunchButtonClick?.Invoke(sender, e);
             LaunchButtonCommand?.Execute(null);
-        }
-
-        public void ShowErrorBar() {
-            BorderBorder.IsVisible = true;
-            BorderBorder.Width = 220;
-        }
-
-        public async void HideErrorBar() {
-            BorderBorder.Width = 0;
-            await Task.Delay(370);
-            BorderBorder.IsVisible = true;
         }
     }
 }

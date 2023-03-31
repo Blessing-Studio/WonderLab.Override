@@ -269,8 +269,7 @@ namespace wonderlab
 
             await Task.Delay(20);
 
-            if (ViewModel.CurrentPage is HomePage)
-            {
+            if (ViewModel.CurrentPage is HomePage) {           
                 TranslateYAnimation animation1 = new(0, 100);
                 animation1.RunAnimation((ViewModel.CurrentPage as HomePage).bab);
             }
