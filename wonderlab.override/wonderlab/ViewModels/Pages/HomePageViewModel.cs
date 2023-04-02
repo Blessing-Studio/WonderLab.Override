@@ -87,9 +87,9 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async void SelectAccountAction() {
-            var user = (await GameAccountUtils.GetUsersAsync());
+            var user = await GameAccountUtils.GetUsersAsync().ToListAsync();
 
-            if (user.Count == 1) {
+            if (user.Count() == 1) {
                 CurrentAccount = user.First().ToAccount();
                 LaunchTaskAction();
                 return;

@@ -17,7 +17,7 @@
 		Initialized="WindowsInitialized">
 	<Grid>
 		<Border Margin="-20" IsVisible="False">
-
+			
 		</Border>
 
 		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage"
@@ -60,7 +60,7 @@
 			</Border.Transitions>
 		</Border>
 
-		<ContentControl Name="Page" Margin="0 25 0 0" Content="{Binding CurrentPage}">
+		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>
 				<Transitions>
 					<DoubleTransition Easing="QuinticEaseOut" Duration="0:0:0.35" Property="Opacity"/>
@@ -68,67 +68,168 @@
 			</ContentControl.Transitions>
 		</ContentControl>
 
-		<wcb:ToolBar Name="ToolBar" HorizontalAlignment="Right"/>
+		<wcb:ToolBar IsVisible="False" Name="ToolBar" HorizontalAlignment="Right"/>
 
 		<!--Height="400"-->
-		<Border Background="{DynamicResource DialogContentBackground}"
-				VerticalAlignment="Top"
-				BorderThickness="1" Height="0"
-				BoxShadow="0 4 32 0 #66000000"
-				BorderBrush="{DynamicResource DialogContentBorderBrush}"
-				HorizontalAlignment="Stretch"
-				x:Name="CenterContent">
-			<Border.Transitions>
-				<Transitions>
-					<DoubleTransition Duration="0:0:0.2" Property="Height" Easing="ExponentialEaseOut"/>
-				</Transitions>
-			</Border.Transitions>
+		
+		<Grid Margin="16" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="150"/>
+			</Grid.ColumnDefinitions>
 
-			<wp:NotificationCenterPage/>
-		</Border>
-		
-		
-		<Border Height="25" Name="topbar"
-				VerticalAlignment="Top"
-				Background="{DynamicResource AccentBrush}"
-			    BoxShadow="0 1 4 0 #66000000">
+			<Border Grid.Column="4" VerticalAlignment="Top" Name="TopBar3">
+				<Border.Transitions>
+					<Transitions>
+						<ThicknessTransition Duration="0:0:0.65"
+											 Easing="ExponentialEaseOut"
+											 Property="Margin"/>
+					</Transitions>
+				</Border.Transitions>
+				<Grid>
+					<Border Background="{DynamicResource DialogContentBackground}"
+							BoxShadow="0 1 8 0 #66000000" CornerRadius="6"
+							BorderBrush="{DynamicResource DialogContentBorderBrush}"
+							BorderThickness="1" Height="40"
+							VerticalAlignment="Top">
+						<Border.RenderTransform>
+							<TransformGroup>
+								<SkewTransform AngleX="-8"/>
+							</TransformGroup>
+						</Border.RenderTransform>
+					</Border>
+
+					<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="2"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+						
+						<Button Classes="rotatebutton" Grid.Column="2"
+		                        HorizontalAlignment="Right" Name="close"
+		                        VerticalAlignment="Top" Margin="15 0 0 0"/>
+
+						<Border Background="Black" HorizontalAlignment="Right"
+								VerticalAlignment="Stretch" Width="1"
+								Grid.Column="1">
+							<Border.RenderTransform>
+								<TransformGroup>
+									<SkewTransform AngleX="-8"/>
+								</TransformGroup>
+							</Border.RenderTransform>
+						</Border>
+
+						<Button Name="Mini"
+								Grid.Column="0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Center"
+								Classes="rotatebutton1"
+								Margin="0 0 15 0"/>
+					</Grid>
+				</Grid>
+			</Border>
+
+			<Border Grid.Column="2" Name="TopBar2">
+				<Border.Transitions>
+					<Transitions>
+						<ThicknessTransition Duration="0:0:0.65"
+											 Easing="ExponentialEaseOut"
+											 Property="Margin"/>
+					</Transitions>
+				</Border.Transitions>
+				<Grid VerticalAlignment="Top">
+					<Border Background="{DynamicResource DialogContentBackground}"
+		                    BoxShadow="0 1 8 0 #66000000" CornerRadius="6"
+		                    BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		                    BorderThickness="1" Height="40" VerticalAlignment="Top">
+						<Border.RenderTransform>
+							<TransformGroup>
+								<SkewTransform AngleX="-8"/>
+							</TransformGroup>
+						</Border.RenderTransform>
+					</Border>
+
+					<Button Classes="transparent" 
+							Margin="10 0 15 0" Name="NotificationCenterButton">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="20"/>
+								<ColumnDefinition Width="10"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							
+							<ProgressBar Classes="Circle"
+										 HorizontalAlignment="Left"
+										 Height="20" Width="20"
+										 IsIndeterminate="True"
+										 Foreground="{DynamicResource AccentBrushDark1}"/>
+							
+							<TextBlock Grid.Column="2"
+									   VerticalAlignment="Center"
+									   Text="共有 1 个任务正在进行"/>
+						</Grid>
+					</Button>
+				</Grid>
+			</Border>
 			
-			<Grid>
-				<TextBlock Text="WonderLab -Preview"
-						   VerticalAlignment="Center"
-						   HorizontalAlignment="Center"/>
+			<Border Grid.Column="0" Name="TopBar1">
+				<Border.Transitions>
+					<Transitions>
+						<ThicknessTransition Duration="0:0:0.55"
+											 Easing="ExponentialEaseOut"
+											 Property="Margin"/>
+					</Transitions>
+				</Border.Transitions>
+				<Grid>
+					<Border Background="{DynamicResource DialogContentBackground}"
+							BoxShadow="0 1 8 0 #66000000" CornerRadius="6"
+							BorderBrush="{DynamicResource DialogContentBorderBrush}"
+							BorderThickness="1" Height="60" Width="180">
+						<Border.RenderTransform>
+							<TransformGroup>
+								<SkewTransform AngleX="-8"/>
+							</TransformGroup>
+						</Border.RenderTransform>
+					</Border>
 
-				<TextBlock Text="下拉打开通知中心" Margin="10 0 10 0"
-		                   VerticalAlignment="Center" Opacity="0"
-		                   HorizontalAlignment="Right">
-					<TextBlock.Styles>
-						<Styles>
-							<Style Selector="TextBlock">
-								<Style.Animations>
-									<Animation Duration="0:0:5" IterationCount="Infinite">
-										<KeyFrame KeyTime="0:0:0" KeySpline="0.4,0,0.6,1">
-											<Setter Property="Opacity" Value="0"/>
-										</KeyFrame>
-										<KeyFrame KeyTime="0:0:3" KeySpline="0.4,0,0.6,1">
-											<Setter Property="Opacity" Value="1"/>
-										</KeyFrame>
-										<KeyFrame KeyTime="0:0:5" KeySpline="0.4,0,0.6,1">
-											<Setter Property="Opacity" Value="0"/>
-										</KeyFrame>
-									</Animation>
-								</Style.Animations>
-							</Style>
-						</Styles>
-					</TextBlock.Styles>
-				</TextBlock>
-			</Grid>
-		</Border>
+					<Grid Margin="15 0 0 0" VerticalAlignment="Center">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="2"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+						<TextBlock Text="WonderLab"
+								   FontSize="16"
+								   FontWeight="SemiBold"/>
+
+						<Border Grid.Row="1" Background="Black"
+								HorizontalAlignment="Stretch"
+								Height="1"
+								Margin="0 0 15 0"/>
+
+						<TextBlock Text="Lsaac 1.2.0"
+								   Grid.Row="2"
+								   Margin="0 4 0 0"
+								   FontSize="12"
+								   Opacity="0.65"/>
+					</Grid>
+				</Grid>
+			</Border>
+
+		</Grid>
+		
+		<wp:NotificationCenterPage Name="NotificationCenter"/>
 		
 		<wcd:MessageDialog x:Name="MainDialog"/>		 
 
 		<wcdx:GameInstallDialog Name="Install"/>
+		
 		<wcdx:UserAuthDialog Name="Auth"/>
-		<!--Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"-->
+		
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>
 				<StackPanel Spacing="5">
@@ -142,4 +243,4 @@
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 	</Grid>
 </Window>
- 
+  

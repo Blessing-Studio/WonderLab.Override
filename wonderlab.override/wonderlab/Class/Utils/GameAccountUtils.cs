@@ -15,19 +15,14 @@ using static System.Net.Mime.MediaTypeNames;
 namespace wonderlab.Class.Utils
 {
     public class GameAccountUtils {
-        public static async ValueTask<List<UserModel>> GetUsersAsync() {
+        public static async IAsyncEnumerable<UserModel> GetUsersAsync() {
             JsonUtils.DirectoryCheck();
 
-            List<UserModel> results = new List<UserModel>();
-            var usersFile = Directory.GetFiles(JsonUtils.UserDataPath);
+            var usersFile = Directory.EnumerateFiles(JsonUtils.UserDataPath);
             foreach (var user in usersFile) {
                 var text = await File.ReadAllTextAsync(user);
-                var data = JsonConvert.DeserializeObject<UserModel>(CryptoToolkit.DecrytOfKaiser(text.ConvertToString()));
-
-                results.Add(data);
+                yield return JsonConvert.DeserializeObject<UserModel>(CryptoToolkit.DecrytOfKaiser(text.ConvertToString()))!;
             }
-
-            return results;
         }
 
         public static async ValueTask SaveUserDataAsync(UserModel user) { 

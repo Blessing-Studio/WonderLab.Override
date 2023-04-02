@@ -3,74 +3,130 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="wonderlab.Views.Pages.NotificationCenterPage">
+             x:Class="wonderlab.Views.Pages.NotificationCenterPage" ClipToBounds="True">
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="1*" MaxHeight="55"/>
-			<RowDefinition MinHeight="1" MaxHeight="1"/>
-			<RowDefinition Height="1*"/>
-		</Grid.RowDefinitions>
-		
-		<TextBlock Text="通知中心" VerticalAlignment="Top"
-		   HorizontalAlignment="Left" Grid.Row="0"
-		   Margin="16" FontWeight="Bold"
-		   FontSize="18" />
+		<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+				Background="{DynamicResource DialogBackground}"
+				Name="background" Opacity="0">
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.65"
+								      Easing="ExponentialEaseOut"
+								      Property="Opacity"/>
+				</Transitions>
+			</Border.Transitions>
+		</Border>
 		
 		<Button Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Height="20"
-				Margin="20" Classes="rotatebutton" ToolTip.Tip="关闭 WonderLab"
-				Command="{Binding CloseLauncherAction}"/>
-		
-		<ListBox Items="{Binding Notifications}" Grid.Row="2">
-			<ListBox.Styles>
-				<Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Margin" Value="16,6"/>
-						<Setter Property="Template">
-							<ControlTemplate>
-								<Grid>
-									<Border HorizontalAlignment="Stretch"
-											VerticalAlignment="Stretch"
-											Background="{DynamicResource ControlFillColorDefault}"
-											BorderThickness="1"
-											BorderBrush="{DynamicResource DialogContentBorderBrush}"
-											CornerRadius="8">
-										<Grid>
-											<Grid.RowDefinitions>
-												<RowDefinition Height="1*"/>
-												<RowDefinition Height="5"/>
-												<RowDefinition Height="1*"/>
-												<RowDefinition Height="0"/>
-												<RowDefinition Height="1*"/>
-												<RowDefinition Height="10"/>
-											</Grid.RowDefinitions>
-											<TextBlock Margin="15 10 15 0" Text="{Binding Title}"
-													   FontWeight="Bold" FontSize="15"/>
+				Margin="20" Classes="rotatebutton" ToolTip.Tip="关闭 WonderLab" IsVisible="False"
+				Command="{Binding CloseLauncherAction}"/>		
 
-											<DockPanel Grid.Row="2" Margin="15 0 15 3">
-												<TextBlock DockPanel.Dock="Left" Text="{Binding Progress}"/>
-												<TextBlock DockPanel.Dock="Right" 
-														   Text="{Binding RunTime}"
-														   HorizontalAlignment="Right"/>
-											</DockPanel>
-											
-											<ProgressBar Value="{Binding ProgressOfBar}" Grid.Row="4" 
-														 Margin="15 0 15 0"
-														 Foreground="{DynamicResource AccentBrushDark1}"/>
-										</Grid>
-									</Border>									
-								</Grid>
-							</ControlTemplate>
-						</Setter>
-					</Style>
-				</Styles>
-			</ListBox.Styles>
-		</ListBox>
-		
-		<TextBlock Text="没有新通知" IsVisible="{Binding HasNotification}"
-				   VerticalAlignment="Center"
-				   HorizontalAlignment="Center"
-				   FontSize="16"
-				   FontWeight="Bold"
-				   Grid.Row="2"/>
+		<Grid Margin="15">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="15"/>
+				<RowDefinition Height="1*"/>
+			</Grid.RowDefinitions>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.8*"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<Border Background="{DynamicResource DialogContentBackground}"
+		            BoxShadow="0 1 8 0 #66000000" CornerRadius="6" Width="120"
+					HorizontalAlignment="Right" Grid.Column="2" Name="Title"
+		            BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		            BorderThickness="1" Height="40" VerticalAlignment="Top"
+					Margin="0, 0, -140, 0">
+				<Border.Transitions>
+					<Transitions>
+						<ThicknessTransition Duration="0:0:0.65"
+											 Easing="ExponentialEaseOut"
+											 Property="Margin"/>
+					</Transitions>
+				</Border.Transitions>
+				<Border.RenderTransform>
+					<TransformGroup>
+						<SkewTransform AngleX="-8"/>
+					</TransformGroup>
+				</Border.RenderTransform>
+				<TextBlock Text="通知中心" FontSize="18"
+				           FontWeight="SemiBold" Margin="20 0 15 0"
+						   VerticalAlignment="Center"/>
+			</Border>
+
+			<Border Name="List" Grid.Row="2" Grid.Column="2"
+					Width="420" HorizontalAlignment="Right" Margin="0, 0, -880, 0">
+				<Border.Transitions>
+					<Transitions>
+						<ThicknessTransition Duration="0:0:0.65"
+											 Easing="ExponentialEaseOut"
+											 Property="Margin"/>
+					</Transitions>
+				</Border.Transitions>
+				<Grid>
+					<Border Background="{DynamicResource DialogContentBackground}"
+							BoxShadow="0 1 8 0 #66000000" CornerRadius="6"
+							BorderBrush="{DynamicResource DialogContentBorderBrush}"
+							BorderThickness="1">
+					</Border>
+
+					<ListBox Items="{Binding Notifications}"
+							 Background="Transparent" Margin="0 15 0 0">
+						<ListBox.Styles>
+							<Styles>
+								<Style Selector="ListBoxItem">
+									<Setter Property="Margin" Value="16,6"/>
+									<Setter Property="Template">
+										<ControlTemplate>
+											<Grid>
+												<Border HorizontalAlignment="Stretch"
+														VerticalAlignment="Stretch"
+														Background="{DynamicResource ControlFillColorDefault}"
+														BorderThickness="1"
+														BorderBrush="{DynamicResource DialogContentBorderBrush}"
+														CornerRadius="8">
+													<Grid>
+														<Grid.RowDefinitions>
+															<RowDefinition Height="1*"/>
+															<RowDefinition Height="5"/>
+															<RowDefinition Height="1*"/>
+															<RowDefinition Height="0"/>
+															<RowDefinition Height="1*"/>
+															<RowDefinition Height="10"/>
+														</Grid.RowDefinitions>
+														<TextBlock Margin="15 10 15 0" Text="{Binding Title}"
+																   FontWeight="Bold" FontSize="15"/>
+
+														<DockPanel Grid.Row="2" Margin="15 0 15 3">
+															<TextBlock DockPanel.Dock="Left" Text="{Binding Progress}"/>
+															<TextBlock DockPanel.Dock="Right"
+																	   Text="{Binding RunTime}"
+																	   HorizontalAlignment="Right"/>
+														</DockPanel>
+
+														<ProgressBar Value="{Binding ProgressOfBar}" Grid.Row="4"
+																	 Margin="15 0 15 0"
+																	 Foreground="{DynamicResource AccentBrushDark1}"/>
+													</Grid>
+												</Border>
+											</Grid>
+										</ControlTemplate>
+									</Setter>
+								</Style>
+							</Styles>
+						</ListBox.Styles>
+					</ListBox>
+
+					<TextBlock Text="没有新通知" IsVisible="{Binding HasNotification}"
+							   VerticalAlignment="Center"
+							   HorizontalAlignment="Center"
+							   FontSize="16"
+							   FontWeight="Bold"
+							   Margin="15 0"/>
+				</Grid>
+			</Border>
+		</Grid>
 	</Grid>
 </UserControl>

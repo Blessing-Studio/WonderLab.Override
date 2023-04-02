@@ -1,5 +1,6 @@
 ﻿using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -83,18 +84,21 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void ReturnAction() {
-            MainWindow.Instance.NavigationPage(new HomePage());
-            var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
+            Dispatcher.UIThread.Post(() => {           
+                MainWindow.Instance.OpenTopBar();
+                MainWindow.Instance.NavigationPage(new HomePage());
+                var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
 
-            MainWindow.Instance.OpenBar.IsVisible = true;
-            MainWindow.Instance.OpenBar.IsHitTestVisible = true;
-            OpacityChangeAnimation animation = new(true);
-            TranslateXAnimation animation2 = new(transform.X, 0);
-            animation2.RunAnimation(MainWindow.Instance.OpenBar);
+                MainWindow.Instance.OpenBar.IsVisible = true;
+                MainWindow.Instance.OpenBar.IsHitTestVisible = true;
+                OpacityChangeAnimation animation = new(true);
+                TranslateXAnimation animation2 = new(transform.X, 0);
+                animation2.RunAnimation(MainWindow.Instance.OpenBar);
 
-            TranslateXAnimation animation1 = new(100, 0);
-            animation1.RunAnimation(MainWindow.Instance.ToolBar);
-            animation.RunAnimation(MainWindow.Instance.Back);
+                TranslateXAnimation animation1 = new(100, 0);
+                animation1.RunAnimation(MainWindow.Instance.ToolBar);
+                animation.RunAnimation(MainWindow.Instance.Back);
+            });
         }
     }
 }

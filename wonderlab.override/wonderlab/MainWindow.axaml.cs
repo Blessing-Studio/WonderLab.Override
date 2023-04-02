@@ -39,6 +39,7 @@ namespace wonderlab
             new ColorHelper().Load();
             ThemeUtils.Init();
             JsonUtils.CraftLauncherInfoJson();
+            Instance = this;
 
             WindowWidth = Width;
             WindowHeight = Height;
@@ -46,6 +47,7 @@ namespace wonderlab
                 JsonUtils.WriteLaunchInfoJson();
                 JsonUtils.WriteLauncherInfoJson();
             };
+
             PointerMoved += (_, x) => {
                 if (CanParallax) { 
                     Point position = x.GetPosition(BackgroundImage);
@@ -69,18 +71,10 @@ namespace wonderlab
                     BackgroundImage.RenderTransform = new TranslateTransform(0, 0);
                 }
             };
-        }
 
-        public void ShowTopBar() {
-            var draggableElement = topbar as IVisual;
-            var transform = draggableElement!.RenderTransform as TranslateTransform ?? new();
-
-            TranslateYAnimation animation = new(transform!.Y, WindowHeight - 125);
-
-            animation.AnimationCompleted += (_, _) => { topbar.RenderTransform = new TranslateTransform() { Y = WindowHeight - 125 }; };
-            animation.RunAnimation(topbar);
-            IsOpen = true;
-            CenterContent.Height = WindowHeight - 125;
+            close.Click += (_, _) => Close();
+            Mini.Click += (_, _) => WindowState = WindowState.Minimized;
+            NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
         }
 
         private void MainWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
@@ -91,30 +85,11 @@ namespace wonderlab
                 {
                     var page = ViewModel.CurrentPage as HomePage;
                     if (HomePage.ViewModel.Isopen) {
-                        HomePage.ViewModel.PanelHeight = Height - 160;
+                        HomePage.ViewModel.PanelHeight = Height - 180;
                     }
                 }
 
                 WindowHeight = e.NewValue!.ToDouble();
-                var transform = topbar.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    topbar.RenderTransform = transform;
-                }
-
-                if (IsOpen)
-                {
-                    transform!.Y = WindowHeight - 125;
-                    Y = WindowHeight - 125;
-                }
-                else
-                {
-                    transform!.Y = 0;
-                    Y = 0;
-                }
-
-                CenterContent.Height = transform!.Y;
             }
             else if (e.Property == WidthProperty)
             {
@@ -124,18 +99,11 @@ namespace wonderlab
 
         private async void WindowsInitialized(object? sender, EventArgs e)
         {
-            this.Hide();
-            await Task.Delay(800);
+            await Task.Delay(500);
             DataContext = ViewModel = new();
 
-            ToolBar.InitStartAnimation();
-            ToolBar.HostWindows = Instance = this;
             PropertyChanged += MainWindow_PropertyChanged;
             Drop.PointerPressed += Drop_PointerPressed;
-
-            topbar.PointerMoved += Topbar_PointerMoved;
-            topbar.PointerPressed += Topbar_PointerPressed;
-            topbar.PointerReleased += Topbar_PointerReleased;
 
             OpenBar.PointerMoved += OpenBar_PointerMoved;
             OpenBar.PointerPressed += OpenBar_PointerPressed;
@@ -148,7 +116,6 @@ namespace wonderlab
 
             ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
             CanParallax = App.LauncherData.ParallaxType is not "无";
-
 
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate() && SystemUtils.IsWindows)
@@ -277,65 +244,23 @@ namespace wonderlab
             }
         }
 
+        public async void CloseTopBar() {
+            TopBar1.Margin = new(0, -150, 0, 0);
+            await Task.Delay(50);
+            TopBar2.Margin = new(0, -100, 0, 0);
+            await Task.Delay(50);
+            TopBar3.Margin = new(0, -100, 0, 0);
+        }
+
+        public async void OpenTopBar() {       
+            TopBar3.Margin = new(0);
+            await Task.Delay(50);
+            TopBar2.Margin = new(0);
+            await Task.Delay(50);
+            TopBar1.Margin = new(0);
+        }
+
         #region 拖动组件事件
-
-        private void Topbar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
-        {
-            isDragging = false;
-            var draggableElement = sender as IVisual;
-            var transform = draggableElement!.RenderTransform as TranslateTransform;
-
-            if (transform!.Y != 0 && transform.Y <= WindowHeight / 2)
-            {
-                TranslateYAnimation animation = new(transform.Y, 0);
-                animation.RunAnimation(topbar);
-                IsOpen = false;
-                CenterContent.Height = 0;
-            }
-            else
-            {
-                TranslateYAnimation animation = new(transform.Y, WindowHeight - 125);
-                animation.RunAnimation(topbar);
-                IsOpen = true;
-                CenterContent.Height = WindowHeight - 125;
-            }
-        }
-
-        private void Topbar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
-            isDragging = true;
-            var draggableElement = sender as IVisual;
-            var clickPosition = e.GetPosition(this);
-
-            var transform = draggableElement.RenderTransform as TranslateTransform;
-            if (transform == null)
-            {
-                transform = new TranslateTransform();
-                draggableElement.RenderTransform = transform;
-            }
-
-            Y = clickPosition.Y - transform.Y;
-        }
-
-        private void Topbar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
-        {
-            var draggableElement = sender as IVisual;
-            if (isDragging && draggableElement != null)
-            {
-                Point currentPosition = e.GetPosition(this.Parent);
-                var transform = draggableElement.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    draggableElement.RenderTransform = transform;
-                }
-                if (transform.Y <= WindowHeight)
-                {
-                    transform.Y = currentPosition.Y - Y;
-                    CenterContent.Height = transform.Y;
-                }
-            }
-        }
 
         private void OpenBar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
         {
@@ -362,7 +287,8 @@ namespace wonderlab
                 };
                 opacity.AnimationCompleted += (_, _) => { OpenBar.IsVisible = false; OpenBar.IsHitTestVisible = false; };
                 opacity.RunAnimation(Back);
-                NavigationPage(new ActionCenterPage());                                
+                NavigationPage(new ActionCenterPage());
+                CloseTopBar();
             }
 
         }

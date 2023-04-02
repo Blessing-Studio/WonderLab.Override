@@ -20,8 +20,8 @@ namespace wonderlab.Views.Pages
             DataContext = ViewModel = new();
 
             Close.Click += CloseClick;
-            bab.LaunchButtonClick += OnLaunchButtonClick;
-            bab.GameChangeClick += OnGameChangeClick;
+            LaunchButton.Click += OnLaunchButtonClick;
+            SelectGameCoreButton.Click += OnGameChangeClick;
 
             Polymerize.Opacity = 0;
         }
@@ -40,18 +40,18 @@ namespace wonderlab.Views.Pages
             Spotlight.IsHitTestVisible = false;
         }
         
-        private async void OnGameChangeClick(object? sender, System.EventArgs e) {
+        private async void OnGameChangeClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             ViewModel.Isopen = true;
             ViewModel.GetGameCoresAction();
 
             Spotlight.IsHitTestVisible = true;
-            ViewModel.PanelHeight = MainWindow.Instance.Height - 160;
+            ViewModel.PanelHeight = MainWindow.Instance.Height - 180;
 
             await Task.Delay(60);
             Polymerize.Opacity = 1;
         }
 
-        private void OnLaunchButtonClick(object? sender, System.EventArgs e) {
+        private async void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             if (ViewModel.SelectGameCore is null) {
                 "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
                 return;

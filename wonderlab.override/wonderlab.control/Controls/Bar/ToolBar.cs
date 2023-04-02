@@ -16,15 +16,15 @@ namespace wonderlab.control.Controls.Bar
 {
     public class ToolBar : TemplatedControl
     {
-        Border Border = null;
+        //Border Border = null;
         StackPanel StackPanel = null;
 
         public Window HostWindows;
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {       
             base.OnApplyTemplate(e);
-            Border = e.NameScope.Find<Border>("MainBorder");
-            StackPanel = e.NameScope.Find<StackPanel>("ButtonGrounp");
+            //Border = e.NameScope.Find<Border>("MainBorder");
+            //StackPanel = e.NameScope.Find<StackPanel>("ButtonGrounp");
             e.NameScope.Find<Button>("Close").Click += ToolBar_Click;
             e.NameScope.Find<Button>("Mini").Click += ToolBar_Click1;
         }
@@ -38,15 +38,15 @@ namespace wonderlab.control.Controls.Bar
         }
 
         public async void InitStartAnimation() {            
-            Border.Height = 180;
+            //Border.Height = 180;
             await Task.Delay(500);
-            StackPanel.Opacity = 1;
+            //StackPanel.Opacity = 1;
         }
 
         public async void CloseBarAnimation() {
-            StackPanel.Opacity = 0;
+            //StackPanel.Opacity = 0;
             await Task.Delay(300);
-            Border.Height = 0;
+            //Border.Height = 0;
         }
 
         public void Mini() {

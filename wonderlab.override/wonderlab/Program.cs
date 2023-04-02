@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using System;
+using System.Diagnostics;
 using wonderlab.Class.Utils;
 
 namespace wonderlab
@@ -26,23 +27,36 @@ namespace wonderlab
             }
         }
 
-        // Avalonia configuration, don't remove; also used by visual designer.
-        public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
+        public static AppBuilder BuildAvaloniaApp() {
+            var result = AppBuilder.Configure<App>()
+                   .UsePlatformDetect();
 
-                 #if WINDOWS
-                 .With(new Win32PlatformOptions
-                 {
-                     UseWgl = true,
-                     AllowEglInitialization = true,
-                 })
-                 .With(new SkiaOptions
-                 {
-                     MaxGpuResourceSizeBytes = long.MaxValue,
-                 })
-                #endif
+            //if (SystemUtils.IsMacOS)
+            //    result.With(new AvaloniaNativePlatformOptions
+            //    {
+            //        UseGpu = true
+            //    });
 
-                .LogToTrace();
+            //if (SystemUtils.IsLinux)
+            //    result.With(new X11PlatformOptions
+            //    {
+            //        UseGpu = true
+            //    });
+
+            //if (SystemUtils.IsWindows)
+            //{
+            //    result.With(new Win32PlatformOptions
+            //    {
+            //        UseWgl = true,
+            //        AllowEglInitialization = true,
+            //    });
+            //    result.With(new SkiaOptions
+            //    {
+            //        MaxGpuResourceSizeBytes = long.MaxValue,
+            //    });
+            //}
+            result.LogToTrace();
+            return result;
+        }
     }
 }

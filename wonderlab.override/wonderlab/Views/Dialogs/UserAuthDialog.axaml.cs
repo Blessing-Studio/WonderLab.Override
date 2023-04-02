@@ -59,7 +59,7 @@ namespace wonderlab.Views.Dialogs
         }
 
         public async void Show() {
-            ViewModel.GameAccounts = (await GameAccountUtils.GetUsersAsync()).ToObservableCollection();
+            ViewModel.GameAccounts = (await GameAccountUtils.GetUsersAsync().ToListAsync()).ToObservableCollection();
             AccountSelector.ShowDialog();
         }
     }

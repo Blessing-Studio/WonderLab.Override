@@ -26,8 +26,6 @@ namespace wonderlab.ViewModels.Windows
 {
     public class MainWindowViewModel : ReactiveObject
     {
-        public List<ModLoaderModel> forges, fabrics, quilt, optifine;
-
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
         }
@@ -38,7 +36,7 @@ namespace wonderlab.ViewModels.Windows
         [Reactive]
         public double DownloadProgress { get; set; } = 0.0;
 
-        private async void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {
                 Trace.WriteLine("[信息] 活动页面已改变");
             }

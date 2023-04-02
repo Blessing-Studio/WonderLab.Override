@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Threading;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,10 @@ namespace wonderlab.ViewModels.Pages
             MainWindow.Instance.Auth.Start();
         }
 
-        public async void Init() { 
-            GameAccounts = (await GameAccountUtils.GetUsersAsync()).ToObservableCollection();
+        public void Init() {
+            Dispatcher.UIThread.Post(async () => {
+                GameAccounts = (await GameAccountUtils.GetUsersAsync().ToListAsync()).ToObservableCollection();
+            });
         }
         public void BackPageAction() {
             MainWindow.Instance.NavigationPage(new ActionCenterPage());

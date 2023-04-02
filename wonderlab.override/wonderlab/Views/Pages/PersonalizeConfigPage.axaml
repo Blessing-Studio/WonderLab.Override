@@ -93,7 +93,8 @@
 			
 
 			<TextBlock Text="主题模式" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
-			<ComboBox MinWidth="300"
+			
+			<ComboBox MinWidth="300" IsEnabled="False"
 					  SelectedItem="{Binding CurrentThemeType}"
 					  Items="{Binding ThemeTypes}"/>
 

@@ -7,11 +7,11 @@
 		     xmlns:wcb="using:wonderlab.control.Controls.Bar"
              x:Class="wonderlab.Views.Pages.HomePage">
 	<Grid>
-		<wcb:BottomActionBar x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"/>
+		<wcb:BottomActionBar IsVisible="False" x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"/>
 		<!--{DynamicResource DialogContentBackground}-->
 		<Border HorizontalAlignment="Stretch"
 				VerticalAlignment="Bottom"
-				Margin="85 20 85 120"
+				Margin="85 30 85 90"
 				Background="{DynamicResource DialogContentBackground}"
 				IsHitTestVisible="False"
 			    Height="{Binding PanelHeight}"
@@ -284,5 +284,127 @@
 				</Grid>
 			</Grid>
 		</Border>
+
+		<Border VerticalAlignment="Bottom"
+				HorizontalAlignment="Stretch"
+				Margin="30">
+			<Grid>			
+				<Border Background="{DynamicResource DialogContentBackground}"
+		                BoxShadow="0 2 16 0 #66000000" CornerRadius="6"
+		                BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		                BorderThickness="1" Height="45">
+					<Border.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="-8"/>
+						</TransformGroup>
+					</Border.RenderTransform>
+				</Border>
+
+				<Button HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+					    Width="100" Margin="15 0 0 0"
+						Classes="wonderaccentbutton"
+						Name="LaunchButton"
+						Background="{DynamicResource AccentBrushDark1}">
+					<Button.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="-8"/>
+						</TransformGroup>
+					</Button.RenderTransform>
+					<TextBlock Text="启动游戏"/>
+				</Button>				
+				
+				<Grid Margin="115 0 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="1*"/>
+					</Grid.ColumnDefinitions>
+
+					<Grid Margin="15 0 0 0" Grid.Column="0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="80"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="60"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="60"/>
+						</Grid.ColumnDefinitions>
+
+						<Button Background="Transparent" Classes="transparent">
+							<TextBlock FontSize="15" Text="账户中心"/>
+						</Button>
+
+						<Button Background="Transparent" Classes="transparent" Grid.Column="2">
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="设置"/>
+						</Button>
+
+						<Button Classes="transparent" Background="Transparent" Grid.Column="4">
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="下载"/>
+						</Button>
+					</Grid>
+
+					<Button Grid.Column="2" VerticalAlignment="Center" Name="SelectGameCoreButton"
+							HorizontalAlignment="Right" Margin="15 0">
+						<Button.Styles>
+							<Styles>
+								<Style Selector="Button">
+									<Setter Property="Template">
+										<ControlTemplate>
+											<Border Padding="3" CornerRadius="4"
+													Name="Layout" Background="Transparent"
+													BorderThickness="1">
+												<Border.Transitions>
+													<Transitions>
+														<BrushTransition Duration="0:0:0.35"
+																	     Easing="ExponentialEaseOut"
+																	     Property="BorderBrush"/>
+													</Transitions>
+												</Border.Transitions>
+												<Grid>
+													<Grid.RowDefinitions>
+														<RowDefinition Height="1*"/>
+														<RowDefinition Height="1"/>
+														<RowDefinition Height="1*"/>
+													</Grid.RowDefinitions>
+
+													<TextBlock FontSize="10" Opacity="0.65"
+															   Text="当前核心" HorizontalAlignment="Right"/>
+
+													<TextBlock FontSize="12" Grid.Row="2" TextTrimming="CharacterEllipsis"
+															   Text="{Binding SelectGameCore.Id}"
+															   FontWeight="SemiBold"
+															   TextAlignment="Right"/>
+												</Grid>
+											</Border>
+										</ControlTemplate>
+									</Setter>
+								</Style>
+
+								<Style Selector="Button /template/	Border#Layout">
+									<Setter Property="BorderBrush" Value="Transparent"/>
+								</Style>
+
+								<Style Selector="Button:pointerover /template/ Border#Layout">
+									<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+								</Style>
+							</Styles>
+						</Button.Styles>
+					</Button>
+				</Grid>								
+			</Grid>
+		</Border>
+		
+		<!--<Button HorizontalAlignment="Right"
+				VerticalAlignment="Bottom" Height="35"
+				Margin="0 0 30 85" Width="120"
+				Classes="wonderaccentbutton"
+				Background="{DynamicResource AccentBrushDark1}">
+			<Button.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</Button.RenderTransform>
+			<TextBlock Text="启动游戏"/>
+		</Button>-->
 	</Grid>
 </UserControl>

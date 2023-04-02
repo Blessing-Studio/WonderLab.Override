@@ -338,8 +338,8 @@ namespace wonderlab.ViewModels.Dialogs
 
             MainWindow.Instance.Install.InstallDialog.HideDialog();
             data.Title = $"游戏 {customId} 的安装任务";
-            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
-                MainWindow.Instance.ShowTopBar();
+            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
+                MainWindow.Instance.NotificationCenter.Open();
             });
             NotificationCenterPage.ViewModel.Notifications.Add(data);
             await Task.Delay(2000);
@@ -372,8 +372,8 @@ namespace wonderlab.ViewModels.Dialogs
             var customId = $"{forgedata.GameCoreVersion}-{forgedata.ModLoader.ToLower()}-{forgedata.Id}";
             data.Title = $"游戏 {customId} 的安装任务";
 
-            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条或下拉顶部条以查看下载进度！".ShowMessage(() => {
-                MainWindow.Instance.ShowTopBar();
+            $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
+                MainWindow.Instance.NotificationCenter.Open();
             });
 
             data.Title = customId;
