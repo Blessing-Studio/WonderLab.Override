@@ -73,7 +73,7 @@ namespace wonderlab.ViewModels.Dialogs
         public ObservableCollection<AccountViewData> GameAccounts { set; get; } = new();
 
         [Reactive]
-        public UserModel CurrentAccount { set; get; } = null;
+        public AccountViewData CurrentAccount { set; get; } = null;
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentAuthenticatorType)) {
@@ -211,7 +211,7 @@ namespace wonderlab.ViewModels.Dialogs
 
         public void GameLaunchAction() {
             MainWindow.Instance.Auth.AccountSelector.HideDialog();
-            HomePage.ViewModel.CurrentAccount = CurrentAccount.ToAccount();
+            HomePage.ViewModel.CurrentAccount = CurrentAccount.Data.ToAccount();
 
             //此时已选择完账户，直接启动
             HomePage.ViewModel.LaunchTaskAction();
