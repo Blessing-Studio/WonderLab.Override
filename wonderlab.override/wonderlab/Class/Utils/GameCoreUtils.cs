@@ -34,7 +34,7 @@ namespace wonderlab.Class.Utils
         }
 
         public static string GetGameCoreVersionPath(GameCore core) {
-            return Path.Combine(core.Root.FullName, "versions", core.Id);
+            return Path.Combine(core.Root!.FullName, "versions", core.Id!);
         }
     }
 }

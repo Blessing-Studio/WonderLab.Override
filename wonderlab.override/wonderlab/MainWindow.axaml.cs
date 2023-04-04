@@ -146,7 +146,7 @@ namespace wonderlab
                                 WindowStyle = ProcessWindowStyle.Hidden,
                             });
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         { }
                     });
                 };
@@ -240,7 +240,7 @@ namespace wonderlab
 
             if (ViewModel.CurrentPage is HomePage) {           
                 TranslateYAnimation animation1 = new(0, 100);
-                animation1.RunAnimation((ViewModel.CurrentPage as HomePage).bab);
+                animation1.RunAnimation(((ViewModel.CurrentPage as HomePage)!).bab);
             }
         }
 
@@ -300,7 +300,7 @@ namespace wonderlab
             var draggableElement = sender as IVisual;
             var clickPosition = e.GetPosition(this);
 
-            var transform = draggableElement.RenderTransform as TranslateTransform;
+            var transform = draggableElement!.RenderTransform as TranslateTransform;
             if (transform == null)
             {
                 transform = new TranslateTransform();

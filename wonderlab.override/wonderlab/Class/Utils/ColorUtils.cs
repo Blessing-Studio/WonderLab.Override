@@ -652,7 +652,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         return true;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is ColorUtils ec && ec.Equals(this);
     }
@@ -1448,7 +1448,7 @@ internal static class KnownColorTable
     {
         InitColorTable();
 
-        if (ColorTable.TryGetValue(c, out string value))
+        if (ColorTable.TryGetValue(c, out string? value))
         {
             return value;
         }

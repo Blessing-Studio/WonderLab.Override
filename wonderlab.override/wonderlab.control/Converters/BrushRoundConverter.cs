@@ -10,7 +10,7 @@ namespace wonderlab.control.Converters {
 
         public Brush LowValue { get; set; } = new SolidColorBrush(Brushes.Black.Color);
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
             if (!(value is SolidColorBrush solidColorBrush)) return null;
 
             var color = solidColorBrush.Color;
@@ -20,7 +20,8 @@ namespace wonderlab.control.Converters {
             return brightness < 123 ? LowValue : HighValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
             throw new NotImplementedException();
         }
     }

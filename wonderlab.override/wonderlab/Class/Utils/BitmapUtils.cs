@@ -16,17 +16,26 @@ namespace wonderlab.Class.Utils
     public class BitmapUtils {
         public static IImage GetAssetBitmap(string uri) {
             var al = AvaloniaLocator.Current.GetService<IAssetLoader>();
-            using (var s = al.Open(new Uri($"resm:wonderlab.Assets.{uri}"))) {
-                return new Bitmap(s);
+            if (al != null)
+            {
+                using (var s = al.Open(new Uri($"resm:wonderlab.Assets.{uri}")))
+                {
+                    return new Bitmap(s);
+                }
             }
+            throw new Exception();
         }
 
         public static IImage GetIconBitmap(string uri) {       
             var al = AvaloniaLocator.Current.GetService<IAssetLoader>();
-            using (var s = al.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}")))
+            if (al != null)
             {
-                return new Bitmap(s);
+                using (var s = al.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}")))
+                {
+                    return new Bitmap(s);
+                }
             }
+            throw new Exception();
         }
 
         /// <summary>

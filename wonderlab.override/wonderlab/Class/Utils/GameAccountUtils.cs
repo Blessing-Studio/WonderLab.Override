@@ -41,7 +41,7 @@ namespace wonderlab.Class.Utils
                 Email = old.Email,
                 Password = old.Password,
                 YggdrasilUrl = old.YggdrasilUrl,
-                AccessToken = news.Type is AccountType.Yggdrasil ? (news as YggdrasilAccount).ClientToken : old.AccessToken
+                AccessToken = news.Type is AccountType.Yggdrasil ? (news as YggdrasilAccount)!.ClientToken : old.AccessToken
             };
 
             var text = CryptoToolkit.EncrytoOfKaiser(content.ToJson()).ConvertToBase64();

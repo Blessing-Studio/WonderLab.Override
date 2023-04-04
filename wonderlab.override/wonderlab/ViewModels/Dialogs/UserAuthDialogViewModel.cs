@@ -67,13 +67,13 @@ namespace wonderlab.ViewModels.Dialogs
         public ObservableCollection<YggdrasilAccount> YggdrasilAccounts { set; get; } = new();
 
         [Reactive]
-        public YggdrasilAccount CurrentYggdrasilAccount { set; get; } = null;
+        public YggdrasilAccount CurrentYggdrasilAccount { set; get; }
 
         [Reactive]
         public ObservableCollection<AccountViewData> GameAccounts { set; get; } = new();
 
         [Reactive]
-        public AccountViewData CurrentAccount { set; get; } = null;
+        public AccountViewData CurrentAccount { set; get; }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentAuthenticatorType)) {

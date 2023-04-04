@@ -21,7 +21,7 @@ namespace wonderlab.Class.Utils
             try {
                 return action();
             }
-            catch (Exception ex) {
+            catch (Exception) {
                 "焯，这辣鸡启动器又炸了".ShowMessage("错误");
             }
 

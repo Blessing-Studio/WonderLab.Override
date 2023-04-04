@@ -26,7 +26,7 @@ namespace wonderlab.Class.Utils
 
         public static void Init() {
             AccentColorResources = (AvaloniaXamlLoader.Load(new Uri("avares://wonderlab.control/Theme/BasicResource.axaml")) as ResourceDictionary)!;
-            Application.Current.Resources.MergedDictionaries.Add(AccentColorResources);
+            Application.Current!.Resources.MergedDictionaries.Add(AccentColorResources);
 
             SetAccentColor(Color.Parse("#F4D03F"));
         }

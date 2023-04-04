@@ -13,12 +13,13 @@ namespace wonderlab.Views.Converters
 {
     public class ModLoaderImageConverter : IValueConverter {   
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            var type = (ModLoaderType)value;
+            var type = (ModLoaderType)value!;
 
             try {
                 return BitmapUtils.GetIconBitmap($"{type}.png");
             }
-            catch (Exception ex) {
+            catch (Exception)
+            {
 
             }
 

@@ -12,7 +12,7 @@ namespace wonderlab.Views.Converters
 {
     public class StreamToBitmapConverter : IValueConverter {   
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            var stream = value as MemoryStream;
+            var stream = (value as MemoryStream)!;
             stream.Position = 0;
 
             return new Bitmap(stream);

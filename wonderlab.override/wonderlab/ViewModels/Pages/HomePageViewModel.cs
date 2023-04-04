@@ -60,8 +60,8 @@ namespace wonderlab.ViewModels.Pages
             }
 
             if (e.PropertyName is nameof(SelectGameCore) && SelectGameCore != null) {
-                App.LaunchInfoData.SelectGameCore = SelectGameCore.Id;
-                SelectGameCoreId = SelectGameCore.Id;
+                App.LaunchInfoData.SelectGameCore = SelectGameCore.Id!;
+                SelectGameCoreId = SelectGameCore.Id!;
             }
         }
 
@@ -131,7 +131,7 @@ namespace wonderlab.ViewModels.Pages
                 },
                 
                 Account = CurrentAccount,
-                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId)).ToDirectory(),
+                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId))!.ToDirectory()!,
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
@@ -183,7 +183,7 @@ namespace wonderlab.ViewModels.Pages
         public string GetJvmArguments() {
             if (CurrentAccount.Type == AccountType.Yggdrasil) { 
                 var account = CurrentAccount as YggdrasilAccount;
-                return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account.YggdrasilServerUrl}";
+                return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account!.YggdrasilServerUrl}";
             }
 
             return string.Empty;

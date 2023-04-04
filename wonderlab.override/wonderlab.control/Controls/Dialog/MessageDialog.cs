@@ -30,11 +30,20 @@ namespace wonderlab.control.Controls.Dialog
         public bool Button1Visible { get => GetValue(Button1VisibleProperty); set => SetValue(Button1VisibleProperty, value); }
         public bool Button2Visible { get => GetValue(Button2VisibleProperty); set => SetValue(Button2VisibleProperty, value); }
         public bool Button3Visible { get => GetValue(Button3VisibleProperty); set => SetValue(Button3VisibleProperty, value); }
-        public string? Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
+        public string? Title
+        {
+#pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+            get => GetValue(TitleProperty); set => SetValue(TitleProperty, value);
+#pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+        }
+        #pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+
         public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty, value); }
-        public string? Button1Text { get => GetValue(Button1TextProperty); set => SetValue(Button1TextProperty, value); }
-        public string? Button2Text { get => GetValue(Button2TextProperty); set => SetValue(Button2TextProperty, value); }
-        public string? Button3Text { get => GetValue(Button3TextProperty); set => SetValue(Button3TextProperty, value); }
+#pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+
+        public string Button1Text { get => GetValue(Button1TextProperty); set => SetValue(Button1TextProperty, value); }
+        public string Button2Text { get => GetValue(Button2TextProperty); set => SetValue(Button2TextProperty, value); }
+        public string Button3Text { get => GetValue(Button3TextProperty); set => SetValue(Button3TextProperty, value); }
 
         //Event
         public event EventHandler<CloseButtonClick>? CloseButtonClick;

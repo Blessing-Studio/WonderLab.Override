@@ -60,7 +60,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void OpenFolderAction() {
-            Process.Start(new ProcessStartInfo(Current.Root.FullName) {           
+            Process.Start(new ProcessStartInfo(Current.Root!.FullName) {           
                 UseShellExecute = true,
                 Verb = "open"
             });

@@ -22,10 +22,10 @@ namespace wonderlab.Views.Dialogs
             foreach (Button i in Installer.Children)
             {
                 i.Click += (x, _) => {
-                    var sender = x as Button;
+                    var sender = (x as Button)!;
 
                     ViewModel.ChangeTitle($"选择一个 {sender.Tag} 版本");
-                    ViewModel.CurrentModLoader = null;
+                    ViewModel.CurrentModLoader = new(new());
                     ViewModel.McVersionVisible = false;
                     ViewModel.ModLoaderVisible = true;
 
@@ -88,7 +88,7 @@ namespace wonderlab.Views.Dialogs
 
         private void RemoveModLoaderClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            var modloader = (sender as Button)!.DataContext as ModLoaderViewData;
+            var modloader = ((sender as Button)!.DataContext as ModLoaderViewData)!;
             ViewModel.CurrentModLoaders.Remove(modloader);
         }
     }

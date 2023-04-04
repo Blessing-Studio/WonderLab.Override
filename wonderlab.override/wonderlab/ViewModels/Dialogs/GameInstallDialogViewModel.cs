@@ -282,7 +282,7 @@ namespace wonderlab.ViewModels.Dialogs
             }
             ModLoaderType currentmodloaderType = CurrentModLoaders.Any() ? CurrentModLoaders.First().Data.ModLoaderType : ModLoaderType.Any;
             NotificationViewData data = new();
-            InstallerBase<InstallerResponse> installer = null;
+            InstallerBase<InstallerResponse>? installer = null;
             string customId = string.Empty;
 
             if (!CurrentModLoaders.Any())
@@ -301,20 +301,20 @@ namespace wonderlab.ViewModels.Dialogs
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
                 installer = await Task.Run(() => new ForgeInstaller(App.LaunchInfoData.GameDirectoryPath,
-                    installerdata.ModLoaderBuild as ForgeInstallEntity, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
+                    (installerdata.ModLoaderBuild as ForgeInstallEntity)!, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                     customId));
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Fabric)
             {
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                installer = await Task.Run(() => new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, installerdata.ModLoaderBuild as FabricInstallBuild, customId));
+                installer = await Task.Run(() => new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as FabricInstallBuild)!, customId));
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Quilt)
             {
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                installer = await Task.Run(() => new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, installerdata.ModLoaderBuild as QuiltInstallBuild, customId));
+                installer = await Task.Run(() => new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as QuiltInstallBuild)!, customId));
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.OptiFine)
             {
@@ -327,7 +327,7 @@ namespace wonderlab.ViewModels.Dialogs
                 var installerdata = CurrentModLoaders.First().Data;
                 customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
                 installer = await Task.Run(() => new OptiFineInstaller(App.LaunchInfoData.GameDirectoryPath,
-                    installerdata.ModLoaderBuild as OptiFineInstallEntity, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
+                    (installerdata.ModLoaderBuild as OptiFineInstallEntity)!, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                     customId: customId));
             }
             else if (CurrentModLoaders.Count == 2)
@@ -344,7 +344,7 @@ namespace wonderlab.ViewModels.Dialogs
             NotificationCenterPage.ViewModel.Notifications.Add(data);
             await Task.Delay(2000);
             data.TimerStart();
-            installer.ProgressChanged += async (_, x) => {
+            installer!.ProgressChanged += (_, x) => {
                 var progress = x.Progress * 100;
                 data.ProgressOfBar = progress;
                 data.Progress = $"{Math.Round(progress, 2)}%";
@@ -378,7 +378,7 @@ namespace wonderlab.ViewModels.Dialogs
 
             data.Title = customId;
             data.TimerStart();
-            ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, forgedata.ModLoaderBuild as ForgeInstallEntity,
+            ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, (forgedata.ModLoaderBuild as ForgeInstallEntity)!,
                App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId);
 
             installer.ProgressChanged += ProcessOutPut;
@@ -386,7 +386,7 @@ namespace wonderlab.ViewModels.Dialogs
 
             if (result.Success)
             {
-                OptiFineInstaller optiFineInstaller = new(App.LaunchInfoData.GameDirectoryPath, optifinrdata.ModLoaderBuild as OptiFineInstallEntity,
+                OptiFineInstaller optiFineInstaller = new(App.LaunchInfoData.GameDirectoryPath, (optifinrdata.ModLoaderBuild as OptiFineInstallEntity)!,
                App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId: customId);
                 optiFineInstaller.ProgressChanged += ProcessOutPut;
                 var Optifineresult = await Task.Run(async () => await optiFineInstaller!.InstallAsync());

@@ -150,11 +150,16 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void AddRelativeDocument(string path) {
-            var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(new FileInfo(path).Directory.FullName, "java.exe"));
-            Javas.Add(javaInfo);
-            App.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
-            CurrentJava = javaInfo;
-            Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
+            FileInfo fileInfo = new FileInfo(path);
+            DirectoryInfo? directory = fileInfo.Directory;
+            if (directory != null)
+            {
+                var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(path1: directory.FullName, "java.exe"));
+                Javas.Add(javaInfo);
+                App.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
+                CurrentJava = javaInfo;
+                Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
+            }
         }
 
         public async void DirectoryDialogOpenAction() {

@@ -57,7 +57,7 @@ namespace wonderlab.Class.Utils
         }
 
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
-              => Activator.CreateInstance(typeof(TResult), data)! as TResult;
+              => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
         public static bool CanUpdate(this UpdateInfo info) {
             if (string.IsNullOrEmpty(info.Title)) {
@@ -88,10 +88,10 @@ namespace wonderlab.Class.Utils
             return data.Last();
         }
 
-        public static JavaInfo ToJava(this string path) { 
+        public static JavaInfo? ToJava(this string path) { 
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
-                return JavaToolkit.GetJavaInfo(Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
+                return JavaToolkit.GetJavaInfo(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
             }
 
             return null;
@@ -100,7 +100,7 @@ namespace wonderlab.Class.Utils
         public static string ToJavaw(this string path) {
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
                 var info = new FileInfo(path);
-                return Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw");
+                return Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw");
             }
 
             return path;
@@ -109,13 +109,13 @@ namespace wonderlab.Class.Utils
         public static FileInfo ToFile(this string path) {       
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
                 var info = new FileInfo(path);
-                return new(Path.Combine(info.Directory.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw"));
+                return new(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw"));
             }
 
             return new(path);
         }
 
-        public static DirectoryInfo ToDirectory(this string path) {       
+        public static DirectoryInfo? ToDirectory(this string path) {       
             if (!string.IsNullOrEmpty(path) && path.IsDirectory()) {           
                 return new(path);
             }
@@ -161,7 +161,7 @@ namespace wonderlab.Class.Utils
             }
 
             if (ReferenceEquals(source, null)) {           
-                return default(T);
+                return default!;
             }
 
             var formatter = new BinaryFormatter();

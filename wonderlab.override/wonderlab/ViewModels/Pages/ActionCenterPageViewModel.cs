@@ -92,7 +92,7 @@ namespace wonderlab.ViewModels.Pages
                 MainWindow.Instance.OpenBar.IsVisible = true;
                 MainWindow.Instance.OpenBar.IsHitTestVisible = true;
                 OpacityChangeAnimation animation = new(true);
-                TranslateXAnimation animation2 = new(transform.X, 0);
+                TranslateXAnimation animation2 = new(transform!.X, 0);
                 animation2.RunAnimation(MainWindow.Instance.OpenBar);
 
                 TranslateXAnimation animation1 = new(100, 0);

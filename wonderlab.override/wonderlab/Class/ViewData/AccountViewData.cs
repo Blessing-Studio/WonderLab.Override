@@ -51,7 +51,7 @@ namespace wonderlab.Class.ViewData
                     };
                 });
 
-                byte[] skin = null;
+                byte[]? skin = null;
                 if(!string.IsNullOrEmpty(url)) {
                     skin = await (await HttpWrapper.HttpGetAsync(url)).Content.ReadAsByteArrayAsync();
                 }
