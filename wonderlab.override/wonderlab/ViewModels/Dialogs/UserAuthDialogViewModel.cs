@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Dialogs
@@ -69,7 +70,7 @@ namespace wonderlab.ViewModels.Dialogs
         public YggdrasilAccount CurrentYggdrasilAccount { set; get; } = null;
 
         [Reactive]
-        public ObservableCollection<UserModel> GameAccounts { set; get; } = new();
+        public ObservableCollection<AccountViewData> GameAccounts { set; get; } = new();
 
         [Reactive]
         public UserModel CurrentAccount { set; get; } = null;

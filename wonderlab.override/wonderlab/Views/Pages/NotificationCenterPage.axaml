@@ -97,7 +97,8 @@
 															<RowDefinition Height="10"/>
 														</Grid.RowDefinitions>
 														<TextBlock Margin="15 10 15 0" Text="{Binding Title}"
-																   FontWeight="Bold" FontSize="15"/>
+																   FontWeight="Bold" FontSize="15"
+																   TextWrapping="WrapWithOverflow"/>
 
 														<DockPanel Grid.Row="2" Margin="15 0 15 3">
 															<TextBlock DockPanel.Dock="Left" Text="{Binding Progress}"/>

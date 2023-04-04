@@ -23,7 +23,14 @@ namespace wonderlab.ViewModels.Pages
         private void Notifications_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {       
             if (Notifications.Count != 0) {            
                 HasNotification = false;
-            } else HasNotification = true;               
+                MainWindow.ViewModel.NotificationCountText = $"共有 {Notifications.Count} 个正在执行的任务";
+                MainWindow.ViewModel.HasNotification = true;
+
+            } else {
+                HasNotification = true;
+                MainWindow.ViewModel.HasNotification = false;
+                MainWindow.ViewModel.NotificationCountText = $"无正在执行的任务";
+            }
         }
 
         [Reactive]

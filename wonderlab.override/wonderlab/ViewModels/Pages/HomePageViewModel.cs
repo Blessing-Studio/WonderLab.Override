@@ -18,6 +18,8 @@ using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
+using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
 {
@@ -25,12 +27,14 @@ namespace wonderlab.ViewModels.Pages
     {
         public HomePageViewModel() {
             this.PropertyChanged += OnPropertyChanged;
-            HasGameCore = GameCores.Any() ? 0 : 1;
         }
 
         public bool Isopen { get; set; } = false;
 
         public Account CurrentAccount { get; set; } = Account.Default;
+
+        [Reactive]
+        public string SelectGameCoreId { get; set; }
 
         [Reactive]
         public string SearchCondition { get; set; }
@@ -56,7 +60,8 @@ namespace wonderlab.ViewModels.Pages
             }
 
             if (e.PropertyName is nameof(SelectGameCore) && SelectGameCore != null) {
-                App.LaunchInfoData.SelectGameCore = SelectGameCore.Id!;
+                App.LaunchInfoData.SelectGameCore = SelectGameCore.Id;
+                SelectGameCoreId = SelectGameCore.Id;
             }
         }
 
@@ -82,7 +87,7 @@ namespace wonderlab.ViewModels.Pages
 
             foreach (var i in cores) {
                 await Task.Delay(20);    
-                GameCores.Add(i);
+                GameCores.Add(i);                
             }
         }
 
@@ -90,7 +95,7 @@ namespace wonderlab.ViewModels.Pages
             var user = await GameAccountUtils.GetUsersAsync().ToListAsync();
 
             if (user.Count() == 1) {
-                CurrentAccount = user.First().ToAccount();
+                CurrentAccount = user.First().Data.ToAccount();
                 LaunchTaskAction();
                 return;
             }
@@ -99,8 +104,15 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async void LaunchTaskAction() {
-            $"开始尝试启动游戏 \"{SelectGameCore.Id}\"".ShowMessage();
+            $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(() => {
+                MainWindow.Instance.NotificationCenter.Open();
+            });
 
+            NotificationViewData data = new() { 
+                Title = $"游戏 {SelectGameCoreId} 的启动任务"
+            };
+
+            data.TimerStart();
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
                 var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
                     JsonUtils.DataPath, "authlib-injector.jar");
@@ -123,15 +135,20 @@ namespace wonderlab.ViewModels.Pages
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
-            Stopwatch stopwatch = new();
-            stopwatch.Start();
+
+            NotificationCenterPage.ViewModel.Notifications.Add(data);
             using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine($"[信息] {x.Item2}");
+                data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
+                data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
             });
 
-            stopwatch.Stop();
+            data.TimerStop();
+
+            data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
-                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}".ShowMessage("启动成功");
+                data.Progress = $"启动成功 - 100%";
+                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
 
                 gameProcess.Process.Exited += (sender, e) => {
                     Trace.WriteLine("[信息] 游戏退出！");
@@ -139,6 +156,7 @@ namespace wonderlab.ViewModels.Pages
                 gameProcess.ProcessOutput += ProcessOutput;
             }
             else {
+                data.Progress = $"启动失败 - 100%";
                 $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
             }
         }

@@ -110,7 +110,7 @@ namespace wonderlab
             OpenBar.PointerReleased += OpenBar_PointerReleased;
 
             BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
-            if (BackgroundImage.IsVisible) {           
+            if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(App.LauncherData.ImagePath)) {
                 BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
             }
 

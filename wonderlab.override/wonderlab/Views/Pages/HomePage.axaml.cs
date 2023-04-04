@@ -8,6 +8,7 @@ using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
 using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace wonderlab.Views.Pages
 {
@@ -24,6 +25,10 @@ namespace wonderlab.Views.Pages
             SelectGameCoreButton.Click += OnGameChangeClick;
 
             Polymerize.Opacity = 0;
+            Dispatcher.UIThread.Post(async () => {
+                await Task.Delay(200);
+                ViewModel.SelectGameCoreId = App.LaunchInfoData.SelectGameCore;
+            });
         }
 
         private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
@@ -51,8 +56,8 @@ namespace wonderlab.Views.Pages
             Polymerize.Opacity = 1;
         }
 
-        private async void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            if (ViewModel.SelectGameCore is null) {
+        private void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            if (string.IsNullOrEmpty(ViewModel.SelectGameCoreId)) {
                 "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
                 return;
             }

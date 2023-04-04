@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using wonderlab.Class.Models;
@@ -10,6 +11,8 @@ namespace wonderlab
         public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
 
         public static LauncherDataModel LauncherData { get; set; } = new();
+
+        public static Window Host { get; set; }
 
         public override void Initialize()
         {

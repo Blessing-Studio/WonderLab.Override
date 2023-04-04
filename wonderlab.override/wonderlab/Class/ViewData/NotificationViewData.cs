@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using wonderlab.Class.Utils;
+using wonderlab.Views.Pages;
 using Timer = System.Timers.Timer;
 
 namespace wonderlab.Class.ViewData
@@ -43,6 +44,7 @@ namespace wonderlab.Class.ViewData
 
         public void TimerStop() {
             Timer.Stop();
+            NotificationCenterPage.ViewModel.Notifications.Remove(this);
         }
 
         void TimerElapsed(object? sender, ElapsedEventArgs e) {       

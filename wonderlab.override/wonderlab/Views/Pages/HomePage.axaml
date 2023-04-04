@@ -371,7 +371,7 @@
 															   Text="当前核心" HorizontalAlignment="Right"/>
 
 													<TextBlock FontSize="12" Grid.Row="2" TextTrimming="CharacterEllipsis"
-															   Text="{Binding SelectGameCore.Id}"
+															   Text="{Binding SelectGameCoreId}"
 															   FontWeight="SemiBold"
 															   TextAlignment="Right"/>
 												</Grid>

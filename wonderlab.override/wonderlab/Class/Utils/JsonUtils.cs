@@ -13,6 +13,7 @@ namespace wonderlab.Class.Utils
     {
         public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab");
         public static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "user");
+        public static string TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "temp");
 
         public static async void CraftLaunchInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launchdata.json");
@@ -63,6 +64,10 @@ namespace wonderlab.Class.Utils
 
             if(!Directory.Exists(UserDataPath)) { 
                 Directory.CreateDirectory(UserDataPath);
+            }
+
+            if (!Directory.Exists(TempPath)) {           
+                Directory.CreateDirectory(TempPath);
             }
         }
     }

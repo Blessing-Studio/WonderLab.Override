@@ -3,6 +3,9 @@ using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +18,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
+using Avalonia.Media.Imaging;
 
 namespace wonderlab.Class.Utils
 {
@@ -167,6 +171,17 @@ namespace wonderlab.Class.Utils
                 stream.Seek(0, SeekOrigin.Begin);
                 return (T)formatter.Deserialize(stream);
             }
+        }
+
+        public static Bitmap ToBitmap<TPixel>(this Image<TPixel> raw) where TPixel : unmanaged, IPixel<TPixel> {       
+            using var stream = new MemoryStream();
+            raw.Save(stream, new PngEncoder());
+            stream.Position = 0;
+            return new Bitmap(stream);
+        }
+
+        public static Image<Rgba32> ToImage(this byte[] raw) {       
+            return (Image<Rgba32>)Image.Load(raw);
         }
     }
 }

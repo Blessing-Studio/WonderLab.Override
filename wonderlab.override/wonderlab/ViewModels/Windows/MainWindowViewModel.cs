@@ -34,6 +34,12 @@ namespace wonderlab.ViewModels.Windows
         public UserControl CurrentPage { get; set; } = new HomePage();
 
         [Reactive]
+        public string NotificationCountText { get; set; } = "无正在执行的任务";
+
+        [Reactive]
+        public bool HasNotification { get; set; } = false;
+
+        [Reactive]
         public double DownloadProgress { get; set; } = 0.0;
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {

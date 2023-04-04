@@ -157,20 +157,21 @@
 							Margin="10 0 15 0" Name="NotificationCenterButton">
 						<Grid>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="20"/>
+								<ColumnDefinition Width="Auto"/>
 								<ColumnDefinition Width="10"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
 							
 							<ProgressBar Classes="Circle"
 										 HorizontalAlignment="Left"
-										 Height="20" Width="20"
+										 Height="20" Width="20"		
 										 IsIndeterminate="True"
+										 IsVisible="{Binding HasNotification}"
 										 Foreground="{DynamicResource AccentBrushDark1}"/>
 							
 							<TextBlock Grid.Column="2"
 									   VerticalAlignment="Center"
-									   Text="共有 1 个任务正在进行"/>
+									   Text="{Binding NotificationCountText}"/>
 						</Grid>
 					</Button>
 				</Grid>

@@ -257,8 +257,8 @@
 														</Border.Transitions>
 
 														<StackPanel Margin="8">
-															<TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding UserName}"/>
-															<TextBlock FontSize="11" Text="{Binding UserType}"/>
+															<TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Data.UserName}"/>
+															<TextBlock FontSize="11" Text="{Binding Data.UserType}"/>
 														</StackPanel>
 													</Border>
 												</Grid>

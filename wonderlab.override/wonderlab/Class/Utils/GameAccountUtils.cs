@@ -10,18 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
+using wonderlab.Class.ViewData;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace wonderlab.Class.Utils
 {
     public class GameAccountUtils {
-        public static async IAsyncEnumerable<UserModel> GetUsersAsync() {
+        public static async IAsyncEnumerable<AccountViewData> GetUsersAsync() {
             JsonUtils.DirectoryCheck();
 
             var usersFile = Directory.EnumerateFiles(JsonUtils.UserDataPath);
             foreach (var user in usersFile) {
                 var text = await File.ReadAllTextAsync(user);
-                yield return JsonConvert.DeserializeObject<UserModel>(CryptoToolkit.DecrytOfKaiser(text.ConvertToString()))!;
+                yield return JsonConvert.DeserializeObject<UserModel>(await Task.Run(() => CryptoToolkit.DecrytOfKaiser(text.ConvertToString())))!.CreateViewData<UserModel, AccountViewData>();
             }
         }
 

@@ -25,6 +25,7 @@
     <None Remove="Assets\Icons\Forge.png" />
     <None Remove="Assets\Icons\OptiFine.png" />
     <None Remove="Assets\Icons\Quilt.png" />
+    <None Remove="Assets\steve.png" />
     <None Remove="Assets\y.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
     <PackageReference Include="MinecraftLaunch" Version="1.9.0" />
     <PackageReference Include="MinecraftOAuth" Version="1.9.2" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.25" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +66,8 @@
   </PropertyGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Pages\GameCoreConfigPage.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\steve.png" />
   </ItemGroup>
 </Project>

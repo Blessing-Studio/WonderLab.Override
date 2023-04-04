@@ -13,6 +13,12 @@ namespace wonderlab.Views.Pages
         {
             InitializeComponent();
             DataContext = ViewModel;
+            Initialize();
+        }
+
+        public async void Initialize() {
+            await Task.Delay(300);
+            TopBar.Margin = new(0);
         }
     }
 }

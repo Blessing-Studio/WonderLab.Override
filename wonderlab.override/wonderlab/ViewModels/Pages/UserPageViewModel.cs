@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
@@ -24,10 +25,10 @@ namespace wonderlab.ViewModels.Pages
         }
 
         [Reactive]
-        public ObservableCollection<UserModel> GameAccounts { get; set; }
+        public ObservableCollection<AccountViewData> GameAccounts { get; set; }
 
         [Reactive]
-        public UserModel CurrentGameAccount { get; set; }
+        public AccountViewData CurrentGameAccount { get; set; }
 
         public void CreateAccountAction() {
             MainWindow.Instance.Auth.Start();
