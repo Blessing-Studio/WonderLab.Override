@@ -5,85 +5,176 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Background="{x:Null}"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage">
-	<ScrollViewer Background="{x:Null}">
-		<StackPanel HorizontalAlignment="Left" Spacing="10" Background="Transparent" Margin="15 0 15 15"
-	          VerticalAlignment="Top">
-			<TextBlock Text="全局启动设置" Margin="0 15 0 0" FontSize="23" FontWeight="Light"/>
-
-			<TextBlock Text="游戏路径" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
-
-			<ComboBox Width="350" Items="{Binding GameDirectorys}"
-		              SelectedItem="{Binding CurrentGameDirectory}"/>
-			<StackPanel Spacing="10" Orientation="Horizontal">
-				<Button Content="添加" Command="{Binding	DirectoryDialogOpenAction}"
-						Background="{DynamicResource AccentBrush}"
-						Classes="wonderaccentbutton"/>
-				
-				<Button Content="移除" Classes="wonderaccentbutton"
-						Command="{Binding RemoveDirectoryAction}"
-						Background="#FF0000"/>
-			</StackPanel>
-
-			<TextBlock Text="Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-
-			<ComboBox Width="350" Items="{Binding Javas}"
-		              SelectedItem="{Binding CurrentJava}">
-				<ComboBox.DataTemplates>
-					<DataTemplate>
-						<StackPanel VerticalAlignment="Center"
-									HorizontalAlignment="Left"
-							Orientation="Horizontal">
-							<TextBlock Text="Java " FontWeight="SemiBold"/>
-							<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
-							<TextBlock Text=" ("/>
-							<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
-							<TextBlock Text=", " />
-							<TextBlock Text="{Binding JavaVersion}" FontWeight="SemiBold"/>
-							<TextBlock Text="), "/>
-							<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
-						</StackPanel>
-					</DataTemplate>
-				</ComboBox.DataTemplates>
-			</ComboBox>
-			<StackPanel Spacing="10" Orientation="Horizontal">				
-				<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
-						Command="{Binding LoadJavaAction}"
-						Background="{DynamicResource AccentBrush}"
-						Classes="wonderaccentbutton">
+	<Grid>
+		<ScrollViewer Background="{x:Null}">
+			<StackPanel Margin="0 15 0 0" Spacing="15">
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
 					<Grid>
-						<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
-						<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
-									 Width="20" IsVisible="{Binding IsLoadJavaNow}"
-									 Foreground="{DynamicResource FontColorBrush}"/> 
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏路径设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<ComboBox Width="350" Items="{Binding GameDirectorys}"
+									  SelectedItem="{Binding CurrentGameDirectory}"
+									  Margin="15 5 0 0"
+									  PlaceholderText="请选择您的游戏目录"/>
+
+							<Button Content="添加" Command="{Binding	DirectoryDialogOpenAction}"
+									Background="{DynamicResource AccentBrush}"
+									Classes="wonderaccentbutton"/>
+
+							<Button Content="移除" Classes="wonderaccentbutton"
+									Command="{Binding RemoveDirectoryAction}"
+									Background="#FF0000"/>
+						</StackPanel>
 					</Grid>
-				</Button>
-				
-				<Button Content="手动添加" Background="{DynamicResource AccentBrushDark3}"
-						Classes="wonderaccentbutton"/>
+				</Border>
 
-				<Button Content="移除" Classes="wonderaccentbutton"
-		                Command="{Binding RemoveDirectoryAction}"
-		                Background="#FF0000"/>
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Java 运行时设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<ComboBox Width="350" Items="{Binding Javas}" Margin="15 5 0 0"
+									  SelectedItem="{Binding CurrentJava}"
+									  PlaceholderText="请选择您的 Java 运行时">
+								<ComboBox.DataTemplates>
+									<DataTemplate>
+										<StackPanel VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+											Orientation="Horizontal">
+											<TextBlock Text="Java " FontWeight="SemiBold"/>
+											<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
+											<TextBlock Text=" ("/>
+											<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
+											<TextBlock Text=", " />
+											<TextBlock Text="{Binding JavaVersion}" FontWeight="SemiBold"/>
+											<TextBlock Text="), "/>
+											<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
+										</StackPanel>
+									</DataTemplate>
+								</ComboBox.DataTemplates>
+							</ComboBox>
+
+							<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
+									Command="{Binding LoadJavaAction}"
+									Background="{DynamicResource AccentBrush}"
+									Classes="wonderaccentbutton">
+								<Grid>
+									<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
+									<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
+												 Width="20" IsVisible="{Binding IsLoadJavaNow}"
+												 Foreground="{DynamicResource FontColorBrush}"/>
+								</Grid>
+							</Button>
+
+							<Button Content="手动添加" Background="{DynamicResource AccentBrushDark3}"
+									Classes="wonderaccentbutton"/>
+
+							<Button Content="移除" Classes="wonderaccentbutton"
+									Command="{Binding RemoveJavaRuntimeAction}"
+									Background="#FF0000"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="自动选择 Java 运行时" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Name="open" Content="开" Command="{Binding OpenAutoSelectJavaAction}"/>
+							<RadioButton Name="close" Content="关" Command="{Binding CloseAutoSelectJavaAction}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏内存设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<TextBox Watermark="最大内存" MinWidth="100"
+									 Text="{Binding	MaxMemory}"/>
+							<TextBlock Text="X" HorizontalAlignment="Center"
+									   VerticalAlignment="Center"/>
+							<TextBox Watermark="最小内存" MinWidth="100"
+									 Text="{Binding MiniMemory}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
 			</StackPanel>
-
-			<TextBlock Text="自动选择 Java 运行时" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-
-			<ToggleSwitch OnContent="开" Margin="0 -8 0 0"
-						  OffContent="关" IsChecked="{Binding IsAutoSelectJava}"/>
-
-			<TextBlock Text="游戏窗口分辨率" Margin="0 0 0 0" FontSize="16" FontWeight="Light"/>
-			<StackPanel Margin="0 -2 0 0" Spacing="10" Orientation="Horizontal">
-				<TextBox Watermark="最小内存" MinWidth="100"
-						 Text="{Binding	MaxMemory}"/>
-				<TextBlock Text="X" HorizontalAlignment="Center"
-						   VerticalAlignment="Center"/>
-				<TextBox Watermark="最大内存" MinWidth="100"
-						 Text="{Binding MiniMemory}"/>
-			</StackPanel>
-
-			<TextBlock Text="游戏启动后启动器行为" FontSize="16" FontWeight="Light" Margin="0 10 0 0"/>
-			<ComboBox Width="350" Items="{Binding Actions}" SelectedIndex="{Binding CurrentAction}"/>
-			
-		</StackPanel>
-	</ScrollViewer>
+		</ScrollViewer>
+	</Grid>
 </UserControl>

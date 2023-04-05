@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using System.Linq;
+using System.Threading.Tasks;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages
@@ -22,10 +23,11 @@ namespace wonderlab.Views.Pages
                     (x as ToggleButton)!.IsChecked = true;
                 };
             }
+        }
 
-            button.Click += (x, e) => {
-                MainWindow.Instance.NavigationPage(new ActionCenterPage());
-            };
+        private async void InitializedAction(object? sender, System.EventArgs e) {       
+            await Task.Delay(100);
+            TopBar.Margin = new(0);
         }
     }
 }

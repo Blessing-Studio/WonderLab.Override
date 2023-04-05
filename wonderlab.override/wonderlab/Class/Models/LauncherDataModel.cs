@@ -28,6 +28,6 @@ namespace wonderlab.Class.Models
         public string ImagePath { get; set; }
 
         [JsonProperty("launcherVersion")]
-        public int LauncherVersion { get; set; }
+        public int LauncherVersion { get; set; } = 127;
     }
 }

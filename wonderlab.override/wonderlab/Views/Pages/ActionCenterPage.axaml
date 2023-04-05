@@ -27,7 +27,7 @@
 				</Grid.RowDefinitions>
 				
 				<Border CornerRadius="6" Height="60" VerticalAlignment="Top"
-                        Background="AliceBlue" IsVisible="True"
+                        Background="{DynamicResource DialogContentBackground}" IsVisible="True"
 					    BoxShadow="0 1 4 0 #66000000">
 					<StackPanel VerticalAlignment="Center" Margin="10 0">
 						<TextBlock Text="{Binding HitokotoTitle}"

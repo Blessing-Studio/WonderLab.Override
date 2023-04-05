@@ -179,5 +179,18 @@ namespace wonderlab.ViewModels.Pages
             GameDirectorys.Remove(CurrentGameDirectory);
             CurrentGameDirectory = GameDirectorys.Any() ? GameDirectorys.First() : string.Empty;
         }
+
+        public void RemoveJavaRuntimeAction() {
+            Javas.Remove(CurrentJava);
+            CurrentJava = Javas.Any() ? Javas.First() : null!;
+        }
+
+        public void CloseAutoSelectJavaAction() {
+            IsAutoSelectJava = false;
+        }
+
+        public void OpenAutoSelectJavaAction() {  
+            IsAutoSelectJava = true;
+        }
     }
 }

@@ -10,6 +10,10 @@ namespace wonderlab.Views.Pages
         {
             InitializeComponent();
             DataContext = ViewModel;
+
+            if(ViewModel.IsAutoSelectJava){
+                open.IsChecked = true;
+            } else close.IsChecked = true;
         }
     }
 }
