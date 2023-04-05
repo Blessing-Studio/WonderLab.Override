@@ -69,7 +69,7 @@ namespace wonderlab.Class.Utils
             }
 
             var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
-            return intVersion > UpdateUtils.Version;
+            return intVersion > App.LauncherData.LauncherVersion;
         }
 
         public static ModLoaderViewData GetForge(this ObservableCollection<ModLoaderViewData> data) {

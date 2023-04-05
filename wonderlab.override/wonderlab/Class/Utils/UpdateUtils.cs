@@ -16,7 +16,7 @@ namespace wonderlab.Class.Utils
     {
         public const string VersionType = "Lsaac";
 
-        public const int Version = 127;
+        //public const int Version = 127;
 
         const string API = "http://api.2018k.cn/getExample?id=f08e3a0d2d8f47d6b5aee68ec2499a21&data=version|notice|url|remark|lasttime";
 

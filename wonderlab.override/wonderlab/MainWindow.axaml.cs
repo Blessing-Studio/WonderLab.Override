@@ -145,6 +145,10 @@ namespace wonderlab
                                 UseShellExecute = true,
                                 WindowStyle = ProcessWindowStyle.Hidden,
                             });
+
+                            var intVersion = Convert.ToInt32(res.TagName.Replace(".", string.Empty));
+                            App.LauncherData.LauncherVersion = intVersion;
+                            JsonUtils.WriteLauncherInfoJson();
                         }
                         catch (Exception)
                         { }
