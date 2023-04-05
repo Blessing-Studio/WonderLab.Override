@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using wonderlab.Class.Models;
+using wonderlab.Views.Windows;
 
 namespace wonderlab
 {

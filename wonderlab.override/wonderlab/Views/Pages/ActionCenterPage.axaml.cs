@@ -10,18 +10,18 @@ namespace wonderlab.Views.Pages
         public ActionCenterPage() {    
             InitializeComponent();
             DataContext = ViewModel = new();
+            Bitmap.PointerEnter += (_,_) => {
+                Content.Height = 0;
+            };
+
+            Bitmap.PointerLeave += (_,_) => {
+                Content.Height = 50;
+            };
         }
 
-        private void InitializedAction(object? sender, System.EventArgs e) {       
-            RunIconAnimation();
-        }
-
-        public async void RunIconAnimation() {
-            icon1.Height = 35;
+        private async void InitializedAction(object? sender, System.EventArgs e) {
             await Task.Delay(100);
-            icon2.Height = 25;
-            await Task.Delay(100);
-            icon3.Height = 15;
+            TopBar.Margin = new(0);
         }
     }
 }
