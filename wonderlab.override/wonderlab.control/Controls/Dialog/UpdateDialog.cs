@@ -20,7 +20,7 @@ namespace wonderlab.control.Controls.Dialog
     public class UpdateDialog : ContentControl, IDialog
     {
         Button CloseButton = null!;
-        StackPanel Buttons = null!;
+        Grid Buttons = null!;
         Border BackgroundBorder = null!;
         Border DialogContent = null!;
         Grid Bar = null!;
@@ -111,7 +111,7 @@ namespace wonderlab.control.Controls.Dialog
             Bar = e.NameScope.Find<Grid>("UpP");
             DialogContent = e.NameScope.Find<Border>("DialogContent");
             CloseButton = e.NameScope.Find<Button>("Button2");
-            Buttons = e.NameScope.Find<StackPanel>("Buttons");
+            Buttons = e.NameScope.Find<Grid>("Buttons");
             e.NameScope.Find<Button>("CloseButton").Click += OnCloseButtonClick;
             CloseButton.Click += OnCloseButtonClick;
 

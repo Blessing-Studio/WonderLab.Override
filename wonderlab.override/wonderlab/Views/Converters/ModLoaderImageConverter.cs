@@ -18,9 +18,7 @@ namespace wonderlab.Views.Converters
             try {
                 return BitmapUtils.GetIconBitmap($"{type}.png");
             }
-            catch (Exception)
-            {
-
+            catch (Exception) {           
             }
 
             return null;

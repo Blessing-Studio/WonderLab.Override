@@ -65,18 +65,25 @@
 									<ProgressBar Value="{TemplateBinding UpdateProgress}"
 			                                     Height="6" CornerRadius="16" Grid.Row="2"/>
 								</Grid>
-								
-								<StackPanel Grid.Row="4" Spacing="10" Name="Buttons"
-											Orientation="Horizontal"
-											HorizontalAlignment="Right"
-											Margin="16 0 16 16">
-									
+
+								<Grid Name="Buttons" Margin="16 10 16 16" Grid.Row="4">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="1*"/>
+										<ColumnDefinition Width="10"/>
+										<ColumnDefinition Width="1*"/>
+									</Grid.ColumnDefinitions>
+									<Grid.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="-8"/>
+										</TransformGroup>
+									</Grid.RenderTransform>
 									<Button FontSize="12" Classes="wonderaccentbutton" Content="{TemplateBinding Button2Text}" x:Name="Button2"
-											IsVisible="{TemplateBinding Button2Visible}" Foreground="{TemplateBinding Foreground}"/>
+		                                    IsVisible="{TemplateBinding Button2Visible}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch"/>
+									
 									<Button FontSize="12" Classes="wonderaccentbutton" Name="CloseButton" Content="{TemplateBinding Button1Text}"
 											IsVisible="{TemplateBinding Button1Visible}" Background="#FF0000"
-											Foreground="{TemplateBinding Foreground}"/>
-								</StackPanel>
+											Foreground="{TemplateBinding Foreground}" Grid.Column="2" HorizontalAlignment="Stretch"/>
+								</Grid>
 							</Grid>
 						</Border>
 					</Grid>
