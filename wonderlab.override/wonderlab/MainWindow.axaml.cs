@@ -3,11 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Microsoft.VisualBasic;
 using MinecaftOAuth.Authenticator;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Auth;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -98,7 +100,7 @@ namespace wonderlab
         }
 
         private async void WindowsInitialized(object? sender, EventArgs e)
-        {
+        {           
             await Task.Delay(500);
             DataContext = ViewModel = new();
 
@@ -201,24 +203,27 @@ namespace wonderlab
 
         public void ShowInfoBar(string title, string message)
         {
-            MessageTipsBar bar = new MessageTipsBar()
+            Dispatcher.UIThread.Post(() =>
             {
-                Title = title,
-                Message = message,
-            };
-            bar.HideOfRun = new(() =>
-            {
-                grid.Children.Remove(bar);
+                MessageTipsBar bar = new MessageTipsBar()
+                {
+                    Title = title,
+                    Message = message,
+                };
+                bar.HideOfRun = new(() =>
+                {
+                    grid.Children.Remove(bar);
+                });
+
+                grid.Children.Add(bar);
+                bar.Opened += async (_, _) =>
+                {
+                    await Task.Delay(3000);
+                    bar.HideDialog();
+                };
+
+                bar.ShowDialog();
             });
-
-            grid.Children.Add(bar);
-            bar.Opened += async (_, _) =>
-            {
-                await Task.Delay(3000);
-                bar.HideDialog();
-            };
-
-            bar.ShowDialog();
         }
 
         public async void NavigationPage(UserControl control)

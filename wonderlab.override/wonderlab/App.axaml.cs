@@ -24,7 +24,7 @@ namespace wonderlab
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                Host = desktop.MainWindow = new MainWindow();
             }
 
             base.OnFrameworkInitializationCompleted();

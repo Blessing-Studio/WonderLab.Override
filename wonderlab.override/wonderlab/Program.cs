@@ -31,30 +31,30 @@ namespace wonderlab
             var result = AppBuilder.Configure<App>()
                    .UsePlatformDetect();
 
-            //if (SystemUtils.IsMacOS)
-            //    result.With(new AvaloniaNativePlatformOptions
-            //    {
-            //        UseGpu = true
-            //    });
+            if (SystemUtils.IsMacOS)
+                result.With(new AvaloniaNativePlatformOptions
+                {
+                    UseGpu = true
+                });
 
-            //if (SystemUtils.IsLinux)
-            //    result.With(new X11PlatformOptions
-            //    {
-            //        UseGpu = true
-            //    });
+            if (SystemUtils.IsLinux)
+                result.With(new X11PlatformOptions
+                {
+                    UseGpu = true
+                });
 
-            //if (SystemUtils.IsWindows)
-            //{
-            //    result.With(new Win32PlatformOptions
-            //    {
-            //        UseWgl = true,
-            //        AllowEglInitialization = true,
-            //    });
-            //    result.With(new SkiaOptions
-            //    {
-            //        MaxGpuResourceSizeBytes = long.MaxValue,
-            //    });
-            //}
+            if (SystemUtils.IsWindows)
+            {
+                result.With(new Win32PlatformOptions
+                {
+                    UseWgl = true,
+                    AllowEglInitialization = true,
+                });
+                result.With(new SkiaOptions
+                {
+                    MaxGpuResourceSizeBytes = 1024000000,
+                });
+            }
             result.LogToTrace();
             return result;
         }

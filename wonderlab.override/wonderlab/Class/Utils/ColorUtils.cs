@@ -1471,8 +1471,8 @@ internal static class KnownColorTable
     {
         if (ColorTable == null)
         {
-            var kcs = (KnownColor[])Enum.GetValues(typeof(KnownColor));
-            var names = Enum.GetNames(typeof(KnownColor));
+            var kcs = (KnownColor[])System.Enum.GetValues(typeof(KnownColor));
+            var names = System.Enum.GetNames(typeof(KnownColor));
 
             ColorTable = new Dictionary<ColorUtils, string>(kcs.Length);
             for (int i = 0; i < kcs.Length; i++)
