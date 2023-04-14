@@ -31,19 +31,10 @@ namespace wonderlab.Class.Models
             string keyword = modpack.Links["websiteUrl"].TrimEnd('/').Split("/").Last();
             if (DataUtil.WebModpackInfoDatas.ContainsKey(keyword)) {           
                 var result = DataUtil.WebModpackInfoDatas[keyword];
-                if (!string.IsNullOrEmpty(result.Chinese))
+                if (!string.IsNullOrEmpty(result.Chinese)) {
                     ChineseTitle = result.Chinese;
-            }
-
-            //ThreadPool.QueueUserWorkItem(x => {
-
-            //    string keyword = modpack.Name ??= string.Empty;
-            //    if (DataUtil.WebModpackInfoDatas.ContainsKey(keyword)) {               
-            //        var result = DataUtil.WebModpackInfoDatas[keyword];
-            //        if (!string.IsNullOrEmpty(result.Chinese))
-            //            ChineseTitle = result.Chinese;
-            //    }
-            //});
+                }
+            } else ChineseTitle = modpack.Name;
 
             foreach (var i in modpack.Files.AsParallel()) {
                 Files.Add(i.Key, i.Value.Select(x => new WebModpackFilesModel(x.FileName, x.DownloadUrl)).ToObservableCollection());
@@ -52,6 +43,7 @@ namespace wonderlab.Class.Models
 
         public WebModpackModel(ModrinthProjectInfoSearchResult info, List<ModrinthProjectInfoItem> files) {
             NormalTitle = info.Title;
+            ChineseTitle = info.Title;
             IconUrl = info.IconUrl;
             CreatedAt = info.DateCreated;
             Description = info.Description;

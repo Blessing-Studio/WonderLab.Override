@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using System;
 using System.Diagnostics;
+using System.Text;
 using wonderlab.Class.Utils;
 
 namespace wonderlab
@@ -18,8 +19,10 @@ namespace wonderlab
         {
             try
             {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
                 BuildAvaloniaApp()
-                .StartWithClassicDesktopLifetime(args);
+                .StartWithClassicDesktopLifetime(args, ShutdownMode.OnLastWindowClose);
             }
             catch (Exception)
             {

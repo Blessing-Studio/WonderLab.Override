@@ -179,7 +179,7 @@ namespace wonderlab
                 DataUtil.WebModpackInfoDatas.Values.ToList().ForEach(x => {               
                     if (x.Chinese.Contains("*"))
                         x.Chinese = x.Chinese.Replace("*",
-                            " (" + string.Join(" ", x.CurseForgeId.Split("-").Select(w => w.Substring(0, 1).ToUpper() + w.Substring(1, w.Length - 1))) + ")");
+                            string.Empty);
                 });
 
                 Trace.WriteLine(DataUtil.WebModpackInfoDatas.Count);
