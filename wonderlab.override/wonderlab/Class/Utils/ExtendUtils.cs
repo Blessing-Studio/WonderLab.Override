@@ -180,8 +180,24 @@ namespace wonderlab.Class.Utils
             return new Bitmap(stream);
         }
 
+        public static Bitmap ToBitmap(this Stream stream) {       
+            return new Bitmap(stream);
+        }
+
         public static Image<Rgba32> ToImage(this byte[] raw) {       
             return (Image<Rgba32>)Image.Load(raw);
+        }
+
+        public static Image<Rgba32> ToImage(this Stream raw) {
+            return (Image<Rgba32>)Image.Load(raw);
+        }
+
+        [Obsolete]
+        public static Bitmap ToReSizeBitmap(this MemoryStream stream, int width, int hight) {
+            using var memoryStream = new MemoryStream();
+
+            Bitmap.DecodeToWidth(stream, width).Save(memoryStream);
+            return Bitmap.DecodeToHeight(memoryStream, hight);
         }
     }
 }

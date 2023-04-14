@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
@@ -26,6 +27,23 @@ namespace wonderlab.Class.Models
             GameVersions = modpack.SupportedVersions.Any() ? 
                 (modpack.SupportedVersions.First() == modpack.SupportedVersions.Last() ?
                 modpack.SupportedVersions.First() : $"{modpack.SupportedVersions.First()}-{modpack.SupportedVersions.Last()}") : "Unknown";
+
+            string keyword = modpack.Links["websiteUrl"].TrimEnd('/').Split("/").Last();
+            if (DataUtil.WebModpackInfoDatas.ContainsKey(keyword)) {           
+                var result = DataUtil.WebModpackInfoDatas[keyword];
+                if (!string.IsNullOrEmpty(result.Chinese))
+                    ChineseTitle = result.Chinese;
+            }
+
+            //ThreadPool.QueueUserWorkItem(x => {
+
+            //    string keyword = modpack.Name ??= string.Empty;
+            //    if (DataUtil.WebModpackInfoDatas.ContainsKey(keyword)) {               
+            //        var result = DataUtil.WebModpackInfoDatas[keyword];
+            //        if (!string.IsNullOrEmpty(result.Chinese))
+            //            ChineseTitle = result.Chinese;
+            //    }
+            //});
 
             foreach (var i in modpack.Files.AsParallel()) {
                 Files.Add(i.Key, i.Value.Select(x => new WebModpackFilesModel(x.FileName, x.DownloadUrl)).ToObservableCollection());

@@ -47,7 +47,7 @@ namespace wonderlab.Class.Utils
                 Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
                 Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
 
-                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
+                $"无法获取到一言，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
             }
 
             return result;

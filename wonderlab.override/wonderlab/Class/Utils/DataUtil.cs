@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
@@ -12,5 +13,7 @@ namespace wonderlab.Class.Utils
                 throw new ArgumentNullException(nameof(obj));
             }
         }
+
+        public static Dictionary<string, WebModpackInfoModel> WebModpackInfoDatas { get; set; } = new();
     }
 }

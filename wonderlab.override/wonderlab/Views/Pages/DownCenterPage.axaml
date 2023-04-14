@@ -62,7 +62,7 @@
 													Margin="20 10 10 10" CornerRadius="4"
 													BoxShadow="0 4 16 0 #66000000">
 												<Border.Background>
-													<ImageBrush Source="{Binding Icon}" Stretch="UniformToFill"/>
+													<ImageBrush Source="{Binding Icon}" BitmapInterpolationMode="MediumQuality" Stretch="UniformToFill"/>
 												</Border.Background>
 												<Border.RenderTransform>
 													<TransformGroup>
@@ -90,7 +90,9 @@
 														<ColumnDefinition Width="10"/>
 														<ColumnDefinition Width="1*"/>
 													</Grid.ColumnDefinitions>
-													<TextBlock VerticalAlignment="Center" Text="来自下北泽的中文名" MaxWidth="450"
+
+													<!--{Binding Data.ChineseTitle}-->
+													<TextBlock VerticalAlignment="Center" Text="666" MaxWidth="450"
 															   FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
 
 													<StackPanel Grid.Column="2" Orientation="Horizontal"
@@ -100,7 +102,7 @@
 																<SkewTransform AngleX="-8"/>
 															</TransformGroup>
 														</StackPanel.RenderTransform>
-
+														
 														<Border Height="18" CornerRadius="3"
 																Background="{DynamicResource AccentBrush}">
 															<Grid VerticalAlignment="Center" Margin="5 0">
@@ -140,13 +142,13 @@
 						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
 					</Style>
 
-					<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+					<!--<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
 						<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
 					</Style>
 
 					<Style Selector="ListBoxItem:pressed /template/	Border#Main">
 						<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
-					</Style>
+					</Style>-->
 				</Styles>
 			</ListBox.Styles>
 		</ListBox>

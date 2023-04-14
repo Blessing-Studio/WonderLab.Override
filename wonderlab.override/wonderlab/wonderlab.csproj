@@ -25,6 +25,7 @@
     <None Remove="Assets\Icons\Forge.png" />
     <None Remove="Assets\Icons\OptiFine.png" />
     <None Remove="Assets\Icons\Quilt.png" />
+    <None Remove="Assets\ModpackInfos.json" />
     <None Remove="Assets\steve.png" />
     <None Remove="Assets\y.jpg" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <AvaloniaResource Include="Assets\Icons\Forge.png" />
     <AvaloniaResource Include="Assets\Icons\OptiFine.png" />
     <AvaloniaResource Include="Assets\Icons\Quilt.png" />
+    <EmbeddedResource Include="Assets\ModpackInfos.json" />
     <AvaloniaResource Include="Assets\y.jpg" />
   </ItemGroup>
   <ItemGroup>

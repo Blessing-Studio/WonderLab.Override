@@ -10,7 +10,10 @@ using MinecaftOAuth.Authenticator;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Toolkits;
+using Newtonsoft.Json;
+using SkiaSharp;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -100,9 +103,13 @@ namespace wonderlab
         }
 
         private async void WindowsInitialized(object? sender, EventArgs e)
-        {           
+        {
             await Task.Delay(500);
             DataContext = ViewModel = new();
+
+            BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
+            ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
+            CanParallax = App.LauncherData.ParallaxType is not "ÎÞ";
 
             PropertyChanged += MainWindow_PropertyChanged;
             Drop.PointerPressed += Drop_PointerPressed;
@@ -111,13 +118,9 @@ namespace wonderlab
             OpenBar.PointerPressed += OpenBar_PointerPressed;
             OpenBar.PointerReleased += OpenBar_PointerReleased;
 
-            BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
             if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(App.LauncherData.ImagePath)) {
                 BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
             }
-
-            ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
-            CanParallax = App.LauncherData.ParallaxType is not "ÎÞ";
 
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate() && SystemUtils.IsWindows)
@@ -163,6 +166,25 @@ namespace wonderlab
                 await Task.Delay(1000);
                 UpdateDialog.ShowDialog();
             }
+
+            StreamReader reader = new(AvaloniaUtils.GetAssetsStream("ModpackInfos.json"));
+            var infos = reader.ReadToEnd().ToJsonEntity<List<WebModpackInfoModel>>();
+            if(infos is not null && infos.Any()) {
+                infos.ForEach(x => {
+                    if (x.CurseForgeId != null) {                   
+                        DataUtil.WebModpackInfoDatas.Add(x.CurseForgeId, x);
+                    }
+                });
+
+                DataUtil.WebModpackInfoDatas.Values.ToList().ForEach(x => {               
+                    if (x.Chinese.Contains("*"))
+                        x.Chinese = x.Chinese.Replace("*",
+                            " (" + string.Join(" ", x.CurseForgeId.Split("-").Select(w => w.Substring(0, 1).ToUpper() + w.Substring(1, w.Length - 1))) + ")");
+                });
+
+                Trace.WriteLine(DataUtil.WebModpackInfoDatas.Count);
+            }
+
 
             JsonUtils.CraftLaunchInfoJson();
         }
