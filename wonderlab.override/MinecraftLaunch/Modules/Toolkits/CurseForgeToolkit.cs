@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -113,18 +114,17 @@ namespace MinecraftLaunch.Modules.Toolkits
                           .Append(string.IsNullOrEmpty(searchFilter) ? string.Empty : $"&searchFilter={searchFilter}")
                           .Append((int)modLoaderType == 8 ? $"&modLoaderType={(int)modLoaderType}" : string.Empty)
                           .Append(string.IsNullOrEmpty(gameVersion) ? string.Empty : $"&gameVersion={gameVersion}")
-                          .Append(category == -1 ? string.Empty : $"&categoryId={gameVersion}")
+                          .Append(category == -1 ? string.Empty : $"&categoryId={category}")
                           .Append($"&sortField=Featured&sortOrder=desc&classId={classId}");
-
             var result = new List<CurseForgeModpack>();
 
-            try
-            {
+            try {           
                 using var responseMessage = await HttpWrapper.HttpGetAsync(builder.ToString(), Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
+                Trace.WriteLine($"{await responseMessage.Content.ReadAsStringAsync()}");
                 var entity = JObject.Parse(await responseMessage.Content.ReadAsStringAsync());
-                ((JArray)entity["data"]).ToList().ForEach(x => result.Add(ParseCurseForgeModpack((JObject)x)));
+                ((JArray)entity["data"]!).ToList().ForEach(x => result.Add(ParseCurseForgeModpack((JObject)x)));
 
                 result.Sort((a, b) => a.GamePopularityRank.CompareTo(b.GamePopularityRank));
 
@@ -132,7 +132,7 @@ namespace MinecraftLaunch.Modules.Toolkits
             }
             catch { }
 
-            return null;
+            return null!;
 
         }
 

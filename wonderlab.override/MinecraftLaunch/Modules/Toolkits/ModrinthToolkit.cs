@@ -12,7 +12,7 @@ namespace MinecraftLaunch.Modules.Toolkits;
 
 public class ModrinthToolkit
 {
-	public static async ValueTask<ModrinthSearchResponse> GetFeaturedModpacksAsync()
+	public static async ValueTask<ModrinthSearchResponse> GetFeaturedsAsync()
 	{
 		var res = await HttpWrapper.HttpGetAsync("https://api.modrinth.com/v2/search");
         return JsonConvert.DeserializeObject<ModrinthSearchResponse>(await res.Content.ReadAsStringAsync())!;

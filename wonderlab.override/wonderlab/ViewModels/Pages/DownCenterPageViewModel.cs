@@ -6,6 +6,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +22,28 @@ namespace wonderlab.ViewModels.Pages
             PropertyChanged += OnPropertyChanged;
         }
 
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
-            
+        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
         }
 
         public CurseForgeToolkit Toolkit { get; } = new("$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6");
 
         [Reactive]
-        public ObservableCollection<WebModpackViewData> Modpacks { get; set; } = new();
+        public ObservableCollection<WebModpackViewData> Resources { get; set; } = new();
 
         [Reactive]
         public bool IsLoading { get; set; }
 
         [Reactive]
-        public bool IsSearchOptionsPaneOpen { get; set; } = false;
+        public string SearchFilter { get; set; }
+
+        [Reactive]
+        public string CurrentMcVersion { get; set; } = string.Empty;
+
+        [Reactive]
+        public KeyValuePair<int, string> CurrentCategorie { get; set; }
+
+        [Reactive]
+        public double SearcherHeight { get; set; } = 0;
 
         public List<string> McVersions { get; } = new() {       
             "All",
@@ -62,10 +71,8 @@ namespace wonderlab.ViewModels.Pages
             { 4471, "整合包" },
             { 12, "资源包" },
             { 17, "地图" },
-            { 406, "世界生成" },
         };
-
-        [Obsolete]
+        
         public Dictionary<int, string> ModpackCategories { get; } = new() {
             { 406, "世界生成" },
             { 407, "生物群系" },
@@ -90,30 +97,80 @@ namespace wonderlab.ViewModels.Pages
             { 435, "服务器" },
         };
 
-        public async ValueTask GetModrinthModpackAsync() {
-            Modpacks.Clear();
+        public async ValueTask GetModrinthResourceAsync() {
+            Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
+            var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedsAsync());
             foreach (var i in modpacks.Hits.AsParallel()) {
                 await Task.Run(async () => {
                     var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
-                    Modpacks.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
+                    Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                 });
             }
 
             IsLoading = false;
         }
 
-        public async ValueTask GetCurseforgeModpacksAsync() {
-            Modpacks.Clear();
+        public async ValueTask GetCurseforgeResourceAsync() {
+            Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await Toolkit.GetFeaturedModpacksAsync());
+            var modpacks = await Task.Run(async () => await Toolkit.GetFeaturedsAsync());
             foreach (var x in modpacks) {
-                Modpacks.Add(new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>());
+                Resources.Add(new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>());
                 await Task.Delay(10);
             }
 
             IsLoading = false;
+        }
+
+        public async ValueTask SearchCurseforgeResourceAsync() {
+            try {
+                //模组中文搜索检测
+                var searchFilter = string.Empty;
+                if (CurrentCategorie.Key == 6) {
+                    foreach (var item in DataUtil.WebModpackInfoDatas.AsParallel()) {           
+                        if(SearchFilter.IsChinese() && item.Value.Chinese.Contains(SearchFilter) && item.Value.Chinese.Contains("(") && item.Value.Chinese.Contains(")")) {
+                            item.Value.CurseForgeId = item.Value.Chinese.Split(" (")[1].Split(")").First().Trim();
+                            searchFilter = item.Value.CurseForgeId;
+                            
+                            Trace.WriteLine($"[信息] 新的 CurseForgeId 值为 {searchFilter}");
+                            break;
+                        } else if (SearchFilter.IsChinese()) searchFilter = item.Value.CurseForgeId.Replace("-", " ");
+                    }
+                }
+                else {
+                    searchFilter = SearchFilter;
+                }
+
+
+                Resources.Clear();
+                var result = (await Toolkit.SearchResourceAsync(string.IsNullOrEmpty(searchFilter) ? SearchFilter : searchFilter, 
+                    CurrentCategorie.Key, gameVersion: CurrentMcVersion.Contains("All") ? string.Empty : CurrentMcVersion))
+                    .Select(x => new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>()).ToList();
+
+                //重新排序
+                var list = result.ToList();
+                foreach (var item in list) {
+                    if (SearchFilter.IsChinese() && item.Data.ChineseTitle.Contains(SearchFilter)) {
+                        var res = result.MoveToFront(item);
+                        Trace.WriteLine($"[信息] 返回值为 {res}");
+                    }
+                    else if (item.Data.NormalTitle.Contains(SearchFilter)) {
+                        var res = result.MoveToFront(item);
+                        Trace.WriteLine($"[信息] 返回值为 {res}");
+                    }
+                }
+
+                foreach (var item in result) {
+                    Resources.Add(item);
+                    await Task.Delay(10);
+                }
+
+                IsLoading = false;
+            }
+            catch (Exception ex) {
+                $"我去，炸了，详细信息如下：{ex.Message}".ShowMessage("错误");
+            }
         }
 
         public void OpenGameInstallDialogAction() {
@@ -122,20 +179,25 @@ namespace wonderlab.ViewModels.Pages
 
         public async void GetModrinthModpackAction() {
             IsLoading = true;
-            await GetModrinthModpackAsync();
+            await GetModrinthResourceAsync();
         }
 
         public async void GetCurseforgeModpackAction() {       
             IsLoading = true;
-            await GetCurseforgeModpacksAsync();
+            await GetCurseforgeResourceAsync();
+        }
+
+        public async void SearchResourceAction() {
+            IsLoading = true;
+            await SearchCurseforgeResourceAsync();
         }
 
         public void OpenSearchOptionsAction() {
-            if (IsSearchOptionsPaneOpen) {
-                IsSearchOptionsPaneOpen = false;
-            }
+            SearcherHeight = 180;
+        }
 
-            IsSearchOptionsPaneOpen = true;
+        public void CloseSearchOptionsAction() {       
+            SearcherHeight = 0;
         }
 
         public void GoBackAction() {

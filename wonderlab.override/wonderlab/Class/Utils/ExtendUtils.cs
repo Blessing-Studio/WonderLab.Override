@@ -19,6 +19,7 @@ using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 using Avalonia.Media.Imaging;
+using System.Text.RegularExpressions;
 
 namespace wonderlab.Class.Utils
 {
@@ -39,6 +40,8 @@ namespace wonderlab.Class.Utils
         public static void ShowMessage(this string message, string title,HideOfRunAction action) {       
             MainWindow.Instance?.ShowInfoBar(title, message, action);
         }
+
+        public static bool IsChinese(this string input) => Regex.IsMatch(input, "[\u4e00-\u9fbb]");
 
         public static double ToDouble(this object obj) { 
             return Convert.ToDouble(obj);
@@ -190,6 +193,23 @@ namespace wonderlab.Class.Utils
 
         public static Image<Rgba32> ToImage(this Stream raw) {
             return (Image<Rgba32>)Image.Load(raw);
+        }
+
+        public static bool MoveToFront<T>(this List<T> list, T item) {       
+            if (list.Count == 0) {           
+                return false;
+            }
+
+            var index = list.IndexOf(item);
+            if (index == -1) {           
+                return false;
+            }
+
+            var temp = list[index];
+            list.RemoveAt(index);
+            list.Insert(0, item);
+
+            return true;
         }
 
         [Obsolete]

@@ -49,7 +49,7 @@
 		<!--Items="{Binding Modpacks}"-->
 		<ListBox Background="Transparent"
 				 VirtualizationMode="None"
-				 Margin="0 60" Items="{Binding Modpacks}">
+				 Margin="0 60" Items="{Binding Resources}">
 			<ListBox.Styles>
 				<Styles>
 					<Style Selector="ListBoxItem">
@@ -246,43 +246,88 @@
 		<ProgressBar Classes="Circle" HorizontalAlignment="Center"
 					 VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}" Height="60" Width="60"/>
 
-		<!--{Binding IsSearchOptionsPaneOpen} {DynamicResource DialogContentBackground}-->
-		<SplitView PaneBackground="Transparent" ClipToBounds="False"
-				   IsPaneOpen="True" HorizontalAlignment="Right" PanePlacement="Right">
-			<Border CornerRadius="6 0 0 6" 
-					BorderBrush="{DynamicResource DialogContentBorderBrush}"
-					BorderThickness="1"
-					BoxShadow="0 8 32 0 #66000000"
-					Background="Red">
-				<Grid Margin="15">
+		<!--{DynamicResource DialogContentBackground}-->
+		
+		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		        BorderThickness="1"
+				Height="{Binding SearcherHeight}"
+			    VerticalAlignment="Bottom"
+				BoxShadow="0 4 32 0 #66000000"
+		        Background="White">
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Easing="ExponentialEaseOut"
+									  Duration="0:0:0.35"
+									  Property="Height"/>
+				</Transitions>
+			</Border.Transitions>
+			
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="10"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<Border Height="50" Background="#FFEEEEEE">
+					<Grid>
+						<TextBlock Text="搜索选项" 
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Margin="15 0"
+								   FontWeight="SemiBold" FontSize="16"/>
+
+						<Button Classes="rotatebutton"
+		                        HorizontalAlignment="Right"
+		                        Command="{Binding CloseSearchOptionsAction}"
+		                        VerticalAlignment="Center" Margin="15 0"/>
+					</Grid>
+				</Border>
+
+				<Grid Margin="15" Grid.Row="2">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="1*"/>
 						<RowDefinition Height="10"/>
-						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="1*"/>
 					</Grid.RowDefinitions>
-					
-					<TextBlock Text="搜索选项" FontWeight="SemiBold" FontSize="16"/>
-					<StackPanel Spacing="10" Grid.Row="2">
-						<TextBox Watermark="你想搜索的资源名（模组支持中文搜索）"/>
-						
-						<StackPanel Spacing="10" Orientation="Horizontal">
-							<ComboBox Items="{Binding Categories}" PlaceholderText="具体资源类型">
-								<ComboBox.DataTemplates>
-									<DataTemplate>
-										<Grid>
-											<TextBlock VerticalAlignment="Center" Text="{Binding Value}"/>
-										</Grid>
-									</DataTemplate>
-								</ComboBox.DataTemplates>
-							</ComboBox>
-							
-							<ComboBox Items="{Binding McVersions}" PlaceholderText="资源支持的 Mc 版本"/>
-						</StackPanel>
-						
-						<Button HorizontalAlignment="Stretch" Content="搜索" HorizontalContentAlignment="Center"/>
-					</StackPanel>
-				</Grid>
-			</Border>
-		</SplitView>
+
+					<TextBox Text="{Binding SearchFilter}" Watermark="你想搜索的资源名（模组支持中文搜索）" VerticalAlignment="Top"/>
+
+					<Grid Grid.Row="2">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+
+						<ComboBox SelectedItem="{Binding CurrentCategorie}"
+		                          HorizontalAlignment="Stretch"
+		                          Items="{Binding Categories}" PlaceholderText="具体资源类型">
+							<ComboBox.DataTemplates>
+								<DataTemplate>
+									<Grid>
+										<TextBlock VerticalAlignment="Center" Text="{Binding Value}"/>
+									</Grid>
+								</DataTemplate>
+							</ComboBox.DataTemplates>
+						</ComboBox>
+
+						<ComboBox Items="{Binding McVersions}"
+								  Grid.Column="2"
+								  HorizontalAlignment="Stretch"
+								  SelectedItem="{Binding CurrentMcVersion}"
+								  PlaceholderText="资源支持的 Mc 版本"/>
+
+						<Button HorizontalAlignment="Stretch" Content="搜索"
+								Classes="wonderaccentbutton"
+		                        Command="{Binding SearchResourceAction}"
+		                        HorizontalContentAlignment="Center"
+								Grid.Column="4"/>
+					</Grid>
+				</Grid>			
+			</Grid>
+		</Border>
 	</Grid>
 </UserControl>

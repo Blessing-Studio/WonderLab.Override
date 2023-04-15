@@ -178,13 +178,11 @@ namespace wonderlab
 
                 DataUtil.WebModpackInfoDatas.Values.ToList().ForEach(x => {               
                     if (x.Chinese.Contains("*"))
-                        x.Chinese = x.Chinese.Replace("*",
-                            string.Empty);
+                        x.Chinese = x.Chinese.Replace("*", string.Empty);                           
                 });
 
                 Trace.WriteLine(DataUtil.WebModpackInfoDatas.Count);
             }
-
 
             JsonUtils.CraftLaunchInfoJson();
         }

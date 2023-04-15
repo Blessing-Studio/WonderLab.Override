@@ -231,8 +231,7 @@ namespace wonderlab.ViewModels.Dialogs
 
         public async void GetGameCoresAction()
         {
-            try
-            {
+            try {           
                 var res = await GameCoreInstaller.GetGameCoresAsync();
                 GameCores.Clear();
 
