@@ -263,10 +263,10 @@
 					
 					<TextBlock Text="搜索选项" FontWeight="SemiBold" FontSize="16"/>
 					<StackPanel Spacing="10" Grid.Row="2">
-						<TextBox Watermark="模组名"/>
+						<TextBox Watermark="你想搜索的资源名（模组支持中文搜索）"/>
 						
 						<StackPanel Spacing="10" Orientation="Horizontal">
-							<ComboBox Items="{Binding ModpackCategories}" PlaceholderText="模组类型">
+							<ComboBox Items="{Binding Categories}" PlaceholderText="具体资源类型">
 								<ComboBox.DataTemplates>
 									<DataTemplate>
 										<Grid>
@@ -276,7 +276,7 @@
 								</ComboBox.DataTemplates>
 							</ComboBox>
 							
-							<ComboBox Items="{Binding McVersions}" PlaceholderText="模组支持的 Mc 版本"/>
+							<ComboBox Items="{Binding McVersions}" PlaceholderText="资源支持的 Mc 版本"/>
 						</StackPanel>
 						
 						<Button HorizontalAlignment="Stretch" Content="搜索" HorizontalContentAlignment="Center"/>

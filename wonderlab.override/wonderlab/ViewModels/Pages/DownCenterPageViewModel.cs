@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Models.Download;
+﻿using Avalonia.Controls;
+using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -55,7 +56,16 @@ namespace wonderlab.ViewModels.Pages
             "1.8.9",
             "1.7.10"
         };
+        
+        public Dictionary<int, string> Categories { get; } = new() {
+            { 6, "模组" },
+            { 4471, "整合包" },
+            { 12, "资源包" },
+            { 17, "地图" },
+            { 406, "世界生成" },
+        };
 
+        [Obsolete]
         public Dictionary<int, string> ModpackCategories { get; } = new() {
             { 406, "世界生成" },
             { 407, "生物群系" },
