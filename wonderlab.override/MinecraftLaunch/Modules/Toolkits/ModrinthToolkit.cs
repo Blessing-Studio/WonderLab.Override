@@ -74,10 +74,10 @@ public class ModrinthToolkit
 		return JsonConvert.DeserializeObject<ModrinthSearchResponse>(await (await HttpWrapper.HttpGetAsync(obj, (Tuple<string, string>)null, HttpCompletionOption.ResponseContentRead)).Content.ReadAsStringAsync());
 	}
 
-	public static async ValueTask<List<string>> GetCategories()
+	public static async ValueTask<IEnumerable<string>> GetCategories()
 	{
 		List<ModrinthCategoryInfo> resModel = JsonConvert.DeserializeObject<List<ModrinthCategoryInfo>>(await (await HttpWrapper.HttpGetAsync("https://api.modrinth.com/v2/tag/category", (Tuple<string, string>)null, HttpCompletionOption.ResponseContentRead)).Content.ReadAsStringAsync());
-		return (resModel == null) ? new List<string>() : resModel.Select((ModrinthCategoryInfo c) => c.Name).ToList();
+		return (resModel == null) ? new List<string>() : resModel.Select((ModrinthCategoryInfo c) => c.Name).Distinct();
 	}
 
 	public static async ValueTask<ModrinthProjectInfo> GetProject(string projectId)
@@ -90,3 +90,4 @@ public class ModrinthToolkit
 		return JsonConvert.DeserializeObject<List<ModrinthProjectInfoItem>>(await (await HttpWrapper.HttpGetAsync("https://api.modrinth.com/v2/project/" + projectId + "/version", (Tuple<string, string>)null, HttpCompletionOption.ResponseContentRead)).Content.ReadAsStringAsync());
 	}
 }
+//resourcepack mod modpack shader

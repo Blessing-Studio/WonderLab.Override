@@ -173,6 +173,10 @@ namespace wonderlab.ViewModels.Pages
             }
         }
 
+        public async ValueTask SearchModrinthResourceAsync() {
+            await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType:CurrentCategorie.ToModrinthProjectType());
+        }
+        
         public void OpenGameInstallDialogAction() {
             MainWindow.Instance.Install.InstallDialog.ShowDialog();
         }

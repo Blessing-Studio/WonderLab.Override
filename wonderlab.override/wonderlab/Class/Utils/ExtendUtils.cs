@@ -212,6 +212,15 @@ namespace wonderlab.Class.Utils
             return true;
         }
 
+        public static string ToModrinthProjectType<T1, T2>(this KeyValuePair<T1, T2> key) {
+            return key.Value?.ToString() switch {
+                "资源包" => "resourcepack",
+                "模组" => "mod",
+                "整合包" => "modpack",
+                _ => "mod"
+            };
+        }
+        //resourcepack mod modpack shader
         [Obsolete]
         public static Bitmap ToReSizeBitmap(this MemoryStream stream, int width, int hight) {
             using var memoryStream = new MemoryStream();

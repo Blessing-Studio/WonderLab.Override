@@ -30,18 +30,18 @@
 
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="0.8*"/>
-				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="0"/>
 				<ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
 			<Border Background="{DynamicResource DialogContentBackground}"
-		            BoxShadow="0 1 8 0 #66000000" CornerRadius="6" Width="120"
+		            BoxShadow="0 1 8 0 #66000000" CornerRadius="6" Width="220"
 					HorizontalAlignment="Right" Grid.Column="2" Name="Title"
 		            BorderBrush="{DynamicResource DialogContentBorderBrush}"
-		            BorderThickness="1" Height="40" VerticalAlignment="Top"
-					Margin="0, 0, -140, 0">
+		            BorderThickness="1" Height="55" VerticalAlignment="Top"
+					Margin="0, 0, -240, 0">
 				<Border.Transitions>
 					<Transitions>
-						<ThicknessTransition Duration="0:0:0.65"
+						<ThicknessTransition Duration="0:0:0.45"
 											 Easing="ExponentialEaseOut"
 											 Property="Margin"/>
 					</Transitions>
@@ -51,42 +51,53 @@
 						<SkewTransform AngleX="-8"/>
 					</TransformGroup>
 				</Border.RenderTransform>
-				<TextBlock Text="通知中心" FontSize="18"
-				           FontWeight="SemiBold" Margin="20 0 15 0"
-						   VerticalAlignment="Center"/>
+				<StackPanel HorizontalAlignment="Right" 
+							Margin="15 0"
+							VerticalAlignment="Center">
+					<TextBlock Text="通知中心" FontSize="18"
+		                       FontWeight="SemiBold"
+							   HorizontalAlignment="Right"/>
+
+					<TextBlock Text="在此查看 WonderLab 当前任务" FontSize="13"
+							   HorizontalAlignment="Right"
+							   TextAlignment="Right"/>
+				</StackPanel>
 			</Border>
 
 			<Border Name="List" Grid.Row="2" Grid.Column="2"
-					Width="420" HorizontalAlignment="Right" Margin="0, 0, -880, 0">
+					Width="420" HorizontalAlignment="Right" Margin="0, 0, -430, 0">
 				<Border.Transitions>
 					<Transitions>
-						<ThicknessTransition Duration="0:0:0.65"
+						<ThicknessTransition Duration="0:0:0.45"
 											 Easing="ExponentialEaseOut"
 											 Property="Margin"/>
 					</Transitions>
 				</Border.Transitions>
 				<Grid>
-					<Border Background="{DynamicResource DialogContentBackground}"
-							BoxShadow="0 1 8 0 #66000000" CornerRadius="6"
-							BorderBrush="{DynamicResource DialogContentBorderBrush}"
-							BorderThickness="1">
-					</Border>
 
-					<ListBox Items="{Binding Notifications}"
-							 Background="Transparent" Margin="0 15 0 0">
+					<!--Items="{Binding Notifications}"-->
+					<ListBox 
+							 Background="Transparent">
 						<ListBox.Styles>
 							<Styles>
 								<Style Selector="ListBoxItem">
+									<Setter Property="ClipToBounds" Value="False"/>
 									<Setter Property="Margin" Value="16,6"/>
 									<Setter Property="Template">
 										<ControlTemplate>
 											<Grid>
 												<Border HorizontalAlignment="Stretch"
 														VerticalAlignment="Stretch"
-														Background="{DynamicResource ControlFillColorDefault}"
+														Background="{DynamicResource DialogContentBackground}"
 														BorderThickness="1"
+														BoxShadow="0 1 4 0 #66000000"
 														BorderBrush="{DynamicResource DialogContentBorderBrush}"
 														CornerRadius="8">
+													<Border.RenderTransform>
+														<TransformGroup>
+															<SkewTransform AngleX="-8"/>
+														</TransformGroup>
+													</Border.RenderTransform>
 													<Grid>
 														<Grid.RowDefinitions>
 															<RowDefinition Height="1*"/>
@@ -118,14 +129,9 @@
 								</Style>
 							</Styles>
 						</ListBox.Styles>
+						
+						<ListBoxItem/>
 					</ListBox>
-
-					<TextBlock Text="没有新通知" IsVisible="{Binding HasNotification}"
-							   VerticalAlignment="Center"
-							   HorizontalAlignment="Center"
-							   FontSize="16"
-							   FontWeight="Bold"
-							   Margin="15 0"/>
 				</Grid>
 			</Border>
 		</Grid>

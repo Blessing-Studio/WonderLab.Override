@@ -22,9 +22,9 @@ namespace wonderlab.Views.Pages
         public async void Close() {
             background.Opacity = 0;
 
-            Title.Margin = new(0, 0, -140, 0);
+            Title.Margin = new(0, 0, -240, 0);
             await Task.Delay(50);
-            List.Margin = new(0, 0, -880, 0);
+            List.Margin = new(0, 0, -430, 0);
             await Task.Delay(50);
             IsHitTestVisible = false;
         }
