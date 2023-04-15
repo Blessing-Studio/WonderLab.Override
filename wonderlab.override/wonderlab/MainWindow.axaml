@@ -30,7 +30,7 @@
 
 		<Border VerticalAlignment="Stretch"
 		HorizontalAlignment="Stretch"
-		BorderBrush="{DynamicResource AccentBrush}"
+		BorderBrush="{DynamicResource AccentBrush}" 
 		BorderThickness="1"/>
 
 		<Border Name="OpenBar" Margin="15 0 0 0"

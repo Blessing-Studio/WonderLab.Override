@@ -152,12 +152,10 @@ namespace wonderlab.ViewModels.Pages
                 var list = result.ToList();
                 foreach (var item in list) {
                     if (SearchFilter.IsChinese() && item.Data.ChineseTitle.Contains(SearchFilter)) {
-                        var res = result.MoveToFront(item);
-                        Trace.WriteLine($"[信息] 返回值为 {res}");
+                        result.MoveToFront(item);
                     }
                     else if (item.Data.NormalTitle.Contains(SearchFilter)) {
-                        var res = result.MoveToFront(item);
-                        Trace.WriteLine($"[信息] 返回值为 {res}");
+                        result.MoveToFront(item);
                     }
                 }
 
