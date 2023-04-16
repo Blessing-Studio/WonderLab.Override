@@ -22,6 +22,7 @@
 			</StackPanel.RenderTransform>
 			<ToggleButton Content="Minecraft 本体" 
 						  Tag="Minecraft"
+						  IsChecked="True"
 						  Command="{Binding GetGameCoresAction}"/>
 			
 			<ToggleButton Content="Curseforge 资源" 
@@ -56,6 +57,7 @@
 
 		<ListBox Background="Transparent"
 				 VirtualizationMode="None"
+			     IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
 				 SelectedItem="{Binding	CurrentGameCore}"
 				 Margin="0 60" Items="{Binding GameCores}">
 			<ListBox.Styles>
@@ -68,11 +70,6 @@
 							<ControlTemplate>
 								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
 										Name="Main">
-									<Border.RenderTransform>
-										<TransformGroup>
-											<SkewTransform AngleX="-8"/>
-										</TransformGroup>
-									</Border.RenderTransform>
 									<Border.Transitions>
 										<Transitions>
 											<BoxShadowsTransition Property="BoxShadow"
@@ -93,11 +90,6 @@
 												   HorizontalAlignment="Left"
 												   VerticalAlignment="Center"
 												   Source="/Assets/Icons/Block.png">
-												<Image.RenderTransform>
-													<TransformGroup>
-														<SkewTransform AngleX="8"/>
-													</TransformGroup>
-												</Image.RenderTransform>
 											</Image>
 
 											<Grid Grid.Column="2" HorizontalAlignment="Left"
@@ -334,8 +326,7 @@
 		<ProgressBar Classes="Circle" HorizontalAlignment="Center"
 					 VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}" Height="60" Width="60"/>
 
-		<!--{DynamicResource DialogContentBackground}-->
-		
+		<!--{DynamicResource DialogContentBackground} {Binding SearcherHeight}-->
 		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
 		        BorderThickness="1"
 				Height="{Binding SearcherHeight}"
@@ -379,7 +370,7 @@
 						<RowDefinition Height="1*"/>
 					</Grid.RowDefinitions>
 
-					<TextBox Text="{Binding SearchFilter}" Watermark="你想搜索的资源名（模组支持中文搜索）" VerticalAlignment="Top"/>
+					<TextBox Text="{Binding SearchFilter}" Watermark="你想搜索的资源名" VerticalAlignment="Top"/>
 
 					<Grid Grid.Row="2">
 						<Grid.ColumnDefinitions>
@@ -392,6 +383,7 @@
 
 						<ComboBox SelectedItem="{Binding CurrentCategorie}"
 		                          HorizontalAlignment="Stretch"
+								  IsVisible="{Binding IsResource}"
 		                          Items="{Binding Categories}" PlaceholderText="具体资源类型">
 							<ComboBox.DataTemplates>
 								<DataTemplate>
@@ -404,9 +396,18 @@
 
 						<ComboBox Items="{Binding McVersions}"
 								  Grid.Column="2"
+								  IsVisible="{Binding IsResource}"
 								  HorizontalAlignment="Stretch"
 								  SelectedItem="{Binding CurrentMcVersion}"
 								  PlaceholderText="资源支持的 Mc 版本"/>
+
+						<ComboBox Items="{Binding McVersionTypes}"
+		                          Grid.Column="2"
+								  IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+								  IsHitTestVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+		                          HorizontalAlignment="Stretch"
+		                          SelectedItem="{Binding CurrentMcVersionType}"
+		                          PlaceholderText="Mc 版本类别"/>
 
 						<Button HorizontalAlignment="Stretch" Content="搜索"
 								Classes="wonderaccentbutton"

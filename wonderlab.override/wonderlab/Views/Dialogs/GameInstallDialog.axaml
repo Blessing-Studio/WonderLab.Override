@@ -127,13 +127,13 @@
 						</Grid>
 					</Border>
 
-
 					<StackPanel Spacing="10"
 								IsVisible="{Binding	IsInstallerVisible}"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center" Name="Installer">
 						<Button Padding="0"
 								CornerRadius="6"
+								Background="{DynamicResource DialogContentBorderBrush}"
 								HorizontalContentAlignment="Left"
 								Height="40" Tag="Forge"
 								Width="540"
@@ -167,6 +167,7 @@
 						</Button>
 
 						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
 								CornerRadius="6"
 								Height="40" Tag="Fabric"
 								HorizontalContentAlignment="Left"
@@ -202,6 +203,7 @@
 						</Button>
 
 						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
 								HorizontalContentAlignment="Left"
 								CornerRadius="6"
 								Height="40"
@@ -236,6 +238,7 @@
 						</Button>
 
 						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
 								CornerRadius="6"
 								HorizontalContentAlignment="Left"
 								Height="40" Tag="Quilt"
@@ -270,7 +273,6 @@
 							</Grid>
 						</Button>
 					</StackPanel>
-
 
 					<ListBox Background="Transparent"
 							 Items="{Binding CurrentModLoaders}"

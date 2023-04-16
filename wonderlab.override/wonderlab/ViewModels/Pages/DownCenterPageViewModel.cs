@@ -24,12 +24,22 @@ using wonderlab.Views.Pages;
 namespace wonderlab.ViewModels.Pages
 {
     public class DownCenterPageViewModel : ReactiveObject {
+        public IEnumerable<GameCoreEmtity> Cache;
+
         public DownCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
+            GetGameCoresAction();
         }
 
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == nameof(CurrentMcVersionType)) {     
+                GameCores.Clear();
 
+                foreach (var item in Cache.Where(x => x.Type.Contains(CurrentMcVersionType))) {               
+                    GameCores.Add(item);
+                    await Task.Delay(20);
+                }
+            }
         }
 
         public CurseForgeToolkit Toolkit { get; } = new("$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6");
@@ -45,7 +55,7 @@ namespace wonderlab.ViewModels.Pages
 
         [Reactive]
         public bool IsResource { get; set; } = false;
-
+        
         [Reactive]
         public string SearchFilter { get; set; }
 
@@ -53,10 +63,13 @@ namespace wonderlab.ViewModels.Pages
         public string CurrentMcVersion { get; set; } = string.Empty;
 
         [Reactive]
+        public string CurrentMcVersionType { get; set; } = "正式版";
+
+        [Reactive]
         public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
-        public KeyValuePair<int, string> CurrentCategorie { get; set; }
+        public KeyValuePair<int, string> CurrentCategorie { get; set; } = new(6, "模组");
 
         [Reactive]
         public double SearcherHeight { get; set; } = 0;
@@ -84,7 +97,13 @@ namespace wonderlab.ViewModels.Pages
             "1.8.9",
             "1.7.10"
         };
-        
+
+        public List<string> McVersionTypes { get; } = new() {
+            "正式版",
+            "快照版",
+            "远古版",
+        };
+
         public Dictionary<int, string> Categories { get; } = new() {
             { 6, "模组" },
             { 4471, "整合包" },
@@ -146,7 +165,7 @@ namespace wonderlab.ViewModels.Pages
             try {
                 //模组中文搜索检测
                 var searchFilter = string.Empty;
-                if (CurrentCategorie.Key == 6) {
+                if (CurrentCategorie.Key == 6 && !string.IsNullOrEmpty(SearchFilter)) {
                     foreach (var item in DataUtil.WebModpackInfoDatas.AsParallel()) {           
                         if(SearchFilter.IsChinese() && item.Value.Chinese.Contains(SearchFilter) && item.Value.Chinese.Contains("(") && item.Value.Chinese.Contains(")")) {
                             item.Value.CurseForgeId = item.Value.Chinese.Split(" (")[1].Split(")").First().Trim();
@@ -157,7 +176,7 @@ namespace wonderlab.ViewModels.Pages
                         } else if (SearchFilter.IsChinese()) searchFilter = item.Value.CurseForgeId.Replace("-", " ");
                     }
                 }
-                else {
+                else if (!string.IsNullOrEmpty(SearchFilter)) {
                     searchFilter = SearchFilter;
                 }
 
@@ -170,20 +189,19 @@ namespace wonderlab.ViewModels.Pages
                 //重新排序
                 var list = result.ToList();
                 foreach (var item in list) {
-                    if (SearchFilter.IsChinese() && item.Data.ChineseTitle.Contains(SearchFilter)) {
+                    if (!string.IsNullOrEmpty(SearchFilter) && SearchFilter.IsChinese() && item.Data.ChineseTitle.Contains(SearchFilter)) {
                         result.MoveToFront(item);
                     }
-                    else if (item.Data.NormalTitle.Contains(SearchFilter)) {
+                    else if (!string.IsNullOrEmpty(SearchFilter) && item.Data.NormalTitle.Contains(SearchFilter)) {
                         result.MoveToFront(item);
                     }
                 }
+                IsLoading = false;
 
                 foreach (var item in result) {
                     Resources.Add(item);
                     await Task.Delay(10);
                 }
-
-                IsLoading = false;
             }
             catch (Exception ex) {
                 $"我去，炸了，详细信息如下：{ex.Message}".ShowMessage("错误");
@@ -194,21 +212,33 @@ namespace wonderlab.ViewModels.Pages
             Resources.Clear();
 
             var modpacks = await Task.Run(async () => await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
+            IsLoading = false;
+
             foreach (var i in modpacks.Hits.AsParallel()) {           
                 await Task.Run(async () => {
                     var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
                     Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                 });
             }
+        }
 
-            IsLoading = false; 
+        public async ValueTask SearchGameCoreAsync() {
+            GameCores.Clear();
+
+            var result = Cache.Where(x => x.Id.Contains(SearchFilter)).ToList();
+            IsLoading = false;
+
+            foreach (var item in result.Where(x => x.Type.Contains(CurrentMcVersionType))) {           
+                GameCores.Add(item);
+                await Task.Delay(20);
+            }
         }
 
         public void OpenGameInstallDialogAction() {
             MainWindow.Instance.Install.InstallDialog.ShowDialog();
         }
 
-        public async void GetGameCoresActions() {       
+        public async void GetGameCoresAction() {       
             try {
                 var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
                 GameCores.Clear();
@@ -219,13 +249,14 @@ namespace wonderlab.ViewModels.Pages
                         "release" => "正式版本",
                         "old_alpha" => "远古版本",
                         "old_beta" => "远古版本",
-                        _ => "Fuck"
+                        _ => "正式版本"
                     } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                     return true;
-                });
+                }).ToList();
 
-                foreach (var item in temp) {
+                Cache = temp.ToList();
+                foreach (var item in temp.Where(x => x.Type.Contains(CurrentMcVersionType))) {
                     GameCores.Add(item);
                     await Task.Delay(20);
                 }
@@ -247,9 +278,11 @@ namespace wonderlab.ViewModels.Pages
 
         public async void SearchResourceAction() {
             IsLoading = true;
+
             switch (ResourceType)
             {
                 case ResourceType.Minecraft:
+                    await SearchGameCoreAsync();
                     break;
                 case ResourceType.Curseforge:
                     await SearchCurseforgeResourceAsync();

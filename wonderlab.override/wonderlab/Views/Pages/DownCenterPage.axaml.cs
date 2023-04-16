@@ -50,7 +50,7 @@ namespace wonderlab.Views.Pages
         }
 
         private void OpenDialogAction(object? sender, RoutedEventArgs args) {
-            GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity);
+            GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
             ViewModel.OpenGameInstallDialogAction();
         }
     }
