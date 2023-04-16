@@ -77,7 +77,7 @@
 
 					<!--Items="{Binding Notifications}"-->
 					<ListBox Items="{Binding Notifications}"
-							 Background="Transparent">
+							 Background="Transparent" IsHitTestVisible="False">
 						<ListBox.Styles>
 							<Styles>
 								<Style Selector="ListBoxItem">
