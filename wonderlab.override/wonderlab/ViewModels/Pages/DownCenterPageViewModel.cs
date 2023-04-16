@@ -1,5 +1,9 @@
 ﻿using Avalonia.Controls;
+using MinecraftLaunch.Modules.Installer;
+using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Download;
+using MinecraftLaunch.Modules.Models.Install;
+using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -14,6 +18,7 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
@@ -24,6 +29,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+
         }
 
         public CurseForgeToolkit Toolkit { get; } = new("$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6");
@@ -32,13 +38,22 @@ namespace wonderlab.ViewModels.Pages
         public ObservableCollection<WebModpackViewData> Resources { get; set; } = new();
 
         [Reactive]
+        public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
+
+        [Reactive]
         public bool IsLoading { get; set; }
+
+        [Reactive]
+        public bool IsResource { get; set; } = false;
 
         [Reactive]
         public string SearchFilter { get; set; }
 
         [Reactive]
         public string CurrentMcVersion { get; set; } = string.Empty;
+
+        [Reactive]
+        public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
         public KeyValuePair<int, string> CurrentCategorie { get; set; }
@@ -186,11 +201,38 @@ namespace wonderlab.ViewModels.Pages
                 });
             }
 
-            IsLoading = false;
+            IsLoading = false; 
         }
 
         public void OpenGameInstallDialogAction() {
             MainWindow.Instance.Install.InstallDialog.ShowDialog();
+        }
+
+        public async void GetGameCoresActions() {       
+            try {
+                var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
+                GameCores.Clear();
+
+                var temp = result.Cores.Where(x => {
+                    x.Type = x.Type switch {                   
+                        "snapshot" => "快照版本",
+                        "release" => "正式版本",
+                        "old_alpha" => "远古版本",
+                        "old_beta" => "远古版本",
+                        _ => "Fuck"
+                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                    return true;
+                });
+
+                foreach (var item in temp) {
+                    GameCores.Add(item);
+                    await Task.Delay(20);
+                }
+            }
+            catch (Exception ex) {           
+                $"网络异常，{ex.Message}".ShowMessage("错误");
+            }
         }
 
         public async void GetModrinthModpackAction() {

@@ -1,8 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using MinecraftLaunch.Modules.Models.Install;
 using System.Threading.Tasks;
 using wonderlab.Class.Enum;
 using wonderlab.ViewModels.Pages;
+using wonderlab.Views.Dialogs;
 
 namespace wonderlab.Views.Pages
 {
@@ -20,7 +24,7 @@ namespace wonderlab.Views.Pages
                     foreach (var button in BottomBar.Children) {                   
                         (button as ToggleButton)!.IsChecked = false;
                     }
-
+                   
                     (x as ToggleButton)!.IsChecked = true;
                     ViewModel.ResourceType = (x as ToggleButton)!.Tag!.ToString() switch {
                         "Minecraft" => ResourceType.Minecraft,
@@ -28,6 +32,13 @@ namespace wonderlab.Views.Pages
                         "Modrinth" => ResourceType.Modrinth,
                         _ => ResourceType.Minecraft,
                     };
+
+                    if(ViewModel.ResourceType == ResourceType.Minecraft) {
+                        ViewModel.IsResource = false;
+                    }
+                    else {     
+                        ViewModel.IsResource = true;
+                    }
                 };
             }
         }
@@ -36,6 +47,11 @@ namespace wonderlab.Views.Pages
             await Task.Delay(100);
             TopBar.Margin = new(0);
             BottomBar.Spacing = 15;
+        }
+
+        private void OpenDialogAction(object? sender, RoutedEventArgs args) {
+            GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity);
+            ViewModel.OpenGameInstallDialogAction();
         }
     }
 }

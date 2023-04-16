@@ -22,7 +22,7 @@
 			</StackPanel.RenderTransform>
 			<ToggleButton Content="Minecraft 本体" 
 						  Tag="Minecraft"
-						  Command="{Binding OpenGameInstallDialogAction}"/>
+						  Command="{Binding GetGameCoresAction}"/>
 			
 			<ToggleButton Content="Curseforge 资源" 
 						  Tag="Curseforge"
@@ -53,10 +53,90 @@
 				<TextBlock Text="搜索选项"/>
 			</StackPanel>
 		</Button>
-		
-		<!--Items="{Binding Modpacks}"-->
+
 		<ListBox Background="Transparent"
 				 VirtualizationMode="None"
+				 SelectedItem="{Binding	CurrentGameCore}"
+				 Margin="0 60" Items="{Binding GameCores}">
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="15 6"/>
+						<Setter Property="ClipToBounds" Value="False"/>
+						<Setter Property="Height" Value="45"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+										Name="Main">
+									<Border.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="-8"/>
+										</TransformGroup>
+									</Border.RenderTransform>
+									<Border.Transitions>
+										<Transitions>
+											<BoxShadowsTransition Property="BoxShadow"
+																  Easing="ExponentialEaseOut"
+																  Duration="0:0:0.35"/>
+										</Transitions>
+									</Border.Transitions>
+
+									<Grid>
+										<Grid Margin="15 5">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="30"/>
+												<ColumnDefinition Width="15"/>
+												<ColumnDefinition Width="1*"/>
+											</Grid.ColumnDefinitions>
+
+											<Image Height="35" Width="35"
+												   HorizontalAlignment="Left"
+												   VerticalAlignment="Center"
+												   Source="/Assets/Icons/Block.png">
+												<Image.RenderTransform>
+													<TransformGroup>
+														<SkewTransform AngleX="8"/>
+													</TransformGroup>
+												</Image.RenderTransform>
+											</Image>
+
+											<Grid Grid.Column="2" HorizontalAlignment="Left"
+												  VerticalAlignment="Center">
+												<Grid.RowDefinitions>
+													<RowDefinition Height="1*"/>
+													<RowDefinition Height="1*"/>
+												</Grid.RowDefinitions>
+												<TextBlock Text="{Binding Id}"
+														   FontSize="15"/>
+
+												<TextBlock Text="{Binding Type}"
+														   Grid.Row="1"
+														   FontSize="12"
+														   Opacity="0.65"/>
+											</Grid>
+										</Grid>
+
+										<Button Width="80" Content="下载" 
+												Click="OpenDialogAction"
+												Classes="wonderaccentbutton"
+												HorizontalAlignment="Right" Margin="15 0"/>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+
+					<Style Selector="ListBoxItem /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+					</Style>
+				</Styles>
+			</ListBox.Styles>
+		</ListBox>
+
+
+		<ListBox Background="Transparent"
+				 VirtualizationMode="None"
+				 IsVisible="{Binding IsResource}"
 				 Margin="0 60" Items="{Binding Resources}">
 			<ListBox.Styles>
 				<Styles>

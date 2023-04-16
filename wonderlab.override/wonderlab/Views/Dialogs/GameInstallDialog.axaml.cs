@@ -11,8 +11,7 @@ namespace wonderlab.Views.Dialogs
     public partial class GameInstallDialog : UserControl
     {
         public static GameInstallDialogViewModel ViewModel { get; set; }
-        public GameInstallDialog()
-        {
+        public GameInstallDialog() {       
             Initialized += this.DialogInitialized;
             InitializeComponent();
             DataContext = ViewModel = new();
@@ -25,8 +24,7 @@ namespace wonderlab.Views.Dialogs
                     var sender = (x as Button)!;
 
                     ViewModel.ChangeTitle($"选择一个 {sender.Tag} 版本");
-                    ViewModel.CurrentModLoader = new(new());
-                    ViewModel.McVersionVisible = false;
+                    ViewModel.IsInstallerVisible = false;
                     ViewModel.ModLoaderVisible = true;
 
                     ViewModel.ModLoaders = sender.Tag switch
@@ -61,27 +59,6 @@ namespace wonderlab.Views.Dialogs
                         }).ToObservableCollection(),
                         _ => new()
                     };
-                };
-
-                if (i.Tag as string is "Optifine")
-                {
-                    i.PointerEnter += (_, _) => {
-                        i.Margin = new(0, 0, -75, 0);
-                    };
-
-                    i.PointerLeave += (_, _) => {
-                        i.Margin = new(0);
-                    };
-
-                    continue;
-                }
-
-                i.PointerEnter += (_, _) => {
-                    i.Margin = new(0, 0, -60, 0);
-                };
-
-                i.PointerLeave += (_, _) => {
-                    i.Margin = new(0);
                 };
             }
         }

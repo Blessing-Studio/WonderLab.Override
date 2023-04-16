@@ -19,16 +19,18 @@ using wonderlab.Views.Pages;
 namespace wonderlab.ViewModels.Dialogs
 {
     public class GameInstallDialogViewModel : ReactiveObject {
+        public string gamecoreId = string.Empty;
+
         public List<ModLoaderModel> forges, fabrics, quilt, optifine;
 
         public GameInstallDialogViewModel() {
             PropertyChanged += OnPropertyChanged;
-            GetGameCoresAction();
         }
 
         private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(CurrentGameCore))
-            {
+            if (e.PropertyName == nameof(CurrentGameCore)) {
+                InstallerTitle = $"安装 - {CurrentGameCore.Id}";
+
                 HideAllLoaderButton();
                 CurrentModLoaders.Clear();
 
@@ -128,10 +130,9 @@ namespace wonderlab.ViewModels.Dialogs
                     if (i.Data.ModLoaderType == currentmodLoaderType)
                     {
                         CurrentModLoader = null!;
-
                         ModLoaderVisible = false;
-                        McVersionVisible = true;
                         "无法选择多个相同类型的加载器！".ShowMessage();
+                        BackInstallerSelectAction();
                         return;
                     }
 
@@ -139,39 +140,39 @@ namespace wonderlab.ViewModels.Dialogs
                         currentmodLoaderType == ModLoaderType.Quilt))
                     {
                         "Forge 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
-                        ReturnMcListAction();
+                        BackInstallerSelectAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.OptiFine && (currentmodLoaderType == ModLoaderType.Fabric ||
                         currentmodLoaderType == ModLoaderType.Quilt))
                     {
                         "Optifine 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
-                        ReturnMcListAction();
+                        BackInstallerSelectAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.Fabric && (currentmodLoaderType == ModLoaderType.Forge ||
                         currentmodLoaderType == ModLoaderType.Quilt || currentmodLoaderType == ModLoaderType.OptiFine))
                     {
                         "Fabric 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
-                        ReturnMcListAction();
+                        BackInstallerSelectAction();
                         return;
                     }
                     else if (i.Data.ModLoaderType == ModLoaderType.Quilt && (currentmodLoaderType == ModLoaderType.Forge ||
                         currentmodLoaderType == ModLoaderType.Fabric || currentmodLoaderType == ModLoaderType.OptiFine))
                     {
                         "Quilt 无法与此加载器同时安装，WonderLab已自动将其移除安装队列！".ShowMessage("提示");
-                        ReturnMcListAction();
+                        BackInstallerSelectAction();
                         return;
                     }
                 }
 
-                ReturnMcListAction();
                 CurrentModLoaders.Add(CurrentModLoader);
+                BackInstallerSelectAction();
             }
         }
 
         [Reactive]
-        public string InstallerTitle { get; set; } = "选择一个 Minecraft 版本核心";
+        public string InstallerTitle { get; set; } = "安装 - *";
 
         [Reactive]
         public double DownloadProgress { get; set; } = 0.0;
@@ -195,16 +196,13 @@ namespace wonderlab.ViewModels.Dialogs
         public bool ModLoaderVisible { get; set; } = false;
 
         [Reactive]
-        public bool McVersionVisible { get; set; } = true;
+        public bool IsInstallerVisible { get; set; } = true;
 
         [Reactive]
         public GameCoreEmtity CurrentGameCore { get; set; }
 
         [Reactive]
         public ModLoaderViewData CurrentModLoader { get; set; }
-
-        [Reactive]
-        public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
 
         [Reactive]
         public ObservableCollection<ModLoaderViewData> ModLoaders { get; set; } = new();
@@ -227,44 +225,6 @@ namespace wonderlab.ViewModels.Dialogs
             HasQuilt = false;
             HasFabric = false;
             HasForge = false;
-        }
-
-        public async void GetGameCoresAction()
-        {
-            try {           
-                var res = await GameCoreInstaller.GetGameCoresAsync();
-                GameCores.Clear();
-
-                var temp = res.Cores.Where(x => {
-                    x.Type = x.Type switch
-                    {
-                        "snapshot" => "快照版本",
-                        "release" => "正式版本",
-                        "old_alpha" => "远古版本",
-                        "old_beta" => "远古版本",
-                        _ => "Fuck"
-                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
-
-                    return true;
-                });
-
-                foreach (var item in temp)
-                {
-                    await Task.Delay(20);
-                    GameCores.Add(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                $"网络异常，{ex.Message}".ShowMessage("错误");
-            }
-        }
-
-        public void ReturnMcListAction()
-        {
-            ChangeTitle("选择一个 Minecraft 版本核心");
-            ModLoaderVisible = false;
-            McVersionVisible = true;
         }
 
         public void HideInstallDialogAction()
@@ -355,6 +315,12 @@ namespace wonderlab.ViewModels.Dialogs
                 $"游戏 {customId} 安装完成！".ShowMessage();
                 data.TimerStop();
             }
+        }
+
+        public void BackInstallerSelectAction() {
+            IsInstallerVisible = true;
+            ModLoaderVisible = false;
+            ChangeTitle($"安装 - {CurrentGameCore.Id}");
         }
 
         public async void CompositeGameCoreAction(NotificationViewData data)

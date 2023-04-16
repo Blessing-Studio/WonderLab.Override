@@ -62,13 +62,9 @@ namespace wonderlab.control
 
         }
 
-        private async void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             d.ShowDialog();
-        }
-
-        private void D_CloseButtonClick(object? sender, Controls.Dialog.Events.CloseButtonClick e)
-        {
         }
 
         private void ShowDialogClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

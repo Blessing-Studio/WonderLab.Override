@@ -76,7 +76,7 @@
 				<Grid>
 
 					<!--Items="{Binding Notifications}"-->
-					<ListBox 
+					<ListBox Items="{Binding Notifications}"
 							 Background="Transparent">
 						<ListBox.Styles>
 							<Styles>
@@ -128,9 +128,7 @@
 									</Setter>
 								</Style>
 							</Styles>
-						</ListBox.Styles>
-						
-						<ListBoxItem/>
+						</ListBox.Styles>					
 					</ListBox>
 				</Grid>
 			</Border>
