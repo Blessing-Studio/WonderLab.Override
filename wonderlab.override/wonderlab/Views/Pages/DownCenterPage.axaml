@@ -20,9 +20,17 @@
 					<SkewTransform AngleX="-8"/>
 				</TransformGroup>
 			</StackPanel.RenderTransform>
-			<Button Content="Minecraft 本体" Command="{Binding OpenGameInstallDialogAction}"/>
-			<ToggleButton Content="Curseforge 资源" Command="{Binding GetCurseforgeModpackAction}"/>
-			<ToggleButton Content="Modrinth 资源" Command="{Binding GetModrinthModpackAction}"/>
+			<ToggleButton Content="Minecraft 本体" 
+						  Tag="Minecraft"
+						  Command="{Binding OpenGameInstallDialogAction}"/>
+			
+			<ToggleButton Content="Curseforge 资源" 
+						  Tag="Curseforge"
+						  Command="{Binding GetCurseforgeModpackAction}"/>
+			
+			<ToggleButton Content="Modrinth 资源" 
+						  Tag="Modrinth"
+						  Command="{Binding GetModrinthModpackAction}"/>
 		</StackPanel>
 
 		<Button Margin="15" VerticalAlignment="Bottom" HorizontalAlignment="Right"

@@ -1,5 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using System.Threading.Tasks;
+using wonderlab.Class.Enum;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages
@@ -12,6 +14,22 @@ namespace wonderlab.Views.Pages
             Initialized += Loaded;
             InitializeComponent();
             DataContext = ViewModel;
+
+            foreach (var item in BottomBar.Children) {           
+                (item as ToggleButton)!.Click += (x, e) => {
+                    foreach (var button in BottomBar.Children) {                   
+                        (button as ToggleButton)!.IsChecked = false;
+                    }
+
+                    (x as ToggleButton)!.IsChecked = true;
+                    ViewModel.ResourceType = (x as ToggleButton)!.Tag!.ToString() switch {
+                        "Minecraft" => ResourceType.Minecraft,
+                        "Curseforge" => ResourceType.Curseforge,
+                        "Modrinth" => ResourceType.Modrinth,
+                        _ => ResourceType.Minecraft,
+                    };
+                };
+            }
         }
 
         private async void Loaded(object? sender, System.EventArgs e) {       

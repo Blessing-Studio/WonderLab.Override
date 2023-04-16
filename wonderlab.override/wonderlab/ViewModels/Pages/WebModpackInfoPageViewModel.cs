@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace wonderlab.ViewModels.Pages
 {
     public class WebModpackInfoPageViewModel : ReactiveObject {
-        public WebModpackInfoPageViewModel() 
+        public WebModpackInfoPageViewModel() { 
 
         }
     }

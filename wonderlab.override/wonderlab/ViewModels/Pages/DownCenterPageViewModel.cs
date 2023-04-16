@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -44,6 +45,9 @@ namespace wonderlab.ViewModels.Pages
 
         [Reactive]
         public double SearcherHeight { get; set; } = 0;
+
+        [Reactive]
+        public ResourceType ResourceType { get; set; } = ResourceType.Minecraft;
 
         public List<string> McVersions { get; } = new() {       
             "All",
@@ -172,9 +176,19 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async ValueTask SearchModrinthResourceAsync() {
-            await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType:CurrentCategorie.ToModrinthProjectType());
+            Resources.Clear();
+
+            var modpacks = await Task.Run(async () => await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
+            foreach (var i in modpacks.Hits.AsParallel()) {           
+                await Task.Run(async () => {
+                    var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                    Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
+                });
+            }
+
+            IsLoading = false;
         }
-        
+
         public void OpenGameInstallDialogAction() {
             MainWindow.Instance.Install.InstallDialog.ShowDialog();
         }
@@ -191,7 +205,17 @@ namespace wonderlab.ViewModels.Pages
 
         public async void SearchResourceAction() {
             IsLoading = true;
-            await SearchCurseforgeResourceAsync();
+            switch (ResourceType)
+            {
+                case ResourceType.Minecraft:
+                    break;
+                case ResourceType.Curseforge:
+                    await SearchCurseforgeResourceAsync();
+                    break;
+                case ResourceType.Modrinth:
+                    await SearchModrinthResourceAsync();
+                    break;
+            }
         }
 
         public void OpenSearchOptionsAction() {
