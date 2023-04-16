@@ -46,6 +46,7 @@ namespace wonderlab
             JsonUtils.CraftLauncherInfoJson();
             Instance = this;
 
+            AddHandler(DragDrop.DropEvent, DropAction);
             WindowWidth = Width;
             WindowHeight = Height;
             Closed += (_, x) => {
@@ -80,6 +81,11 @@ namespace wonderlab
             close.Click += (_, _) => Close();
             Mini.Click += (_, _) => WindowState = WindowState.Minimized;
             NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
+        }
+
+        public void DropAction(object? sender, DragEventArgs e) {
+            if (e.Data.Contains(DataFormats.FileNames)) {            
+            }
         }
 
         private void MainWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
@@ -260,19 +266,6 @@ namespace wonderlab
             { }           
         }
 
-        public async void OutBar()
-        {
-            TranslateXAnimation animation = new(0, 100);
-            animation.RunAnimation(ToolBar);
-
-            await Task.Delay(20);
-
-            if (ViewModel.CurrentPage is HomePage) {           
-                TranslateYAnimation animation1 = new(0, 100);
-                animation1.RunAnimation(((ViewModel.CurrentPage as HomePage)!).bab);
-            }
-        }
-
         public async void CloseTopBar() {
             TopBar1.Margin = new(0, -150, 0, 0);
             await Task.Delay(50);
@@ -310,7 +303,6 @@ namespace wonderlab
             {
                 TranslateXAnimation animation = new(transform.X, WindowWidth);
                 animation.RunAnimation(OpenBar);
-                OutBar();
                 OpacityChangeAnimation opacity = new(false) {               
                     RunValue = Back.Opacity
                 };

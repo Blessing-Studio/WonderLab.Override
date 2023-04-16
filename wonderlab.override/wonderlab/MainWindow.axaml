@@ -233,11 +233,22 @@
 		
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>
-				<StackPanel Spacing="5">
-					<TextBlock Name="BodyMessage" Text="添加一处动画细节"/>
-					<TextBlock FontSize="12" Opacity="0.75" 
-							   Name="EndMessage" Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"/> 
-				</StackPanel> 
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<ScrollViewer>
+						<StackPanel Spacing="5">
+							<TextBlock Name="BodyMessage" Text="添加一处动画细节"/>
+						</StackPanel>
+					</ScrollViewer>
+
+					<TextBlock FontSize="12" Opacity="0.75" Grid.Row="2"
+		                       Name="EndMessage" Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"/>
+
+				</Grid>
 			</wcd:UpdateDialog.Message>
 		</wcd:UpdateDialog>
 

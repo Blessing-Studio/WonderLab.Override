@@ -9,6 +9,7 @@ using wonderlab.ViewModels.Pages;
 using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
 using Avalonia.Threading;
+using Avalonia.Input;
 
 namespace wonderlab.Views.Pages
 {
@@ -29,12 +30,12 @@ namespace wonderlab.Views.Pages
                 await Task.Delay(200);
                 ViewModel.SelectGameCoreId = App.LaunchInfoData.SelectGameCore;
             });
+
         }
 
         private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             Button? button = sender as Button;
             MainWindow.Instance.NavigationPage(new GameCoreConfigPage((button!.DataContext! as GameCore)!)!);
-            MainWindow.Instance.OutBar();
         }
 
         private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
