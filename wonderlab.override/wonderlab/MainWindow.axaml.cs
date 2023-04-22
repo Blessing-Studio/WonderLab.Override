@@ -46,7 +46,7 @@ namespace wonderlab
             JsonUtils.CraftLauncherInfoJson();
             Instance = this;
 
-            AddHandler(DragDrop.DropEvent, DropAction);
+            this.AddHandler(DragDrop.DropEvent, DropAction);
             WindowWidth = Width;
             WindowHeight = Height;
             Closed += (_, x) => {
@@ -83,8 +83,15 @@ namespace wonderlab
             NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
         }
 
-        public void DropAction(object? sender, DragEventArgs e) {
-            if (e.Data.Contains(DataFormats.FileNames)) {            
+        public async void DropAction(object? sender, DragEventArgs e) {
+            if (e.Data.Contains(DataFormats.FileNames)) {
+                var result = e.Data.GetFileNames();
+                if (result.Count() > 1) {
+                    "一次只能拖入一个文件".ShowMessage("提示");
+                    return;
+                }
+
+                await ModpacksUtils.ModpacksInstallAsync(result.FirstOrDefault()!);
             }
         }
 

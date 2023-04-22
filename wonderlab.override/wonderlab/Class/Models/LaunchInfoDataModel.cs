@@ -35,6 +35,6 @@ namespace wonderlab.Class.Models
         public List<JavaInfo> JavaRuntimes { get; set; } = new();
 
         [JsonProperty("gameDirectorys")]
-        public List<string> GameDirectorys { get; set; } = new();
+        public List<string> GameDirectorys { get; set; } = new() { Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft") };
     }
 }

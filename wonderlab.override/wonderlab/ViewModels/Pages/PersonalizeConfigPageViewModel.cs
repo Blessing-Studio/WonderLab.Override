@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -133,9 +134,9 @@ namespace wonderlab.ViewModels.Pages
             };
 
             try {           
-                var result = (await dialog.ShowAsync(MainWindow.Instance))!.First();
-                MainWindow.Instance.BackgroundImage.Source = new Bitmap(result);
-                App.LauncherData.ImagePath = result;
+                var result = (await dialog.ShowAsync(MainWindow.Instance))!.FirstOrDefault();
+                MainWindow.Instance.BackgroundImage.Source = result.IsFile() ? new Bitmap(result) : null;
+                App.LauncherData.ImagePath = result.IsFile() ? result : string.Empty;
             }
             catch (Exception)
             {

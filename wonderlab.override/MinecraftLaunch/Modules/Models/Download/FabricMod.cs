@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Models.Download;
 
@@ -10,7 +11,8 @@ internal class FabricMod
 
 	public string version { get; set; }
 
-	public string name { get; set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
 	public string description { get; set; }
 

@@ -20,9 +20,7 @@ namespace MinecraftLaunch.Modules.Installer;
 
 public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 {
-	private int _totalDownloaded;
-
-	private int _needToDownload;
+	private float _totalDownloaded, _needToDownload;
 
 	private int _failedFiles = -1;
 
@@ -43,14 +41,14 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 	{
 		InvokeStatusChangedEvent(0.1f, "开始获取整合包信息");
 
-		ModsPacksModel info = await GetModsPacksInfo();
+		ModsPacksModel info = await GetModsPacksInfoAsync();
 		_needToDownload = info.Files.Count;
 		string idpath = Path.Combine(Path.GetFullPath(GamePath), "versions", string.IsNullOrEmpty(GameId) ? info.Name : GameId);
 		DirectoryInfo di = new DirectoryInfo(Path.Combine(idpath, "mods"));
 		if (!di.Exists) {		
 			di.Create();
 		}
-        InvokeStatusChangedEvent(0.4f, "开始解析整合包模组链接");
+        InvokeStatusChangedEvent(0.15f, "开始解析整合包模组链接");
 
 		TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)> urlBlock = new TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)>((IEnumerable<ModsPacksFileModel> urls) => urls.Select((ModsPacksFileModel file) => (file.ProjectId, file.FileId)));
 		using (ZipArchive subPath = ZipFile.OpenRead(ModPacksPath))
@@ -70,7 +68,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 			}
 		}
 		GameCoreToolkit.GetGameCore(GamePath, GameId);
-        InvokeStatusChangedEvent(0.45f, "开始下载整合包模组");
+        InvokeStatusChangedEvent(0.2f, "开始下载整合包模组");
 
 		ActionBlock<(long, long)> actionBlock = new ActionBlock<(long, long)>(async delegate((long, long) t)
 		{
@@ -88,7 +86,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 					_failedFiles++;
 				}
 				_totalDownloaded++;
-				int e2 = _totalDownloaded / _needToDownload;
+				var e2 = _totalDownloaded / _needToDownload;
 				InvokeStatusChangedEvent(0.2f + (float)e2 * 0.8f, $"下载Mod中：{_totalDownloaded}/{_needToDownload}");
 			}
 			catch (Exception)
@@ -127,7 +125,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 		};
 	}
 
-	public async ValueTask<ModsPacksModel> GetModsPacksInfo()
+	public async ValueTask<ModsPacksModel> GetModsPacksInfoAsync()
 	{
 		string json = string.Empty;
 		using ZipArchive zipinfo = ZipFile.OpenRead(ModPacksPath);

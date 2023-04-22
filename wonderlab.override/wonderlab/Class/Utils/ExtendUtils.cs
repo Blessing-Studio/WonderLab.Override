@@ -228,5 +228,7 @@ namespace wonderlab.Class.Utils
             Bitmap.DecodeToWidth(stream, width).Save(memoryStream);
             return Bitmap.DecodeToHeight(memoryStream, hight);
         }
+
+        public static void ShowLog(this object log) => Trace.WriteLine($"[信息] {log}");
     }
 }

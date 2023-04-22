@@ -54,8 +54,8 @@ namespace wonderlab.Class.Utils
         }
 
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) { 
-            return await Task.Run(async () => {  
-                var bytes = await (await HttpWrapper.HttpGetAsync(url)).Content.ReadAsByteArrayAsync();
+            return await Task.Run(async () => {
+                var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
                 return new Bitmap(new MemoryStream(bytes));
             });
         }

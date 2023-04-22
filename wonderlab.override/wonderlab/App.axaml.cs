@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using System.Diagnostics;
 using wonderlab.Class.Models;
+using wonderlab.Class.Utils;
 using wonderlab.Views.Windows;
 
 namespace wonderlab

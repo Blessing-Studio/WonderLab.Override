@@ -1,5 +1,7 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using wonderlab.Class.Utils;
 
 namespace wonderlab.Views.Windows
 {

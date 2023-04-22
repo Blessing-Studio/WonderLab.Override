@@ -68,8 +68,14 @@
 						<Setter Property="Height" Value="45"/>
 						<Setter Property="Template">
 							<ControlTemplate>
-								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
 										Name="Main">
+									<Border.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="-8"/>
+										</TransformGroup>
+									</Border.RenderTransform>
+									
 									<Border.Transitions>
 										<Transitions>
 											<BoxShadowsTransition Property="BoxShadow"
@@ -90,6 +96,11 @@
 												   HorizontalAlignment="Left"
 												   VerticalAlignment="Center"
 												   Source="/Assets/Icons/Block.png">
+												<Image.RenderTransform>
+													<TransformGroup>
+														<SkewTransform AngleX="8"/>
+													</TransformGroup>
+												</Image.RenderTransform>
 											</Image>
 
 											<Grid Grid.Column="2" HorizontalAlignment="Left"

@@ -14,6 +14,7 @@
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="{DynamicResource AccentBrushDark1}"
+		DragDrop.AllowDrop="True"
 		Initialized="WindowsInitialized">
 	<Grid>
 		<Border Margin="-20" IsVisible="False">
@@ -35,7 +36,7 @@
 
 		<Border Name="OpenBar" Margin="15 0 0 0"
 				BoxShadow="0 1 4 0 #66000000"
-				Height="150" ToolTip.Tip="向右滑动以打开操作中心"
+				Height="150"
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				Background="{DynamicResource DialogContentBackground}"
 				CornerRadius="10"

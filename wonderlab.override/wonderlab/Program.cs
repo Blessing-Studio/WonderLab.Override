@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -20,6 +21,7 @@ namespace wonderlab
             try
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                CurseForgeToolkit.Key = "$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6";
 
                 BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args, ShutdownMode.OnLastWindowClose);

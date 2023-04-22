@@ -64,6 +64,11 @@ namespace wonderlab.Views.Pages
                 return;
             }
 
+            if (App.LaunchInfoData.JavaRuntimePath is null && !App.LaunchInfoData.IsAutoSelectJava) {
+                "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
+                return;
+            }
+
             ViewModel.SelectAccountAction();
         }
     }
