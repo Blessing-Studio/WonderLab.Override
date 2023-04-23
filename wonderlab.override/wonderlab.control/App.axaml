@@ -10,7 +10,8 @@
 		<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
-    </Application.Styles>
+		<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
+	</Application.Styles>
 
 	<Application.Resources>
 		<ResourceDictionary>
