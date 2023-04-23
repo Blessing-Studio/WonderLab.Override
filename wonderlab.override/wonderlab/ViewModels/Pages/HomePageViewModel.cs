@@ -159,7 +159,7 @@ namespace wonderlab.ViewModels.Pages
                 },
                 
                 Account = CurrentAccount,
-                WorkingFolder = GameCoreUtils.GetGameCoreVersionPath(GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId))!.ToDirectory()!,
+                WorkingFolder = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId).GetGameCorePath().ToDirectory()!,
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);

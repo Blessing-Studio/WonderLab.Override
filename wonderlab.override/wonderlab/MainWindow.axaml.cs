@@ -86,12 +86,20 @@ namespace wonderlab
         public async void DropAction(object? sender, DragEventArgs e) {
             if (e.Data.Contains(DataFormats.FileNames)) {
                 var result = e.Data.GetFileNames();
-                if (result.Count() > 1) {
+                if (result!.Count() > 1) {
                     "一次只能拖入一个文件".ShowMessage("提示");
                     return;
                 }
 
-                await ModpacksUtils.ModpacksInstallAsync(result.FirstOrDefault()!);
+                "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
+                var file = result.FirstOrDefault()!;
+                if (!file.IsFile() || !(file.EndsWith(".zip") || file.EndsWith(".mrpack"))) {
+                    "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
+                    return;
+                }
+
+                await Task.Delay(1000);
+                await ModpacksUtils.ModpacksInstallAsync(file);
             }
         }
 

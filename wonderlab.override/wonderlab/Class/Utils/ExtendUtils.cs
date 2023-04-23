@@ -217,7 +217,7 @@ namespace wonderlab.Class.Utils
                 "资源包" => "resourcepack",
                 "模组" => "mod",
                 "整合包" => "modpack",
-                _ => "mod"
+                _ => "shader"
             };
         }
         //resourcepack mod modpack shader

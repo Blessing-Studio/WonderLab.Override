@@ -39,10 +39,6 @@ namespace wonderlab.Class.Utils
             return cores is null ? new() : cores.ToObservableCollection();
         }
 
-        public static string GetGameCoreVersionPath(GameCore core) {
-            return Path.Combine(core.Root!.FullName, "versions", core.Id!);
-        }
-
         public static async ValueTask CompLexGameCoreInstallAsync(string version, string name, Action<string, float> action, IEnumerable<ModsPacksModLoaderModel> modloader) {
             InstallerBase<InstallerResponse> installer = null;
 

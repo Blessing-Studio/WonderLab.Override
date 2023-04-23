@@ -10,8 +10,9 @@
 			<wcd:ContentDialog.Content>
 				<Grid>
 					<Border CornerRadius="8" IsHitTestVisible="True"
-							Height="300" IsVisible="True"
+						    IsVisible="True"
 							Width="570"
+							MaxHeight="300"
 							Background="{DynamicResource DialogContentBackground}"
 							BorderThickness="1"
 							BorderBrush="{DynamicResource DialogContentBorderBrush}">
@@ -65,7 +66,7 @@
 																<RowDefinition Height="1*"/>
 																<RowDefinition Height="1*"/>
 															</Grid.RowDefinitions>
-															<TextBlock Text="{Binding Data.Id}"
+															<TextBlock Text="{Binding Id}"
 																	   FontSize="15"/>
 
 															<TextBlock Text="{Binding Type}"
@@ -127,7 +128,7 @@
 						</Grid>
 					</Border>
 
-					<StackPanel Spacing="10"
+					<StackPanel Spacing="10" Margin="0 50 0 60"
 								IsVisible="{Binding	IsInstallerVisible}"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center" Name="Installer">
@@ -137,6 +138,7 @@
 								HorizontalContentAlignment="Left"
 								Height="40" Tag="Forge"
 								Width="540"
+								Foreground="Black"								
 								Classes="wonderaccentbutton"
 								IsVisible="{Binding	HasForge}">
 							<Button.RenderTransform>
@@ -172,6 +174,7 @@
 								Height="40" Tag="Fabric"
 								HorizontalContentAlignment="Left"
 								Width="540"
+								Foreground="Black"								
 								HorizontalAlignment="Left"
 								Classes="wonderaccentbutton"
 								IsVisible="{Binding	HasFabric}">
@@ -207,6 +210,7 @@
 								HorizontalContentAlignment="Left"
 								CornerRadius="6"
 								Height="40"
+								Foreground="Black"
 								Width="540" Tag="Optifine"
 								HorizontalAlignment="Left"
 								Classes="wonderaccentbutton"
@@ -240,6 +244,7 @@
 						<Button Padding="0"
 								Background="{DynamicResource DialogContentBorderBrush}"
 								CornerRadius="6"
+								Foreground="Black"
 								HorizontalContentAlignment="Left"
 								Height="40" Tag="Quilt"
 								Width="540"
@@ -316,7 +321,7 @@
 																   HorizontalAlignment="Left"
 																   VerticalAlignment="Center"/>
 
-														<TextBlock Text="{Binding Data.Id}"
+														<TextBlock Text="{Binding Id}"
 																   Grid.Column="2"
 																   FontSize="15"
 																   HorizontalAlignment="Left"

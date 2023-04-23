@@ -124,8 +124,13 @@
 								<Setter Property="ClipToBounds" Value="False"/>
 								<Setter Property="Template">
 									<ControlTemplate>
-										<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+										<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
 												Name="Main">
+											<Border.RenderTransform>
+												<TransformGroup>
+													<SkewTransform AngleX="-8"/>
+												</TransformGroup>
+											</Border.RenderTransform>
 											<Border.Transitions>
 												<Transitions>
 													<BoxShadowsTransition Property="BoxShadow"
@@ -142,6 +147,11 @@
 													<Border.Background>
 														<ImageBrush Source="{Binding Head}" Stretch="UniformToFill"/>
 													</Border.Background>
+													<Border.RenderTransform>
+														<TransformGroup>
+															<SkewTransform AngleX="8"/>
+														</TransformGroup>
+													</Border.RenderTransform>
 												</Border>
 
 												<Grid VerticalAlignment="Center" Margin="60 0 0 0">

@@ -233,7 +233,7 @@ public static class ExtendToolkit
 
     public static string GetModsPath(this GameCore row, bool Isolate = true) => Path.Combine(row.Root!.FullName, Isolate ? Path.Combine("versions", row.Id) : "", "mods");
 
-	public static string GetGameCorePath(this GameCore row, bool Isolate = true) => Path.Combine(row.GetVersionsPath(), row.Id!);
+	public static string GetGameCorePath(this GameCore row) => Path.Combine(row.GetVersionsPath(), row.Id!);
 
     public static string GetResourcePacksPath(this GameCore row, bool Isolate = true) => Path.Combine(row.Root!.FullName, Isolate ? Path.Combine("versions", row.Id) : "", "resourcepacks");
 }

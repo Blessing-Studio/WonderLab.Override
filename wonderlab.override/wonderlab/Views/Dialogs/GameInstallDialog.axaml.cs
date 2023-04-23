@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using MinecraftLaunch.Modules.Models.Install;
 using System.Collections.Generic;
 using System.Linq;
 using wonderlab.Class.Models;
@@ -46,6 +47,7 @@ namespace wonderlab.Views.Dialogs
                         "Optifine" => ViewModel.optifine.Select(x =>
                         {
                             var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
+                            data.Id = $"{data.Data.Id}_{data.Data.ModLoaderBuild.GetType().GetProperty("Patch")!.GetValue(data.Data.ModLoaderBuild)}";
                             data.Type = $"±ê×¼°æ±¾ {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
 
                             return data;

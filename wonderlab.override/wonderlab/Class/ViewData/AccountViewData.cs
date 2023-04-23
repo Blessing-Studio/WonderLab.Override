@@ -53,7 +53,7 @@ namespace wonderlab.Class.ViewData
 
                 byte[]? skin = null;
                 if(!string.IsNullOrEmpty(url)) {
-                    skin = await (await HttpWrapper.HttpGetAsync(url)).Content.ReadAsByteArrayAsync();
+                    skin = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
                 }
                 else {
                     var path = Path.Combine(JsonUtils.TempPath, "steve.png");
