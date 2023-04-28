@@ -47,6 +47,10 @@ namespace wonderlab.Class.Utils
             return Convert.ToDouble(obj);
         }
 
+        public static int ToInt32(this object obj) {       
+            return Convert.ToInt32(obj);
+        }
+
         public static IEnumerable<T> ToEnumerable<T>(this IAsyncEnumerable<T> obj) {
             var enumerator = obj.GetAsyncEnumerator();
 

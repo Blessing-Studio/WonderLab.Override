@@ -255,7 +255,7 @@
 											</Grid>
 										</Grid>
 										
-										<Button Content="更多信息" Grid.Column="2"
+										<Button Content="更多信息" Grid.Column="2" Click="GoResourceInfoAction"
 												HorizontalAlignment="Right" Margin="15 0"/>
 									</Grid>
 								</Border>

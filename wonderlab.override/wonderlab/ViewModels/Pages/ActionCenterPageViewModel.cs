@@ -5,6 +5,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace wonderlab.ViewModels.Pages
             PropertyChanged += OnPropertyChanged;
             GetMojangNewsAction();
             GetHitokotoAction();
+            GetLatestGameCoreAction();
         }
 
         public void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
@@ -28,9 +30,6 @@ namespace wonderlab.ViewModels.Pages
         }
 
         
-        [Obsolete]//暂时放弃
-        public bool IsNewsLoadOk { get; set; }
-
         [Reactive]
         public string? NewTitle { get; set; } = "Loading...";
 
@@ -39,6 +38,9 @@ namespace wonderlab.ViewModels.Pages
 
         [Reactive]
         public string? HitokotoTitle { get; set; }
+
+        [Reactive]
+        public string LatestGameCore { get; set; }
 
         [Reactive]
         public string? HitokotoCreator { get; set; }
@@ -68,6 +70,16 @@ namespace wonderlab.ViewModels.Pages
             if(result != null) { 
                 HitokotoCreator ??= $"-- {result.Creator?.Trim()}";
                 HitokotoTitle ??= result.Text ?? "焯";
+            }
+        }
+
+        public async void GetLatestGameCoreAction() {
+            try {
+                var result = await HttpUtils.GetLatestGameCoreAsync();
+                LatestGameCore = result;
+            }
+            catch (Exception ex) {           
+                $"焯，{ex}".ShowLog();
             }
         }
 

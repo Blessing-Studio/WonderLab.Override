@@ -104,7 +104,7 @@
 										</Grid.ColumnDefinitions>
 
 										<TextBlock Text="最新版本" Foreground="White" FontSize="12"/>
-										<TextBlock Text="23w13a_or_b" Grid.Column="2" Foreground="White"
+										<TextBlock Text="{Binding LatestGameCore}" Grid.Column="2" Foreground="White"
 												   FontSize="12" TextTrimming="CharacterEllipsis" Margin="0 0 5 0"/>
 									</Grid>
 								</Border>

@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using MinecraftLaunch.Modules.Models.Install;
 using System.Threading.Tasks;
 using wonderlab.Class.Enum;
+using wonderlab.Class.ViewData;
 using wonderlab.ViewModels.Pages;
 using wonderlab.Views.Dialogs;
 
@@ -52,6 +53,11 @@ namespace wonderlab.Views.Pages
         private void OpenDialogAction(object? sender, RoutedEventArgs args) {
             GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
             ViewModel.OpenGameInstallDialogAction();
+        }
+
+        public void GoResourceInfoAction(object? sender, RoutedEventArgs args) {
+            var resourceInfo = ((sender as Button)!.DataContext) as WebModpackViewData;
+            MainWindow.Instance.NavigationPage(new WebModpackInfoPage(resourceInfo));
         }
     }
 }

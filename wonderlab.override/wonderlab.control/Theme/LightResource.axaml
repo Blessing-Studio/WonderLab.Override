@@ -11,8 +11,14 @@
 	<SolidColorBrush x:Key="TransparentBackground" Color="#00FFFFFF"/>
 	<SolidColorBrush x:Key="TransparentForeground" Color="White"/>
 	<SolidColorBrush x:Key="TransparentBorderBrush" Color="Transparent"/>
-
-	<BoxShadow x:Key="BottomActionBarBoxShadow">0 8 32 0 #4C000000</BoxShadow>
+	<SolidColorBrush x:Key="NormalButtonBackground" Color="#B3FFFFFF"/>
+	<!-- Elevation border brushes (See note above for hack to get same effect)-->
+	<LinearGradientBrush x:Key="NormalButtonBorderBrush" StartPoint="0,0" EndPoint="0,3">
+		<LinearGradientBrush.GradientStops>
+			<GradientStop Offset="1" Color="#29000000" />
+			<GradientStop Offset="0.33" Color="#0F000000" />
+		</LinearGradientBrush.GradientStops>
+	</LinearGradientBrush>
 	<!--Font Color-->
 	<SolidColorBrush x:Key="FontColorBrush" Color="Black"/>
 </ResourceDictionary>

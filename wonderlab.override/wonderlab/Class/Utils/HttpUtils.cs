@@ -1,4 +1,5 @@
 ﻿using Avalonia.Media.Imaging;
+using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
 using Newtonsoft.Json;
@@ -51,6 +52,11 @@ namespace wonderlab.Class.Utils
             }
 
             return result;
+        }
+
+        public static async ValueTask<string> GetLatestGameCoreAsync() {
+            var result = await GameCoreInstaller.GetGameCoresAsync();
+            return result.Latest.Last().Value;
         }
 
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) { 

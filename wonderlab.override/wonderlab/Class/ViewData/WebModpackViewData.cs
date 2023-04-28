@@ -32,7 +32,7 @@ namespace wonderlab.Class.ViewData
             try {
                 IsLoading = true;
 
-                using var result = new MemoryStream(await HttpWrapper.HttpClient.GetByteArrayAsync(Data.IconUrl)){ Position = 0 };
+                using var result = new MemoryStream(await HttpWrapper.HttpClient.GetByteArrayAsync(Data.IconUrl)) { Position = 0 };
                 var cache = new Bitmap(result);
                 Icon = cache.CreateScaledBitmap(new(Convert.ToInt32(cache.Size.Width / 4), Convert.ToInt32(cache.Size.Height / 4)));
 
