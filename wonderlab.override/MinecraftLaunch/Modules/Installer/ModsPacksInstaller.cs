@@ -55,9 +55,9 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 		{
 			foreach (ZipArchiveEntry i in subPath.Entries)
 			{
-				if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName))))
+				if (i.FullName.StartsWith(info.Overrides) && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName))))
 				{
-					string cutpath = i.FullName.Replace("overrides/", string.Empty);
+					string cutpath = i.FullName.Replace($"{info.Overrides}/", string.Empty);
 					FileInfo v = new FileInfo(Path.Combine(idpath, cutpath));
 					if (!Directory.Exists(Path.Combine(idpath, v.Directory.FullName)))
 					{
