@@ -9,7 +9,7 @@ using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
-    public class JsonUtils
+    public static class JsonUtils
     {
         public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab");
         public static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "user");

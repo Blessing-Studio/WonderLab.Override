@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class MathUtils
+    public static class MathUtils
     {
         public static float Clamp(float value, float min, float max)
         {

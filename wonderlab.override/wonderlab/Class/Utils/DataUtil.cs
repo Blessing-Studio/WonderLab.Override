@@ -7,7 +7,7 @@ using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
-    public class DataUtil {   
+    public static class DataUtil {   
         public static void CheckNull(object? obj) {       
             if(obj == null) {           
                 throw new ArgumentNullException(nameof(obj));

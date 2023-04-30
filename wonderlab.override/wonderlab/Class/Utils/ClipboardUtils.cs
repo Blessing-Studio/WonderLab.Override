@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class ClipboardUtils
+    public static class ClipboardUtils
     {
        
     }

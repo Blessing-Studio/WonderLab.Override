@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace wonderlab.Class.Utils
 {
-    public class AvaloniaUtils
+    public static class AvaloniaUtils
     {
         public static MemoryStream GetAssetsStream(string uri) {
             var memoryStream = new MemoryStream();

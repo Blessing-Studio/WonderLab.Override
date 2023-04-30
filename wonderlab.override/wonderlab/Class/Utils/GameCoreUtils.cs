@@ -17,7 +17,7 @@ using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
-    public class GameCoreUtils {   
+    public static class GameCoreUtils {   
         public static async ValueTask<ObservableCollection<GameCore>> GetLocalGameCores(string root) { 
             var cores = await Task.Run(() => {
                 return new GameCoreToolkit(root).GetGameCores();

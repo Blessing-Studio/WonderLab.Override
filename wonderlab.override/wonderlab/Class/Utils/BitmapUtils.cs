@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class BitmapUtils {
+    public static class BitmapUtils {
         public static IImage GetAssetBitmap(string uri) {
             var stream = AvaloniaUtils.GetAssetsStream(uri);
             return new Bitmap(stream);

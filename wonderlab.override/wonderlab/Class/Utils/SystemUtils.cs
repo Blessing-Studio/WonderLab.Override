@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class SystemUtils {
+    public static class SystemUtils {
         public static bool IsMacOS => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
         public static bool IsWindows11 => (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.OSVersion.Version.Build >= 22000);

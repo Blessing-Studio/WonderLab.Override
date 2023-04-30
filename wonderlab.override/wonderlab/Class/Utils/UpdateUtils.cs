@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class UpdateUtils
+    public static class UpdateUtils
     {
         public const string VersionType = "Lsaac";
 

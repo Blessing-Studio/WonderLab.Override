@@ -20,7 +20,7 @@ using wonderlab.Views.Pages;
 
 namespace wonderlab.Class.Utils
 {
-    public class ModpacksUtils {
+    public static class ModpacksUtils {
         /// <summary>
         /// 获取整合包类型
         /// </summary>

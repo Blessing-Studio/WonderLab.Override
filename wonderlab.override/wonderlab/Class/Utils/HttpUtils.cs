@@ -16,7 +16,7 @@ using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
-    public class HttpUtils {
+    public static class HttpUtils {
         const string MojangNewsAPI = "https://launchercontent.mojang.com/news.json";
         const string HitokotoAPI = "https://v1.hitokoto.cn/";
 

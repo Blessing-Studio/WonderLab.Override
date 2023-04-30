@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
-    public class ThemeUtils {
+    public static class ThemeUtils {
         public static void SetAccentColor(Color value) {
             ColorUtils utils = value;
 

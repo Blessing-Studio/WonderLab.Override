@@ -15,7 +15,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace wonderlab.Class.Utils
 {
-    public class GameAccountUtils {
+    public static class GameAccountUtils {
         public static async IAsyncEnumerable<AccountViewData> GetUsersAsync() {
             JsonUtils.DirectoryCheck();
 
