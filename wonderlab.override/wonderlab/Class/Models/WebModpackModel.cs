@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Models.Download;
+﻿using Avalonia.Controls;
+using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
 using ReactiveUI;
@@ -12,6 +13,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
+using wonderlab.Views.Pages;
 
 namespace wonderlab.Class.Models
 {
@@ -54,6 +57,8 @@ namespace wonderlab.Class.Models
             DownloadCount = info.Downloads;
             ModpackSource = ModpackSource.Modrinth;
             Author = info.Author;
+            Categories = info.Categories;
+
             GameVersions = files.Any() ?
                 (files.First().GameVersion.First() == files.Last().GameVersion.Last() ? files.First().GameVersion.First() : $"{files.First().GameVersion.First()}-{files.Last().GameVersion.Last()}") : "Unknown";
 
@@ -105,5 +110,34 @@ namespace wonderlab.Class.Models
         public string Url { get; set; }
 
         public string Loader { get; set; }
+
+        public async void DownloadResourceAction() {
+            SaveFileDialog dialog = new() {
+                Title = "请选择文件保存路径",
+                InitialFileName = Title
+            };
+            var result = await dialog.ShowAsync(MainWindow.Instance);
+            if(string.IsNullOrEmpty(result)) {
+                return;
+            }
+
+            $"开始下载资源 \"{Title}\"，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
+                MainWindow.Instance.NotificationCenter.Open();
+            });
+
+            NotificationViewData data = new() { 
+                Title = $"资源 {Title} 的下载任务"
+            };
+            data.TimerStart();
+
+            NotificationCenterPage.ViewModel.Notifications.Add(data);
+            var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.Replace(Title, string.Empty), (e, _) => {
+                var progress = e * 100;
+                data.ProgressOfBar = progress;
+                data.Progress = $"{Math.Round(progress, 2)}%";
+            });
+
+            data.TimerStop();
+        }
     }
 }

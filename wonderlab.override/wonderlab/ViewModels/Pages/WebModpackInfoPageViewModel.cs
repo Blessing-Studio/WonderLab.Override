@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
 {
@@ -68,6 +69,10 @@ namespace wonderlab.ViewModels.Pages
                 $"{url} 已成功获取".ShowLog();
                 Screenshots.Add(result);
             }
+        }
+
+        public void GoBackAction() {
+            MainWindow.Instance.NavigationPage(new DownCenterPage());
         }
 
         [Reactive]

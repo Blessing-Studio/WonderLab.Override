@@ -200,7 +200,7 @@ namespace wonderlab.ViewModels.Pages
                 } else {
                     var second = App.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
                    .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);
-
+                    
                     return second.Any() ? second.First().JavaPath.ToJavaw() : App.LaunchInfoData.JavaRuntimePath.JavaPath?.ToJavaw() ?? string.Empty;
                 }
             }
