@@ -186,7 +186,7 @@ public class HttpToolkit
 				using Stream stream = await responseMessage.Content.ReadAsStreamAsync();
 				timer.Elapsed += delegate
 				{
-					progressChangedAction2((float)fileStream.Length / (float)responseMessage.Content.Headers.ContentLength.Value, LongExtension.LengthToMb(fileStream.Length) + " / " + LongExtension.LengthToMb(responseMessage.Content.Headers.ContentLength.Value));
+					progressChangedAction2((float)fileStream.Length / (float)responseMessage.Content.Headers.ContentLength.Value, fileStream.Length/(1024*1024) + " / " + responseMessage.Content.Headers.ContentLength.Value/(1024*1024));
 				};
 				timer.Start();
 				byte[] bytes = new byte[BufferSize];

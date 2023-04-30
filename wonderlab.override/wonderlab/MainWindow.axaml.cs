@@ -56,7 +56,7 @@ namespace wonderlab
             };
 
             PointerMoved += (_, x) => {
-                if (CanParallax) { 
+                if (CanParallax) {
                     Point position = x.GetPosition(BackgroundImage);
                     int xOffset = 50, yOffset = 50;
                     double num = BackgroundImage.DesiredSize.Height - position.X / (double)xOffset - BackgroundImage.DesiredSize.Height;
