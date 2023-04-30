@@ -46,14 +46,14 @@ namespace PluginLoader
         }
         public void SaveConfig()
         {
-            string json = JsonConvert.SerializeObject(Config[Plugin.GetPluginInfo().Guid]);
+            string json = JsonConvert.SerializeObject(Config[FilePath]);
             File.WriteAllText(FilePath, json);
         }
         public void LoadConfig()
         {
             if (!File.Exists(FilePath))
             {
-                Directory.CreateDirectory(getSubPath(PluginLoader.PluginPath, Plugin.GetPluginInfo().Name));
+                new FileInfo(FilePath).Directory.Create();
                 File.Create(FilePath).Close();
             }
             configData = File.ReadAllText(FilePath);

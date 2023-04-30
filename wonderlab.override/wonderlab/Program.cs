@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
+using HarmonyLib;
 using MinecraftLaunch.Modules.Toolkits;
+using PluginLoader;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -18,6 +20,10 @@ namespace wonderlab
         [STAThread]
         public static void Main(string[] args)
         {
+            PluginLoader.PluginLoader.LoadAllFromPlugin();
+            PluginLoader.PluginLoader.EnableAll();
+            Harmony harmony = new("wonderlab");
+            harmony.PatchAll();
             try
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -31,6 +37,8 @@ namespace wonderlab
                 JsonUtils.WriteLaunchInfoJson();
                 JsonUtils.WriteLauncherInfoJson();
             }
+            PluginLoader.PluginLoader.DisableAll();
+            PluginLoader.PluginLoader.UnloadAll();
         }
 
         public static AppBuilder BuildAvaloniaApp() {
