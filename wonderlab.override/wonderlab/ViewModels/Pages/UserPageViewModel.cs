@@ -17,12 +17,7 @@ namespace wonderlab.ViewModels.Pages
 {
     public class UserPageViewModel : ReactiveObject {
         public UserPageViewModel() {
-            PropertyChanged += OnPropertyChanged;
             Init();
-        }
-
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
-            
         }
 
         [Reactive]

@@ -9,15 +9,20 @@
 		<ContentControl Content="{Binding SelectConfigPage}"
 						Margin="0 50"/>
 		<!--Background="{DynamicResource DialogContentBackground}"-->
-		<Border HorizontalAlignment="Right" Height="40" Width="400"
-				VerticalAlignment="Bottom" Margin="0 0 -20 10"
+		<Border HorizontalAlignment="Right" Height="40" Width="200"
+				VerticalAlignment="Bottom" Margin="0 0 -5 10"
+				CornerRadius="4"
 			    Background="{DynamicResource DialogContentBackground}"
 				BorderThickness="1"  
 				BorderBrush="{DynamicResource DialogContentBorderBrush}">
+			<Border.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</Border.RenderTransform>
 			<StackPanel Orientation="Horizontal"
-						Spacing="10"
-						Margin="115 0 0 0"
-						HorizontalAlignment="Center"
+						Spacing="10" Margin="15 0 0 0"
+						HorizontalAlignment="Left"
 						Name="ButtonGroup">
 				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"
 							  Command="{Binding	GoLaunchConfigPageAction}"/>
