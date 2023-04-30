@@ -36,7 +36,8 @@ namespace wonderlab.control.Controls.Dialog
 
         public bool HasUpdate { get; set; }
         //Event
-        public event EventHandler<EventArgs>? ButtonClick;
+        public event EventHandler<EventArgs>? AcceptButtonClick;
+        public event EventHandler<EventArgs>? CloseButtonClick;
 
         //Property
         public static readonly StyledProperty<string> TitleProperty =
@@ -46,7 +47,7 @@ namespace wonderlab.control.Controls.Dialog
             AvaloniaProperty.Register<UpdateDialog, object>(nameof(Message), "");
 
         public static readonly StyledProperty<string> Button1TextProperty =
-            AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button1Text), "或者更新");
+            AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button1Text), "我不更新");
 
         public static readonly StyledProperty<string> Button2TextProperty =
             AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button2Text), "立刻更新");
@@ -129,7 +130,7 @@ namespace wonderlab.control.Controls.Dialog
 
         private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             StartInit();
-            ButtonClick?.Invoke(sender, new());
+            CloseButtonClick?.Invoke(sender, new());
         }
     }
 }

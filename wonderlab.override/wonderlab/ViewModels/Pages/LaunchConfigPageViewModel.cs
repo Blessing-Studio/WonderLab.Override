@@ -29,10 +29,13 @@ namespace wonderlab.ViewModels.Pages
                     Javas = App.LaunchInfoData.JavaRuntimes.ToObservableCollection();
                     CurrentJava = Javas.Where(x =>
                     {
-                        if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) { 
-                            return true;
+                        if (x != null)
+                        {
+                            if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw())
+                            {
+                                return true;
+                            }
                         }
-
                         return false;
                     })?.First()!;
                 });

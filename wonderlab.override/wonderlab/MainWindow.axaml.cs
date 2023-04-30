@@ -39,7 +39,8 @@ namespace wonderlab
         public bool isDragging, IsOpen, IsUseDragging, CanParallax;
         public static MainWindowViewModel ViewModel { get; private set; }
         public static MainWindow Instance { get; private set; }
-        public MainWindow() {       
+        public MainWindow() {
+            JsonUtils.CraftLaunchInfoJson();
             InitializeComponent();
             new ColorHelper().Load();
             ThemeUtils.Init();
@@ -92,7 +93,7 @@ namespace wonderlab
                 }
 
                 "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
-                var file = result.FirstOrDefault()!;
+                var file = result!.FirstOrDefault()!;
                 if (!file.IsFile() || !(file.EndsWith(".zip") || file.EndsWith(".mrpack"))) {
                     "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
                     return;
@@ -146,7 +147,7 @@ namespace wonderlab
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
             if (res is not null && res.CanUpdate() && SystemUtils.IsWindows)
             {
-                UpdateDialog.ButtonClick += (_, _) => {
+                UpdateDialog.AcceptButtonClick += (_, _) => {
                     UpdateUtils.UpdateAsync(res, x => {
                         ViewModel.DownloadProgress = x.ToDouble() * 100;
                     }, () => {
@@ -180,6 +181,7 @@ namespace wonderlab
                         { }
                     });
                 };
+                UpdateDialog.CloseButtonClick += (_, _) => { UpdateDialog.HideDialog(); };
 
                 BodyMessage.Text = res.Message;
                 UpdateDialog.Title = $"有新的版本推送，版本编号 {res.TagName}";
@@ -204,8 +206,6 @@ namespace wonderlab
 
                 Trace.WriteLine(DataUtil.WebModpackInfoDatas.Count);
             }
-
-            JsonUtils.CraftLaunchInfoJson();
         }
 
         private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)

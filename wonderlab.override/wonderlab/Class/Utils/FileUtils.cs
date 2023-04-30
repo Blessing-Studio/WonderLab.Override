@@ -12,7 +12,7 @@ namespace wonderlab.Class.Utils
     {
         public static void WriteCompressedAllText(string path, string? contents)
         {
-            if(!File.Exists(path)) return;
+            if(!File.Exists(path)) File.Create(path).Close();
             if(contents == null) contents = string.Empty;
             byte[] tmp = zlib.Compress(Encoding.UTF8.GetBytes(contents));
             File.WriteAllBytes(path, tmp);
