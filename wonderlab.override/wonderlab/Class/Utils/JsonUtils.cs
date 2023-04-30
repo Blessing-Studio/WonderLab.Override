@@ -16,45 +16,45 @@ namespace wonderlab.Class.Utils
         public static string TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "temp");
 
         public static async void CraftLaunchInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launchdata.json");
+            var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
             if (!File.Exists(jsonPath)) {
-                await File.WriteAllTextAsync(jsonPath,new LaunchInfoDataModel().ToJson());
+                await Task.Run(() => { FileUtils.WriteCompressedAllText(jsonPath, new LaunchInfoDataModel().ToJson()); });
                 App.LaunchInfoData = new();
                 return;
             }
 
-            var json = await File.ReadAllTextAsync(jsonPath);
+            var json = FileUtils.ReadCompressedAllText(jsonPath);
             App.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
         }
 
         public static async void WriteLaunchInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launchdata.json");
+            var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
-            await File.WriteAllTextAsync(jsonPath, App.LaunchInfoData.ToJson() ?? new(""));
+            await Task.Run(() => { FileUtils.WriteCompressedAllText(jsonPath, App.LaunchInfoData.ToJson() ?? new("")); });
         }
 
         public static async void CraftLauncherInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launcherdata.json");
+            var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
 
-            if (!File.Exists(jsonPath)) {           
-                await File.WriteAllTextAsync(jsonPath, new LauncherDataModel().ToJson());
+            if (!File.Exists(jsonPath)) {
+                await Task.Run(() => { FileUtils.WriteCompressedAllText(jsonPath, new LauncherDataModel().ToJson()); });
                 App.LauncherData = new();
                 return;
             }
 
-            var json = await File.ReadAllTextAsync(jsonPath);
+            var json = await Task.Run(() => {return FileUtils.ReadCompressedAllText(jsonPath); });
             App.LauncherData = json.ToJsonEntity<LauncherDataModel>();
         }
 
         public static async void WriteLauncherInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launcherdata.json");
+            var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
 
-            await File.WriteAllTextAsync(jsonPath, App.LauncherData.ToJson() ?? new(""));
+            await Task.Run(() => { FileUtils.WriteCompressedAllText(jsonPath, App.LauncherData.ToJson() ?? new("")); });
         }
 
         internal static void DirectoryCheck() {
