@@ -1,7 +1,6 @@
 ﻿using Avalonia;
-using MinecaftOAuth.Authenticator;
-using MinecaftOAuth.Module.Base;
-using MinecaftOAuth.Module.Enum;
+using MinecraftLaunch.Modules.Authenticator;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;

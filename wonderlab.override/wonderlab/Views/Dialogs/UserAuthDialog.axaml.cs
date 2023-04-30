@@ -1,8 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using MinecraftLaunch.Modules.Models.Auth;
-using System;
-using System.Threading;
+using MinecraftLaunch.Modules.Toolkits;
 using wonderlab.Class.Utils;
 using wonderlab.ViewModels.Dialogs;
 

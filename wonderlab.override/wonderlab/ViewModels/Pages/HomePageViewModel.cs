@@ -1,5 +1,5 @@
-﻿using MinecaftOAuth.Authenticator;
-using MinecraftLaunch.Launch;
+﻿using MinecraftLaunch.Launch;
+using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
@@ -15,9 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
@@ -132,7 +130,7 @@ namespace wonderlab.ViewModels.Pages
                         await GameAccountUtils.RefreshUserDataAsync((await GameAccountUtils.GetUsersAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
                     else if (CurrentAccount.Type == AccountType.Microsoft) {
-                        MicrosoftAuthenticator authenticator = new(MinecaftOAuth.Module.Enum.AuthType.Refresh) {
+                        MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
                             ClientId = "9fd44410-8ed7-4eb3-a160-9f1cc62c824c",
                             RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
                         };

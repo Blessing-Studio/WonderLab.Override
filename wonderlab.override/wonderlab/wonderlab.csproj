@@ -61,7 +61,7 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\wonderlab.control\wonderlab.control.csproj" />
+    <ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
     <ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
     <ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
     <ProjectReference Include="..\wonderlab.PluginLoader\wonderlab.PluginLoader.csproj" />

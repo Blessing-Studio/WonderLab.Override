@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Models.Auth;
+﻿using MinecraftLaunch.Modules.Models;
+using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
 using Newtonsoft.Json;

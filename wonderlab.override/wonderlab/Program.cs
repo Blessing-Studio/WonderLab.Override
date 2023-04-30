@@ -4,7 +4,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using HarmonyLib;
 using MinecraftLaunch.Modules.Toolkits;
-using PluginLoader;
 using System;
 using System.Diagnostics;
 using System.Text;

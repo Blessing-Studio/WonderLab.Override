@@ -28,9 +28,9 @@ namespace wonderlab.PluginLoader.Handlers
             this.Description = Description;
             this.Version = Version;
             this.Author = Author;
-            if (!util.IsGuidByReg(Guid))
+            if (!StringUtil.IsGuid(Guid))
             {
-                throw new GuidExpection();
+                throw new Exception();
             }
             this.Guid = Guid;
         }

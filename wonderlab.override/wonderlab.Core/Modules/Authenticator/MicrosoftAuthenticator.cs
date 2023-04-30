@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Models;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;

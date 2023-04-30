@@ -11,6 +11,7 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
+using MinecraftLaunch.Modules.Toolkits;
 
 namespace wonderlab.ViewModels.Pages
 {
