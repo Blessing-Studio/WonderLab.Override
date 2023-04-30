@@ -55,17 +55,16 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.19" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.19" />
     <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-    <PackageReference Include="MinecraftOAuth" Version="1.9.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.34" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MinecraftLaunch\MinecraftLaunch.csproj" />
-    <ProjectReference Include="..\MinecraftProtocol\MinecraftProtocol.csproj" />
-    <ProjectReference Include="..\PluginLoader\PluginLoader.csproj" />
     <ProjectReference Include="..\wonderlab.control\wonderlab.control.csproj" />
+    <ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
+    <ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
+    <ProjectReference Include="..\wonderlab.PluginLoader\wonderlab.PluginLoader.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
