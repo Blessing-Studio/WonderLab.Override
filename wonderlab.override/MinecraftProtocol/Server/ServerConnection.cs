@@ -1,0 +1,166 @@
+﻿using Craft.Net.Common;
+using Ionic.Zlib;
+using MinecraftProtocol.Client;
+using MinecraftProtocol.Server.v1_18_R2;
+using System.Net.Sockets;
+
+namespace MinecraftProtocol.Server
+{
+    public class ServerConnection
+    {
+        public int Threshold;
+        public bool IsCompressed = false;
+        public PacketDecoder packetDecoder = new ServerPacketDecoder();
+        public readonly TcpClient client;
+        public NetworkStream networkStream;
+        public byte[] arrayBuffer = new byte[16384];
+        public bool IsDisconnected = false;
+        public State state = State.HandShaking;
+        public Queue<ServerPacket> packets = new Queue<ServerPacket>();
+        public ServerConnection(TcpClient tcpClient)
+        {
+            client = tcpClient;
+            networkStream = tcpClient.GetStream();
+        }
+        public ServerConnection(string serverAddress, ushort port = 25565)
+        {
+            client = new TcpClient(serverAddress, port);
+            networkStream = client.GetStream();
+        }
+
+        public void SendPacket(ClientPacket packet)
+        {
+            if (packet is HandShakePacket)
+            {
+                state = ((HandShakePacket)packet).nextState;
+            }
+
+            if (!IsCompressed)
+            {
+                byte[] buffer = GetFullBytes(packet.GetBytes(), packet.GetId());
+                client.Client.Send(buffer);
+            }
+            else
+            {
+                MinecraftStream minecraftStream = new(new MemoryStream());
+                MemoryStream memoryStream = new MemoryStream(); ;
+                MinecraftStream minecraftStream1 = new(memoryStream);
+                minecraftStream1.WriteVarInt(packet.GetId());
+                minecraftStream1.WriteUInt8Array(packet.GetBytes());
+                byte[] buffer = memoryStream.ToArray();
+                if (buffer.Length >= Threshold)
+                {minecraftStream.WriteVarInt(buffer.Length);
+                    buffer = Compress(buffer);
+                }
+                else
+                {
+                    minecraftStream.WriteVarInt(0);
+                }
+                minecraftStream.WriteUInt8Array(buffer);
+                MinecraftStream stream = new(networkStream);
+                stream.WriteVarInt((int)minecraftStream.Length);
+                stream.WriteUInt8Array(((MemoryStream)minecraftStream.BaseStream).ToArray());
+            }
+        }
+        /// <summary>
+        /// Decompress a byte array into another byte array of a potentially unlimited size (!)
+        /// </summary>
+        /// <param name="to_decompress">Data to decompress</param>
+        /// <returns>Decompressed data as byte array</returns>
+        public static byte[] Decompress(byte[] to_decompress)
+        {
+            ZlibStream stream = new(new System.IO.MemoryStream(to_decompress, false), CompressionMode.Decompress);
+            byte[] buffer = new byte[16 * 1024];
+            using System.IO.MemoryStream decompressedBuffer = new();
+            int read;
+            while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                decompressedBuffer.Write(buffer, 0, read);
+            return decompressedBuffer.ToArray();
+        }
+        /// <summary>
+        /// Compress a byte array into another bytes array using Zlib compression
+        /// </summary>
+        /// <param name="to_compress">Data to compress</param>
+        /// <returns>Compressed data as a byte array</returns>
+        public static byte[] Compress(byte[] to_compress)
+        {
+            byte[] data;
+            using (System.IO.MemoryStream memstream = new())
+            {
+                using (ZlibStream stream = new(memstream, CompressionMode.Compress))
+                {
+                    stream.Write(to_compress, 0, to_compress.Length);
+                }
+                data = memstream.ToArray();
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Decompress a byte array into another byte array of the specified size
+        /// </summary>
+        /// <param name="to_decompress">Data to decompress</param>
+        /// <param name="size_uncompressed">Size of the data once decompressed</param>
+        /// <returns>Decompressed data as a byte array</returns>
+        public static byte[] Decompress(byte[] to_decompress, int size_uncompressed)
+        {
+            ZlibStream stream = new(new System.IO.MemoryStream(to_decompress, false), CompressionMode.Decompress);
+            byte[] packetData_decompressed = new byte[size_uncompressed];
+            stream.Read(packetData_decompressed, 0, size_uncompressed);
+            stream.Close();
+            return packetData_decompressed;
+        }
+        public static byte[] GetFullBytes(byte[] data,int id)
+        {
+            MinecraftStream minecraftStream = new(new MemoryStream(data));
+            byte[] buffer = new byte[minecraftStream.Length];
+            minecraftStream.Position = 0;
+            minecraftStream.Read(buffer, 0, buffer.Length);
+            using MinecraftStream stream = new MinecraftStream(new MemoryStream());
+            stream.WriteVarInt((int)(minecraftStream.Length + 1));
+            stream.WriteVarInt(id);
+            stream.Write(buffer, 0, buffer.Length);
+            buffer = new byte[stream.Length];
+            stream.Position = 0;
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
+        }
+        public ServerPacket ReceivePacket()
+        {
+            MinecraftStream minecraftStream = new(networkStream);
+            int packetLen = minecraftStream.ReadVarInt();
+            byte[] packetData = minecraftStream.ReadUInt8Array(packetLen);
+            MinecraftStream packetStream = new(new MemoryStream(packetData));
+            if (IsCompressed)
+            {
+                int dataLen = packetStream.ReadVarInt();
+                if (dataLen != 0)
+                {
+                    byte[] toDeCompress = packetStream.ReadUInt8Array((int)(packetStream.Length - packetStream.Position));
+                    packetData = Decompress(toDeCompress, dataLen);
+                }
+                else
+                {
+                    packetData = packetStream.ReadUInt8Array((int)(packetStream.Length - packetStream.Position));
+                }
+            }
+            ServerPacket serverPacket = (ServerPacket)packetDecoder.GetPacket(packetData, state);
+            if (serverPacket is SetCompressionPacket packet)
+            {
+                if (packet.Threshold > 0)
+                {
+                    IsCompressed = true;
+                    Threshold = packet.Threshold;
+                }
+            }
+            return serverPacket;
+        }
+    }
+    public enum State
+    {
+        HandShaking = 0,
+        Status = 1,
+        Login = 2,
+        Play = 3
+    }
+}
