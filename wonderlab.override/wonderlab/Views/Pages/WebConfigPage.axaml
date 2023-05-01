@@ -1,0 +1,131 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="wonderlab.Views.Pages.WebConfigPage">
+	<Grid>
+		<ScrollViewer Background="{x:Null}">
+			<StackPanel Margin="0 15 0 0" Spacing="15">
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Minecraft 本体下载源设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Content="官方源"/>
+							<RadioButton Content="Mcbbs源"/>
+							<RadioButton Content="BmclApi源"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="70" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="下载线程设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<Slider Grid.Row="2" Margin="15 -12.5 15 0"/>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="发行分支设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+						<!--Lsaac Albert-->
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Content="Lsaac（预览分支）"/>
+							<RadioButton Content="Albert（稳定分支）"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏内存设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="2" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<TextBox Watermark="最大内存" MinWidth="100"
+									 Text="{Binding	MaxMemory}"/>
+							<TextBlock Text="X" HorizontalAlignment="Center"
+									   VerticalAlignment="Center"/>
+							<TextBox Watermark="最小内存" MinWidth="100"
+									 Text="{Binding MiniMemory}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

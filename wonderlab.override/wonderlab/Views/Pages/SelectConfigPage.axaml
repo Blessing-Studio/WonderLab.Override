@@ -26,7 +26,7 @@
 						Name="ButtonGroup">
 				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"
 							  Command="{Binding	GoLaunchConfigPageAction}"/>
-				<ToggleButton Content="下载" Background="Transparent"/>
+				<ToggleButton Content="网络" Background="Transparent" Command="{Binding	GoWebConfigPageAction}"/>
 				<ToggleButton Content="个性化" Background="Transparent"
 							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
 			</StackPanel> 

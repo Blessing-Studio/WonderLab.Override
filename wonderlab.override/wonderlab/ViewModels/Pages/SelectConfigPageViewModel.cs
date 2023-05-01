@@ -29,6 +29,10 @@ namespace wonderlab.ViewModels.Pages
             SelectConfigPage = new PersonalizeConfigPage();
         }
 
+        public void GoWebConfigPageAction() {       
+            SelectConfigPage = new WebConfigPage();
+        }
+
         public void ReturnAction() {
                 MainWindow.Instance.NavigationPage(new ActionCenterPage());
         }
