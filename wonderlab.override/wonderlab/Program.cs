@@ -31,7 +31,7 @@ namespace wonderlab
                 BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args, ShutdownMode.OnLastWindowClose);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 JsonUtils.WriteLaunchInfoJson();
                 JsonUtils.WriteLauncherInfoJson();
