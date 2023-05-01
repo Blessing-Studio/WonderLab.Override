@@ -310,7 +310,20 @@ namespace wonderlab.PluginLoader
                     catch { }
                     if (isEnable)
                     {
-                        Load(StringUtil.GetSubPath(PluginDir.FullName, "Plugin.dll"));
+                        Load(StringUtil.GetSubPath(PluginDir.FullName, PluginDir.Name + ".dll"));
+                    }
+                }
+                else if (File.Exists(StringUtil.GetSubPath(PluginDir.FullName, PluginDir.Name + ".dll")))
+                {
+                    bool isEnable = true;
+                    try
+                    {
+                        isEnable = configManager.GetBool(StringUtil.GetSubPath(PluginDir.FullName, PluginDir.Name + ".dll"));
+                    }
+                    catch { }
+                    if (isEnable)
+                    {
+                        Load(StringUtil.GetSubPath(PluginDir.FullName, PluginDir.Name + ".dll"));
                     }
                 }
             }
