@@ -24,15 +24,11 @@ namespace wonderlab.ViewModels.Pages
             PropertyChanged += OnPropertyChanged;
 
             if (App.LaunchInfoData.JavaRuntimes.Any()) {
-                ThreadPool.QueueUserWorkItem(x =>
-                {
+                ThreadPool.QueueUserWorkItem(x => {               
                     Javas = App.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                    CurrentJava = Javas.Where(x =>
-                    {
-                        if (x != null)
-                        {
-                            if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw())
-                            {
+                    CurrentJava = Javas.Where(x => {                 
+                        if (x != null) {                       
+                            if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {                           
                                 return true;
                             }
                         }

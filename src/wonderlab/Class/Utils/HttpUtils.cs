@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tmds.DBus;
 using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
@@ -66,6 +67,17 @@ namespace wonderlab.Class.Utils
                 using var stream = new MemoryStream(bytes);
                 return new Bitmap(stream);
             });
+        }
+
+        public static async ValueTask<bool> ConnectionTestAsync(string url) {
+            try {
+                var result = await Task.Run(async () => await HttpWrapper.HttpClient.GetAsync(url));
+                return true;
+            }            
+            catch (Exception) {           
+                GC.Collect();
+                return false;
+            }
         }
     }
 }
