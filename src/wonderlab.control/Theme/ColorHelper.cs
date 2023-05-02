@@ -103,7 +103,7 @@ namespace wonderlab.control.Theme
 
         public void UpdateAccentColor(object key, object value)
         {
-            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.control/Theme/BasicResource.axaml"));
+            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.Control/Theme/BasicResource.axaml"));
 
             if (rd.ContainsKey(key)) {           
                 rd[key] = value;
@@ -114,7 +114,7 @@ namespace wonderlab.control.Theme
         }
 
         public void UpdateTheme(string type) {
-            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.control/Theme/{Current}Resource.axaml"));
+            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.Control/Theme/{Current}Resource.axaml"));
             Application.Current.Resources.MergedDictionaries.Remove(rd);
             Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.control/Theme/{type}Resource.axaml")));
             Current = type;
@@ -122,7 +122,7 @@ namespace wonderlab.control.Theme
 
         public void Load()
         {
-            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.control/Theme/LightResource.axaml"));
+            var rd = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"avares://wonderlab.Control/Theme/LightResource.axaml"));
             Application.Current.Resources.MergedDictionaries.Add(rd);
         }
 
