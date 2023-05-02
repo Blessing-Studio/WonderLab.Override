@@ -251,7 +251,7 @@ namespace wonderlab.ViewModels.Dialogs
             }
             else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Forge)
             {
-                if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile())
+                if (App.LaunchInfoData.JavaRuntimePath.JavaPath.IsNull() && !App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile())
                 {
                     "无法继续安装，因为未选择任何 Java！".ShowMessage();
                     return;
