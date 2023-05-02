@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace wonderlab
         public static MainWindow Instance { get; private set; }
         public MainWindow() {
             JsonUtils.CraftLaunchInfoJson();
+            Initialized += DataInitialized;
+
             InitializeComponent();
             new ColorHelper().Load();
             ThemeUtils.Init();
@@ -73,6 +76,22 @@ namespace wonderlab
             close.Click += (_, _) => Close();
             Mini.Click += (_, _) => WindowState = WindowState.Minimized;
             NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
+        }
+
+        private async void DataInitialized(object? sender, EventArgs e) {
+            await Task.Delay(500);
+            if (App.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {           
+                APIManager.Current = APIManager.Mcbbs;
+            }
+            else if (App.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {           
+                APIManager.Current = APIManager.Mcbbs;
+            }
+            else if (App.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {           
+                APIManager.Current = APIManager.Mcbbs;
+            }
+            else {
+                App.LauncherData.CurrentDownloadAPI = APIManager.Current;
+            }
         }
 
         public async void DropAction(object? sender, DragEventArgs e) {

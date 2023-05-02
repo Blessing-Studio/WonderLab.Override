@@ -52,7 +52,7 @@ public sealed class JavaToolkit
                     end = true;
             }
 
-            string[] sres = tempinfo?.Split(".");
+            string[] sres = tempinfo?.Split(".")!;
 			if (!sres.IsNull() && sres.Length != 0)
                 ires = ((int.Parse(sres[0]) == 1) ? new int?(int.Parse(sres[1])) : new int?(int.Parse(sres[0])));
 

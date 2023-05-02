@@ -1,10 +1,12 @@
 ﻿using Avalonia.Media;
+using MinecraftLaunch.Modules.Models.Download;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Enum;
 
 namespace wonderlab.Class.Models
 {
@@ -27,7 +29,16 @@ namespace wonderlab.Class.Models
         [JsonProperty("imagePath")]
         public string ImagePath { get; set; }
 
+        [JsonProperty("issuingBranch")]
+        public IssuingBranch IssuingBranch { get; set; } = IssuingBranch.Lsaac;
+
+        [JsonProperty("currentdownloadAPI")]
+        public DownloadAPI CurrentDownloadAPI { get; set; }
+
         [JsonProperty("launcherVersion")]
-        public int LauncherVersion { get; set; } = 127;
+        public int LauncherVersion { get; set; } = 120;
+
+        [JsonProperty("downloadCount")]
+        public int DownloadCount { get; set; } = 64;
     }
 }
