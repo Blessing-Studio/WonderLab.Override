@@ -155,9 +155,11 @@ namespace wonderlab
             }
 
             UpdateInfo res = await UpdateUtils.GetLatestUpdateInfoAsync();
+            $"开始自动更新流程，当前启动器版本序列号 {App.LauncherData.LauncherVersion}".ShowLog();
+
             if (res is not null && res.CanUpdate() && SystemUtils.IsWindows)
             {
-                UpdateDialog.AcceptButtonClick += (_, _) => {
+                UpdateDialog.CloseButtonClick += (_, _) => {
                     UpdateUtils.UpdateAsync(res, x => {
                         ViewModel.DownloadProgress = x.ToDouble() * 100;
                     }, () => {
@@ -191,7 +193,6 @@ namespace wonderlab
                         { }
                     });
                 };
-                UpdateDialog.CloseButtonClick += (_, _) => { UpdateDialog.HideDialog(); };
 
                 BodyMessage.Text = res.Message;
                 UpdateDialog.Title = $"有新的版本推送，版本编号 {res.TagName}";

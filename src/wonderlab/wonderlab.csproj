@@ -73,42 +73,52 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM32'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM32'">
     <NoWarn>CS0067;SYSLIB0011;CS0612;CS0169;CS8620</NoWarn>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <Optimize>False</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Pages\GameCoreConfigPage.axaml" />

@@ -63,7 +63,7 @@
 									</DockPanel>
 									
 									<ProgressBar Value="{TemplateBinding UpdateProgress}"
-			                                     Height="6" CornerRadius="16" Grid.Row="2"/>
+			                                     Height="5" CornerRadius="16" Grid.Row="2" Foreground="{DynamicResource AccentBrushDark1}"/>
 								</Grid>
 
 								<Grid Name="Buttons" Margin="16 10 16 16" Grid.Row="4">

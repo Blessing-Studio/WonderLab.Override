@@ -14,12 +14,11 @@ using wonderlab.control.Interface;
 namespace wonderlab.control.Controls.Dialog
 {
     /// <summary>
-    /// 信息对话框
+    /// 信息对话框 -别tm改这个页面里的东西了啊啊啊啊啊啊啊啊啊啊
     /// </summary>
     [PseudoClasses(":open", ":close")]
     public class UpdateDialog : ContentControl, IDialog
     {
-        Button CloseButton = null!;
         Grid Buttons = null!;
         Border BackgroundBorder = null!;
         Border DialogContent = null!;
@@ -47,7 +46,7 @@ namespace wonderlab.control.Controls.Dialog
             AvaloniaProperty.Register<UpdateDialog, object>(nameof(Message), "");
 
         public static readonly StyledProperty<string> Button1TextProperty =
-            AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button1Text), "我不更新");
+            AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button1Text), "或者更新");//别改！！！！这是强制更新！！！
 
         public static readonly StyledProperty<string> Button2TextProperty =
             AvaloniaProperty.Register<UpdateDialog, string>(nameof(Button2Text), "立刻更新");
@@ -111,10 +110,9 @@ namespace wonderlab.control.Controls.Dialog
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
             Bar = e.NameScope.Find<Grid>("UpP");
             DialogContent = e.NameScope.Find<Border>("DialogContent");
-            CloseButton = e.NameScope.Find<Button>("Button2");
             Buttons = e.NameScope.Find<Grid>("Buttons");
             e.NameScope.Find<Button>("CloseButton").Click += OnCloseButtonClick;
-            CloseButton.Click += OnCloseButtonClick;
+            e.NameScope.Find<Button>("Button2").Click += OnCloseButtonClick;
 
             if (!HasUpdate)
             {
