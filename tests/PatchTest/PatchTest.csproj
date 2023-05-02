@@ -19,7 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\wonderlab.override\wonderlab\wonderlab.csproj" />
+    <ProjectReference Include="..\..\src\wonderlab.control\wonderlab.control.csproj" />
+    <ProjectReference Include="..\..\src\wonderlab.Core\wonderlab.Core.csproj" />
+    <ProjectReference Include="..\..\src\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
+    <ProjectReference Include="..\..\src\wonderlab.PluginLoader\wonderlab.PluginLoader.csproj" />
+    <ProjectReference Include="..\..\src\wonderlab\wonderlab.csproj" />
   </ItemGroup>
 
 </Project>
