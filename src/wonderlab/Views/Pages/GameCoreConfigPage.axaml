@@ -3,9 +3,195 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.GameCoreConfigPage" ClipToBounds="False">
+	<UserControl.Styles>
+		<Styles>
+			<!--Left-->
+			<Style Selector="ToggleButton.left">
+				<Setter Property="MinWidth" Value="60"/>
+				<Setter Property="Height" Value="30"/>
+				<Setter Property="ClipToBounds" Value="False"/>
+				<Setter Property="Template">
+					<ControlTemplate>
+						<Border>
+							<Grid>
+								<Border Name="background1" CornerRadius="6 0 0 0" Margin="0 0 10 0">
+
+								</Border>
+
+								<Border Name="background2" RenderTransform="skewX(-8deg)" Width="15"
+										HorizontalAlignment="Right"/>
+
+								<ContentPresenter Name="ContentPresenter"
+												  Content="{TemplateBinding	Content}"
+												  VerticalAlignment="Center"
+												  HorizontalAlignment="Center"
+												  VerticalContentAlignment="Center"
+												  HorizontalContentAlignment="Center">
+								</ContentPresenter>
+							</Grid>
+						</Border>
+					</ControlTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.left">
+				<Setter Property="Foreground" Value="Black"/>
+			</Style>
+
+			<Style Selector="ToggleButton.left /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.left /template/ Border#background2">
+				<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.left /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="1" ScaleY="1"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.left:pressed /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.left:checked">
+				<Setter Property="Foreground" Value="White"/>
+			</Style>
+
+			<Style Selector="ToggleButton.left:checked /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.left:checked /template/ Border#background2">
+				<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+			</Style>
+			
+			<!--Right-->
+			<Style Selector="ToggleButton.right">
+				<Setter Property="MinWidth" Value="60"/>
+				<Setter Property="Height" Value="30"/>
+				<Setter Property="ClipToBounds" Value="False"/>
+				<Setter Property="Template">
+					<ControlTemplate>
+						<Border>
+							<Grid>
+								<Border Name="background1" CornerRadius="0 6 0 0" Margin="10 0 0 0">
+
+								</Border>
+
+								<Border Name="background2" RenderTransform="skewX(-8deg)" Width="15"
+										HorizontalAlignment="Left"/>
+
+								<ContentPresenter Name="ContentPresenter"
+												  Content="{TemplateBinding	Content}"
+												  VerticalAlignment="Center"
+												  HorizontalAlignment="Center"
+												  VerticalContentAlignment="Center"
+												  HorizontalContentAlignment="Center">
+								</ContentPresenter>
+							</Grid>
+						</Border>
+					</ControlTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.right">
+				<Setter Property="Foreground" Value="Black"/>
+			</Style>
+
+			<Style Selector="ToggleButton.right /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.right /template/ Border#background2">
+				<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.right /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="1" ScaleY="1"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.right:pressed /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.right:checked">
+				<Setter Property="Foreground" Value="White"/>
+			</Style>
+
+			<Style Selector="ToggleButton.right:checked /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.right:checked /template/ Border#background2">
+				<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+			</Style>
+			
+			<!--Center-->
+			<Style Selector="ToggleButton.center">
+				<Setter Property="MinWidth" Value="60"/>
+				<Setter Property="Height" Value="30"/>
+				<Setter Property="ClipToBounds" Value="False"/>
+				<Setter Property="Template">
+					<ControlTemplate>
+						<Border>
+							<Grid>
+								<Border Name="background1" RenderTransform="skewX(-8deg)"/>
+
+								<ContentPresenter Name="ContentPresenter"
+												  Content="{TemplateBinding	Content}"
+												  VerticalAlignment="Center"
+												  HorizontalAlignment="Center"
+												  VerticalContentAlignment="Center"
+												  HorizontalContentAlignment="Center">
+								</ContentPresenter>
+							</Grid>
+						</Border>
+					</ControlTemplate>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.center">
+				<Setter Property="Foreground" Value="Black"/>
+			</Style>
+
+			<Style Selector="ToggleButton.center /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+			</Style>
+
+			<Style Selector="ToggleButton.center /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="1" ScaleY="1"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.center:pressed /template/ ContentPresenter#ContentPresenter">
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+				</Setter>
+			</Style>
+
+			<Style Selector="ToggleButton.center:checked">
+				<Setter Property="Foreground" Value="White"/>
+			</Style>
+
+			<Style Selector="ToggleButton.center:checked /template/ Border#background1">
+				<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+			</Style>
+		</Styles>
+	</UserControl.Styles>
 	<Grid>
-		<Grid>
+		<Grid IsVisible="False">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*"/>
 				<ColumnDefinition Width="30"/>
@@ -108,26 +294,6 @@
 						RenderTransform="rotate(0deg)" Grid.Row="2"
                         VerticalAlignment="Top"
 						HorizontalAlignment="Left">
-					<StackPanel Orientation="Horizontal"
-			                    Spacing="10"			                    			                    			                    
-			                    Name="ButtonGroup">
-						<ToggleButton Content="模组" 
-									  Background="Transparent" 
-									  Command="{Binding	GoModPackAction}"
-									  IsChecked="True"/>
-						
-						<ToggleButton Content="光影" 
-									  Command="{Binding	GoSharePackAction}"									  
-									  Background="Transparent"/>
-						
-						<ToggleButton Content="存档" 
-									  Command="{Binding	GoSaveAction}"									  
-									  Background="Transparent"/>
-						
-						<ToggleButton Content="资源包" 
-									  Command="{Binding	GoResourePackAction}"									  
-									  Background="Transparent"/>
-					</StackPanel>
 				</Border>
 
 				<Border RenderTransform="rotate(0deg)" Grid.Row="1"
@@ -160,6 +326,197 @@
 				</Border>
 
 			</Grid>
+		</Grid>
+
+		<Border VerticalAlignment="Top" Background="{DynamicResource DialogContentBackground}" Height="30"
+				BoxShadow="0 1 4 0 #66000000" Name="TopBar" Margin="0 -45 0 0">
+			<Border.Transitions>
+				<Transitions>
+					<ThicknessTransition Property="Margin"
+										 Easing="ExponentialEaseOut"
+										 Duration="0:0:0.35"/>
+				</Transitions> 
+			</Border.Transitions>
+			<Grid>
+				<Grid HorizontalAlignment="Right"
+					  VerticalAlignment="Center" Margin="0 0 15 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="2"/>
+						<ColumnDefinition Width="1*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Classes="rotatebutton" Grid.Column="2"
+							HorizontalAlignment="Right" Name="close"
+							VerticalAlignment="Top" Margin="15 0 0 0"/>
+
+					<Border Background="Black" HorizontalAlignment="Right"
+							VerticalAlignment="Stretch" Width="1"
+							Grid.Column="1">
+						<Border.RenderTransform>
+							<TransformGroup>
+								<SkewTransform AngleX="-8"/>
+							</TransformGroup>
+						</Border.RenderTransform>
+					</Border>
+
+					<Button Name="Mini"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Classes="rotatebutton1"
+							Margin="0 0 15 0"/>
+				</Grid>
+
+				<Border Background="{DynamicResource AccentBrush}" Height="2" VerticalAlignment="Bottom" CornerRadius="10"
+		                HorizontalAlignment="Left" Width="110" Margin="20 0 0 2"/>
+
+				<TextBlock Text="核心管理" FontWeight="SemiBold" FontSize="16"
+						   Margin="70 0 0 5" VerticalAlignment="Bottom"/>
+
+				<Button Height="40" Width="40" Classes="wonderaccentbutton" HorizontalAlignment="Left"
+						CornerRadius="114514" Margin="15 20 0 0" Padding="0" Command="{Binding GoBackAction}">
+					<Viewbox Width="20">
+						<Path Fill="White" Data="M925.93485 420.743202H170.450671l307.293565 307.438889c11.630934 11.635911 11.382091 30.73712-0.555418 42.669653-11.936514 11.930542-31.038718 12.169431-42.669653 0.53352l-357.299118-357.478285a30.409643 30.409643 0 0 1-5.269505-5.686566c-4.02927-5.34814-5.986174-11.785217-5.878673-18.243198-0.129398-7.758933 2.712392-15.489 8.556227-21.332835L434.52016 8.573148c11.630934-11.636907 30.733139-11.397022 42.669653 0.532525 11.937509 11.930542 12.186353 31.032746 0.555418 42.670648L170.031619 359.634263h755.903231c16.450531 0 29.786539 13.675431 29.786539 30.551981s-13.336008 30.556958-29.786539 30.556958z"/>
+					</Viewbox>
+				</Button>
+			</Grid>
+		</Border>
+
+		<Grid Margin="30 70 30 40">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="25"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+
+			<!--{DynamicResource DialogContentBackground}-->
+			<Border Grid.Column="0" Background="#72F0EEEE" CornerRadius="6"
+					BorderBrush="{DynamicResource DialogContentBorderBrush}" BorderThickness="1">
+				<Grid>
+					<Border Margin="10" Background="{DynamicResource DialogContentBackground}">
+						<Grid>
+							<TextBlock Margin="10 5 0 0" Opacity="0.15" Text="WonderLab.GameCore.Profile"/>
+							<Border Margin="10 25 10 10" BorderBrush="Black" BorderThickness="1">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="1*"/>
+									</Grid.RowDefinitions>
+									<Grid Margin="0 10 0 5" HorizontalAlignment="Center" VerticalAlignment="Top">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="Auto"/>
+										</Grid.RowDefinitions>
+										<TextBlock HorizontalAlignment="Center" Text="属性" FontSize="18" FontWeight="SemiBold"/>
+
+										<TextBlock Margin="15 0" TextTrimming="WordEllipsis" Text="{Binding Current.Id}" FontSize="12" Opacity="0.65" Grid.Row="1"/>
+									</Grid>
+									
+									<Grid Grid.Row="1">
+										<Grid VerticalAlignment="Top" Background="#FFC5CBD0" Height="25">
+											<TextBlock Text="游戏版本" VerticalAlignment="Center"
+													   HorizontalAlignment="Center"/>
+										</Grid>
+										
+										<TextBlock Margin="0 30 0 0" 
+												   HorizontalAlignment="Center" 
+												   VerticalAlignment="Top"
+												   Text="{Binding Current.Source}"/>
+										
+										<Grid VerticalAlignment="Top" Margin="0 55 0 0 " Background="#FFC5CBD0" Height="25">
+											<TextBlock Text="游戏路径" VerticalAlignment="Center"
+													   HorizontalAlignment="Center"/>
+										</Grid>
+
+										<TextBlock Margin="5 85 5 0"
+												   TextTrimming="WordEllipsis"
+		                                           HorizontalAlignment="Center"
+		                                           VerticalAlignment="Top"
+		                                           Text="{Binding Current.Root.FullName}"/>
+										
+										<Grid VerticalAlignment="Top" Margin="0 110 0 0" Background="#FFC5CBD0" Height="25">
+											<TextBlock Text="占用的磁盘大小" VerticalAlignment="Center"
+													   HorizontalAlignment="Center"/>
+										</Grid>
+
+										<TextBlock Margin="0 140 0 0"
+		                                           HorizontalAlignment="Center"
+		                                           VerticalAlignment="Top"
+		                                           Text="{Binding GameCoreTotalSize}"/>
+										
+										<Grid VerticalAlignment="Top" Margin="0 165 0 0" Background="#FFC5CBD0" Height="25">
+											<TextBlock Text="已装载的模组加载器" VerticalAlignment="Center"
+													   HorizontalAlignment="Center"/>
+										</Grid>
+
+										<TextBlock Margin="0 195 0 0"
+	                                        	   HorizontalAlignment="Center"
+	                                        	   VerticalAlignment="Top"
+	                                        	   Text="{Binding ModLoaders}"/>
+									</Grid>
+								</Grid>
+							</Border>
+						</Grid>
+					</Border>
+				</Grid>
+			</Border>
+			
+			<!--文件列表-->
+			<!--{DynamicResource DialogContentBackground}-->
+			<Border Grid.Column="2" Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+		            BorderBrush="{DynamicResource DialogContentBorderBrush}" BorderThickness="1">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="10"/>
+						<RowDefinition Height="1*"/>
+					</Grid.RowDefinitions>
+
+					<Border BorderBrush="Black" BorderThickness="0 0 0 1">
+						<Grid Name="ButtonGroup">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="1*"/>
+							</Grid.ColumnDefinitions>
+							<ToggleButton Content="模组"
+										  Classes="left"
+										  Background="Transparent"
+										  Command="{Binding	GoModPackAction}"
+										  HorizontalAlignment="Stretch"
+										  IsChecked="True"/>
+
+							<ToggleButton Content="光影"
+										  Classes="center"
+										  Grid.Column="1"
+										  Command="{Binding	GoSharePackAction}"
+										  HorizontalAlignment="Stretch"
+										  Background="Transparent"/>
+
+							<ToggleButton Content="存档"
+										  Classes="center"
+										  Grid.Column="2"
+										  Command="{Binding	GoSaveAction}"
+										  HorizontalAlignment="Stretch"
+										  Background="Transparent"/>
+
+							<ToggleButton Content="资源包"
+										  Classes="right"
+										  Grid.Column="3"
+										  Command="{Binding	GoResourePackAction}"
+										  HorizontalAlignment="Stretch"
+										  Background="Transparent"/>
+						</Grid>
+					</Border>
+
+					<ContentControl Background="Transparent" Grid.Row="2"
+                                    Content="{Binding CurrentPage}"
+									CornerRadius="0 0 6 6"
+                                    ClipToBounds="True"/>
+				</Grid>
+			</Border>
 		</Grid>
 	</Grid>
 </UserControl>

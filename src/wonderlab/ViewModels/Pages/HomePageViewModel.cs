@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Launch;
+﻿using Flurl.Util;
+using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Interface;
@@ -100,7 +101,7 @@ namespace wonderlab.ViewModels.Pages
             }
 
             MainWindow.Instance.Auth.Show();            
-        }
+        }        
 
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(() => {
@@ -112,11 +113,25 @@ namespace wonderlab.ViewModels.Pages
             };
 
             data.TimerStart();
+
+            var gameCore = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
                 var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
                     JsonUtils.DataPath, "authlib-injector.jar");
 
                 Trace.WriteLine($"[信息] Http状态码为 {result.HttpStatusCode}");
+            }
+
+            //Mod 重复处理
+            if (gameCore.GetModsPath().IsDirectory()) {           
+                ModPackToolkit toolkit = new(gameCore, true);
+                var result = (await toolkit.LoadAllAsync()).GroupBy(i => i.Id).Where(g => g.Count() > 1);
+                if (result.Count() > 0) {               
+                    foreach (var item in result) {                   
+                        $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
+                        return;
+                    }
+                }
             }
 
             //异步刷新游戏账户
@@ -145,7 +160,6 @@ namespace wonderlab.ViewModels.Pages
                 $"账户刷新失败，详细信息：{ex.Message}".ShowMessage("Error");
             }
 
-
             var config = new LaunchConfig()
             {
                 JvmConfig = new()
@@ -157,7 +171,7 @@ namespace wonderlab.ViewModels.Pages
                 },
                 
                 Account = CurrentAccount,
-                WorkingFolder = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId).GetGameCorePath().ToDirectory()!,
+                WorkingFolder = gameCore.GetGameCorePath().ToDirectory()!,
             };
 
             JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);

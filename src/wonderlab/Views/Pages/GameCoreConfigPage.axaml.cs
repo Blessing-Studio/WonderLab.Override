@@ -1,6 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Media;
 using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
+using System.Threading.Tasks;
+using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages
@@ -26,6 +30,7 @@ namespace wonderlab.Views.Pages
         public GameCoreConfigPage(GameCore core) { 
             InitializeComponent();
             DataContext = ViewModel = new(core);
+            Initialize();
 
             foreach (ToggleButton item in ButtonGroup.Children) {           
                 item!.Click += (x, e) => {
@@ -36,6 +41,21 @@ namespace wonderlab.Views.Pages
                     item.IsChecked = true;
                 };
             }
+        }
+
+        public async void Initialize() {
+            MainWindow.Instance.OpenBar.IsVisible = true;
+            MainWindow.Instance.OpenBar.IsHitTestVisible = true;
+            var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
+            if(transform.IsNull()) {
+                transform = new();
+            }
+
+            TranslateXAnimation animation = new(transform.X, MainWindow.Instance.WindowWidth);
+            animation.RunAnimation(MainWindow.Instance.OpenBar);
+
+            await Task.Delay(300);
+            TopBar.Margin = new(0);
         }
     }
 }

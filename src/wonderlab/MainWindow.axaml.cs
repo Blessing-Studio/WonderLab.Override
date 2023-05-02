@@ -27,7 +27,7 @@ namespace wonderlab
 {
     public partial class MainWindow : Window
     {
-        private double X, Y, WindowHeight, WindowWidth;
+        public double X, Y, WindowHeight, WindowWidth;
         public bool isDragging, IsOpen, IsUseDragging, CanParallax;
         public static MainWindowViewModel ViewModel { get; private set; }
         public static MainWindow Instance { get; private set; }

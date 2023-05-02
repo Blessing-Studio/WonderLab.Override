@@ -97,5 +97,30 @@ namespace wonderlab.Class.Utils
             var installResult = await Task.Run(async () => await installer.InstallAsync());
             installResult.Success.ShowLog();
         }
+
+        public static async ValueTask<string> GetTotalSizeAsync(GameCore id) {       
+            double total = 0;
+            foreach (var library in id.LibraryResources) {           
+                if (library.Size != 0)
+                    total += library.Size;
+                else if (library.Size == 0 && library.ToFileInfo().Exists)
+                    total += library.ToFileInfo().Length;
+            }
+
+            try {           
+                var assets = await new ResourceInstaller(id).GetAssetResourcesAsync();
+
+                foreach (var asset in assets) {
+               
+                    if (asset.Size != 0)
+                        total += asset.Size;
+                    else if (asset.Size == 0 && asset.ToFileInfo().Exists)
+                        total += asset.ToFileInfo().Length;
+                }
+            }
+            catch { }
+
+            return $"{double.Parse(((double)total / (1024 * 1024)).ToString("0.00"))} MB";
+        }
     }
 }

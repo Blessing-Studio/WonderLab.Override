@@ -35,6 +35,7 @@ namespace wonderlab.Views.Pages
 
         private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             Button? button = sender as Button;
+            MainWindow.Instance.CloseTopBar();
             MainWindow.Instance.NavigationPage(new GameCoreConfigPage((button!.DataContext! as GameCore)!)!);
         }
 
