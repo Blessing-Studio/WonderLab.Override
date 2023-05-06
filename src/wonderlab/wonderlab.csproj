@@ -12,6 +12,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>wonderlab</AssemblyName>
+    <RuntimeIdentifiers>osx-x64;linux-x64;win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
     <!--<TrimMode>copyused</TrimMode>-->
@@ -136,4 +138,23 @@
       <LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
     </Content>
   </ItemGroup>
+<PropertyGroup>
+		<CFBundleName>wonderlab</CFBundleName>
+		<!-- Also defines .app file name -->
+		<CFBundleDisplayName>wonderlab</CFBundleDisplayName>
+		<CFBundleIdentifier>org.blessing-studio</CFBundleIdentifier>
+		<CFBundleVersion>1.2.0</CFBundleVersion>
+		<CFBundlePackageType>APPL</CFBundlePackageType>
+		<CFBundleExecutable>wonderlab</CFBundleExecutable>
+		<!-- Will be copied from output directory -->
+		<NSPrincipalClass>NSApplication</NSPrincipalClass>
+		<NSHighResolutionCapable>true</NSHighResolutionCapable>
+		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>
+		<SignAssembly>True</SignAssembly>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<StartupObject>wonderlab.Program</StartupObject>
+		<Version>1.2.0</Version>
+		<AssemblyVersion>1.2.0</AssemblyVersion>
+		<FileVersion>1.2.0</FileVersion>
+	</PropertyGroup>
 </Project>

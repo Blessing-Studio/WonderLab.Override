@@ -55,8 +55,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install Deb Tool
-      run: dotnet tool install --global dotnet-deb
     - name: Build
       run: dotnet publish src/wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateDeb
     - name: Upload build artifacts
@@ -71,8 +69,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install Rpm Tool
-      run: dotnet tool install --global dotnet-rpm
     - name: Build
       run: dotnet publish src/wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateRpm
     - name: Upload build artifacts

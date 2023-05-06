@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-deb": {
+      "version": "0.1.220",
+      "commands": [
+        "dotnet-deb"
+      ]
+    },
+    "dotnet-rpm": {
+      "version": "0.1.220",
+      "commands": [
+        "dotnet-rpm"
+      ]
+    }
+  }
+}
