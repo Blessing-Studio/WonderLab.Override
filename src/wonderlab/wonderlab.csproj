@@ -126,4 +126,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\steve.png" />
   </ItemGroup>
+<ItemGroup>
+<Content Include="wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
+		</Content>
+	</ItemGroup>
+	  <ItemGroup>
+    <Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
+      <LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
+    </Content>
+  </ItemGroup>
 </Project>
