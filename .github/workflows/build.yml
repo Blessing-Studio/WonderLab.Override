@@ -13,10 +13,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Build
@@ -33,10 +29,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Build
@@ -53,10 +45,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Build
@@ -73,10 +61,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Install Deb Tool
@@ -95,10 +79,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Install Rpm Tool
@@ -117,10 +97,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
     - name: Execute unit tests
       run: dotnet test
     - name: Build
