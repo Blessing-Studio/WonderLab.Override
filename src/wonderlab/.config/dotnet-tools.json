@@ -13,6 +13,12 @@
       "commands": [
         "dotnet-rpm"
       ]
+    },
+    "dotnet-zip": {
+      "version": "0.1.220",
+      "commands": [
+        "dotnet-zip"
+      ]
     }
   }
 }
