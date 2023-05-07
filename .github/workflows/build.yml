@@ -19,7 +19,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: wonderlab/bin/Release/net6.0
+        path: src/wonderlab/bin/Release/net6.0
   build_Linux:
     runs-on: self-hosted
     steps:
@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux
-        path: wonderlab/bin/Release/net6.0
+        path: src/wonderlab/bin/Release/net6.0
   build_MacOS:
     runs-on: self-hosted
     steps:
@@ -47,7 +47,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: wonderlab/bin/Release/net6.0
+        path: src/wonderlab/bin/Release/net6.0
   build_Linux_Deb:
     runs-on:  self-hosted
     steps:
@@ -61,7 +61,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Deb
-        path: 'wonderlab/bin/Release/net6.0/linux-x64/*.deb'
+        path: 'src/wonderlab/bin/Release/net6.0/linux-x64/*.deb'
   build_Linux_Rpm:
     runs-on: self-hosted
     steps:
@@ -75,7 +75,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Rpm
-        path: 'wonderlab/bin/Release/net6.0/linux-x64/*.rpm'
+        path: 'src/wonderlab/bin/Release/net6.0/linux-x64/*.rpm'
   build_Common:
     runs-on: [self-hosted, Windows]
     steps:
@@ -89,7 +89,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Common
-        path: wonderlab/bin/Release/net6.0
+        path: src/wonderlab/bin/Release/net6.0
   Release:
     permissions: write-all
     runs-on: self-hosted
