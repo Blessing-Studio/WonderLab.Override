@@ -99,12 +99,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
        name: Windows
-       path: Release\Windows
     - name: Download Linux Build
       uses: actions/download-artifact@v3
       with:
        name: Linux
-       path: Release\Linux
     - name: Download Deb Build
       uses: actions/download-artifact@v3
       with:
@@ -117,12 +115,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
        name: MacOS
-       path: Release\MacOS
     - name: Download Common Build
       uses: actions/download-artifact@v3
       with:
        name: Common
-       path: Release\Common
     - name: Create Release
       if: github.event_name != 'pull_request' 
       uses: "marvinpinto/action-automatic-releases@latest"
