@@ -19,7 +19,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: src/wonderlab/bin/Release/net6.0/*.zip
+        path: src/wonderlab/bin/Release/net6.0/win-x64/*.zip
   build_Linux:
     runs-on: self-hosted
     steps:
@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux
-        path: src/wonderlab/bin/Release/net6.0/*.zip
+        path: src/wonderlab/bin/Release/net6.0/linux-x64/*.zip
   build_MacOS:
     runs-on: self-hosted
     steps:
@@ -47,7 +47,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: src/wonderlab/bin/Release/net6.0/*.zip
+        path: src/wonderlab/bin/Release/net6.0/osx-x64/*.zip
   build_Linux_Deb:
     runs-on:  self-hosted
     steps:
