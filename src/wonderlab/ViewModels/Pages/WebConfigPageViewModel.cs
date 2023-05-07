@@ -43,11 +43,12 @@ namespace wonderlab.ViewModels.Pages
             TestList.Add(new WebConnectionTestModel("http://launchermeta.mojang.com"));
 
             //皮肤
+            TestList.Add(new WebConnectionTestModel("http://textures.minecraft.net"));
             TestList.Add(new WebConnectionTestModel("https://sessionserver.mojang.com"));
-            TestList.Add(new WebConnectionTestModel("https://www.minecraft.net"));
+            TestList.Add(new WebConnectionTestModel("https://www.minecraft.net", "minecraft.net"));
 
             //更新服务
-            TestList.Add(new WebConnectionTestModel("http://8.218.142.204:8888/", "update.wonderapi.com"));
+            TestList.Add(new WebConnectionTestModel("http://43.136.86.16:8888/", "update.wonderapi.com"));
         }
 
         public void SelectLsaacAction() {

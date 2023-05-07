@@ -5,6 +5,6 @@ Terminal=false
 Exec=/usr/share/wonderlab/wonderlab
 Icon=/usr/share/icons/wonderlab.png
 Categories=Game;ActionGame;AdventureGame;Simulation;
-Keywords=game;minecraft;launcher;mc;Ddggdd135;Xilu;
+Keywords=game;minecraft;launcher;mc;Blessing-Studio;
 Comment=Next generation cross-platform Minecraft launcher
 Comment[zh_CN]=下一代跨平台 Minecraft 启动器

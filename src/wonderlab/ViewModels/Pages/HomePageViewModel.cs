@@ -1,4 +1,5 @@
-﻿using Flurl.Util;
+﻿using Avalonia.Controls;
+using Flurl.Util;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
@@ -199,6 +200,27 @@ namespace wonderlab.ViewModels.Pages
                 data.Progress = $"启动失败 - 100%";
                 $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
             }
+        }
+
+        public async void ImportModpacksAction() {
+            OpenFileDialog dialog = new(){ 
+                Title = "请选择整合包文件",
+                Filters = new() {
+                    new() { Name = "整合包文件", Extensions = { "zip", "mrpack" } },
+                }
+            };
+
+            var result = await dialog.ShowAsync(MainWindow.Instance);
+            if(result!.IsNull() || result!.Length == 0) {
+                return;
+            }
+
+            if(result.Length > 1) {
+                "一次只能安装一个整合包".ShowMessage("提示");
+                return;
+            }
+
+            await ModpacksUtils.ModpacksInstallAsync(result.FirstOrDefault()!);
         }
 
         public string GetCurrentJava() {

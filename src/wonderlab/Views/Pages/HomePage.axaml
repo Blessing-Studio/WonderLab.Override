@@ -242,7 +242,7 @@
 								Spacing="10"
 								HorizontalAlignment="Stretch">
 						
-						<Button HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
+						<Button Command="{Binding ImportModpacksAction}" HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
 							<Grid>																
 								<Viewbox Width="10" HorizontalAlignment="Left"
 										 VerticalAlignment="Center">

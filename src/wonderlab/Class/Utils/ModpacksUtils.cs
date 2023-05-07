@@ -227,7 +227,7 @@ namespace wonderlab.Class.Utils
             actionBlock.Complete();
 
             await actionBlock.Completion;
-
+            
             //资源安装 -2
             await Task.Run(() => {
                 using (ZipArchive subPath = ZipFile.OpenRead(path)) {               
