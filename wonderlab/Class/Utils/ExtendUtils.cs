@@ -18,6 +18,10 @@ using System.Text.RegularExpressions;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 using Avalonia.Controls;
 using Image = SixLabors.ImageSharp.Image;
+using MinecraftProtocol;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace wonderlab.Class.Utils
 {
@@ -211,6 +215,27 @@ namespace wonderlab.Class.Utils
 
             Bitmap.DecodeToWidth(stream, width).Save(memoryStream);
             return Bitmap.DecodeToHeight(memoryStream, hight);
+        }
+
+        public static async void WriteCompressedText(this string path, string? contents) {       
+            if (!File.Exists(path)) {
+                path.ToFile().Create();
+            }
+
+            if (contents == null) {
+                contents = string.Empty;
+            }
+
+            byte[] tmp = zlib.Compress(Encoding.UTF8.GetBytes(contents));
+            await File.WriteAllBytesAsync(path, tmp);
+        }
+
+        public static async ValueTask<string> ReadCompressedText(this string path) {       
+            if (!File.Exists(path)) {
+                return string.Empty;
+            }
+
+            return Encoding.UTF8.GetString(zlib.Decompress(await File.ReadAllBytesAsync(path)));
         }
 
         public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");

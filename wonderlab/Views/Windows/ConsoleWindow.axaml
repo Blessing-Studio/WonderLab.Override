@@ -1,0 +1,26 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="wonderlab.Views.Windows.ConsoleWindow"
+        Title="ConsoleWindow">
+	<Grid>
+		<ListBox>
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Padding" Value="0"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border>
+									<TextBlock Text="666"/>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+				</Styles>
+			</ListBox.Styles>
+		</ListBox>
+	</Grid>
+</Window>

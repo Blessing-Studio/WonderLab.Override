@@ -24,6 +24,14 @@ namespace wonderlab.Class.Utils
             AccentColorResources["AccentColorDark3"] = (Color)utils.LightenPercent(-0.45f);
         }
 
+        public static Color GetColor(string name) {
+            return (Color)AccentColorResources[name]!;
+        }
+
+        public static SolidColorBrush GetBrush(string name) {       
+            return (SolidColorBrush)AccentColorResources[name]!;
+        }
+
         public static void Init() {
             AccentColorResources = (AvaloniaXamlLoader.Load(new Uri("avares://wonderlab.Control/Theme/BasicResource.axaml")) as ResourceDictionary)!;
             Application.Current!.Resources.MergedDictionaries.Add(AccentColorResources);

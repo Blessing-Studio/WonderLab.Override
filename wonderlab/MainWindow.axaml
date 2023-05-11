@@ -251,7 +251,7 @@
 			</wcd:UpdateDialog.Message>
 		</wcd:UpdateDialog>
 
-		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
 	</Grid>
 </Window>
   
