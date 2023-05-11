@@ -1,0 +1,15 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="wonderlab.control.App">
+    <Application.Styles>
+        <FluentTheme Mode="Light"/>
+		<StyleInclude Source="/Style/Dialog/MessageDialogStyle.axaml"/>
+		<StyleInclude Source="/Style/Button/AccentButtonStyle.axaml"/>
+		<StyleInclude Source="/Style/Bar/ToolBarStyle.axaml"/>
+		<StyleInclude Source="/Style/Dialog/UpdateDialogStyle.axaml"/>
+		<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
+		<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
+		<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
+		<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
+    </Application.Styles>
+</Application>
