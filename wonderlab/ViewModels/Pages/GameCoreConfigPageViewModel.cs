@@ -52,18 +52,8 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void GoBackAction() {
-            MainWindow.Instance.NavigationPage(new HomePage());
-            var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
-            if(transform == null) { 
-                transform = new TranslateTransform();
-            }
-
+            new HomePage().Navigation();
             MainWindow.Instance.OpenTopBar();
-            MainWindow.Instance.OpenBar.IsVisible = true;
-            MainWindow.Instance.OpenBar.IsHitTestVisible = true;
-            OpacityChangeAnimation animation = new(true);
-            TranslateXAnimation animation2 = new(transform.X, 0);
-            animation2.RunAnimation(MainWindow.Instance.OpenBar);
         }
 
         public void OpenFolderAction() {

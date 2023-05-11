@@ -27,14 +27,18 @@ namespace wonderlab
 {
     public partial class MainWindow : Window
     {
-        public double X, Y, WindowHeight, WindowWidth;
+        public double WindowHeight, WindowWidth;
+
         public bool isDragging, IsOpen, IsUseDragging, CanParallax;
+
         public static MainWindowViewModel ViewModel { get; private set; }
+
         public static MainWindow Instance { get; private set; }
+
         public MainWindow() {
             JsonUtils.CraftLaunchInfoJson();
             Initialized += DataInitialized;
-
+            
             InitializeComponent();
             new ColorHelper().Load();
             ThemeUtils.Init();
@@ -94,26 +98,6 @@ namespace wonderlab
             }
         }
 
-        public async void DropAction(object? sender, DragEventArgs e) {
-            if (e.Data.Contains(DataFormats.FileNames)) {
-                var result = e.Data.GetFileNames();
-                if (result!.Count() > 1) {
-                    "一次只能拖入一个文件".ShowMessage("提示");
-                    return;
-                }
-
-                "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
-                var file = result!.FirstOrDefault()!;
-                if (!file.IsFile() || !(file.EndsWith(".zip") || file.EndsWith(".mrpack"))) {
-                    "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
-                    return;
-                }
-
-                await Task.Delay(1000);
-                await ModpacksUtils.ModpacksInstallAsync(file);
-            }
-        }
-
         private void MainWindow_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
         {
             if (e.Property == HeightProperty)
@@ -145,10 +129,6 @@ namespace wonderlab
 
             PropertyChanged += MainWindow_PropertyChanged;
             Drop.PointerPressed += Drop_PointerPressed;
-
-            OpenBar.PointerMoved += OpenBar_PointerMoved;
-            OpenBar.PointerPressed += OpenBar_PointerPressed;
-            OpenBar.PointerReleased += OpenBar_PointerReleased;
 
             if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(App.LauncherData.ImagePath)) {
                 BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
@@ -219,8 +199,7 @@ namespace wonderlab
             }
         }
 
-        private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
+        private void Drop_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e) {       
             try {           
                 BeginMoveDrag(e);
             }
@@ -228,24 +207,40 @@ namespace wonderlab
             }
         }
 
-        public void ShowInfoDialog(string title, string message)
-        {
+        public async void DropAction(object? sender, DragEventArgs e) {       
+            if (e.Data.Contains(DataFormats.FileNames)) {           
+                var result = e.Data.GetFileNames();
+                if (result!.Count() > 1) {               
+                    "一次只能拖入一个文件".ShowMessage("提示");
+                    return;
+                }
+
+                "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
+                var file = result!.FirstOrDefault()!;
+                if (!file.IsFile() || !(file.EndsWith(".zip") || file.EndsWith(".mrpack"))) {               
+                    "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
+                    return;
+                }
+
+                await Task.Delay(1000);
+                await ModpacksUtils.ModpacksInstallAsync(file);
+            }
+        }
+
+        public void ShowInfoDialog(string title, string message) {       
             MainDialog.Title = title;
             MainDialog.Message = message;
             MainDialog.ShowDialog();
         }
 
-        public void ShowInfoBar(string title, string message, HideOfRunAction action)
-        {
-            MessageTipsBar bar = new MessageTipsBar(action)
-            {
+        public void ShowInfoBar(string title, string message, HideOfRunAction action) {       
+            MessageTipsBar bar = new MessageTipsBar(action) {           
                 Title = title,
                 Message = message,
             };
 
             grid.Children.Add(bar);
-            bar.Opened += async (_, _) =>
-            {
+            bar.Opened += async (_, _) => {           
                 await Task.Delay(3000);
                 bar.HideDialog();
             };
@@ -253,23 +248,18 @@ namespace wonderlab
             bar.ShowDialog();
         }
 
-        public void ShowInfoBar(string title, string message)
-        {
-            Dispatcher.UIThread.Post(() =>
-            {
-                MessageTipsBar bar = new MessageTipsBar()
-                {
+        public void ShowInfoBar(string title, string message) {       
+            Dispatcher.UIThread.Post(() => {           
+                MessageTipsBar bar = new MessageTipsBar() {               
                     Title = title,
                     Message = message,
                 };
-                bar.HideOfRun = new(() =>
-                {
+                bar.HideOfRun = new(() => {               
                     grid.Children.Remove(bar);
                 });
 
                 grid.Children.Add(bar);
-                bar.Opened += async (_, _) =>
-                {
+                bar.Opened += async (_, _) => {               
                     await Task.Delay(3000);
                     bar.HideDialog();
                 };
@@ -278,10 +268,8 @@ namespace wonderlab
             });
         }
 
-        public async void NavigationPage(UserControl control)
-        {
-            try
-            {
+        public async void Navigation(UserControl control) {       
+            try {           
                 Page.Opacity = 0;
                 await Task.Delay(200);
                 Page.Content = control;
@@ -307,78 +295,6 @@ namespace wonderlab
             await Task.Delay(50);
             TopBar1.Margin = new(0);
         }
-
-        #region 拖动组件事件
-
-        private void OpenBar_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
-        {
-            IsUseDragging = false;
-            var draggableElement = sender as IVisual;
-            var transform = draggableElement!.RenderTransform as TranslateTransform;
-
-            if (transform!.X != 0 && transform.X <= WindowWidth / 4)
-            {
-                TranslateXAnimation animation = new(transform.X, 0);
-                animation.RunAnimation(OpenBar);
-                OpacityChangeAnimation opacity = new(true) {
-                    RunValue = Back.Opacity
-                };
-                opacity.RunAnimation(Back);
-            }
-            else
-            {
-                TranslateXAnimation animation = new(transform.X, WindowWidth);
-                animation.RunAnimation(OpenBar);
-                OpacityChangeAnimation opacity = new(false) {               
-                    RunValue = Back.Opacity
-                };
-                opacity.AnimationCompleted += (_, _) => { OpenBar.IsVisible = false; OpenBar.IsHitTestVisible = false; };
-                opacity.RunAnimation(Back);
-                NavigationPage(new ActionCenterPage());
-                CloseTopBar();
-            }
-
-        }
-
-        private void OpenBar_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
-        {
-            IsUseDragging = true;
-
-            var draggableElement = sender as IVisual;
-            var clickPosition = e.GetPosition(this);
-
-            var transform = draggableElement!.RenderTransform as TranslateTransform;
-            if (transform == null)
-            {
-                transform = new TranslateTransform();
-                draggableElement.RenderTransform = transform;
-            }
-
-            X = clickPosition.X - transform.X;
-        }
-
-        private void OpenBar_PointerMoved(object? sender, Avalonia.Input.PointerEventArgs e)
-        {
-            var draggableElement = sender as IVisual;
-            if (IsUseDragging && draggableElement != null)
-            {
-                Point currentPosition = e.GetPosition(this.Parent);
-                var transform = draggableElement.RenderTransform as TranslateTransform;
-                if (transform == null)
-                {
-                    transform = new TranslateTransform();
-                    draggableElement.RenderTransform = transform;
-                }
-                if (transform.X <= WindowWidth)
-                {
-                    transform.X = currentPosition.X - X;
-                    Back.Opacity = transform.X / WindowWidth;
-                    //CenterContent.Width = transform.X;
-                }
-            }
-        }
-
-        #endregion
     }
 }
 

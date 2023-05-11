@@ -302,7 +302,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void GoBackAction() {
-            MainWindow.Instance.NavigationPage(new ActionCenterPage());
+            new ActionCenterPage().Navigation();
         }
     }
 }

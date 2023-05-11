@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
@@ -34,7 +35,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void ReturnAction() {
-                MainWindow.Instance.NavigationPage(new ActionCenterPage());
+            new ActionCenterPage().Navigation();
         }
     }
 }

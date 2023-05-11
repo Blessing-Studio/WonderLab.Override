@@ -84,31 +84,23 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void OpenInstallDialogAction() {
-            MainWindow.Instance.NavigationPage(new DownCenterPage());
+            new DownCenterPage().Navigation();
             //MainWindow.Instance.Install.InstallDialog.ShowDialog();
         }
 
         public void OpenSelectConfigPageAction() {
-            MainWindow.Instance.NavigationPage(new SelectConfigPage());
+            new SelectConfigPage().Navigation();
         }
 
         public void OpenUserPageAction() { 
-            MainWindow.Instance.NavigationPage(new UserPage());
+            new UserPage().Navigation();
         }
 
         public void ReturnAction() {
             Dispatcher.UIThread.Post(() => {           
                 MainWindow.Instance.OpenTopBar();
-                MainWindow.Instance.NavigationPage(new HomePage());
-                var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
-
-                MainWindow.Instance.OpenBar.IsVisible = true;
-                MainWindow.Instance.OpenBar.IsHitTestVisible = true;
+                new HomePage().Navigation();
                 OpacityChangeAnimation animation = new(true);
-                TranslateXAnimation animation2 = new(transform!.X, 0);
-                animation2.RunAnimation(MainWindow.Instance.OpenBar);
-
-                TranslateXAnimation animation1 = new(100, 0);
                 animation.RunAnimation(MainWindow.Instance.Back);
             });
         }

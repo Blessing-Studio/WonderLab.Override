@@ -72,7 +72,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void GoBackAction() {
-            MainWindow.Instance.NavigationPage(new DownCenterPage());
+            new DownCenterPage().Navigation();
         }
 
         [Reactive]

@@ -34,9 +34,9 @@
 		BorderBrush="{DynamicResource AccentBrush}" 
 		BorderThickness="1"/>
 
-		<Border Name="OpenBar" Margin="15 0 0 0"
+		<!--<Border Name="OpenBar" Margin="15 0 0 0"
 				BoxShadow="0 1 4 0 #66000000"
-				Height="150"
+				Height="150" IsVisible="False" 
 				BorderBrush="{DynamicResource DialogContentBorderBrush}"
 				Background="{DynamicResource DialogContentBackground}"
 				CornerRadius="10"
@@ -59,7 +59,7 @@
 									  Easing="ExponentialEaseOut"/>
 				</Transitions>
 			</Border.Transitions>
-		</Border>
+		</Border>-->
 
 		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>

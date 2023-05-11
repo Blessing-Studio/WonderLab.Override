@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages
@@ -221,6 +222,17 @@ namespace wonderlab.ViewModels.Pages
             }
 
             await ModpacksUtils.ModpacksInstallAsync(result.FirstOrDefault()!);
+        }
+
+        public void OpenActionCenterAction() {
+            var back = MainWindow.Instance.Back;
+            OpacityChangeAnimation opacity = new(false) {
+                RunValue = 0,
+            };
+
+            opacity.RunAnimation(back);
+            MainWindow.Instance.CloseTopBar();
+            new ActionCenterPage().Navigation();
         }
 
         public string GetCurrentJava() {

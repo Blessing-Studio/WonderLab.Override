@@ -397,7 +397,7 @@
 								  IsVisible="{Binding IsResource}"
 		                          Items="{Binding Categories}" PlaceholderText="具体资源类型">
 							<ComboBox.DataTemplates>
-								<DataTemplate>
+								<DataTemplate >
 									<Grid>
 										<TextBlock VerticalAlignment="Center" Text="{Binding Value}"/>
 									</Grid>

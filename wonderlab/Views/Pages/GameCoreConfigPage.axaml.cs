@@ -44,16 +44,6 @@ namespace wonderlab.Views.Pages
         }
 
         public async void Initialize() {
-            MainWindow.Instance.OpenBar.IsVisible = true;
-            MainWindow.Instance.OpenBar.IsHitTestVisible = true;
-            var transform = MainWindow.Instance.OpenBar!.RenderTransform as TranslateTransform;
-            if(transform.IsNull()) {
-                transform = new();
-            }
-
-            TranslateXAnimation animation = new(transform.X, MainWindow.Instance.WindowWidth);
-            animation.RunAnimation(MainWindow.Instance.OpenBar);
-
             await Task.Delay(300);
             TopBar.Margin = new(0);
         }

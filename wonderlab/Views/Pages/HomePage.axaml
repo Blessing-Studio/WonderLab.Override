@@ -322,7 +322,7 @@
 						<ColumnDefinition Width="1*"/>
 					</Grid.ColumnDefinitions>
 
-					<Grid IsVisible="False" Margin="15 0 0 0" Grid.Column="0">
+					<Grid Margin="15 0 0 0" Grid.Column="0">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="80"/>
 							<ColumnDefinition Width="10"/>
@@ -331,17 +331,17 @@
 							<ColumnDefinition Width="60"/>
 						</Grid.ColumnDefinitions>
 
-						<Button Background="Transparent" Classes="transparent">
-							<TextBlock FontSize="15" Text="通知中心"/>
+						<Button Background="Transparent" Classes="transparent" Command="{Binding OpenActionCenterAction}">
+							<TextBlock FontSize="15" Text="操作中心"/>
 						</Button>
 
-						<Button Background="Transparent" Classes="transparent" Grid.Column="2">
+						<!--<Button Background="Transparent" Classes="transparent" Grid.Column="2">
 							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="设置"/>
 						</Button>
 
 						<Button Classes="transparent" Background="Transparent" Grid.Column="4">
 							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="下载"/>
-						</Button>
+						</Button>-->
 					</Grid>
 
 					<Button Grid.Column="2" VerticalAlignment="Center" Name="SelectGameCoreButton"

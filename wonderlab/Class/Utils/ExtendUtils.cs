@@ -11,12 +11,13 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
 using Avalonia.Media.Imaging;
 using System.Text.RegularExpressions;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
+using Avalonia.Controls;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace wonderlab.Class.Utils
 {
@@ -213,5 +214,7 @@ namespace wonderlab.Class.Utils
         }
 
         public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
+
+        public static void Navigation(this UserControl control) => MainWindow.Instance.Navigation(control);
     }
 }

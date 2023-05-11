@@ -39,17 +39,15 @@ namespace wonderlab.control.Animation
                 {
                     new KeyFrame
                     {
-                        Setters =
-                        {
+                        Setters = {                       
                             new Setter(Visual.OpacityProperty, RunValue),
                         },
                         Cue = new Cue(0d)
                     },
                     new KeyFrame
                     {
-                        Setters =
-                        {
-                            new Setter(Visual.OpacityProperty, IsReversed ? 0.0 : 1d),
+                        Setters = {                       
+                            new Setter(Visual.OpacityProperty, IsReversed ? 0.0d : 1d),
                         },
                         Cue = new Cue(1d)
                     }
@@ -60,7 +58,7 @@ namespace wonderlab.control.Animation
 
             await animation.RunAsync(ctrl, null);
 
-            (ctrl as IVisual)!.Opacity = 0.0;  
+            (ctrl as Visual)!.Opacity = IsReversed ? 0.0d : 1d;  
             AnimationCompleted?.Invoke(this, new EventArgs());
         }
     }

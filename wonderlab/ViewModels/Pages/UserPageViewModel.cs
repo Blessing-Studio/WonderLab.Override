@@ -36,7 +36,7 @@ namespace wonderlab.ViewModels.Pages
             });
         }
         public void BackPageAction() {
-            MainWindow.Instance.NavigationPage(new ActionCenterPage());
+            new ActionCenterPage().Navigation();
         }
     }
 }
