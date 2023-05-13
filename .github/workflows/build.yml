@@ -14,12 +14,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=win-x64 -t:CreateZip
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=win-x64 -t:CreateZip
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: src/wonderlab/bin/Release/net6.0/win-x64/*.zip
+        path: wonderlab/bin/Release/net6.0/win-x64/*.zip
   build_Linux:
     runs-on: self-hosted
     steps:
@@ -28,12 +28,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=linux-x64 -t:CreateZip
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=linux-x64 -t:CreateZip
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Linux
-        path: src/wonderlab/bin/Release/net6.0/linux-x64/*.zip
+        path: wonderlab/bin/Release/net6.0/linux-x64/*.zip
   build_MacOS:
     runs-on: self-hosted
     steps:
@@ -42,12 +42,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=osx-x64 -t:CreateZip
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -p:RuntimeIdentifier=osx-x64 -t:CreateZip
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: src/wonderlab/bin/Release/net6.0/osx-x64/*.zip
+        path: wonderlab/bin/Release/net6.0/osx-x64/*.zip
   build_Linux_Deb:
     runs-on:  self-hosted
     steps:
@@ -56,12 +56,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateDeb
+      run: dotnet build wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateDeb
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Deb
-        path: src/wonderlab/bin/Release/net6.0/linux-x64/*.deb
+        path: wonderlab/bin/Release/net6.0/linux-x64/*.deb
   build_Linux_Rpm:
     runs-on: self-hosted
     steps:
@@ -70,12 +70,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateRpm
+      run: dotnet build wonderlab/wonderlab.csproj -c Release -r "linux-x64" -p:PublishSingleFile="false" -p:PublishReadyToRun=true -t:CreateRpm
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Rpm
-        path: src/wonderlab/bin/Release/net6.0/linux-x64/*.rpm
+        path: wonderlab/bin/Release/net6.0/linux-x64/*.rpm
   build_Common:
     runs-on: [self-hosted, Windows]
     steps:
@@ -84,12 +84,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build src/wonderlab/wonderlab.csproj --configuration Release -t:CreateZip
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Common
-        path: src/wonderlab/bin/Release/net6.0/*.zip
+        path: wonderlab/bin/Release/net6.0/*.zip
   Release:
     permissions: write-all
     runs-on: self-hosted
