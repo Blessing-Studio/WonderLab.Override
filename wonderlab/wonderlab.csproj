@@ -56,4 +56,35 @@
     <ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
     <ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
   </ItemGroup>
+	<PropertyGroup>
+		<CFBundleName>WonderLab</CFBundleName>
+		<!-- Also defines .app file name -->
+		<CFBundleDisplayName>WonderLab</CFBundleDisplayName>
+		<CFBundleIdentifier>org.blessing-studio.wonderlab</CFBundleIdentifier>
+		<CFBundleVersion>1.2.0</CFBundleVersion>
+		<CFBundlePackageType>APPL</CFBundlePackageType>
+		<CFBundleSignature>????</CFBundleSignature>
+		<CFBundleExecutable>wonderlab</CFBundleExecutable>
+		<CFBundleIconFile>AppName.icns</CFBundleIconFile>
+		<!-- Will be copied from output directory -->
+		<NSPrincipalClass>NSApplication</NSPrincipalClass>
+		<NSHighResolutionCapable>true</NSHighResolutionCapable>
+		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>
+		<SignAssembly>True</SignAssembly>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<StartupObject>wonderlab.Program</StartupObject>
+		<Version>1.2.0</Version>
+		<AssemblyVersion>1.2.0</AssemblyVersion>
+		<FileVersion>1.2.0</FileVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
+		</Content>
+	</ItemGroup>
 </Project>
