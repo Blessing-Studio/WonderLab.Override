@@ -1,12 +1,12 @@
 
 
-namespace wonderlab.PluginLoader.Handlers
+namespace wonderlab.PluginLoader.Attributes
 {
     /// <summary>
-    /// 插件头
+    /// 插件
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class PluginHandler : Attribute
+    public class PluginAttribute : Attribute
     {
         /// <summary>
         /// 插件Guid
@@ -21,7 +21,7 @@ namespace wonderlab.PluginLoader.Handlers
         /// <param name="Guid">guid</param>
         /// <param name="Icon">图标</param>
         /// <exception cref="GuidExpection">guid不正常</exception>
-        public PluginHandler(string Name, string? Description, string Version, string Guid, string Author = "未著名", string? Icon = null)
+        public PluginAttribute(string Name, string? Description, string Version, string Guid, string Author = "未著名", string? Icon = null)
         {
             this.Icon = Icon;
             this.Name = Name;

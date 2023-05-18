@@ -6,6 +6,14 @@ namespace wonderlab.PluginLoader
     public record PluginInfo
     {
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mainType">插件主类</param>
+        public PluginInfo(Type mainType)
+        {
+            MainType = mainType;
+        }
+        /// <summary>
         /// 插件作者
         /// </summary>
         public string Author = string.Empty;

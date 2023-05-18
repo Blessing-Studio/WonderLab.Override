@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Resources;
 using wonderlab.PluginLoader.Events;
-using wonderlab.PluginLoader.Handlers;
+using wonderlab.PluginLoader.Attributes;
 using wonderlab.PluginLoader.Interfaces;
 namespace wonderlab.PluginLoader
 {
@@ -33,21 +33,20 @@ namespace wonderlab.PluginLoader
         /// </returns>
         public static PluginInfo? GetPluginInfo(Type type)
         {
-            Attribute? attribute = Attribute.GetCustomAttribute(type, typeof(PluginHandler));
-            PluginHandler handler;
+            Attribute? attribute = Attribute.GetCustomAttribute(type, typeof(PluginAttribute));
+            PluginAttribute handler;
             if (attribute != null)
             {
-                handler = (PluginHandler)attribute;
+                handler = (PluginAttribute)attribute;
             }
             else { return null; }
             if (handler != null)
             {
-                PluginInfo info = new PluginInfo();
+                PluginInfo info = new PluginInfo(type);
                 info.Name = handler.Name;
                 info.Description = handler.Description;
                 info.Version = handler.Version;
                 info.Guid = handler.Guid;
-                info.MainType = type;
                 info.Path = type.Assembly.Location;
                 info.Icon = handler.Icon;
                 return info;
@@ -62,21 +61,20 @@ namespace wonderlab.PluginLoader
         public static PluginInfo? GetPluginInfo(IPlugin Plugin)
         {
             Type type = Plugin.GetType();
-            Attribute? attribute = Attribute.GetCustomAttribute(type, typeof(PluginHandler));
-            PluginHandler handler;
+            Attribute? attribute = Attribute.GetCustomAttribute(type, typeof(PluginAttribute));
+            PluginAttribute handler;
             if (attribute != null)
             {
-                handler = (PluginHandler)attribute;
+                handler = (PluginAttribute)attribute;
             }
             else { return null; }
             if (handler != null)
             {
-                PluginInfo info = new PluginInfo();
+                PluginInfo info = new PluginInfo(type);
                 info.Name = handler.Name;
                 info.Description = handler.Description;
                 info.Version = handler.Version;
                 info.Guid = handler.Guid;
-                info.MainType = type;
                 info.Path = type.Assembly.Location;
                 info.Icon = handler.Icon;
                 info.Author = handler.Author;
@@ -108,18 +106,9 @@ namespace wonderlab.PluginLoader
             }
             foreach (Type t in type.Assembly.GetTypes())
             {
-                Attribute[] att = t.GetCustomAttributes().ToArray();
-                foreach (Attribute attr in att)
+                if(t.GetCustomAttribute<ListenerAttribute>() != null)
                 {
-                    if (attr is Listener)
-                    {
-                        var tmp = Activator.CreateInstance(t, new object[] { });
-                        if (tmp != null)
-                        {
-                            ((IListener)tmp).Register();
-                        }
-                    }
-
+                    IListener listener = (IListener)Activator.CreateInstance(t)!;
                 }
             }
             if (type != null)
@@ -190,15 +179,11 @@ namespace wonderlab.PluginLoader
             {
                 foreach (Type t in dllFromPlugin.GetTypes())
                 {
-                    Attribute[] att = t.GetCustomAttributes().ToArray();
-                    foreach (Attribute attr in att)
+                    if (t.GetCustomAttribute<PluginAttribute>() != null)
                     {
-                        if (attr is PluginHandler)
-                        {
-                            IsPlugin = true;
-                            MainClassLocation = t.FullName!;
-                            break;
-                        }
+                        IsPlugin = true;
+                        MainClassLocation = t.FullName!;
+                        break;
                     }
                 }
             }
@@ -244,8 +229,8 @@ namespace wonderlab.PluginLoader
                         }
                     }
                     Plugins.Remove(GetPlugin(PluginInfos[i].Name)!);
-                    PluginInfos.RemoveAt(i); return;
-
+                    PluginInfos.RemoveAt(i); 
+                    return;
                 }
             }
         }
@@ -285,6 +270,9 @@ namespace wonderlab.PluginLoader
                 }
             }
         }
+        /// <summary>
+        /// 加载插件文件夹中所有插件
+        /// </summary>
         public static void LoadAllFromPluginDir()
         {
             DirectoryInfo dir = new DirectoryInfo(PluginPath);
@@ -294,6 +282,9 @@ namespace wonderlab.PluginLoader
                 Load(file.FullName);
             }
         }
+        /// <summary>
+        /// 通过启用配置文件自动加载插件
+        /// </summary>
         public static void LoadAllFromPlugin()
         {
             ConfigManager configManager = new ConfigManager(StringUtil.GetSubPath(PluginPath, "Plugins.json"));

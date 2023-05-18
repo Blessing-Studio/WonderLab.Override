@@ -1,4 +1,4 @@
-namespace wonderlab.PluginLoader.Handlers
+namespace wonderlab.PluginLoader.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class EventHandler : Attribute

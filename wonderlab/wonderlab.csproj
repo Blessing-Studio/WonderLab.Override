@@ -55,6 +55,7 @@
     <ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
     <ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
     <ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
+    <ProjectReference Include="..\wonderlab.PluginLoader\wonderlab.PluginLoader.csproj" />
   </ItemGroup>
 	<PropertyGroup>
 		<CFBundleName>WonderLab</CFBundleName>

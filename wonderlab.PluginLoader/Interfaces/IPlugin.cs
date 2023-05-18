@@ -37,9 +37,7 @@ namespace wonderlab.PluginLoader.Interfaces
         /// <returns>插件信息</returns>
         public static PluginInfo GetPluginInfo(this IPlugin plugin)
         {
-            PluginInfo pluginInfo = new PluginInfo();
-            pluginInfo = PluginLoader.GetPluginInfo(plugin);
-            return pluginInfo;
+            return PluginLoader.GetPluginInfo(plugin)!;
         }
     }
 }

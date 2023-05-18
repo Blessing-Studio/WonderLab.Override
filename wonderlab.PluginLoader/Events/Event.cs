@@ -1,6 +1,6 @@
 using System.Reflection;
 using wonderlab.PluginLoader.Interfaces;
-using EventHandler = wonderlab.PluginLoader.Handlers.EventHandler;
+using EventHandler = wonderlab.PluginLoader.Attributes.EventHandler;
 
 namespace wonderlab.PluginLoader.Events
 {
@@ -46,7 +46,6 @@ namespace wonderlab.PluginLoader.Events
                     cancel = cancel || ((ICancellable)@event).IsCanceled;
                 }
                 MethodInfo[] methods = Listeners[i].GetType().GetMethods();
-                bool IsContinue;
                 foreach (MethodInfo method in methods)
                 {
                     bool IsEventMethod = false;
