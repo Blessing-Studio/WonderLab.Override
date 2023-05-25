@@ -34,33 +34,6 @@
 		BorderBrush="{DynamicResource AccentBrush}" 
 		BorderThickness="1"/>
 
-		<!--<Border Name="OpenBar" Margin="15 0 0 0"
-				BoxShadow="0 1 4 0 #66000000"
-				Height="150" IsVisible="False" 
-				BorderBrush="{DynamicResource DialogContentBorderBrush}"
-				Background="{DynamicResource DialogContentBackground}"
-				CornerRadius="10"
-				BorderThickness="1"
-				HorizontalAlignment="Left">
-			<Border.Styles>
-				<Style Selector="Border">
-					<Setter Property="Width" Value="8"/>
-				</Style>
-
-				<Style Selector="Border:pointerover">
-					<Setter Property="Width" Value="15"/>
-				</Style>
-			</Border.Styles>
-
-			<Border.Transitions>
-				<Transitions>
-					<DoubleTransition Duration="0:0:0.35"
-									  Property="Width"
-									  Easing="ExponentialEaseOut"/>
-				</Transitions>
-			</Border.Transitions>
-		</Border>-->
-
 		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>
 				<Transitions>
@@ -210,8 +183,8 @@
 								HorizontalAlignment="Stretch"
 								Height="1"
 								Margin="0 0 15 0"/>
-
-						<TextBlock Text="Lsaac 1.2.0"
+ 
+						<TextBlock Text="Lsaac 1.2.2-Preview"
 								   Grid.Row="2"
 								   Margin="0 4 0 0"
 								   FontSize="12"
@@ -229,7 +202,9 @@
 		<wcdx:GameInstallDialog Name="Install"/>
 		
 		<wcdx:UserAuthDialog Name="Auth"/>
-		
+
+		<wcdx:GameCrashInfoDialog Name="GameCrashInfo"/>
+
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>
 				<Grid>
@@ -249,8 +224,8 @@
 
 				</Grid>
 			</wcd:UpdateDialog.Message>
-		</wcd:UpdateDialog>
-
+		</wcd:UpdateDialog>	
+		
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
 	</Grid>
 </Window>

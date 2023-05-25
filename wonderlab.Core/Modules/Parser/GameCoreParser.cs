@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MinecraftLaunch.Modules.Enum;
@@ -17,7 +18,6 @@ public class GameCoreParser
 	public IEnumerable<GameCoreJsonEntity> JsonEntities { get; set; }
 
 	public List<(string, Exception)> ErrorGameCores { get; private set; } = new List<(string, Exception)>();
-
 
 	public GameCoreParser(DirectoryInfo root, IEnumerable<GameCoreJsonEntity> jsonEntities)
 	{
@@ -89,7 +89,7 @@ public class GameCoreParser
 		}
 		foreach (GameCore item2 in cores)
 		{
-			item2.ModLoaderInfos = GetModLoaderInfos(item2);
+			item2.ModLoaderInfos = GetModLoaderInfos(item2).ToArray();
 			item2.Source = GetSource(item2);
 			item2.HasModLoader = GetHasModLoader(item2);
 			if (string.IsNullOrEmpty(item2.InheritsFrom))
@@ -128,7 +128,7 @@ public class GameCoreParser
 
 	private FileResource GetLogConfigFile(GameCoreJsonEntity entity)
 	{
-		string fileName = Path.Combine(Root.FullName, "versions", entity.Id, entity.Logging.Client.File.Id);
+		string fileName = Path.Combine(Root.FullName, "versions", entity.Id, entity.Logging.Client.File.Id ??= Path.GetFileName(entity.Logging.Client.File.Url));
 		return new FileResource
 		{
 			CheckSum = entity.Logging.Client.File.Sha1,
@@ -156,7 +156,6 @@ public class GameCoreParser
 
 	private string GetSource(GameCore core)
 	{
-		//IL_006c: Unknown result type (might be due to invalid IL or missing references)
 		try
 		{
 			if (core.InheritsFrom != null)
@@ -191,10 +190,11 @@ public class GameCoreParser
 			{
 				switch (enumerator.Current)
 				{
-				case "--tweakClass optifine.OptiFineTweaker":
-				case "--tweakClass net.minecraftforge.fml.common.launcher.FMLTweaker":
-				case "--fml.forgeGroup net.minecraftforge":
-					return true;
+				    case "--tweakClass optifine.OptiFineTweaker":
+				    case "--tweakClass net.minecraftforge.fml.common.launcher.FMLTweaker":
+				    case "--fml.forgeGroup net.minecraftforge":
+					case "--tweakClass cpw.mods.fml.common.launcher.FMLTweaker":
+						return true;
 				}
 			}
 		}
@@ -210,15 +210,15 @@ public class GameCoreParser
 		case "net.minecraft.client.main.Main":
 		case "net.minecraft.launchwrapper.Launch":
 		case "com.mojang.rubydung.RubyDung":
-		case "org.quiltmc.loader.impl.launch.knot.KnotClient":
 			return false;
+		case "org.quiltmc.loader.impl.launch.knot.KnotClient":
 		default:
 			return true;
 		}
 	}
 
-	private IEnumerable<ModLoaderInfo> GetModLoaderInfos(GameCore core)
-	{
+    private IEnumerable<ModLoaderInfo> GetModLoaderInfos(GameCore core)
+    {
         var libFind = core.LibraryResources.Where(lib =>
         {
             var lowerName = lib.Name.ToLower();
@@ -227,13 +227,14 @@ public class GameCoreParser
             lowerName.StartsWith("net.minecraftforge:forge:") ||
             lowerName.StartsWith("net.minecraftforge:fmlloader:") ||
             lowerName.StartsWith("net.fabricmc:fabric-loader") ||
-            lowerName.StartsWith("com.mumfrey:liteloader:");
+            lowerName.StartsWith("com.mumfrey:liteloader:") ||
+            lowerName.StartsWith("org.quiltmc:quilt-loader");
         });
 
         foreach (var lib in libFind)
         {
             var lowerName = lib.Name.ToLower();
-            var id = lib.Name.Split(':')[2];
+            var id = lib.Name.Split(':')[2];			
 
             if (lowerName.StartsWith("optifine:optifine"))
                 yield return new() { ModLoaderType = ModLoaderType.OptiFine, Version = id.Substring(id.IndexOf('_') + 1), };
@@ -244,12 +245,12 @@ public class GameCoreParser
                 yield return new() { ModLoaderType = ModLoaderType.Fabric, Version = id };
             else if (lowerName.StartsWith("com.mumfrey:liteloader:"))
                 yield return new() { ModLoaderType = ModLoaderType.LiteLoader, Version = id };
-            else if (lowerName.ToUpper().Contains("quilt"))
+            else if (lowerName.StartsWith("org.quiltmc:quilt-loader"))
                 yield return new() { ModLoaderType = ModLoaderType.Quilt, Version = id };
         }
     }
 
-	private IEnumerable<string> HandleMinecraftArguments(string minecraftArguments)
+    private IEnumerable<string> HandleMinecraftArguments(string minecraftArguments)
 	{
 		return ArgumnetsGroup(minecraftArguments.Replace("  ", " ").Split(' '));
 	}

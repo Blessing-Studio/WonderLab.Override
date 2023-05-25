@@ -1,0 +1,21 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wb="using:wonderlab.control.Controls.Buttons">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+			<wb:HyperlinkButton Content="100"/> 
+        </Border>
+    </Design.PreviewWith>
+
+     <!--Add Styles Here--> 
+	<Style Selector="wb|HyperlinkButton">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Padding="1">
+					<TextBlock Foreground="{DynamicResource AccentBrushDark3}" Name="Main" Text="{TemplateBinding Content}"/>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

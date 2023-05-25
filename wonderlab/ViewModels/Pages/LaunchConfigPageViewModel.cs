@@ -76,7 +76,7 @@ namespace wonderlab.ViewModels.Pages
                 App.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
             }
         }
-
+        
         [Reactive]
         public bool IsLoadJavaFinish { get; set; } = true;
 
@@ -151,8 +151,7 @@ namespace wonderlab.ViewModels.Pages
         public void AddRelativeDocument(string path) {
             FileInfo fileInfo = new FileInfo(path);
             DirectoryInfo? directory = fileInfo.Directory;
-            if (directory != null)
-            {
+            if (directory != null) {            
                 var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(path1: directory.FullName, "java.exe"));
                 Javas.Add(javaInfo);
                 App.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));

@@ -12,7 +12,7 @@ public class MinecraftLaunchResponse : IDisposable
 {
 	private bool disposedValue;
 
-	private List<string> Output = new List<string>();
+	private List<string> Output = new();
 
 	private string Cache = string.Empty;
 
@@ -22,7 +22,9 @@ public class MinecraftLaunchResponse : IDisposable
 
 	public Process Process { get; private set; }
 
-	public Stopwatch RunTime { get; set; }
+    public GameCore GameCore { get; private set; }
+
+    public Stopwatch RunTime { get; set; }
 
 	public Exception Exception { get; private set; }
 
@@ -103,11 +105,12 @@ public class MinecraftLaunchResponse : IDisposable
 		}
 	}
 
-	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args)
+	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, GameCore core)
 	{
 		Process = process;
 		State = state;
 		Arguemnts = args;
+		GameCore = core;
 		if (state == LaunchState.Succeess)
 		{
 			Process.OutputDataReceived += delegate(object _, DataReceivedEventArgs e)
@@ -135,11 +138,12 @@ public class MinecraftLaunchResponse : IDisposable
 		}
 	}
 
-	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, Exception exception)
+	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, Exception exception, GameCore core)
 	{
 		Process = process;
 		State = state;
 		Arguemnts = args;
 		Exception = exception;
-	}
+        GameCore = core;
+    }
 }

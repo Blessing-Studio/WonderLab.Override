@@ -6,7 +6,9 @@
 			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
              x:Class="wonderlab.Views.Dialogs.GameInstallDialog">
 	<Grid>
-		<wcd:ContentDialog IsOpen="True" Name="InstallDialog">
+		<wcd:ContentDialog HorizontalContentAlignment="Center" 
+						   VerticalContentAlignment="Center"
+						   IsOpen="True" Name="InstallDialog">
 			<wcd:ContentDialog.Content>
 				<Grid>
 					<Border CornerRadius="8" IsHitTestVisible="True"

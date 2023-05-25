@@ -9,6 +9,8 @@ using Avalonia.VisualTree;
 using MinecraftLaunch.Modules.Analyzers;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
+using Newtonsoft.Json.Linq;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,7 +32,7 @@ namespace wonderlab
     public partial class MainWindow : Window
     {
         public double WindowHeight, WindowWidth;
-
+        
         public bool isDragging, IsOpen, IsUseDragging, CanParallax;
 
         public static MainWindowViewModel ViewModel { get; private set; }
@@ -40,7 +42,7 @@ namespace wonderlab
         public MainWindow() {
             JsonUtils.CraftLaunchInfoJson();
             Initialized += DataInitialized;
-            
+
             InitializeComponent();
             new ColorHelper().Load();
             ThemeUtils.Init();
@@ -54,7 +56,6 @@ namespace wonderlab
                 JsonUtils.WriteLaunchInfoJson();
                 JsonUtils.WriteLauncherInfoJson();
             };
-
             PointerMoved += (_, x) => {
                 if (CanParallax) {
                     Point position = x.GetPosition(BackgroundImage);
@@ -86,17 +87,23 @@ namespace wonderlab
 
         private async void DataInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
-            if (App.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {           
-                APIManager.Current = APIManager.Mcbbs;
+
+            try {           
+                if (App.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {               
+                    APIManager.Current = APIManager.Mcbbs;
+                }
+                else if (App.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {               
+                    APIManager.Current = APIManager.Bmcl;
+                }
+                else if (App.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {               
+                    APIManager.Current = APIManager.Mojang;
+                }
+                else {               
+                    App.LauncherData.CurrentDownloadAPI = APIManager.Current;
+                }
             }
-            else if (App.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {           
-                APIManager.Current = APIManager.Mcbbs;
-            }
-            else if (App.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {           
-                APIManager.Current = APIManager.Mcbbs;
-            }
-            else {
-                App.LauncherData.CurrentDownloadAPI = APIManager.Current;
+            catch (Exception ex) {
+                $"我日，炸了,{ex.Message}".ShowMessage();
             }
         }
 
@@ -124,7 +131,7 @@ namespace wonderlab
         {
             await Task.Delay(500);
             DataContext = ViewModel = new();
-
+            
             BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "图片背景";
             ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
             CanParallax = App.LauncherData.ParallaxType is not "无";
@@ -156,10 +163,8 @@ namespace wonderlab
                                     $"Rename-Item WonderLab.update {filename};" +
                                     $"Start-Process {name}.exe -Args updated;";
 
-                        try
-                        {
-                            Process.Start(new ProcessStartInfo
-                            {
+                        try {                       
+                            Process.Start(new ProcessStartInfo {                           
                                 FileName = "powershell.exe",
                                 Arguments = psCommand,
                                 WorkingDirectory = Directory.GetCurrentDirectory(),
@@ -196,8 +201,6 @@ namespace wonderlab
                     if (x.Chinese.Contains("*"))
                         x.Chinese = x.Chinese.Replace("*", string.Empty);                           
                 });
-
-                Trace.WriteLine(DataUtil.WebModpackInfoDatas.Count);
             }
         }
 

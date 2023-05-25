@@ -33,6 +33,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
+		<EmbeddedResource Include="Assets\steve.png" />
 	</ItemGroup>
 
   <ItemGroup>

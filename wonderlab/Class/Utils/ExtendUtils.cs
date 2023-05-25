@@ -22,6 +22,8 @@ using MinecraftProtocol;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Avalonia;
+using Newtonsoft.Json.Linq;
 
 namespace wonderlab.Class.Utils
 {
@@ -68,6 +70,9 @@ namespace wonderlab.Class.Utils
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
+        public static TResult CreateViewData<TData, TResult>(this TData data, object arg2, object arg3) where TResult : ViewDataBase<TData>
+              => (Activator.CreateInstance(typeof(TResult), data!, arg2, arg3)! as TResult)!;
+
         public static bool CanUpdate(this UpdateInfo info) {
             if (string.IsNullOrEmpty(info.Title)) {
                 return false;
@@ -93,7 +98,7 @@ namespace wonderlab.Class.Utils
             if (data.First().Data.ModLoaderType == ModLoaderType.OptiFine) {           
                 return data.First();
             }
-
+            
             return data.Last();
         }
 
@@ -219,7 +224,7 @@ namespace wonderlab.Class.Utils
 
         public static async void WriteCompressedText(this string path, string? contents) {       
             if (!File.Exists(path)) {
-                path.ToFile().Create();
+                path.ToFile().Create().Close();
             }
 
             if (contents == null) {
@@ -238,8 +243,28 @@ namespace wonderlab.Class.Utils
             return Encoding.UTF8.GetString(zlib.Decompress(await File.ReadAllBytesAsync(path)));
         }
 
-        public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
+        public static string ToMotd(this object json) {
+            JObject model = JObject.Parse(json.ToString());
 
+            if (model.ContainsKey("extra")) {
+                StringBuilder builder = new();
+
+                foreach (var item in (JArray)model["extra"]) {
+                    var text = item["text"];
+
+                    builder.Append($"§{(item["color"].Type is JTokenType.Null ? "§f" : 
+                        InlineUtils.GetColorCode(item["color"].ToString()))}{InlineUtils.GetFormat(item)}{text}");
+                }
+                
+                builder.ToString().ShowLog();
+                return builder.ToString();
+            } else { 
+                return model["text"].ToString();
+            }
+        }
+
+        public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
+        
         public static void Navigation(this UserControl control) => MainWindow.Instance.Navigation(control);
     }
 }

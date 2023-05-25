@@ -9,7 +9,7 @@
 		<ContentControl Content="{Binding SelectConfigPage}"
 						Margin="0 50"/>
 		<!--Background="{DynamicResource DialogContentBackground}"-->
-		<Border HorizontalAlignment="Right" Height="40" Width="200"
+		<Border HorizontalAlignment="Right" Height="40" Width="260"
 				VerticalAlignment="Bottom" Margin="0 0 -5 10"
 				CornerRadius="4"
 			    Background="{DynamicResource DialogContentBackground}"
@@ -29,6 +29,9 @@
 				<ToggleButton Content="网络" Background="Transparent" Command="{Binding	GoWebConfigPageAction}"/>
 				<ToggleButton Content="个性化" Background="Transparent"
 							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
+
+				<ToggleButton Content="关于" Background="Transparent"
+			                  Command="{Binding	GoAboutPageAction}"/>
 			</StackPanel> 
 		</Border>
 

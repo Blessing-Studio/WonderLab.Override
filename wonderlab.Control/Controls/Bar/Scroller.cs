@@ -64,7 +64,7 @@ namespace wonderlab.control.Controls.Bar
                 o => o.HorizontalScrollBarViewportSize);
 
         public static readonly AttachedProperty<ScrollBarVisibility> HorizontalScrollBarVisibilityProperty =
-            AvaloniaProperty.RegisterAttached<Scroller, Control, ScrollBarVisibility>(
+            AvaloniaProperty.RegisterAttached<Scroller, Avalonia.Controls.Control, ScrollBarVisibility>(
                 nameof(HorizontalScrollBarVisibility),
                 ScrollBarVisibility.Hidden);
 
@@ -85,7 +85,7 @@ namespace wonderlab.control.Controls.Bar
                 o => o.VerticalScrollBarViewportSize);
 
         public static readonly AttachedProperty<ScrollBarVisibility> VerticalScrollBarVisibilityProperty =
-            AvaloniaProperty.RegisterAttached<Scroller, Control, ScrollBarVisibility>(
+            AvaloniaProperty.RegisterAttached<Scroller, Avalonia.Controls.Control, ScrollBarVisibility>(
                 nameof(VerticalScrollBarVisibility),
                 ScrollBarVisibility.Auto);
 
@@ -516,7 +516,7 @@ namespace wonderlab.control.Controls.Bar
         /// </summary>
         /// <param name="control">The control to read the value from.</param>
         /// <returns>The value of the property.</returns>
-        public static ScrollBarVisibility GetHorizontalScrollBarVisibility(Control control)
+        public static ScrollBarVisibility GetHorizontalScrollBarVisibility(Avalonia.Controls.Control control)
         {
             return control.GetValue(HorizontalScrollBarVisibilityProperty);
         }
@@ -526,7 +526,7 @@ namespace wonderlab.control.Controls.Bar
         /// </summary>
         /// <param name="control">The control to set the value on.</param>
         /// <param name="value">The value of the property.</param>
-        public static void SetHorizontalScrollBarVisibility(Control control, ScrollBarVisibility value)
+        public static void SetHorizontalScrollBarVisibility(Avalonia.Controls.Control control, ScrollBarVisibility value)
         {
             control.SetValue(HorizontalScrollBarVisibilityProperty, value);
         }
@@ -536,7 +536,7 @@ namespace wonderlab.control.Controls.Bar
         /// </summary>
         /// <param name="control">The control to read the value from.</param>
         /// <returns>The value of the property.</returns>
-        public static ScrollBarVisibility GetVerticalScrollBarVisibility(Control control)
+        public static ScrollBarVisibility GetVerticalScrollBarVisibility(Avalonia.Controls.Control control)
         {
             return control.GetValue(VerticalScrollBarVisibilityProperty);
         }
@@ -546,7 +546,7 @@ namespace wonderlab.control.Controls.Bar
         /// </summary>
         /// <param name="control">The control to set the value on.</param>
         /// <param name="value">The value of the property.</param>
-        public static void SetVerticalScrollBarVisibility(Control control, ScrollBarVisibility value)
+        public static void SetVerticalScrollBarVisibility(Avalonia.Controls.Control control, ScrollBarVisibility value)
         {
             control.SetValue(VerticalScrollBarVisibilityProperty, value);
         }

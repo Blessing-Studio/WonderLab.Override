@@ -8,7 +8,9 @@
 			 VerticalAlignment="Stretch"
              x:Class="wonderlab.Views.Dialogs.UserAuthDialog">
 	<Grid>
-		<wcd:ContentDialog Name="TypeSelecter">
+		<wcd:ContentDialog HorizontalContentAlignment="Center" 
+						   VerticalContentAlignment="Center"
+						   Name="TypeSelecter">
 			<wcd:ContentDialog.Content>
 				<!--DialogContent-->
 				<Border Background="{DynamicResource DialogContentBackground}"
@@ -49,7 +51,9 @@
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>
 
-		<wcd:ContentDialog Name="YggdrasilAccountSelector">
+		<wcd:ContentDialog HorizontalContentAlignment="Center"
+						   VerticalContentAlignment="Center"
+						   Name="YggdrasilAccountSelector">
 			<wcd:ContentDialog.Content>
 				<!--DialogContent-->
 				<Border Background="{DynamicResource DialogContentBackground}"
@@ -133,7 +137,9 @@
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>
 		
-		<wcd:ContentDialog Name="AuthDialog">
+		<wcd:ContentDialog HorizontalContentAlignment="Center"
+						   VerticalContentAlignment="Center"
+						   Name="AuthDialog">
 			<wcd:ContentDialog.Content>
 				<!--DialogContent-->
 				<Border Background="{DynamicResource DialogContentBackground}"
@@ -208,7 +214,9 @@
 			</wcd:ContentDialog.Content>
 		</wcd:ContentDialog>
 
-		<wcd:ContentDialog Name="AccountSelector">
+		<wcd:ContentDialog HorizontalContentAlignment="Center"
+						   VerticalContentAlignment="Center"
+						   Name="AccountSelector">
 			<wcd:ContentDialog.Content>
 				<!--DialogContent-->
 				<Border Background="{DynamicResource DialogContentBackground}"

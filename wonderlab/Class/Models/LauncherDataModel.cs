@@ -27,13 +27,13 @@ namespace wonderlab.Class.Models
         public string ParallaxType { get; set; } = "无";
 
         [JsonProperty("imagePath")]
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
 
         [JsonProperty("issuingBranch")]
         public IssuingBranch IssuingBranch { get; set; } = IssuingBranch.Lsaac;
 
         [JsonProperty("currentdownloadAPI")]
-        public DownloadAPI CurrentDownloadAPI { get; set; }
+        public DownloadAPI CurrentDownloadAPI { get; set; } = APIManager.Mojang;
 
         [JsonProperty("launcherVersion")]
         public int LauncherVersion { get; set; } = 120;

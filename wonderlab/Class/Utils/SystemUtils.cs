@@ -16,6 +16,18 @@ namespace wonderlab.Class.Utils
 
         public static bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
+        public static string GetPlatformName() {
+            if (IsWindows) {
+                return "Windows";
+            }
+            else if (IsLinux) {
+                return "Linux";
+            }
+            else {
+                return "MacOS";            
+            }
+        }
+
         [Obsolete]//屁玩意啥用没有
         public static T TryRun<T>(Func<T> action) {
             try {

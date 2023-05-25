@@ -22,6 +22,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
+using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages
 {
@@ -128,6 +129,7 @@ namespace wonderlab.ViewModels.Pages
             if (gameCore.GetModsPath().IsDirectory()) {           
                 ModPackToolkit toolkit = new(gameCore, true);
                 var result = (await toolkit.LoadAllAsync()).GroupBy(i => i.Id).Where(g => g.Count() > 1);
+
                 if (result.Count() > 0) {               
                     foreach (var item in result) {                   
                         $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
@@ -162,6 +164,7 @@ namespace wonderlab.ViewModels.Pages
                 $"账户刷新失败，详细信息：{ex.Message}".ShowMessage("Error");
             }
 
+            var javaInfo = GetCurrentJava();
             var config = new LaunchConfig()
             {
                 JvmConfig = new()
@@ -169,7 +172,7 @@ namespace wonderlab.ViewModels.Pages
                     AdvancedArguments = new List<string>() { GetJvmArguments() },
                     MaxMemory = App.LaunchInfoData.MaxMemory,
                     MinMemory = App.LaunchInfoData.MiniMemory,
-                    JavaPath = GetCurrentJava().ToFile(),
+                    JavaPath = javaInfo.JavaPath.ToJavaw().ToFile(),
                 },
                 
                 Account = CurrentAccount,
@@ -191,11 +194,19 @@ namespace wonderlab.ViewModels.Pages
             if (gameProcess.State is LaunchState.Succeess) {
                 data.Progress = $"启动成功 - 100%";
                 $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
+                var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
+
+                ProcessManager.GameCoreProcesses.Add(viewData);
+                gameProcess.ProcessOutput += ProcessOutput;
 
                 gameProcess.Process.Exited += (sender, e) => {
-                    Trace.WriteLine("[信息] 游戏退出！");
+                    Trace.WriteLine($"[信息] 游戏退出");
+
+                    ProcessManager.GameCoreProcesses.Remove(viewData);
+                    ProcessManager.History.Add(new(viewData.Data.Process.ExitTime.ToString("T"), viewData.Data.GameCore.Id!));
                 };
-                gameProcess.ProcessOutput += ProcessOutput;
+
+                await gameProcess.WaitForExitAsync();
             }
             else {
                 data.Progress = $"启动失败 - 100%";
@@ -235,23 +246,32 @@ namespace wonderlab.ViewModels.Pages
             new ActionCenterPage().Navigation();
         }
 
-        public string GetCurrentJava() {
+        public void OpenConsoleAction() {
+            if(!ConsoleWindow.IsOpen) {
+                new ConsoleWindow().Show();
+            }
+            else {
+                ConsoleWindow.WindowActivate();
+            }
+        }
+
+        public JavaInfo GetCurrentJava() {
             if (App.LaunchInfoData.IsAutoSelectJava) {
                 var first = App.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit && 
                 x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
                 .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);                
 
-                if (first.Any()) { 
-                    return first.First().JavaPath.ToJavaw();   
+                if (first.Any()) {
+                    return first.First();  
                 } else {
                     var second = App.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
                    .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);
                     
-                    return second.Any() ? second.First().JavaPath.ToJavaw() : App.LaunchInfoData.JavaRuntimePath.JavaPath?.ToJavaw() ?? string.Empty;
+                    return second.Any() ? second.First() : App.LaunchInfoData.JavaRuntimePath;
                 }
             }
 
-            return App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw();
+            return App.LaunchInfoData.JavaRuntimePath;
         }
 
         public string GetJvmArguments() {

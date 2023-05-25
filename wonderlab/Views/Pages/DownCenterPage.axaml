@@ -85,6 +85,12 @@
 									</Border.Transitions>
 
 									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto"/>
+											<ColumnDefinition Width="1*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+
 										<Grid Margin="15 5">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="30"/>
@@ -120,6 +126,7 @@
 										</Grid>
 
 										<Button Width="80" Content="下载" 
+												Grid.Column="2"
 												Click="OpenDialogAction"
 												Classes="wonderaccentbutton"
 												HorizontalAlignment="Right" Margin="15 0"/>
@@ -393,16 +400,9 @@
 						</Grid.ColumnDefinitions>
 
 						<ComboBox SelectedItem="{Binding CurrentCategorie}"
-		                          HorizontalAlignment="Stretch"
+		                          HorizontalAlignment="Stretch" 
 								  IsVisible="{Binding IsResource}"
-		                          Items="{Binding Categories}" PlaceholderText="具体资源类型">
-							<ComboBox.DataTemplates>
-								<DataTemplate >
-									<Grid>
-										<TextBlock VerticalAlignment="Center" Text="{Binding Value}"/>
-									</Grid>
-								</DataTemplate>
-							</ComboBox.DataTemplates>
+		                          Items="{Binding Categories.Values}" PlaceholderText="具体资源类型">
 						</ComboBox>
 
 						<ComboBox Items="{Binding McVersions}"

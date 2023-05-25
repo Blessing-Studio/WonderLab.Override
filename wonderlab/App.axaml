@@ -22,6 +22,10 @@
 				</Transitions>
 			</Setter>
 		</Style>
+
+		<Style Selector="PopupRoot">
+			<Setter Property="Topmost" Value="True"/>
+		</Style>
 	</Application.Styles>
 
 	<Application.Resources>
@@ -31,6 +35,7 @@
 			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
 			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
 			<c:MaxWidthConverter x:Key="MaxWidthConverter"/>
+			<c:RunStateConverter x:Key="RunStateConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

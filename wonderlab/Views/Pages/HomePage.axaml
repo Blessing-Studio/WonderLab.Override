@@ -335,7 +335,7 @@
 							<TextBlock FontSize="15" Text="操作中心"/>
 						</Button>
 
-						<Button Background="Transparent" Classes="transparent">
+						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="transparent">
 							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="进程管理"/>
 						</Button>
 

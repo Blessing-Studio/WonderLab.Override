@@ -89,7 +89,7 @@ public class GameCoreToolkit
 			}
 		}
 		GameCoreParser parser = new GameCoreParser(Root, entities);
-		IEnumerable<GameCore> gameCores = parser.GetGameCores();
+		var gameCores = parser.GetGameCores().ToArray();
 		ErrorGameCores = parser.ErrorGameCores;
 		return gameCores;
 	}

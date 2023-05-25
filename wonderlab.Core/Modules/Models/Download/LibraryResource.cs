@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using MinecraftLaunch.Modules.Interface;
@@ -32,6 +33,7 @@ public class LibraryResource : IResource
 		{
 			root = Path.Combine(root, item);
 		}
+		Trace.WriteLine(root);
 		return new FileInfo(root);
 	}
 

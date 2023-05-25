@@ -98,6 +98,7 @@ namespace MinecraftLaunch.Modules.Installer
                     }
                 };
                 InvokeStatusChangedEvent(0.7f, "开始写入文件");
+
                 InvokeStatusChangedEvent(0.75f, "开始分析是否安装模组加载器");
                 string id = (string.IsNullOrEmpty(CustomId) ? $"{OptiFineBuild.McVersion}-OptiFine-{OptiFineBuild.Type}_{OptiFineBuild.Patch}" : CustomId);
                 bool flag;
@@ -117,13 +118,16 @@ namespace MinecraftLaunch.Modules.Installer
                     {
                         versionJsonFile.Directory.Create();
                     }
-                    File.WriteAllText(versionJsonFile.FullName, entity.ToJson(IsIndented: true));
+
+                    await File.WriteAllTextAsync(versionJsonFile.FullName, entity.ToJson(IsIndented: true));
                 }
+
                 FileInfo launchwrapperFile = new LibraryResource
                 {
                     Name = entity.Libraries[1].Name,
                     Root = GameCoreLocator.Root
                 }.ToFileInfo();
+
                 if (!launchwrapper.Equals("1.12"))
                 {
                     if (!launchwrapperFile.Directory!.Exists)

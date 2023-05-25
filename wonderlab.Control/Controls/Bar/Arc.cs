@@ -9,7 +9,7 @@ using Avalonia.Threading;
 
 namespace wonderlab.control.Controls.Bar
 {
-    public class Arc : Control
+    public class Arc : Avalonia.Controls.Control
     {
         static Arc()
         {

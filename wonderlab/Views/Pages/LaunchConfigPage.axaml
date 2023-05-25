@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+			 xmlns:ml="using:MinecraftLaunch.Modules.Models.Launch"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Background="{x:Null}"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage">
@@ -74,7 +75,7 @@
 									  SelectedItem="{Binding CurrentJava}"
 									  PlaceholderText="请选择您的 Java 运行时">
 								<ComboBox.DataTemplates>
-									<DataTemplate>
+									<DataTemplate DataType="{x:Type ml:JavaInfo}">
 										<StackPanel VerticalAlignment="Center"
 													HorizontalAlignment="Left"
 											Orientation="Horizontal">

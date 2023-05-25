@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="wonderlab.Views.Pages.ConsolePage">
+	<ListBox Grid.Column="2" Name="e" Items="{Binding GameLogs}">
+		<ListBox.Styles>
+			<Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="Margin" Value="10 0 0 0"/>
+					<Setter Property="Padding" Value="0"/>
+					<Setter Property="VerticalAlignment" Value="Stretch"/>
+					<Setter Property="Template">
+						<ControlTemplate>
+							<Border>
+								<TextBlock Inlines="{Binding}" TextWrapping="Wrap"/>
+							</Border>
+						</ControlTemplate>
+					</Setter>
+				</Style>
+			</Styles>
+		</ListBox.Styles>
+	</ListBox>
+</UserControl>

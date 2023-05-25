@@ -15,7 +15,6 @@
 		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-		<Setter Property="Padding" Value="2000"/>
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Border Name="Lay">
@@ -27,8 +26,9 @@
 
 						<!--DialogContent-->
 						<ContentControl Content="{TemplateBinding Content}"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
+										Margin="{TemplateBinding Padding}"
+										HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 										HorizontalContentAlignment="Stretch"
 										VerticalContentAlignment="Stretch"
 										Padding="0"
