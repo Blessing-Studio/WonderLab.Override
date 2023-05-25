@@ -30,5 +30,18 @@ namespace MinecraftProtocol.Server
             OnlinePlayer = (int)obj["players"]!["online"]!;
             Description = Chat.FromJson(obj["description"]!.ToString());
         }
+        public Status()
+        {
+            Version = "1.18.2";
+            Protocol = 761;
+            Description = new(string.Empty);
+            JObject obj = new();
+            obj["version"]!["name"] = Version;
+            obj["version"]!["protocol"] = Protocol;
+            obj["players"]!["max"] = MaxPlayer;
+            obj["players"]!["online"] = OnlinePlayer;
+            obj["description"] = Description.JsonData;
+            JsonData = obj.ToString();
+        }
     }
 }

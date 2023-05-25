@@ -75,17 +75,14 @@ namespace wonderlab.Class.Utils {
             return $"§{result}" ?? "f";
         }
 
-        public static string GetFormat(JToken info) {
-            if (info == null) {
+        public static string GetFormat(JToken info)
+        {
+            if (info == null)
+            {
                 return string.Empty;
             }
-
-            if (!info["bold"].IsNull() && info["bold"].Type is JTokenType.Boolean) {
-                var isBold = Convert.ToBoolean(info["bold"].ToString());
-                return isBold ? $"§l" : string.Empty;
-            }
-
-            return string.Empty;
+            Chat chat = Chat.FromJson(info.ToString());
+            return chat.Bold ? $"§l" : string.Empty;
         }
 
         public static InlineCollection CraftGameLogsInline(GameLogAnalyseResponse log) {

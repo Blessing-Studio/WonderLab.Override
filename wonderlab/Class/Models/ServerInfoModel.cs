@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MinecraftLaunch.Modules.Toolkits;
+using MinecraftProtocol.Server;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace wonderlab.Class.Models
@@ -35,6 +37,10 @@ namespace wonderlab.Class.Models
 
         [JsonProperty("favicon")] 
         public string Icon { get; set; }
+        public static implicit operator Status(PingPayload ping)
+        {
+            return new(ping.ToJson());
+        }
     }
 
     public record Player {   
