@@ -105,9 +105,14 @@
 			<ControlTemplate>
 				<Border CornerRadius="6"
 						Name="Layout"
-						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}"
 						BorderThickness="1">
+					<Border.Background>
+						<LinearGradientBrush>
+							<GradientStop Offset="0" Color="#fff3f3f3" />
+							<GradientStop Offset="1" Color="#fff8f8f8" />
+						</LinearGradientBrush>
+					</Border.Background>
 					<Border.Transitions>
 						<Transitions>
 							<BoxShadowsTransition Duration="0:0:0.35"

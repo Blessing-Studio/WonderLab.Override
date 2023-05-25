@@ -131,6 +131,7 @@
 					</StackPanel>
 
 					<Button Width="370" HorizontalAlignment="Left"
+							Command="{Binding OpenServerFindPageAction}"
 							Grid.Row="2" Content="服务器匣子" FontWeight="SemiBold"
 							Classes="shadowbutton"/>
 					

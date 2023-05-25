@@ -96,7 +96,11 @@ namespace wonderlab.ViewModels.Pages
             new UserPage().Navigation();
         }
 
-        public void ReturnAction() {
+        public void OpenServerFindPageAction() {
+            new ServerFindPage().Navigation();
+        }
+
+        public async void ReturnAction() {
             Dispatcher.UIThread.Post(() => {           
                 MainWindow.Instance.OpenTopBar();
                 new HomePage().Navigation();

@@ -1,0 +1,281 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             x:Class="wonderlab.Views.Pages.ServerFindPage">
+	<UserControl.Styles>
+		<!--Left-->
+		<Style Selector="ToggleButton.ba">
+			<Setter Property="MinWidth" Value="60"/>
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="CornerRadius" Value="4"/>
+			<Setter Property="ClipToBounds" Value="False"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border Background="Transparent">
+						<Grid>
+							<Border CornerRadius="{TemplateBinding CornerRadius}"
+									Name="background1"
+									BorderBrush="#4C5C808F"									
+									BorderThickness="{TemplateBinding BorderThickness}"/>
+							<ContentPresenter Name="ContentPresenter"
+											  Content="{TemplateBinding	Content}"
+											  VerticalAlignment="Center"
+											  HorizontalAlignment="Center"
+											  VerticalContentAlignment="Center"
+											  HorizontalContentAlignment="Center">
+							</ContentPresenter>
+						</Grid>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+
+		<Style Selector="ToggleButton.ba">
+			<Setter Property="Foreground" Value="Black"/>
+		</Style>
+
+		<Style Selector="ToggleButton.ba /template/ Border#background1">
+			<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+		</Style>
+
+		<Style Selector="ToggleButton.ba /template/ Border#background2">
+			<Setter Property="Background" Value="{DynamicResource DialogContentBackground}"/>
+		</Style>
+
+		<Style Selector="ToggleButton.ba /template/ ContentPresenter#ContentPresenter">
+			<Setter Property="RenderTransform">
+				<ScaleTransform ScaleX="1" ScaleY="1"/>
+			</Setter>
+		</Style>
+
+		<Style Selector="ToggleButton.ba:pressed /template/ ContentPresenter#ContentPresenter">
+			<Setter Property="RenderTransform">
+				<ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+			</Setter>
+		</Style>
+
+		<Style Selector="ToggleButton.ba:checked">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
+		<Style Selector="ToggleButton.ba:checked /template/ Border#background1">
+			<Setter Property="Background" Value="{DynamicResource AccentBrushDark1}"/>
+			<!--{DynamicResource AccentBrush}-->
+		</Style>
+
+		<Style Selector="ToggleButton.ba:checked /template/ Border#background2">
+			<Setter Property="Background" Value="{DynamicResource AccentBrushDark1}"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<Grid>
+		<ScrollViewer>
+			<Grid Margin="10 65 10 0" RowDefinitions="Auto,10,Auto">
+				<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						CornerRadius="4" 
+						BorderThickness="1">
+					<Grid RowDefinitions="Auto,Auto">
+						<Border CornerRadius="4 4 0 0" Background="#4C5C808F">
+							<!--#6620546C #4C5C808F-->
+							<Grid>
+								<TextBlock Text="在线服务器匣子"
+										   Margin="15 5"
+										   VerticalAlignment="Center"
+										   FontWeight="SemiBold"
+										   FontSize="16"/>
+
+								<StackPanel HorizontalAlignment="Right"
+											RenderTransform="skew(-8deg)"
+											Orientation="Horizontal" Margin="15 5">
+									<ToggleButton IsChecked="true"
+												  CornerRadius="2.5 0 0 2.5"
+												  Content="全部"
+												  BorderThickness="0"
+												  Classes="ba"/>
+
+									<ToggleButton Content="公益服"
+												  CornerRadius="0"
+												  BorderThickness="0.8 0 0 0"
+												  Classes="ba"/>
+
+									<ToggleButton Content="商业服"
+												  BorderThickness="0.8 0 0 0"
+												  CornerRadius="0 2.5 2.5 0"
+												  Classes="ba"/>
+								</StackPanel>
+							</Grid>
+						</Border>
+
+						<Border CornerRadius="0 0 4 4"
+								Background="#6620546C" Grid.Row="2"
+								VerticalAlignment="Top">
+							<Border Background="White" Margin="10" CornerRadius="3" ClipToBounds="False">
+								<!--Items="{Binding Servers}"-->
+								<Border Margin="6" BorderThickness="1" BorderBrush="Black">
+									<ListBox Background="Transparent"
+										 Margin="10"
+									     ClipToBounds="False"
+										 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+										 VerticalAlignment="Stretch">
+										<ListBox.ItemsPanel>
+											<ItemsPanelTemplate>
+												<WrapPanel Margin="10 0 0 0" Orientation="Horizontal" />
+											</ItemsPanelTemplate>
+										</ListBox.ItemsPanel>
+										<ListBox.Styles>
+											<Styles>
+												<Style Selector="ListBoxItem">
+													<Setter Property="Margin" Value="0 10 10 0"/>
+													<Setter Property="ClipToBounds" Value="False"/>
+													<Setter Property="Template">
+														<ControlTemplate>
+															<Grid RowDefinitions="Auto,5,Auto">
+																<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+																		BorderThickness="1"
+																		BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		                                                                Name="Main" Width="130" Height="150">
+																	<Grid>
+																		<Grid Margin="3">
+																			<Border CornerRadius="3" 
+																					BorderThickness="1"
+																					BorderBrush="{DynamicResource DialogContentBorderBrush}">
+																				<!--Border.Background>
+																					<ImageBrush Stretch="UniformToFill" Source="C:\Users\w\Desktop\defaultavatar.jpg"/>
+																				</Border.Background>-->
+																			</Border>
+
+																			<Border Height="30" Background="#4C000000"
+																					VerticalAlignment="Bottom"
+																					CornerRadius="0 0 2 2">
+																				<TextBlock Text="运行中" VerticalAlignment="Center"
+																						   HorizontalAlignment="Center"
+																						   FontSize="15"
+																						   Foreground="White"
+																						   FontWeight="SemiBold"/>
+																			</Border>
+																		</Grid>
+
+																		<Border CornerRadius="114514"
+																				Width="20" Height="20"
+																				Background="Green"
+																				HorizontalAlignment="Left"
+																				VerticalAlignment="Top"
+																				BoxShadow="0 1 4 0 #66000000"
+																				Margin="-5 -5 0 0"/>
+																	</Grid>
+																</Border>
+
+																<TextBlock Grid.Row="2"
+																		   FontSize="18"
+																		   FontWeight="SemiBold"
+																		   HorizontalAlignment="Center" 
+																		   Text="CodingPi">
+
+																	<TextBlock.TextDecorations>
+																		<TextDecorationCollection>
+																			<TextDecoration StrokeThickness="2" 
+																							StrokeThicknessUnit="Pixel"																							
+																							Stroke="{DynamicResource AccentBrushLight3}"/>
+																		</TextDecorationCollection>
+																	</TextBlock.TextDecorations>
+																</TextBlock>
+															</Grid>
+														</ControlTemplate>
+													</Setter>
+												</Style>
+
+												<Style Selector="ListBoxItem /template/	Border#Main">
+													<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+												</Style>
+											</Styles>
+										</ListBox.Styles>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+										<ListBoxItem/>
+									</ListBox>
+								</Border>
+							</Border>
+						</Border>
+					</Grid>
+				</Border>
+			</Grid>
+		</ScrollViewer>		
+
+		<Border VerticalAlignment="Top" Background="{DynamicResource DialogContentBackground}" Height="30"
+			BoxShadow="0 1 4 0 #66000000" Name="TopBar" Margin="0 -45 0 0">
+			<Border.Transitions>
+				<Transitions>
+					<ThicknessTransition Property="Margin"
+										 Easing="ExponentialEaseOut"
+										 Duration="0:0:0.35"/>
+				</Transitions>
+			</Border.Transitions>
+			<Grid>
+				<Grid HorizontalAlignment="Right"
+					  VerticalAlignment="Center" Margin="0 0 15 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="2"/>
+						<ColumnDefinition Width="1*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Classes="rotatebutton" Grid.Column="2"
+							HorizontalAlignment="Right" Name="close"
+							VerticalAlignment="Top" Margin="15 0 0 0"/>
+
+					<Border Background="Black" HorizontalAlignment="Right"
+							VerticalAlignment="Stretch" Width="1"
+							Grid.Column="1">
+						<Border.RenderTransform>
+							<TransformGroup>
+								<SkewTransform AngleX="-8"/>
+							</TransformGroup>
+						</Border.RenderTransform>
+					</Border>
+
+					<Button Name="Mini"
+							Grid.Column="0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Classes="rotatebutton1"
+							Margin="0 0 15 0"/>
+				</Grid>
+
+				<Border Background="{DynamicResource AccentBrush}" Height="2" VerticalAlignment="Bottom" CornerRadius="10"
+		                HorizontalAlignment="Left" Width="130" Margin="20 0 0 2"/>
+
+				<TextBlock Text="服务器匣子" FontWeight="SemiBold" FontSize="16"
+						   Margin="70 0 0 5" VerticalAlignment="Bottom"/>
+
+				<Button Height="40" Width="40" Classes="wonderaccentbutton" HorizontalAlignment="Left"
+						CornerRadius="114514" Margin="15 20 0 0" Padding="0" Command="{Binding ReturnAction}">
+					<Viewbox Width="20">
+						<Path Fill="White" Data="M925.93485 420.743202H170.450671l307.293565 307.438889c11.630934 11.635911 11.382091 30.73712-0.555418 42.669653-11.936514 11.930542-31.038718 12.169431-42.669653 0.53352l-357.299118-357.478285a30.409643 30.409643 0 0 1-5.269505-5.686566c-4.02927-5.34814-5.986174-11.785217-5.878673-18.243198-0.129398-7.758933 2.712392-15.489 8.556227-21.332835L434.52016 8.573148c11.630934-11.636907 30.733139-11.397022 42.669653 0.532525 11.937509 11.930542 12.186353 31.032746 0.555418 42.670648L170.031619 359.634263h755.903231c16.450531 0 29.786539 13.675431 29.786539 30.551981s-13.336008 30.556958-29.786539 30.556958z"/>
+					</Viewbox>
+				</Button>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

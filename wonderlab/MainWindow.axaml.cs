@@ -23,8 +23,10 @@ using wonderlab.control.Animation;
 using wonderlab.control.Controls.Bar;
 using wonderlab.control.Controls.Dialog;
 using wonderlab.control.Theme;
+using wonderlab.ViewModels.Pages;
 using wonderlab.ViewModels.Windows;
 using wonderlab.Views.Pages;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
 namespace wonderlab
@@ -48,7 +50,7 @@ namespace wonderlab
             ThemeUtils.Init();
             JsonUtils.CraftLauncherInfoJson();
             Instance = this;
-
+            
             this.AddHandler(DragDrop.DropEvent, DropAction);
             WindowWidth = Width;
             WindowHeight = Height;

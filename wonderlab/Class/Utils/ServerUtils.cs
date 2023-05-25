@@ -12,21 +12,32 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tmds.DBus;
 using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils
 {
     public class ServerUtils {
-        private static List<byte>? _buffer;
-        private static int _offset;
-        private static NetworkStream? _stream;
+        List<byte> _buffer;
+        int _offset;
+        NetworkStream _stream;
+
+        public string Address { get; init; }
+        public ushort Port { get; init; }
+        public int VersionId { get; init; }
+
+        public ServerUtils(string Address, ushort Port, int VersionId = 0) {
+            this.Address = Address;
+            this.Port = Port;
+            this.VersionId = VersionId;
+        }
 
         /// <summary>
         /// 服务器信息获取方法
         /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
-        public async static ValueTask<ServerInfoModel> GetServerInfoAsync(string Address, ushort Port, int VersionId = 0) {
-            using var client = new TcpClient {           
+        public async Task<ServerInfoModel> GetServerInfoAsync() {
+            using var client = new TcpClient {
                 SendTimeout = 5000,
                 ReceiveTimeout = 5000
             };
@@ -37,29 +48,43 @@ namespace wonderlab.Class.Utils
             sw.Start();
             cts.CancelAfter(timeOut);
 
-            try {           
+            try {
                 await client.ConnectAsync(Address, Port, cts.Token);
             }
-            catch (TaskCanceledException) {           
-                throw new OperationCanceledException($"服务器连接失败，连接超时 ({timeOut.Seconds}s)。", cts.Token);
+            catch (TaskCanceledException) {
+                throw new OperationCanceledException($"服务器 {this} 连接失败，连接超时 ({timeOut.Seconds}s)。", cts.Token);
             }
 
             sw.Stop();
 
-            if (!client.Connected) {           
+            if (!client.Connected) {
                 return default;
             }
 
             _buffer = new List<byte>();
             _stream = client.GetStream();
 
+            /*
+             * Send a "Handshake" packet
+             * http://wiki.vg/Server_List_Ping#Ping_Process
+             */
             WriteVarInt(VersionId == 0 ? 47 : VersionId);
             WriteString(Address);
             WriteShort(Port);
             WriteVarInt(1);
             await Flush(0);
+
+            /*
+             * Send a "Status Request" packet
+             * http://wiki.vg/Server_List_Ping#Ping_Process
+             */
             await Flush(0);
 
+            /*
+             * If you are using a modded server then use a larger buffer to account, 
+             * see link for explanation and a motd to HTML snippet
+             * https://gist.github.com/csh/2480d14fbbb33b4bbae3#gistcomment-2672658
+             */
             var batch = new byte[1024];
             await using var ms = new MemoryStream();
             var remaining = 0;
@@ -67,11 +92,10 @@ namespace wonderlab.Class.Utils
 
             var latency = sw.ElapsedMilliseconds;
 
-            do {           
+            do {
                 var readLength = await _stream.ReadAsync(batch.AsMemory());
                 await ms.WriteAsync(batch.AsMemory(0, readLength));
-                if (!flag)
-                {
+                if (!flag) {
                     var packetLength = ReadVarInt(ms.ToArray());
                     remaining = packetLength - _offset;
                     flag = true;
@@ -92,35 +116,30 @@ namespace wonderlab.Class.Utils
             var json = ReadString(buffer, jsonLength);
             var ping = JsonConvert.DeserializeObject<PingPayload>(json);
 
-            return new ServerInfoModel
-            {
+            return new ServerInfoModel {
                 Latency = latency,
                 Response = ping
             };
         }
 
-        private static byte ReadByte(IReadOnlyList<byte> buffer)
-        {
+        byte ReadByte(IReadOnlyList<byte> buffer) {
             var b = buffer[_offset];
             _offset += 1;
             return b;
         }
 
-        private static byte[] Read(byte[] buffer, int length)
-        {
+        byte[] Read(byte[] buffer, int length) {
             var data = new byte[length];
             Array.Copy(buffer, _offset, data, 0, length);
             _offset += length;
             return data;
         }
 
-        private static int ReadVarInt(IReadOnlyList<byte> buffer)
-        {
+        int ReadVarInt(IReadOnlyList<byte> buffer) {
             var value = 0;
             var size = 0;
             int b;
-            while (((b = ReadByte(buffer)) & 0x80) == 0x80)
-            {
+            while (((b = ReadByte(buffer)) & 0x80) == 0x80) {
                 value |= (b & 0x7F) << (size++ * 7);
                 if (size > 5) throw new IOException("This VarInt is an imposter!");
             }
@@ -128,16 +147,13 @@ namespace wonderlab.Class.Utils
             return value | ((b & 0x7F) << (size * 7));
         }
 
-        private static string ReadString(byte[] buffer, int length)
-        {
+        string ReadString(byte[] buffer, int length) {
             var data = Read(buffer, length);
             return Encoding.UTF8.GetString(data);
         }
 
-        private static void WriteVarInt(int value)
-        {
-            while ((value & 128) != 0)
-            {
+        void WriteVarInt(int value) {
+            while ((value & 128) != 0) {
                 _buffer.Add((byte)((value & 127) | 128));
                 value = (int)(uint)value >> 7;
             }
@@ -145,27 +161,23 @@ namespace wonderlab.Class.Utils
             _buffer.Add((byte)value);
         }
 
-        private static void WriteShort(ushort value)
-        {
+        void WriteShort(ushort value) {
             _buffer.AddRange(BitConverter.GetBytes(value));
         }
 
-        private static void WriteString(string data)
-        {
+        void WriteString(string data) {
             var buffer = Encoding.UTF8.GetBytes(data);
             WriteVarInt(buffer.Length);
             _buffer.AddRange(buffer);
         }
 
-        private static async ValueTask Flush(int id = -1)
-        {
+        async Task Flush(int id = -1) {
             var buffer = _buffer.ToArray();
             _buffer.Clear();
 
             var add = 0;
             var packetData = new[] { (byte)0x00 };
-            if (id >= 0)
-            {
+            if (id >= 0) {
                 WriteVarInt(id);
                 packetData = _buffer.ToArray();
                 add = packetData.Length;
