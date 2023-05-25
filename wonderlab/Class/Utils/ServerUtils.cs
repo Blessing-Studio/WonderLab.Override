@@ -114,6 +114,8 @@ namespace wonderlab.Class.Utils
             var jsonLength = ReadVarInt(buffer);
 
             var json = ReadString(buffer, jsonLength);
+
+            json.ShowLog();
             var ping = JsonConvert.DeserializeObject<PingPayload>(json);
 
             return new ServerInfoModel {

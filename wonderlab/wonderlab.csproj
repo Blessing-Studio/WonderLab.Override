@@ -14,6 +14,7 @@
 		<None Remove=".gitignore" />
 		<None Remove="Assets\Fonts\MiSans-Normal.ttf" />
 		<None Remove="Assets\Icons\Block.png" />
+		<None Remove="Assets\Icons\defaultavatar.jpg" />
 		<None Remove="Assets\Icons\Fabric.png" />
 		<None Remove="Assets\Icons\Forge.png" />
 		<None Remove="Assets\Icons\OptiFine.png" />
@@ -24,6 +25,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
+		<AvaloniaResource Include="Assets\Icons\defaultavatar.jpg" />
 		<AvaloniaResource Include="Assets\Icons\Fabric.png" />
 		<AvaloniaResource Include="Assets\Icons\Forge.png" />
 		<AvaloniaResource Include="Assets\Icons\OptiFine.png" />

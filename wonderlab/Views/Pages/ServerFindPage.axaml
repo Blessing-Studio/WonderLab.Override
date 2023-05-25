@@ -116,10 +116,11 @@
 								<!--Items="{Binding Servers}"-->
 								<Border Margin="6" BorderThickness="1" BorderBrush="Black">
 									<ListBox Background="Transparent"
-										 Margin="10"
-									     ClipToBounds="False"
-										 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-										 VerticalAlignment="Stretch">
+										     Margin="10"
+									         ClipToBounds="False"
+										     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+										     VerticalAlignment="Stretch"
+											 Items="{Binding Servers}">
 										<ListBox.ItemsPanel>
 											<ItemsPanelTemplate>
 												<WrapPanel Margin="10 0 0 0" Orientation="Horizontal" />
@@ -142,11 +143,15 @@
 																			<Border CornerRadius="3" 
 																					BorderThickness="1"
 																					BorderBrush="{DynamicResource DialogContentBorderBrush}">
-																				<!--Border.Background>
-																					<ImageBrush Stretch="UniformToFill" Source="C:\Users\w\Desktop\defaultavatar.jpg"/>
-																				</Border.Background>-->
+																				<Border.Background>
+																					<ImageBrush Stretch="UniformToFill" Source="{Binding Icon}"/>
+																				</Border.Background>
 																			</Border>
 
+																			<ProgressBar Classes="Circle"
+																						 Foreground="{DynamicResource AccentBrush}"
+																						 IsIndeterminate="{Binding IsImageLoading}"/>
+																			
 																			<Border Height="30" Background="#4C000000"
 																					VerticalAlignment="Bottom"
 																					CornerRadius="0 0 2 2">
@@ -169,10 +174,13 @@
 																</Border>
 
 																<TextBlock Grid.Row="2"
-																		   FontSize="18"
+																		   FontSize="15"
 																		   FontWeight="SemiBold"
 																		   HorizontalAlignment="Center" 
-																		   Text="CodingPi">
+																		   TextAlignment="Center"
+																		   MaxWidth="120"
+																		   TextTrimming="CharacterEllipsis"
+																		   Text="{Binding Data.Id}">
 
 																	<TextBlock.TextDecorations>
 																		<TextDecorationCollection>
@@ -192,28 +200,6 @@
 												</Style>
 											</Styles>
 										</ListBox.Styles>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
-										<ListBoxItem/>
 									</ListBox>
 								</Border>
 							</Border>

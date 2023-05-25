@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Avalonia.Media;
+using DynamicData;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
 using ReactiveUI;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
     public class ServerFindPageViewModel : ReactiveObject {
@@ -22,6 +24,10 @@ namespace wonderlab.ViewModels.Pages {
             await GetServerListAsync();
         }
 
+        public void ReturnAction() {
+            new ActionCenterPage().Navigation();
+        }
+
         public async ValueTask GetServerListAsync() {
             try {
                 Servers.Clear();
@@ -30,7 +36,7 @@ namespace wonderlab.ViewModels.Pages {
                 var viewDatas = json.ToJsonEntity<IEnumerable<WonderServerModel>>().Select(x => x.CreateViewData<WonderServerModel, WonderServerViewData>()).ToList();
                 Servers.AddRange(viewDatas);
 
-                foreach (var x in viewDatas) {
+                foreach (var x in viewDatas.AsParallel()) {
                     await x.GetServerInfoAction();
                     $"来自 {x.Data.Author} 的服务器延迟为 {x.ServerInfo.Latency}ms".ShowLog();
                 }

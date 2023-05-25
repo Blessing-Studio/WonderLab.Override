@@ -224,7 +224,7 @@ namespace wonderlab.Class.Utils
 
         public static async void WriteCompressedText(this string path, string? contents) {       
             if (!File.Exists(path)) {
-                path.ToFile().Create().Close();
+                path.ToFile().Create();
             }
 
             if (contents == null) {
@@ -266,5 +266,9 @@ namespace wonderlab.Class.Utils
         public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
         
         public static void Navigation(this UserControl control) => MainWindow.Instance.Navigation(control);
+
+        public static MemoryStream ToMemoryStream(this string base64) => new MemoryStream(Convert.FromBase64String(base64)) { 
+            Position = 0
+        };
     }
 }
