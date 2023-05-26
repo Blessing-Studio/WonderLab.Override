@@ -26,7 +26,7 @@
 					</StackPanel>
 
 					<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-							Height="2" CornerRadius="114514"
+							Height="1" CornerRadius="114514"
 							VerticalAlignment="Bottom"/>
 
 					<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
@@ -56,13 +56,15 @@
 					</StackPanel>
 
 					<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-							Height="2" CornerRadius="114514"
-						    VerticalAlignment="Bottom"/>
+							Height="1" CornerRadius="114514"
+						    VerticalAlignment="Top"/>
+					
 					<ListBox Items="{Binding PredefinedColors}"
 			                 SelectedItem="{Binding CurrentAccentColor}"
 			                 MaxWidth="800"
-							 Margin="15 35 10 4"
+							 Margin="15 2"
 			                 Background="Transparent"
+							 Grid.Row="2"
 			                 AutoScrollToSelectedItem="False"
 			                 HorizontalAlignment="Left">
 						<ListBox.ItemsPanel>
@@ -83,6 +85,12 @@
 											<Border CornerRadius="4"
 													BorderThickness="2"
 													Name="Root">
+												<Border.Transitions>
+													<Transitions>
+														<BrushTransition Property="BorderBrush"
+																		 Duration="0:0:0.25"/>
+													</Transitions>
+												</Border.Transitions>
 												<Border.Background>
 													<SolidColorBrush Color="{Binding}" />
 												</Border.Background>

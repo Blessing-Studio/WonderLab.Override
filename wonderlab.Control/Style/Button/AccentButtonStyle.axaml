@@ -100,10 +100,11 @@
 	</Style>
 
 	<Style Selector="Button.shadowbutton">
+		<Setter Property="CornerRadius" Value="6"/>
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Border CornerRadius="6"
+				<Border CornerRadius="{TemplateBinding CornerRadius}"
 						Name="Layout"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}"
 						BorderThickness="1">

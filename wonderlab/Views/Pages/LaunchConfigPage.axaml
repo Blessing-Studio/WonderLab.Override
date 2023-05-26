@@ -28,7 +28,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
@@ -67,7 +67,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
@@ -133,7 +133,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
@@ -162,7 +162,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">

@@ -87,9 +87,9 @@
 										   FontWeight="SemiBold"
 										   FontSize="16"/>
 
-								<StackPanel HorizontalAlignment="Right"
+								<StackPanel HorizontalAlignment="Right" VerticalAlignment="Top"
 											RenderTransform="skew(-8deg)"
-											Orientation="Horizontal" Margin="15 5">
+											Orientation="Horizontal" Margin="0 5 90 0">
 									<ToggleButton IsChecked="true"
 												  CornerRadius="2.5 0 0 2.5"
 												  Content="全部"
@@ -106,6 +106,19 @@
 												  CornerRadius="0 2.5 2.5 0"
 												  Classes="ba"/>
 								</StackPanel>
+								   
+								<Button Content="刷新" 
+										Width="70"
+										Height="30"
+										MaxHeight="30"
+										Margin="0 5 10 5"	
+										CornerRadius="2.5"
+										Classes="shadowbutton"		
+										VerticalAlignment="Center"
+										HorizontalAlignment="Right"
+										RenderTransform="skew(-8deg)"
+										HorizontalContentAlignment="Center"
+										Command="{Binding GetServerListAction}"/>
 							</Grid>
 						</Border>
 

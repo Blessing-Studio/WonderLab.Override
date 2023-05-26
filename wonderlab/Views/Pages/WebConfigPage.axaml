@@ -27,7 +27,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
@@ -51,7 +51,7 @@
 						</Grid.RowDefinitions>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-		                        Height="2" CornerRadius="114514"
+		                        Height="1" CornerRadius="114514"
 		                        VerticalAlignment="Bottom"/>
 
 						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
@@ -61,7 +61,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<Grid Margin="15 20 15 0">
@@ -96,7 +96,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 						<!--Lsaac Albert-->
 						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
@@ -124,7 +124,7 @@
 						</StackPanel>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
-								Height="2" CornerRadius="114514"
+								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel VerticalAlignment="Top" Margin="15 5 15 15" Grid.Row="2" Orientation="Vertical">
@@ -137,7 +137,10 @@
 								</Button.RenderTransform>
 							</Button>
 							<!---->
-							<ListBox IsVisible="{Binding TestListVisible}" Margin="0 10" Items="{Binding TestList}" ClipToBounds="False" Background="Transparent">
+							<ListBox IsVisible="{Binding TestListVisible}" 
+									 Margin="0 10" Items="{Binding TestList}"
+									 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+									 ClipToBounds="False" Background="Transparent">
 								<ListBox.Styles>
 									<Styles>
 										<Style Selector="ListBoxItem">
