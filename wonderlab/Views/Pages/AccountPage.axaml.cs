@@ -5,11 +5,11 @@ using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages
 {
-    public partial class UserPage : UserControl
+    public partial class AccountPage : UserControl
     {
-        public static UserPageViewModel ViewModel { get; private set; } = new();
+        public static AccountPageViewModel ViewModel { get; private set; } = new();
 
-        public UserPage()
+        public AccountPage()
         {
             InitializeComponent();
             DataContext = ViewModel;

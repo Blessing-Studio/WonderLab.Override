@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class SharePackConfigPageViewModel : ReactiveObject {
         public SharePackConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }
 
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
+        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
         }
     }
 }

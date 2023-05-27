@@ -92,4 +92,9 @@
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Views\Pages\AccountPage.axaml.cs">
+	    <DependentUpon>AccountPage.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 </Project>

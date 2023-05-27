@@ -1,21 +1,15 @@
-﻿using Avalonia.Controls;
-using MinecraftLaunch.Modules.Models.Download;
+﻿using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
-using wonderlab.Class.ViewData;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class ResourePackConfigPageVM : ReactiveObject {
         public ResourePackConfigPageVM(GameCore core) {
             PropertyChanged += OnPropertyChanged;
@@ -23,15 +17,14 @@ namespace wonderlab.ViewModels.Pages
             Current = core;
         }
 
-        private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
-            if (e.PropertyName == nameof(Current)) {           
+        private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            if (e.PropertyName == nameof(Current)) {
                 Toolkit = new(Current, true);
                 var result = await Task.Run(async () => await Toolkit.LoadAllAsync());
 
-                if (result.Any()) {               
+                if (result.Any()) {
                     await Task.Run(() => ResourcePacks = result.ToObservableCollection());
-                }
-                else HasResourcePack = 1;
+                } else HasResourcePack = 1;
 
                 Trace.WriteLine($"[信息] 共有 {ResourcePacks.Count} 个资源包");
             }

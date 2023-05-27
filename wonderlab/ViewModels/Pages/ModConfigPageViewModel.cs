@@ -1,22 +1,16 @@
-﻿using DynamicData;
-using MinecraftLaunch.Modules.Models.Download;
+﻿using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class ModConfigPageViewModel : ReactiveObject {
         public ModConfigPageViewModel(GameCore core) {
             PropertyChanged += OnPropertyChanged;
@@ -29,12 +23,10 @@ namespace wonderlab.ViewModels.Pages
                 Toolkit = new(Current, true);
                 var result = await Task.Run(async () => await Toolkit.LoadAllAsync());
 
-                if (result.Any())
-                {
+                if (result.Any()) {
                     await Task.Run(() => ModPacks = result.Select(x => x.CreateViewData<ModPack, ModPackViewData>()).ToObservableCollection());
-                }
-                else HasModPack = 1;
-                
+                } else HasModPack = 1;
+
                 Trace.WriteLine($"[信息] 共有 {ModPacks.Count} 个模组");
             }
         }

@@ -12,6 +12,7 @@ using System.Linq;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Dialogs;
+using wonderlab.Views.Windows;
 
 namespace wonderlab.Class.ViewData
 {
@@ -39,13 +40,13 @@ namespace wonderlab.Class.ViewData
                     GameCrashAnalyzer analyzer = new(Outputs.Select(x => x.Text).ToList()!);
                     var analyzerResult = analyzer.AnalyseAsync();
                     var viewModel = GameCrashInfoDialog.ViewModel!;
-                    MainWindow.Instance.Activate();
+                    App.CurrentWindow.Activate();
 
                     viewModel.GameCore = Data.GameCore;
                     viewModel.Account = Account;
                     viewModel.JavaVersion = JavaInfo.JavaSlugVersion;                    
 
-                    MainWindow.Instance.GameCrashInfo.CrashDialog.ShowDialog();
+                    App.CurrentWindow.GameCrashInfo.CrashDialog.ShowDialog();
                     if (!analyzerResult.IsNull() && analyzerResult.Count > 0) {
                         viewModel.CrashInfo = string.Join("\n", analyzerResult.Keys.Select(x => x.ToString()));
 

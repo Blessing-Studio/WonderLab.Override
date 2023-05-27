@@ -5,8 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wonderlab.Class.Utils
-{
+namespace wonderlab.Class.Utils {
     public static class SystemUtils {
         public static bool IsMacOS => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
@@ -19,25 +18,11 @@ namespace wonderlab.Class.Utils
         public static string GetPlatformName() {
             if (IsWindows) {
                 return "Windows";
-            }
-            else if (IsLinux) {
+            } else if (IsLinux) {
                 return "Linux";
+            } else {
+                return "MacOS";
             }
-            else {
-                return "MacOS";            
-            }
-        }
-
-        [Obsolete]//屁玩意啥用没有
-        public static T TryRun<T>(Func<T> action) {
-            try {
-                return action();
-            }
-            catch (Exception) {
-                "焯，这辣鸡启动器又炸了".ShowMessage("错误");
-            }
-
-            return default!;
         }
     }
 }

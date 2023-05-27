@@ -11,13 +11,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
+using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Pages
-{
-    public class PersonalizeConfigPageViewModel : ReactiveObject
-    {
-        public PersonalizeConfigPageViewModel()
-        {
+namespace wonderlab.ViewModels.Pages {
+    public class PersonalizeConfigPageViewModel : ReactiveObject {
+        public PersonalizeConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }
 
@@ -29,16 +27,16 @@ namespace wonderlab.ViewModels.Pages
 
             if (e.PropertyName is nameof(CurrentBakgroundType)) {
                 IsImageVisible = CurrentBakgroundType is "图片背景";
-                MainWindow.Instance.BackgroundImage.IsVisible = IsImageVisible;
+                App.CurrentWindow.BackgroundImage.IsVisible = IsImageVisible;
                 App.LauncherData.BakgroundType = CurrentBakgroundType;
             }
 
             if (e.PropertyName is nameof(CurrentParallaxType)) {
-                MainWindow.Instance.CanParallax = CurrentParallaxType is not "无";
+                App.CurrentWindow.CanParallax = CurrentParallaxType is not "无";
                 App.LauncherData.ParallaxType = CurrentParallaxType;
             }
 
-            if (e.PropertyName is nameof(CurrentThemeType)) { 
+            if (e.PropertyName is nameof(CurrentThemeType)) {
                 App.LauncherData.ThemeType = CurrentThemeType;
             }
         }
@@ -58,7 +56,7 @@ namespace wonderlab.ViewModels.Pages
         [Reactive]
         public string CurrentParallaxType { get; set; } = App.LauncherData.ParallaxType;
 
-        public ObservableCollection<string> BakgroundTypes => new() { 
+        public ObservableCollection<string> BakgroundTypes => new() {
             "主题色背景",
             "图片背景",
         };
@@ -73,8 +71,8 @@ namespace wonderlab.ViewModels.Pages
             "平面视差",
             "3D视差",
         };
-        
-        public ObservableCollection<Color> PredefinedColors => new() {       
+
+        public ObservableCollection<Color> PredefinedColors => new() {
             Color.FromRgb(255,185,0),
             Color.FromRgb(255,140,0),
             Color.FromRgb(247,99,12),
@@ -126,20 +124,19 @@ namespace wonderlab.ViewModels.Pages
         };
 
         public async void GetImageFileAction() {
-            OpenFileDialog dialog = new() { 
+            OpenFileDialog dialog = new() {
                 AllowMultiple = false,
                 Filters = new() {
                     new(){ Extensions = new(){ "png", "jpg", "jpeg", "tif", "tiff" } , Name = "图像文件"}
                 }
             };
 
-            try {           
-                var result = (await dialog.ShowAsync(MainWindow.Instance))!.FirstOrDefault();
-                MainWindow.Instance.BackgroundImage.Source = result.IsFile() ? new Bitmap(result) : null;
+            try {
+                var result = (await dialog.ShowAsync(App.CurrentWindow))!.FirstOrDefault();
+                App.CurrentWindow.BackgroundImage.Source = result.IsFile() ? new Bitmap(result) : null;
                 App.LauncherData.ImagePath = result.IsFile() ? result : string.Empty;
             }
-            catch (Exception)
-            {
+            catch (Exception) {
 
             }
         }

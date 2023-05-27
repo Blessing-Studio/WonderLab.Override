@@ -11,9 +11,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
+using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Dialogs
-{
+namespace wonderlab.ViewModels.Dialogs {
     public class GameCrashInfoDialogViewModel : ReactiveObject {
         [Reactive]
         public string CrashInfo { get; set; }
@@ -37,7 +37,7 @@ namespace wonderlab.ViewModels.Dialogs
         public ObservableCollection<string> CrashModpacks { get; set; }
 
         public void HideDialogAction() {
-            MainWindow.Instance.GameCrashInfo.CrashDialog.HideDialog();
+            App.CurrentWindow.GameCrashInfo.CrashDialog.HideDialog();
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Avalonia;
 using System;
 
-namespace wonderlab
-{
-    internal class Program
-    {
+namespace wonderlab {
+    internal class Program {
         [STAThread]
         public static void Main(string[] args) => BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);

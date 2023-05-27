@@ -20,50 +20,46 @@ using Avalonia.Controls;
 using Image = SixLabors.ImageSharp.Image;
 using MinecraftProtocol;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Avalonia;
 using Newtonsoft.Json.Linq;
 
-namespace wonderlab.Class.Utils
-{
-    public static class ExtendUtils
-    {
+namespace wonderlab.Class.Utils {
+    public static class ExtendUtils {
         public static void ShowMessage(this string message) {
-            MainWindow.Instance?.ShowInfoBar("信息", message);
+            App.CurrentWindow?.ShowInfoBar("信息", message);
         }
 
-        public static void ShowMessage(this string message,string title) {       
-            MainWindow.Instance?.ShowInfoBar(title, message);
+        public static void ShowMessage(this string message, string title) {
+            App.CurrentWindow?.ShowInfoBar(title, message);
         }
 
         public static void ShowMessage(this string message, HideOfRunAction action) {
-            MainWindow.Instance?.ShowInfoBar("信息", message, action);
+            App.CurrentWindow?.ShowInfoBar("信息", message, action);
         }
 
-        public static void ShowMessage(this string message, string title,HideOfRunAction action) {       
-            MainWindow.Instance?.ShowInfoBar(title, message, action);
+        public static void ShowMessage(this string message, string title, HideOfRunAction action) {
+            App.CurrentWindow?.ShowInfoBar(title, message, action);
         }
 
         public static bool IsChinese(this string input) => Regex.IsMatch(input, "[\u4e00-\u9fbb]");
 
-        public static double ToDouble(this object obj) { 
+        public static double ToDouble(this object obj) {
             return Convert.ToDouble(obj);
         }
 
-        public static int ToInt32(this object obj) {       
+        public static int ToInt32(this object obj) {
             return Convert.ToInt32(obj);
         }
 
         public static IEnumerable<T> ToEnumerable<T>(this IAsyncEnumerable<T> obj) {
             var enumerator = obj.GetAsyncEnumerator();
 
-            while (enumerator.MoveNextAsync().Result) {           
+            while (enumerator.MoveNextAsync().Result) {
                 yield return enumerator.Current;
             }
         }
 
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> obj) {             
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> obj) {
             return new(obj.Select(x => x).Distinct());
         }
 
@@ -78,7 +74,7 @@ namespace wonderlab.Class.Utils
                 return false;
             }
 
-            if(info.Title is not UpdateUtils.VersionType) { 
+            if (info.Title is not UpdateUtils.VersionType) {
                 return false;
             }
 
@@ -87,22 +83,22 @@ namespace wonderlab.Class.Utils
         }
 
         public static ModLoaderViewData GetForge(this ObservableCollection<ModLoaderViewData> data) {
-            if (data.First().Data.ModLoaderType == ModLoaderType.Forge) { 
+            if (data.First().Data.ModLoaderType == ModLoaderType.Forge) {
                 return data.First();
             }
 
             return data.Last();
         }
 
-        public static ModLoaderViewData GetOptiFine(this ObservableCollection<ModLoaderViewData> data) {       
-            if (data.First().Data.ModLoaderType == ModLoaderType.OptiFine) {           
+        public static ModLoaderViewData GetOptiFine(this ObservableCollection<ModLoaderViewData> data) {
+            if (data.First().Data.ModLoaderType == ModLoaderType.OptiFine) {
                 return data.First();
             }
-            
+
             return data.Last();
         }
 
-        public static JavaInfo? ToJava(this string path) { 
+        public static JavaInfo? ToJava(this string path) {
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
                 return JavaToolkit.GetJavaInfo(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
@@ -112,7 +108,7 @@ namespace wonderlab.Class.Utils
         }
 
         public static string ToJavaw(this string path) {
-            if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
+            if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
                 return Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw");
             }
@@ -120,8 +116,8 @@ namespace wonderlab.Class.Utils
             return path;
         }
 
-        public static FileInfo ToFile(this string path) {       
-            if (!string.IsNullOrEmpty(path) && path.IsFile()) {           
+        public static FileInfo ToFile(this string path) {
+            if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
                 return new(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw"));
             }
@@ -129,21 +125,21 @@ namespace wonderlab.Class.Utils
             return new(path);
         }
 
-        public static DirectoryInfo? ToDirectory(this string path) {       
-            if (!string.IsNullOrEmpty(path) && path.IsDirectory()) {           
+        public static DirectoryInfo? ToDirectory(this string path) {
+            if (!string.IsNullOrEmpty(path) && path.IsDirectory()) {
                 return new(path);
             }
 
             return null;
         }
 
-        public static Account ToAccount(this UserModel user) { 
-            return user.UserType switch { 
-                AccountType.Offline => new OfflineAccount() {   
+        public static Account ToAccount(this UserModel user) {
+            return user.UserType switch {
+                AccountType.Offline => new OfflineAccount() {
                     Name = user.UserName,
                     Uuid = Guid.Parse(user.Uuid),
                     AccessToken = user.UserToken,
-                    Type = AccountType.Offline,                    
+                    Type = AccountType.Offline,
                 },
 
                 AccountType.Microsoft => new MicrosoftAccount() {
@@ -151,7 +147,7 @@ namespace wonderlab.Class.Utils
                     Uuid = Guid.Parse(user.Uuid),
                     AccessToken = user.UserToken,
                     Type = AccountType.Microsoft,
-                    RefreshToken = user.AccessToken,                   
+                    RefreshToken = user.AccessToken,
                 },
 
                 AccountType.Yggdrasil => new YggdrasilAccount() {
@@ -169,18 +165,18 @@ namespace wonderlab.Class.Utils
             };
         }
 
-        public static Bitmap ToBitmap<TPixel>(this Image<TPixel> raw) where TPixel : unmanaged, IPixel<TPixel> {       
+        public static Bitmap ToBitmap<TPixel>(this Image<TPixel> raw) where TPixel : unmanaged, IPixel<TPixel> {
             using var stream = new MemoryStream();
             raw.Save(stream, new PngEncoder());
             stream.Position = 0;
             return new Bitmap(stream);
         }
 
-        public static Bitmap ToBitmap(this Stream stream) {       
+        public static Bitmap ToBitmap(this Stream stream) {
             return new Bitmap(stream);
         }
 
-        public static Image<Rgba32> ToImage(this byte[] raw) {       
+        public static Image<Rgba32> ToImage(this byte[] raw) {
             return (Image<Rgba32>)Image.Load(raw);
         }
 
@@ -188,13 +184,13 @@ namespace wonderlab.Class.Utils
             return (Image<Rgba32>)Image.Load(raw);
         }
 
-        public static bool MoveToFront<T>(this List<T> list, T item) {       
-            if (list.Count == 0) {           
+        public static bool MoveToFront<T>(this List<T> list, T item) {
+            if (list.Count == 0) {
                 return false;
             }
 
             var index = list.IndexOf(item);
-            if (index == -1) {           
+            if (index == -1) {
                 return false;
             }
 
@@ -222,7 +218,7 @@ namespace wonderlab.Class.Utils
             return Bitmap.DecodeToHeight(memoryStream, hight);
         }
 
-        public static async void WriteCompressedText(this string path, string? contents) {       
+        public static async void WriteCompressedText(this string path, string? contents) {
             if (!File.Exists(path)) {
                 path.ToFile().Create();
             }
@@ -235,7 +231,7 @@ namespace wonderlab.Class.Utils
             await File.WriteAllBytesAsync(path, tmp);
         }
 
-        public static async ValueTask<string> ReadCompressedText(this string path) {       
+        public static async ValueTask<string> ReadCompressedText(this string path) {
             if (!File.Exists(path)) {
                 return string.Empty;
             }
@@ -252,22 +248,22 @@ namespace wonderlab.Class.Utils
                 foreach (var item in (JArray)model["extra"]) {
                     var text = item["text"];
 
-                    builder.Append($"§{(item["color"].Type is JTokenType.Null ? "§f" : 
+                    builder.Append($"§{(item["color"].Type is JTokenType.Null ? "§f" :
                         InlineUtils.GetColorCode(item["color"].ToString()))}{InlineUtils.GetFormat(item)}{text}");
                 }
-                
+
                 builder.ToString().ShowLog();
                 return builder.ToString();
-            } else { 
+            } else {
                 return model["text"].ToString();
             }
         }
 
         public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
-        
-        public static void Navigation(this UserControl control) => MainWindow.Instance.Navigation(control);
 
-        public static MemoryStream ToMemoryStream(this string base64) => new MemoryStream(Convert.FromBase64String(base64)) { 
+        public static void Navigation(this UserControl control) => App.CurrentWindow.Navigation(control);
+
+        public static MemoryStream ToMemoryStream(this string base64) => new MemoryStream(Convert.FromBase64String(base64)) {
             Position = 0
         };
     }

@@ -11,10 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
+using wonderlab.Views.Windows;
 
 namespace wonderlab.Class.Models
 {
@@ -36,8 +38,8 @@ namespace wonderlab.Class.Models
                 modpack.SupportedVersions.First() : $"{modpack.SupportedVersions.First()}-{modpack.SupportedVersions.Last()}") : "Unknown";
 
             string keyword = modpack.Links["websiteUrl"].TrimEnd('/').Split("/").Last();
-            if (DataUtil.WebModpackInfoDatas.ContainsKey(keyword)) {           
-                var result = DataUtil.WebModpackInfoDatas[keyword];
+            if (CacheResources.WebModpackInfoDatas.ContainsKey(keyword)) {           
+                var result = CacheResources.WebModpackInfoDatas[keyword];
                 if (!string.IsNullOrEmpty(result.Chinese)) {
                     ChineseTitle = result.Chinese;
                 }
@@ -116,13 +118,13 @@ namespace wonderlab.Class.Models
                 Title = "请选择文件保存路径",
                 InitialFileName = Title
             };
-            var result = await dialog.ShowAsync(MainWindow.Instance);
+            var result = await dialog.ShowAsync(App.CurrentWindow);
             if(string.IsNullOrEmpty(result)) {
                 return;
             }
 
             $"开始下载资源 \"{Title}\"，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
-                MainWindow.Instance.NotificationCenter.Open();
+                App.CurrentWindow.NotificationCenter.Open();
             });
 
             NotificationViewData data = new() { 

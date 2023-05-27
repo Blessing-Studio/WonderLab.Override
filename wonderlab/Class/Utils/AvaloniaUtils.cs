@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
-namespace wonderlab.Class.Utils
-{
-    public static class AvaloniaUtils
-    {
+namespace wonderlab.Class.Utils {
+    public static class AvaloniaUtils {
         public static MemoryStream GetAssetsStream(string uri) {
             var memoryStream = new MemoryStream();
 

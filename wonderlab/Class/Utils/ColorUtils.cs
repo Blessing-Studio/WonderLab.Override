@@ -8,8 +8,7 @@ using wonderlab.Views.Converters;
 
 namespace wonderlab.Class.Utils;
 
-internal enum ColorType
-{
+internal enum ColorType {
     Undefined,
     RGB,
     HSV,
@@ -18,8 +17,7 @@ internal enum ColorType
 }
 
 [TypeConverter(typeof(ColorUtilsToColorConverter))]
-public struct ColorUtils : IEquatable<ColorUtils>
-{
+public struct ColorUtils : IEquatable<ColorUtils> {
     /// <summary>
     /// Creates a RGB color 2 from the given RGBA values
     /// </summary>
@@ -27,8 +25,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="g">Green, [0,255]</param>
     /// <param name="b">Blue, [0,255]</param>
     /// <param name="a">Alpha, [0,255]</param>
-    public ColorUtils(byte r, byte g, byte b, byte a = 255)
-    {
+    public ColorUtils(byte r, byte g, byte b, byte a = 255) {
         _cType = ColorType.RGB;
         _c1 = r / 255f;
         _c2 = g / 255f;
@@ -41,8 +38,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// Creates a RGB ColorUtils from an <see cref="Avalonia.Media.Color"/>
     /// </summary>
     /// <param name="avColor"></param>
-    public ColorUtils(Color avColor)
-    {
+    public ColorUtils(Color avColor) {
         _cType = ColorType.RGB;
         _c1 = avColor.R / 255f;
         _c2 = avColor.G / 255f;
@@ -63,8 +59,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().R;
             }
 
@@ -76,8 +71,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().G;
             }
 
@@ -89,8 +83,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().B;
             }
 
@@ -104,8 +97,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().Rf;
             }
 
@@ -117,8 +109,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().Gf;
             }
 
@@ -130,8 +121,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.RGB)
-            {
+            if (_cType != ColorType.RGB) {
                 return ToRGB().Bf;
             }
 
@@ -144,8 +134,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         get
         {
             //HSL & HSV Hue is the same, so it doesn't matter which we refer to
-            if (_cType != ColorType.HSV && _cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSV && _cType != ColorType.HSL) {
                 return ToHSV().Hue;
             }
 
@@ -158,8 +147,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         get
         {
             //HSL & HSV Hue is the same, so it doesn't matter which we refer to
-            if (_cType != ColorType.HSV && _cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSV && _cType != ColorType.HSL) {
                 return ToHSV().Huef;
             }
 
@@ -171,8 +159,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSV)
-            {
+            if (_cType != ColorType.HSV) {
                 return ToHSV().Saturation;
             }
 
@@ -184,8 +171,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSV)
-            {
+            if (_cType != ColorType.HSV) {
                 return ToHSV().Saturationf;
             }
 
@@ -197,8 +183,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSV)
-            {
+            if (_cType != ColorType.HSV) {
                 return ToHSV().Value;
             }
 
@@ -210,8 +195,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSV)
-            {
+            if (_cType != ColorType.HSV) {
                 return ToHSV().Valuef;
             }
 
@@ -223,8 +207,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSL) {
                 return ToHSL().HSLSaturation;
             }
 
@@ -236,8 +219,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSL) {
                 return ToHSL().HSLSaturationf;
             }
 
@@ -249,8 +231,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSL) {
                 return ToHSL().Lightness;
             }
 
@@ -262,8 +243,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.HSL)
-            {
+            if (_cType != ColorType.HSL) {
                 return ToHSL().Lightnessf;
             }
 
@@ -275,8 +255,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKCyan;
             }
 
@@ -288,8 +267,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKCyanf;
             }
 
@@ -301,8 +279,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKMagenta;
             }
 
@@ -314,8 +291,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKMagentaf;
             }
 
@@ -327,8 +303,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKYellow;
             }
 
@@ -340,8 +315,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKYellowf;
             }
 
@@ -353,8 +327,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKBlack;
             }
 
@@ -366,8 +339,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     {
         get
         {
-            if (_cType != ColorType.CMYK)
-            {
+            if (_cType != ColorType.CMYK) {
                 return ToCMYK().CMYKBlackf;
             }
 
@@ -375,10 +347,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         }
     }
 
-    public void GetRGB(out byte r, out byte g, out byte b, out byte a)
-    {
-        if (_cType != ColorType.RGB)
-        {
+    public void GetRGB(out byte r, out byte g, out byte b, out byte a) {
+        if (_cType != ColorType.RGB) {
             ToRGB().GetRGB(out r, out g, out b, out a);
             return;
         }
@@ -389,10 +359,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = (byte)Math.Round(_alpha * 255);
     }
 
-    public void GetRGBf(out float r, out float g, out float b, out float a)
-    {
-        if (_cType != ColorType.RGB)
-        {
+    public void GetRGBf(out float r, out float g, out float b, out float a) {
+        if (_cType != ColorType.RGB) {
             ToRGB().GetRGBf(out r, out g, out b, out a);
             return;
         }
@@ -403,10 +371,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = _alpha;
     }
 
-    public void GetHSVf(out float h, out float s, out float v, out float a)
-    {
-        if (_cType != ColorType.HSV)
-        {
+    public void GetHSVf(out float h, out float s, out float v, out float a) {
+        if (_cType != ColorType.HSV) {
             ToHSV().GetHSVf(out h, out s, out v, out a);
             return;
         }
@@ -417,10 +383,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = _alpha;
     }
 
-    public void GetHSV(out int h, out int s, out int v, out int a)
-    {
-        if (_cType != ColorType.HSV)
-        {
+    public void GetHSV(out int h, out int s, out int v, out int a) {
+        if (_cType != ColorType.HSV) {
             ToHSV().GetHSV(out h, out s, out v, out a);
             return;
         }
@@ -431,10 +395,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = (int)Math.Round(_alpha * 255);
     }
 
-    public void GetHSLf(out float h, out float s, out float l, out float a)
-    {
-        if (_cType != ColorType.HSL)
-        {
+    public void GetHSLf(out float h, out float s, out float l, out float a) {
+        if (_cType != ColorType.HSL) {
             ToHSL().GetHSLf(out h, out s, out l, out a);
             return;
         }
@@ -445,10 +407,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = _alpha;
     }
 
-    public void GetHSL(out int h, out int s, out int l, out int a)
-    {
-        if (_cType != ColorType.HSL)
-        {
+    public void GetHSL(out int h, out int s, out int l, out int a) {
+        if (_cType != ColorType.HSL) {
             ToHSL().GetHSL(out h, out s, out l, out a);
             return;
         }
@@ -459,10 +419,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = (int)Math.Round(_alpha * 255);
     }
 
-    public void GetCMYKf(out float c, out float m, out float y, out float k, out float a)
-    {
-        if (_cType != ColorType.CMYK)
-        {
+    public void GetCMYKf(out float c, out float m, out float y, out float k, out float a) {
+        if (_cType != ColorType.CMYK) {
             ToCMYK().GetCMYKf(out c, out m, out y, out k, out a);
             return;
         }
@@ -474,10 +432,8 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = _alpha;
     }
 
-    public void GetCMYK(out int c, out int m, out int y, out int k, out int a)
-    {
-        if (_cType != ColorType.CMYK)
-        {
+    public void GetCMYK(out int c, out int m, out int y, out int k, out int a) {
+        if (_cType != ColorType.CMYK) {
             ToCMYK().GetCMYK(out c, out m, out y, out k, out a);
             return;
         }
@@ -489,16 +445,14 @@ public struct ColorUtils : IEquatable<ColorUtils>
         a = (int)Math.Round(_alpha * 255);
     }
 
-    public ColorUtils ToRGB()
-    {
+    public ColorUtils ToRGB() {
         if (_cType == ColorType.RGB)
             return this;
 
         float r = 0;
         float g = 0;
         float b = 0;
-        switch (_cType)
-        {
+        switch (_cType) {
             case ColorType.HSV:
                 HSVToRGB(_c1, _c2, _c3, out r, out g, out b);
                 break;
@@ -522,16 +476,14 @@ public struct ColorUtils : IEquatable<ColorUtils>
         return newColor;
     }
 
-    public ColorUtils ToHSV()
-    {
+    public ColorUtils ToHSV() {
         if (_cType == ColorType.HSV)
             return this;
 
         float h = 0;
         float s = 0;
         float v = 0;
-        switch (_cType)
-        {
+        switch (_cType) {
             case ColorType.RGB:
                 RGBToHSV(_c1, _c2, _c3, out h, out s, out v);
                 break;
@@ -557,16 +509,14 @@ public struct ColorUtils : IEquatable<ColorUtils>
         return newColor;
     }
 
-    public ColorUtils ToHSL()
-    {
+    public ColorUtils ToHSL() {
         if (_cType == ColorType.HSL)
             return this;
 
         float h = 0;
         float s = 0;
         float l = 0;
-        switch (_cType)
-        {
+        switch (_cType) {
             case ColorType.RGB:
                 RGBToHSL(_c1, _c2, _c3, out h, out s, out l);
                 break;
@@ -592,8 +542,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         return newColor;
     }
 
-    public ColorUtils ToCMYK()
-    {
+    public ColorUtils ToCMYK() {
         if (_cType == ColorType.CMYK)
             return this;
 
@@ -601,8 +550,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         float m = 0;
         float y = 0;
         float k = 0;
-        switch (_cType)
-        {
+        switch (_cType) {
             case ColorType.RGB:
                 RGBToCMYK(_c1, _c2, _c3, out c, out m, out y, out k);
                 break;
@@ -626,8 +574,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     }
 
 
-    public bool Equals(ColorUtils other)
-    {
+    public bool Equals(ColorUtils other) {
         if (other._cType != _cType)
             return false;
 
@@ -640,8 +587,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         if (Math.Abs(other._c3 - _c3) > EPSILON)
             return false;
 
-        if (_cType == ColorType.CMYK)
-        {
+        if (_cType == ColorType.CMYK) {
             if (Math.Abs(other._c4 - _c4) > EPSILON)
                 return false;
         }
@@ -652,18 +598,15 @@ public struct ColorUtils : IEquatable<ColorUtils>
         return true;
     }
 
-    public override bool Equals(object? obj)
-    {
+    public override bool Equals(object? obj) {
         return obj is ColorUtils ec && ec.Equals(this);
     }
 
-    public override string ToString()
-    {
+    public override string ToString() {
         return $"{ToHexString()}, {ToHTML()}";
     }
 
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() {
 #if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
         return HashCode.Combine(_cType, _alpha, _c1, _c2, _c3);
 #else
@@ -681,13 +624,11 @@ public struct ColorUtils : IEquatable<ColorUtils>
 #endif
     }
 
-    public static bool operator ==(ColorUtils ec1, ColorUtils ec2)
-    {
+    public static bool operator ==(ColorUtils ec1, ColorUtils ec2) {
         return ec1.Equals(ec2);
     }
 
-    public static bool operator !=(ColorUtils ec1, ColorUtils ec2)
-    {
+    public static bool operator !=(ColorUtils ec1, ColorUtils ec2) {
         return !ec1.Equals(ec2);
     }
 
@@ -696,8 +637,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="includeAlpha">Whether to include the alpha channel or not</param>
     /// <returns>Hex string of the color</returns>
-    public string ToHexString(bool includeAlpha = true)
-    {
+    public string ToHexString(bool includeAlpha = true) {
         GetRGB(out byte r, out byte g, out byte b, out byte a);
         if (includeAlpha)
             return $"#{a:x2}{r:x2}{g:x2}{b:x2}";
@@ -710,8 +650,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="includeAlpha">Whether to include the alpha channel or not</param>
     /// <returns>HTML formatted rgb(r,g,b) or rgba(r,g,b,a)</returns>
-    public string ToHTML(bool includeAlpha = true)
-    {
+    public string ToHTML(bool includeAlpha = true) {
         GetRGB(out byte r, out byte g, out byte b, out byte a);
         if (includeAlpha)
             return $"rgba( {r}, {g}, {b}, {a} )";
@@ -719,13 +658,11 @@ public struct ColorUtils : IEquatable<ColorUtils>
             return $"rgb( {r}, {g}, {b} )";
     }
 
-    public string GetDisplayName()
-    {
+    public string GetDisplayName() {
         return KnownColorTable.GetColorName(this);
     }
 
-    public static ColorUtils FromDisplayName(string name)
-    {
+    public static ColorUtils FromDisplayName(string name) {
         return KnownColorTable.FromColorName(name);
     }
 
@@ -735,8 +672,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static ColorUtils Parse(string value)
-    {
+    public static ColorUtils Parse(string value) {
         if (TryParse(value.AsSpan(), out ColorUtils ec))
             return ec;
 
@@ -749,55 +685,42 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="value">Value to parse</param>
     /// <param name="ec">The color, if successful</param>
     /// <returns>True if successful, otherwise false</returns>
-    public static bool TryParse(ReadOnlySpan<char> value, out ColorUtils ec)
-    {
+    public static bool TryParse(ReadOnlySpan<char> value, out ColorUtils ec) {
 #if NETSTANDARD2_0
         return TryParseNetStandard2(value, out ec);
 #else
-        if (value.Contains("#", StringComparison.Ordinal))
-        {
+        if (value.Contains("#", StringComparison.Ordinal)) {
             var v = value.Slice(1);
-            if (v.Length == 3 || v.Length == 4)
-            {
+            if (v.Length == 3 || v.Length == 4) {
                 Span<char> normal = stackalloc char[v.Length * 2];
 
-                for (int i = 0; i < v.Length; i++)
-                {
+                for (int i = 0; i < v.Length; i++) {
                     normal[i * 2] = normal[i * 2 + 1] = v[i];
                 }
 
-                if (uint.TryParse(normal, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint result))
-                {
+                if (uint.TryParse(normal, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint result)) {
                     ec = FromUInt(result | (v.Length == 3 ? 0xff000000 : 0u));
                     return true;
                 }
-            }
-            else if (v.Length == 6 || v.Length == 8)
-            {
-                if (uint.TryParse(v, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint result))
-                {
+            } else if (v.Length == 6 || v.Length == 8) {
+                if (uint.TryParse(v, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint result)) {
                     ec = FromUInt(result | (v.Length == 6 ? 0xff000000 : 0u));
                     return true;
                 }
             }
-        }
-        else if (value.StartsWith("rgb"))
-        {
+        } else if (value.StartsWith("rgb")) {
             var start = value.IndexOf("(") + 1;
             var result = value.Slice(start, value.Length - start - 1).Trim().ToString().Split(',');
 
-            if (result.Length != 3 && result.Length != 4)
-            {
+            if (result.Length != 3 && result.Length != 4) {
                 ec = Empty;
                 return false;
             }
 
             if (byte.TryParse(result[0].Trim(), out byte r) &&
                 byte.TryParse(result[1].Trim(), out byte g) &&
-                byte.TryParse(result[2].Trim(), out byte b))
-            {
-                if (result.Length == 4 && byte.TryParse(result[3], out byte a))
-                {
+                byte.TryParse(result[2].Trim(), out byte b)) {
+                if (result.Length == 4 && byte.TryParse(result[3], out byte a)) {
                     ec = FromARGB(a, r, g, b);
                     return true;
                 }
@@ -873,19 +796,16 @@ public struct ColorUtils : IEquatable<ColorUtils>
     }
 #endif
 
-    public static implicit operator Color(ColorUtils ec)
-    {
+    public static implicit operator Color(ColorUtils ec) {
         ec.GetRGB(out byte r, out byte g, out byte b, out byte a);
         return Color.FromArgb(a, r, g, b);
     }
 
-    public static implicit operator ColorUtils(Color c)
-    {
+    public static implicit operator ColorUtils(Color c) {
         return FromUInt(c.ToUint32());
     }
 
-    public static bool AreColorsClose(ColorUtils col1, ColorUtils col2, float tolerance = 0.03f)
-    {
+    public static bool AreColorsClose(ColorUtils col1, ColorUtils col2, float tolerance = 0.03f) {
         return false;
         //switch (col1._cType)
         //{
@@ -929,8 +849,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="g">Green, [0,255]</param>
     /// <param name="b">Blue, [0,255]</param>
     /// <returns>RGB <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromRGB(byte r, byte g, byte b)
-    {
+    public static ColorUtils FromRGB(byte r, byte g, byte b) {
         return new ColorUtils(r, g, b);
     }
 
@@ -942,8 +861,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="g">Green, [0,255]</param>
     /// <param name="b">Blue, [0,255]</param>
     /// <returns>RGB <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromARGB(byte a, byte r, byte g, byte b)
-    {
+    public static ColorUtils FromARGB(byte a, byte r, byte g, byte b) {
         return new ColorUtils(r, g, b, a);
     }
 
@@ -955,8 +873,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="b">Blue, [0,1]</param>
     /// /// <param name="a">Alpha, [0,1]</param>
     /// <returns>RGB <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromRGBf(float r, float g, float b, float a = 1)
-    {
+    public static ColorUtils FromRGBf(float r, float g, float b, float a = 1) {
         ColorUtils newColor = new ColorUtils();
         newColor._cType = ColorType.RGB;
         newColor._c1 = MathUtils.Clamp(r, 0, 1);
@@ -971,8 +888,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="num"></param>
     /// <returns></returns>
-    public static ColorUtils FromUInt(uint num)
-    {
+    public static ColorUtils FromUInt(uint num) {
         byte a = (byte)((num >> 24) & 0xFF);
         byte r = (byte)((num >> 16) & 0xFF);
         byte g = (byte)((num >> 8) & 0xFF);
@@ -989,8 +905,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="val">Value, [0,100]</param>
     /// <param name="alpha">Alpha, [0,255]</param>
     /// <returns>HSV <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromHSV(int hue, int sat, int val, int alpha = 255)
-    {
+    public static ColorUtils FromHSV(int hue, int sat, int val, int alpha = 255) {
         return FromHSVf(hue, sat / 100f, val / 100f, alpha / 255f);
     }
 
@@ -1002,8 +917,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="val">Value, [0,1]</param>
     /// <param name="alpha">Alpha, [0,1]</param>
     /// <returns>HSV <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromHSVf(float hue, float sat, float val, float alpha = 1)
-    {
+    public static ColorUtils FromHSVf(float hue, float sat, float val, float alpha = 1) {
         ColorUtils newColor = new ColorUtils();
         newColor._cType = ColorType.HSV;
         newColor._c1 = hue == -1 ? 0 : MathUtils.Clamp(hue % 360, 0, 360);
@@ -1021,8 +935,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="light">Value, [0,100]</param>
     /// <param name="alpha">Alpha, [0,255]</param>
     /// <returns>HSL <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromHSL(int hue, int sat, int light, int alpha = 255)
-    {
+    public static ColorUtils FromHSL(int hue, int sat, int light, int alpha = 255) {
         return FromHSLf(hue, sat / 100f, light / 100f, alpha / 255f);
     }
 
@@ -1034,8 +947,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="light">Value, [0,1]</param>
     /// <param name="alpha">Alpha, [0,1]</param>
     /// <returns>HSL <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromHSLf(float hue, float sat, float light, float alpha = 1)
-    {
+    public static ColorUtils FromHSLf(float hue, float sat, float light, float alpha = 1) {
         ColorUtils newColor = new ColorUtils();
         newColor._cType = ColorType.HSL;
         newColor._c1 = hue == -1 ? 0 : MathUtils.Clamp(hue % 360, 0, 360);
@@ -1054,8 +966,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="k">Black, [0,100]</param>
     /// <param name="alpha">Cyan, [0,255]</param>
     /// <returns>CMYK <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromCMYK(int c, int m, int y, int k, int alpha = 255)
-    {
+    public static ColorUtils FromCMYK(int c, int m, int y, int k, int alpha = 255) {
         return FromCMYKf(c / 100f, m / 100f, y / 100f, k / 100f, alpha / 255f);
     }
 
@@ -1068,8 +979,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// <param name="k">Black, [0,1]</param>
     /// <param name="alpha">Cyan, [0,1]</param>
     /// <returns>CMYK <see cref="ColorUtils"/></returns>
-    public static ColorUtils FromCMYKf(float c, float m, float y, float k, float alpha = 1)
-    {
+    public static ColorUtils FromCMYKf(float c, float m, float y, float k, float alpha = 1) {
         ColorUtils newColor = new ColorUtils();
         newColor._cType = ColorType.CMYK;
         newColor._c1 = MathUtils.Clamp(c, 0, 1);
@@ -1081,99 +991,84 @@ public struct ColorUtils : IEquatable<ColorUtils>
     }
 
 
-    public ColorUtils WithHue(int h)
-    {
+    public ColorUtils WithHue(int h) {
         GetHSV(out _, out int s, out int v, out int a);
 
         return ColorUtils.FromHSV(h, s, v, a);
     }
 
-    public ColorUtils WithHuef(float h)
-    {
+    public ColorUtils WithHuef(float h) {
         GetHSVf(out _, out float s, out float v, out float a);
 
         return ColorUtils.FromHSVf(h, s, v, a);
     }
 
-    public ColorUtils WithSat(int s)
-    {
+    public ColorUtils WithSat(int s) {
         GetHSV(out int h, out _, out int v, out int a);
 
         return FromHSV(h, s, v, a);
     }
 
-    public ColorUtils WithSatf(float s)
-    {
+    public ColorUtils WithSatf(float s) {
         GetHSVf(out float h, out _, out float v, out float a);
 
         return FromHSVf(h, s, v, a);
     }
 
-    public ColorUtils WithVal(int v)
-    {
+    public ColorUtils WithVal(int v) {
         GetHSV(out int h, out int s, out _, out int a);
 
         return FromHSV(h, s, v, a);
     }
 
-    public ColorUtils WithValf(float v)
-    {
+    public ColorUtils WithValf(float v) {
         GetHSVf(out float h, out float s, out _, out float a);
 
         return FromHSVf(h, s, v, a);
     }
 
-    public ColorUtils WithRed(int r)
-    {
+    public ColorUtils WithRed(int r) {
         GetRGB(out _, out byte g, out byte b, out byte a);
 
         return new ColorUtils((byte)r, g, b, a);
     }
 
-    public ColorUtils WithRedf(float r)
-    {
+    public ColorUtils WithRedf(float r) {
         GetRGBf(out _, out float g, out float b, out float a);
 
         return FromRGBf(r, g, b, a);
     }
 
-    public ColorUtils WithGreen(int g)
-    {
+    public ColorUtils WithGreen(int g) {
         GetRGB(out byte r, out _, out byte b, out byte a);
 
         return new ColorUtils(r, (byte)g, b, a);
     }
 
-    public ColorUtils WithGreenf(float g)
-    {
+    public ColorUtils WithGreenf(float g) {
         GetRGBf(out float r, out _, out float b, out float a);
 
         return FromRGBf(r, g, b, a);
     }
 
-    public ColorUtils WithBlue(int b)
-    {
+    public ColorUtils WithBlue(int b) {
         GetRGB(out byte r, out byte g, out _, out byte a);
 
         return new ColorUtils(r, g, (byte)b, a);
     }
 
-    public ColorUtils WithBluef(float b)
-    {
+    public ColorUtils WithBluef(float b) {
         GetRGBf(out float r, out float g, out _, out float a);
 
         return FromRGBf(r, g, b, a);
     }
 
-    public ColorUtils WithAlpha(int a)
-    {
+    public ColorUtils WithAlpha(int a) {
         return WithAlphaf(a / 255f);
     }
 
-    public ColorUtils WithAlphaf(float a)
-    {
-        switch (_cType)
-        {
+    public ColorUtils WithAlphaf(float a) {
+        switch (_cType) {
             case ColorType.RGB:
                 return FromRGBf(Rf, Gf, Bf, a);
 
@@ -1196,8 +1091,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="amount">Amount to lighten/darken</param>
     /// <returns>HSL ColorUtils with the new lightness (old + amount)</returns>
-    public ColorUtils Lighten(float amount)
-    {
+    public ColorUtils Lighten(float amount) {
         if (_cType != ColorType.HSL)
             return ToHSL().Lighten(amount);
 
@@ -1212,8 +1106,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
     /// </summary>
     /// <param name="percent"></param>
     /// <returns>HSL ColorUtils with the new lightness (old + (old * percent))</returns>
-    public ColorUtils LightenPercent(float percent)
-    {
+    public ColorUtils LightenPercent(float percent) {
         if (_cType != ColorType.HSL)
             return ToHSL().LightenPercent(percent);
 
@@ -1224,12 +1117,10 @@ public struct ColorUtils : IEquatable<ColorUtils>
     }
 
 
-    public static void HSVToRGB(float hue, float sat, float val, out float r, out float g, out float b)
-    {
+    public static void HSVToRGB(float hue, float sat, float val, out float r, out float g, out float b) {
         r = g = b = val;
 
-        if (hue >= 0 && sat >= EPSILON)
-        {
+        if (hue >= 0 && sat >= EPSILON) {
             hue = (hue / 360f) * 6f;
 
             var h = (int)hue;
@@ -1237,8 +1128,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
             var v2 = val * (1f - sat * (hue - h));
             var v3 = val * (1f - sat * (1f - (hue - h)));
 
-            switch (h)
-            {
+            switch (h) {
                 case 0:
                     r = val;
                     g = v3;
@@ -1278,8 +1168,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         }
     }
 
-    public static void RGBToHSV(float r, float g, float b, out float h, out float s, out float v)
-    {
+    public static void RGBToHSV(float r, float g, float b, out float h, out float s, out float v) {
         var min = MathF.Min(r, MathF.Min(g, b));
         var max = MathF.Max(r, MathF.Max(g, b));
         var delta = max - min;
@@ -1288,20 +1177,14 @@ public struct ColorUtils : IEquatable<ColorUtils>
         s = 0;
         v = max;
 
-        if (delta > EPSILON)
-        {
+        if (delta > EPSILON) {
             s = delta / max;
 
-            if (MathF.Abs(r - max) < EPSILON)
-            {
+            if (MathF.Abs(r - max) < EPSILON) {
                 h = ((g - b) / delta);
-            }
-            else if (MathF.Abs(g - max) < EPSILON)
-            {
+            } else if (MathF.Abs(g - max) < EPSILON) {
                 h = (2f + (b - r) / delta);
-            }
-            else
-            {
+            } else {
                 h = (4f + (r - g) / delta);
             }
 
@@ -1314,8 +1197,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
             h -= 360;
     }
 
-    public static void HSLToRGB(float h, float s, float l, out float r, out float g, out float b)
-    {
+    public static void HSLToRGB(float h, float s, float l, out float r, out float g, out float b) {
         h /= 360f;
 
         r = l;
@@ -1323,8 +1205,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         b = l;
 
         //Adapted from SkiaSharp
-        if (s > EPSILON)
-        {
+        if (s > EPSILON) {
             float v2;
             if (l < 0.5f)
                 v2 = l * (1 + s);
@@ -1333,8 +1214,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
 
             var v1 = 2f * l - v2;
 
-            static float HueToRGB(float v1, float v2, float vH)
-            {
+            static float HueToRGB(float v1, float v2, float vH) {
                 if (vH < 0)
                     vH += 1f;
                 if (vH > 1)
@@ -1355,8 +1235,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         }
     }
 
-    public static void RGBToHSL(float r, float g, float b, out float h, out float s, out float l)
-    {
+    public static void RGBToHSL(float r, float g, float b, out float h, out float s, out float l) {
         var min = MathF.Min(r, MathF.Min(g, b));
         var max = MathF.Max(r, MathF.Max(g, b));
         var delta = max - min;
@@ -1365,8 +1244,7 @@ public struct ColorUtils : IEquatable<ColorUtils>
         s = 0;
         l = (max + min) * 0.5f;
 
-        if (delta > EPSILON)
-        {
+        if (delta > EPSILON) {
             if (l < 0.5)
                 s = delta / (max + min);
             else
@@ -1387,25 +1265,21 @@ public struct ColorUtils : IEquatable<ColorUtils>
         }
     }
 
-    public static void HSVToHSL(float hsvSat, float val, out float hslSat, out float l)
-    {
+    public static void HSVToHSL(float hsvSat, float val, out float hslSat, out float l) {
         l = val * (1 - hsvSat / 2f);
         hslSat = 0;
 
-        if (l > EPSILON && MathF.Abs(1 - l) > EPSILON)
-        {
+        if (l > EPSILON && MathF.Abs(1 - l) > EPSILON) {
             hslSat = 2 * (1 - (l / val));
         }
     }
 
-    public static void HSLToHSV(float hslSat, float l, out float hsvSat, out float v)
-    {
+    public static void HSLToHSV(float hslSat, float l, out float hsvSat, out float v) {
         v = l + hslSat * MathF.Min(l, 1 - l);
         hsvSat = v < EPSILON ? 0 : (2 * (1 - l / v));
     }
 
-    public static void RGBToCMYK(float r, float g, float b, out float c, out float m, out float y, out float k)
-    {
+    public static void RGBToCMYK(float r, float g, float b, out float c, out float m, out float y, out float k) {
         c = 1 - r;
         m = 1 - g;
         y = 1 - b;
@@ -1416,15 +1290,13 @@ public struct ColorUtils : IEquatable<ColorUtils>
         y = (y - k) / (1 - k);
     }
 
-    public static void CMYKToRGB(float c, float m, float y, float k, out float r, out float g, out float b)
-    {
+    public static void CMYKToRGB(float c, float m, float y, float k, out float r, out float g, out float b) {
         r = (1 - c) * (1 - k);
         g = (1 - m) * (1 - k);
         b = (1 - y) * (1 - k);
     }
 
-    public static void HSVToUInt(float hue, float sat, float val, out uint num)
-    {
+    public static void HSVToUInt(float hue, float sat, float val, out uint num) {
         HSVToRGB(hue, sat, val, out float r, out float g, out float b);
 
         num = ((uint)0xFF << 24) | ((uint)(r * 255) << 16) | ((uint)(g * 255) << 8) | (uint)(b * 255);
@@ -1440,26 +1312,21 @@ public struct ColorUtils : IEquatable<ColorUtils>
     public static readonly ColorUtils Empty = new ColorUtils();
 }
 
-internal static class KnownColorTable
-{
+internal static class KnownColorTable {
     private static Dictionary<ColorUtils, string> ColorTable;
 
-    public static string GetColorName(ColorUtils c)
-    {
+    public static string GetColorName(ColorUtils c) {
         InitColorTable();
 
-        if (ColorTable.TryGetValue(c, out string? value))
-        {
+        if (ColorTable.TryGetValue(c, out string? value)) {
             return value;
         }
 
         return "";
     }
 
-    public static ColorUtils FromColorName(string name)
-    {
-        foreach (var kvp in ColorTable)
-        {
+    public static ColorUtils FromColorName(string name) {
+        foreach (var kvp in ColorTable) {
             if (name.Equals(kvp.Value, StringComparison.OrdinalIgnoreCase))
                 return kvp.Key;
         }
@@ -1467,16 +1334,13 @@ internal static class KnownColorTable
         return ColorUtils.Empty;
     }
 
-    private static void InitColorTable()
-    {
-        if (ColorTable == null)
-        {
+    private static void InitColorTable() {
+        if (ColorTable == null) {
             var kcs = (KnownColor[])System.Enum.GetValues(typeof(KnownColor));
             var names = System.Enum.GetNames(typeof(KnownColor));
 
             ColorTable = new Dictionary<ColorUtils, string>(kcs.Length);
-            for (int i = 0; i < kcs.Length; i++)
-            {
+            for (int i = 0; i < kcs.Length; i++) {
                 var c2 = ColorUtils.FromUInt((uint)kcs[i]);
                 if (!ColorTable.ContainsKey(c2))
                     ColorTable.Add(c2, names[i]);
@@ -1485,8 +1349,7 @@ internal static class KnownColorTable
     }
 }
 
-internal enum KnownColor : uint
-{
+internal enum KnownColor : uint {
     None,
     AliceBlue = 0xfff0f8ff,
     AntiqueWhite = 0xfffaebd7,

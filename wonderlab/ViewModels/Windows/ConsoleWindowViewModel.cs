@@ -15,8 +15,7 @@ using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Windows
-{
+namespace wonderlab.ViewModels.Windows {
     public class ConsoleWindowViewModel : ReactiveObject {
         private bool IsProcessClose = false;
 
@@ -27,8 +26,8 @@ namespace wonderlab.ViewModels.Windows
             PropertyChanged += OnPropertyChanged;
         }
 
-        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {       
-            if(e.Action is NotifyCollectionChangedAction.Remove) {
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+            if (e.Action is NotifyCollectionChangedAction.Remove) {
                 IsProcessClose = true;
             }
         }

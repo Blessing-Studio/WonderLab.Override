@@ -10,6 +10,7 @@ using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using Avalonia.Input;
+using wonderlab.Views.Windows;
 
 namespace wonderlab.Views.Pages
 {
@@ -35,8 +36,8 @@ namespace wonderlab.Views.Pages
 
         private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             Button? button = sender as Button;
-            MainWindow.Instance.CloseTopBar();
-           new GameCoreConfigPage((button!.DataContext! as GameCore)!)!.Navigation();
+            App.CurrentWindow.CloseTopBar();
+            new GameCoreConfigPage((button!.DataContext! as GameCore)!)!.Navigation();
         }
 
         private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
@@ -53,7 +54,7 @@ namespace wonderlab.Views.Pages
             ViewModel.GetGameCoresAction();
 
             Spotlight.IsHitTestVisible = true;
-            ViewModel.PanelHeight = MainWindow.Instance.Height - 180;
+            ViewModel.PanelHeight = App.CurrentWindow.Height - 180;
 
             await Task.Delay(60);
             Polymerize.Opacity = 1;

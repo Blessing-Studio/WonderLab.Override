@@ -15,8 +15,7 @@ using System.Threading.Tasks;
 using Tmds.DBus;
 using wonderlab.Class.Models;
 
-namespace wonderlab.Class.Utils
-{
+namespace wonderlab.Class.Utils {
     public class ServerUtils {
         public string Address { get; init; }
         public ushort Port { get; init; }
@@ -32,7 +31,7 @@ namespace wonderlab.Class.Utils
         /// 服务器信息获取方法
         /// </summary>
         /// <exception cref="OperationCanceledException"></exception>
-        public async Task<ServerInfoModel> GetServerInfoAsync() {
+        public async ValueTask<ServerInfoModel> GetServerInfoAsync() {
             using var client = new TcpClient {
                 SendTimeout = 5000,
                 ReceiveTimeout = 5000

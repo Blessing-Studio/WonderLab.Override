@@ -1,23 +1,17 @@
 ﻿using MinecraftLaunch.Modules.Models.Download;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class WebConfigPageViewModel : ReactiveObject {
         public WebConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }
 
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
+        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(DownloadCount)) {
                 App.LauncherData.DownloadCount = DownloadCount;
             }

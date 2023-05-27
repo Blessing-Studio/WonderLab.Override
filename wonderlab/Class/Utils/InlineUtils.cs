@@ -37,8 +37,8 @@ namespace wonderlab.Class.Utils {
 
         private static readonly Dictionary<char, Color> Colors = new() {
             { '0', MotdColor.Black },
-            { '1', MotdColor.DarkBlue },                             
-            { '2', MotdColor.DarkGreen },          
+            { '1', MotdColor.DarkBlue },
+            { '2', MotdColor.DarkGreen },
             { '3', MotdColor.DarkAqua },
             { '4', MotdColor.DarkRed },
             { '5', MotdColor.DarkPurple },
@@ -51,17 +51,17 @@ namespace wonderlab.Class.Utils {
             { 'c', MotdColor.Red },
             { 'd', MotdColor.LightPurple },
             { 'e', MotdColor.Yellow },
-            { 'f', MotdColor.White },                  
-            { 'g', MotdColor.MineCoinGold }                             
+            { 'f', MotdColor.White },
+            { 'g', MotdColor.MineCoinGold }
         };
 
-        private static readonly Dictionary<char, MotdTextFormat> Formats = new() {       
+        private static readonly Dictionary<char, MotdTextFormat> Formats = new() {
             { 'k', MotdTextFormat.Obfuscated },
             { 'l', MotdTextFormat.Bold },
-            { 'm', MotdTextFormat.StrikeThrough },                
-            { 'n', MotdTextFormat.Underline },                   
-            { 'o', MotdTextFormat.Italic },            
-            { 'r',  MotdTextFormat.Reset }                 
+            { 'm', MotdTextFormat.StrikeThrough },
+            { 'n', MotdTextFormat.Underline },
+            { 'o', MotdTextFormat.Italic },
+            { 'r',  MotdTextFormat.Reset }
         };
 
         public static string GetColorCode(string colorName) {
@@ -75,10 +75,8 @@ namespace wonderlab.Class.Utils {
             return $"§{result}" ?? "f";
         }
 
-        public static string GetFormat(JToken info)
-        {
-            if (info == null)
-            {
+        public static string GetFormat(JToken info) {
+            if (info == null) {
                 return string.Empty;
             }
             Chat chat = Chat.FromJson(info.ToString());
@@ -92,7 +90,7 @@ namespace wonderlab.Class.Utils {
                 list.Add(new Run("["));
 
                 //time
-                list.Add(new Run(log.Time) { 
+                list.Add(new Run(log.Time) {
                     Foreground = ThemeUtils.GetBrush("AccentBrush")
                 });
 
@@ -101,28 +99,26 @@ namespace wonderlab.Class.Utils {
                 list.Add(new Run("["));
 
                 //info
-                list.Add(new Run(log.Source) {               
+                list.Add(new Run(log.Source) {
                     Foreground = ThemeUtils.GetBrush("AccentBrushDark2")
                 });
 
-                if(!string.IsNullOrEmpty(log.Source)) {
+                if (!string.IsNullOrEmpty(log.Source)) {
                     list.Add(new Run("/"));
                 }
 
-                list.Add(new Run(log.LogType.ToString()) {               
+                list.Add(new Run(log.LogType.ToString()) {
                     Foreground = ThemeUtils.GetBrush("AccentBrushLight1")
                 });
 
                 list.Add(new Run("]"));
                 list.Add(new Run(log.Log));
-            }
-            else if (log.LogType is GameLogType.Unknown) {
+            } else if (log.LogType is GameLogType.Unknown) {
                 list.Add(new Run(log.Log));
-            }
-            else if(log.LogType is GameLogType.Exception || log.LogType is GameLogType.StackTrace) {         
+            } else if (log.LogType is GameLogType.Exception || log.LogType is GameLogType.StackTrace) {
                 list.Add(new Run(log.Log) {
                     Foreground = new SolidColorBrush(Color.Parse("#FD475D"))
-                });;
+                }); ;
             }
 
             return list;

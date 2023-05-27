@@ -7,27 +7,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 
-namespace wonderlab.Class.Utils
-{
-    public static class UpdateUtils
-    {
+namespace wonderlab.Class.Utils {
+    public static class UpdateUtils {
         public const string VersionType = "Lsaac";
 
-        //public const int Version = 127;
-
-        const string API = "http://api.2018k.cn/getExample?id=f08e3a0d2d8f47d6b5aee68ec2499a21&data=version|notice|url|remark|lasttime";
-
         public static async ValueTask<UpdateInfo> GetLatestUpdateInfoAsync() {
-            try {           
-                var responseMessage = await HttpWrapper.HttpGetAsync(API);                
+            try {
+                var responseMessage = await HttpWrapper.HttpGetAsync(GlobalResources.UpdateApi);
                 var json = await responseMessage.Content.ReadAsStringAsync();
                 var texts = json.Split('|');
 
-                return new()
-                {
+                return new() {
                     Title = texts[1],
                     TagName = texts[0],
                     Message = texts[3],
@@ -42,21 +37,45 @@ namespace wonderlab.Class.Utils
             return null!;
         }
 
-        public static async void UpdateAsync(UpdateInfo info,Action<float> action, Action ok) {
+        public static async void UpdateAsync(UpdateInfo info, Action<float> action) {
             if (info.CanUpdate()) {
-                var downloadResponse = await HttpWrapper.HttpDownloadAsync(info.DownloadUrl, Directory.GetCurrentDirectory(), (p, s) =>
-                {
+                var downloadResponse = await HttpWrapper.HttpDownloadAsync(info.DownloadUrl, Directory.GetCurrentDirectory(), (p, s) => {
                     action(p);
                 }, "WonderLab.update");
 
-                if (downloadResponse.HttpStatusCode is System.Net.HttpStatusCode.OK) {
-                    ok();
+                if (downloadResponse.HttpStatusCode is HttpStatusCode.OK) {
+                    try {
+                        Process.Start(new ProcessStartInfo {
+                            FileName = "powershell.exe",
+                            Arguments = ArgumentsBuilding(),
+                            WorkingDirectory = Directory.GetCurrentDirectory(),
+                            UseShellExecute = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                        });
+
+                        var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
+                        App.LauncherData.LauncherVersion = intVersion;
+                        JsonUtils.WriteLauncherInfoJson();
+                    }
+                    catch (Exception) { }
                 }
             }
         }
+
+        public static string ArgumentsBuilding() {
+            int currentPID = Process.GetCurrentProcess().Id;
+            string name = Process.GetCurrentProcess().ProcessName, filename = $"{name}.exe";
+
+            return $"Stop-Process -Id {currentPID} -Force;" +
+                        $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
+                        "Start-Sleep -Milliseconds 500;" +
+                        $"Remove-Item {filename} -Force;" +
+                        $"Rename-Item WonderLab.update {filename};" +
+                        $"Start-Process {name}.exe -Args updated;";
+        }
     }
-    
-    public class UpdateInfo {   
+
+    public class UpdateInfo {
         public string TagName { get; set; }
 
         public string Title { get; set; }

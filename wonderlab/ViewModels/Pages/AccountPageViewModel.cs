@@ -1,38 +1,31 @@
 ﻿using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Toolkits;
 
-namespace wonderlab.ViewModels.Pages
-{
-    public class UserPageViewModel : ReactiveObject {
-        public UserPageViewModel() {
+namespace wonderlab.ViewModels.Pages {
+    public class AccountPageViewModel : ReactiveObject {
+        public AccountPageViewModel() {
             Init();
         }
 
         [Reactive]
-        public ObservableCollection<AccountViewData> GameAccounts { get; set; }
+        public ObservableCollection<AccountViewData> GameAccounts { get; set; } = new();
 
         [Reactive]
         public AccountViewData CurrentGameAccount { get; set; }
 
         public void CreateAccountAction() {
-            MainWindow.Instance.Auth.Start();
+            App.CurrentWindow.Auth.Start();
         }
 
         public void Init() {
             Dispatcher.UIThread.Post(async () => {
-                GameAccounts = (await GameAccountUtils.GetUsersAsync().ToListAsync()).ToObservableCollection();
+                GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
             });
         }
         public void BackPageAction() {

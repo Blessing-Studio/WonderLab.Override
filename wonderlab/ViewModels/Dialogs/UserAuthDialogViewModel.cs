@@ -12,13 +12,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
+using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Dialogs
-{
+namespace wonderlab.ViewModels.Dialogs {
     public class UserAuthDialogViewModel : ReactiveObject {
         public UserAuthDialogViewModel() {
             PropertyChanged += OnPropertyChanged;
@@ -81,8 +82,7 @@ namespace wonderlab.ViewModels.Dialogs
                 IsUrlVisible = false;
                 IsMicrosoftAuth = false;
 
-                switch (CurrentAuthenticatorType)
-                {
+                switch (CurrentAuthenticatorType) {
                     case 0:
                         AuthDialogTitle = "离线验证";
                         IsEmailVisible = true;
@@ -109,30 +109,27 @@ namespace wonderlab.ViewModels.Dialogs
                 OfflineAuthenticator offline = new(Email);
                 accountData = offline.Auth();
 
-                await GameAccountUtils.SaveUserDataAsync(new()
-                {
+                await AccountUtils.SaveAsync(new() {
                     UserToken = accountData.AccessToken,
                     UserName = accountData.Name,
                     Uuid = accountData.Uuid.ToString()
                 });
-            }
-            else if (CurrentAuthenticatorType == 1) {
+            } else if (CurrentAuthenticatorType == 1) {
                 try {
                     YggdrasilAuthenticator authenticator = new(Url, Email, Password);
                     var result = await authenticator.AuthAsync();
 
                     YggdrasilAccounts = result.ToObservableCollection();
-                    MainWindow.Instance.Auth.AuthDialog.HideDialog();
-                    MainWindow.Instance.Auth.YggdrasilAccountSelector.ShowDialog();
+                    App.CurrentWindow.Auth.AuthDialog.HideDialog();
+                    App.CurrentWindow.Auth.YggdrasilAccountSelector.ShowDialog();
                 }
                 catch (Exception ex) {
                     $"WonderLab 遭遇了不可描述的 Bug，详细信息：{ex.Message}".ShowMessage("我日，炸了");
                 }
                 return;
-            }
-            else if (CurrentAuthenticatorType == 2) {
-                MicrosoftAuthenticator authenticator = new(AuthType.Access) {               
-                    ClientId = "9fd44410-8ed7-4eb3-a160-9f1cc62c824c"
+            } else if (CurrentAuthenticatorType == 2) {
+                MicrosoftAuthenticator authenticator = new(AuthType.Access) {
+                    ClientId = GlobalResources.ClientId
                 };
 
                 var codeInfo = await authenticator.GetDeviceInfo();
@@ -143,15 +140,14 @@ namespace wonderlab.ViewModels.Dialogs
                 MicrosoftTip1 = $"请使用浏览器访问 {codeInfo.VerificationUrl} 并输入代码 {codeInfo.UserCode} 以完成登录";
                 IsLoadingComplete = true;
 
-                try {               
+                try {
                     var token = await authenticator.GetTokenResponse(codeInfo);
 
                     accountData = await authenticator.AuthAsync(x => {
                         Trace.WriteLine($"[信息] {x}");
                     });
-                    
-                    await GameAccountUtils.SaveUserDataAsync(new()
-                    {
+
+                    await AccountUtils.SaveAsync(new() {
                         AccessToken = ((MicrosoftAccount)accountData).RefreshToken!,
                         UserName = accountData.Name,
                         UserToken = accountData.AccessToken,
@@ -165,7 +161,7 @@ namespace wonderlab.ViewModels.Dialogs
             }
 
             ResettingAction();
-            MainWindow.Instance.Auth.AuthDialog.HideDialog();
+            App.CurrentWindow.Auth.AuthDialog.HideDialog();
             $"账户 {accountData.Name} 已成功添加至启动器！欢迎回来，{accountData.Name}！".ShowMessage("成功");
         }
 
@@ -173,14 +169,14 @@ namespace wonderlab.ViewModels.Dialogs
             await Application.Current!.Clipboard!.SetTextAsync(Code);
             $"已成功将代码 {Code} 复制到剪贴板".ShowMessage("信息");
 
-            Process.Start(new ProcessStartInfo(VerificationUrl) {           
+            Process.Start(new ProcessStartInfo(VerificationUrl) {
                 UseShellExecute = true,
                 Verb = "open"
             });
         }
 
         public async void SaveYggdrasilAccountAction() {
-            await GameAccountUtils.SaveUserDataAsync(new() {           
+            await AccountUtils.SaveAsync(new() {
                 AccessToken = CurrentYggdrasilAccount.ClientToken!,
                 UserName = CurrentYggdrasilAccount.Name,
                 UserToken = CurrentYggdrasilAccount.AccessToken,
@@ -191,13 +187,13 @@ namespace wonderlab.ViewModels.Dialogs
                 YggdrasilUrl = CurrentYggdrasilAccount.YggdrasilServerUrl
             });
 
-            MainWindow.Instance.Auth.YggdrasilAccountSelector.HideDialog();
+            App.CurrentWindow.Auth.YggdrasilAccountSelector.HideDialog();
             $"账户 {CurrentYggdrasilAccount.Name} 已成功添加至启动器！欢迎回来，{CurrentYggdrasilAccount.Name}！".ShowMessage("成功");
             ResettingAction();
         }
 
         public void ResettingAction() {
-            UserPage.ViewModel.Init();
+            AccountPage.ViewModel.Init();
             Email = string.Empty;
             Password = string.Empty;
             Url = string.Empty;
@@ -209,7 +205,7 @@ namespace wonderlab.ViewModels.Dialogs
         }
 
         public void GameLaunchAction() {
-            MainWindow.Instance.Auth.AccountSelector.HideDialog();
+            App.CurrentWindow.Auth.AccountSelector.HideDialog();
             HomePage.ViewModel.CurrentAccount = CurrentAccount.Data.ToAccount();
 
             //此时已选择完账户，直接启动
@@ -217,7 +213,7 @@ namespace wonderlab.ViewModels.Dialogs
         }
 
         public void HideSelectorDialogAction() {
-            MainWindow.Instance.Auth.AccountSelector.HideDialog();
+            App.CurrentWindow.Auth.AccountSelector.HideDialog();
         }
     }
 }

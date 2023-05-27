@@ -2,15 +2,9 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace wonderlab.Class.Utils
-{
+namespace wonderlab.Class.Utils {
     public static class ThemeUtils {
         public static void SetAccentColor(Color value) {
             ColorUtils utils = value;
@@ -28,14 +22,13 @@ namespace wonderlab.Class.Utils
             return (Color)AccentColorResources[name]!;
         }
 
-        public static SolidColorBrush GetBrush(string name) {       
+        public static SolidColorBrush GetBrush(string name) {
             return (SolidColorBrush)AccentColorResources[name]!;
         }
 
         public static void Init() {
             AccentColorResources = (AvaloniaXamlLoader.Load(new Uri("avares://wonderlab.Control/Theme/BasicResource.axaml")) as ResourceDictionary)!;
             Application.Current!.Resources.MergedDictionaries.Add(AccentColorResources);
-
             SetAccentColor(Color.Parse("#F4D03F"));
         }
 

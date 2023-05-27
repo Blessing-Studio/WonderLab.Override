@@ -1,5 +1,4 @@
-﻿using Avalonia.Media;
-using DynamicData;
+﻿using DynamicData;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
 using ReactiveUI;
@@ -7,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;

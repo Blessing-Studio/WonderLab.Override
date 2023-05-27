@@ -22,10 +22,8 @@ using wonderlab.Class.ViewData;
 using wonderlab.control.Controls.Dialog;
 using wonderlab.Views.Pages;
 
-namespace wonderlab.ViewModels.Windows
-{
-    public class MainWindowViewModel : ReactiveObject
-    {
+namespace wonderlab.ViewModels.Windows {
+    public class MainWindowViewModel : ReactiveObject {
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
         }

@@ -4,9 +4,7 @@ using DynamicData;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +13,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class WebModpackInfoPageViewModel : ReactiveObject {
         public WebModpackInfoPageViewModel() {
             PropertyChanged += OnPropertyChanged;
@@ -35,8 +32,7 @@ namespace wonderlab.ViewModels.Pages
             ResourceId = data.Data.ChineseTitle;
             if (data.Data.ScreenshotUrls == null) {
                 Screenshots.Add(data.Icon);
-            }
-            else {
+            } else {
                 _ = GetScreenshotsAsync();
             }
 
@@ -61,7 +57,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async ValueTask GetScreenshotsAsync() {
-            foreach (var url in Data.Data.ScreenshotUrls.AsParallel()) {           
+            foreach (var url in Data.Data.ScreenshotUrls.AsParallel()) {
                 var result = await Task.Run(async () => {
                     return await HttpUtils.GetWebBitmapAsync(url);
                 });

@@ -13,36 +13,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tmds.DBus;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 
-namespace wonderlab.Class.Utils
-{
+namespace wonderlab.Class.Utils {
     public static class HttpUtils {
-        const string MojangNewsAPI = "https://launchercontent.mojang.com/news.json";
-        const string HitokotoAPI = "https://v1.hitokoto.cn/";
 
         public static async ValueTask<IEnumerable<New>> GetMojangNewsAsync() {
             var result = new List<New>();
 
-			try {			
-                var json = await (await HttpWrapper.HttpGetAsync(MojangNewsAPI)).Content.ReadAsStringAsync();
+            try {
+                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.MojangNewsApi)).Content.ReadAsStringAsync();
                 result = json.ToJsonEntity<MojangNewsModel>().Entries;
+                CacheResources.MojangNews = result;
             }
             catch (Exception ex) {
                 Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
                 Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
 
                 $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
-			}
+            }
 
             return result;
         }
 
-        public static async ValueTask<HitokotoModel> GetHitokotoTextAsync() { 
+        public static async ValueTask<HitokotoModel> GetHitokotoTextAsync() {
             var result = new HitokotoModel();
 
             try {
-                var json = await (await HttpWrapper.HttpGetAsync(HitokotoAPI)).Content.ReadAsStringAsync();
+                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.HitokotoApi)).Content.ReadAsStringAsync();
                 result = json.ToJsonEntity<HitokotoModel>();
             }
             catch (Exception ex) {
@@ -60,7 +59,7 @@ namespace wonderlab.Class.Utils
             return result.Latest.Last().Value;
         }
 
-        public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) { 
+        public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) {
             return await Task.Run(async () => {
                 var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
 
@@ -73,8 +72,8 @@ namespace wonderlab.Class.Utils
             try {
                 var result = await Task.Run(async () => await HttpWrapper.HttpClient.GetAsync(url));
                 return true;
-            }            
-            catch (Exception) {           
+            }
+            catch (Exception) {
                 GC.Collect();
                 return false;
             }

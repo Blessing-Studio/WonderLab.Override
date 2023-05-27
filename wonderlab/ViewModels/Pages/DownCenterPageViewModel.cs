@@ -1,9 +1,5 @@
-﻿using Avalonia.Controls;
-using MinecraftLaunch.Modules.Installer;
-using MinecraftLaunch.Modules.Models.Auth;
-using MinecraftLaunch.Modules.Models.Download;
+﻿using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,17 +8,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class DownCenterPageViewModel : ReactiveObject {
         public IEnumerable<GameCoreEmtity> Cache;
 
@@ -32,17 +26,15 @@ namespace wonderlab.ViewModels.Pages
         }
 
         private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(CurrentMcVersionType)) {     
+            if (e.PropertyName == nameof(CurrentMcVersionType)) {
                 GameCores.Clear();
 
-                foreach (var item in Cache.Where(x => x.Type.Contains(CurrentMcVersionType))) {               
+                foreach (var item in Cache.Where(x => x.Type.Contains(CurrentMcVersionType))) {
                     GameCores.Add(item);
                     await Task.Delay(20);
                 }
             }
         }
-
-        public CurseForgeToolkit Toolkit { get; } = new("$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6");
 
         [Reactive]
         public ObservableCollection<WebModpackViewData> Resources { get; set; } = new();
@@ -55,7 +47,7 @@ namespace wonderlab.ViewModels.Pages
 
         [Reactive]
         public bool IsResource { get; set; } = false;
-        
+
         [Reactive]
         public string SearchFilter { get; set; }
 
@@ -77,7 +69,7 @@ namespace wonderlab.ViewModels.Pages
         [Reactive]
         public ResourceType ResourceType { get; set; } = ResourceType.Minecraft;
 
-        public List<string> McVersions { get; } = new() {       
+        public List<string> McVersions { get; } = new() {
             "All",
             "1.19.4",
             "1.19.3",
@@ -110,7 +102,7 @@ namespace wonderlab.ViewModels.Pages
             { 12, "资源包" },
             { 17, "地图" },
         };
-        
+
         public Dictionary<int, string> ModpackCategories { get; } = new() {
             { 406, "世界生成" },
             { 407, "生物群系" },
@@ -152,7 +144,7 @@ namespace wonderlab.ViewModels.Pages
         public async ValueTask GetCurseforgeResourceAsync() {
             Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await Toolkit.GetFeaturedsAsync());
+            var modpacks = await Task.Run(async () => await GlobalResources.CurseForgeToolkit.GetFeaturedsAsync());
             foreach (var x in modpacks) {
                 Resources.Add(new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>());
                 await Task.Delay(10);
@@ -166,23 +158,22 @@ namespace wonderlab.ViewModels.Pages
                 //模组中文搜索检测
                 var searchFilter = string.Empty;
                 if (CurrentCategorie.Key == 6 && !string.IsNullOrEmpty(SearchFilter)) {
-                    foreach (var item in DataUtil.WebModpackInfoDatas.AsParallel()) {           
-                        if(SearchFilter.IsChinese() && item.Value.Chinese.Contains(SearchFilter) && item.Value.Chinese.Contains("(") && item.Value.Chinese.Contains(")")) {
+                    foreach (var item in CacheResources.WebModpackInfoDatas.AsParallel()) {
+                        if (SearchFilter.IsChinese() && item.Value.Chinese.Contains(SearchFilter) && item.Value.Chinese.Contains("(") && item.Value.Chinese.Contains(")")) {
                             item.Value.CurseForgeId = item.Value.Chinese.Split(" (")[1].Split(")").First().Trim();
                             searchFilter = item.Value.CurseForgeId;
-                            
+
                             Trace.WriteLine($"[信息] 新的 CurseForgeId 值为 {searchFilter}");
                             break;
                         } else if (SearchFilter.IsChinese()) searchFilter = item.Value.CurseForgeId.Replace("-", " ");
                     }
-                }
-                else if (!string.IsNullOrEmpty(SearchFilter)) {
+                } else if (!string.IsNullOrEmpty(SearchFilter)) {
                     searchFilter = SearchFilter;
                 }
 
 
                 Resources.Clear();
-                var result = (await Toolkit.SearchResourceAsync(string.IsNullOrEmpty(searchFilter) ? SearchFilter : searchFilter, 
+                var result = (await GlobalResources.CurseForgeToolkit.SearchResourceAsync(string.IsNullOrEmpty(searchFilter) ? SearchFilter : searchFilter,
                     CurrentCategorie.Key, gameVersion: CurrentMcVersion.Contains("All") ? string.Empty : CurrentMcVersion))
                     .Select(x => new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>()).ToList();
 
@@ -191,8 +182,7 @@ namespace wonderlab.ViewModels.Pages
                 foreach (var item in list) {
                     if (!string.IsNullOrEmpty(SearchFilter) && SearchFilter.IsChinese() && item.Data.ChineseTitle.Contains(SearchFilter)) {
                         result.MoveToFront(item);
-                    }
-                    else if (!string.IsNullOrEmpty(SearchFilter) && item.Data.NormalTitle.Contains(SearchFilter)) {
+                    } else if (!string.IsNullOrEmpty(SearchFilter) && item.Data.NormalTitle.Contains(SearchFilter)) {
                         result.MoveToFront(item);
                     }
                 }
@@ -214,7 +204,7 @@ namespace wonderlab.ViewModels.Pages
             var modpacks = await Task.Run(async () => await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
             IsLoading = false;
 
-            foreach (var i in modpacks.Hits.AsParallel()) {           
+            foreach (var i in modpacks.Hits.AsParallel()) {
                 await Task.Run(async () => {
                     var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
                     Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
@@ -228,23 +218,23 @@ namespace wonderlab.ViewModels.Pages
             var result = Cache.Where(x => x.Id.Contains(SearchFilter)).ToList();
             IsLoading = false;
 
-            foreach (var item in result.Where(x => x.Type.Contains(CurrentMcVersionType))) {           
+            foreach (var item in result.Where(x => x.Type.Contains(CurrentMcVersionType))) {
                 GameCores.Add(item);
                 await Task.Delay(20);
             }
         }
 
         public void OpenGameInstallDialogAction() {
-            MainWindow.Instance.Install.InstallDialog.ShowDialog();
+            App.CurrentWindow.Install.InstallDialog.ShowDialog();
         }
 
-        public async void GetGameCoresAction() {       
+        public async void GetGameCoresAction() {
             try {
                 var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
                 GameCores.Clear();
 
                 var temp = result.Cores.Where(x => {
-                    x.Type = x.Type switch {                   
+                    x.Type = x.Type switch {
                         "snapshot" => "快照版本",
                         "release" => "正式版本",
                         "old_alpha" => "远古版本",
@@ -261,7 +251,7 @@ namespace wonderlab.ViewModels.Pages
                     await Task.Delay(20);
                 }
             }
-            catch (Exception ex) {           
+            catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
             }
         }
@@ -271,7 +261,7 @@ namespace wonderlab.ViewModels.Pages
             await GetModrinthResourceAsync();
         }
 
-        public async void GetCurseforgeModpackAction() {       
+        public async void GetCurseforgeModpackAction() {
             IsLoading = true;
             await GetCurseforgeResourceAsync();
         }
@@ -279,8 +269,7 @@ namespace wonderlab.ViewModels.Pages
         public async void SearchResourceAction() {
             IsLoading = true;
 
-            switch (ResourceType)
-            {
+            switch (ResourceType) {
                 case ResourceType.Minecraft:
                     await SearchGameCoreAsync();
                     break;
@@ -297,7 +286,7 @@ namespace wonderlab.ViewModels.Pages
             SearcherHeight = 180;
         }
 
-        public void CloseSearchOptionsAction() {       
+        public void CloseSearchOptionsAction() {
             SearcherHeight = 0;
         }
 

@@ -17,10 +17,10 @@ namespace wonderlab.Class.Models
         public string GameDirectoryPath { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),".minecraft");
 
         [JsonProperty("javaruntimePath")]
-        public JavaInfo JavaRuntimePath { get; set; }
+        public JavaInfo JavaRuntimePath { get; set; } = new();
 
         [JsonProperty("selectgameCore")]
-        public string SelectGameCore { get; set; }
+        public string SelectGameCore { get; set; } = string.Empty;
 
         [JsonProperty("maxMemory")]
         public int MaxMemory { get; set; } = 1024;

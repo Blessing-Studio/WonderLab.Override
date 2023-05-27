@@ -16,11 +16,10 @@ using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class ConsolePageViewModel : ReactiveObject {
         public ConsolePageViewModel(MinecraftProcessViewData data, ListBox box) {
-            if(!data.IsNull()) {
+            if (!data.IsNull()) {
                 GameLogs.AddRange(data!.Outputs);
                 data.Data.ProcessOutput += OnProcessOutput;
             }
@@ -28,7 +27,7 @@ namespace wonderlab.ViewModels.Pages
             Box = box;
         }
 
-        private void OnProcessOutput(object? sender, IProcessOutput e) {       
+        private void OnProcessOutput(object? sender, IProcessOutput e) {
             e.Raw.ShowLog();
             var result = GameLogAnalyzer.AnalyseAsync(e.Raw);
             Dispatcher.UIThread.Post(() => {
@@ -38,7 +37,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public ListBox Box { get; private set; }
-    
+
         [Reactive]
         public ObservableCollection<InlineCollection> GameLogs { get; set; } = new();
     }

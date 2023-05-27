@@ -1,20 +1,14 @@
-﻿using Avalonia.Media;
-using MinecraftLaunch.Modules.Models.Launch;
+﻿using MinecraftLaunch.Modules.Models.Launch;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.Utils;
-using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
 
-namespace wonderlab.ViewModels.Pages
-{
-    public class GameCoreConfigPageViewModel : ReactiveObject {   
+namespace wonderlab.ViewModels.Pages {
+    public class GameCoreConfigPageViewModel : ReactiveObject {
         public GameCoreConfigPageViewModel(GameCore core) {
             PropertyChanged += OnPropertyChanged;
 
@@ -25,12 +19,12 @@ namespace wonderlab.ViewModels.Pages
                 AsyncRunAction();
                 ModLoaders = core.HasModLoader ? string.Join(",", core.ModLoaderInfos.Select(x => x.ModLoaderType)) : "Vanllia";
             }
-            catch (Exception) {           
+            catch (Exception) {
 
             }
         }
 
-        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
+        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
 
         }
 
@@ -53,11 +47,11 @@ namespace wonderlab.ViewModels.Pages
 
         public void GoBackAction() {
             new HomePage().Navigation();
-            MainWindow.Instance.OpenTopBar();
+            App.CurrentWindow.OpenTopBar();
         }
 
         public void OpenFolderAction() {
-            Process.Start(new ProcessStartInfo(Current.Root!.FullName) {           
+            Process.Start(new ProcessStartInfo(Current.Root!.FullName) {
                 UseShellExecute = true,
                 Verb = "open"
             });

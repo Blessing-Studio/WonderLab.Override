@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Flurl.Util;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
@@ -18,14 +17,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class HomePageViewModel : ReactiveObject
     {
         public HomePageViewModel() {
@@ -95,7 +94,7 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public async void SelectAccountAction() {
-            var user = await GameAccountUtils.GetUsersAsync().ToListAsync();
+            var user = await AccountUtils.GetAsync().ToListAsync();
 
             if (user.Count() == 1) {
                 CurrentAccount = user.First().Data.ToAccount();
@@ -103,12 +102,12 @@ namespace wonderlab.ViewModels.Pages
                 return;
             }
 
-            MainWindow.Instance.Auth.Show();            
+            App.CurrentWindow.Auth.Show();            
         }        
 
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(() => {
-                MainWindow.Instance.NotificationCenter.Open();
+                App.CurrentWindow.NotificationCenter.Open();
             });
 
             NotificationViewData data = new() { 
@@ -146,17 +145,17 @@ namespace wonderlab.ViewModels.Pages
                         var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
                 
                         CurrentAccount = result;
-                        await GameAccountUtils.RefreshUserDataAsync((await GameAccountUtils.GetUsersAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
                     else if (CurrentAccount.Type == AccountType.Microsoft) {
                         MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
-                            ClientId = "9fd44410-8ed7-4eb3-a160-9f1cc62c824c",
+                            ClientId = GlobalResources.ClientId ,
                             RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
                         };
                 
                         var result = await authenticator.AuthAsync(x => Trace.WriteLine($"[信息] 当前验证步骤 {x}"));
                         CurrentAccount = result;
-                        await GameAccountUtils.RefreshUserDataAsync((await GameAccountUtils.GetUsersAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
                 });
             }
@@ -222,7 +221,7 @@ namespace wonderlab.ViewModels.Pages
                 }
             };
 
-            var result = await dialog.ShowAsync(MainWindow.Instance);
+            var result = await dialog.ShowAsync(App.CurrentWindow);
             if(result!.IsNull() || result!.Length == 0) {
                 return;
             }
@@ -236,13 +235,13 @@ namespace wonderlab.ViewModels.Pages
         }
 
         public void OpenActionCenterAction() {
-            var back = MainWindow.Instance.Back;
+            var back = App.CurrentWindow.Back;
             OpacityChangeAnimation opacity = new(false) {
                 RunValue = 0,
             };
 
             opacity.RunAnimation(back);
-            MainWindow.Instance.CloseTopBar();
+            App.CurrentWindow.CloseTopBar();
             new ActionCenterPage().Navigation();
         }
 

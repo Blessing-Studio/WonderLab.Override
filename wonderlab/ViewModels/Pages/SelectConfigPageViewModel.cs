@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
-namespace wonderlab.ViewModels.Pages
-{
+namespace wonderlab.ViewModels.Pages {
     public class SelectConfigPageViewModel : ReactiveObject {
         public SelectConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
@@ -26,15 +25,15 @@ namespace wonderlab.ViewModels.Pages
             SelectConfigPage = new LaunchConfigPage();
         }
 
-        public void GoPersonalizeConfigPageAction() {       
+        public void GoPersonalizeConfigPageAction() {
             SelectConfigPage = new PersonalizeConfigPage();
         }
 
-        public void GoWebConfigPageAction() {       
+        public void GoWebConfigPageAction() {
             SelectConfigPage = new WebConfigPage();
         }
 
-        public void GoAboutPageAction() {       
+        public void GoAboutPageAction() {
             new AboutPage().Navigation();
         }
 

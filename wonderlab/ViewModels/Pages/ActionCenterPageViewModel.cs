@@ -7,17 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
+using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.control.Animation;
 using wonderlab.control.Controls.Bar;
 using wonderlab.Views.Pages;
+using wonderlab.Views.Windows;
 
-namespace wonderlab.ViewModels.Pages
-{
-    public class ActionCenterPageViewModel : ReactiveObject
-    {
+namespace wonderlab.ViewModels.Pages {
+    public class ActionCenterPageViewModel : ReactiveObject {
         public ActionCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             GetMojangNewsAction();
@@ -25,11 +27,11 @@ namespace wonderlab.ViewModels.Pages
             GetLatestGameCoreAction();
         }
 
-        public void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {       
+        public void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
 
         }
 
-        
+
         [Reactive]
         public string? NewTitle { get; set; } = "Loading...";
 
@@ -49,25 +51,27 @@ namespace wonderlab.ViewModels.Pages
         public Bitmap NewImage { get; set; }
 
         public async void GetMojangNewsAction() {
-            try {           
-                var result = (await HttpUtils.GetMojangNewsAsync()).First();
-
-                if (result != null) {               
-                    NewTitle = result.Title;
-                    NewTag = result.Tag;
-
-                    NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+            try {
+                New result = null;
+                if (CacheResources.MojangNews.Count <= 0) {
+                    result = (await HttpUtils.GetMojangNewsAsync()).First() ?? new();
+                } else {
+                    result = CacheResources.MojangNews.FirstOrDefault()!;
                 }
+
+                NewTitle = result.Title;
+                NewTag = result.Tag;
+                NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
             }
-            catch (Exception) {           
-                
+            catch (HttpRequestException ex) {
+                $"哎哟，获取失败力，请检查您的网络是否正常，详细信息：{ex.Message}".ShowMessage();
             }
         }
 
         public async void GetHitokotoAction() {
             var result = await HttpUtils.GetHitokotoTextAsync();
 
-            if(result != null) { 
+            if (result != null) {
                 HitokotoCreator ??= $"-- {result.Creator?.Trim()}";
                 HitokotoTitle ??= result.Text ?? "焯";
             }
@@ -78,34 +82,35 @@ namespace wonderlab.ViewModels.Pages
                 var result = await HttpUtils.GetLatestGameCoreAsync();
                 LatestGameCore = result;
             }
-            catch (Exception ex) {           
+            catch (Exception ex) {
                 $"焯，{ex}".ShowLog();
             }
         }
 
         public void OpenInstallDialogAction() {
             new DownCenterPage().Navigation();
-            //MainWindow.Instance.Install.InstallDialog.ShowDialog();
+            //App.CurrentWindow.Install.InstallDialog.ShowDialog();
         }
 
         public void OpenSelectConfigPageAction() {
             new SelectConfigPage().Navigation();
         }
 
-        public void OpenUserPageAction() { 
-            new UserPage().Navigation();
+        public void OpenUserPageAction() {
+            new AccountPage().Navigation();
         }
 
         public void OpenServerFindPageAction() {
             new ServerFindPage().Navigation();
         }
 
-        public async void ReturnAction() {
-            Dispatcher.UIThread.Post(() => {           
-                MainWindow.Instance.OpenTopBar();
+        public void ReturnAction() {
+            Dispatcher.UIThread.Post(() => {
+                App.CurrentWindow.OpenTopBar();
                 new HomePage().Navigation();
                 OpacityChangeAnimation animation = new(true);
-                animation.RunAnimation(MainWindow.Instance.Back);
+                animation.RunAnimation(App.CurrentWindow.Back);
+                throw new Exception();
             });
         }
     }

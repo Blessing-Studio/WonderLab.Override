@@ -1,21 +1,17 @@
 ﻿using MinecraftLaunch.Modules.Toolkits;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.Models;
 
-namespace wonderlab.Class.Utils
-{
-    public static class JsonUtils
-    {
+namespace wonderlab.Class.Utils {
+    public static class JsonUtils {
         public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab");
+
         public static string UserDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "user");
+
         public static string TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "temp");
 
-        public static async void CraftLaunchInfoJson() {
+        public static async void CreateLaunchInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
@@ -37,7 +33,7 @@ namespace wonderlab.Class.Utils
             jsonPath.WriteCompressedText(App.LaunchInfoData.ToJson());
         }
 
-        public static async void CraftLauncherInfoJson() {
+        public static async void CreateLauncherInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
 
@@ -47,7 +43,7 @@ namespace wonderlab.Class.Utils
                 return;
             }
 
-            var json = await jsonPath.ReadCompressedText(); 
+            var json = await jsonPath.ReadCompressedText();
             App.LauncherData = json.ToJsonEntity<LauncherDataModel>();
         }
 
@@ -55,7 +51,7 @@ namespace wonderlab.Class.Utils
             var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
 
-            jsonPath.WriteCompressedText(App.LauncherData.ToJson()); 
+            jsonPath.WriteCompressedText(App.LauncherData.ToJson());
         }
 
         internal static void DirectoryCheck() {
@@ -63,11 +59,11 @@ namespace wonderlab.Class.Utils
                 Directory.CreateDirectory(DataPath);
             }
 
-            if(!Directory.Exists(UserDataPath)) { 
+            if (!Directory.Exists(UserDataPath)) {
                 Directory.CreateDirectory(UserDataPath);
             }
 
-            if (!Directory.Exists(TempPath)) {           
+            if (!Directory.Exists(TempPath)) {
                 Directory.CreateDirectory(TempPath);
             }
         }
