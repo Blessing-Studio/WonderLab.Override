@@ -4,7 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using wonderlab.control.Theme;
 using wonderlab.ViewModels.Windows;
 
 namespace wonderlab.Views.Windows

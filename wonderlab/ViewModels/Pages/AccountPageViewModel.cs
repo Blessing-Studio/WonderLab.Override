@@ -8,7 +8,7 @@ using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Toolkits;
 
 namespace wonderlab.ViewModels.Pages {
-    public class AccountPageViewModel : ReactiveObject {
+    public class AccountPageViewModel : ViewModelBase {
         public AccountPageViewModel() {
             Init();
         }
@@ -28,7 +28,7 @@ namespace wonderlab.ViewModels.Pages {
                 GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
             });
         }
-        public void BackPageAction() {
+        public override void GoBackAction() {
             new ActionCenterPage().Navigation();
         }
     }

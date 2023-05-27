@@ -10,7 +10,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class SelectConfigPageViewModel : ReactiveObject {
+    public class SelectConfigPageViewModel : ViewModelBase {
         public SelectConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }
@@ -37,7 +37,7 @@ namespace wonderlab.ViewModels.Pages {
             new AboutPage().Navigation();
         }
 
-        public void ReturnAction() {
+        public override void GoBackAction() {
             new ActionCenterPage().Navigation();
         }
     }

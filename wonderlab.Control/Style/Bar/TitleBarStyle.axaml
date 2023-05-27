@@ -1,0 +1,134 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wcb="using:wonderlab.control.Controls.Bar">
+    <Design.PreviewWith>
+        <Border Width="800" Height="100">
+            <!-- Add Controls for Previewer Here -->
+			<wcb:TitleBar/> 
+        </Border>
+    </Design.PreviewWith>
+
+	<Style Selector="Button.goback">
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="Width" Value="40"/>
+		<Setter Property="Margin" Value="15 20 0 0"/>
+		<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="CornerRadius" Value="114514"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Transitions">
+			<Transitions>
+				<BrushTransition Duration="0:0:0.45" Property="Background" Easing="ExponentialEaseOut"/>
+				<ThicknessTransition Duration="0:0:0.85" Property="Margin" Easing="ExponentialEaseOut"/>
+			</Transitions>
+		</Setter>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid>
+					<Border Background="{TemplateBinding Background}"
+							CornerRadius="{TemplateBinding CornerRadius}" HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"/>
+
+					<Border Name="pointerover" HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch" CornerRadius="{TemplateBinding CornerRadius}">
+						<Border.Transitions>
+							<Transitions>
+								<BrushTransition Property="Background" Duration="0:0:0.1"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
+
+					<ContentPresenter
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  Padding="{TemplateBinding Padding}"
+							      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+
+	<Style Selector="Button.goback /template/ Border#pointerover">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+
+	<Style Selector="Button.goback:pointerover /template/ Border#pointerover">
+		<Setter Property="Background" Value="#7FFFFFFF"/>
+	</Style>
+
+	<Style Selector="Button.goback:pressed /template/ Border#pointerover">
+		<Setter Property="Background" Value="#33FFFFFF"/>
+	</Style>
+	
+    <!-- Add Styles Here -->
+	<Style Selector="wcb|TitleBar">
+		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<!--{DynamicResource DialogContentBackground}--> 
+				<Border VerticalAlignment="Top" Background="{DynamicResource DialogContentBackground}" Height="30"
+			            BoxShadow="0 1 4 0 #66000000" Name="TopBar" Margin="0 -45 0 0">
+					<Border.Transitions>
+						<Transitions>
+							<ThicknessTransition Property="Margin"
+												 Easing="ExponentialEaseOut"
+												 Duration="0:0:0.35"/>
+						</Transitions>
+					</Border.Transitions>
+
+					<Grid>
+						<Grid HorizontalAlignment="Right"
+	                          VerticalAlignment="Center" Margin="0 0 15 0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="2"/>
+								<ColumnDefinition Width="1*"/>
+							</Grid.ColumnDefinitions>
+
+							<Button Classes="rotatebutton" Grid.Column="2"
+									HorizontalAlignment="Right" Name="close"
+									VerticalAlignment="Top" Margin="15 0 0 0"/>
+
+							<Border Background="Black" HorizontalAlignment="Right"
+									VerticalAlignment="Stretch" Width="1"
+									Grid.Column="1">
+								<Border.RenderTransform>
+									<TransformGroup>
+										<SkewTransform AngleX="-8"/>
+									</TransformGroup>
+								</Border.RenderTransform>
+							</Border>
+
+							<Button Name="mini"
+									Grid.Column="0"
+									HorizontalAlignment="Right"
+									VerticalAlignment="Center"
+									Classes="rotatebutton1"
+									Margin="0 0 15 0"/>
+						</Grid>
+
+						<Border Background="{DynamicResource AccentBrush}" Height="2" VerticalAlignment="Bottom" CornerRadius="10"
+		                        HorizontalAlignment="Left" Width="{TemplateBinding TitleWidth}" Margin="20 0 0 2"/>
+
+						<TextBlock Text="{TemplateBinding Title}" FontWeight="SemiBold" FontSize="16"
+								   Margin="70 0 0 5" VerticalAlignment="Bottom"/>
+
+						<Button Command="{TemplateBinding GoBackCommand}" Classes="goback">
+							<Viewbox Width="20">
+								<Path Fill="White" Data="M925.93485 420.743202H170.450671l307.293565 307.438889c11.630934 11.635911 11.382091 30.73712-0.555418 42.669653-11.936514 11.930542-31.038718 12.169431-42.669653 0.53352l-357.299118-357.478285a30.409643 30.409643 0 0 1-5.269505-5.686566c-4.02927-5.34814-5.986174-11.785217-5.878673-18.243198-0.129398-7.758933 2.712392-15.489 8.556227-21.332835L434.52016 8.573148c11.630934-11.636907 30.733139-11.397022 42.669653 0.532525 11.937509 11.930542 12.186353 31.032746 0.555418 42.670648L170.031619 359.634263h755.903231c16.450531 0 29.786539 13.675431 29.786539 30.551981s-13.336008 30.556958-29.786539 30.556958z"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

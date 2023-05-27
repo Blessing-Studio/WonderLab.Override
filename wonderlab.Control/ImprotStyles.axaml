@@ -17,5 +17,6 @@
 	<StyleInclude Source="/Style/Dialog/ContentDialogStyle.axaml"/>
 	<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
 	<StyleInclude Source="/Style/Button/HyperlinkButtonStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/TitleBarStyle.axaml"/>
 	<!--<StyleInclude Source="/Theme/BasicResource.axaml"/>-->
 </Styles>

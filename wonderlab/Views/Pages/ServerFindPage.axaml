@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.ServerFindPage">
 	<UserControl.Styles>
@@ -220,61 +221,8 @@
 					</Grid>
 				</Border>
 			</Grid>
-		</ScrollViewer>		
+		</ScrollViewer>				
 
-		<Border VerticalAlignment="Top" Background="{DynamicResource DialogContentBackground}" Height="30"
-			BoxShadow="0 1 4 0 #66000000" Name="TopBar" Margin="0 -45 0 0">
-			<Border.Transitions>
-				<Transitions>
-					<ThicknessTransition Property="Margin"
-										 Easing="ExponentialEaseOut"
-										 Duration="0:0:0.35"/>
-				</Transitions>
-			</Border.Transitions>
-			<Grid>
-				<Grid HorizontalAlignment="Right"
-					  VerticalAlignment="Center" Margin="0 0 15 0">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="1*"/>
-						<ColumnDefinition Width="2"/>
-						<ColumnDefinition Width="1*"/>
-					</Grid.ColumnDefinitions>
-
-					<Button Classes="rotatebutton" Grid.Column="2"
-							HorizontalAlignment="Right" Name="close"
-							VerticalAlignment="Top" Margin="15 0 0 0"/>
-
-					<Border Background="Black" HorizontalAlignment="Right"
-							VerticalAlignment="Stretch" Width="1"
-							Grid.Column="1">
-						<Border.RenderTransform>
-							<TransformGroup>
-								<SkewTransform AngleX="-8"/>
-							</TransformGroup>
-						</Border.RenderTransform>
-					</Border>
-
-					<Button Name="Mini"
-							Grid.Column="0"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Center"
-							Classes="rotatebutton1"
-							Margin="0 0 15 0"/>
-				</Grid>
-
-				<Border Background="{DynamicResource AccentBrush}" Height="2" VerticalAlignment="Bottom" CornerRadius="10"
-		                HorizontalAlignment="Left" Width="130" Margin="20 0 0 2"/>
-
-				<TextBlock Text="服务器匣子" FontWeight="SemiBold" FontSize="16"
-						   Margin="70 0 0 5" VerticalAlignment="Bottom"/>
-
-				<Button Height="40" Width="40" Classes="wonderaccentbutton" HorizontalAlignment="Left"
-						CornerRadius="114514" Margin="15 20 0 0" Padding="0" Command="{Binding ReturnAction}">
-					<Viewbox Width="20">
-						<Path Fill="White" Data="M925.93485 420.743202H170.450671l307.293565 307.438889c11.630934 11.635911 11.382091 30.73712-0.555418 42.669653-11.936514 11.930542-31.038718 12.169431-42.669653 0.53352l-357.299118-357.478285a30.409643 30.409643 0 0 1-5.269505-5.686566c-4.02927-5.34814-5.986174-11.785217-5.878673-18.243198-0.129398-7.758933 2.712392-15.489 8.556227-21.332835L434.52016 8.573148c11.630934-11.636907 30.733139-11.397022 42.669653 0.532525 11.937509 11.930542 12.186353 31.032746 0.555418 42.670648L170.031619 359.634263h755.903231c16.450531 0 29.786539 13.675431 29.786539 30.551981s-13.336008 30.556958-29.786539 30.556958z"/>
-					</Viewbox>
-				</Button>
-			</Grid>
-		</Border>
+		<wcb:TitleBar Title="服务器匣子" TitleWidth="130" GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

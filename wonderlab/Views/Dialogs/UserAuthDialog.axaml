@@ -150,7 +150,7 @@
 					<Grid Width="480" Margin="18">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
-							<RowDefinition Height="1*" />
+							<RowDefinition Height="0.5*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 
@@ -164,7 +164,7 @@
 
 						<Grid Margin="0 10" Grid.Row="1" HorizontalAlignment="Stretch">
 							<Grid.RowDefinitions>
-								<RowDefinition Height="1*" />
+								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 							

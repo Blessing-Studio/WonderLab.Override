@@ -47,7 +47,6 @@ namespace wonderlab.Views.Pages
 
         private async void Loaded(object? sender, System.EventArgs e) {       
             await Task.Delay(100);
-            TopBar.Margin = new(0);
             BottomBar.Spacing = 15;
         }
 

@@ -7,22 +7,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class ServerFindPageViewModel : ReactiveObject {
-        private const string WonderApi = "http://43.136.86.16:14514/api/ServerInfo";
-
+    public class ServerFindPageViewModel : ViewModelBase {
         public ObservableCollection<WonderServerViewData> Servers { get; set; } = new();
 
         public async void GetServerListAction() {
             await GetServerListAsync();
         }
 
-        public void ReturnAction() {
+        public override void GoBackAction() {
             new ActionCenterPage().Navigation();
         }
 
@@ -30,7 +29,7 @@ namespace wonderlab.ViewModels.Pages {
             try {
                 Servers.Clear();
 
-                var json = await HttpWrapper.HttpClient.GetStringAsync(WonderApi);
+                var json = await HttpWrapper.HttpClient.GetStringAsync(GlobalResources.WonderApi);
                 var viewDatas = json.ToJsonEntity<IEnumerable<WonderServerModel>>().Select(x => x.CreateViewData<WonderServerModel, WonderServerViewData>()).ToList();
                 Servers.AddRange(viewDatas);
 

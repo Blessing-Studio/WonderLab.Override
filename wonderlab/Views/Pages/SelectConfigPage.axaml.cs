@@ -24,10 +24,5 @@ namespace wonderlab.Views.Pages
                 };
             }
         }
-
-        private async void InitializedAction(object? sender, System.EventArgs e) {       
-            await Task.Delay(100);
-            TopBar.Margin = new(0);
-        }
     }
 }

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.control.Controls.Bar;
 using wonderlab.Views.Windows;
 
 namespace wonderlab {
@@ -42,6 +43,7 @@ namespace wonderlab {
         public override void OnFrameworkInitializationCompleted() {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
                 desktop.MainWindow = CurrentWindow = new MainWindow();
+                TitleBar.Window = CurrentWindow;
             }
 
             base.OnFrameworkInitializationCompleted();

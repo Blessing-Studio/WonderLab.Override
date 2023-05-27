@@ -19,7 +19,7 @@ using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
-    public class ActionCenterPageViewModel : ReactiveObject {
+    public class ActionCenterPageViewModel : ViewModelBase {
         public ActionCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             GetMojangNewsAction();
@@ -102,16 +102,6 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenServerFindPageAction() {
             new ServerFindPage().Navigation();
-        }
-
-        public void ReturnAction() {
-            Dispatcher.UIThread.Post(() => {
-                App.CurrentWindow.OpenTopBar();
-                new HomePage().Navigation();
-                OpacityChangeAnimation animation = new(true);
-                animation.RunAnimation(App.CurrentWindow.Back);
-                throw new Exception();
-            });
         }
     }
 }
