@@ -25,7 +25,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os win
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os win -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -43,7 +43,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os linux
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -61,7 +61,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os osx
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os osx -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -79,7 +79,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateDeb --arch ${{ matrix.arch }} --os linux
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateDeb --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -97,7 +97,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateRpm --arch ${{ matrix.arch }} --os linux
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateRpm --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
