@@ -25,13 +25,21 @@ namespace wonderlab.Class.Utils {
 
             var json = await jsonPath.ReadCompressedText();
             GlobalResources.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
+
+            if (GlobalResources.LaunchInfoData.IsNull()) {
+                GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
+            }
         }
 
         public static void WriteLaunchInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
-            jsonPath.WriteCompressedText(GlobalResources.LaunchInfoData.ToJson());
+            if (GlobalResources.LaunchInfoData.IsNull()) {
+                GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
+            }
+
+            jsonPath.WriteCompressedText(GlobalResources.DefaultLaunchInfoData.ToJson());
         }
 
         public static async void CreateLauncherInfoJson() {
@@ -46,11 +54,19 @@ namespace wonderlab.Class.Utils {
 
             var json = await jsonPath.ReadCompressedText();
             GlobalResources.LauncherData = json.ToJsonEntity<LauncherDataModel>();
+
+            if (GlobalResources.LauncherData.IsNull()) {
+                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+            }
         }
 
         public static void WriteLauncherInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
+
+            if (GlobalResources.LauncherData.IsNull()) {
+                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+            }
 
             jsonPath.WriteCompressedText(GlobalResources.LauncherData.ToJson());
         }

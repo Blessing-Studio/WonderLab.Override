@@ -24,28 +24,33 @@ namespace wonderlab.ViewModels.Pages {
         public LaunchConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 
-            if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
-                ThreadPool.QueueUserWorkItem(x => {
-                    Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                    CurrentJava = Javas.Where(x => {
-                        if (x != null) {
-                            if (x.JavaPath.ToJavaw() == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {
-                                return true;
+            try {
+                if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
+                    ThreadPool.QueueUserWorkItem(x => {
+                        Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
+                        CurrentJava = Javas.Where(x => {
+                            if (x != null) {
+                                if (x.JavaPath.ToJavaw() == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {
+                                    return true;
+                                }
                             }
-                        }
-                        return false;
-                    })?.First()!;
-                });
-            }
+                            return false;
+                        })?.First()!;
+                    });
+                }
 
-            if (GlobalResources.LaunchInfoData.GameDirectorys.Any()) {
-                CurrentGameDirectory = GlobalResources.LaunchInfoData.GameDirectoryPath;
-                GameDirectorys = GlobalResources.LaunchInfoData.GameDirectorys.ToObservableCollection();
-            }
+                if (GlobalResources.LaunchInfoData.GameDirectorys.Any()) {
+                    CurrentGameDirectory = GlobalResources.LaunchInfoData.GameDirectoryPath;
+                    GameDirectorys = GlobalResources.LaunchInfoData.GameDirectorys.ToObservableCollection();
+                }
 
-            IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
-            MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
-            MiniMemory = GlobalResources.LaunchInfoData.MiniMemory;
+                IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
+                MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
+                MiniMemory = GlobalResources.LaunchInfoData.MiniMemory;
+            }
+            catch (Exception ex) {
+                $"{ex.Message}".ShowMessage();
+            }
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {

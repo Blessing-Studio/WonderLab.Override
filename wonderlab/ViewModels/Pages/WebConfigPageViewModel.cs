@@ -1,15 +1,30 @@
 ﻿using MinecraftLaunch.Modules.Models.Download;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
+using wonderlab.Class.Utils;
 
 namespace wonderlab.ViewModels.Pages {
     public class WebConfigPageViewModel : ReactiveObject {
         public WebConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
+
+            if (GlobalResources.LauncherData.IsNull()) {
+                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+            }
+
+            try {
+                DownloadCount = GlobalResources.LauncherData.DownloadCount;
+            }
+            catch (NullReferenceException ex) {
+                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+                ex.ShowLog();
+            }
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -24,9 +39,8 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public bool TestListVisible { get; set; } = false;
 
-
         [Reactive]
-        public int DownloadCount { get; set; } = GlobalResources.LauncherData.DownloadCount;
+        public int DownloadCount { get; set; }
 
         public void RunConnectionTestAction() {
             TestList.Clear();

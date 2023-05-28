@@ -78,9 +78,9 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
-		<Version>1.2.4-preview</Version>
-		<AssemblyVersion>1.2.4</AssemblyVersion>
-		<FileVersion>1.2.4-preview</FileVersion>
+		<Version>1.2.5-preview</Version>
+		<AssemblyVersion>1.2.5</AssemblyVersion>
+		<FileVersion>1.2.5-preview</FileVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Include="wonderlab.png" CopyToPublishDirectory="PreserveNewest">

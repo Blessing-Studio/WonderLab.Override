@@ -220,10 +220,6 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async void WriteCompressedText(this string path, string? contents) {
-            if (!File.Exists(path)) {
-                path.ToFile().Create();
-            }
-
             if (contents == null) {
                 contents = string.Empty;
             }
@@ -267,5 +263,21 @@ namespace wonderlab.Class.Utils {
         public static MemoryStream ToMemoryStream(this string base64) => new MemoryStream(Convert.FromBase64String(base64)) {
             Position = 0
         };
+
+        public static LauncherDataModel TryGetData(this LauncherDataModel model) {
+            if (model.IsNull()) {
+                return GlobalResources.DefaultLauncherData;
+            }
+
+            return model;
+        }
+
+        public static LaunchInfoDataModel TryGetData(this LaunchInfoDataModel model) {
+            if (model.IsNull()) {
+                return GlobalResources.DefaultLaunchInfoData;
+            }
+
+            return model;
+        }
     }
 }

@@ -17,6 +17,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class GameInstallDialogViewModel : ReactiveObject {
@@ -213,6 +214,8 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public async void GameCoreInstallAction() {
+            NotificationViewData data = new();
+
             try {
                 if (CurrentGameCore is null) {
                     "无法进行安装，因为您还未选择任何游戏核心！".ShowMessage("提示");
@@ -220,7 +223,6 @@ namespace wonderlab.ViewModels.Dialogs {
                 }
 
                 ModLoaderType currentmodloaderType = CurrentModLoaders.Any() ? CurrentModLoaders.First().Data.ModLoaderType : ModLoaderType.Any;
-                NotificationViewData data = new();
                 InstallerBase<InstallerResponse>? installer = null;
                 string customId = string.Empty;
 
@@ -269,11 +271,7 @@ namespace wonderlab.ViewModels.Dialogs {
                 await Task.Delay(2000);
                 data.TimerStart();
 
-                installer!.ProgressChanged += (_, x) => {
-                    var progress = x.Progress * 100;
-                    data.ProgressOfBar = progress;
-                    data.Progress = $"{Math.Round(progress, 2)}%";
-                };
+                installer!.ProgressChanged += ProcessOutPut;
 
                 var result = await Task.Run(async () => await installer!.InstallAsync());
                 if (result.Success) {
@@ -283,6 +281,19 @@ namespace wonderlab.ViewModels.Dialogs {
             }
             catch (Exception ex) {
                 $"WonderLab 在安装游戏核心时遭遇了不可描述的错误,详细信息：{ex.Message}".ShowMessage("我日，炸了");
+            }
+
+            async void ProcessOutPut(object? sender, ProgressChangedEventArgs x) {
+                try {
+                    var progress = x.Progress * 100;
+                    data.ProgressOfBar = progress;
+                    data.Progress = $"{Math.Round(progress, 2)}%";
+
+                    await Task.Delay(1000);
+                }
+                catch (Exception ex) {
+                    ex.ShowLog();
+                }
             }
         }
 
@@ -327,12 +338,17 @@ namespace wonderlab.ViewModels.Dialogs {
                 }
             }
 
-            async void ProcessOutPut(object? sender, MinecraftLaunch.Modules.Interface.ProgressChangedEventArgs x) {
-                var progress = x.Progress * 100;
-                data.ProgressOfBar = progress;
-                data.Progress = $"{Math.Round(progress, 2)}%";
+            async void ProcessOutPut(object? sender, ProgressChangedEventArgs x) {
+                try {
+                    var progress = x.Progress * 100;
+                    data.ProgressOfBar = progress;
+                    data.Progress = $"{Math.Round(progress, 2)}%";
 
-                await Task.Delay(1000);
+                    await Task.Delay(1000);
+                }
+                catch (Exception ex) {
+                    ex.ShowLog();
+                }
             }
         }
     }

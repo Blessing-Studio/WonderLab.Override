@@ -30,13 +30,13 @@ namespace wonderlab.Views.Windows {
         public static MainWindowViewModel ViewModel { get; private set; }
 
         public MainWindow() {
-            JsonUtils.CreateLaunchInfoJson();
             Initialized += DataInitialized;
 
             InitializeComponent();
 
             try {
                 ThemeUtils.Init();
+                JsonUtils.CreateLaunchInfoJson();
                 JsonUtils.CreateLauncherInfoJson();
 
                 DataContext = ViewModel = new();
@@ -150,7 +150,7 @@ namespace wonderlab.Views.Windows {
                     UpdateDialog.Title = $"有新的版本推送，版本编号 {result.TagName}";
                     EndMessage.Text = $"于 {result.CreatedAt} 由 Xilu 修改并推送";
                     await Task.Delay(1000);
-                    UpdateDialog.ShowDialog();
+                    //UpdateDialog.ShowDialog();
                 }
             }
             catch (Exception ex) {

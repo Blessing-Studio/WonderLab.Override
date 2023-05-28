@@ -20,7 +20,16 @@ namespace wonderlab.ViewModels.Pages {
         public PersonalizeConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 
-
+            try {
+                CurrentAccentColor = GlobalResources.LauncherData.AccentColor;
+                IsImageVisible = GlobalResources.LauncherData.BakgroundType is "图片背景";
+                CurrentBakgroundType = GlobalResources.LauncherData.BakgroundType;
+                CurrentThemeType = GlobalResources.LauncherData.ThemeType;
+                CurrentParallaxType = GlobalResources.LauncherData.ParallaxType;
+            }
+            catch (Exception ex) {
+                $"{ex.Message}".ShowMessage("Error");
+            }
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -46,19 +55,19 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         [Reactive]
-        public Color CurrentAccentColor { get; set; } = GlobalResources.LauncherData.AccentColor;
+        public Color CurrentAccentColor { get; set; }
 
         [Reactive]
-        public bool IsImageVisible { get; set; } = GlobalResources.LauncherData.BakgroundType is "图片背景";
+        public bool IsImageVisible { get; set; }
 
         [Reactive]
-        public string CurrentBakgroundType { get; set; } = GlobalResources.LauncherData.BakgroundType;
+        public string CurrentBakgroundType { get; set; }
 
         [Reactive]
-        public string CurrentThemeType { get; set; } = GlobalResources.LauncherData.ThemeType;
+        public string CurrentThemeType { get; set; }
 
         [Reactive]
-        public string CurrentParallaxType { get; set; } = GlobalResources.LauncherData.ParallaxType;
+        public string CurrentParallaxType { get; set; }
 
         public ObservableCollection<string> BakgroundTypes => new() {
             "主题色背景",
@@ -128,14 +137,8 @@ namespace wonderlab.ViewModels.Pages {
         };
 
         public async void GetImageFileAction() {
-            Uri uri = new("http://43.136.86.16:5173/");
-            
-            //OpenFileDialog dialog = new() {
-            //    AllowMultiple = false,
-            //    Filters = new() {
-            //        new(){ Extensions = new(){ "png", "jpg", "jpeg", "tif", "tiff" } , Name = "图像文件"}
-            //    }
-            
+            Uri uri = null;
+                        
             try {
                 using var result = (await App.CurrentWindow.StorageProvider.OpenFilePickerAsync(new() {
                     AllowMultiple = false,
@@ -148,8 +151,8 @@ namespace wonderlab.ViewModels.Pages {
                 App.CurrentWindow.BackgroundImage.Source = !uri!.IsNull() && uri!.IsFile ? new Bitmap(uri!.LocalPath)! : null!;
                 GlobalResources.LauncherData.ImagePath = !uri!.IsNull() && uri!.IsFile ? uri!.LocalPath : string.Empty;
             }
-            catch (Exception) {
-
+            catch (Exception ex) {
+                "{ex.Messgae}".ShowMessage();
             }
         }
     }

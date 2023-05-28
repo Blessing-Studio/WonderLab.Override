@@ -11,10 +11,8 @@ using Natsurainko.Toolkits.Network;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MinecraftLaunch.Modules.Toolkits
-{
-    public partial class CurseForgeToolkit
-    {
+namespace MinecraftLaunch.Modules.Toolkits {
+    public partial class CurseForgeToolkit {
         /// <summary>
         /// 模组搜索方法
         /// </summary>
@@ -59,7 +57,7 @@ namespace MinecraftLaunch.Modules.Toolkits
         /// <param name="gameVersion"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async ValueTask<List<CurseForgeModpack>> SearchGameMapAsync(string searchFilter, string gameVersion = null, int category = -1) {       
+        public async ValueTask<List<CurseForgeModpack>> SearchGameMapAsync(string searchFilter, string gameVersion = null, int category = -1) {
             return await SearchResourceAsync(searchFilter, 17, ModLoaderType.Unknown, gameVersion, category);
         }
 
@@ -67,17 +65,16 @@ namespace MinecraftLaunch.Modules.Toolkits
         /// 获取热门资源方法
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<List<CurseForgeModpack>> GetFeaturedsAsync()
-        {
+        public async ValueTask<List<CurseForgeModpack>> GetFeaturedsAsync() {
             var result = new List<CurseForgeModpack>();
 
-            var content = new JObject {           
+            var content = new JObject {
                 { "gameId", 432 },
                 { "excludedModIds", JToken.FromObject(new int[] { 0 }) },
                 { "gameVersionTypeId", null }
             };
 
-            try {           
+            try {
                 using var responseMessage = await HttpWrapper.HttpPostAsync($"{API}/featured", content.ToString(), Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
@@ -118,11 +115,10 @@ namespace MinecraftLaunch.Modules.Toolkits
                           .Append($"&sortField=Featured&sortOrder=desc&classId={classId}");
             var result = new List<CurseForgeModpack>();
 
-            try {           
+            try {
                 using var responseMessage = await HttpWrapper.HttpGetAsync(builder.ToString(), Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
-                Trace.WriteLine($"{await responseMessage.Content.ReadAsStringAsync()}");
                 var entity = JObject.Parse(await responseMessage.Content.ReadAsStringAsync());
                 ((JArray)entity["data"]!).ToList().ForEach(x => result.Add(ParseCurseForgeModpack((JObject)x)));
 
@@ -142,17 +138,14 @@ namespace MinecraftLaunch.Modules.Toolkits
         /// <param name="addonId"></param>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        public async ValueTask<string> GetModpackDownloadUrl(long addonId, long fileId)
-        {
+        public async ValueTask<string> GetModpackDownloadUrl(long addonId, long fileId) {
             string reqUrl = $"{API}/{addonId}/files/{fileId}/download-url";
             using HttpResponseMessage res = await HttpWrapper.HttpGetAsync(reqUrl, Headers);
             return JsonConvert.DeserializeObject<DataModel<string>>(await res.Content.ReadAsStringAsync())?.Data!;
         }
 
-        public async ValueTask<List<CurseForgeModpackCategory>> GetCategories()
-        {
-            try
-            {
+        public async ValueTask<List<CurseForgeModpackCategory>> GetCategories() {
+            try {
                 using var responseMessage = await HttpWrapper.HttpGetAsync($"https://api.curseforge.com/v1/categories?gameId=432", Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
@@ -165,30 +158,25 @@ namespace MinecraftLaunch.Modules.Toolkits
             return null;
         }
 
-        public async ValueTask<string> GetModDescriptionHtmlAsync(int modId)
-        {
+        public async ValueTask<string> GetModDescriptionHtmlAsync(int modId) {
             string url = $"{API}/{modId}/description";
-            try
-            {
+            try {
                 using HttpResponseMessage responseMessage = await HttpWrapper.HttpGetAsync(url, Headers);
                 responseMessage.EnsureSuccessStatusCode();
                 return (await responseMessage.Content.ReadAsStringAsync()).ToJsonEntity<DataModel<string>>().Data;
             }
-            catch
-            {
+            catch {
             }
             return null;
         }
 
-        protected CurseForgeModpack ParseCurseForgeModpack(JObject entity)
-        {
+        protected CurseForgeModpack ParseCurseForgeModpack(JObject entity) {
             var modpack = entity.ToObject<CurseForgeModpack>();
 
             if (entity.ContainsKey("logo") && entity["logo"].Type != JTokenType.Null)
                 modpack.IconUrl = (string)entity["logo"]["url"];
 
-            modpack.LatestFilesIndexes.ForEach(x =>
-            {
+            modpack.LatestFilesIndexes.ForEach(x => {
                 x.DownloadUrl = $"https://edge.forgecdn.net/files/{x.FileId.ToString().Insert(4, "/")}/{x.FileName}";
 
                 if (!modpack.Files.ContainsKey(x.SupportedVersion))
@@ -205,15 +193,14 @@ namespace MinecraftLaunch.Modules.Toolkits
         }
     }
 
-    partial class CurseForgeToolkit
-    {
+    partial class CurseForgeToolkit {
         private const string API = "https://api.curseforge.com/v1/mods";
 
         public static string Key { get; set; } = string.Empty;
 
         private Dictionary<string, string> Headers => new Dictionary<string, string> { { "x-api-key", Key } };
 
-        public CurseForgeToolkit(string accesskey) {       
+        public CurseForgeToolkit(string accesskey) {
             Key = accesskey;
         }
     }
