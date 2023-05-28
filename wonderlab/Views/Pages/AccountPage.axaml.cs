@@ -18,7 +18,7 @@ namespace wonderlab.Views.Pages
 
         public async void Initialize() {
             await Task.Delay(300);
-            TopBar.Margin = new(0);
+            //TopBar.Margin = new(0);
         }
     }
 }
