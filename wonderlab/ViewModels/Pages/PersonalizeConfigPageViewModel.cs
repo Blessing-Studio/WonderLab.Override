@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Windows;
 
@@ -17,44 +19,46 @@ namespace wonderlab.ViewModels.Pages {
     public class PersonalizeConfigPageViewModel : ReactiveObject {
         public PersonalizeConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
+
+
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(CurrentAccentColor)) {
                 ThemeUtils.SetAccentColor(CurrentAccentColor);
-                App.LauncherData.AccentColor = CurrentAccentColor;
+                GlobalResources.LauncherData.AccentColor = CurrentAccentColor;
             }
 
             if (e.PropertyName is nameof(CurrentBakgroundType)) {
                 IsImageVisible = CurrentBakgroundType is "图片背景";
                 App.CurrentWindow.BackgroundImage.IsVisible = IsImageVisible;
-                App.LauncherData.BakgroundType = CurrentBakgroundType;
+                GlobalResources.LauncherData.BakgroundType = CurrentBakgroundType;
             }
 
             if (e.PropertyName is nameof(CurrentParallaxType)) {
                 App.CurrentWindow.CanParallax = CurrentParallaxType is not "无";
-                App.LauncherData.ParallaxType = CurrentParallaxType;
+                GlobalResources.LauncherData.ParallaxType = CurrentParallaxType;
             }
 
             if (e.PropertyName is nameof(CurrentThemeType)) {
-                App.LauncherData.ThemeType = CurrentThemeType;
+                GlobalResources.LauncherData.ThemeType = CurrentThemeType;
             }
         }
 
         [Reactive]
-        public Color CurrentAccentColor { get; set; } = App.LauncherData.AccentColor;
+        public Color CurrentAccentColor { get; set; } = GlobalResources.LauncherData.AccentColor;
 
         [Reactive]
-        public bool IsImageVisible { get; set; } = App.LauncherData.BakgroundType is "图片背景";
+        public bool IsImageVisible { get; set; } = GlobalResources.LauncherData.BakgroundType is "图片背景";
 
         [Reactive]
-        public string CurrentBakgroundType { get; set; } = App.LauncherData.BakgroundType;
+        public string CurrentBakgroundType { get; set; } = GlobalResources.LauncherData.BakgroundType;
 
         [Reactive]
-        public string CurrentThemeType { get; set; } = App.LauncherData.ThemeType;
+        public string CurrentThemeType { get; set; } = GlobalResources.LauncherData.ThemeType;
 
         [Reactive]
-        public string CurrentParallaxType { get; set; } = App.LauncherData.ParallaxType;
+        public string CurrentParallaxType { get; set; } = GlobalResources.LauncherData.ParallaxType;
 
         public ObservableCollection<string> BakgroundTypes => new() {
             "主题色背景",
@@ -124,17 +128,25 @@ namespace wonderlab.ViewModels.Pages {
         };
 
         public async void GetImageFileAction() {
-            OpenFileDialog dialog = new() {
-                AllowMultiple = false,
-                Filters = new() {
-                    new(){ Extensions = new(){ "png", "jpg", "jpeg", "tif", "tiff" } , Name = "图像文件"}
-                }
-            };
-
+            Uri uri = new("http://43.136.86.16:5173/");
+            
+            //OpenFileDialog dialog = new() {
+            //    AllowMultiple = false,
+            //    Filters = new() {
+            //        new(){ Extensions = new(){ "png", "jpg", "jpeg", "tif", "tiff" } , Name = "图像文件"}
+            //    }
+            
             try {
-                var result = (await dialog.ShowAsync(App.CurrentWindow))!.FirstOrDefault();
-                App.CurrentWindow.BackgroundImage.Source = result.IsFile() ? new Bitmap(result) : null;
-                App.LauncherData.ImagePath = result.IsFile() ? result : string.Empty;
+                using var result = (await App.CurrentWindow.StorageProvider.OpenFilePickerAsync(new() {
+                    AllowMultiple = false,
+                    FileTypeFilter = new List<FilePickerFileType>() {
+                    new FilePickerFileType("图像文件") { Patterns = new List<string>(){ "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" }}
+                }
+                })).FirstOrDefault()!;
+                result.TryGetUri(out uri!);
+
+                App.CurrentWindow.BackgroundImage.Source = !uri!.IsNull() && uri!.IsFile ? new Bitmap(uri!.LocalPath)! : null!;
+                GlobalResources.LauncherData.ImagePath = !uri!.IsNull() && uri!.IsFile ? uri!.LocalPath : string.Empty;
             }
             catch (Exception) {
 

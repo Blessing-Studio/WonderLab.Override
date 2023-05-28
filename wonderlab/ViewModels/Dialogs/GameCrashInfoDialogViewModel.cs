@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Windows;
 
@@ -25,7 +26,7 @@ namespace wonderlab.ViewModels.Dialogs {
         public Account Account { get; set; } = Account.Default;
 
         [Reactive]
-        public int Memory { get; set; } = App.LaunchInfoData.MaxMemory;
+        public int Memory { get; set; } = GlobalResources.LaunchInfoData.MaxMemory;
 
         [Reactive]
         public int JavaVersion { get; set; }

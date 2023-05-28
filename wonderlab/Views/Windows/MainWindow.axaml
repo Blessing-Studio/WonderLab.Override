@@ -10,7 +10,8 @@
 	    xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
 		xmlns:wcdx="using:wonderlab.Views.Dialogs"
-        Title="MainWindow" CornerRadius="4"
+        Title="WonderLab"
+		CornerRadius="4"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="{DynamicResource AccentBrushDark1}"
@@ -224,7 +225,7 @@
 
 				</Grid>
 			</wcd:UpdateDialog.Message>
-		</wcd:UpdateDialog>	
+		</wcd:UpdateDialog>		
 		
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
 	</Grid>

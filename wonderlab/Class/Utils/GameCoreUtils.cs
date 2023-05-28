@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 
 namespace wonderlab.Class.Utils {
@@ -41,14 +42,14 @@ namespace wonderlab.Class.Utils {
                     var buildResult = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(version)).AsEnumerable();
                     var result = buildResult.Where(x => mod.Id.Contains(x.ForgeVersion))?.FirstOrDefault();
 
-                    installer = new ForgeInstaller(App.LaunchInfoData.GameDirectoryPath, result!, App.LaunchInfoData.JavaRuntimePath?.JavaPath!, name);
+                    installer = new ForgeInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, result!, GlobalResources.LaunchInfoData.JavaRuntimePath?.JavaPath!, name);
                 }
 
                 if (mod.Id.Contains("fabric")) {
                     var buildResult = (await FabricInstaller.GetFabricBuildsByVersionAsync(version)).AsEnumerable();
                     var result = buildResult.Where(x => mod.Id.Contains(x.Loader.Version))?.FirstOrDefault();
 
-                    installer = new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, result, name);
+                    installer = new FabricInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, result, name);
                 }
             }
 
@@ -65,17 +66,17 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask CompLexGameCoreInstallAsync(string name, Action<string, float> action, Dependencies dependencies) {
             InstallerBase<InstallerResponse> installer = null;
 
-            if (GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, name) == null) {
+            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, name) == null) {
                 if (!string.IsNullOrEmpty(dependencies.QuiltLoader)) {
                     var buildResult = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(dependencies.Minecraft)).AsEnumerable();
                     var result = buildResult.Where(x => dependencies.QuiltLoader.Contains(x.Loader.Version))?.FirstOrDefault();
 
-                    installer = new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, result, name);
+                    installer = new QuiltInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, result, name);
                 } else {
                     var buildResult = (await FabricInstaller.GetFabricBuildsByVersionAsync(dependencies.Minecraft)).AsEnumerable();
                     var result = buildResult.Where(x => dependencies.FabricLoader.Contains(x.Loader.Version))?.FirstOrDefault();
 
-                    installer = new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, result, name);
+                    installer = new FabricInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, result, name);
                 }
             } else return;
 

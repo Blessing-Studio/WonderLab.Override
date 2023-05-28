@@ -2,6 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 
@@ -13,7 +14,7 @@ namespace wonderlab.ViewModels.Pages {
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(DownloadCount)) {
-                App.LauncherData.DownloadCount = DownloadCount;
+                GlobalResources.LauncherData.DownloadCount = DownloadCount;
             }
         }
 
@@ -25,7 +26,7 @@ namespace wonderlab.ViewModels.Pages {
 
 
         [Reactive]
-        public int DownloadCount { get; set; } = App.LauncherData.DownloadCount;
+        public int DownloadCount { get; set; } = GlobalResources.LauncherData.DownloadCount;
 
         public void RunConnectionTestAction() {
             TestList.Clear();
@@ -46,25 +47,25 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void SelectLsaacAction() {
-            App.LauncherData.IssuingBranch = IssuingBranch.Lsaac;
+            GlobalResources.LauncherData.IssuingBranch = IssuingBranch.Lsaac;
         }
 
         public void SelectAlbertAction() {
-            App.LauncherData.IssuingBranch = IssuingBranch.Albert;
+            GlobalResources.LauncherData.IssuingBranch = IssuingBranch.Albert;
         }
 
         public void SelectOfficialAction() {
-            App.LauncherData.CurrentDownloadAPI = APIManager.Mojang;
+            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Mojang;
             APIManager.Current = APIManager.Mojang;
         }
 
         public void SelectMcbbsAction() {
-            App.LauncherData.CurrentDownloadAPI = APIManager.Mcbbs;
+            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Mcbbs;
             APIManager.Current = APIManager.Mcbbs;
         }
 
         public void SelectBmclAction() {
-            App.LauncherData.CurrentDownloadAPI = APIManager.Bmcl;
+            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Bmcl;
             APIManager.Current = APIManager.Bmcl;
         }
     }

@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -224,37 +225,37 @@ namespace wonderlab.ViewModels.Dialogs {
                 string customId = string.Empty;
 
                 if (!CurrentModLoaders.Any()) {
-                    installer = await Task.Run(() => new GameCoreInstaller(App.LaunchInfoData.GameDirectoryPath, CurrentGameCore.Id));
+                    installer = await Task.Run(() => new GameCoreInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, CurrentGameCore.Id));
                     customId = CurrentGameCore.Id;
                 } else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Forge) {
-                    if (App.LaunchInfoData.JavaRuntimePath.JavaPath.IsNull() && !App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
+                    if (GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsNull() && !GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
                         "无法继续安装，因为未选择任何 Java！".ShowMessage();
                         return;
                     }
 
                     var installerdata = CurrentModLoaders.First().Data;
                     customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                    installer = await Task.Run(() => new ForgeInstaller(App.LaunchInfoData.GameDirectoryPath,
-                        (installerdata.ModLoaderBuild as ForgeInstallEntity)!, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
+                    installer = await Task.Run(() => new ForgeInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath,
+                        (installerdata.ModLoaderBuild as ForgeInstallEntity)!, GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                         customId));
                 } else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Fabric) {
                     var installerdata = CurrentModLoaders.First().Data;
                     customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                    installer = await Task.Run(() => new FabricInstaller(App.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as FabricInstallBuild)!, customId));
+                    installer = await Task.Run(() => new FabricInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as FabricInstallBuild)!, customId));
                 } else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.Quilt) {
                     var installerdata = CurrentModLoaders.First().Data;
                     customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                    installer = await Task.Run(() => new QuiltInstaller(App.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as QuiltInstallBuild)!, customId));
+                    installer = await Task.Run(() => new QuiltInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath, (installerdata.ModLoaderBuild as QuiltInstallBuild)!, customId));
                 } else if (CurrentModLoaders.Count == 1 && currentmodloaderType is ModLoaderType.OptiFine) {
-                    if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
+                    if (!GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
                         "无法继续安装，因为未选择任何 Java！".ShowMessage();
                         return;
                     }
 
                     var installerdata = CurrentModLoaders.First().Data;
                     customId = $"{installerdata.GameCoreVersion}-{installerdata.ModLoader.ToLower()}-{installerdata.Id}";
-                    installer = await Task.Run(() => new OptiFineInstaller(App.LaunchInfoData.GameDirectoryPath,
-                        (installerdata.ModLoaderBuild as OptiFineInstallEntity)!, App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
+                    installer = await Task.Run(() => new OptiFineInstaller(GlobalResources.LaunchInfoData.GameDirectoryPath,
+                        (installerdata.ModLoaderBuild as OptiFineInstallEntity)!, GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(),
                         customId: customId));
                 } else if (CurrentModLoaders.Count == 2) {
                     CompositeGameCoreAction(data);
@@ -292,7 +293,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public async void CompositeGameCoreAction(NotificationViewData data) {
-            if (!App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
+            if (!GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw().IsFile()) {
                 "无法继续安装，因为未选择任何 Java！".ShowMessage();
             }
 
@@ -309,15 +310,15 @@ namespace wonderlab.ViewModels.Dialogs {
 
             data.Title = customId;
             data.TimerStart();
-            ForgeInstaller installer = new(App.LaunchInfoData.GameDirectoryPath, (forgedata.ModLoaderBuild as ForgeInstallEntity)!,
-               App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId);
+            ForgeInstaller installer = new(GlobalResources.LaunchInfoData.GameDirectoryPath, (forgedata.ModLoaderBuild as ForgeInstallEntity)!,
+               GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId);
 
             installer.ProgressChanged += ProcessOutPut;
             var result = await Task.Run(async () => await installer!.InstallAsync());
 
             if (result.Success) {
-                OptiFineInstaller optiFineInstaller = new(App.LaunchInfoData.GameDirectoryPath, (optifinrdata.ModLoaderBuild as OptiFineInstallEntity)!,
-               App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId: customId);
+                OptiFineInstaller optiFineInstaller = new(GlobalResources.LaunchInfoData.GameDirectoryPath, (optifinrdata.ModLoaderBuild as OptiFineInstallEntity)!,
+               GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw(), customId: customId);
                 optiFineInstaller.ProgressChanged += ProcessOutPut;
                 var Optifineresult = await Task.Run(async () => await optiFineInstaller!.InstallAsync());
                 if (Optifineresult.Success) {

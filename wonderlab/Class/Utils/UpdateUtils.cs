@@ -54,7 +54,7 @@ namespace wonderlab.Class.Utils {
                         });
 
                         var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
-                        App.LauncherData.LauncherVersion = intVersion;
+                        GlobalResources.LauncherData.LauncherVersion = intVersion;
                         JsonUtils.WriteLauncherInfoJson();
                     }
                     catch (Exception) { }

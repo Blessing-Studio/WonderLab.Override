@@ -91,27 +91,27 @@ namespace wonderlab.Views.Windows {
             await Task.Delay(500);
 
             try {
-                if (App.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {
+                if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {
                     APIManager.Current = APIManager.Mcbbs;
-                } else if (App.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {
                     APIManager.Current = APIManager.Bmcl;
-                } else if (App.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {
                     APIManager.Current = APIManager.Mojang;
                 } else {
-                    App.LauncherData.CurrentDownloadAPI = APIManager.Current;
+                    GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Current;
                 }
 
-                BackgroundImage.IsVisible = App.LauncherData.BakgroundType is "图片背景";
-                ThemeUtils.SetAccentColor(App.LauncherData.AccentColor);
-                CanParallax = App.LauncherData.ParallaxType is not "无";
+                BackgroundImage.IsVisible = GlobalResources.LauncherData.BakgroundType is "图片背景";
+                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
+                CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
 
-                if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(App.LauncherData.ImagePath)) {
-                    BackgroundImage.Source = new Bitmap(App.LauncherData.ImagePath);
+                if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(GlobalResources.LauncherData.ImagePath)) {
+                    BackgroundImage.Source = new Bitmap(GlobalResources.LauncherData.ImagePath);
                 }
             }
             catch {
-                if (App.LauncherData.IsNull()) {
-                    App.LauncherData = new();
+                if (GlobalResources.LauncherData.IsNull()) {
+                    GlobalResources.LauncherData = new();
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace wonderlab.Views.Windows {
                 Drop.PointerPressed += OnPointerPressed;
 
                 UpdateInfo result = await UpdateUtils.GetLatestUpdateInfoAsync();
-                $"开始自动更新流程，当前启动器版本序列号 {App.LauncherData.LauncherVersion}".ShowLog();
+                $"开始自动更新流程，当前启动器版本序列号 {GlobalResources.LauncherData.LauncherVersion}".ShowLog();
 
                 if (result is not null && result.CanUpdate() && SystemUtils.IsWindows) {
                     UpdateDialog.CloseButtonClick += (_, _) => {

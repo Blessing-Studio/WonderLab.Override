@@ -3,6 +3,7 @@ using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Net.Http.Json;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.ViewModels.Pages;
 
@@ -14,18 +15,18 @@ namespace wonderlab.Views.Pages
             InitializeComponent();
             DataContext = ViewModel;
 
-            if (!App.LauncherData.IsNull() && !App.LauncherData.IssuingBranch.IsNull()) {
-                if (App.LauncherData.IssuingBranch == IssuingBranch.Lsaac) {
+            if (!GlobalResources.LauncherData.IsNull() && !GlobalResources.LauncherData.IssuingBranch.IsNull()) {
+                if (GlobalResources.LauncherData.IssuingBranch == IssuingBranch.Lsaac) {
                     lsaac.IsChecked = true;
                 } else {
                     albert.IsChecked = true;
                 }
 
-                if (App.LauncherData.CurrentDownloadAPI.Host == APIManager.Mcbbs.Host) {
+                if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Mcbbs.Host) {
                     mcbbs.IsChecked = true;
-                } else if (App.LauncherData.CurrentDownloadAPI.Host == APIManager.Bmcl.Host) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Bmcl.Host) {
                     bmcl.IsChecked = true;
-                } else if (App.LauncherData.CurrentDownloadAPI.Host == APIManager.Mojang.Host) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Mojang.Host) {
                     official.IsChecked = true;
                 }
             } else {

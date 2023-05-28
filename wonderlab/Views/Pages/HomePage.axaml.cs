@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Avalonia.Input;
 using wonderlab.Views.Windows;
+using wonderlab.Class.AppData;
 
 namespace wonderlab.Views.Pages
 {
@@ -29,7 +30,7 @@ namespace wonderlab.Views.Pages
             Polymerize.Opacity = 0;
             Dispatcher.UIThread.Post(async () => {
                 await Task.Delay(200);
-                ViewModel.SelectGameCoreId = App.LaunchInfoData.SelectGameCore;
+                ViewModel.SelectGameCoreId = GlobalResources.LaunchInfoData.SelectGameCore;
             });
 
         }
@@ -66,7 +67,7 @@ namespace wonderlab.Views.Pages
                 return;
             }
 
-            if (App.LaunchInfoData.JavaRuntimePath is null && !App.LaunchInfoData.IsAutoSelectJava) {
+            if (GlobalResources.LaunchInfoData.JavaRuntimePath is null && !GlobalResources.LaunchInfoData.IsAutoSelectJava) {
                 "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
                 return;
             }

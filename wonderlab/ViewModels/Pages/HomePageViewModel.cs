@@ -62,7 +62,7 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             if (e.PropertyName is nameof(SelectGameCore) && SelectGameCore != null) {
-                App.LaunchInfoData.SelectGameCore = SelectGameCore.Id!;
+                GlobalResources.LaunchInfoData.SelectGameCore = SelectGameCore.Id!;
                 SelectGameCoreId = SelectGameCore.Id!;
             }
         }
@@ -73,7 +73,7 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             GameCores.Clear();
-            GameCores = (await GameCoreUtils.SearchGameCoreAsync(App.LaunchInfoData.GameDirectoryPath, text))
+            GameCores = (await GameCoreUtils.SearchGameCoreAsync(GlobalResources.LaunchInfoData.GameDirectoryPath, text))
                 .Distinct().ToObservableCollection();
 
             if (!GameCores.Any()) {
@@ -84,7 +84,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void GetGameCoresAction() {
             GameCores.Clear();
-            var cores = await GameCoreUtils.GetLocalGameCores(App.LaunchInfoData.GameDirectoryPath);
+            var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
 
             foreach (var i in cores) {
@@ -116,7 +116,7 @@ namespace wonderlab.ViewModels.Pages {
 
             data.TimerStart();
 
-            var gameCore = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
+            var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
                 var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
                     JsonUtils.DataPath, "authlib-injector.jar");
@@ -124,10 +124,10 @@ namespace wonderlab.ViewModels.Pages {
                 Trace.WriteLine($"[信息] Http状态码为 {result.HttpStatusCode}");
             }
 
-            //Mod 重复处理
+            //Modpack 重复处理
             if (gameCore.GetModsPath().IsDirectory()) {           
                 ModPackToolkit toolkit = new(gameCore, true);
-                var result = (await toolkit.LoadAllAsync()).GroupBy(i => i.Id).Where(g => g.Count() > 1);
+                var result = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled).GroupBy(i => i.Id).Where(g => g.Count() > 1);
 
                 if (result.Count() > 0) {               
                     foreach (var item in result) {                   
@@ -169,8 +169,8 @@ namespace wonderlab.ViewModels.Pages {
                 JvmConfig = new()
                 {
                     AdvancedArguments = new List<string>() { GetJvmArguments() },
-                    MaxMemory = App.LaunchInfoData.MaxMemory,
-                    MinMemory = App.LaunchInfoData.MiniMemory,
+                    MaxMemory = GlobalResources.LaunchInfoData.MaxMemory,
+                    MinMemory = GlobalResources.LaunchInfoData.MiniMemory,
                     JavaPath = javaInfo.JavaPath.ToJavaw().ToFile(),
                 },
                 
@@ -178,10 +178,10 @@ namespace wonderlab.ViewModels.Pages {
                 WorkingFolder = gameCore.GetGameCorePath().ToDirectory()!,
             };
 
-            JavaMinecraftLauncher launcher = new(config, App.LaunchInfoData.GameDirectoryPath, true);
+            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
 
             NotificationCenterPage.ViewModel.Notifications.Add(data);
-            using var gameProcess = await launcher.LaunchTaskAsync(App.LaunchInfoData.SelectGameCore, x => { 
+            using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine($"[信息] {x.Item2}");
                 data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
                 data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
@@ -192,7 +192,7 @@ namespace wonderlab.ViewModels.Pages {
             data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
                 data.Progress = $"启动成功 - 100%";
-                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
+                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
                 var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
 
                 ProcessManager.GameCoreProcesses.Add(viewData);
@@ -209,7 +209,7 @@ namespace wonderlab.ViewModels.Pages {
             }
             else {
                 data.Progress = $"启动失败 - 100%";
-                $"游戏 \"{App.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
+                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
             }
         }
 
@@ -255,22 +255,22 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public JavaInfo GetCurrentJava() {
-            if (App.LaunchInfoData.IsAutoSelectJava) {
-                var first = App.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit && 
-                x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
-                .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);                
+            if (GlobalResources.LaunchInfoData.IsAutoSelectJava) {
+                var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit && 
+                x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);                
 
                 if (first.Any()) {
                     return first.First();  
                 } else {
-                    var second = App.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(App.LaunchInfoData.GameDirectoryPath)
-                   .GetGameCore(App.LaunchInfoData.SelectGameCore).JavaVersion);
+                    var second = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                   .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
                     
-                    return second.Any() ? second.First() : App.LaunchInfoData.JavaRuntimePath;
+                    return second.Any() ? second.First() : GlobalResources.LaunchInfoData.JavaRuntimePath;
                 }
             }
 
-            return App.LaunchInfoData.JavaRuntimePath;
+            return GlobalResources.LaunchInfoData.JavaRuntimePath;
         }
 
         public string GetJvmArguments() {

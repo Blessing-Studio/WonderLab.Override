@@ -10,6 +10,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
@@ -72,7 +73,7 @@ namespace wonderlab.Class.Utils {
             NotificationCenterPage.ViewModel.Notifications.Add(data);
 
             //游戏核心安装
-            if (GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, modpackInfo.Name) == null) {
+            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name) == null) {
                 await GameCoreUtils.CompLexGameCoreInstallAsync(modpackInfo.Minecraft.Version, modpackInfo.Name, async (x, e) => {
                     x.ShowLog();
 
@@ -86,7 +87,7 @@ namespace wonderlab.Class.Utils {
             data.Progress = $"0%";
             await Task.Delay(1000);
 
-            var gamcorePath = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
+            var gamcorePath = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
             await Task.Run(() => {
                 using (ZipArchive subPath = ZipFile.OpenRead(path)) {
                     foreach (ZipArchiveEntry i in subPath.Entries.AsParallel()) {
@@ -107,7 +108,7 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async ValueTask CurseforgeModpacksInstallAsync(string path) {
-            ModsPacksInstaller installer = new(path, App.LaunchInfoData.GameDirectoryPath);
+            ModsPacksInstaller installer = new(path, GlobalResources.LaunchInfoData.GameDirectoryPath);
             var info = await installer.GetModsPacksInfoAsync();
             $"开始安装整合包 {info.Name}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
                 App.CurrentWindow.NotificationCenter.Open();
@@ -120,7 +121,7 @@ namespace wonderlab.Class.Utils {
             NotificationCenterPage.ViewModel.Notifications.Add(data);
 
             //游戏核心安装
-            if (GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, info.Name) == null) {
+            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, info.Name) == null) {
                 await GameCoreUtils.CompLexGameCoreInstallAsync(info.Minecraft.Version, info.Name, async (x, e) => {
                     x.ShowLog();
 
@@ -188,7 +189,7 @@ namespace wonderlab.Class.Utils {
             data.Progress = $"0%";
             await Task.Delay(1000);
 
-            var gamecorePath = GameCoreToolkit.GetGameCore(App.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
+            var gamecorePath = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
             //资源安装 -1
             var actionBlock = new ActionBlock<IEnumerable<Files>>(async x => {
                 try {

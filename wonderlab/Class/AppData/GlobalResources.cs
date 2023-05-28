@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Models;
 
 namespace wonderlab.Class.AppData {
     public class GlobalResources {
@@ -20,5 +21,13 @@ namespace wonderlab.Class.AppData {
         public const string HitokotoApi = "https://v1.hitokoto.cn/";
 
         public static CurseForgeToolkit CurseForgeToolkit { get; } = new(CurseforgeToken);
+
+        public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
+
+        public static LauncherDataModel LauncherData { get; set; } = new();
+
+        public static LaunchInfoDataModel DefaultLaunchInfoData { get; } = new();
+
+        public static LaunchInfoDataModel DefaultLauncherData { get; } = new();
     }
 }

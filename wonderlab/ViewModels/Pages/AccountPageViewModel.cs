@@ -6,6 +6,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Toolkits;
+using System.Linq;
 
 namespace wonderlab.ViewModels.Pages {
     public class AccountPageViewModel : ViewModelBase {
@@ -26,6 +27,10 @@ namespace wonderlab.ViewModels.Pages {
         public void Init() {
             Dispatcher.UIThread.Post(async () => {
                 GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
+
+                if (!GameAccounts.IsNull() && GameAccounts.Count >= 1) {
+                    CurrentGameAccount = GameAccounts.First();
+                }
             });
         }
         public override void GoBackAction() {

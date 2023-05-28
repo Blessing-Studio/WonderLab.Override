@@ -4,7 +4,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,10 +18,6 @@ using wonderlab.Views.Windows;
 
 namespace wonderlab {
     public partial class App : Application {
-        public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
-
-        public static LauncherDataModel LauncherData { get; set; } = new();
-
         public static MainWindow CurrentWindow { get; protected set; } = null!;
 
         public override void Initialize() {

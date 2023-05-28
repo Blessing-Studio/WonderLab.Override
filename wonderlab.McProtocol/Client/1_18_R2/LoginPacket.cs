@@ -5,17 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftProtocol.Client.v1_18_R2
-{
-    public class LoginPacket : ClientPacket
-    {
+namespace MinecraftProtocol.Client.v1_18_R2 {
+    public class LoginPacket : ClientPacket {
         public string PlayerName;
-        public LoginPacket(string playerName)
-        {
+        public LoginPacket(string playerName) {
             PlayerName = playerName;
         }
-        public byte[] GetBytes()
-        {
+        public byte[] GetBytes() {
             using MinecraftStream minecraftStream = new(new MemoryStream());
             minecraftStream.WriteString(PlayerName);
             byte[] buffer = new byte[minecraftStream.Length];
@@ -24,8 +20,7 @@ namespace MinecraftProtocol.Client.v1_18_R2
             return buffer;
         }
 
-        public int GetId()
-        {
+        public int GetId() {
             return 0x00;
         }
     }

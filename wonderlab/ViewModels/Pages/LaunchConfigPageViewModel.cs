@@ -15,6 +15,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Windows;
 
@@ -23,12 +24,12 @@ namespace wonderlab.ViewModels.Pages {
         public LaunchConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 
-            if (App.LaunchInfoData.JavaRuntimes.Any()) {
+            if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                 ThreadPool.QueueUserWorkItem(x => {
-                    Javas = App.LaunchInfoData.JavaRuntimes.ToObservableCollection();
+                    Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
                     CurrentJava = Javas.Where(x => {
                         if (x != null) {
-                            if (x.JavaPath.ToJavaw() == App.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {
+                            if (x.JavaPath.ToJavaw() == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {
                                 return true;
                             }
                         }
@@ -37,43 +38,43 @@ namespace wonderlab.ViewModels.Pages {
                 });
             }
 
-            if (App.LaunchInfoData.GameDirectorys.Any()) {
-                CurrentGameDirectory = App.LaunchInfoData.GameDirectoryPath;
-                GameDirectorys = App.LaunchInfoData.GameDirectorys.ToObservableCollection();
+            if (GlobalResources.LaunchInfoData.GameDirectorys.Any()) {
+                CurrentGameDirectory = GlobalResources.LaunchInfoData.GameDirectoryPath;
+                GameDirectorys = GlobalResources.LaunchInfoData.GameDirectorys.ToObservableCollection();
             }
 
-            IsAutoSelectJava = App.LaunchInfoData.IsAutoSelectJava;
-            MaxMemory = App.LaunchInfoData.MaxMemory;
-            MiniMemory = App.LaunchInfoData.MiniMemory;
+            IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
+            MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
+            MiniMemory = GlobalResources.LaunchInfoData.MiniMemory;
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(Javas)) {
-                App.LaunchInfoData.JavaRuntimes = Javas.ToList();
+                GlobalResources.LaunchInfoData.JavaRuntimes = Javas.ToList();
             }
 
             if (e.PropertyName == nameof(GameDirectorys)) {
-                App.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
+                GlobalResources.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
             }
 
             if (e.PropertyName == nameof(CurrentJava)) {
-                App.LaunchInfoData.JavaRuntimePath = CurrentJava;
+                GlobalResources.LaunchInfoData.JavaRuntimePath = CurrentJava;
             }
 
             if (e.PropertyName == nameof(CurrentGameDirectory)) {
-                App.LaunchInfoData.GameDirectoryPath = CurrentGameDirectory;
+                GlobalResources.LaunchInfoData.GameDirectoryPath = CurrentGameDirectory;
             }
 
             if (e.PropertyName == nameof(MaxMemory)) {
-                App.LaunchInfoData.MaxMemory = MaxMemory;
+                GlobalResources.LaunchInfoData.MaxMemory = MaxMemory;
             }
 
             if (e.PropertyName == nameof(MiniMemory)) {
-                App.LaunchInfoData.MiniMemory = MiniMemory;
+                GlobalResources.LaunchInfoData.MiniMemory = MiniMemory;
             }
 
             if (e.PropertyName == nameof(IsAutoSelectJava)) {
-                App.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
+                GlobalResources.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
             }
         }
 
@@ -153,7 +154,7 @@ namespace wonderlab.ViewModels.Pages {
             if (directory != null) {
                 var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(path1: directory.FullName, "java.exe"));
                 Javas.Add(javaInfo);
-                App.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
+                GlobalResources.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
                 CurrentJava = javaInfo;
                 Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
             }
@@ -167,7 +168,7 @@ namespace wonderlab.ViewModels.Pages {
 
             if (!string.IsNullOrEmpty(result) && result.IsDirectory()) {
                 GameDirectorys.Add(result);
-                App.LaunchInfoData.GameDirectorys.Add(result);
+                GlobalResources.LaunchInfoData.GameDirectorys.Add(result);
                 CurrentGameDirectory = result;
             }
         }

@@ -22,6 +22,7 @@ using MinecraftProtocol;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using wonderlab.Class.AppData;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -79,7 +80,7 @@ namespace wonderlab.Class.Utils {
             }
 
             var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
-            return intVersion > App.LauncherData.LauncherVersion;
+            return intVersion > GlobalResources.LauncherData.LauncherVersion;
         }
 
         public static ModLoaderViewData GetForge(this ObservableCollection<ModLoaderViewData> data) {
