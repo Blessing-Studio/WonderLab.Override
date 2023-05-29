@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wonderlab", "wonderlab\wonderlab.csproj", "{18233AA1-48AA-430B-83B1-9282A49B68EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab", "wonderlab\wonderlab.csproj", "{18233AA1-48AA-430B-83B1-9282A49B68EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D728B669-2720-44B6-B27F-33685B00AD3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.Core", "wonderlab.Core\wonderlab.Core.csproj", "{46B4F2C9-9FBA-4E4B-9A21-CB865BAAA18F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wonderlab.Control", "wonderlab.Control\wonderlab.Control.csproj", "{7ECD5ACD-179C-4B30-AB04-BC8E5705A802}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.Control", "wonderlab.Control\wonderlab.Control.csproj", "{7ECD5ACD-179C-4B30-AB04-BC8E5705A802}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.McProtocol", "wonderlab.McProtocol\wonderlab.McProtocol.csproj", "{1A9B964C-5E2B-4539-AB8B-903A145B9868}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.PluginLoader", "wonderlab.PluginLoader\wonderlab.PluginLoader.csproj", "{7F7618F7-A1F6-44DA-BE7F-9233718BA912}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{A9F6CAF9-71D5-4EFC-AA61-B453B76D0BA0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CI-Build.yml = .github\workflows\CI-Build.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

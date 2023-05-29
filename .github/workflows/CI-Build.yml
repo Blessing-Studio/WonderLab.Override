@@ -33,16 +33,16 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os win -p:PublishSingleFile=true --self-contained true
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os win10 -p:PublishSingleFile=true --self-contained true
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: wonderlab/bin/Release/net7.0/win-${{ matrix.arch }}/*.zip
+        path: wonderlab/bin/Release/net7.0/win10-${{ matrix.arch }}/*.zip
   build_Linux:
     strategy:
       matrix:
-        arch: ["x64", "arm", "arm64"]
+        arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
     runs-on: ubuntu-latest
     needs: [test, test_build]
     steps:
@@ -145,6 +145,7 @@ jobs:
         automatic_release_tag: AutoBuild
         title: "自动构建版本"
         files: |
+            *.exe
             *.zip
             *.deb
             *.rpm
