@@ -17,7 +17,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 
 namespace wonderlab.ViewModels.Pages {
-    public class ConsolePageViewModel : ReactiveObject {
+    public class ConsolePageViewModel : ViewModelBase {
         public ConsolePageViewModel(MinecraftProcessViewData data, ListBox box) {
             if (!data.IsNull()) {
                 GameLogs.AddRange(data!.Outputs);

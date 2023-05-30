@@ -16,7 +16,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
-    public class PersonalizeConfigPageViewModel : ReactiveObject {
+    public class PersonalizeConfigPageViewModel : ViewModelBase {
         public PersonalizeConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 

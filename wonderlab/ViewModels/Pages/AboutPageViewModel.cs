@@ -8,8 +8,8 @@ using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class AboutPageViewModel : ReactiveObject {
-        public void GoBackAction() {
+    public class AboutPageViewModel : ViewModelBase {
+        public override void GoBackAction() {
             new SelectConfigPage().Navigation();
         }
     }

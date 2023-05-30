@@ -25,7 +25,7 @@ using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
-    public class HomePageViewModel : ReactiveObject
+    public class HomePageViewModel : ViewModelBase
     {
         public HomePageViewModel() {
             this.PropertyChanged += OnPropertyChanged;

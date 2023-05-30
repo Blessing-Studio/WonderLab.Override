@@ -13,7 +13,7 @@ using wonderlab.Class.ViewData;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
-    public class NotificationCenterPageViewModel : ReactiveObject {
+    public class NotificationCenterPageViewModel : ViewModelBase {
         public NotificationCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             Notifications.CollectionChanged += Notifications_CollectionChanged;

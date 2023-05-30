@@ -8,7 +8,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class GameCoreConfigPageViewModel : ReactiveObject {
+    public class GameCoreConfigPageViewModel : ViewModelBase {
         public GameCoreConfigPageViewModel(GameCore core) {
             PropertyChanged += OnPropertyChanged;
 
@@ -45,7 +45,7 @@ namespace wonderlab.ViewModels.Pages {
             GameCoreTotalSize = result;
         }
 
-        public void GoBackAction() {
+        public override void GoBackAction() {
             new HomePage().Navigation();
             App.CurrentWindow.OpenTopBar();
         }

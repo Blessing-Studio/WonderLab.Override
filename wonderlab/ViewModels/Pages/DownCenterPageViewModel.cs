@@ -18,7 +18,7 @@ using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class DownCenterPageViewModel : ReactiveObject {
+    public class DownCenterPageViewModel : ViewModelBase {
         public IEnumerable<GameCoreEmtity> Cache;
 
         public DownCenterPageViewModel() {
@@ -281,7 +281,7 @@ namespace wonderlab.ViewModels.Pages {
             SearcherHeight = 0;
         }
 
-        public void GoBackAction() {
+        public override void GoBackAction() {
             new ActionCenterPage().Navigation();
         }
     }

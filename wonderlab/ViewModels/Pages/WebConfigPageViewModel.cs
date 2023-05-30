@@ -10,7 +10,7 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 
 namespace wonderlab.ViewModels.Pages {
-    public class WebConfigPageViewModel : ReactiveObject {
+    public class WebConfigPageViewModel : ViewModelBase {
         public WebConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 

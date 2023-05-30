@@ -11,7 +11,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 
 namespace wonderlab.ViewModels.Pages {
-    public class ModConfigPageViewModel : ReactiveObject {
+    public class ModConfigPageViewModel : ViewModelBase {
         public ModConfigPageViewModel(GameCore core) {
             PropertyChanged += OnPropertyChanged;
 

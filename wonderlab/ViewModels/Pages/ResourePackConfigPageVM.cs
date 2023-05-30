@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 
 namespace wonderlab.ViewModels.Pages {
-    public class ResourePackConfigPageVM : ReactiveObject {
+    public class ResourePackConfigPageVM : ViewModelBase {
         public ResourePackConfigPageVM(GameCore core) {
             PropertyChanged += OnPropertyChanged;
 

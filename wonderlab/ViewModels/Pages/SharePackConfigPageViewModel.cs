@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace wonderlab.ViewModels.Pages {
-    public class SharePackConfigPageViewModel : ReactiveObject {
+    public class SharePackConfigPageViewModel : ViewModelBase {
         public SharePackConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }
