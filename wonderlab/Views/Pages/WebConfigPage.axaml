@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" 
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
              x:Class="wonderlab.Views.Pages.WebConfigPage">
 	<Grid>
 		<ScrollViewer Background="{x:Null}">
@@ -47,7 +47,7 @@
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
 							<RowDefinition Height="3"/>
-							<RowDefinition Height="1*"/>
+							<RowDefinition Height="Auto"/>
 						</Grid.RowDefinitions>
 
 						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
@@ -64,14 +64,14 @@
 								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
-						<Grid Margin="15 20 15 0">
+						<Grid Grid.Row="2" Margin="15 -5">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="1*"/>
 								<ColumnDefinition Width="10"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
 							<Slider Value="{Binding DownloadCount}" Maximum="512" Minimum="1" Grid.Row="2"/>
-							 
+
 							<TextBlock Text="{Binding DownloadCount}" Grid.Column="2" VerticalAlignment="Center"/>
 						</Grid>
 					</Grid>
@@ -137,9 +137,9 @@
 								</Button.RenderTransform>
 							</Button>
 							<!---->
-							<ListBox IsVisible="{Binding TestListVisible}" 
+							<ListBox IsVisible="{Binding TestListVisible}"
 									 Margin="0 10" Items="{Binding TestList}"
-									 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+									 ScrollViewer.VerticalScrollBarVisibility="Hidden"
 									 ClipToBounds="False" Background="Transparent">
 								<ListBox.Styles>
 									<Styles>
@@ -178,7 +178,7 @@
 																			<SkewTransform AngleX="8"/>
 																		</TransformGroup>
 																	</TextBlock.RenderTransform>
-																	</TextBlock>
+																</TextBlock>
 															</Grid>
 
 															<Border Background="{DynamicResource AccentBrush}" HorizontalAlignment="Right"
@@ -198,7 +198,7 @@
 																			</TransformGroup>
 																		</ProgressBar.RenderTransform>
 																	</ProgressBar>
-																	
+
 																	<TextBlock FontSize="12" VerticalAlignment="Center" Text="连接测试中..."/>
 																</StackPanel>
 															</Border>
@@ -215,7 +215,7 @@
 																	<Viewbox Margin="0 -6 0 0" Width="20">
 																		<Path VerticalAlignment="Center" Fill="Black" Data="M953.472 174.976L385.152 759.168l-275.328-282.794667-53.290667 50.346667L385.194667 857.6l616.021333-632.32z"/>
 																	</Viewbox>
-																	
+
 																	<TextBlock FontSize="12" VerticalAlignment="Center" Text="连接正常"/>
 																</StackPanel>
 															</Border>
@@ -242,7 +242,7 @@
 												</ControlTemplate>
 											</Setter>
 										</Style>
-										
+
 										<Style Selector="ListBoxItem /template/	Border#Main">
 											<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
 										</Style>
@@ -255,7 +255,7 @@
 											<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
 										</Style>
 									</Styles>
-								</ListBox.Styles>		
+								</ListBox.Styles>
 							</ListBox>
 						</StackPanel>
 					</Grid>

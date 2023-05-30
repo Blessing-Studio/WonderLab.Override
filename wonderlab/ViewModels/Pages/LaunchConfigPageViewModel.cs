@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using DynamicData;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
@@ -162,6 +163,24 @@ namespace wonderlab.ViewModels.Pages {
                 GlobalResources.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
                 CurrentJava = javaInfo;
                 Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
+            }
+        }
+
+        public async void AddJavaAction() {
+            var file = await DialogUtils.OpenFilePickerAsync(new List<FilePickerFileType>() {
+                new("Javaw文件") { Patterns = new List<string>() { SystemUtils.IsWindows ? "javaw.exe" : "javaw" } }
+            }, "请选择您的 Javaw 文件");
+
+            if (!file.IsNull()) {
+                var path = DialogUtils.GetFilePath(file);
+                //由于需启动新进程，可能耗时会卡主线程，因此使用异步
+                var java = await Task.Run(() => JavaToolkit.GetJavaInfo(path));
+
+                if (!java.IsNull()) {
+                    Javas.Add(java);
+                    GlobalResources.LaunchInfoData.JavaRuntimes.Add(java);
+                    CurrentJava = java;
+                }
             }
         }
 

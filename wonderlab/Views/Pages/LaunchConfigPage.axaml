@@ -105,7 +105,8 @@
 							</Button>
 
 							<Button Content="手动添加" Background="{DynamicResource AccentBrushDark3}"
-									Classes="wonderaccentbutton"/>
+									Classes="wonderaccentbutton"
+									Command="{Binding AddJavaAction}"/>
 
 							<Button Content="移除" Classes="wonderaccentbutton"
 									Command="{Binding RemoveJavaRuntimeAction}"
