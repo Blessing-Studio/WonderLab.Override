@@ -19,4 +19,5 @@
 	<StyleInclude Source="/Style/Button/HyperlinkButtonStyle.axaml"/>
 	<StyleInclude Source="/Style/Bar/TitleBarStyle.axaml"/>
 	<!--<StyleInclude Source="/Theme/BasicResource.axaml"/>-->
+	<StyleInclude Source="/Style/PageSwitcher.axaml"/>
 </Styles>

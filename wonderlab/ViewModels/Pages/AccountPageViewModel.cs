@@ -26,7 +26,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public void Init() {
             Dispatcher.UIThread.Post(async () => {
-                GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
+                GameAccounts = (await AccountUtils.GetAsync(true).ToListAsync()).ToObservableCollection();
 
                 if (!GameAccounts.IsNull() && GameAccounts.Count >= 1) {
                     CurrentGameAccount = GameAccounts.First();

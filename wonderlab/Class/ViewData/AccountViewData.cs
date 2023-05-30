@@ -17,10 +17,12 @@ using wonderlab.Class.Utils;
 namespace wonderlab.Class.ViewData
 {
     public class AccountViewData : ViewDataBase<UserModel> {   
-        public AccountViewData(UserModel data) : base(data) {
-            Dispatcher.UIThread.Post(async () => {
-                await GetSkinAsync();
-            });
+        public AccountViewData(UserModel data,bool flag) : base(data) {
+            if (flag) {
+                Dispatcher.UIThread.Post(async () => {
+                    await GetSkinAsync();
+                });
+            }
         }
 
         [Reactive]

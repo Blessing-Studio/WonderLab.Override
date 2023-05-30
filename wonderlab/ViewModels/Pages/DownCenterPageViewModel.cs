@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Installer;
+﻿using DynamicData;
+using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
@@ -27,12 +28,7 @@ namespace wonderlab.ViewModels.Pages {
 
         private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentMcVersionType)) {
-                GameCores.Clear();
-
-                foreach (var item in Cache.Where(x => x.Type.Contains(CurrentMcVersionType))) {
-                    GameCores.Add(item);
-                    await Task.Delay(20);
-                }
+                GameCores = new(Cache.Where(x => x.Type.Contains(CurrentMcVersionType)));
             }
         }
 
@@ -218,10 +214,8 @@ namespace wonderlab.ViewModels.Pages {
             var result = Cache.Where(x => x.Id.Contains(SearchFilter)).ToList();
             IsLoading = false;
 
-            foreach (var item in result.Where(x => x.Type.Contains(CurrentMcVersionType))) {
-                GameCores.Add(item);
-                await Task.Delay(20);
-            }
+            var d = result.Where(x => x.Type.Contains(CurrentMcVersionType));
+            GameCores = new(d.ToList());
         }
 
         public void OpenGameInstallDialogAction() {
@@ -246,10 +240,7 @@ namespace wonderlab.ViewModels.Pages {
                 }).ToList();
 
                 Cache = temp.ToList();
-                foreach (var item in temp.Where(x => x.Type.Contains(CurrentMcVersionType))) {
-                    GameCores.Add(item);
-                    await Task.Delay(20);
-                }
+                GameCores = new(Cache.Where(x => x.Type.Contains(CurrentMcVersionType)));
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");

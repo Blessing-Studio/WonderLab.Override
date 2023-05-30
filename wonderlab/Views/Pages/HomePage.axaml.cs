@@ -72,6 +72,13 @@ namespace wonderlab.Views.Pages
                 return;
             }
 
+            try {
+                throw new System.NotImplementedException("操你妈，又炸了");
+            }
+            catch (System.Exception ex) {
+                App.CurrentWindow.ShowInfoDialog("程序遭遇了错误", ex.ToString());
+            }
+
             ViewModel.SelectAccountAction();
         }
     }

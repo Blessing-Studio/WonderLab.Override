@@ -67,6 +67,9 @@ namespace wonderlab.Class.Utils {
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
+        public static TResult CreateViewData<TData, TResult>(this TData data, object arg1) where TResult : ViewDataBase<TData>
+              => (Activator.CreateInstance(typeof(TResult), data!,arg1)! as TResult)!;
+
         public static TResult CreateViewData<TData, TResult>(this TData data, object arg2, object arg3) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!, arg2, arg3)! as TResult)!;
 

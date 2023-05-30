@@ -14,36 +14,32 @@ using wonderlab.control.Animation;
 using wonderlab.control.Controls.Dialog.Events;
 using wonderlab.control.Interface;
 
-namespace wonderlab.control.Controls.Dialog
-{
+namespace wonderlab.control.Controls.Dialog {
     /// <summary>
     /// 信息对话框
     /// </summary>
     [PseudoClasses(":open", ":close")]
-    public class MessageDialog : ContentControl, IDialog, IMessageDialog
-    {
-        Button CloseButton = null!;        
+    public class MessageDialog : ContentControl, IDialog, IMessageDialog {
+        Button CloseButton = null!;
         Border BackgroundBorder = null!;
         Border DialogContent = null!;
-        
+
         public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
-        public bool Button1Visible { get => GetValue(Button1VisibleProperty); set => SetValue(Button1VisibleProperty, value); }
-        public bool Button2Visible { get => GetValue(Button2VisibleProperty); set => SetValue(Button2VisibleProperty, value); }
-        public bool Button3Visible { get => GetValue(Button3VisibleProperty); set => SetValue(Button3VisibleProperty, value); }
+        public bool CloseButtonVisible { get => GetValue(CloseButtonVisibleProperty); set => SetValue(CloseButtonVisibleProperty, value); }
+        public bool CustomButtonVisible { get => GetValue(CustomButtonVisibleProperty); set => SetValue(CustomButtonVisibleProperty, value); }
         public string? Title
         {
 #pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
             get => GetValue(TitleProperty); set => SetValue(TitleProperty, value);
 #pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
         }
-        #pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+#pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
 
         public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty, value); }
 #pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
 
-        public string Button1Text { get => GetValue(Button1TextProperty); set => SetValue(Button1TextProperty, value); }
-        public string Button2Text { get => GetValue(Button2TextProperty); set => SetValue(Button2TextProperty, value); }
-        public string Button3Text { get => GetValue(Button3TextProperty); set => SetValue(Button3TextProperty, value); }
+        public string CloseButtonText { get => GetValue(CloseButtonTextProperty); set => SetValue(CloseButtonTextProperty, value); }
+        public string CustomButtonText { get => GetValue(CustomButtonTextProperty); set => SetValue(CustomButtonTextProperty, value); }
 
         //Event
         public event EventHandler<CloseButtonClick>? CloseButtonClick;
@@ -57,23 +53,17 @@ namespace wonderlab.control.Controls.Dialog
         public static readonly StyledProperty<string> MessageProperty =
             AvaloniaProperty.Register<MessageDialog, string>(nameof(Message), "这是一段好长的信息啊啊啊啊啊啊啊啊啊啊啊啊啊");
 
-        public static readonly StyledProperty<string> Button1TextProperty =
-            AvaloniaProperty.Register<MessageDialog, string>(nameof(Button1Text));
+        public static readonly StyledProperty<string> CloseButtonTextProperty =
+            AvaloniaProperty.Register<MessageDialog, string>(nameof(CloseButtonText));
 
-        public static readonly StyledProperty<string> Button2TextProperty =
-            AvaloniaProperty.Register<MessageDialog, string>(nameof(Button2Text));
+        public static readonly StyledProperty<string> CustomButtonTextProperty =
+            AvaloniaProperty.Register<MessageDialog, string>(nameof(CustomButtonText));
 
-        public static readonly StyledProperty<string> Button3TextProperty =
-            AvaloniaProperty.Register<MessageDialog, string>(nameof(Button3Text));
+        public static readonly StyledProperty<bool> CloseButtonVisibleProperty =
+            AvaloniaProperty.Register<MessageDialog, bool>(nameof(CloseButtonVisible), true);
 
-        public static readonly StyledProperty<bool> Button1VisibleProperty =
-            AvaloniaProperty.Register<MessageDialog, bool>(nameof(Button1Visible), true);
-
-        public static readonly StyledProperty<bool> Button2VisibleProperty =
-            AvaloniaProperty.Register<MessageDialog, bool>(nameof(Button2Visible), true);
-
-        public static readonly StyledProperty<bool> Button3VisibleProperty =
-            AvaloniaProperty.Register<MessageDialog, bool>(nameof(Button3Visible), true);
+        public static readonly StyledProperty<bool> CustomButtonVisibleProperty =
+            AvaloniaProperty.Register<MessageDialog, bool>(nameof(CustomButtonVisible), true);
 
         public static readonly StyledProperty<bool> IsOpenProperty =
             AvaloniaProperty.Register<MessageDialog, bool>(nameof(IsOpen), false);
@@ -101,8 +91,7 @@ namespace wonderlab.control.Controls.Dialog
             animation.RunAnimation(DialogContent);
         }
 
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
 
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
@@ -113,8 +102,8 @@ namespace wonderlab.control.Controls.Dialog
             HideDialog();
         }
 
-        private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
+        private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            HideDialog();
             CloseButtonClick?.Invoke(sender, new());
         }
     }

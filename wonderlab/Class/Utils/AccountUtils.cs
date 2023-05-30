@@ -11,13 +11,13 @@ using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.Utils {
     public static class AccountUtils {
-        public static async IAsyncEnumerable<AccountViewData> GetAsync() {
+        public static async IAsyncEnumerable<AccountViewData> GetAsync(bool flag = false) {
             JsonUtils.DirectoryCheck();
 
             var usersFile = Directory.EnumerateFiles(JsonUtils.UserDataPath);
             foreach (var user in usersFile) {
                 var text = await File.ReadAllTextAsync(user);
-                yield return JsonConvert.DeserializeObject<UserModel>(await Task.Run(() => CryptoToolkit.DecrytOfKaiser(text.ConvertToString())))!.CreateViewData<UserModel, AccountViewData>();
+                yield return JsonConvert.DeserializeObject<UserModel>(await Task.Run(() => CryptoToolkit.DecrytOfKaiser(text.ConvertToString())))!.CreateViewData<UserModel, AccountViewData>(flag);
             }
         }
 

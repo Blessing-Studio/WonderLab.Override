@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
+			 xmlns:wc="using:wonderlab.control.Controls"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.DownCenterPage">
 	<Grid>
@@ -55,12 +56,13 @@
 				<TextBlock Text="搜索选项"/>
 			</StackPanel>
 		</Button>
-
+		
+		
 		<ListBox Background="Transparent"
 				 VirtualizationMode="None"
 			     IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
 				 SelectedItem="{Binding	CurrentGameCore}"
-				 Margin="0 60" Items="{Binding GameCores}">
+				 Margin="0 60" >
 			<ListBox.Styles>
 				<Styles>
 					<Style Selector="ListBoxItem">
@@ -144,6 +146,83 @@
 			</ListBox.Styles>
 		</ListBox>
 
+		<wc:PageSwitcher Margin="0 60" Items="{Binding GameCores}">
+			<wc:PageSwitcher.Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="Margin" Value="15 6"/>
+					<Setter Property="ClipToBounds" Value="False"/>
+					<Setter Property="Height" Value="45"/>
+					<Setter Property="Template">
+						<ControlTemplate>
+							<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+									Name="Main">
+								<Border.RenderTransform>
+									<TransformGroup>
+										<SkewTransform AngleX="-8"/>
+									</TransformGroup>
+								</Border.RenderTransform>
+
+								<Border.Transitions>
+									<Transitions>
+										<BoxShadowsTransition Property="BoxShadow"
+															  Easing="ExponentialEaseOut"
+															  Duration="0:0:0.35"/>
+									</Transitions>
+								</Border.Transitions>
+
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"/>
+										<ColumnDefinition Width="1*"/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+
+									<Grid Margin="15 5">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="30"/>
+											<ColumnDefinition Width="15"/>
+											<ColumnDefinition Width="1*"/>
+										</Grid.ColumnDefinitions>
+
+										<Image Height="35" Width="35"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Center"
+											   Source="/Assets/Icons/Block.png">
+											<Image.RenderTransform>
+												<TransformGroup>
+													<SkewTransform AngleX="8"/>
+												</TransformGroup>
+											</Image.RenderTransform>
+										</Image>
+
+										<Grid Grid.Column="2" HorizontalAlignment="Left"
+											  VerticalAlignment="Center">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="1*"/>
+												<RowDefinition Height="1*"/>
+											</Grid.RowDefinitions>
+											<TextBlock Text="{Binding Id}"
+													   FontSize="15"/>
+
+											<TextBlock Text="{Binding Type}"
+													   Grid.Row="1"
+													   FontSize="12"
+													   Opacity="0.65"/>
+										</Grid>
+									</Grid>
+
+									<Button Width="80" Content="下载"
+											Grid.Column="2"
+											Click="OpenDialogAction"
+											Classes="wonderaccentbutton"
+											HorizontalAlignment="Right" Margin="15 0"/>
+								</Grid>
+							</Border>
+						</ControlTemplate>
+					</Setter>
+				</Style>
+			</wc:PageSwitcher.Styles>
+		</wc:PageSwitcher>
 
 		<ListBox Background="Transparent"
 				 VirtualizationMode="None"

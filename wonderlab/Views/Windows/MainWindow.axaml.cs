@@ -131,6 +131,9 @@ namespace wonderlab.Views.Windows {
 
             try {
                 Drop.PointerPressed += OnPointerPressed;
+                TopInfoBar.PointerPressed += OnPointerPressed;
+                TopInfoBar1.PointerPressed += OnPointerPressed;
+                TopInfoBar2.PointerPressed += OnPointerPressed;
 
                 UpdateInfo result = await UpdateUtils.GetLatestUpdateInfoAsync();
                 $"开始自动更新流程，当前启动器版本序列号 {GlobalResources.LauncherData.LauncherVersion}".ShowLog();

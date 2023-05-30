@@ -31,6 +31,7 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>

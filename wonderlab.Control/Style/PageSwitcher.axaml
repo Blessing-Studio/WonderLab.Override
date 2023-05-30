@@ -1,0 +1,70 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wcs="using:wonderlab.control.Controls">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+			<wcs:PageSwitcher/>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<Style Selector="wcs|PageSwitcher">
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border>
+					<Grid VerticalAlignment="Top" IsVisible="True" MinHeight="20">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+
+						<ListBox Background="Transparent"
+								 VerticalAlignment="Top"
+								 ClipToBounds="False"
+		                         Name="ItemsList"/>
+						
+						<Grid Grid.Row="1"
+							  Margin="0 10"
+							  VerticalAlignment="Top"
+							  HorizontalAlignment="Center"
+							  ColumnDefinitions="25, Auto, 25">
+							<Button Classes="wonderaccentbutton"
+									Width="25"
+									Height="25"
+									Margin="10 0"
+									Padding="0"
+									Name="BackButton">
+								<Viewbox Width="12">
+									<PathIcon Data="{StaticResource GoBack}"/>
+								</Viewbox>
+							</Button>
+
+							<TextBlock Grid.Column="1"
+									   Text="114 / 514"
+									   VerticalAlignment="Center"
+									   Name="display"/>
+
+							<Button Grid.Column="2"
+									Width="25"
+									Height="25"
+									Margin="10 0"
+									Padding="0"
+									Name="NextPageButton"
+									Classes="wonderaccentbutton">
+								<Viewbox HorizontalAlignment="Right"
+										 Height="12"
+										 Width="12">
+									<PathIcon Data="{StaticResource GoNext}"/>
+								</Viewbox>
+							</Button>
+						</Grid>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

@@ -13,8 +13,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.control;
 using wonderlab.control.Controls.Bar;
 using wonderlab.Views.Windows;
+using MainWindow = wonderlab.Views.Windows.MainWindow;
 
 namespace wonderlab {
     public partial class App : Application {
@@ -26,6 +28,7 @@ namespace wonderlab {
         }
 
         private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
+            await new WizardWindow().ShowDialog(CurrentWindow);
             StringBuilder builder = new();
             builder.AppendLine("非常抱歉您的 WonderLab 又又又炸了，以下是此次崩溃的错误信息");
             builder.AppendLine("----------------------------------------------------------------------");
@@ -42,7 +45,7 @@ namespace wonderlab {
         public override void OnFrameworkInitializationCompleted() {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
                 desktop.MainWindow = CurrentWindow = new MainWindow();
-                TitleBar.Window = CurrentWindow;
+                Manager.Current = CurrentWindow;
             }
 
             base.OnFrameworkInitializationCompleted();
