@@ -43,8 +43,7 @@ namespace wonderlab.control.Controls.Dialog {
 
         //Event
         public event EventHandler<CloseButtonClick>? CloseButtonClick;
-        public event EventHandler<EventArgs>? Button2Click;
-        public event EventHandler<EventArgs>? Button3Click;
+        public event EventHandler<EventArgs>? CustomButtonClick;
 
         //Property
         public static readonly StyledProperty<string> TitleProperty =
@@ -98,8 +97,13 @@ namespace wonderlab.control.Controls.Dialog {
             DialogContent = e.NameScope.Find<Border>("DialogContent");
             CloseButton = e.NameScope.Find<Button>("CloseButton");
             CloseButton.Click += OnCloseButtonClick;
-
+            e.NameScope.Find<Button>("CustomButton").Click += OnCustomButtonClick; ;
+            
             HideDialog();
+        }
+
+        private void OnCustomButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            CustomButtonClick?.Invoke(sender, e);
         }
 
         private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {

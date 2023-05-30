@@ -62,7 +62,7 @@
 								<ScrollViewer Grid.Row="1" Margin="16 5 16 10">
 									<SelectableTextBlock TextWrapping="WrapWithOverflow"
 					                                     FontSize="14"
-														 SelectionBrush="AliceBlue"
+														 SelectionBrush="{DynamicResource AccentBrush}"
 														 Text="{TemplateBinding Message}"/>
 								</ScrollViewer>
 
@@ -71,6 +71,7 @@
 	                                  HorizontalAlignment="Stretch"
 	                                  ColumnDefinitions="1*,10,1*">
 									<Button FontSize="12"
+											Name="CustomButton"											
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"
 											Content="{TemplateBinding CustomButtonText}"
@@ -81,7 +82,7 @@
 											Grid.Column="2"
 											Name="CloseButton"
 									        HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Center"
+											HorizontalContentAlignment="Center"  
 											Content="{TemplateBinding CloseButtonText}"
 											IsVisible="{TemplateBinding CloseButtonVisible}"
 											Background="#FF0000"

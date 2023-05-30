@@ -78,6 +78,7 @@ namespace MinecraftLaunch.Modules.Toolkits {
                 using var responseMessage = await HttpWrapper.HttpPostAsync($"{API}/featured", content.ToString(), Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
+                //Trace.WriteLine(await responseMessage.Content.ReadAsStringAsync());
                 var entity = JObject.Parse(await responseMessage.Content.ReadAsStringAsync());
 
                 foreach (JObject jObject in ((JArray)entity["data"]["popular"]).Cast<JObject>())

@@ -146,7 +146,9 @@
 			</ListBox.Styles>
 		</ListBox>
 
-		<wc:PageSwitcher Margin="0 60" Items="{Binding GameCores}">
+		<wc:PageSwitcher Margin="0 60 0 45"
+						 IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+						 Items="{Binding GameCores}">
 			<wc:PageSwitcher.Styles>
 				<Style Selector="ListBoxItem">
 					<Setter Property="Margin" Value="15 6"/>
@@ -154,7 +156,11 @@
 					<Setter Property="Height" Value="45"/>
 					<Setter Property="Template">
 						<ControlTemplate>
-							<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+							<Border Background="{DynamicResource DialogContentBackground}"
+									BoxShadow="0 1 4 0 #66000000"
+									BorderThickness="1"
+									BorderBrush="{DynamicResource DialogContentBorderBrush}"
+									CornerRadius="6"
 									Name="Main">
 								<Border.RenderTransform>
 									<TransformGroup>

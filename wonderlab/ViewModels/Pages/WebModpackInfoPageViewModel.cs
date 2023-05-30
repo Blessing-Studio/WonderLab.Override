@@ -14,7 +14,7 @@ using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class WebModpackInfoPageViewModel : ReactiveObject {
+    public class WebModpackInfoPageViewModel : ViewModelBase {
         public WebModpackInfoPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\yuanshen.jpeg"));
@@ -67,7 +67,7 @@ namespace wonderlab.ViewModels.Pages {
             }
         }
 
-        public void GoBackAction() {
+        public override void GoBackAction() {
             new DownCenterPage().Navigation();
         }
 

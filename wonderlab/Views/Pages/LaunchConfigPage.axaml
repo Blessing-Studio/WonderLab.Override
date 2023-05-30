@@ -145,10 +145,10 @@
 				</Border>
 
 				<Border Background="{DynamicResource DialogContentBackground}"
-						BoxShadow="0 1 4 0 #66000000"
-						Height="80" Margin="15 0"
-						VerticalAlignment="Top"
-						CornerRadius="6">
+		                BoxShadow="0 1 4 0 #66000000"
+		                Height="80" Margin="15 0"
+		                VerticalAlignment="Top"
+		                CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
@@ -166,17 +166,49 @@
 								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
+						<TextBox Watermark="最大内存"
+								 MinWidth="230"
+								 Grid.Row="2"
+								 VerticalAlignment="Top"
+								 HorizontalAlignment="Left"
+								 Margin="15 5"
+		                         Text="{Binding	MaxMemory}"/>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏窗口设置（俩都填 0 则全屏）" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
 						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
-							<TextBox Watermark="最大内存" MinWidth="100"
-									 Text="{Binding	MaxMemory}"/>
+							<TextBox MinWidth="100"
+									 Text="{Binding	WindowHeight}"/>
 							<TextBlock Text="X" HorizontalAlignment="Center"
 									   VerticalAlignment="Center"/>
-							<TextBox Watermark="最小内存" MinWidth="100"
-									 Text="{Binding MiniMemory}"/>
+							<TextBox MinWidth="100"
+									 Text="{Binding WindowWidth}"/>							
 						</StackPanel>
 					</Grid>
 				</Border>
-			</StackPanel>
+        	</StackPanel>
 		</ScrollViewer>
 	</Grid>
 </UserControl>

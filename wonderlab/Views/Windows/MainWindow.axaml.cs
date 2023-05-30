@@ -50,6 +50,8 @@ namespace wonderlab.Views.Windows {
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
+                MainDialog.CustomButtonClick += (_, _) => MainDialog.HideDialog();
+                MainDialog.CloseButtonClick += (_, _) => Close();
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
             }
             catch (Exception ex) {

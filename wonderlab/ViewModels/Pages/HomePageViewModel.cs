@@ -164,16 +164,17 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             var javaInfo = GetCurrentJava();
-            var config = new LaunchConfig()
-            {
-                JvmConfig = new()
-                {
+            var config = new LaunchConfig() {
+                JvmConfig = new() {
                     AdvancedArguments = new List<string>() { GetJvmArguments() },
                     MaxMemory = GlobalResources.LaunchInfoData.MaxMemory,
-                    MinMemory = GlobalResources.LaunchInfoData.MiniMemory,
                     JavaPath = javaInfo.JavaPath.ToJavaw().ToFile(),
                 },
-                
+                GameWindowConfig = new() {
+                    Width = GlobalResources.LaunchInfoData.WindowWidth,
+                    Height = GlobalResources.LaunchInfoData.WindowHeight,
+                    IsFullscreen = GlobalResources.LaunchInfoData.WindowHeight == 0 && GlobalResources.LaunchInfoData.WindowWidth == 0,
+                },
                 Account = CurrentAccount,
                 WorkingFolder = gameCore.GetGameCorePath().ToDirectory()!,
             };

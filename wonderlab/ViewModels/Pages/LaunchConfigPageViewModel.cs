@@ -47,7 +47,6 @@ namespace wonderlab.ViewModels.Pages {
 
                 IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
                 MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
-                MiniMemory = GlobalResources.LaunchInfoData.MiniMemory;
             }
             catch (Exception ex) {
                 $"{ex.Message}".ShowMessage();
@@ -55,32 +54,36 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(Javas)) {
+            if (e.PropertyName is nameof(Javas)) {
                 GlobalResources.LaunchInfoData.JavaRuntimes = Javas.ToList();
             }
 
-            if (e.PropertyName == nameof(GameDirectorys)) {
+            if (e.PropertyName is nameof(GameDirectorys)) {
                 GlobalResources.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
             }
 
-            if (e.PropertyName == nameof(CurrentJava)) {
+            if (e.PropertyName is nameof(CurrentJava)) {
                 GlobalResources.LaunchInfoData.JavaRuntimePath = CurrentJava;
             }
 
-            if (e.PropertyName == nameof(CurrentGameDirectory)) {
+            if (e.PropertyName is nameof(CurrentGameDirectory)) {
                 GlobalResources.LaunchInfoData.GameDirectoryPath = CurrentGameDirectory;
             }
 
-            if (e.PropertyName == nameof(MaxMemory)) {
+            if (e.PropertyName is nameof(MaxMemory)) {
                 GlobalResources.LaunchInfoData.MaxMemory = MaxMemory;
             }
 
-            if (e.PropertyName == nameof(MiniMemory)) {
-                GlobalResources.LaunchInfoData.MiniMemory = MiniMemory;
+            if (e.PropertyName is nameof(IsAutoSelectJava)) {
+                GlobalResources.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
             }
 
-            if (e.PropertyName == nameof(IsAutoSelectJava)) {
-                GlobalResources.LaunchInfoData.IsAutoSelectJava = IsAutoSelectJava;
+            if (e.PropertyName is nameof(WindowHeight)) {
+                GlobalResources.LaunchInfoData.WindowHeight = WindowHeight;
+            }
+
+            if (e.PropertyName is nameof(WindowWidth)) {
+                GlobalResources.LaunchInfoData.WindowWidth = WindowWidth;
             }
         }
 
@@ -97,7 +100,10 @@ namespace wonderlab.ViewModels.Pages {
         public int MaxMemory { get; set; }
 
         [Reactive]
-        public int MiniMemory { get; set; }
+        public int WindowWidth { get; set; } = 854;
+
+        [Reactive]
+        public int WindowHeight { get; set; } = 480;
 
         [Reactive]
         public int CurrentAction { get; set; } = 1;

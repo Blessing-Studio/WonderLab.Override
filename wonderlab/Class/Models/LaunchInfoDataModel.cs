@@ -25,8 +25,11 @@ namespace wonderlab.Class.Models
         [JsonProperty("maxMemory")]
         public int MaxMemory { get; set; } = 1024;
 
-        [JsonProperty("miniMemory")]
-        public int MiniMemory { get; set; } = 512;
+        [JsonProperty("windowHeight")]
+        public int WindowHeight { get; set; } = 480;
+
+        [JsonProperty("windowWidth")]
+        public int WindowWidth { get; set; } = 854;
 
         [JsonProperty("isautoSelectjava")]
         public bool IsAutoSelectJava { get; set; } = false;

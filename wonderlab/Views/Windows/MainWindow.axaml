@@ -200,7 +200,9 @@
 		
 		<wp:NotificationCenterPage Name="NotificationCenter"/>
 		
-		<wcd:MessageDialog x:Name="MainDialog"/>		 
+		<wcd:MessageDialog CustomButtonText="继续使用" 
+						   CloseButtonText="退出 WonderLab"						   
+						   x:Name="MainDialog"/>		 
 
 		<wcdx:GameInstallDialog Name="Install"/>
 		
