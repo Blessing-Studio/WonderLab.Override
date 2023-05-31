@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -16,6 +17,12 @@ using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class GameCrashInfoDialogViewModel : ReactiveObject {
+        public GameCrashInfoDialogViewModel() {
+            if (!GlobalResources.LaunchInfoData.IsNull()) {
+                Memory = GlobalResources.LaunchInfoData.MaxMemory;
+            }
+        }
+
         [Reactive]
         public string CrashInfo { get; set; }
 
@@ -26,7 +33,7 @@ namespace wonderlab.ViewModels.Dialogs {
         public Account Account { get; set; } = Account.Default;
 
         [Reactive]
-        public int Memory { get; set; } = GlobalResources.LaunchInfoData.MaxMemory;
+        public int Memory { get; set; }
 
         [Reactive]
         public int JavaVersion { get; set; }

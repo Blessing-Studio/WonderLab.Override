@@ -41,13 +41,14 @@ public class CurseForgeModpack
     [JsonProperty("screenshots")]
     public List<Screenshot> Screenshots { get; set; }
 
+
     public string IconUrl { get; set; }
 
 	public Dictionary<string, List<CurseForgeModpackFileInfo>> Files { get; set; } = new Dictionary<string, List<CurseForgeModpackFileInfo>>();
 
 	public string[] SupportedVersions { get; set; }
-
-	public override string ToString()
+	
+    public override string ToString()
 	{
 		try
 		{

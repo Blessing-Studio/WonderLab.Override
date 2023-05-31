@@ -78,7 +78,7 @@ namespace MinecraftLaunch.Modules.Toolkits {
                 using var responseMessage = await HttpWrapper.HttpPostAsync($"{API}/featured", content.ToString(), Headers);
                 responseMessage.EnsureSuccessStatusCode();
 
-                //Trace.WriteLine(await responseMessage.Content.ReadAsStringAsync());
+                Trace.WriteLine(await responseMessage.Content.ReadAsStringAsync());
                 var entity = JObject.Parse(await responseMessage.Content.ReadAsStringAsync());
 
                 foreach (JObject jObject in ((JArray)entity["data"]["popular"]).Cast<JObject>())
@@ -131,6 +131,22 @@ namespace MinecraftLaunch.Modules.Toolkits {
 
             return null!;
 
+        }
+
+        /// <summary>
+        /// 获取资源前置方法
+        /// </summary>
+        /// <param name="modid"></param>
+        /// <returns></returns>
+        public async ValueTask<List<CurseForgeModpack>> GetResourceDependenciesAsync(long modid) {
+            using var responseMessage = await HttpWrapper.HttpGetAsync($"{API}/{modid}", Headers);
+            responseMessage.EnsureSuccessStatusCode();
+            var result = new List<CurseForgeModpack>();
+
+            var entity = JObject.Parse(await responseMessage.Content.ReadAsStringAsync());
+            ((JArray)entity["data"]!).ToList().ForEach(x => result.Add(ParseCurseForgeModpack((JObject)x)));
+
+            return result;
         }
 
         /// <summary>

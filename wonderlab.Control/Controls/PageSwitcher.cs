@@ -115,8 +115,10 @@ namespace wonderlab.control.Controls {
                 GetTotalPageNumber();
                 SplitListToDictionary();
 
-                ListBox.Items = Cache[CurrentItemsIndex];
-                PageNumberDisplay.Text = GetPageNumberText();
+                if (ListBox is not null && PageNumberDisplay is not null) {
+                    ListBox.Items = Cache[CurrentItemsIndex];
+                    PageNumberDisplay.Text = GetPageNumberText();
+                }
             }
         }
 

@@ -35,11 +35,7 @@ namespace wonderlab.Class.Utils {
             var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
-            if (GlobalResources.LaunchInfoData.IsNull()) {
-                GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
-            }
-
-            jsonPath.WriteCompressedText(GlobalResources.DefaultLaunchInfoData.ToJson());
+            jsonPath.WriteCompressedText(GlobalResources.LaunchInfoData.ToJson());
         }
 
         public static async void CreateLauncherInfoJson() {
@@ -63,10 +59,6 @@ namespace wonderlab.Class.Utils {
         public static void WriteLauncherInfoJson() {
             var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
-
-            if (GlobalResources.LauncherData.IsNull()) {
-                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
-            }
 
             jsonPath.WriteCompressedText(GlobalResources.LauncherData.ToJson());
         }

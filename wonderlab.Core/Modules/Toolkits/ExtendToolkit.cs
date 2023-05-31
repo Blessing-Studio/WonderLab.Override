@@ -97,14 +97,7 @@ public static class ExtendToolkit
 
 	public static string ToJson<T>(this T entity) where T : IJsonEntity
 	{
-		//IL_0006: Unknown result type (might be due to invalid IL or missing references)
-		//IL_000b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_000c: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0016: Expected O, but got Unknown
-		//IL_0016: Unknown result type (might be due to invalid IL or missing references)
-		//IL_001d: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0029: Expected O, but got Unknown
-		return JsonConvert.SerializeObject((object)entity, new JsonSerializerSettings
+		return JsonConvert.SerializeObject(entity, new JsonSerializerSettings
 		{
 			ContractResolver = (IContractResolver)new CamelCasePropertyNamesContractResolver(),
 			Formatting = (Formatting)1,
@@ -114,18 +107,11 @@ public static class ExtendToolkit
 
 	public static string ToJson(this object entity, bool IsIndented = true)
 	{
-		//IL_0004: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0009: Unknown result type (might be due to invalid IL or missing references)
-		//IL_000a: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0014: Expected O, but got Unknown
-		//IL_0014: Unknown result type (might be due to invalid IL or missing references)
-		//IL_001b: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0027: Expected O, but got Unknown
 		if (IsIndented)
 		{
 			return JsonConvert.SerializeObject(entity, new JsonSerializerSettings
 			{
-				ContractResolver = (IContractResolver)new CamelCasePropertyNamesContractResolver(),
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
 				Formatting = (Formatting)1,
 				NullValueHandling = (NullValueHandling)1
 			});

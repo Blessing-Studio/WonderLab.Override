@@ -24,6 +24,8 @@ namespace wonderlab.Class.AppData {
 
         public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
 
+        private static LaunchInfoDataModel _LaunchInfoDataModel = null;
+
         public static LauncherDataModel LauncherData { get; set; } = new();
 
         public static LaunchInfoDataModel DefaultLaunchInfoData { get; } = new();
