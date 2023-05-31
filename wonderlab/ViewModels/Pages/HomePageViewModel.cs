@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
@@ -215,24 +216,15 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void ImportModpacksAction() {
-            OpenFileDialog dialog = new(){ 
-                Title = "请选择整合包文件",
-                Filters = new() {
-                    new() { Name = "整合包文件", Extensions = { "zip", "mrpack" } },
-                }
-            };
+            var result = await DialogUtils.OpenFilePickerAsync(new List<FilePickerFileType>() {
+                new("整合包文件") { Patterns = new List<string>() { "*.zip", "*.mrpack" } }
+            }, "请选择整合包文件");
 
-            var result = await dialog.ShowAsync(App.CurrentWindow);
-            if(result!.IsNull() || result!.Length == 0) {
+            if(result!.IsNull()) {
                 return;
             }
 
-            if(result.Length > 1) {
-                "一次只能安装一个整合包".ShowMessage("提示");
-                return;
-            }
-
-            await ModpacksUtils.ModpacksInstallAsync(result.FirstOrDefault()!);
+            await ModpacksUtils.ModpacksInstallAsync(result.FullName);
         }
 
         public void OpenActionCenterAction() {

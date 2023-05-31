@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
@@ -114,14 +115,7 @@ namespace wonderlab.Class.Models
         public string Loader { get; set; }
 
         public async void DownloadResourceAction() {
-            SaveFileDialog dialog = new() {
-                Title = "请选择文件保存路径",
-                InitialFileName = Title
-            };
-            var result = await dialog.ShowAsync(App.CurrentWindow);
-            if(string.IsNullOrEmpty(result)) {
-                return;
-            }
+            var result = await DialogUtils.SaveFilePickerAsync("请选择文件保存路径", Title);
 
             $"开始下载资源 \"{Title}\"，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
                 App.CurrentWindow.NotificationCenter.Open();
@@ -133,7 +127,7 @@ namespace wonderlab.Class.Models
             data.TimerStart();
 
             NotificationCenterPage.ViewModel.Notifications.Add(data);
-            var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.Replace(Title, string.Empty), (e, _) => {
+            var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.FullName.Replace(Title, string.Empty), (e, _) => {
                 var progress = e * 100;
                 data.ProgressOfBar = progress;
                 data.Progress = $"{Math.Round(progress, 2)}%";

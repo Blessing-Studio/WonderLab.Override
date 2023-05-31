@@ -180,9 +180,8 @@ namespace wonderlab.ViewModels.Pages {
             }, "请选择您的 Javaw 文件");
 
             if (!file.IsNull()) {
-                var path = DialogUtils.GetFilePath(file);
                 //由于需启动新进程，可能耗时会卡主线程，因此使用异步
-                var java = await Task.Run(() => JavaToolkit.GetJavaInfo(path));
+                var java = await Task.Run(() => JavaToolkit.GetJavaInfo(file.FullName));
 
                 if (!java.IsNull()) {
                     Javas.Add(java);
@@ -193,15 +192,11 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void DirectoryDialogOpenAction() {
-            OpenFolderDialog dialog = new() {
-                Title = "请选择一个游戏目录"
-            };
-            var result = await dialog.ShowAsync(App.CurrentWindow);
-
-            if (!string.IsNullOrEmpty(result) && result.IsDirectory()) {
-                GameDirectorys.Add(result);
-                GlobalResources.LaunchInfoData.GameDirectorys.Add(result);
-                CurrentGameDirectory = result;
+            var folder = await DialogUtils.OpenFolderPickerAsync("请选择一个游戏目录");
+            if (!folder.IsNull()) {
+                GameDirectorys.Add(folder.FullName);
+                GlobalResources.LaunchInfoData.GameDirectorys.Add(folder.FullName);
+                CurrentGameDirectory = folder.FullName;
             }
         }
 
