@@ -146,7 +146,10 @@ namespace wonderlab.ViewModels.Pages {
                     new FilePickerFileType("图像文件") { Patterns = new List<string>(){ "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" }}
                 }
                 })).FirstOrDefault()!;
-                result.TryGetUri(out uri!);
+
+                if (!result.IsNull()) {
+                    result.TryGetUri(out uri!);
+                }
 
                 App.CurrentWindow.BackgroundImage.Source = !uri!.IsNull() && uri!.IsFile ? new Bitmap(uri!.LocalPath)! : null!;
                 GlobalResources.LauncherData.ImagePath = !uri!.IsNull() && uri!.IsFile ? uri!.LocalPath : string.Empty;

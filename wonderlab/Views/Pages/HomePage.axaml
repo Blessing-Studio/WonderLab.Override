@@ -79,6 +79,19 @@
 										<Setter Property="Background" Value="Transparent"/>
 										<Setter Property="ClipToBounds" Value="False"/>
 										<Setter Property="CornerRadius" Value="4"/>
+										<Setter Property="ContextMenu">
+								         	<ContextMenu>
+								         		<MenuItem Command="{Binding	MinecraftStopAction}" 
+														  Header="打开游戏核心的根目录"/>
+
+												<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="重命名"/>
+												<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="删除"/>
+												<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="属性"/>
+								         	</ContextMenu>
+										</Setter>
 										<Setter Property="Template">
 											<ControlTemplate>
 												<Border Background="Transparent" HorizontalAlignment="Stretch" Name="Main">

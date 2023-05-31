@@ -45,6 +45,8 @@ namespace wonderlab.ViewModels.Pages {
                     GameDirectorys = GlobalResources.LaunchInfoData.GameDirectorys.ToObservableCollection();
                 }
 
+                WindowHeight = GlobalResources.LaunchInfoData.WindowHeight;
+                WindowWidth = GlobalResources.LaunchInfoData.WindowWidth;
                 IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
                 MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
             }

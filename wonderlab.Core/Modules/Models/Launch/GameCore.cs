@@ -35,8 +35,4 @@ public class GameCore
 	public string? Source { get; set; }
 
 	public bool HasModLoader { get; set; }
-
-    public override bool Equals(object? obj) {   
-        return (obj as GameCore)!.Id!.Equals(Id);
-    }
 }
