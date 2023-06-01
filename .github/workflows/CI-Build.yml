@@ -149,3 +149,28 @@ jobs:
             *.zip
             *.deb
             *.rpm
+  Delete_Artifacts:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    needs: [Release]
+    steps:
+    - name: Delete Windows Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Windows
+    - name: Delete Linux Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux
+    - name: Delete Deb Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux_Deb
+    - name: Delete Rpm Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux_Rpm
+    - name: Delete MacOS Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: MacOS
