@@ -1,0 +1,40 @@
+name: Label resolved issues
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label:
+
+    name: Label Issue
+    runs-on: ubuntu-latest
+    if: (contains(github.event.issue.labels.*.name, 'bug') || contains(github.event.issue.labels.*.name, '建议')) && contains(github.event.issue.labels.*.name, '无效') == false 
+
+    steps:
+      - name: Query recent commits
+        uses: TheBusyBiscuit/recently-closed-issues@1.1.0
+        id: resolved
+        with:
+          token: ${{ secrets.GITHUb_TOKEN }}
+          max_commits: 20
+
+      - name: Add label
+        uses: maxkomarychev/octions/octions/issues/add-labels@master
+        with:
+          token: ${{ secrets.GItHUb_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: '已解决'
+      - name: Create a comment
+        uses: maxkomarychev/octions/octions/issues/create-comment@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          body: |-
+           你的议题已解决
+           感谢反馈
+           [点击这里反馈新问题](https://github.com/Blessing-Studio/WonderLab/issues/new/choose)
