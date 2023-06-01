@@ -76,14 +76,16 @@
 		<NSHighResolutionCapable>true</NSHighResolutionCapable>
 		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>
 		<SignAssembly>True</SignAssembly>
-		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<ApplicationIcon>Assets\wonderlab.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
 		<Version>1.2.5-preview</Version>
 		<AssemblyVersion>1.2.5</AssemblyVersion>
 		<FileVersion>1.2.5-preview</FileVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<Content Include="wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+		<AvaloniaResource Include="Assets\wonderlab.ico" />
+		<Content Include="Assets\wonderlab.ico" />
+		<Content Include="Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</Content>
 	</ItemGroup>

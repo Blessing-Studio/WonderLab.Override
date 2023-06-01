@@ -214,8 +214,8 @@ namespace wonderlab.ViewModels.Pages {
             var result = Cache.Where(x => x.Id.Contains(SearchFilter)).ToList();
             IsLoading = false;
 
-            var d = result.Where(x => x.Type.Contains(CurrentMcVersionType));
-            GameCores = new(d.ToList());
+            var filtered = result.Where(x => x.Type.Contains(CurrentMcVersionType));
+            GameCores = new(filtered.ToList());
         }
 
         public void OpenGameInstallDialogAction() {

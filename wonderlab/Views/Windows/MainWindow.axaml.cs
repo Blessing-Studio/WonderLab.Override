@@ -112,6 +112,8 @@ namespace wonderlab.Views.Windows {
                     GlobalResources.LauncherData = new();
                 }
             }
+
+            CacheResources.GetWebModpackInfoData();
         }
 
         private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e) {
@@ -157,8 +159,6 @@ namespace wonderlab.Views.Windows {
             catch (Exception ex) {
                 $"{ex.Message}".ShowMessage();
             }
-
-            CacheResources.GetWebModpackInfoData();
         }
 
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e) {

@@ -141,78 +141,76 @@
 											</ItemsPanelTemplate>
 										</ListBox.ItemsPanel>
 										<ListBox.Styles>
-											<Styles>
-												<Style Selector="ListBoxItem">
-													<Setter Property="Margin" Value="0 10 10 0"/>
-													<Setter Property="ClipToBounds" Value="False"/>
-													<Setter Property="Template">
-														<ControlTemplate>
-															<Grid RowDefinitions="Auto,5,Auto">
-																<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
-																		BorderThickness="1"
-																		BorderBrush="{DynamicResource DialogContentBorderBrush}"
-		                                                                Name="Main" Width="130" Height="150">
-																	<Grid>
-																		<Grid Margin="3">
-																			<Border CornerRadius="3" 
-																					BorderThickness="1"
-																					BorderBrush="{DynamicResource DialogContentBorderBrush}">
-																				<Border.Background>
-																					<ImageBrush Stretch="UniformToFill" Source="{Binding Icon}"/>
-																				</Border.Background>
-																			</Border>
+											<Style Selector="ListBoxItem">
+												<Setter Property="Margin" Value="0 10 10 0"/>
+												<Setter Property="ClipToBounds" Value="False"/>
+												<Setter Property="Template">
+													<ControlTemplate>
+														<Grid RowDefinitions="Auto,5,Auto">
+															<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+																	BorderThickness="1"
+																	BorderBrush="{DynamicResource DialogContentBorderBrush}"
+																	Name="Main" Width="130" Height="150">
+																<Grid>
+																	<Grid Margin="3">
+																		<Border CornerRadius="3"
+																				BorderThickness="1"
+																				BorderBrush="{DynamicResource DialogContentBorderBrush}">
+																			<Border.Background>
+																				<ImageBrush Stretch="UniformToFill" Source="{Binding Icon}"/>
+																			</Border.Background>
+																		</Border>
 
-																			<ProgressBar Classes="Circle"
-																						 Foreground="{DynamicResource AccentBrush}"
-																						 IsIndeterminate="{Binding IsImageLoading}"/>
-																			
-																			<Border Height="30" Background="#4C000000"
-																					VerticalAlignment="Bottom"
-																					CornerRadius="0 0 2 2">
-																				<TextBlock Text="运行中" VerticalAlignment="Center"
-																						   HorizontalAlignment="Center"
-																						   FontSize="15"
-																						   Foreground="White"
-																						   FontWeight="SemiBold"/>
-																			</Border>
-																		</Grid>
+																		<ProgressBar Classes="Circle"
+																					 Foreground="{DynamicResource AccentBrush}"
+																					 IsIndeterminate="{Binding IsImageLoading}"/>
 
-																		<Border CornerRadius="114514"
-																				Width="20" Height="20"
-																				Background="Green"
-																				HorizontalAlignment="Left"
-																				VerticalAlignment="Top"
-																				BoxShadow="0 1 4 0 #66000000"
-																				Margin="-5 -5 0 0"/>
+																		<Border Height="30" Background="#4C000000"
+																				VerticalAlignment="Bottom"
+																				CornerRadius="0 0 2 2">
+																			<TextBlock Text="运行中" VerticalAlignment="Center"
+																					   HorizontalAlignment="Center"
+																					   FontSize="15"
+																					   Foreground="White"
+																					   FontWeight="SemiBold"/>
+																		</Border>
 																	</Grid>
-																</Border>
 
-																<TextBlock Grid.Row="2"
-																		   FontSize="15"
-																		   FontWeight="SemiBold"
-																		   HorizontalAlignment="Center" 
-																		   TextAlignment="Center"
-																		   MaxWidth="120"
-																		   TextTrimming="CharacterEllipsis"
-																		   Text="{Binding Data.Id}">
+																	<Border CornerRadius="114514"
+																			Width="20" Height="20"
+																			Background="Green"
+																			HorizontalAlignment="Left"
+																			VerticalAlignment="Top"
+																			BoxShadow="0 1 4 0 #66000000"
+																			Margin="-5 -5 0 0"/>
+																</Grid>
+															</Border>
 
-																	<TextBlock.TextDecorations>
-																		<TextDecorationCollection>
-																			<TextDecoration StrokeThickness="2" 
-																							StrokeThicknessUnit="Pixel"																							
-																							Stroke="{DynamicResource AccentBrushLight3}"/>
-																		</TextDecorationCollection>
-																	</TextBlock.TextDecorations>
-																</TextBlock>
-															</Grid>
-														</ControlTemplate>
-													</Setter>
-												</Style>
+															<TextBlock Grid.Row="2"
+																	   FontSize="15"
+																	   FontWeight="SemiBold"
+																	   HorizontalAlignment="Center"
+																	   TextAlignment="Center"
+																	   MaxWidth="120"
+																	   TextTrimming="CharacterEllipsis"
+																	   Text="{Binding Data.Id}">
 
-												<Style Selector="ListBoxItem /template/	Border#Main">
-													<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
-												</Style>
-											</Styles>
+																<TextBlock.TextDecorations>
+																	<TextDecorationCollection>
+																		<TextDecoration StrokeThickness="2"
+																						StrokeThicknessUnit="Pixel"
+																						Stroke="{DynamicResource AccentBrushLight3}"/>
+																	</TextDecorationCollection>
+																</TextBlock.TextDecorations>
+															</TextBlock>
+														</Grid>
+													</ControlTemplate>
+												</Setter>
+											</Style>
+
+											<Style Selector="ListBoxItem /template/	Border#Main">
+												<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+											</Style>
 										</ListBox.Styles>
 									</ListBox>
 								</Border>

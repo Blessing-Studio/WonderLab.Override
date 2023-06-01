@@ -65,6 +65,10 @@ namespace wonderlab.control.Controls.Dialog
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
             control = e.NameScope.Find<ContentControl>("content");
             IsVisible = false;
+
+            BackgroundBorder.PointerPressed += (_, args) => {
+                Manager.Current.BeginMoveDrag(args);
+            };
         }
 
         private void OnCloseButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

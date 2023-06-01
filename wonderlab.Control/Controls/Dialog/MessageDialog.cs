@@ -97,8 +97,12 @@ namespace wonderlab.control.Controls.Dialog {
             DialogContent = e.NameScope.Find<Border>("DialogContent");
             CloseButton = e.NameScope.Find<Button>("CloseButton");
             CloseButton.Click += OnCloseButtonClick;
-            e.NameScope.Find<Button>("CustomButton").Click += OnCustomButtonClick; ;
-            
+            e.NameScope.Find<Button>("CustomButton").Click += OnCustomButtonClick;
+
+            BackgroundBorder.PointerPressed += (_, args) => {
+                Manager.Current.BeginMoveDrag(args);
+            };
+
             HideDialog();
         }
 

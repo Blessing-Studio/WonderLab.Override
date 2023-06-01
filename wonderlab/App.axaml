@@ -22,6 +22,10 @@
 				</Transitions>
 			</Setter>
 		</Style>
+
+		<Style Selector="ContextMenu:open">			
+			<Setter Property="Opacity" Value="0.5"/>
+		</Style>
 	</Application.Styles>
 
 	<Application.Resources>
