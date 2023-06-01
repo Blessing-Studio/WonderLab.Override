@@ -9,9 +9,9 @@ using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages
 {
-    public partial class WebConfigPage : UserControl {   
-        public static WebConfigPageViewModel ViewModel { get; set; } = new();
-        public WebConfigPage() {       
+    public partial class NetConfigPage : UserControl {   
+        public static NetConfigPageViewModel ViewModel { get; set; } = new();
+        public NetConfigPage() {       
             InitializeComponent();
             DataContext = ViewModel;
 

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
-             x:Class="wonderlab.Views.Pages.WebConfigPage">
+             x:Class="wonderlab.Views.Pages.NetConfigPage">
 	<Grid>
 		<ScrollViewer Background="{x:Null}">
 			<StackPanel Margin="0 15 0 0" Spacing="15">

@@ -98,5 +98,8 @@
 	  <Compile Update="Views\Pages\AccountPage.axaml.cs">
 	    <DependentUpon>AccountPage.axaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Pages\NetConfigPage.axaml.cs">
+	    <DependentUpon>NetConfigPage.axaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>

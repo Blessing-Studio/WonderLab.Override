@@ -10,8 +10,8 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 
 namespace wonderlab.ViewModels.Pages {
-    public class WebConfigPageViewModel : ViewModelBase {
-        public WebConfigPageViewModel() {
+    public class NetConfigPageViewModel : ViewModelBase {
+        public NetConfigPageViewModel() {
             PropertyChanged += OnPropertyChanged;
 
             if (GlobalResources.LauncherData.IsNull()) {
