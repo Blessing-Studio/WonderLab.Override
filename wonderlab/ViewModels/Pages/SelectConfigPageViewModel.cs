@@ -30,7 +30,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void GoWebConfigPageAction() {
-            SelectConfigPage = new WebConfigPage();
+            SelectConfigPage = new NetConfigPage();
         }
 
         public void GoAboutPageAction() {

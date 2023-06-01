@@ -21,7 +21,7 @@ namespace wonderlab.ViewModels.Pages {
         public AccountViewData CurrentGameAccount { get; set; }
 
         public void CreateAccountAction() {
-            App.CurrentWindow.Auth.Start();
+            App.CurrentWindow.DialogHost.Auth.Start();
         }
 
         public void Init() {

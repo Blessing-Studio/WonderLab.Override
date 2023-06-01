@@ -19,30 +19,30 @@ namespace wonderlab.control.Controls.Dialog {
     /// 信息对话框
     /// </summary>
     [PseudoClasses(":open", ":close")]
-    public class MessageDialog : ContentControl, IDialog, IMessageDialog {
-        Button CloseButton = null!;
-        Border BackgroundBorder = null!;
-        Border DialogContent = null!;
+    public class MessageDialog : ContentControl, IMessageDialog {
+        private Button CloseButton = null!;
+
+        private Border BackgroundBorder = null!;
+
+        private Border DialogContent = null!;
 
         public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
-        public bool CloseButtonVisible { get => GetValue(CloseButtonVisibleProperty); set => SetValue(CloseButtonVisibleProperty, value); }
-        public bool CustomButtonVisible { get => GetValue(CustomButtonVisibleProperty); set => SetValue(CustomButtonVisibleProperty, value); }
-        public string? Title
-        {
-#pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
-            get => GetValue(TitleProperty); set => SetValue(TitleProperty, value);
-#pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
-        }
-#pragma warning disable CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
 
-        public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty, value); }
-#pragma warning restore CS8620 // 由于引用类型的可为 null 性差异，实参不能用于形参。
+        public bool CloseButtonVisible { get => GetValue(CloseButtonVisibleProperty); set => SetValue(CloseButtonVisibleProperty, value); }
+
+        public bool CustomButtonVisible { get => GetValue(CustomButtonVisibleProperty); set => SetValue(CustomButtonVisibleProperty, value); }
+
+        public string? Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty!, value); }                         
+
+        public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty!, value); }
 
         public string CloseButtonText { get => GetValue(CloseButtonTextProperty); set => SetValue(CloseButtonTextProperty, value); }
+
         public string CustomButtonText { get => GetValue(CustomButtonTextProperty); set => SetValue(CustomButtonTextProperty, value); }
 
         //Event
         public event EventHandler<CloseButtonClick>? CloseButtonClick;
+
         public event EventHandler<EventArgs>? CustomButtonClick;
 
         //Property
@@ -93,11 +93,11 @@ namespace wonderlab.control.Controls.Dialog {
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
 
-            BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder");
-            DialogContent = e.NameScope.Find<Border>("DialogContent");
-            CloseButton = e.NameScope.Find<Button>("CloseButton");
+            BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder")!;
+            DialogContent = e.NameScope.Find<Border>("DialogContent")!;
+            CloseButton = e.NameScope.Find<Button>("CloseButton")!;
             CloseButton.Click += OnCloseButtonClick;
-            e.NameScope.Find<Button>("CustomButton").Click += OnCustomButtonClick;
+            e.NameScope.Find<Button>("CustomButton")!.Click += OnCustomButtonClick;
 
             BackgroundBorder.PointerPressed += (_, args) => {
                 Manager.Current.BeginMoveDrag(args);

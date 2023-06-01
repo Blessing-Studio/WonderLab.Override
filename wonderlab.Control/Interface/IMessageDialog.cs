@@ -9,7 +9,7 @@ namespace wonderlab.control.Interface
     /// <summary>
     /// 标准通用信息对话框接口
     /// </summary>
-    public interface IMessageDialog
+    public interface IMessageDialog : IDialog
     {
         /// <summary>
         /// 标题

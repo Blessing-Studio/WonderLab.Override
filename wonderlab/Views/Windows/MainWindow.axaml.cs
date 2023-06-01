@@ -50,8 +50,8 @@ namespace wonderlab.Views.Windows {
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
-                MainDialog.CustomButtonClick += (_, _) => MainDialog.HideDialog();
-                MainDialog.CloseButtonClick += (_, _) => Close();
+                DialogHost.MainDialog.CustomButtonClick += (_, _) => DialogHost.MainDialog.HideDialog();
+                DialogHost.MainDialog.CloseButtonClick += (_, _) => Close();
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
             }
             catch (Exception ex) {
@@ -143,15 +143,15 @@ namespace wonderlab.Views.Windows {
                 $"开始自动更新流程，当前启动器版本序列号 {GlobalResources.LauncherData.LauncherVersion}".ShowLog();
 
                 if (result is not null && result.CanUpdate() && SystemUtils.IsWindows) {
-                    UpdateDialog.CloseButtonClick += (_, _) => {
+                    DialogHost.UpdateDialog.CloseButtonClick += (_, _) => {
                         UpdateUtils.UpdateAsync(result, x => {
                             ViewModel.DownloadProgress = x.ToDouble() * 100;
                         });
                     };
 
-                    BodyMessage.Text = result.Message;
-                    UpdateDialog.Title = $"有新的版本推送，版本编号 {result.TagName}";
-                    EndMessage.Text = $"于 {result.CreatedAt} 由 Xilu 修改并推送";
+                    DialogHost.BodyMessage.Text = result.Message;
+                    DialogHost.UpdateDialog.Title = $"有新的版本推送，版本编号 {result.TagName}";
+                    DialogHost.EndMessage.Text = $"于 {result.CreatedAt} 由 Xilu 修改并推送";
                     await Task.Delay(1000);
                     //UpdateDialog.ShowDialog();
                 }
@@ -191,9 +191,9 @@ namespace wonderlab.Views.Windows {
         }
 
         public void ShowInfoDialog(string title, string message) {
-            MainDialog.Title = title;
-            MainDialog.Message = message;
-            MainDialog.ShowDialog();
+            DialogHost.MainDialog.Title = title;
+            DialogHost.MainDialog.Message = message;
+            DialogHost.MainDialog.ShowDialog();
         }
 
         public void ShowInfoBar(string title, string message, HideOfRunAction action) {

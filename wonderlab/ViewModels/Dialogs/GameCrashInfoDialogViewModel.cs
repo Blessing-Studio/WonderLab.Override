@@ -45,7 +45,7 @@ namespace wonderlab.ViewModels.Dialogs {
         public ObservableCollection<string> CrashModpacks { get; set; }
 
         public void HideDialogAction() {
-            App.CurrentWindow.GameCrashInfo.CrashDialog.HideDialog();
+            App.CurrentWindow.DialogHost.GameCrashInfo.CrashDialog.HideDialog();
         }
     }
 }

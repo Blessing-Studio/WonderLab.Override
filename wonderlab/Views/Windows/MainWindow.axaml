@@ -6,10 +6,8 @@
 		MinWidth="800" MinHeight="450"
         x:Class="wonderlab.Views.Windows.MainWindow"
 		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
-		xmlns:wp="using:wonderlab.Views.Pages"
-	    xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wp="using:wonderlab.Views.Pages"	    
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
-		xmlns:wcdx="using:wonderlab.Views.Dialogs"
         Title="WonderLab"
 		CornerRadius="4"
 		ExtendClientAreaToDecorationsHint="True"
@@ -200,36 +198,7 @@
 		
 		<wp:NotificationCenterPage Name="NotificationCenter"/>
 		
-		<wcd:MessageDialog CustomButtonText="继续使用" 
-						   CloseButtonText="退出 WonderLab"						   
-						   x:Name="MainDialog"/>		 
-
-		<wcdx:GameInstallDialog Name="Install"/>
-		
-		<wcdx:UserAuthDialog Name="Auth"/>
-
-		<wcdx:GameCrashInfoDialog Name="GameCrashInfo"/>
-
-		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
-			<wcd:UpdateDialog.Message>
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="1*"/>
-						<RowDefinition Height="5"/>
-						<RowDefinition Height="Auto"/>
-					</Grid.RowDefinitions>
-					<ScrollViewer>
-						<StackPanel Spacing="5">
-							<TextBlock Name="BodyMessage" Text="添加一处动画细节"/>
-						</StackPanel>
-					</ScrollViewer>
-
-					<TextBlock FontSize="12" Opacity="0.75" Grid.Row="2"
-		                       Name="EndMessage" Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"/>
-
-				</Grid>
-			</wcd:UpdateDialog.Message>
-		</wcd:UpdateDialog>		
+		<wp:DialogPage Name="DialogHost"/>
 		
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
 	</Grid>

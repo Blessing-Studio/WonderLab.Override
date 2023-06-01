@@ -89,7 +89,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenInstallDialogAction() {
             new DownCenterPage().Navigation();
-            //App.CurrentWindow.Install.InstallDialog.ShowDialog();
+            //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
         }
 
         public void OpenSelectConfigPageAction() {

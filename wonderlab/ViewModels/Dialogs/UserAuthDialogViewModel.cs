@@ -120,8 +120,8 @@ namespace wonderlab.ViewModels.Dialogs {
                     var result = await authenticator.AuthAsync();
 
                     YggdrasilAccounts = result.ToObservableCollection();
-                    App.CurrentWindow.Auth.AuthDialog.HideDialog();
-                    App.CurrentWindow.Auth.YggdrasilAccountSelector.ShowDialog();
+                    App.CurrentWindow.DialogHost.Auth.AuthDialog.HideDialog();
+                    App.CurrentWindow.DialogHost.Auth.YggdrasilAccountSelector.ShowDialog();
                 }
                 catch (Exception ex) {
                     $"WonderLab 遭遇了不可描述的 Bug，详细信息：{ex.Message}".ShowMessage("我日，炸了");
@@ -161,7 +161,7 @@ namespace wonderlab.ViewModels.Dialogs {
             }
 
             ResettingAction();
-            App.CurrentWindow.Auth.AuthDialog.HideDialog();
+            App.CurrentWindow.DialogHost.Auth.AuthDialog.HideDialog();
             $"账户 {accountData.Name} 已成功添加至启动器！欢迎回来，{accountData.Name}！".ShowMessage("成功");
         }
 
@@ -187,7 +187,7 @@ namespace wonderlab.ViewModels.Dialogs {
                 YggdrasilUrl = CurrentYggdrasilAccount.YggdrasilServerUrl
             });
 
-            App.CurrentWindow.Auth.YggdrasilAccountSelector.HideDialog();
+            App.CurrentWindow.DialogHost.Auth.YggdrasilAccountSelector.HideDialog();
             $"账户 {CurrentYggdrasilAccount.Name} 已成功添加至启动器！欢迎回来，{CurrentYggdrasilAccount.Name}！".ShowMessage("成功");
             ResettingAction();
         }
@@ -205,7 +205,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public void GameLaunchAction() {
-            App.CurrentWindow.Auth.AccountSelector.HideDialog();
+            App.CurrentWindow.DialogHost.Auth.AccountSelector.HideDialog();
             HomePage.ViewModel.CurrentAccount = CurrentAccount.Data.ToAccount();
 
             //此时已选择完账户，直接启动
@@ -213,7 +213,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public void HideSelectorDialogAction() {
-            App.CurrentWindow.Auth.AccountSelector.HideDialog();
+            App.CurrentWindow.DialogHost.Auth.AccountSelector.HideDialog();
         }
     }
 }

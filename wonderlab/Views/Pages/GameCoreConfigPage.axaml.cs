@@ -30,7 +30,6 @@ namespace wonderlab.Views.Pages
         public GameCoreConfigPage(GameCore core) { 
             InitializeComponent();
             DataContext = ViewModel = new(core);
-            Initialize();
 
             foreach (ToggleButton item in ButtonGroup.Children) {           
                 item!.Click += (x, e) => {
@@ -41,11 +40,6 @@ namespace wonderlab.Views.Pages
                     item.IsChecked = true;
                 };
             }
-        }
-
-        public async void Initialize() {
-            await Task.Delay(300);
-            TopBar.Margin = new(0);
         }
     }
 }

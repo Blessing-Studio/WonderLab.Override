@@ -219,7 +219,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void OpenGameInstallDialogAction() {
-            App.CurrentWindow.Install.InstallDialog.ShowDialog();
+            App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
         }
 
         public async void GetGameCoresAction() {

@@ -20,8 +20,9 @@ namespace wonderlab.control.Controls.Dialog
     [PseudoClasses(":open", ":close")]
     public class ContentDialog : ContentControl, IDialog
     {
-        Border BackgroundBorder = null!;
-        ContentControl control = null!;
+        private Border BackgroundBorder = null!;
+
+        private ContentControl control = null!;
 
         public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
 

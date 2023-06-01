@@ -30,7 +30,6 @@ namespace wonderlab.control.Controls {
 
         public int CurrentItemsIndex { get => GetValue(CurrentItemsIndexProperty); set => SetValue(CurrentItemsIndexProperty, value); }
 
-        //Property
         public static readonly StyledProperty<IEnumerable> ItemsProperty =
             AvaloniaProperty.Register<PageSwitcher, IEnumerable>(nameof(Items));
 
@@ -89,9 +88,26 @@ namespace wonderlab.control.Controls {
             Cache = result;
         }
 
+        private void GoNextPage(object? sender, RoutedEventArgs e) {
+            CurrentItemsIndex++;
+
+            if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
+                ListBox.Items = Cache[CurrentItemsIndex];
+                PageNumberDisplay.Text = GetPageNumberText();
+            }
+        }
+
+        private void GoBack(object? sender, RoutedEventArgs e) {
+            CurrentItemsIndex--;
+            if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
+                ListBox.Items = Cache[CurrentItemsIndex];
+                PageNumberDisplay.Text = GetPageNumberText();
+            }
+        }
+
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
-            
+
             ListBox = e.NameScope.Find<ListBox>("ItemsList")!;
             PageNumberDisplay = e.NameScope.Find<TextBlock>("display")!;
             e.NameScope.Find<Button>("BackButton")!.Click += GoBack;
@@ -119,23 +135,6 @@ namespace wonderlab.control.Controls {
                     ListBox.Items = Cache[CurrentItemsIndex];
                     PageNumberDisplay.Text = GetPageNumberText();
                 }
-            }
-        }
-
-        private void GoNextPage(object? sender, RoutedEventArgs e) {
-            CurrentItemsIndex++;
-
-            if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
-                ListBox.Items = Cache[CurrentItemsIndex];
-                PageNumberDisplay.Text = GetPageNumberText();
-            }
-        }
-
-        private void GoBack(object? sender, RoutedEventArgs e) {
-            CurrentItemsIndex--;
-            if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
-                ListBox.Items = Cache[CurrentItemsIndex];
-                PageNumberDisplay.Text = GetPageNumberText();
             }
         }
     }

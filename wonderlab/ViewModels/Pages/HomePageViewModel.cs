@@ -96,15 +96,16 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void SelectAccountAction() {
             var user = await AccountUtils.GetAsync().ToListAsync();
+            DialogPage.ViewModel.GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
 
-            if (user.Count() == 1) {
-                CurrentAccount = user.First().Data.ToAccount();
-                LaunchTaskAction();
+            if (user.Count > 1) {
+                App.CurrentWindow.DialogHost.AccountDialog.ShowDialog();
                 return;
             }
 
-            App.CurrentWindow.Auth.Show();            
-        }        
+            CurrentAccount = user.First().Data.ToAccount();
+            LaunchTaskAction();
+        }
 
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(() => {
