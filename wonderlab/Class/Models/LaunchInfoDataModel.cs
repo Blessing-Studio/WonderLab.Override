@@ -14,13 +14,13 @@ namespace wonderlab.Class.Models
     /// 启动信息数据模型
     /// </summary>
     public class LaunchInfoDataModel {
-        [JsonProperty("gamedirectoryPath")]
+        [JsonProperty("gameDirectoryPath")]
         public string GameDirectoryPath { get; set; } = GameCoreUtils.GetOfficialGameCorePath().FullName;
 
         [JsonProperty("javaruntimePath")]
         public JavaInfo JavaRuntimePath { get; set; } = new();
 
-        [JsonProperty("selectgameCore")]
+        [JsonProperty("selectGameCore")]
         public string SelectGameCore { get; set; } = string.Empty;
 
         [JsonProperty("maxMemory")]
@@ -32,8 +32,11 @@ namespace wonderlab.Class.Models
         [JsonProperty("windowWidth")]
         public int WindowWidth { get; set; } = 854;
 
-        [JsonProperty("isautoSelectjava")]
+        [JsonProperty("isAutoSelectjava")]
         public bool IsAutoSelectJava { get; set; } = false;
+
+        [JsonProperty("isAutoGetMemory")]
+        public bool IsAutoGetMemory { get; set; } = false;
 
         [JsonProperty("javaRuntimes")]
         public List<JavaInfo> JavaRuntimes { get; set; } = new();

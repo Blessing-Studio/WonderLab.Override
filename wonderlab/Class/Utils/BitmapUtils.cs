@@ -56,8 +56,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public static Image<TPixel> CropSkinBodyBitmap<TPixel>(Image<TPixel> skin) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> Body = CopyBitmap(skin);
+        public static Image<Rgba32> CropSkinBodyBitmap(Image<Rgba32> skin) {
+            Image<Rgba32> Body = CopyBitmap(skin);
             Body.Mutate(x => x.Crop(Rectangle.FromLTRB(20, 20, 28, 32)));
             return ResizeImage(Body, 60, 90);
         }
@@ -68,8 +68,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public static Image<TPixel> CropRightHandBitmap<TPixel>(Image<TPixel> skin) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> Arm = CopyBitmap(skin);
+        public static Image<Rgba32> CropRightHandBitmap(Image<Rgba32> skin) {
+            Image<Rgba32> Arm = CopyBitmap(skin);
             Arm.Mutate(x => x.Crop(Rectangle.FromLTRB(35, 52, 39, 64)));
             return ResizeImage(Arm, 30, 90);
         }
@@ -80,8 +80,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public static Image<TPixel> CropLeftHandBitmap<TPixel>(Image<TPixel> skin) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> Arm = CopyBitmap(skin);
+        public static Image<Rgba32> CropLeftHandBitmap(Image<Rgba32> skin) {
+            Image<Rgba32> Arm = CopyBitmap(skin);
             Arm.Mutate(x => x.Crop(Rectangle.FromLTRB(44, 20, 48, 32)));
             return ResizeImage(Arm, 30, 90);
         }
@@ -92,8 +92,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public static Image<TPixel> CropRightLegBitmap<TPixel>(Image<TPixel> skin) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> Leg = CopyBitmap(skin);
+        public static Image<Rgba32> CropRightLegBitmap(Image<Rgba32> skin) {
+            Image<Rgba32> Leg = CopyBitmap(skin);
             Leg.Mutate(x => x.Crop(Rectangle.FromLTRB(20, 52, 24, 64)));
             return ResizeImage(Leg, 30, 90);
         }
@@ -104,8 +104,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="skin"></param>
         /// <returns></returns>
-        public static Image<TPixel> CropLeftLegBitmap<TPixel>(Image<TPixel> skin) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> Leg = CopyBitmap(skin);
+        public static Image<Rgba32> CropLeftLegBitmap(Image<Rgba32> skin) {
+            Image<Rgba32> Leg = CopyBitmap(skin);
             Leg.Mutate(x => x.Crop(Rectangle.FromLTRB(4, 20, 8, 32)));
             return ResizeImage(Leg, 30, 90);
         }
@@ -116,8 +116,8 @@ namespace wonderlab.Class.Utils {
         /// <typeparam name="TPixel"></typeparam>
         /// <param name="image"></param>
         /// <returns></returns>
-        public static Image<TPixel> CopyBitmap<TPixel>(Image<TPixel> image) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> tmp = new(image.Width, image.Height);
+        public static Image<Rgba32> CopyBitmap(Image<Rgba32> image) {
+            Image<Rgba32> tmp = new(image.Width, image.Height);
             for (int i = 0; i < image.Width; i++) {
                 for (int j = 0; j < image.Height; j++) {
                     tmp[i, j] = image[i, j];
@@ -134,8 +134,8 @@ namespace wonderlab.Class.Utils {
         /// <param name="w"></param>
         /// <param name="h"></param>
         /// <returns></returns>
-        public static Image<TPixel> ResizeImage<TPixel>(Image<TPixel> image, int w, int h) where TPixel : unmanaged, IPixel<TPixel> {
-            Image<TPixel> image2 = new(w, h);
+        public static Image<Rgba32> ResizeImage(Image<Rgba32> image, int w, int h) {
+            Image<Rgba32> image2 = new(w, h);
             for (int i = 0; i < w; i++) {
                 for (int j = 0; j < h; j++) {
                     double tmp;
@@ -146,7 +146,7 @@ namespace wonderlab.Class.Utils {
                     image2[i, j] = image[(int)realW, (int)realH];
                 }
             }
-
+            
             return image2;
         }
 

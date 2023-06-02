@@ -48,6 +48,7 @@ namespace wonderlab.ViewModels.Pages {
                 WindowHeight = GlobalResources.LaunchInfoData.WindowHeight;
                 WindowWidth = GlobalResources.LaunchInfoData.WindowWidth;
                 IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
+                IsAutoGetMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory;
                 MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
             }
             catch (Exception ex) {
@@ -87,6 +88,10 @@ namespace wonderlab.ViewModels.Pages {
             if (e.PropertyName is nameof(WindowWidth)) {
                 GlobalResources.LaunchInfoData.WindowWidth = WindowWidth;
             }
+
+            if (e.PropertyName is nameof(IsAutoGetMemory)) {
+                GlobalResources.LaunchInfoData.IsAutoGetMemory = IsAutoGetMemory;
+            }
         }
 
         [Reactive]
@@ -94,6 +99,9 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public bool IsAutoSelectJava { get; set; } = false;
+
+        [Reactive]
+        public bool IsAutoGetMemory { get; set; } = true;
 
         [Reactive]
         public bool IsLoadJavaNow { get; set; } = false;
@@ -227,6 +235,14 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenAutoSelectJavaAction() {
             IsAutoSelectJava = true;
+        }
+
+        public void CloseAutoGetMemoryAction() {
+            IsAutoGetMemory = false;
+        }
+
+        public void OpenAutoGetMemoryAction() {
+            IsAutoGetMemory = true;
         }
     }
 }

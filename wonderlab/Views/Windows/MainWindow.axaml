@@ -126,26 +126,56 @@
 						</Border.RenderTransform>
 					</Border>
 
-					<Button Classes="transparent" 
-							Margin="10 0 15 0" Name="NotificationCenterButton">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="10"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							
-							<ProgressBar Classes="Circle"
-										 HorizontalAlignment="Left"
-										 Height="20" Width="20"		
-										 IsIndeterminate="True"
-										 IsVisible="{Binding HasNotification}"
-										 Foreground="{DynamicResource AccentBrushDark1}"/>
-							
-							<TextBlock Grid.Column="2"
-									   VerticalAlignment="Center"
-									   Text="{Binding NotificationCountText}"/>
-						</Grid>
+					<Button Content="{Binding NotificationCountText}"
+							Margin="15 0 15 0"
+							Background="Transparent"
+							Name="NotificationCenterButton">
+						<Button.Styles>
+							<Style Selector="Button">
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Padding="3" CornerRadius="4"
+												Name="Layout"
+												Background="Transparent"
+												BorderThickness="1">
+											<Border.Transitions>
+												<Transitions>
+													<BrushTransition Duration="0:0:0.35"
+																	 Easing="ExponentialEaseOut"
+																	 Property="BorderBrush"/>
+												</Transitions>
+											</Border.Transitions>
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="Auto"/>
+													<ColumnDefinition Width="Auto"/>
+												</Grid.ColumnDefinitions>
+
+												<ProgressBar Classes="Circle"
+															 HorizontalAlignment="Left"
+															 Height="20" Width="20"
+															 IsIndeterminate="True"
+															 IsVisible="{Binding HasNotification}"
+															 Margin="0 0 10 0"
+															 Foreground="{DynamicResource AccentBrushDark1}"/>
+
+												<TextBlock Grid.Column="1"														   
+														   VerticalAlignment="Center"
+														   Text="{TemplateBinding Content}"/>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+
+							<Style Selector="Button /template/	Border#Layout">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+							</Style>
+
+							<Style Selector="Button:pointerover /template/ Border#Layout">
+								<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+							</Style>
+						</Button.Styles>
 					</Button>
 				</Grid>
 			</Border>
@@ -199,6 +229,8 @@
 		<wp:NotificationCenterPage Name="NotificationCenter"/>
 		
 		<wp:DialogPage Name="DialogHost"/>
+		
+		<Image Name="test"/>
 		
 		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
 	</Grid>

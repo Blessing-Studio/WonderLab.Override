@@ -33,7 +33,7 @@ namespace wonderlab.Class.Models
         public IssuingBranch IssuingBranch { get; set; } = IssuingBranch.Lsaac;
 
         [JsonProperty("currentdownloadAPI")]
-        public DownloadAPI CurrentDownloadAPI { get; set; } = APIManager.Mojang;
+        public DownloadApiType CurrentDownloadAPI { get; set; } = DownloadApiType.Mojang;
 
         [JsonProperty("launcherVersion")]
         public int LauncherVersion { get; set; } = 120;

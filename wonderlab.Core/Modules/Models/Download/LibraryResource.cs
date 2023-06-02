@@ -46,13 +46,20 @@ public class LibraryResource : IResource {
     }
 
     public HttpDownloadRequest ToDownloadRequest() {
-        string root = APIManager.Current.Libraries;
-        foreach (string item in FormatName(Name)) {
-            root = UrlExtension.Combine(new string[2] { root, item });
-        }
-        if (!string.IsNullOrEmpty(Url) && (!Url.Contains("fabricmc") || !Url.Contains("quiltmc") || !Url.Contains("minecraftforge"))) {
-            root = (APIManager.Current.Host.Equals(APIManager.Mojang.Host) ? Url : Url.Replace(APIManager.Mojang.Libraries, APIManager.Current.Libraries).Replace(APIManager.ForgeLibraryUrlReplace).Replace(APIManager.FabricLibraryUrlReplace));
-        }
+        var root = APIManager.Current.Libraries;
+
+        foreach (var item in FormatName(Name))
+            root = UrlExtension.Combine(root, item);
+
+        if (!string.IsNullOrEmpty(Url)) {
+            if (!APIManager.Current.Host.Equals(APIManager.Mojang.Host))
+                root = Url
+                    .Replace(APIManager.Mojang.Libraries, APIManager.Current.Libraries)
+                    .Replace(APIManager.ForgeLibraryUrlReplace)
+                    .Replace(APIManager.FabricLibraryUrlReplace);
+            else root = Url;
+        }       
+
         return new HttpDownloadRequest {
             Directory = ToFileInfo().Directory,
             FileName = ToFileInfo().Name,

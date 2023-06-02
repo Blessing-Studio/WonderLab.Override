@@ -22,8 +22,6 @@ public class AssetResource : IResource
 
 	public HttpDownloadRequest ToDownloadRequest()
 	{
-		//IL_0000: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0006: Expected O, but got Unknown
 		HttpDownloadRequest val = new HttpDownloadRequest();
 		val.Directory = ToFileInfo().Directory;
 		val.FileName = CheckSum;

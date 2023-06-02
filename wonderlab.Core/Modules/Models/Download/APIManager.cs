@@ -4,12 +4,11 @@ namespace MinecraftLaunch.Modules.Models.Download;
 
 public class APIManager
 {
-    public static DownloadAPI Current { get; set; } = new DownloadAPI
-    {
-        Host = "https://download.mcbbs.net",
-        VersionManifest = "https://download.mcbbs.net/mc/game/version_manifest.json",
-        Assets = "https://download.mcbbs.net/assets",
-        Libraries = "https://download.mcbbs.net/maven"
+	public static DownloadAPI Current { get; set; } = new DownloadAPI {
+        Host = "https://launcher.mojang.com",
+        VersionManifest = "http://launchermeta.mojang.com/mc/game/version_manifest.json",
+        Assets = "http://resources.download.minecraft.net",
+        Libraries = "https://libraries.minecraft.net"
     };
 
     public static readonly DownloadAPI Mojang = new DownloadAPI

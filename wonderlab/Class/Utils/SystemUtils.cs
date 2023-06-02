@@ -93,7 +93,7 @@ namespace wonderlab.Class.Utils {
 
             return result;
         }
-
+        
         private static MemoryInfo GetMacMemoryInfo() {
             var info = new ProcessStartInfo {
                 FileName = "/bin/bash",

@@ -32,7 +32,7 @@ namespace wonderlab.ViewModels.Windows {
         public UserControl CurrentPage { get; set; } = new HomePage();
 
         [Reactive]
-        public string NotificationCountText { get; set; } = "无正在执行的任务";
+        public string NotificationCountText { get; set; } = "通知中心";
 
         [Reactive]
         public bool HasNotification { get; set; } = false;

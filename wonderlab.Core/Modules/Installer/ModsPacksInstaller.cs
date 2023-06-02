@@ -50,7 +50,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 		}
         InvokeStatusChangedEvent(0.15f, "开始解析整合包模组链接");
 
-		TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)> urlBlock = new TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)>((IEnumerable<ModsPacksFileModel> urls) => urls.Select((ModsPacksFileModel file) => (file.ProjectId, file.FileId)));
+		TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)> urlBlock = new(urls => urls.Select(file => (file.ProjectId, file.FileId)));
 		using (ZipArchive subPath = ZipFile.OpenRead(ModPacksPath))
 		{
 			foreach (ZipArchiveEntry i in subPath.Entries)
@@ -70,7 +70,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 		GameCoreToolkit.GetGameCore(GamePath, GameId);
         InvokeStatusChangedEvent(0.2f, "开始下载整合包模组");
 
-		ActionBlock<(long, long)> actionBlock = new ActionBlock<(long, long)>(async delegate((long, long) t)
+		ActionBlock<(long, long)> actionBlock = new(async delegate((long, long) t)
 		{
 			_ = 1;
 			try

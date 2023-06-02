@@ -108,7 +108,7 @@ public class HttpToolkit
 		HttpResponseMessage responseMessage = null;
 		try
 		{
-			responseMessage = await HttpWrapper.HttpGetAsync(url, new Dictionary<string, string>(), HttpCompletionOption.ResponseHeadersRead);
+		    responseMessage = await HttpWrapper.HttpGetAsync(url, new Dictionary<string, string>(), HttpCompletionOption.ResponseHeadersRead);
 			responseMessage.EnsureSuccessStatusCode();
 			fileInfo = ((responseMessage.Content.Headers == null || responseMessage.Content.Headers.ContentDisposition == null) ? new FileInfo(Path.Combine(folder, Path.GetFileName(responseMessage.RequestMessage.RequestUri.AbsoluteUri))) : new FileInfo(Path.Combine(folder, responseMessage.Content.Headers.ContentDisposition.FileName.Trim(new char[1] { '"' }))));
 			if (filename != null)

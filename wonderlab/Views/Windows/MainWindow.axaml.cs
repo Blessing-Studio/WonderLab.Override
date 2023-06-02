@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.control.Controls.Bar;
 using wonderlab.control.Controls.Dialog;
@@ -89,16 +90,16 @@ namespace wonderlab.Views.Windows {
             await Task.Delay(500);
 
             try {
-                if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Mcbbs) {
+                if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mcbbs) {
                     APIManager.Current = APIManager.Mcbbs;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Bmcl) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Bmcl) {
                     APIManager.Current = APIManager.Bmcl;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI == APIManager.Mojang) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mojang) {
                     APIManager.Current = APIManager.Mojang;
                 } else {
-                    GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Current;
+                    GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Mojang;
                 }
-
+                APIManager.Mojang.Host.ShowLog();
                 BackgroundImage.IsVisible = GlobalResources.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
                 ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
                 CanParallax = GlobalResources.LauncherData.ParallaxType is not "ÎÞ";
@@ -188,12 +189,6 @@ namespace wonderlab.Views.Windows {
                 await Task.Delay(1000);
                 await ModpacksUtils.ModpacksInstallAsync(file);
             }
-        }
-
-        public void ShowInfoDialog(string title, string message) {
-            DialogHost.MainDialog.Title = title;
-            DialogHost.MainDialog.Message = message;
-            DialogHost.MainDialog.ShowDialog();
         }
 
         public void ShowInfoBar(string title, string message, HideOfRunAction action) {

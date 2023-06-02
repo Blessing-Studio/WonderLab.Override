@@ -71,9 +71,12 @@
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
-							<ComboBox Width="350" Items="{Binding Javas}" Margin="15 5 0 0"
+							<ComboBox Width="350"
+									  Items="{Binding Javas}"
+									  Margin="15 5 0 0"
 									  SelectedItem="{Binding CurrentJava}"
-									  PlaceholderText="请选择您的 Java 运行时">
+									  PlaceholderText="请选择您的 Java 运行时"
+									  IsEnabled="{Binding IsAutoSelectJava,Converter={StaticResource BoolReverseConverter}}">
 								<ComboBox.DataTemplates>
 									<DataTemplate DataType="{x:Type ml:JavaInfo}">
 										<StackPanel VerticalAlignment="Center"
@@ -138,8 +141,8 @@
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
-							<RadioButton Name="open" Content="开" Command="{Binding OpenAutoSelectJavaAction}"/>
-							<RadioButton Name="close" Content="关" Command="{Binding CloseAutoSelectJavaAction}"/>
+							<RadioButton Name="autoJavaSelectOpen" Content="开" Command="{Binding OpenAutoSelectJavaAction}"/>
+							<RadioButton Name="autoJavaSelectClose" Content="关" Command="{Binding CloseAutoSelectJavaAction}"/>
 						</StackPanel>
 					</Grid>
 				</Border>
@@ -172,7 +175,53 @@
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Left"
 								 Margin="15 5"
-		                         Text="{Binding	MaxMemory}"/>
+		                         Text="{Binding	MaxMemory}"
+								 IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+		                BoxShadow="0 1 4 0 #66000000"
+		                Height="80"
+						Margin="15 0"
+		                VerticalAlignment="Top"
+		                CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" 
+									Orientation="Horizontal"
+									Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15"
+									Background="{DynamicResource AccentBrush}"
+									CornerRadius="114514"/>
+							
+							<TextBlock Text="自动分配游戏内存"
+									   FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1"
+								Background="{DynamicResource DialogBackground}"
+								Height="1"
+								CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0"
+									Grid.Row="2" 
+									Orientation="Horizontal"
+									Spacing="100">
+							<RadioButton Content="开"
+										 Name="autoMemoryOpen"
+										 Command="{Binding OpenAutoGetMemoryAction}"/>
+							<RadioButton Content="关"
+										 Name="autoMemoryClose"
+										 Command="{Binding CloseAutoGetMemoryAction}"/>
+						</StackPanel>
 					</Grid>
 				</Border>
 

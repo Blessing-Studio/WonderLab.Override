@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,7 +14,9 @@ using MinecraftLaunch.Modules.Parser;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.IO;
 using Natsurainko.Toolkits.Network;
+using Natsurainko.Toolkits.Network.Downloader;
 using Natsurainko.Toolkits.Network.Model;
+using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MinecraftLaunch.Modules.Installer;
@@ -26,124 +29,58 @@ public class ResourceInstaller {
     public static int MaxDownloadThreads { get; set; } = 64;
 
     public async ValueTask<ResourceInstallResponse> DownloadAsync(Action<string, float> func) {
-        var progress = new Progress<(string, float)>();
-        var root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        void Progress_ProgressChanged(object _, (string, float) e) => func(e.Item1, e.Item2);
+        var resources = new List<IResource>();
+        resources.AddRange(GameCore.LibraryResources!.AsParallel().Where(x => x.IsEnable));
+        resources.AddRange(GetFileResources());
+        resources.AddRange(await GetAssetResourcesAsync());
 
-        progress.ProgressChanged += Progress_ProgressChanged!;
-
-        var clientFile = GetFileResources()?.FirstOrDefault();
-        if (clientFile != null) {
-            var request = clientFile.ToDownloadRequest();
-            if (!request.Directory.Exists) {
-                request.Directory.Create();
-            }
-
-            if (APIManager.Current != APIManager.Mojang) {
-                request.Url = $"{APIManager.Current.Host}/version/{Path.GetFileNameWithoutExtension(clientFile.Name)}/client";
-            }
-
-            var httpDownloadResponse = await HttpWrapper.HttpDownloadAsync(request);
-            if (httpDownloadResponse.HttpStatusCode != HttpStatusCode.OK) {
-                FailedResources.Add(clientFile);
-            }
-        }
-
-        var manyBlock = new TransformManyBlock<List<IResource>, IResource>(x => x.Where(x => {
-            if (string.IsNullOrEmpty(x.CheckSum) && x.Size == 0) {
+        resources = resources.AsParallel().Where(x => {
+            if (string.IsNullOrEmpty(x.CheckSum) && x.Size == 0)
                 return false;
-            }
-
-            if (x.ToFileInfo().Verify(x.CheckSum) && x.ToFileInfo().Verify(x.Size)) {
-                return true;
-            }
+            if (x.ToFileInfo().Verify(x.CheckSum) && x.ToFileInfo().Verify(x.Size))
+                return false;
 
             return true;
-        }));
+        }).ToList();
 
-        int post = 0, output = 0;
-
-        var actionBlock = new ActionBlock<IResource>(async resource => {
-            post++;
-            var request = resource.ToDownloadRequest();
+        int output = 0;
+        TransformManyBlock<List<IResource>, IResource> manyBlock = new(x => x);
+        ActionBlock<IResource> block = new(async x => {
+            var request = x.ToDownloadRequest();
 
             if (!request.Directory.Exists)
                 request.Directory.Create();
 
-            try {
-                var info = request.Directory.FullName.Substring(request.Directory.FullName.IndexOf(".minecraft"));
-                var text = Path.Combine(root, info, request.FileName);
-                //先尝试使用缓存，不行就下一遍
-                if (File.Exists(text) && !resource.ToFileInfo().Exists) {
-                    File.Copy(text, Path.Combine(request.Directory.FullName, request.FileName), true);
-                } else if (!resource.ToFileInfo().Exists)//缓存和实际目录都没有此依赖的情况
-                  {
-                    var httpDownloadResponse = await HttpToolkit.HttpDownloadAsync(request);
+            func($"{output}/{resources.Count}", output / (float)resources.Count);
 
-                    if (httpDownloadResponse.HttpStatusCode != HttpStatusCode.OK)
-                        this.FailedResources.Add(resource);
-                    else {
-                        //将缓存没有的资源复制到缓存里，以供下次使用
-                        if (!Directory.Exists(Path.Combine(root, info))) {
-                            Directory.CreateDirectory(Path.Combine(root, info));
-                        }
-
-                        httpDownloadResponse.FileInfo.CopyTo(text, true);
-                    }
-                }
-            }
-            catch {
-                this.FailedResources.Add(resource);
-            }
-
+            Trace.WriteLine($"资源链接：{request.Url}");
+            var result = await HttpToolkit.HttpDownloadAsync(request);
             output++;
-
-            ((IProgress<(string, float)>)progress).Report(($"{output}/{post}", output / (float)post));
+            if (result.HttpStatusCode != HttpStatusCode.OK)
+                this.FailedResources.Add(x);
         }, new ExecutionDataflowBlockOptions {
             BoundedCapacity = MaxDownloadThreads,
             MaxDegreeOfParallelism = MaxDownloadThreads
         });
-        var disposable = manyBlock.LinkTo(actionBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
-        manyBlock.Post(this.GameCore.LibraryResources!.Where(x => x.IsEnable && !x.ToFileInfo().Exists).Select(x => (IResource)x).ToList());
-        manyBlock.Post((await this.GetAssetResourcesAsync()).Where(x => !x.ToFileInfo().Exists).ToList());
-
+        DataflowLinkOptions linkOptions = new DataflowLinkOptions {
+            PropagateCompletion = true
+        };
+        using var disposable = manyBlock.LinkTo(block, linkOptions);
+        manyBlock.Post(resources);
         manyBlock.Complete();
-
-        await actionBlock.Completion;
-        disposable.Dispose();
-
-        GC.Collect();
-
-        progress.ProgressChanged -= Progress_ProgressChanged!;
+        await block.Completion;
 
         return new ResourceInstallResponse {
             FailedResources = this.FailedResources,
-            SuccessCount = post - this.FailedResources.Count,
-            Total = post
+            SuccessCount = 6 - this.FailedResources.Count,
+            Total = 6
         };
     }
 
     public IEnumerable<IResource> GetFileResources() {
         if (GameCore.ClientFile != null)
             yield return GameCore.ClientFile;
-    }
-
-    public async ValueTask<List<IResource>> GetAssetResourcesAsync() {
-        if (!(GameCore.AssetIndexFile!.FileInfo.Verify(GameCore.AssetIndexFile.Size) || GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.CheckSum))) {
-
-            var request = this.GameCore.AssetIndexFile.ToDownloadRequest();
-
-            if (!request.Directory.Exists)
-                request.Directory.Create();
-
-            var res = await HttpWrapper.HttpDownloadAsync(request);
-        }
-
-        var entity = new AssetJsonEntity();
-        entity = entity.FromJson(await File.ReadAllTextAsync(this.GameCore.AssetIndexFile?.ToFileInfo()!.FullName!));
-
-        return new AssetParser(entity, this.GameCore.Root!).GetAssets().Select(x => (IResource)x).ToList();
     }
 
     public async static ValueTask<List<IResource>> GetAssetFilesAsync(GameCore core) {
@@ -160,6 +97,26 @@ public class ResourceInstaller {
         }
 
         return res;
+    }
+
+    public async Task<List<IResource>> GetAssetResourcesAsync() {
+        if (!(GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.Size)
+            || GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.CheckSum))) {
+            var request = GameCore.AssetIndexFile.ToDownloadRequest();
+
+            if (!request.Directory.Exists)
+                request.Directory.Create();
+
+            var res = await HttpWrapper.HttpDownloadAsync(request);
+
+            if (!res.FileInfo.Exists)
+                return new();
+        }
+        
+        var entity = JsonConvert.DeserializeObject<AssetJsonEntity>
+            (await File.ReadAllTextAsync(GameCore.AssetIndexFile.ToFileInfo()!.FullName));
+
+        return new AssetParser(entity!, GameCore.Root!).GetAssets().Select(x => (IResource)x).ToList();
     }
 
     [Obsolete]

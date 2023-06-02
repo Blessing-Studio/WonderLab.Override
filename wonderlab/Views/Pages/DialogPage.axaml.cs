@@ -9,5 +9,11 @@ namespace wonderlab.Views.Pages {
             InitializeComponent();
             DataContext = ViewModel;
         }
+
+        public void ShowInfoDialog(string title, string message) {
+            MainDialog.Title = title;
+            MainDialog.Message = message;
+            MainDialog.ShowDialog();
+        }
     }
 }

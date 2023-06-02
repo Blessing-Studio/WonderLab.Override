@@ -3,6 +3,7 @@ using Avalonia.Platform.Storage;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
+using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
@@ -108,68 +109,47 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void LaunchTaskAction() {
-            $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(() => {
-                App.CurrentWindow.NotificationCenter.Open();
-            });
+            $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
 
             NotificationViewData data = new() { 
                 Title = $"游戏 {SelectGameCoreId} 的启动任务"
             };
 
             data.TimerStart();
+            NotificationCenterPage.ViewModel.Notifications.Add(data);
 
             var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
-                var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
-                    JsonUtils.DataPath, "authlib-injector.jar");
-
-                Trace.WriteLine($"[信息] Http状态码为 {result.HttpStatusCode}");
+                await DownloadAuthlibAsync();
             }
 
             //Modpack 重复处理
-            if (gameCore.GetModsPath().IsDirectory()) {           
-                ModPackToolkit toolkit = new(gameCore, true);
-                var result = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled).GroupBy(i => i.Id).Where(g => g.Count() > 1);
-
-                if (result.Count() > 0) {               
-                    foreach (var item in result) {                   
-                        $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
-                        return;
-                    }
-                }
+            int modCount = 0;
+            if (gameCore.GetModsPath().IsDirectory()) {
+                await ModpackCheckAsync();
             }
 
             //异步刷新游戏账户
-            try {           
-                await Task.Run(async () => {
-                    if(CurrentAccount.Type == AccountType.Yggdrasil) {
-                        YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl, "", "");
-                        var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
-                
-                        CurrentAccount = result;
-                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
-                    }
-                    else if (CurrentAccount.Type == AccountType.Microsoft) {
-                        MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
-                            ClientId = GlobalResources.ClientId ,
-                            RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
-                        };
-                
-                        var result = await authenticator.AuthAsync(x => Trace.WriteLine($"[信息] 当前验证步骤 {x}"));
-                        CurrentAccount = result;
-                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
-                    }
-                });
+            try {
+                await AccountRefreshAsync();
             }
             catch (Exception ex) {
-                $"账户刷新失败，详细信息：{ex.Message}".ShowMessage("Error");
+                $"账户刷新失败，详细信息：{ex}".ShowInfoDialog("程序遭遇了异常");
+                data.TimerStop();
+                return;
             }
 
+            //游戏依赖检查
+            await ResourceCheckOutAsync();
+
+            data.Progress = "开始启动步骤 - 0%";
             var javaInfo = GetCurrentJava();
             var config = new LaunchConfig() {
                 JvmConfig = new() {
                     AdvancedArguments = new List<string>() { GetJvmArguments() },
-                    MaxMemory = GlobalResources.LaunchInfoData.MaxMemory,
+                    MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
+                    ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
+                    : GlobalResources.LaunchInfoData.MaxMemory,
                     JavaPath = SystemUtils.IsWindows ? javaInfo.JavaPath.ToJavaw().ToFile() : javaInfo.JavaPath.ToFile(),
                 },
                 GameWindowConfig = new() {
@@ -183,7 +163,6 @@ namespace wonderlab.ViewModels.Pages {
 
             JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
 
-            NotificationCenterPage.ViewModel.Notifications.Add(data);
             using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine($"[信息] {x.Item2}");
                 data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
@@ -212,7 +191,75 @@ namespace wonderlab.ViewModels.Pages {
             }
             else {
                 data.Progress = $"启动失败 - 100%";
-                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception.Message}".ShowMessage("我日，炸了");
+                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
+            }
+
+            async ValueTask DownloadAuthlibAsync() {
+                data.Progress = "下载 Authlib-Injector 中";
+                var result = await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
+                    JsonUtils.DataPath, "authlib-injector.jar");
+                Trace.WriteLine($"[信息] Http状态码为 {result.HttpStatusCode}");
+            }
+
+            async ValueTask ModpackCheckAsync() {
+                data.Progress = "开始检查 Mod";
+                ModPackToolkit toolkit = new(gameCore, true);
+                var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
+                modCount = modpacks.Count();
+
+                var result = modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
+                if (result.Count() > 0) {
+                    foreach (var item in result) {
+                        $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
+                        return;
+                    }
+                }
+            }
+
+            async ValueTask AccountRefreshAsync() {
+                data.Progress = "开始刷新账户";
+
+                await Task.Run(async () => {
+                    if (CurrentAccount.Type == AccountType.Yggdrasil) {
+                        YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl, "", "");
+                        var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
+
+                        CurrentAccount = result;
+                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                    } else if (CurrentAccount.Type == AccountType.Microsoft) {
+                        MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
+                            ClientId = GlobalResources.ClientId,
+                            RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
+                        };
+
+                        var result = await authenticator.AuthAsync(x => data.Progress = $"当前步骤：{x}");
+                        CurrentAccount = result;
+                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                    }
+                });
+            }
+
+            async ValueTask ResourceCheckOutAsync() {
+                data.Progress = "开始检查游戏依赖 - 0%";
+
+                await Task.Run(async() => {
+                    ResourceInstaller installer = new(gameCore!);
+                    await installer.DownloadAsync(async (s, f) => {
+                        await Task.Run(async () => {
+                            try {
+                                data.Progress = $"补全文件中：{s}";
+                                data.ProgressOfBar = f * 100;
+                                await Task.Delay(1000);
+                            }
+                            catch {
+                                "Error".ShowLog();
+                            }
+                            finally {
+                                GC.Collect();
+                            }
+                        });
+                    });
+                });
             }
         }
 

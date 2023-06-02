@@ -12,8 +12,16 @@ namespace wonderlab.Views.Pages
             DataContext = ViewModel;
 
             if(ViewModel.IsAutoSelectJava){
-                open.IsChecked = true;
-            } else close.IsChecked = true;
+                autoJavaSelectOpen.IsChecked = true;
+            } else {
+                autoJavaSelectClose.IsChecked = true;
+            }
+
+            if (ViewModel.IsAutoGetMemory) {
+                autoMemoryOpen.IsChecked = true;
+            } else {
+                autoMemoryClose.IsChecked = true;
+            }
         }
     }
 }

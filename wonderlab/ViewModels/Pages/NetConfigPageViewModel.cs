@@ -69,17 +69,17 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void SelectOfficialAction() {
-            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Mojang;
+            GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Mojang;
             APIManager.Current = APIManager.Mojang;
         }
 
         public void SelectMcbbsAction() {
-            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Mcbbs;
+            GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Mcbbs;
             APIManager.Current = APIManager.Mcbbs;
         }
 
         public void SelectBmclAction() {
-            GlobalResources.LauncherData.CurrentDownloadAPI = APIManager.Bmcl;
+            GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Bmcl;
             APIManager.Current = APIManager.Bmcl;
         }
     }

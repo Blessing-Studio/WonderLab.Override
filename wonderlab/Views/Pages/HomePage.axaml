@@ -359,48 +359,46 @@
 					<Button Grid.Column="2" VerticalAlignment="Center" Name="SelectGameCoreButton"
 							HorizontalAlignment="Right" Margin="15 0">
 						<Button.Styles>
-							<Styles>
-								<Style Selector="Button">
-									<Setter Property="Template">
-										<ControlTemplate>
-											<Border Padding="3" CornerRadius="4"
-													Name="Layout" Background="Transparent"
-													BorderThickness="1">
-												<Border.Transitions>
-													<Transitions>
-														<BrushTransition Duration="0:0:0.35"
-																	     Easing="ExponentialEaseOut"
-																	     Property="BorderBrush"/>
-													</Transitions>
-												</Border.Transitions>
-												<Grid>
-													<Grid.RowDefinitions>
-														<RowDefinition Height="1*"/>
-														<RowDefinition Height="1"/>
-														<RowDefinition Height="1*"/>
-													</Grid.RowDefinitions>
+							<Style Selector="Button">
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Padding="3" CornerRadius="4"
+												Name="Layout" Background="Transparent"
+												BorderThickness="1">
+											<Border.Transitions>
+												<Transitions>
+													<BrushTransition Duration="0:0:0.35"
+																	 Easing="ExponentialEaseOut"
+																	 Property="BorderBrush"/>
+												</Transitions>
+											</Border.Transitions>
+											<Grid>
+												<Grid.RowDefinitions>
+													<RowDefinition Height="1*"/>
+													<RowDefinition Height="1"/>
+													<RowDefinition Height="1*"/>
+												</Grid.RowDefinitions>
 
-													<TextBlock FontSize="10" Opacity="0.65"
-															   Text="当前核心" HorizontalAlignment="Right"/>
+												<TextBlock FontSize="10" Opacity="0.65"
+														   Text="当前核心" HorizontalAlignment="Right"/>
 
-													<TextBlock FontSize="12" Grid.Row="2" TextTrimming="CharacterEllipsis"
-															   Text="{Binding SelectGameCoreId}"
-															   FontWeight="SemiBold"
-															   TextAlignment="Right"/>
-												</Grid>
-											</Border>
-										</ControlTemplate>
-									</Setter>
-								</Style>
+												<TextBlock FontSize="12" Grid.Row="2" TextTrimming="CharacterEllipsis"
+														   Text="{Binding SelectGameCoreId}"
+														   FontWeight="SemiBold"
+														   TextAlignment="Right"/>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
 
-								<Style Selector="Button /template/	Border#Layout">
-									<Setter Property="BorderBrush" Value="Transparent"/>
-								</Style>
+							<Style Selector="Button /template/	Border#Layout">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+							</Style>
 
-								<Style Selector="Button:pointerover /template/ Border#Layout">
-									<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
-								</Style>
-							</Styles>
+							<Style Selector="Button:pointerover /template/ Border#Layout">
+								<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+							</Style>
 						</Button.Styles>
 					</Button>
 				</Grid>								

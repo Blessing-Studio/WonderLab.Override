@@ -4,7 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="wonderlab.control.MainWindow"
-		xmlns:wc="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control">
-    <wc:AccountDialog/> 
+	<wcc:Parallax3dImage Margin="-100" 
+		Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\1229774.jpg"/>
 </Window>

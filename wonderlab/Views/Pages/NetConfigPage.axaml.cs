@@ -22,11 +22,11 @@ namespace wonderlab.Views.Pages
                     albert.IsChecked = true;
                 }
 
-                if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Mcbbs.Host) {
+                if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mcbbs) {
                     mcbbs.IsChecked = true;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Bmcl.Host) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Bmcl) {
                     bmcl.IsChecked = true;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI.Host == APIManager.Mojang.Host) {
+                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mojang) {
                     official.IsChecked = true;
                 }
             } else {

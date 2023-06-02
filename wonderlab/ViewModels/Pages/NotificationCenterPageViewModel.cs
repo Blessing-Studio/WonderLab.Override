@@ -28,7 +28,7 @@ namespace wonderlab.ViewModels.Pages {
             } else {
                 HasNotification = true;
                 MainWindow.ViewModel.HasNotification = false;
-                MainWindow.ViewModel.NotificationCountText = $"无正在执行的任务";
+                MainWindow.ViewModel.NotificationCountText = $"通知中心";
             }
         }
 
