@@ -20,7 +20,7 @@ public sealed class JavaToolkit {
             using var Program = new Process {
                 StartInfo = new() {
                     Arguments = "-version",
-                    FileName = javapath.EndsWith(".exe") ? Path.Combine(info.Directory.FullName, "java.exe") : javapath,
+                    FileName = javapath.EndsWith("javaw.exe") ? Path.Combine(info.Directory!.FullName, "java.exe") : javapath,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardError = true,

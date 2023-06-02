@@ -133,14 +133,20 @@ namespace wonderlab.ViewModels.Pages {
             IsLoadJavaFinish = false;
             IsLoadJavaNow = true;
 
-            await Task.Run(() => {
+            await Task.Run(async () => {
                 if (SystemUtils.IsWindows) {
                     foreach (var drive in DriveInfo.GetDrives().AsParallel()) {
                         FileSearchAsync(drive.RootDirectory, "javaw.exe");
                     }
                 }
                 else {
-                    Javas.AddRange(JavaUtils.GetJavas());                    
+                    var result = await JavaUtils.GetJavas().ToListAsync();
+                    if (!result.IsNull()) {
+                        foreach (var java in result) {
+                            Javas.Add(java);
+                            await Task.Delay(10);
+                        }
+                    }
                 }
 
                 IsLoadJavaFinish = true;

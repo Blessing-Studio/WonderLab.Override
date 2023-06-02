@@ -16,21 +16,23 @@ namespace wonderlab.Class.Utils {
     [SupportedOSPlatform("OSX")]
     [SupportedOSPlatform("LINUX")]
     public class JavaUtils {        
-        public static IEnumerable<JavaInfo> GetJavas() {
-            var cache = new List<JavaInfo>();
+        public static async IAsyncEnumerable<JavaInfo> GetJavas() {
+            return await Task.Run(() => {
+                var cache = new List<JavaInfo>();
 
-            if (SystemUtils.IsMacOS) {
-                cache.AddRange(GetMacJavas());
-            } else if (SystemUtils.IsLinux) {
-                cache.AddRange(GetLinuxJavas());
-            }
+                if (SystemUtils.IsMacOS) {
+                    cache.AddRange(GetMacJavas());
+                } else if (SystemUtils.IsLinux) {
+                    cache.AddRange(GetLinuxJavas());
+                }
 
-            cache.AddRange(GetJavaInOfficialGameCorePath());
-            return cache;
+                cache.AddRange(GetJavaInOfficialGameCorePath());
+                return cache;
+            });
         }
 
         private static IEnumerable<JavaInfo> GetMacJavas() {
-            foreach (var i in Directory.GetDirectories(GlobalResources.MacJavaHomePath).AsParallel()) {
+            foreach (var i in Directory.EnumerateDirectories(GlobalResources.MacJavaHomePath).AsParallel()) {
                 if (!Directory.Exists(i + "/Contents/Home/bin"))
                     continue;
 
