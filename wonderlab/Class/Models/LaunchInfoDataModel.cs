@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wonderlab.Class.Utils;
 
 namespace wonderlab.Class.Models
 {
@@ -14,7 +15,7 @@ namespace wonderlab.Class.Models
     /// </summary>
     public class LaunchInfoDataModel {
         [JsonProperty("gamedirectoryPath")]
-        public string GameDirectoryPath { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),".minecraft");
+        public string GameDirectoryPath { get; set; } = GameCoreUtils.GetOfficialGameCorePath().FullName;
 
         [JsonProperty("javaruntimePath")]
         public JavaInfo JavaRuntimePath { get; set; } = new();
@@ -38,6 +39,6 @@ namespace wonderlab.Class.Models
         public List<JavaInfo> JavaRuntimes { get; set; } = new();
 
         [JsonProperty("gameDirectorys")]
-        public List<string> GameDirectorys { get; set; } = new() { Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft") };
+        public List<string> GameDirectorys { get; set; } = new() { GameCoreUtils.GetOfficialGameCorePath().FullName };
     }
 }

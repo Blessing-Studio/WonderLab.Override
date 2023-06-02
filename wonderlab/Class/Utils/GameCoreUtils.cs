@@ -6,6 +6,8 @@ using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -92,7 +94,7 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<string> GetTotalSizeAsync(GameCore id) {
             double total = 0;
-            foreach (var library in id.LibraryResources) {
+            foreach (var library in id.LibraryResources!) {
                 if (library.Size != 0)
                     total += library.Size;
                 else if (library.Size == 0 && library.ToFileInfo().Exists)
@@ -113,6 +115,27 @@ namespace wonderlab.Class.Utils {
             catch { }
 
             return $"{double.Parse(((double)total / (1024 * 1024)).ToString("0.00"))} MB";
+        }
+
+        public static DirectoryInfo GetOfficialGameCorePath() {
+            try {
+                if (SystemUtils.IsWindows) {
+                    return new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft"));
+                } else if (SystemUtils.IsMacOS) {
+                    var parent = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                    return new(Path.Combine(parent, "Application Support", ".minecraft"));
+                } else {
+                    return new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), ".minecraft"));
+                }
+            }
+            catch {
+                var path = Path.Combine(Environment.CurrentDirectory, ".minecraft");
+                if (!path.IsDirectory()) {
+                    Directory.CreateDirectory(path);
+                }
+
+                return new(path);
+            }
         }
     }
 }

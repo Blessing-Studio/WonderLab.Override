@@ -2,12 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 
 namespace wonderlab.Class.AppData {
     public class GlobalResources {
+        [SupportedOSPlatform("OSX")]
+        public const string MacJavaHomePath = "/Library/Java/JavaVirtualMachines";
+
         public const string CurseforgeToken = "$2a$10$Awb53b9gSOIJJkdV3Zrgp.CyFP.dI13QKbWn/4UZI4G4ff18WneB6";
 
         public const string ClientId = "9fd44410-8ed7-4eb3-a160-9f1cc62c824c";

@@ -170,7 +170,7 @@ namespace wonderlab.ViewModels.Pages {
                 JvmConfig = new() {
                     AdvancedArguments = new List<string>() { GetJvmArguments() },
                     MaxMemory = GlobalResources.LaunchInfoData.MaxMemory,
-                    JavaPath = javaInfo.JavaPath.ToJavaw().ToFile(),
+                    JavaPath = SystemUtils.IsWindows ? javaInfo.JavaPath.ToJavaw().ToFile() : javaInfo.JavaPath.ToFile(),
                 },
                 GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,

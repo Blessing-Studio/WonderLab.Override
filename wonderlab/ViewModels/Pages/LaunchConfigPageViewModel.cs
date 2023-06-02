@@ -134,9 +134,14 @@ namespace wonderlab.ViewModels.Pages {
             IsLoadJavaNow = true;
 
             await Task.Run(() => {
-                DriveInfo.GetDrives().ToList().ForEach(x => {
-                    FileSearchAsync(x.RootDirectory, "javaw.exe");
-                });
+                if (SystemUtils.IsWindows) {
+                    foreach (var drive in DriveInfo.GetDrives().AsParallel()) {
+                        FileSearchAsync(drive.RootDirectory, "javaw.exe");
+                    }
+                }
+                else {
+                    Javas.AddRange(JavaUtils.GetJavas());                    
+                }
 
                 IsLoadJavaFinish = true;
                 IsLoadJavaNow = false;
@@ -176,8 +181,8 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void AddJavaAction() {
             var file = await DialogUtils.OpenFilePickerAsync(new List<FilePickerFileType>() {
-                new("Javaw文件") { Patterns = new List<string>() { SystemUtils.IsWindows ? "javaw.exe" : "javaw" } }
-            }, "请选择您的 Javaw 文件");
+                new("Java文件") { Patterns = new List<string>() { SystemUtils.IsWindows ? "javaw.exe" : "java" } }
+            }, "请选择您的 Java 文件");
 
             if (!file.IsNull()) {
                 //由于需启动新进程，可能耗时会卡主线程，因此使用异步

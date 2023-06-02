@@ -259,7 +259,7 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static void ShowLog<T>(this T log) => Trace.WriteLine($"[信息] {log}");
+        public static void ShowLog<T>(this T log) => Trace.WriteLine($"[{SystemUtils.GetPlatformName()}][信息] {log}");
 
         public static void Navigation(this UserControl control) => App.CurrentWindow.Navigation(control);
 
