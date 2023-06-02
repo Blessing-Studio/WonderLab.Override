@@ -114,7 +114,7 @@ namespace wonderlab.Class.Utils {
         public static string ToJavaw(this string path) {
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
-                return Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw");
+                return Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "java");
             }
 
             return path;
@@ -123,7 +123,7 @@ namespace wonderlab.Class.Utils {
         public static FileInfo ToFile(this string path) {
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
-                return new(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "javaw"));
+                return new(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "javaw.exe" : "java"));
             }
 
             return new(path);

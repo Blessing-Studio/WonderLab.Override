@@ -15,6 +15,7 @@ namespace wonderlab.Class.Utils {
         private readonly static IStorageProvider StorageProvider = App.CurrentWindow.StorageProvider;
 
         public static async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title) {
+            PathCache = null!;//先清除缓存
             var result = await StorageProvider.OpenFilePickerAsync(new() {
                 AllowMultiple = false,
                 FileTypeFilter = filters.ToList(),
@@ -27,7 +28,7 @@ namespace wonderlab.Class.Utils {
 
             result.First().TryGetUri(out PathCache!);
             if (!PathCache.IsNull() && PathCache.LocalPath.IsFile()) {
-                return PathCache.LocalPath.ToFile();
+                return new(PathCache.LocalPath);
             }
 
             return null!;

@@ -95,6 +95,9 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
 	  <Compile Update="Views\Pages\AccountPage.axaml.cs">
 	    <DependentUpon>AccountPage.axaml</DependentUpon>
 	  </Compile>

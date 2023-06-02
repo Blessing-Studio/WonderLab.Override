@@ -15,13 +15,12 @@ public sealed class JavaToolkit {
         FileInfo info = new(javapath);
         try {
             int? ires = null;
-            string tempinfo = null;
-            string pattern = "java version \"\\s*(?<version>\\S+)\\s*\"";
+            string tempinfo = null!, pattern = "java version \"\\s*(?<version>\\S+)\\s*\"";
 
-            using Process Program = new Process {
+            using var Program = new Process {
                 StartInfo = new() {
                     Arguments = "-version",
-                    FileName = javapath.EndsWith(".exe") ? Path.Combine(info.Directory!.FullName, "java.exe") : info.FullName,
+                    FileName = javapath.EndsWith(".exe") ? Path.Combine(info.Directory.FullName, "java.exe") : javapath,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
@@ -34,7 +33,7 @@ public sealed class JavaToolkit {
             StreamReader res = Program.StandardError;
             bool end = false;
             while (res.Peek() != -1) {
-                string temp = res.ReadLine();
+                string temp = res.ReadLine()!;
                 if (temp.Contains("java version"))
                     tempinfo = new Regex(pattern).Match(temp).Groups["version"].Value;
                 else if (temp.Contains("openjdk version")) {
@@ -52,12 +51,12 @@ public sealed class JavaToolkit {
                 Is64Bit = end,
                 JavaDirectoryPath = info.Directory!.FullName,
                 JavaSlugVersion = Convert.ToInt32(ires),
-                JavaVersion = tempinfo,
+                JavaVersion = tempinfo!,
                 JavaPath = info.FullName,
             };
         }
-        catch (Exception) {
-            return null;
+        catch {
+            throw;
         }
     }
 
