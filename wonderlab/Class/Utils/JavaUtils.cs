@@ -17,7 +17,7 @@ namespace wonderlab.Class.Utils {
     [SupportedOSPlatform("LINUX")]
     public class JavaUtils {        
         public static async IAsyncEnumerable<JavaInfo> GetJavas() {
-            return await Task.Run(() => {
+            var result = await Task.Run(() => {
                 var cache = new List<JavaInfo>();
 
                 if (SystemUtils.IsMacOS) {
@@ -29,6 +29,10 @@ namespace wonderlab.Class.Utils {
                 cache.AddRange(GetJavaInOfficialGameCorePath());
                 return cache;
             });
+
+            foreach (var java in result) {
+                yield return java;
+            }
         }
 
         private static IEnumerable<JavaInfo> GetMacJavas() {
