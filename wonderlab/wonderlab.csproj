@@ -106,4 +106,10 @@
 	    <DependentUpon>NetConfigPage.axaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
+	<PropertyGroup>
+      <UseAppHost>true</UseAppHost>
+    </PropertyGroup>
+	<ItemGroup>
+      <PackageReference Include="Dotnet.Bundle" Version="*" />
+	</ItemGroup>
 </Project>
