@@ -31,4 +31,4 @@ jobs:
          issue_number: ${{ github.event.issue.number }}
          body: |-
            你的议题必须使用我们的模版
-           [点击这里选择一个模版并创建新议题](https://github.com/Blessing-Studio/WonderLab/issues/new/choose)
+           [点击这里选择一个模版并创建新议题](https://github.com/Blessing-Studio/WonderLab.Override/issues/new/choose)
