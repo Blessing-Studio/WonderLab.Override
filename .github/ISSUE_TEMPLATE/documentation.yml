@@ -43,7 +43,7 @@ body:
       description: |
         **"最新版" 不是版本号，请填写一个确切的版本号！**
       #如果你不太确定，可以截图 "" 的输出内容并截图，记得截全。
-      placeholder: '1.0.1.0'
+      placeholder: '1.2.x'
 
   - type: textarea
     id: additional
