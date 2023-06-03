@@ -117,23 +117,25 @@ namespace wonderlab.Class.Models
         public async void DownloadResourceAction() {
             var result = await DialogUtils.SaveFilePickerAsync("请选择文件保存路径", Title);
 
-            $"开始下载资源 \"{Title}\"，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
-                App.CurrentWindow.NotificationCenter.Open();
-            });
+            if (!result.IsNull()) {
+                $"开始下载资源 \"{Title}\"，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
+                    App.CurrentWindow.NotificationCenter.Open();
+                });
 
-            NotificationViewData data = new() { 
-                Title = $"资源 {Title} 的下载任务"
-            };
-            data.TimerStart();
+                NotificationViewData data = new() {
+                    Title = $"资源 {Title} 的下载任务"
+                };
+                data.TimerStart();
 
-            NotificationCenterPage.ViewModel.Notifications.Add(data);
-            var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.FullName.Replace(Title, string.Empty), (e, _) => {
-                var progress = e * 100;
-                data.ProgressOfBar = progress;
-                data.Progress = $"{Math.Round(progress, 2)}%";
-            });
+                NotificationCenterPage.ViewModel.Notifications.Add(data);
+                var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.FullName.Replace(Title, string.Empty), (e, _) => {
+                    var progress = e * 100;
+                    data.ProgressOfBar = progress;
+                    data.Progress = $"{Math.Round(progress, 2)}%";
+                });
 
-            data.TimerStop();
+                data.TimerStop();
+            }
         }
     }
 }

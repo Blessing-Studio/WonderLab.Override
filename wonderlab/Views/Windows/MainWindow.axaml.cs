@@ -3,11 +3,14 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
@@ -30,14 +33,13 @@ namespace wonderlab.Views.Windows {
             Initialized += DataInitialized;
 
             InitializeComponent();
-
+            Drop.AddHandler(DragDrop.DropEvent, DropAction);
             try {
                 ThemeUtils.Init();
                 JsonUtils.CreateLaunchInfoJson();
                 JsonUtils.CreateLauncherInfoJson();
 
                 DataContext = ViewModel = new();
-                AddHandler(DragDrop.DropEvent, DropAction);
                 WindowWidth = Width;
                 WindowHeight = Height;
 

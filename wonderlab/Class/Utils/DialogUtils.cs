@@ -63,7 +63,7 @@ namespace wonderlab.Class.Utils {
             }
 
             result!.TryGetUri(out PathCache!);
-            if (!PathCache.IsNull() && PathCache.LocalPath.IsFile()) {
+            if (!PathCache.IsNull()) {
                 return PathCache.LocalPath.ToFile();
             }
 

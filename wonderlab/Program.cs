@@ -1,7 +1,15 @@
 ﻿using Avalonia;
 using Avalonia.Media;
+using Avalonia.Platform;
+using Avalonia.Skia;
+using SkiaSharp;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Text;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
@@ -33,6 +41,9 @@ namespace wonderlab {
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
+                .With(new FontManagerOptions {
+                    DefaultFamilyName = "resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+                })
                 .With(new Win32PlatformOptions())
                 .With(new SkiaOptions());
     }

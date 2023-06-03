@@ -10,10 +10,10 @@
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
         Title="WonderLab"
 		CornerRadius="4"
+		DragDrop.AllowDrop="True"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
-		Background="{DynamicResource AccentBrushDark1}"
-		DragDrop.AllowDrop="True" Name="ee"
+		Background="{DynamicResource AccentBrushDark1}"		
 		Initialized="WindowsInitialized">
 	<Grid>
 		<Border Margin="-20" IsVisible="False">
@@ -23,7 +23,9 @@
 		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage"
 			   Source="/Assets/y.jpg" />
 		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
-		<Grid Background="Transparent" Name="Drop"/>
+		<Grid Background="Transparent"
+			  DragDrop.AllowDrop="True"
+			  Name="Drop"/>
 
 		<Border Name="Back" Opacity="0" IsHitTestVisible="False" Background="#99FFFFFF">
 		</Border> 

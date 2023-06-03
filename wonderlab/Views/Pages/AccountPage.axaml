@@ -7,6 +7,8 @@
 			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.AccountPage">
+	<!--
+	resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans-->
 	<Grid >
 		<Grid>
 			<Grid.ColumnDefinitions>

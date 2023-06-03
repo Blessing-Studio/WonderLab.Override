@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.control;
 using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
 using wonderlab.Views.Windows;
@@ -57,7 +58,7 @@ namespace wonderlab.ViewModels.Pages {
         
         [Reactive]
         public ObservableCollection<GameCore> GameCores { get; set; } = new();
-
+        
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(SearchCondition)) {
                 SeachGameCore(SearchCondition);
@@ -88,11 +89,7 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
-
-            foreach (var i in cores) {
-                await Task.Delay(20);    
-                GameCores.Add(i);                
-            }
+            GameCores.Load(cores);
         }
 
         public async void SelectAccountAction() {
