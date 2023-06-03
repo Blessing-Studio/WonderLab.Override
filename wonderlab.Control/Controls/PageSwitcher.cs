@@ -24,6 +24,8 @@ namespace wonderlab.control.Controls {
 
         private int Total = 0;
 
+        private Button BackButton, NextPageButton;
+
         public IEnumerable Items { get => GetValue(ItemsProperty); set => SetValue(ItemsProperty, value); }
 
         public int CurrentMaxItemsCount { get => GetValue(CurrentMaxItemsCountProperty); set => SetValue(CurrentMaxItemsCountProperty, value); }
@@ -61,7 +63,7 @@ namespace wonderlab.control.Controls {
             }
 
             //此处使用 decimal 类型进行计算，目的是获取小数进行四舍五入运算
-            decimal total = Convert.ToDecimal(list.Count()) / Convert.ToDecimal(CurrentMaxItemsCount);
+            decimal total = Convert.ToDecimal(list.Count) / Convert.ToDecimal(CurrentMaxItemsCount);
 
             if (total - (int)total > 0) {
                 Total = (int)total + 1;
@@ -89,19 +91,42 @@ namespace wonderlab.control.Controls {
         }
 
         private void GoNextPage(object? sender, RoutedEventArgs e) {
-            CurrentItemsIndex++;
+            if (CurrentItemsIndex + 1 <= Cache.Keys.LastOrDefault()) {
+                CurrentItemsIndex++;
+                BackButton.IsEnabled = true;
+            } else {
+                NextPageButton.IsEnabled = false;
+            }
 
             if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
-                ListBox.Items = Cache[CurrentItemsIndex];
+                var cache = new ObservableCollection<object>();                
+                ListBox.Items = cache;
+                cache.Load(Cache[CurrentItemsIndex]);
+
                 PageNumberDisplay.Text = GetPageNumberText();
+            }
+
+            if (!Cache.ContainsKey(CurrentItemsIndex + 1)) {
+                NextPageButton.IsEnabled = false;
             }
         }
 
         private void GoBack(object? sender, RoutedEventArgs e) {
-            CurrentItemsIndex--;
+            if (CurrentItemsIndex - 1 > 0) {
+                CurrentItemsIndex--;
+                NextPageButton.IsEnabled = true;
+            }
+
             if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
-                ListBox.Items = Cache[CurrentItemsIndex];
+                var cache = new ObservableCollection<object>();
+                ListBox.Items = cache;
+                cache.Load(Cache[CurrentItemsIndex]);
+
                 PageNumberDisplay.Text = GetPageNumberText();
+            }
+
+            if (!Cache.ContainsKey(CurrentItemsIndex - 1)) {
+                BackButton.IsEnabled = false;
             }
         }
 
@@ -110,13 +135,13 @@ namespace wonderlab.control.Controls {
 
             ListBox = e.NameScope.Find<ListBox>("ItemsList")!;
             PageNumberDisplay = e.NameScope.Find<TextBlock>("display")!;
-            e.NameScope.Find<Button>("BackButton")!.Click += GoBack;
-            e.NameScope.Find<Button>("NextPageButton")!.Click += GoNextPage;
+            BackButton = e.NameScope.Find<Button>("BackButton")!;
+            BackButton!.Click += GoBack;
 
-            //Dispatcher.UIThread.Post(() => {
-            //    ListBox.Items = Cache[CurrentItemsIndex];
-            //    PageNumberDisplay.Text = GetPageNumberText();
-            //});
+            NextPageButton = e.NameScope.Find<Button>("NextPageButton")!;
+            NextPageButton!.Click += GoNextPage;
+
+            BackButton.IsEnabled = false;
         }
 
         protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
@@ -132,7 +157,9 @@ namespace wonderlab.control.Controls {
                 SplitListToDictionary();
 
                 if (ListBox is not null && PageNumberDisplay is not null) {
-                    ListBox.Items = Cache[CurrentItemsIndex];
+                    var cache = new ObservableCollection<object>();
+                    ListBox.Items = cache;
+                    cache.Load(Cache[CurrentItemsIndex]);
                     PageNumberDisplay.Text = GetPageNumberText();
                 }
             }

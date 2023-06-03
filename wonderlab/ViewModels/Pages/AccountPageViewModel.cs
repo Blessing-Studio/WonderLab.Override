@@ -7,6 +7,8 @@ using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Toolkits;
 using System.Linq;
+using wonderlab.control;
+using System.Threading.Tasks;
 
 namespace wonderlab.ViewModels.Pages {
     public class AccountPageViewModel : ViewModelBase {
@@ -24,11 +26,10 @@ namespace wonderlab.ViewModels.Pages {
             App.CurrentWindow.DialogHost.Auth.Start();
         }
 
-        public void Init() {
-            Dispatcher.UIThread.Post(async () => {
+        public async void Init() {
+            await Task.Run(async () => {
                 GameAccounts = (await AccountUtils.GetAsync(true).ToListAsync()).ToObservableCollection();
-
-                if (!GameAccounts.IsNull() && GameAccounts.Count >= 1) {
+                if (GameAccounts.Count > 0) {
                     CurrentGameAccount = GameAccounts.First();
                 }
             });

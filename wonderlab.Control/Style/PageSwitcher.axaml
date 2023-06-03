@@ -24,6 +24,7 @@
 
 						<ListBox Background="Transparent"
 								 VerticalAlignment="Top"
+								 VirtualizationMode="None"
 								 ClipToBounds="False"
 		                         Name="ItemsList"/>
 						

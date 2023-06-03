@@ -15,6 +15,7 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.control;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {

@@ -23,8 +23,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using wonderlab.Class.AppData;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
