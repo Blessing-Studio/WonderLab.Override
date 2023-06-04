@@ -159,14 +159,11 @@ namespace wonderlab.ViewModels.Pages {
             };
 
             JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
-
             using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => { 
                 Trace.WriteLine($"[信息] {x.Item2}");
                 data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
                 data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
             });
-
-            data.TimerStop();
 
             data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
@@ -190,6 +187,7 @@ namespace wonderlab.ViewModels.Pages {
                 data.Progress = $"启动失败 - 100%";
                 $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
             }
+            data.TimerStop();
 
             async ValueTask DownloadAuthlibAsync() {
                 data.Progress = "下载 Authlib-Injector 中";

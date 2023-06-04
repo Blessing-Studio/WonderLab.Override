@@ -156,7 +156,7 @@ namespace wonderlab.control.Controls {
                 GetTotalPageNumber();
                 SplitListToDictionary();
 
-                if (ListBox is not null && PageNumberDisplay is not null) {
+                if (ListBox is not null && PageNumberDisplay is not null && Cache.Count > 0) {
                     var cache = new ObservableCollection<object>();
                     ListBox.Items = cache;
                     cache.Load(Cache[CurrentItemsIndex]);
