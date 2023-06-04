@@ -11,7 +11,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.control.Animation;
-using wonderlab.control.Controls.Dialog.Events;
 using wonderlab.control.Interface;
 
 namespace wonderlab.control.Controls.Dialog {
@@ -41,7 +40,7 @@ namespace wonderlab.control.Controls.Dialog {
         public string CustomButtonText { get => GetValue(CustomButtonTextProperty); set => SetValue(CustomButtonTextProperty, value); }
 
         //Event
-        public event EventHandler<CloseButtonClick>? CloseButtonClick;
+        public event EventHandler<EventArgs>? CloseButtonClick;
 
         public event EventHandler<EventArgs>? CustomButtonClick;
 

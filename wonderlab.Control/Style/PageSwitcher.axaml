@@ -38,7 +38,8 @@
 									Height="25"
 									Margin="10 0"
 									Padding="0"
-									Name="BackButton">
+									Name="BackButton"
+									HorizontalContentAlignment="Center">
 								<Viewbox Width="12">
 									<PathIcon Data="{StaticResource GoBack}"/>
 								</Viewbox>
@@ -55,7 +56,8 @@
 									Margin="10 0"
 									Padding="0"
 									Name="NextPageButton"
-									Classes="wonderaccentbutton">
+									Classes="wonderaccentbutton"
+									HorizontalContentAlignment="Center">
 								<Viewbox HorizontalAlignment="Right"
 										 Height="12"
 										 Width="12">

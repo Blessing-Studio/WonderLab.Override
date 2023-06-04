@@ -20,4 +20,5 @@
 	<StyleInclude Source="/Style/Bar/TitleBarStyle.axaml"/>
 	<StyleInclude Source="/Style/Dialog/AccountDialogStyle.axaml"/>
 	<StyleInclude Source="/Style/PageSwitcher.axaml"/>
+	<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
 </Styles>

@@ -44,12 +44,6 @@ namespace wonderlab.control.Controls {
         public PageSwitcher() {
         }
 
-        public PageSwitcher(IEnumerable items) {
-            Items = items;
-            GetTotalPageNumber();
-            SplitListToDictionary();
-        }
-
         private string GetPageNumberText() {
             return $"{CurrentItemsIndex} / {Total}";
         }

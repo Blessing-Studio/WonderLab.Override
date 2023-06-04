@@ -12,7 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.control.Controls.Dialog;
-using wonderlab.control.Controls.Dialog.Events;
 
 namespace wonderlab.control.Controls
 {

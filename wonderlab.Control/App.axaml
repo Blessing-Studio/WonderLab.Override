@@ -12,11 +12,13 @@
 		<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
 		<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
 		<StyleInclude Source="/Style/Dialog/AccountDialogStyle.axaml"/>
+		<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
     </Application.Styles>
 	
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://wonderlab.Control/Theme/BasicResource.axaml"/>
 				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 			</ResourceDictionary.MergedDictionaries>

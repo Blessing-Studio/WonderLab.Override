@@ -1,21 +1,30 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Padding="20">
+        <Border Width="100" Height="100">
             <!-- Add Controls for Previewer Here -->
-			<Button Classes="shadow" Content="Minecraft Launch"/>
+			<Button
+			   Classes="wonderaccentbutton"
+			   Padding="4"
+			   HorizontalAlignment="Stretch"
+			   VerticalAlignment="Stretch"
+			   HorizontalContentAlignment="Stretch"
+			   VerticalContentAlignment="Stretch"
+			   BorderThickness="1"
+			   CornerRadius="4"
+			   IsEnabled="False"/>
         </Border>
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-	<Style Selector="Button.wonderaccentbutton">
+	<Style Selector="Button">
 		<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 		<Setter Property="HorizontalAlignment" Value="Center"/>
-		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="Foreground" Value="Black"/>
 		<Setter Property="CornerRadius" Value="3"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
-		<Setter Property="HorizontalContentAlignment" Value="Center"/>
-		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 		<Setter Property="Transitions">
 			<Transitions>
 				<BrushTransition Duration="0:0:0.45" Property="Background" Easing="ExponentialEaseOut"/>
@@ -26,7 +35,8 @@
 			<ControlTemplate>
 				<Grid>
 					<Border Background="{TemplateBinding Background}" 
-							CornerRadius="{TemplateBinding CornerRadius}" HorizontalAlignment="Stretch"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"/>
 
 					<Border Name="pointerover" HorizontalAlignment="Stretch"
@@ -37,33 +47,34 @@
 							</Transitions>
 						</Border.Transitions>
 					</Border>
-					
-					<ContentPresenter
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
-                                  Padding="{TemplateBinding Padding}"
-							      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-							      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+					<ContentPresenter 
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      CornerRadius="{TemplateBinding CornerRadius}"
+                                      Padding="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
 				</Grid>
 			</ControlTemplate>
 		</Setter>
 	</Style>
 
-	<Style Selector="Button.wonderaccentbutton /template/ Border#pointerover">
+	<Style Selector="Button /template/ Border#pointerover">
 		<Setter Property="Background" Value="Transparent"/>
 	</Style>
 
-	<Style Selector="Button.wonderaccentbutton:pointerover /template/ Border#pointerover">
+	<Style Selector="Button:pointerover /template/ Border#pointerover">
 		<Setter Property="Background" Value="#7FFFFFFF"/>
 	</Style>
 
-	<Style Selector="Button.wonderaccentbutton:pressed /template/ Border#pointerover">
+	<Style Selector="Button:pressed /template/ Border#pointerover">
 		<Setter Property="Background" Value="#33FFFFFF"/>
 	</Style>
-	
+
+	<Style Selector="Button:disabled">
+		<Setter Property="Background" Value="{DynamicResource AccentBrushDark3}"/>
+	</Style>
 	<!--#00FFFFFF-->
 	<Style Selector="Button.transparent">
 		<Setter Property="Background" Value="Transparent" />

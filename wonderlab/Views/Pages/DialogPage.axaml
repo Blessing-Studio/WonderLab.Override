@@ -22,6 +22,7 @@
 						   Accounts="{Binding GameAccounts}"
 						   SelectedCommand="{Binding SelectAccountAction}"/>
 		
+		<wcd:AccountTypeDialog Name="AccountTypeDialog"/>
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>
 				<Grid>

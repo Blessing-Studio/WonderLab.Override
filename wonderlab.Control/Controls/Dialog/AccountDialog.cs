@@ -26,16 +26,11 @@ namespace wonderlab.control.Controls.Dialog {
 
         public IEnumerable Accounts { get => GetValue(AccountsProperty); set => SetValue(AccountsProperty, value); }
 
-        //public object SelectedAccount { get => GetValue(SelectedAccountProperty); set => SetValue(SelectedAccountProperty, value); }
-
         public static readonly StyledProperty<ICommand> SelectedCommandProperty =
             AvaloniaProperty.Register<AccountDialog, ICommand>(nameof(SelectedCommand));
 
         public static readonly StyledProperty<IEnumerable> AccountsProperty =
             AvaloniaProperty.Register<AccountDialog, IEnumerable>(nameof(Accounts));
-
-        //public static readonly StyledProperty<object> SelectedAccountProperty =
-        //    AvaloniaProperty.Register<AccountDialog, object>(nameof(SelectedAccount));
 
         public void HideDialog() {
             SelectButton.IsEnabled = false;

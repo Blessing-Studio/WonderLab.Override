@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.control.Animation;
-using wonderlab.control.Controls.Dialog.Events;
 using wonderlab.control.Interface;
 
 namespace wonderlab.control.Controls.Dialog

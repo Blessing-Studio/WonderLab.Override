@@ -131,6 +131,8 @@
 					<Button Content="{Binding NotificationCountText}"
 							Margin="15 0 15 0"
 							Background="Transparent"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
 							Name="NotificationCenterButton">
 						<Button.Styles>
 							<Style Selector="Button">
@@ -161,7 +163,8 @@
 															 Margin="0 0 10 0"
 															 Foreground="{DynamicResource AccentBrushDark1}"/>
 
-												<TextBlock Grid.Column="1"														   
+												<TextBlock Grid.Column="1"		
+														   Foreground="Black"
 														   VerticalAlignment="Center"
 														   Text="{TemplateBinding Content}"/>
 											</Grid>

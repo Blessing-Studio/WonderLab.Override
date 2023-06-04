@@ -256,11 +256,12 @@
 								Spacing="10"
 								HorizontalAlignment="Stretch">
 						
-						<Button Command="{Binding ImportModpacksAction}" HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
+						<Button Command="{Binding ImportModpacksAction}"
+								HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
 							<Grid>																
 								<Viewbox Width="10" HorizontalAlignment="Left"
 										 VerticalAlignment="Center">
-									<PathIcon Foreground="White" Data="{StaticResource Import}"/>
+									<PathIcon Foreground="Black" Data="{StaticResource Import}"/>
 								</Viewbox>
 								
 								<TextBlock Text="导入现有整合包" 
@@ -273,7 +274,7 @@
 							<Grid>
 								<Viewbox Width="10" HorizontalAlignment="Left"
 										 VerticalAlignment="Center">
-									<PathIcon Foreground="White" Data="{StaticResource Export}"/>
+									<PathIcon Foreground="Black" Data="{StaticResource Export}"/>
 								</Viewbox>
 								<TextBlock Text="导出当前核心"
 		                                   Margin="20 0 0 0" FontSize="13"
@@ -317,6 +318,7 @@
 						VerticalAlignment="Center"
 					    Width="100" Margin="15 0 0 0"
 						Classes="wonderaccentbutton"
+						HorizontalContentAlignment="Center"
 						Name="LaunchButton"
 						Background="{DynamicResource AccentBrushDark1}">
 					<Button.RenderTransform>
@@ -379,13 +381,19 @@
 													<RowDefinition Height="1*"/>
 												</Grid.RowDefinitions>
 
-												<TextBlock FontSize="10" Opacity="0.65"
-														   Text="当前核心" HorizontalAlignment="Right"/>
+												<TextBlock FontSize="10"
+														   Opacity="0.65"
+														   Text="当前核心"
+														   Foreground="Black"
+														   HorizontalAlignment="Right"/>
 
-												<TextBlock FontSize="12" Grid.Row="2" TextTrimming="CharacterEllipsis"
+												<TextBlock FontSize="12" 
+														   Grid.Row="2" 
+														   TextTrimming="CharacterEllipsis"
 														   Text="{Binding SelectGameCoreId}"
 														   FontWeight="SemiBold"
-														   TextAlignment="Right"/>
+														   TextAlignment="Right"
+														   Foreground="Black"/>
 											</Grid>
 										</Border>
 									</ControlTemplate>

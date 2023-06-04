@@ -7,6 +7,5 @@
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control">
-	<wcc:Parallax3dImage Margin="-100" 
-		Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\1229774.jpg"/>
+	<wcd:AccountTypeDialog/>
 </Window>

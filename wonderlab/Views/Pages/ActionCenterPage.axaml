@@ -114,7 +114,9 @@
 							</Grid>
 						</Button>
 
-						<Button Command="{Binding OpenUserPageAction}" Height="170" Width="180" Classes="shadowbutton">
+						<Button Command="{Binding OpenUserPageAction}"
+								Foreground="Black"
+								Height="170" Width="180" Classes="shadowbutton">
 							<Grid Margin="10">
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto"/>
@@ -122,9 +124,15 @@
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Text="账户中心" FontSize="20" FontWeight="SemiBold"/>
+								<TextBlock Text="账户中心"
+										   FontSize="20" 	
+										   HorizontalAlignment="Left"
+										   FontWeight="SemiBold"/>
 
-								<Viewbox Grid.Row="2" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+								<Viewbox Grid.Row="2" 
+										 Width="100"
+										 HorizontalAlignment="Right"
+										 VerticalAlignment="Bottom">
 									<PathIcon Data="{StaticResource	Account}"/>
 								</Viewbox>
 							</Grid>

@@ -4,7 +4,7 @@
     <Design.PreviewWith>
         <Border Height="450" Width="800">
             <!-- Add Controls for Previewer Here -->
-			<wc:MessageDialog/>
+			<wc:MessageDialog/>  
         </Border>
     </Design.PreviewWith>	   
 	
