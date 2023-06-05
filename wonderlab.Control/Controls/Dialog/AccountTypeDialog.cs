@@ -78,6 +78,7 @@ namespace wonderlab.control.Controls.Dialog {
             MicrosoftButton.Click += OnClick;
             YggdrasilButton.Click += OnClick;
             e.NameScope.Find<Button>("CloseButton")!.Click += OnClick;
+            HideDialog();
         }
 
         private void OnClick(object? sender, RoutedEventArgs e) {

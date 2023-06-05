@@ -20,7 +20,7 @@
 	<Style Selector="Button">
 		<Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
 		<Setter Property="HorizontalAlignment" Value="Center"/>
-		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="Foreground" Value="White"/>
 		<Setter Property="CornerRadius" Value="3"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -112,6 +112,7 @@
 
 	<Style Selector="Button.shadowbutton">
 		<Setter Property="CornerRadius" Value="6"/>
+		<Setter Property="Foreground" Value="Black" />
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="Template">
 			<ControlTemplate>

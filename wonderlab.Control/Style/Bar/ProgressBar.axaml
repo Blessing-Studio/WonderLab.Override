@@ -364,8 +364,9 @@
 
 
 	<Design.PreviewWith>
-		<Grid Height="100" Width="100">
-			<ProgressBar Classes="Circle" Height="20" IsIndeterminate="True" Width="20" />
+		<Grid Height="600" Width="600">
+			<ProgressBar Classes="Circle" Height="260"
+						 IsIndeterminate="True" Width="260" />
 		</Grid>
 	</Design.PreviewWith>
 </Styles>

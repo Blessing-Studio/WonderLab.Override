@@ -7,5 +7,15 @@
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control">
-	<wcd:AccountTypeDialog/>
+	<Grid>
+		<wcd:ValidationDialog Name="vd"/>
+		<Button Name="mic" Content="Show MicrosoftDialog!" VerticalAlignment="Bottom"
+				HorizontalAlignment="Left"/>
+		
+		<Button Name="off" Content="Show OfflineDialog!" VerticalAlignment="Bottom"
+				HorizontalAlignment="Right"/>
+
+		<Button Name="ygg" Content="Show YggdrasilDialog!" VerticalAlignment="Bottom"
+		        HorizontalAlignment="Center"/>
+	</Grid>
 </Window>

@@ -13,8 +13,9 @@
 		<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
 		<StyleInclude Source="/Style/Dialog/AccountDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
+		<StyleInclude Source="/Style/Dialog/ValidationDialogStyle.axaml"/>
     </Application.Styles>
-	
+
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

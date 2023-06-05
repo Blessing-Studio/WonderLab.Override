@@ -22,7 +22,18 @@
 						   Accounts="{Binding GameAccounts}"
 						   SelectedCommand="{Binding SelectAccountAction}"/>
 		
-		<wcd:AccountTypeDialog Name="AccountTypeDialog"/>
+		<wcd:AccountTypeDialog Name="AccountTypeDialog"
+							   OfflineCommand="{Binding	OfflineSelectedAction}"
+							   YggdrasilCommand="{Binding YggdrasilSelectedAction}"
+							   MicrosoftCommand="{Binding MicrosoftSelectedAction}"/>
+		
+		<wcd:ValidationDialog Name="Validation"		
+							  DeviceCode="{Binding DeviceCodeText}"
+							  CancelCommand="{Binding CancelAction}"
+							  IsCodeLoading="{Binding IsCodeLoading}"
+							  ValidationWriteCommand="{Binding GoWriteAction}"
+							  ValidationMicrosoftCommand="{Binding GoValidationLinkAction}"/>
+		
 		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
 			<wcd:UpdateDialog.Message>
 				<Grid>

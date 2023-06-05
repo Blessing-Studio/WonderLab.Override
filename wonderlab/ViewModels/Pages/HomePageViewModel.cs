@@ -99,6 +99,13 @@ namespace wonderlab.ViewModels.Pages {
             if (user.Count > 1) {
                 App.CurrentWindow.DialogHost.AccountDialog.ShowDialog();
                 return;
+            } else if (user.Count <= 0) {
+                "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！".ShowMessage("提示", async () => {
+                    OpenActionCenterAction();
+                    await Task.Delay(1000);
+                    new AccountPage().Navigation();
+                });
+                return;
             }
 
             CurrentAccount = user.First().Data.ToAccount();

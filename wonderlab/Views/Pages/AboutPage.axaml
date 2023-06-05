@@ -105,7 +105,7 @@
 						Text="灵感出处" />
  
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="9">
-						<TextBlock Text="部分 UI 参考自碧蓝档案"/>
+						<TextBlock Text="UI 风格参考自碧蓝档案"/>
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="部分 UI 参考自 "/>

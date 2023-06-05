@@ -6,7 +6,7 @@
             <!-- Add Controls for Previewer Here -->			
         </Border>
     </Design.PreviewWith>
-
+	
     <!-- Add Styles Here -->
 	<Style Selector="wc|AccountTypeDialog">
 		<Setter Property="Template">
@@ -53,10 +53,11 @@
 								</TextBlock>
 
 								<Button Background="Transparent" 
-										HorizontalAlignment="Right"
+										HorizontalAlignment="Right"										
 										Margin="10 10 10 0" Name="CloseButton">
 									<Viewbox Width="15">
-										<PathIcon Data="{StaticResource	Fork}"/>
+										<PathIcon Data="{StaticResource	Fork}"
+												  Foreground="Black"/>
 									</Viewbox>
 								</Button>
 								
@@ -75,7 +76,6 @@
 											Classes="wonderaccentbutton"
 											HorizontalAlignment="Stretch" 
 											HorizontalContentAlignment="Center"											
-						    				Foreground="{TemplateBinding Foreground}"
 											Command="{TemplateBinding MicrosoftCommand}"/>
 
 									<Button FontSize="12"
@@ -84,7 +84,6 @@
 											Name="OfflineButton"											
 									        HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"											
-											Foreground="{TemplateBinding Foreground}"
 											Command="{TemplateBinding OfflineCommand}"
 											Background="{DynamicResource AccentBrushDark1}"/>
 
@@ -94,7 +93,6 @@
 											Name="YggdrasilButton"											
 		                                    HorizontalAlignment="Stretch"
 		                                    HorizontalContentAlignment="Center"											
-		                                    Foreground="{TemplateBinding Foreground}"
 											Command="{TemplateBinding YggdrasilCommand}"
 											Background="{DynamicResource AccentBrushDark2}"/>
 
