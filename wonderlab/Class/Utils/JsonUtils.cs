@@ -1,6 +1,7 @@
 ﻿using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 
@@ -13,21 +14,28 @@ namespace wonderlab.Class.Utils {
         public static string TempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "wonderlab", "temp");
 
         public static async void CreateLaunchInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launchdata.wld");
-            DirectoryCheck();
+            try {
+                var jsonPath = Path.Combine(DataPath, "launchdata.wld");
+                DirectoryCheck();
 
-            if (!File.Exists(jsonPath)) {
-                File.Create(jsonPath).Close();
-                jsonPath.WriteCompressedText(new LaunchInfoDataModel().ToJson());
-                GlobalResources.LaunchInfoData = new();
-                return;
+                if (!File.Exists(jsonPath)) {
+                    File.Create(jsonPath).Close();
+                    jsonPath.WriteCompressedText(new LaunchInfoDataModel().ToJson());
+                    GlobalResources.LaunchInfoData = new();
+                    return;
+                }
+
+                var json = await jsonPath.ReadCompressedText();
+                GlobalResources.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
+
+                if (GlobalResources.LaunchInfoData.IsNull()) {
+                    GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
+                }
+                throw new Exception("");
             }
-
-            var json = await jsonPath.ReadCompressedText();
-            GlobalResources.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
-
-            if (GlobalResources.LaunchInfoData.IsNull()) {
-                GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
+            catch (Exception) {
+                await Task.Delay(500);
+                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意".ShowInfoDialog("程序遭遇了异常");
             }
         }
 
@@ -39,20 +47,26 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async void CreateLauncherInfoJson() {
-            var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
-            DirectoryCheck();
+            try {
+                var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
+                DirectoryCheck();
 
-            if (!File.Exists(jsonPath)) {
-                jsonPath.WriteCompressedText(new LauncherDataModel().ToJson());
-                GlobalResources.LauncherData = new();
-                return;
+                if (!File.Exists(jsonPath)) {
+                    jsonPath.WriteCompressedText(new LauncherDataModel().ToJson());
+                    GlobalResources.LauncherData = new();
+                    return;
+                }
+
+                var json = await jsonPath.ReadCompressedText();
+                GlobalResources.LauncherData = json.ToJsonEntity<LauncherDataModel>();
+
+                if (GlobalResources.LauncherData.IsNull()) {
+                    GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+                }
             }
-
-            var json = await jsonPath.ReadCompressedText();
-            GlobalResources.LauncherData = json.ToJsonEntity<LauncherDataModel>();
-
-            if (GlobalResources.LauncherData.IsNull()) {
-                GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
+            catch (Exception) {
+                await Task.Delay(500);
+                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意".ShowInfoDialog("程序遭遇了异常");
             }
         }
 

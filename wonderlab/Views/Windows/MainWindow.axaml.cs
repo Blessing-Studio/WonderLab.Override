@@ -36,9 +36,6 @@ namespace wonderlab.Views.Windows {
             Drop.AddHandler(DragDrop.DropEvent, DropAction);
             try {
                 ThemeUtils.Init();
-                JsonUtils.CreateLaunchInfoJson();
-                JsonUtils.CreateLauncherInfoJson();
-
                 DataContext = ViewModel = new();
                 WindowWidth = Width;
                 WindowHeight = Height;
@@ -56,6 +53,8 @@ namespace wonderlab.Views.Windows {
                 DialogHost.MainDialog.CustomButtonClick += (_, _) => DialogHost.MainDialog.HideDialog();
                 DialogHost.MainDialog.CloseButtonClick += (_, _) => Close();
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
+                JsonUtils.CreateLaunchInfoJson();
+                JsonUtils.CreateLauncherInfoJson();
             }
             catch (Exception ex) {
                 $"初始化信息失败，错误信息如下：{ex.Message}".ShowMessage("Error");
