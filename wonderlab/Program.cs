@@ -41,9 +41,6 @@ namespace wonderlab {
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
-                .With(new FontManagerOptions {
-                    DefaultFamilyName = "resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
-                })
                 .With(new Win32PlatformOptions())
                 .With(new SkiaOptions());
     }
