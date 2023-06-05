@@ -4,11 +4,11 @@
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 			 xmlns:ml="using:MinecraftLaunch.Modules.Models.Launch"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650" Background="{x:Null}"
-             x:Class="wonderlab.Views.Pages.LaunchConfigPage">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850" Background="{x:Null}"
+             x:Class="wonderlab.Views.Pages.LaunchConfigPage" Margin="0 0 0 10">
 	<Grid>
 		<ScrollViewer Background="{x:Null}">
-			<StackPanel Margin="0 15 0 0" Spacing="15">
+			<StackPanel Margin="0 15 0 10" Spacing="15">
 				<Border Background="{DynamicResource DialogContentBackground}"
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
@@ -92,7 +92,7 @@
 											<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
 										</StackPanel>
 									</DataTemplate>
-								</ComboBox.DataTemplates>
+								</ComboBox.DataTemplates> 
 							</ComboBox>
 
 							<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
@@ -249,11 +249,41 @@
 
 						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
 							<TextBox MinWidth="100"
-									 Text="{Binding	WindowHeight}"/>
+		                             Text="{Binding WindowWidth}"/>
 							<TextBlock Text="X" HorizontalAlignment="Center"
 									   VerticalAlignment="Center"/>
 							<TextBox MinWidth="100"
-									 Text="{Binding WindowWidth}"/>							
+		                             Text="{Binding	WindowHeight}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+				
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Jvm 参数" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<TextBox MinWidth="230"
+									 Watermark="Jvm 参数，不懂的请不要瞎改"
+									 Text="{Binding JvmArgument}"/>						
 						</StackPanel>
 					</Grid>
 				</Border>

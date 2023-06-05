@@ -54,10 +54,10 @@ namespace wonderlab.ViewModels.Pages {
         public double PanelHeight { get; set; } = 0;
 
         [Reactive]
-        public GameCore SelectGameCore { get; set; }
+        public GameCoreViewData SelectGameCore { get; set; }
         
         [Reactive]
-        public ObservableCollection<GameCore> GameCores { get; set; } = new();
+        public ObservableCollection<GameCoreViewData> GameCores { get; set; } = new();
         
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(SearchCondition)) {
@@ -65,8 +65,8 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             if (e.PropertyName is nameof(SelectGameCore) && SelectGameCore != null) {
-                GlobalResources.LaunchInfoData.SelectGameCore = SelectGameCore.Id!;
-                SelectGameCoreId = SelectGameCore.Id!;
+                GlobalResources.LaunchInfoData.SelectGameCore = SelectGameCore.Data.Id!;
+                SelectGameCoreId = SelectGameCore.Data.Id!;
             }
         }
 
@@ -76,8 +76,8 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             GameCores.Clear();
-            GameCores = (await GameCoreUtils.SearchGameCoreAsync(GlobalResources.LaunchInfoData.GameDirectoryPath, text))
-                .Distinct().ToObservableCollection();
+            var result = (await GameCoreUtils.SearchGameCoreAsync(GlobalResources.LaunchInfoData.GameDirectoryPath, text)).Distinct();
+            GameCores.Load(result.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
 
             if (!GameCores.Any()) {
                 SearchSuccess = 1;
@@ -89,7 +89,7 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
-            GameCores.Load(cores);
+            GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
         }
 
         public async void SelectAccountAction() {
@@ -150,7 +150,7 @@ namespace wonderlab.ViewModels.Pages {
             var javaInfo = GetCurrentJava();
             var config = new LaunchConfig() {
                 JvmConfig = new() {
-                    AdvancedArguments = new List<string>() { GetJvmArguments() },
+                    AdvancedArguments = new List<string>() { GlobalResources.LaunchInfoData.JvmArgument, GetJvmArguments() },
                     MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
                     ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
                     : GlobalResources.LaunchInfoData.MaxMemory,

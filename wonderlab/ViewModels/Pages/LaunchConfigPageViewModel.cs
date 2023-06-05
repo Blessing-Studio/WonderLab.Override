@@ -50,6 +50,7 @@ namespace wonderlab.ViewModels.Pages {
                 IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
                 IsAutoGetMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory;
                 MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
+                JvmArgument = GlobalResources.LaunchInfoData.JvmArgument;
             }
             catch (Exception ex) {
                 $"{ex.Message}".ShowMessage();
@@ -92,6 +93,10 @@ namespace wonderlab.ViewModels.Pages {
             if (e.PropertyName is nameof(IsAutoGetMemory)) {
                 GlobalResources.LaunchInfoData.IsAutoGetMemory = IsAutoGetMemory;
             }
+
+            if (e.PropertyName is nameof(JvmArgument)) {
+                GlobalResources.LaunchInfoData.JvmArgument = JvmArgument;
+            }
         }
 
         [Reactive]
@@ -123,6 +128,9 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public string CurrentGameDirectory { get; set; }
+
+        [Reactive]
+        public string JvmArgument { get; set; }
 
         [Reactive]
         public ObservableCollection<JavaInfo> Javas { get; set; } = new();

@@ -428,31 +428,38 @@
 								<ColumnDefinition Width="1*"/>
 								<ColumnDefinition Width="1*"/>
 								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="1*"/>
 							</Grid.ColumnDefinitions>
+							<ToggleButton Content="设置"
+			                              Classes="left"
+			                              Background="Transparent"
+			                              HorizontalAlignment="Stretch"
+			                              IsChecked="true"/>
+
 							<ToggleButton Content="模组"
-										  Classes="left"
+										  Classes="center"
+										  Grid.Column="1"
 										  Background="Transparent"
 										  Command="{Binding	GoModPackAction}"
-										  HorizontalAlignment="Stretch"
-										  IsChecked="True"/>
+										  HorizontalAlignment="Stretch"/>
 
 							<ToggleButton Content="光影"
 										  Classes="center"
-										  Grid.Column="1"
+										  Grid.Column="2"
 										  Command="{Binding	GoSharePackAction}"
 										  HorizontalAlignment="Stretch"
 										  Background="Transparent"/>
 
 							<ToggleButton Content="存档"
 										  Classes="center"
-										  Grid.Column="2"
+										  Grid.Column="3"
 										  Command="{Binding	GoSaveAction}"
 										  HorizontalAlignment="Stretch"
 										  Background="Transparent"/>
 
 							<ToggleButton Content="资源包"
 										  Classes="right"
-										  Grid.Column="3"
+										  Grid.Column="4"
 										  Command="{Binding	GoResourePackAction}"
 										  HorizontalAlignment="Stretch"
 										  Background="Transparent"/>

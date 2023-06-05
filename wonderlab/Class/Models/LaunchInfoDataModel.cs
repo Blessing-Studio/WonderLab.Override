@@ -23,6 +23,9 @@ namespace wonderlab.Class.Models
         [JsonProperty("selectGameCore")]
         public string SelectGameCore { get; set; } = string.Empty;
 
+        [JsonProperty("jvmArgument")]
+        public string JvmArgument { get; set; } = string.Empty;
+
         [JsonProperty("maxMemory")]
         public int MaxMemory { get; set; } = 1024;
 

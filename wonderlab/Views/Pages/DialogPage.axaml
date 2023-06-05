@@ -14,8 +14,6 @@
 
 		<wcdx:GameInstallDialog Name="Install"/>
 
-		<wcdx:UserAuthDialog Name="Auth"/>
-
 		<wcdx:GameCrashInfoDialog Name="GameCrashInfo"/>
 
 		<wcd:AccountDialog Name="AccountDialog"

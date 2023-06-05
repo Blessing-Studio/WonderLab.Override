@@ -82,15 +82,15 @@
 										<Setter Property="CornerRadius" Value="4"/>
 										<Setter Property="ContextMenu">
 								         	<ContextMenu>
-								         		<MenuItem Command="{Binding	MinecraftStopAction}" 
+								         		<MenuItem Command="{Binding	OpenFolderAction}" 
 														  Header="打开游戏核心的根目录"/>
 
-												<MenuItem Command="{Binding	MinecraftStopAction}"
+												<!--<MenuItem Command="{Binding	MinecraftStopAction}"
 		                                                  Header="重命名"/>
 												<MenuItem Command="{Binding	MinecraftStopAction}"
 		                                                  Header="删除"/>
 												<MenuItem Command="{Binding	MinecraftStopAction}"
-		                                                  Header="属性"/>
+		                                                  Header="属性"/>-->
 								         	</ContextMenu>
 										</Setter>
 										<Setter Property="Template">
@@ -130,7 +130,7 @@
 																	<ColumnDefinition Width="10"/>
 																	<ColumnDefinition Width="Auto"/>
 																</Grid.ColumnDefinitions>
-																<TextBlock Text="{Binding Id}" FontSize="17"
+																<TextBlock Text="{Binding Data.Id}" FontSize="17"
 																		   VerticalAlignment="Center"
 																		   TextTrimming="CharacterEllipsis"/>
 
@@ -139,7 +139,7 @@
 																		HorizontalAlignment="Left">
 																	<Grid VerticalAlignment="Center" Margin="6 0">
 																		<TextBlock FontSize="13"
-																				   Text="{Binding Source}" TextAlignment="Left"
+																				   Text="{Binding Data.Source}" TextAlignment="Left"
 																				   TextTrimming="CharacterEllipsis"/>
 																	</Grid>
 																</Border>
