@@ -12,6 +12,8 @@ using Avalonia.Threading;
 using Avalonia.Input;
 using wonderlab.Views.Windows;
 using wonderlab.Class.AppData;
+using MinecraftLaunch.Modules.Toolkits;
+using wonderlab.Class.ViewData;
 
 namespace wonderlab.Views.Pages
 {
@@ -38,7 +40,7 @@ namespace wonderlab.Views.Pages
         private void GoConfigClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             Button? button = sender as Button;
             App.CurrentWindow.CloseTopBar();
-            new GameCoreConfigPage((button!.DataContext! as GameCore)!)!.Navigation();
+            new GameCoreConfigPage((button!.DataContext! as GameCoreViewData)!)!.Navigation();
         }
 
         private async void CloseClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
@@ -67,7 +69,7 @@ namespace wonderlab.Views.Pages
                 return;
             }
 
-            if (GlobalResources.LaunchInfoData.JavaRuntimePath is null && !GlobalResources.LaunchInfoData.IsAutoSelectJava) {
+            if (!GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() || GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
                 "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
                 return;
             }

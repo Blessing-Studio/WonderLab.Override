@@ -4,6 +4,7 @@ using Avalonia.Media;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
 using System.Threading.Tasks;
+using wonderlab.Class.ViewData;
 using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
 
@@ -27,7 +28,7 @@ namespace wonderlab.Views.Pages
             }
         }
 
-        public GameCoreConfigPage(GameCore core) { 
+        public GameCoreConfigPage(GameCoreViewData core) { 
             InitializeComponent();
             DataContext = ViewModel = new(core);
 

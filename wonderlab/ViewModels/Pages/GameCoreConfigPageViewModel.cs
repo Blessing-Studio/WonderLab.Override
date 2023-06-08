@@ -1,23 +1,25 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
     public class GameCoreConfigPageViewModel : ViewModelBase {
-        public GameCoreConfigPageViewModel(GameCore core) {
+        public GameCoreConfigPageViewModel(GameCoreViewData core) {
             PropertyChanged += OnPropertyChanged;
 
-            Current = core;
-            CurrentPage = new ModConfigPage(core);
+            Current = core.Data;
+            CurrentPage = new ModConfigPage(core.Data);
 
             try {
                 AsyncRunAction();
-                ModLoaders = core.HasModLoader ? string.Join(",", core.ModLoaderInfos.Select(x => x.ModLoaderType)) : "Vanllia";
+                ModLoaders = core.Data.HasModLoader ? string.Join(",", core.Data.ModLoaderInfos.Select(x => x.ModLoaderType)) : "Vanllia";
             }
             catch (Exception) {
 
@@ -41,8 +43,10 @@ namespace wonderlab.ViewModels.Pages {
         public string GameCoreTotalSize { get; set; } = "0.00 MB";
 
         public async void AsyncRunAction() {
-            var result = await GameCoreUtils.GetTotalSizeAsync(Current);
-            GameCoreTotalSize = result;
+            if (!Current.IsNull()) {
+                var result = await GameCoreUtils.GetTotalSizeAsync(Current);
+                GameCoreTotalSize = result;
+            }
         }
 
         public override void GoBackAction() {
