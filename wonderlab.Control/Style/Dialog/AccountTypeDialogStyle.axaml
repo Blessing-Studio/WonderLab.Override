@@ -1,0 +1,107 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wc="using:wonderlab.control.Controls.Dialog">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->			
+        </Border>
+    </Design.PreviewWith>
+	
+    <!-- Add Styles Here -->
+	<Style Selector="wc|AccountTypeDialog">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border>
+					<Grid>
+						<Border Background="{DynamicResource DialogBackground}"
+		                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+		                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+		                        Name="BackgroundBorder" Opacity="0.5"/>
+
+						<!--DialogContent-->
+						<Border Background="{DynamicResource DialogContentBackground}"
+								BoxShadow="0 8 32 0 #66000000"
+								Margin="20 25"
+								CornerRadius="8"
+								HorizontalAlignment="Center"
+								BorderThickness="1"
+								BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center"
+								MinHeight="100"
+								MinWidth="400"
+								Name="DialogContent">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="1*"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<TextBlock FontSize="18"
+		                                   FontWeight="Bold"
+		                                   Text="账户类型选择"
+									       Margin="16 16 16 0"		                                   		                                   
+										   HorizontalAlignment="Center">
+									<TextBlock.TextDecorations>
+										<TextDecorationCollection>
+											<TextDecoration StrokeThickness="2"
+															StrokeOffset="2"
+														    StrokeOffsetUnit="Pixel"
+															StrokeThicknessUnit="Pixel"
+															Stroke="{DynamicResource AccentBrush}"/>
+										</TextDecorationCollection>
+									</TextBlock.TextDecorations>
+								</TextBlock>
+
+								<Button Background="Transparent" 
+										HorizontalAlignment="Right"										
+										Margin="10 10 10 0" Name="CloseButton">
+									<Viewbox Width="15">
+										<PathIcon Data="{StaticResource	Fork}"
+												  Foreground="Black"/>
+									</Viewbox>
+								</Button>
+								
+								<TextBlock Grid.Row="1"
+										   Margin="16 5 16 10"
+										   TextAlignment="Center"
+										   Text="请选择一个账户类型以供下一步信息填写，注意，请始终考虑使用正版账户"/>
+
+								<Grid Grid.Row="2"
+	                                  Margin="16 0 16 16"
+	                                  HorizontalAlignment="Stretch"
+	                                  ColumnDefinitions="1*,10,1*,10,1*">
+									<Button FontSize="12"
+											Content="微软账户"		
+		                                    Name="MicrosoftButton"											
+											Classes="wonderaccentbutton"
+											HorizontalAlignment="Stretch" 
+											HorizontalContentAlignment="Center"											
+											Command="{TemplateBinding MicrosoftCommand}"/>
+
+									<Button FontSize="12"
+											Grid.Column="2"
+											Content="离线账户"		
+											Name="OfflineButton"											
+									        HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"											
+											Command="{TemplateBinding OfflineCommand}"
+											Background="{DynamicResource AccentBrushDark1}"/>
+
+									<Button FontSize="12"
+		                                    Grid.Column="4"
+											Content="第三方账户"																						
+											Name="YggdrasilButton"											
+		                                    HorizontalAlignment="Stretch"
+		                                    HorizontalContentAlignment="Center"											
+											Command="{TemplateBinding YggdrasilCommand}"
+											Background="{DynamicResource AccentBrushDark2}"/>
+
+								</Grid>
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

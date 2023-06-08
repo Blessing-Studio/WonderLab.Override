@@ -1,0 +1,176 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:converters="clr-namespace:wonderlab.control.Converters"
+		xmlns:wc="using:wonderlab.control.Controls.Dialog">
+    <Design.PreviewWith>
+        <Border Height="450" Width="800">
+            <!-- Add Controls for Previewer Here -->
+			<wc:ValidationDialog/>
+        </Border>
+    </Design.PreviewWith>
+
+	<Styles.Resources>
+		<converters:ValidationWatermarkConverter x:Key="ValidationWatermarkConverter"/>
+	</Styles.Resources>
+	
+    <!-- Add Styles Here -->
+	<Style Selector="wc|ValidationDialog">
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="ValidationType" Value="Yggdrasil"/>
+		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border>
+					<Grid>
+						<Border Background="{DynamicResource DialogBackground}"
+		                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+		                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+		                        Name="BackgroundBorder" Opacity="0.5"/>
+
+						<!--DialogContent-->
+						<Border Background="{DynamicResource DialogContentBackground}"
+								BoxShadow="0 8 32 0 #66000000"
+								Margin="20 25"
+								CornerRadius="8"
+								HorizontalAlignment="Center"
+								BorderThickness="1"
+								BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center"
+								MinHeight="100"
+								MinWidth="400"
+								Name="DialogContent">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="1*"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<TextBlock FontSize="18"
+		                                   FontWeight="Bold"
+		                                   Text="创建新的账户"
+									       Margin="16 16 16 0"
+										   HorizontalAlignment="Center">
+									<TextBlock.TextDecorations>
+										<TextDecorationCollection>
+											<TextDecoration StrokeThickness="2"
+															StrokeOffset="2"
+														    StrokeOffsetUnit="Pixel"
+															StrokeThicknessUnit="Pixel"
+															Stroke="{DynamicResource AccentBrush}"/>
+										</TextDecorationCollection>
+									</TextBlock.TextDecorations>
+								</TextBlock>
+
+								<Grid Grid.Row="1" Margin="16 10 16 10">
+									<Grid IsVisible="False"
+										  Name="WritePanel">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto"/>											
+											<RowDefinition Height="Auto"/>
+											<RowDefinition Height="Auto"/>
+										</Grid.RowDefinitions>
+
+										<TextBox Grid.Row="0"
+												 Margin="0 0 0 10"
+												 Name="YggdrasilUrl"
+												 Watermark="皮肤站认证地址"
+												 Text="{TemplateBinding YggdrasilUri}"/>
+										
+										<TextBox Grid.Row="1"
+												 Margin="0 0 0 10"	
+												 Name="Name"
+												 Text="{TemplateBinding Email}"
+												 Watermark="{TemplateBinding ValidationType,Converter={StaticResource ValidationWatermarkConverter}}"/>
+										
+										<TextBox Grid.Row="2"
+												 Watermark="账户密码"
+												 Name="YggdrasilPassword"
+												 Text="{TemplateBinding Password}"/>
+									</Grid>
+
+									<Grid RowDefinitions="Auto,Auto"
+										  IsVisible="{TemplateBinding IsCodeLoading}">
+										<ProgressBar Classes="Circle"
+													 Margin="0 10"
+													 IsIndeterminate="True"/>
+										
+										<TextBlock Grid.Row="1"
+											       Text="Now Loading..."
+												   HorizontalAlignment="Center"/>
+									</Grid>
+
+									<Grid RowDefinitions="Auto,Auto,Auto"
+										  Name="CodePanel"
+										  IsVisible="False">
+										<TextBlock TextAlignment="Center"
+												   Text="请使用验证代码"/>
+										
+										<SelectableTextBlock Text="{TemplateBinding	DeviceCode}"
+															 FontSize="18"
+															 TextAlignment="Center"
+															 FontWeight="Bold"
+															 Grid.Row="1"
+															 HorizontalAlignment="Center"/>
+
+										<TextBlock TextAlignment="Center"
+												   Grid.Row="2">
+											<Run Text="访问验证网址以继续下一步验证操作"/>
+											<LineBreak/>
+											<Run Text="网址访问速度可能比较慢，但请务必在规定的时间内完成验证操作，否则此验证码将失效！"/>
+										</TextBlock>
+									</Grid>
+								</Grid>
+
+								<Grid Grid.Row="2"
+			                          Margin="16 0 16 16"
+			                          HorizontalAlignment="Stretch">
+									<!--离线 and 外置-->
+									<Grid ColumnDefinitions="1*,10,1*"
+										  IsVisible="False"
+										  Name="WritePanelButtons">
+										<Button FontSize="12"
+	                                            Content="取消"
+		                                        Classes="wonderaccentbutton"
+		                                        HorizontalAlignment="Stretch"												
+		                                        HorizontalContentAlignment="Center"		
+												Command="{TemplateBinding CancelCommand}"
+												Background="{DynamicResource ButtonBackground}"/>
+										
+										<Button FontSize="12"
+	                                            Content="确定"
+												Grid.Column="2"
+	                                            Classes="wonderaccentbutton"
+	                                            HorizontalAlignment="Stretch"
+	                                            HorizontalContentAlignment="Center"
+												Command="{TemplateBinding ValidationWriteCommand}"/>
+									</Grid>
+
+									<Grid ColumnDefinitions="1*,10,1*"
+										  IsVisible="True"
+										  Name="CodePanelButtons">
+										<Button FontSize="12"
+	                                            Content="取消"
+		                                        Classes="wonderaccentbutton"
+		                                        HorizontalAlignment="Stretch"
+		                                        HorizontalContentAlignment="Center"
+												Command="{TemplateBinding CancelCommand}"
+												Background="{DynamicResource ButtonBackground}"/>
+
+										<Button FontSize="12"
+	                                            Content="复制代码并打开浏览器"
+												Grid.Column="2"
+	                                            Classes="wonderaccentbutton"
+	                                            HorizontalAlignment="Stretch"
+	                                            HorizontalContentAlignment="Center"
+												Command="{TemplateBinding ValidationMicrosoftCommand}"/>
+									</Grid>
+								</Grid>		
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

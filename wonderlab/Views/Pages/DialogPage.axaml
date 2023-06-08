@@ -1,0 +1,56 @@
+<!--对话框终端页面-->
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		     xmlns:wcdx="using:wonderlab.Views.Dialogs"			 
+             x:Class="wonderlab.Views.Pages.DialogPage">
+	<Grid>
+		<wcd:MessageDialog CustomButtonText="继续使用"
+				   CloseButtonText="退出 WonderLab"
+				   x:Name="MainDialog"/>
+
+		<wcdx:GameInstallDialog Name="Install"/>
+
+		<wcdx:GameCrashInfoDialog Name="GameCrashInfo"/>
+
+		<wcd:AccountDialog Name="AccountDialog"
+						   Accounts="{Binding GameAccounts}"
+						   SelectedCommand="{Binding SelectAccountAction}"/>
+		
+		<wcd:AccountTypeDialog Name="AccountTypeDialog"
+							   OfflineCommand="{Binding	OfflineSelectedAction}"
+							   YggdrasilCommand="{Binding YggdrasilSelectedAction}"
+							   MicrosoftCommand="{Binding MicrosoftSelectedAction}"/>
+		
+		<wcd:ValidationDialog Name="Validation"		
+							  DeviceCode="{Binding DeviceCodeText}"
+							  CancelCommand="{Binding CancelAction}"
+							  IsCodeLoading="{Binding IsCodeLoading}"
+							  ValidationWriteCommand="{Binding GoWriteAction}"
+							  ValidationMicrosoftCommand="{Binding GoValidationLinkAction}"/>
+		
+		<wcd:UpdateDialog x:Name="UpdateDialog" UpdateProgress="{Binding DownloadProgress}" Title="有新的版本推送，版本编号 1.0.2.1">
+			<wcd:UpdateDialog.Message>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<ScrollViewer>
+						<StackPanel Spacing="5">
+							<TextBlock Name="BodyMessage" Text="添加一处动画细节"/>
+						</StackPanel>
+					</ScrollViewer>
+
+					<TextBlock FontSize="12" Opacity="0.75" Grid.Row="2"
+		                       Name="EndMessage" Text="于 2023-3-17 23:11 由 XiluBaka 修改并推送"/>
+
+				</Grid>
+			</wcd:UpdateDialog.Message>
+		</wcd:UpdateDialog>
+	</Grid>
+</UserControl>

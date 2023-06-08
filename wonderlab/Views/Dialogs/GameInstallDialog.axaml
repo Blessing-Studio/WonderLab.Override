@@ -1,0 +1,354 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+             x:Class="wonderlab.Views.Dialogs.GameInstallDialog">
+	<Grid>
+		<wcd:ContentDialog HorizontalContentAlignment="Center" 
+						   VerticalContentAlignment="Center"
+						   IsOpen="True" Name="InstallDialog">
+			<wcd:ContentDialog.Content>
+				<Grid>
+					<Border CornerRadius="8" IsHitTestVisible="True"
+						    IsVisible="True"
+							Width="570"
+							MaxHeight="300"
+							Background="{DynamicResource DialogContentBackground}"
+							BorderThickness="1"
+							BorderBrush="{DynamicResource DialogContentBorderBrush}">
+						<Grid>
+							<TextBlock Text="{Binding InstallerTitle}" Opacity="{Binding InstallerTitleOpacity}"
+									   Margin="15" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource	AccentBrush}">
+								<TextBlock.Transitions>
+									<Transitions>
+										<DoubleTransition Property="Opacity" Duration="0:0:0.35"/>
+									</Transitions>
+								</TextBlock.Transitions>
+							</TextBlock>
+
+							<ListBox IsVisible="{Binding ModLoaderVisible}"
+									 Margin="0 45 0 55"
+									 Background="Transparent" CornerRadius="0 8 0 8"
+									 SelectedItem="{Binding CurrentModLoader}"
+									 Items="{Binding ModLoaders}">
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="Margin" Value="2 2.5"/>
+										<Setter Property="ClipToBounds" Value="False"/>
+										<Setter Property="Template">
+											<ControlTemplate>
+												<Grid>
+													<Border Background="Transparent" Name="Select" Opacity="0.75">
+														<Border.Transitions>
+															<Transitions>
+																<BrushTransition Duration="0:0:0.25" Property="Background"/>
+																<BoxShadowsTransition Property="BoxShadow"
+																					  Easing="ExponentialEaseOut"
+																					  Duration="0:0:0.35"/>
+															</Transitions>
+														</Border.Transitions>
+													</Border>
+													<Grid Margin="15 5">
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="30"/>
+															<ColumnDefinition Width="15"/>
+															<ColumnDefinition Width="1*"/>
+														</Grid.ColumnDefinitions>
+
+														<Image Height="35" Width="35"
+															   HorizontalAlignment="Left"
+															   VerticalAlignment="Center"
+															   Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}"/>
+
+														<Grid Grid.Column="2" HorizontalAlignment="Left"
+															  VerticalAlignment="Center">
+															<Grid.RowDefinitions>
+																<RowDefinition Height="1*"/>
+																<RowDefinition Height="1*"/>
+															</Grid.RowDefinitions>
+															<TextBlock Text="{Binding Id}"
+																	   FontSize="15"/>
+
+															<TextBlock Text="{Binding Type}"
+																	   Grid.Row="1"
+																	   FontSize="12"
+																	   Opacity="0.65"/>
+														</Grid>
+													</Grid>
+												</Grid>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/	Border#Select">
+										<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+										<Setter Property="ClipToBounds" Value="True"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/	Border#Select">
+										<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+										<Setter Property="ClipToBounds" Value="False"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:selected /template/ Border#Select">
+										<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+										<Setter Property="ClipToBounds" Value="False"/>
+									</Style>
+								</ListBox.Styles>
+							</ListBox>
+
+
+							<Grid HorizontalAlignment="Stretch" Margin="15"
+								  VerticalAlignment="Bottom">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="10"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<Grid.RenderTransform>
+									<TransformGroup>
+										<SkewTransform AngleX="-8"/>
+									</TransformGroup>
+								</Grid.RenderTransform>
+
+								<Button HorizontalAlignment="Stretch"
+										CornerRadius="4"
+										Classes="wonderaccentbutton"
+										Content="开始安装"
+										VerticalContentAlignment="Center"
+										Command="{Binding GameCoreInstallAction}"/>
+
+								<Button Foreground="Black" Grid.Column="2"
+										HorizontalAlignment="Stretch"
+										Content="关闭"
+										CornerRadius="4"
+										HorizontalContentAlignment="Center"
+										Command="{Binding HideInstallDialogAction}"/>
+							</Grid>
+						</Grid>
+					</Border>
+
+					<StackPanel Spacing="10" Margin="0 50 0 60"
+								IsVisible="{Binding	IsInstallerVisible}"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center" Name="Installer">
+						<Button Padding="0"
+								CornerRadius="6"
+								Background="{DynamicResource DialogContentBorderBrush}"
+								HorizontalContentAlignment="Left"
+								Height="40" Tag="Forge"
+								Width="540"
+								Foreground="Black"								
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasForge}">
+							<Button.RenderTransform>
+								<TransformGroup>
+									<SkewTransform AngleX="-8"/>
+								</TransformGroup>
+							</Button.RenderTransform>
+
+							<Grid HorizontalAlignment="Left">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="选择 Forge" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="10 0 0 0"
+										   FontSize="16" Grid.Column="2"/>
+
+								<Image Source="/Assets/Icons/Forge.png"
+									   Grid.Column="0" Width="30" Height="30" Margin="10 0 0 0">
+									<Image.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="8"/>
+										</TransformGroup>
+									</Image.RenderTransform>
+								</Image>
+							</Grid>
+						</Button>
+
+						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
+								CornerRadius="6"
+								Height="40" Tag="Fabric"
+								HorizontalContentAlignment="Left"
+								Width="540"
+								Foreground="Black"								
+								HorizontalAlignment="Left"
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasFabric}">
+							<Button.RenderTransform>
+								<TransformGroup>
+									<SkewTransform AngleX="-8"/>
+								</TransformGroup>
+							</Button.RenderTransform>
+
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="选择 Fabric" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="10 0 0 0"
+										   FontSize="16" Grid.Column="2"/>
+
+								<Image Source="/Assets/Icons/Fabric.png"
+									   Grid.Column="0" Width="30" Height="30" Margin="10 0 0 0">
+									<Image.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="8"/>
+										</TransformGroup>
+									</Image.RenderTransform>
+								</Image>
+							</Grid>
+						</Button>
+
+						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
+								HorizontalContentAlignment="Left"
+								CornerRadius="6"
+								Height="40"
+								Foreground="Black"
+								Width="540" Tag="Optifine"
+								HorizontalAlignment="Left"
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasOptifine}">
+							<Button.RenderTransform>
+								<TransformGroup>
+									<SkewTransform AngleX="-8"/>
+								</TransformGroup>
+							</Button.RenderTransform>
+							<Grid HorizontalAlignment="Right">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="选择 Optifine" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="10 0 0 0"
+										   FontSize="16" Grid.Column="2"/>
+
+								<Image Source="/Assets/Icons/OptiFine.png"
+									   Grid.Column="0" Width="30" Height="30" Margin="10 0 0 0">
+									<Image.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="8"/>
+										</TransformGroup>
+									</Image.RenderTransform>
+								</Image>
+							</Grid>
+						</Button>
+
+						<Button Padding="0"
+								Background="{DynamicResource DialogContentBorderBrush}"
+								CornerRadius="6"
+								Foreground="Black"
+								HorizontalContentAlignment="Left"
+								Height="40" Tag="Quilt"
+								Width="540"
+								HorizontalAlignment="Left"
+								Classes="wonderaccentbutton"
+								IsVisible="{Binding	HasQuilt}">
+							<Button.RenderTransform>
+								<TransformGroup>
+									<SkewTransform AngleX="-8"/>
+								</TransformGroup>
+							</Button.RenderTransform>
+							<Grid HorizontalAlignment="Left">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="0"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Text="选择 Quilt" VerticalAlignment="Center"
+										   FontWeight="SemiBold" Margin="10 0 0 0"
+										   FontSize="16" Grid.Column="2"/>
+
+								<Image Source="/Assets/Icons/Quilt.png"
+									   Grid.Column="0" Width="30" Height="30" Margin="10 0 0 0">
+									<Image.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="8"/>
+										</TransformGroup>
+									</Image.RenderTransform>
+								</Image>
+							</Grid>
+						</Button>
+					</StackPanel>
+
+					<ListBox Background="Transparent"
+							 Items="{Binding CurrentModLoaders}"
+							 VerticalAlignment="Top"
+							 Margin="0 -45 0 0">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal"/>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Margin" Value="0 0 10 5"/>
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Background="{DynamicResource DialogContentBackground}"
+												BorderBrush="{DynamicResource DialogContentBorderBrush}"
+												BorderThickness="1"
+												HorizontalAlignment="Left"
+												CornerRadius="8" Height="40">
+											<Grid>
+												<Grid>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="30"/>
+														<ColumnDefinition Width="5"/>
+														<ColumnDefinition Width="1*"/>
+														<ColumnDefinition Width="0"/>
+														<ColumnDefinition Width="1*"/>
+													</Grid.ColumnDefinitions>
+													<Image Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}"
+														   Height="30"
+														   Width="30" Margin="5"
+														   HorizontalAlignment="Left"
+														   VerticalAlignment="Center"/>
+
+													<StackPanel Orientation="Horizontal"
+																Margin="0 0 5 0"
+																Spacing="6" Grid.Column="2">
+														<TextBlock Text="{Binding Data.ModLoader}"
+																   FontSize="15"
+																   HorizontalAlignment="Left"
+																   VerticalAlignment="Center"/>
+
+														<TextBlock Text="{Binding Id}"
+																   Grid.Column="2"
+																   FontSize="15"
+																   HorizontalAlignment="Left"
+																   VerticalAlignment="Center"/>
+													</StackPanel>
+													<!--Click="RemoveModLoaderClick"-->
+													<Button Margin="0 0 5 0"
+															Height="20"
+															Width="20"
+															Click="RemoveModLoaderClick"
+															Classes="rotatebuttonX"
+															HorizontalAlignment="Right"
+															VerticalAlignment="Center"
+															Grid.Column="4"
+													/>
+												</Grid>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
+				</Grid>
+			</wcd:ContentDialog.Content>
+		</wcd:ContentDialog>
+	</Grid>
+</UserControl>

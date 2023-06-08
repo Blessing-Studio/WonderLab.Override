@@ -1,0 +1,94 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wc="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcer="using:wonderlab.control.Converters">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+	
+    <!-- Add Styles Here -->
+	<Style Selector="wc|UpdateDialog">
+		<Style.Resources>
+			<ResourceDictionary>
+				<wcer:DownloadProgressConverter x:Key="DownloadProgressConverter"/>
+			</ResourceDictionary>
+		</Style.Resources>
+		<Setter Property="IsOpen" Value="False"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+		<Setter Property="MinWidth" Value="450"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Name="Lay">
+					<Grid>
+						<Border Background="{DynamicResource DialogBackground}"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+	                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+								Name="BackgroundBorder" Opacity="0.5"/>
+
+						<!--DialogContent-->
+						<Border Background="{DynamicResource DialogContentBackground}"
+								BoxShadow="0 8 32 0 #66000000" Margin="20 25"
+								CornerRadius="8" HorizontalAlignment="Center"
+								MinWidth="{TemplateBinding MinWidth}"
+								BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center" Name="DialogContent">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="1*"/>
+									<RowDefinition MaxHeight="20" Height="1*"/>
+									<RowDefinition Height="1*"/>
+									<RowDefinition MaxHeight="16" Height="0.2*"/>
+									<RowDefinition Height="1*"/>
+								</Grid.RowDefinitions>
+								<TextBlock Margin="16 16 16 0" FontSize="18" Text="{TemplateBinding Title}" FontWeight="Bold"/>
+																
+								<ContentPresenter Content="{TemplateBinding Message}" Margin="16 5 16 16" Grid.Row="2"/>
+
+								<Grid IsVisible="False" Name="UpP" Grid.Row="4" Margin="16 -10 16 16">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="2"/>
+										<RowDefinition Height="7"/>
+									</Grid.RowDefinitions>
+									
+									<DockPanel HorizontalAlignment="Stretch">
+										<TextBlock Text="{TemplateBinding UpdateProgress,Converter={StaticResource DownloadProgressConverter}}" DockPanel.Dock="Left"/>
+										<!--<TextBlock Text="00:00:01" DockPanel.Dock="Right" HorizontalAlignment="Right"/>-->
+									</DockPanel>
+									
+									<ProgressBar Value="{TemplateBinding UpdateProgress}"
+			                                     Height="5" CornerRadius="16" Grid.Row="2" Foreground="{DynamicResource AccentBrushDark1}"/>
+								</Grid>
+
+								<Grid Name="Buttons" Margin="16 10 16 16" Grid.Row="4">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="1*"/>
+										<ColumnDefinition Width="10"/>
+										<ColumnDefinition Width="1*"/>
+									</Grid.ColumnDefinitions>
+									<Grid.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="-8"/>
+										</TransformGroup>
+									</Grid.RenderTransform>
+									<Button FontSize="12" Classes="wonderaccentbutton" Content="{TemplateBinding Button2Text}" x:Name="Button2"
+		                                    IsVisible="{TemplateBinding Button2Visible}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch"/>
+									
+									<Button FontSize="12" Classes="wonderaccentbutton" Name="CloseButton" Content="{TemplateBinding Button1Text}"
+											IsVisible="{TemplateBinding Button1Visible}" Background="#FF0000"
+											Foreground="{TemplateBinding Foreground}" Grid.Column="2" HorizontalAlignment="Stretch"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

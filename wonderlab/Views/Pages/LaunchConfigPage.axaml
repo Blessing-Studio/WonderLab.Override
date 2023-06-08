@@ -1,0 +1,293 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+			 xmlns:ml="using:MinecraftLaunch.Modules.Models.Launch"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850" Background="{x:Null}"
+             x:Class="wonderlab.Views.Pages.LaunchConfigPage" Margin="0 0 0 10">
+	<Grid>
+		<ScrollViewer Background="{x:Null}">
+			<StackPanel Margin="0 15 0 10" Spacing="15">
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏路径设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<ComboBox Width="350" Items="{Binding GameDirectorys}"
+									  SelectedItem="{Binding CurrentGameDirectory}"
+									  Margin="15 5 0 0"
+									  PlaceholderText="请选择您的游戏目录"/>
+
+							<Button Content="添加" Command="{Binding	DirectoryDialogOpenAction}"
+									Background="{DynamicResource AccentBrush}"
+									Classes="wonderaccentbutton"/>
+
+							<Button Content="移除" Classes="wonderaccentbutton"
+									Command="{Binding RemoveDirectoryAction}"
+									Background="#FF0000"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Java 运行时设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<ComboBox Width="350"
+									  Items="{Binding Javas}"
+									  Margin="15 5 0 0"
+									  SelectedItem="{Binding CurrentJava}"
+									  PlaceholderText="请选择您的 Java 运行时"
+									  IsEnabled="{Binding IsAutoSelectJava,Converter={StaticResource BoolReverseConverter}}">
+								<ComboBox.DataTemplates>
+									<DataTemplate DataType="{x:Type ml:JavaInfo}">
+										<StackPanel VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+											Orientation="Horizontal">
+											<TextBlock Text="Java " FontWeight="SemiBold"/>
+											<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
+											<TextBlock Text=" ("/>
+											<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
+											<TextBlock Text=", " />
+											<TextBlock Text="{Binding JavaVersion}" FontWeight="SemiBold"/>
+											<TextBlock Text="), "/>
+											<TextBlock Text="{Binding JavaPath}" Opacity="0.75"/>
+										</StackPanel>
+									</DataTemplate>
+								</ComboBox.DataTemplates> 
+							</ComboBox>
+
+							<Button IsEnabled="{Binding IsLoadJavaFinish}" Width="80"
+									Command="{Binding LoadJavaAction}"
+									Background="{DynamicResource AccentBrush}"
+									Classes="wonderaccentbutton">
+								<Grid>
+									<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
+									<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
+												 Width="20" IsVisible="{Binding IsLoadJavaNow}"
+												 Foreground="{DynamicResource FontColorBrush}"/>
+								</Grid>
+							</Button>
+
+							<Button Content="手动添加" Background="{DynamicResource AccentBrushDark3}"
+									Classes="wonderaccentbutton"
+									Command="{Binding AddJavaAction}"/>
+
+							<Button Content="移除" Classes="wonderaccentbutton"
+									Command="{Binding RemoveJavaRuntimeAction}"
+									Background="#FF0000"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="自动选择 Java 运行时" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Name="autoJavaSelectOpen" Content="开" Command="{Binding OpenAutoSelectJavaAction}"/>
+							<RadioButton Name="autoJavaSelectClose" Content="关" Command="{Binding CloseAutoSelectJavaAction}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+		                BoxShadow="0 1 4 0 #66000000"
+		                Height="80" Margin="15 0"
+		                VerticalAlignment="Top"
+		                CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏内存设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<TextBox Watermark="最大内存"
+								 MinWidth="230"
+								 Grid.Row="2"
+								 VerticalAlignment="Top"
+								 HorizontalAlignment="Left"
+								 Margin="15 5"
+		                         Text="{Binding	MaxMemory}"
+								 IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+		                BoxShadow="0 1 4 0 #66000000"
+		                Height="80"
+						Margin="15 0"
+		                VerticalAlignment="Top"
+		                CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" 
+									Orientation="Horizontal"
+									Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15"
+									Background="{DynamicResource AccentBrush}"
+									CornerRadius="114514"/>
+							
+							<TextBlock Text="自动分配游戏内存"
+									   FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1"
+								Background="{DynamicResource DialogBackground}"
+								Height="1"
+								CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0"
+									Grid.Row="2" 
+									Orientation="Horizontal"
+									Spacing="100">
+							<RadioButton Content="开"
+										 Name="autoMemoryOpen"
+										 Command="{Binding OpenAutoGetMemoryAction}"/>
+							<RadioButton Content="关"
+										 Name="autoMemoryClose"
+										 Command="{Binding CloseAutoGetMemoryAction}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="游戏窗口设置（俩都填 0 则全屏）" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<TextBox MinWidth="100"
+		                             Text="{Binding WindowWidth}"/>
+							<TextBlock Text="X" HorizontalAlignment="Center"
+									   VerticalAlignment="Center"/>
+							<TextBox MinWidth="100"
+		                             Text="{Binding	WindowHeight}"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+				
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Jvm 参数" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
+							<TextBox MinWidth="230"
+									 Watermark="Jvm 参数，不懂的请不要瞎改"
+									 Text="{Binding JvmArgument}"/>						
+						</StackPanel>
+					</Grid>
+				</Border>
+        	</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

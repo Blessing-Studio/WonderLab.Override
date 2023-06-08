@@ -1,0 +1,429 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog" 
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+		     xmlns:wcb="using:wonderlab.control.Controls.Bar"
+			 DragDrop.AllowDrop="True"
+             x:Class="wonderlab.Views.Pages.HomePage">
+	<Grid>
+		<wcb:BottomActionBar IsVisible="False" x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"/>
+		<!--{DynamicResource DialogContentBackground}-->
+		<Border HorizontalAlignment="Stretch"
+				VerticalAlignment="Bottom"
+				Margin="85 30 85 90"
+				Background="{DynamicResource DialogContentBackground}"
+				IsHitTestVisible="False"
+			    Height="{Binding PanelHeight}"
+				CornerRadius="8" Name="Spotlight" 
+				BorderBrush="{DynamicResource DialogContentBorderBrush}"
+				BorderThickness="1">
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.65"
+									  Property="Height"
+									  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Border.Transitions>	
+			
+			<Grid Name="Polymerize">
+				<Grid.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.35"
+										  Property="Opacity"
+										  Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</Grid.Transitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="35"/>
+					<RowDefinition Height="20"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="20"/>
+						<ColumnDefinition Width="50"/>
+					</Grid.ColumnDefinitions>
+
+					<TextBox Margin="15" Grid.Column="0" Watermark="通过 Polymerize 聚合搜索管理您的游戏核心"
+							 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+							 Text="{Binding SearchCondition}"/>
+
+					<Button Grid.Column="2" Margin="0 0 10 0"
+							Name="Close" Classes="transparent">
+						<Button.Content>
+							<Viewbox>
+								<PathIcon Data="{StaticResource Close}"/>
+							</Viewbox>
+						</Button.Content>
+					</Button>
+				</Grid>
+
+				<Grid Grid.Row="2">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="155"/>
+					</Grid.ColumnDefinitions>
+					<Grid Grid.Column="0" Margin="12 0">
+						<ListBox Background="Transparent" Items="{Binding GameCores}"
+								 SelectedItem="{Binding SelectGameCore}">
+							<ListBox.Styles>
+								<Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+										<Setter Property="HorizontalAlignment" Value="Stretch"/>
+										<Setter Property="Margin" Value="8 8 16 8"/>
+										<Setter Property="Background" Value="Transparent"/>
+										<Setter Property="ClipToBounds" Value="False"/>
+										<Setter Property="CornerRadius" Value="4"/>
+										<Setter Property="ContextMenu">
+								         	<ContextMenu>
+								         		<MenuItem Command="{Binding	OpenFolderAction}" 
+														  Header="打开游戏核心的根目录"/>
+
+												<!--<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="重命名"/>
+												<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="删除"/>
+												<MenuItem Command="{Binding	MinecraftStopAction}"
+		                                                  Header="属性"/>-->
+								         	</ContextMenu>
+										</Setter>
+										<Setter Property="Template">
+											<ControlTemplate>
+												<Border Background="Transparent" HorizontalAlignment="Stretch" Name="Main">
+													<Border.Transitions>
+														<Transitions>
+															<BoxShadowsTransition Property="BoxShadow"
+																				  Easing="ExponentialEaseOut"
+																				  Duration="0:0:0.35"/>
+														</Transitions>
+													</Border.Transitions>
+													
+													<Grid>
+														<Grid HorizontalAlignment="Left" MaxWidth="{Binding	Main,Converter={StaticResource MaxWidthConverter}}">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="40"/>
+																<ColumnDefinition Width="0"/>
+																<ColumnDefinition Width="1*"/>
+															</Grid.ColumnDefinitions>
+															<PathIcon Foreground="{DynamicResource AccentBrush}" HorizontalAlignment="Left"
+																	  Margin="10 8 0 8"
+																      Data="{StaticResource	Minecraft}"/>
+
+															<Grid Name="TextGrounp" Grid.Column="2"
+																  HorizontalAlignment="Left" Height="45"
+																  IsHitTestVisible="False"
+																  VerticalAlignment="Center">
+																<Grid.Transitions>
+																	<Transitions>
+																		<ThicknessTransition Duration="0:0:0.35" Property="Margin"
+																							 Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Grid.Transitions>
+																<Grid.ColumnDefinitions>
+																	<ColumnDefinition Width="1*"/>
+																	<ColumnDefinition Width="10"/>
+																	<ColumnDefinition Width="Auto"/>
+																</Grid.ColumnDefinitions>
+																<TextBlock Text="{Binding Data.Id}" FontSize="17"
+																		   VerticalAlignment="Center"
+																		   TextTrimming="CharacterEllipsis"/>
+
+																<Border Height="26" CornerRadius="4" Grid.Column="2"
+																		Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
+																		HorizontalAlignment="Left">
+																	<Grid VerticalAlignment="Center" Margin="6 0">
+																		<TextBlock FontSize="13"
+																				   Text="{Binding Data.Source}" TextAlignment="Left"
+																				   TextTrimming="CharacterEllipsis"/>
+																	</Grid>
+																</Border>
+															</Grid>
+														</Grid>
+
+														<StackPanel Orientation="Horizontal"
+																	Grid.Column="2"
+																	Margin="0 0 10 0" Name="ButtonGroup"
+																	VerticalAlignment="Center"
+																	HorizontalAlignment="Right">
+															<StackPanel.Background>
+																<LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+																	<GradientStop Color="Transparent" Offset="0"/>
+																	<GradientStop Color="#fff3f3f3" Offset="0.1"/>
+																</LinearGradientBrush>
+															</StackPanel.Background>
+															<Button Height="30" Width="30" Classes="transparent" ToolTip.Tip="启动此游戏核心">
+																<Grid>
+																	<PathIcon FontSize="1" Data="{StaticResource Launch}"/>
+																</Grid>
+															</Button>
+
+															<Button Height="30" Width="30" Classes="transparent" Click="GoConfigClick">
+																<PathIcon VerticalAlignment="Center"
+																		  HorizontalAlignment="Center"
+																		  Data="{StaticResource	Info}"/>
+															</Button>
+														</StackPanel>
+													</Grid>
+												</Border>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/ Grid#TextGrounp">
+										<Setter Property="Margin" Value="0"/>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/ StackPanel#ButtonGroup">
+										<Setter Property="IsVisible" Value="False"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/ Grid#TextGrounp">
+										<Setter Property="Margin" Value="10 0 0 0"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/ StackPanel#ButtonGroup">
+										<Setter Property="IsVisible" Value="True"/>
+									</Style>
+
+									<Style Selector="ListBoxItem /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+									</Style>
+
+									<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+										<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+									</Style>
+								</Styles>
+							</ListBox.Styles>
+						</ListBox>
+
+						<StackPanel HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Spacing="5" Opacity="{Binding SearchSuccess}">
+							<StackPanel.Transitions>
+								<Transitions>
+									<DoubleTransition Duration="0:0:0.25" Property="Opacity" Easing="ExponentialEaseOut"/>
+								</Transitions>
+							</StackPanel.Transitions>
+							<Viewbox Width="50" Margin="0 0 0 10">
+								<PathIcon Opacity="0.45" Data="{StaticResource NotFound}"/>
+							</Viewbox>
+							
+							<TextBlock FontWeight="Bold" Text="未找到相关核心"
+									   FontSize="20" TextAlignment="Center"
+									   HorizontalAlignment="Center"/>
+							
+							<TextBlock Text="请检查是不是你的搜索条件有误，或是你的筛选器语法有误"
+									   FontSize="13" Opacity="0.75"
+									   TextAlignment="Center"
+									   HorizontalAlignment="Center"/>
+						</StackPanel>
+
+						<StackPanel HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Spacing="5" Opacity="{Binding HasGameCore}">
+							<StackPanel.Transitions>
+								<Transitions>
+									<DoubleTransition Duration="0:0:0.25" Property="Opacity" Easing="ExponentialEaseOut"/>
+								</Transitions>
+							</StackPanel.Transitions>
+
+							<Viewbox Width="50" Margin="0 0 0 10">
+								<PathIcon Opacity="0.45" Data="{StaticResource Empty}"/>
+							</Viewbox>
+
+							<TextBlock FontWeight="Bold" Text="没有任何核心"
+		                               FontSize="20" TextAlignment="Center"
+		                               HorizontalAlignment="Center"/>
+
+							<TextBlock Text="请检查您的游戏目录里是否包含游戏核心"
+									   FontSize="13" Opacity="0.75"
+									   TextAlignment="Center"
+									   HorizontalAlignment="Center"/>
+						</StackPanel>
+					</Grid>
+
+					<StackPanel Grid.Column="1" Margin="12 5"
+								Spacing="10"
+								HorizontalAlignment="Stretch">
+						
+						<Button Command="{Binding ImportModpacksAction}"
+								HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
+							<Grid>																
+								<Viewbox Width="10" HorizontalAlignment="Left"
+										 VerticalAlignment="Center">
+									<PathIcon Foreground="Black" Data="{StaticResource Import}"/>
+								</Viewbox>
+								
+								<TextBlock Text="导入现有整合包" 
+										   Margin="20 0 0 0" FontSize="13"
+										   VerticalAlignment="Center"/>
+							</Grid>
+						</Button>
+
+						<Button IsEnabled="False" HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
+							<Grid>
+								<Viewbox Width="10" HorizontalAlignment="Left"
+										 VerticalAlignment="Center">
+									<PathIcon Foreground="Black" Data="{StaticResource Export}"/>
+								</Viewbox>
+								<TextBlock Text="导出当前核心"
+		                                   Margin="20 0 0 0" FontSize="13"
+		                                   VerticalAlignment="Center"/>
+							</Grid>
+						</Button>
+
+						<!--<Button HorizontalAlignment="Stretch" Classes="wonderaccentbutton">
+							<Grid>
+								<Viewbox Width="12" HorizontalAlignment="Left"
+										 VerticalAlignment="Center">
+									<PathIcon Data="M855.224062 497.341139c-46.74565-107.386776-95.077426-165.637458-112.38358-212.174354-18.393929-49.461505-0.255827-91.585905-0.255827-91.585905-38.372959-7.674796-66.897619 28.953426-88.430028 66.109674-13.32447 22.991644-30.728862 162.352645-57.975413 196.567911-4.640694 5.826705-13.856589 4.40124-16.443507-2.583848-93.073792-251.330142-43.176358-385.844765-43.176358-385.844765C390.152884 123.085316 353.72216 266.021749 346.762655 288.149722c-13.44522 42.748616-7.759731 205.29569-7.759731 205.29569-0.578168 11.114129-15.684214 13.977339-20.289092 3.845585 0 0-38.581714-95.104031-43.070958-147.295718-3.675716-42.724057-3.986801-33.824363-3.986801-33.824363-66.316381 61.323671-139.941216 200.188368-139.941216 293.471938 0 187.339736 165.269068 339.208609 369.139292 339.208609s369.139292-151.868873 369.139292-339.208609C869.99344 569.679677 869.99344 531.271926 855.224062 497.341139z"/>
+								</Viewbox>
+								<TextBlock Text="获取热门整合包"
+		                                   Margin="20 0 0 0" FontSize="13"
+		                                   FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+		                                   VerticalAlignment="Center"/>
+							</Grid>
+						</Button>-->
+					</StackPanel>
+				</Grid>
+			</Grid>
+		</Border>
+
+		<Border VerticalAlignment="Bottom"
+				HorizontalAlignment="Stretch"
+				Margin="30">
+			<Grid>			
+				<Border Background="{DynamicResource DialogContentBackground}"
+		                BoxShadow="0 2 16 0 #66000000" CornerRadius="6"
+		                BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		                BorderThickness="1" Height="45">
+					<Border.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="-8"/>
+						</TransformGroup>
+					</Border.RenderTransform>
+				</Border>
+
+				<Button HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+					    Width="100" Margin="15 0 0 0"
+						Classes="wonderaccentbutton"
+						HorizontalContentAlignment="Center"
+						Name="LaunchButton"
+						Background="{DynamicResource AccentBrushDark1}">
+					<Button.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="-8"/>
+						</TransformGroup>
+					</Button.RenderTransform>
+					<TextBlock Text="启动游戏"/>
+				</Button>				
+				
+				<Grid Margin="115 0 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="1*"/>
+					</Grid.ColumnDefinitions>
+
+					<Grid Margin="15 0 0 0" Grid.Column="0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="80"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="80"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="60"/>
+						</Grid.ColumnDefinitions>
+
+						<Button Grid.Column="2" Background="Transparent" Classes="transparent" Command="{Binding OpenActionCenterAction}">
+							<TextBlock FontSize="15" Text="操作中心"/>
+						</Button>
+
+						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="transparent">
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="进程管理"/>
+						</Button>
+
+						<!--<Button Classes="transparent" Background="Transparent" Grid.Column="4">
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="下载"/>
+						</Button>-->
+					</Grid>
+
+					<Button Grid.Column="2" VerticalAlignment="Center" Name="SelectGameCoreButton"
+							HorizontalAlignment="Right" Margin="15 0">
+						<Button.Styles>
+							<Style Selector="Button">
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Padding="3" CornerRadius="4"
+												Name="Layout" Background="Transparent"
+												BorderThickness="1">
+											<Border.Transitions>
+												<Transitions>
+													<BrushTransition Duration="0:0:0.35"
+																	 Easing="ExponentialEaseOut"
+																	 Property="BorderBrush"/>
+												</Transitions>
+											</Border.Transitions>
+											<Grid>
+												<Grid.RowDefinitions>
+													<RowDefinition Height="1*"/>
+													<RowDefinition Height="1"/>
+													<RowDefinition Height="1*"/>
+												</Grid.RowDefinitions>
+
+												<TextBlock FontSize="10"
+														   Opacity="0.65"
+														   Text="当前核心"
+														   Foreground="Black"
+														   HorizontalAlignment="Right"/>
+
+												<TextBlock FontSize="12" 
+														   Grid.Row="2" 
+														   TextTrimming="CharacterEllipsis"
+														   Text="{Binding SelectGameCoreId}"
+														   FontWeight="SemiBold"
+														   TextAlignment="Right"
+														   Foreground="Black"/>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+
+							<Style Selector="Button /template/	Border#Layout">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+							</Style>
+
+							<Style Selector="Button:pointerover /template/ Border#Layout">
+								<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+							</Style>
+						</Button.Styles>
+					</Button>
+				</Grid>								
+			</Grid>
+		</Border>
+		
+		<!--<Button HorizontalAlignment="Right"
+				VerticalAlignment="Bottom" Height="35"
+				Margin="0 0 30 85" Width="120"
+				Classes="wonderaccentbutton"
+				Background="{DynamicResource AccentBrushDark1}">
+			<Button.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</Button.RenderTransform>
+			<TextBlock Text="启动游戏"/>
+		</Button>-->
+	</Grid>
+</UserControl>

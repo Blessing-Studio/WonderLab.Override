@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             x:Class="wonderlab.Views.Pages.SelectConfigPage">
+	<Grid>
+		<ContentControl Content="{Binding SelectConfigPage}"
+						Margin="0 50"/>
+		<!--Background="{DynamicResource DialogContentBackground}"-->
+		<Border HorizontalAlignment="Right" Height="40" Width="260"
+				VerticalAlignment="Bottom" Margin="0 0 -5 10"
+				CornerRadius="4"
+			    Background="{DynamicResource DialogContentBackground}"
+				BorderThickness="1"  
+				BorderBrush="{DynamicResource DialogContentBorderBrush}">
+			<Border.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</Border.RenderTransform>
+			<StackPanel Orientation="Horizontal"
+						Spacing="10" Margin="15 0 0 0"
+						HorizontalAlignment="Left"
+						Name="ButtonGroup">
+				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"
+							  Command="{Binding	GoLaunchConfigPageAction}"/>
+				<ToggleButton Content="网络" Background="Transparent" Command="{Binding	GoWebConfigPageAction}"/>
+				<ToggleButton Content="个性化" Background="Transparent"
+							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
+
+				<ToggleButton Content="关于" Background="Transparent"
+			                  Command="{Binding	GoAboutPageAction}"/>
+			</StackPanel> 
+		</Border>
+
+		<wcb:TitleBar Title="设置" TitleWidth="85" GoBackCommand="{Binding GoBackAction}"/>
+	</Grid>
+</UserControl>

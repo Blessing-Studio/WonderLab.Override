@@ -1,0 +1,177 @@
+name: CI-Build
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Test
+      run: dotnet test wonderlab/wonderlab.csproj
+  test_build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Test
+      run: dotnet build wonderlab/wonderlab.csproj
+  build_Windows:
+    strategy:
+      matrix:
+        arch: ["x64", "x86", "arm64"]
+    runs-on: ubuntu-latest
+    needs: [test, test_build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Build
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os win10 -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Windows
+        path: wonderlab/bin/Release/net7.0/win10-${{ matrix.arch }}/*.zip
+  build_Linux:
+    strategy:
+      matrix:
+        arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
+    runs-on: ubuntu-latest
+    needs: [test, test_build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Build
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Linux
+        path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.zip
+  build_MacOS:
+    strategy:
+      matrix:
+        arch: ["x64", "arm64"]
+    runs-on: ubuntu-latest
+    needs: [test, test_build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Build
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os osx -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: MacOS
+        path: wonderlab/bin/Release/net7.0/osx-${{ matrix.arch }}/*.zip
+  build_Linux_Deb:
+    strategy:
+      matrix:
+        arch: ["x64", "arm", "arm64"]
+    runs-on: ubuntu-latest
+    needs: [test, test_build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Build
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateDeb --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Linux_Deb
+        path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.deb
+  build_Linux_Rpm:
+    strategy:
+      matrix:
+        arch: ["x64", "arm", "arm64"]
+    runs-on: ubuntu-latest
+    needs: [test, test_build]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Build
+      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateRpm --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Linux_Rpm
+        path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.rpm
+  Release:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux]
+    steps:
+    - name: Download Windows Build
+      uses: actions/download-artifact@v3
+      with:
+       name: Windows
+    - name: Download Linux Build
+      uses: actions/download-artifact@v3
+      with:
+       name: Linux
+    - name: Download Deb Build
+      uses: actions/download-artifact@v3
+      with:
+       name: Linux_Deb
+    - name: Download Rpm Build
+      uses: actions/download-artifact@v3
+      with:
+        name: Linux_Rpm
+    - name: Download MacOS Build
+      uses: actions/download-artifact@v3
+      with:
+       name: MacOS
+    - name: Create Release
+      if: github.event_name != 'pull_request' 
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        automatic_release_tag: AutoBuild
+        title: "自动构建版本"
+        files: |
+            *.exe
+            *.zip
+            *.deb
+            *.rpm
+  Delete_Artifacts:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    needs: [Release]
+    steps:
+    - name: Delete Windows Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Windows
+    - name: Delete Linux Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux
+    - name: Delete Deb Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux_Deb
+    - name: Delete Rpm Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Linux_Rpm
+    - name: Delete MacOS Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: MacOS

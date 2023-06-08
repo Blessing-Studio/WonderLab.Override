@@ -1,0 +1,172 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wc="using:wonderlab.control.Controls.Dialog">
+    <Design.PreviewWith>
+        <Border Padding="20" MaxHeight="400">
+            <!-- Add Controls for Previewer Here -->
+			<wc:AccountDialog/> 
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<Style Selector="wc|AccountDialog">
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+		<Setter Property="Padding" Value="2000"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border>
+					<Grid>
+						<Border Background="{DynamicResource DialogBackground}"
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+	                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+								Name="BackgroundBorder" 
+								Opacity="0.5"/>
+
+						<!--DialogContent-->
+						<Border Background="{DynamicResource DialogContentBackground}"
+								BoxShadow="0 8 32 0 #66000000"
+								Margin="20 25"
+								CornerRadius="8"
+								HorizontalAlignment="Center"
+								BorderThickness="1"
+								BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center"
+								MinHeight="100"
+								MinWidth="400"
+								Name="DialogContent">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="1*"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<TextBlock Margin="16 16 16 0"
+		                                   FontSize="18"
+		                                   HorizontalAlignment="Center"
+		                                   Text="选择账户"
+		                                   FontWeight="Bold">
+									<TextBlock.TextDecorations>
+										<TextDecorationCollection>
+											<TextDecoration StrokeThickness="2"
+															StrokeOffset="2"
+														    StrokeOffsetUnit="Pixel"
+															StrokeThicknessUnit="Pixel"
+															Stroke="{DynamicResource AccentBrush}"/>
+										</TextDecorationCollection>
+									</TextBlock.TextDecorations>
+								</TextBlock>
+
+								<ListBox Grid.Row="1" 
+										 Name="AccountListBox"
+										 Margin="16 10 16 10"
+										 ClipToBounds="False"
+										 Background="Transparent"
+										 VirtualizationMode="None"	
+										 Items="{TemplateBinding Accounts}"
+										 ScrollViewer.VerticalScrollBarVisibility="Hidden">
+									<ListBox.Styles>
+										<Style Selector="ListBoxItem">
+											<Setter Property="Height" Value="50"/>
+											<Setter Property="Margin" Value="0 5"/>
+											<Setter Property="ClipToBounds" Value="True"/>
+											<Setter Property="Template">
+												<ControlTemplate>
+													<Border BorderThickness="1 1 1 0"
+															BorderBrush="#64757575"
+															CornerRadius="4"
+															Name="Layout">
+														<Border.Background>
+															<LinearGradientBrush>
+																<GradientStop Offset="0" Color="#fff3f3f3" />
+																<GradientStop Offset="1" Color="#fff8f8f8" />
+															</LinearGradientBrush>
+														</Border.Background>
+														<Grid>
+															<Viewbox Width="15"
+																	 Name="SelectFlag"
+																	 HorizontalAlignment="Right">
+																<Viewbox.Transitions>
+																	<Transitions>
+																		<ThicknessTransition Duration="0:0:0.35"
+																							 Property="Margin"
+																							 Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Viewbox.Transitions>
+																<PathIcon Data="{StaticResource GoBack}"/>
+															</Viewbox>
+															
+															<Border HorizontalAlignment="Stretch" 
+																	VerticalAlignment="Stretch"
+																	CornerRadius="4"
+																	BorderThickness="0 0 0 2" 
+																	BorderBrush="{DynamicResource DialogBackground}"/>
+
+															<Grid VerticalAlignment="Center"
+																  Margin="15 0">
+																<Grid.RowDefinitions>
+																	<RowDefinition Height="Auto"/>
+																	<RowDefinition Height="Auto"/>
+																</Grid.RowDefinitions>
+																<TextBlock TextTrimming="CharacterEllipsis"
+																		   Text="{Binding Data.UserName}" 
+																		   FontSize="15"
+																		   FontWeight="SemiBold"/>
+
+																<TextBlock Text="{Binding Data.UserType}" 
+																		   FontSize="12" 
+																		   Grid.Row="1" 
+																		   Opacity="0.65"/>
+															</Grid>
+														</Grid>
+													</Border>
+												</ControlTemplate>
+											</Setter>
+										</Style>
+
+										<Style Selector="ListBoxItem /template/ Viewbox#SelectFlag">
+											<Setter Property="Margin" Value="-15"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:pointerover /template/ Viewbox#SelectFlag">
+											<Setter Property="Margin" Value="15"/>
+										</Style>
+										
+										<Style Selector="ListBoxItem:selected /template/ Viewbox#SelectFlag">
+											<Setter Property="Margin" Value="5"/>
+										</Style>
+									</ListBox.Styles>
+								</ListBox>
+								
+								<Grid Grid.Row="2"
+	                                  Margin="16 0 16 16"
+	                                  HorizontalAlignment="Stretch"
+	                                  ColumnDefinitions="1*,10,1*">
+									<Button FontSize="12"
+											Name="SelectButton"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Content="就它了"
+											Command="{TemplateBinding SelectedCommand}"
+											Foreground="{TemplateBinding Foreground}"/>
+
+									<Button FontSize="12"
+											Grid.Column="2"
+											Name="CloseButton"
+									        HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Content="关闭"
+											Background="#FF0000"
+											Foreground="{TemplateBinding Foreground}"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

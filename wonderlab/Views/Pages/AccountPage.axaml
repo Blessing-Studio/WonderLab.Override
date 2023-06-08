@@ -1,0 +1,204 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             x:Class="wonderlab.Views.Pages.AccountPage">
+	<!--
+	resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans-->
+	<Grid >
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.4*"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<!--head-->
+				<Border x:Name="head" Height="60" Width="60" BoxShadow="0 8 32 0 #66000000" HorizontalAlignment="Center">
+					<Border.Background>
+						<ImageBrush Source="{Binding CurrentGameAccount.Head}" Stretch="UniformToFill"/>
+					</Border.Background>
+				</Border>
+
+				<StackPanel Orientation="Horizontal">
+
+					<!--左手 RenderTransform="rotate(4deg)"-->
+					<Border Name="LeftArm"
+							VerticalAlignment="Top"
+							RenderTransformOrigin="0,0"
+							RenderTransform="rotate(4deg)" Margin="0 -1.4514 0 0"
+							Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+						<Border.Background>
+							<ImageBrush Source="{Binding CurrentGameAccount.LeftHand}" Stretch="UniformToFill"/>
+						</Border.Background>
+					</Border>
+
+					<!--人棍部分-->
+					<StackPanel HorizontalAlignment="Center">
+						<!--body-->
+						<Border x:Name="body" Height="90" Width="60" BoxShadow="0 8 32 0 #66000000">
+							<Border.Background>
+								<ImageBrush Source="{Binding CurrentGameAccount.Body}" Stretch="UniformToFill"/>
+							</Border.Background>
+						</Border>
+
+						<!--leg-->
+						<StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
+							<Border x:Name="leftleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+								<Border.Background>
+									<ImageBrush Source="{Binding CurrentGameAccount.LeftLeg}" Stretch="UniformToFill"/>
+								</Border.Background>
+							</Border>
+
+							<Border x:Name="rightleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+								<Border.Background>
+									<ImageBrush Source="{Binding CurrentGameAccount.RightLeg}" Stretch="UniformToFill"/>
+								</Border.Background>
+							</Border>
+						</StackPanel>
+					</StackPanel>
+
+					<!--右手-->
+					<Border RenderTransformOrigin="0,0" RenderTransform="rotate(-4deg)" x:Name="rightarm"
+							Height="90" Width="30" BoxShadow="0 8 32 0 #66000000" VerticalAlignment="Top">
+						<Border.Background>
+							<ImageBrush Source="{Binding CurrentGameAccount.RightHand}" Stretch="UniformToFill"/>
+						</Border.Background>
+					</Border>
+
+				</StackPanel>
+			</StackPanel>
+
+			<Border Background="{DynamicResource DialogContentBackground}"
+					CornerRadius="4" Margin="15 200 0 0" BorderThickness="1"
+					BorderBrush="{DynamicResource DialogContentBorderBrush}"
+					VerticalAlignment="Center" Height="40" BoxShadow="0 1 8 0 #66000000">
+				<Border.RenderTransform>
+					<TransformGroup>
+						<SkewTransform AngleX="-8"/>
+					</TransformGroup>
+				</Border.RenderTransform>
+				<TextBlock Text="{Binding CurrentGameAccount.Data.UserName}" HorizontalAlignment="Center"
+						   VerticalAlignment="Center" TextTrimming="CharacterEllipsis" 
+						   Margin="15 0" FontSize="16" FontWeight="SemiBold"/>
+			</Border>
+
+			<Grid VerticalAlignment="Center" Margin="10 145 0 0" HorizontalAlignment="Left"> 
+				<Border Background="{DynamicResource AccentBrush}" CornerRadius="4"
+						BoxShadow="0 1 8 0 #66000000"
+		                Height="25"  Opacity="0.8">
+					<Border.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="-8"/>
+						</TransformGroup>
+					</Border.RenderTransform>
+				</Border>
+
+				<TextBlock Text="{Binding CurrentGameAccount.Data.UserType}" HorizontalAlignment="Center"
+		                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+		                   Margin="15 0" FontSize="16"/>
+			</Grid>
+
+			<Grid Margin="0 60 0 0" Grid.Column="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="0"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+				
+				<Button Classes="wonderaccentbutton"
+		                Margin="16" HorizontalAlignment="Right"
+		                VerticalAlignment="Top" Content="创建或添加新的游戏账户"
+		                Command="{Binding CreateAccountAction}"/>
+
+				<ListBox Background="{x:Null}" Grid.Row="2"
+						 VirtualizationMode="None"
+						 ClipToBounds="False" Margin="0 0 0 60"
+						 Items="{Binding GameAccounts}"
+						 SelectedItem="{Binding CurrentGameAccount}">
+					<ListBox.Styles>
+						<Styles>
+							<Style Selector="ListBoxItem">
+								<Setter Property="Margin" Value="15 6"/>
+								<Setter Property="ClipToBounds" Value="False"/>
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
+												Name="Main">
+											<Border.RenderTransform>
+												<TransformGroup>
+													<SkewTransform AngleX="-8"/>
+												</TransformGroup>
+											</Border.RenderTransform>
+											<Border.Transitions>
+												<Transitions>
+													<BoxShadowsTransition Property="BoxShadow"
+																		  Easing="ExponentialEaseOut"
+																		  Duration="0:0:0.35"/>
+												</Transitions>
+											</Border.Transitions>
+
+											<Grid>
+												<Border Height="35" Width="35"
+														HorizontalAlignment="Left"
+														Margin="10" CornerRadius="114514"
+														BoxShadow="0 4 16 0 #66000000">
+													<Border.Background>
+														<ImageBrush Source="{Binding Head}" Stretch="UniformToFill"/>
+													</Border.Background>
+													<Border.RenderTransform>
+														<TransformGroup>
+															<SkewTransform AngleX="8"/>
+														</TransformGroup>
+													</Border.RenderTransform>
+												</Border>
+
+												<Grid VerticalAlignment="Center" Margin="60 0 0 0">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto"/>
+														<ColumnDefinition Width="10"/>
+														<ColumnDefinition Width="1*"/>
+													</Grid.ColumnDefinitions>
+													<TextBlock VerticalAlignment="Center" Text="{Binding Data.UserName}"
+															   FontSize="16" FontWeight="SemiBold"/>
+
+													<Border Height="26" CornerRadius="4" Grid.Column="2"
+															Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
+															HorizontalAlignment="Left">
+														<Grid VerticalAlignment="Center" Margin="6 0">
+															<TextBlock FontSize="13"
+																	   Text="{Binding Data.UserType}" TextAlignment="Left"
+																	   TextTrimming="CharacterEllipsis"/>
+														</Grid>
+													</Border>
+												</Grid>
+											</Grid>
+										</Border>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+
+							<Style Selector="ListBoxItem /template/	Border#Main">
+								<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+							</Style>
+
+							<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+								<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+							</Style>
+
+							<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+								<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+							</Style>
+						</Styles>
+					</ListBox.Styles>
+				</ListBox>
+			</Grid>
+		</Grid>
+
+		<wcb:TitleBar Title="账户中心" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+	</Grid>
+</UserControl>

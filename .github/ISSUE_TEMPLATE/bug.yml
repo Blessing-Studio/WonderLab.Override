@@ -1,0 +1,99 @@
+name: Bug 反馈
+description: 反馈 WonderLab 使用中遇到的问题和 Bug
+labels:
+  - "bug"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你使用 WonderLab 问题反馈系统！
+        
+        如果此问题反馈不符合模板，将会被管理员无条件关闭。
+  - type: checkboxes
+    attributes:
+      label: '❗ 检查表'
+      description: 在反馈前, 请确认你已经做了下面这些事情
+      options:
+      - label: 搜索了已有的 [issues](https://github.com/Blessing-Studio/WonderLab.Override/issues) 列表中是否有相似问题
+        required: true
+      - label: 查看 [CI](https://github.com/Blessing-Studio/WonderLab.Override/release) 中最新自动构建版是否已修复你所遇到的问题
+        required: true
+
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: 问题描述
+      description: 在此详细描述你遇到的问题(日志和此处二选一 都提交可以让我们更快修复)
+    validations:
+      required: true
+  - type: textarea
+    id: issue-log
+    attributes:
+      label: 日志
+      description: 在此提交崩溃日志
+    validations:
+      required: false
+  - type: dropdown
+    id: reproducibility
+    attributes:
+       label: 问题复现率
+       description: 选择问题发生的概率
+       options:
+         - 无法复现
+         - 低偶发
+         - 高偶发
+         - 必现
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 在这里简略说明如何让这个问题再次发生
+      placeholder: |
+        在这里简略说明如何让这个问题再次发生
+        可使用 1.  2.  3.  的列表格式，或其他任意恰当的格式
+        如果你不确定如何复现, 请尽量描述发生当时的情景
+    validations:
+      required: true
+
+  - type: dropdown
+    id: server-platform-type
+    attributes:
+      label: 操作系统版本
+      description: |
+        选择你正在使用的操作系统
+      options:
+        - '全平台'
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: true
+
+  - type: textarea
+    id: slimefun-version
+    validations:
+      required: true
+    attributes:
+      label: WonderLab版本
+      description: |
+        **"最新版" 不是版本号，请填写一个确切的版本号！**
+      #如果你不太确定，可以截图 "" 的输出内容并截图，记得截全。
+      placeholder: '1.2.x'
+
+  - type: textarea
+    id: other-plugin
+    attributes:
+      label: 插件信息
+      description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
+      placeholder: |
+        插件: 版本
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充信息
+      description: 如有必要，你可以在下文继续添加其他信息

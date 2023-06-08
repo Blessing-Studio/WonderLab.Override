@@ -1,0 +1,98 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wc="using:wonderlab.control.Controls.Dialog">
+    <Design.PreviewWith>
+        <Border Height="450" Width="800">
+            <!-- Add Controls for Previewer Here -->
+			<wc:MessageDialog/>  
+        </Border>
+    </Design.PreviewWith>	   
+	
+	<Style Selector="wc|MessageDialog">
+		<Setter Property="IsOpen" Value="False"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+		<Setter Property="Padding" Value="2000"/>
+		<Setter Property="Template">			
+			<ControlTemplate>
+				<Border Name="Lay"> 
+					<Grid>
+						<Border Background="{DynamicResource DialogBackground}" 
+								HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+	                            VerticalAlignment="{TemplateBinding VerticalAlignment}" 
+								Name="BackgroundBorder" Opacity="0.5"/>
+
+						<!--DialogContent-->
+						<Border Background="{DynamicResource DialogContentBackground}"
+								BoxShadow="0 8 32 0 #66000000"
+								Margin="20 25"
+								CornerRadius="8"
+								HorizontalAlignment="Center"
+								BorderThickness="1"
+								BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center" 
+								MinHeight="100"
+								MinWidth="400"
+								Name="DialogContent">
+							<Grid> 
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="1*"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+								<TextBlock Margin="16 16 16 0"
+		                                   FontSize="18"
+		                                   HorizontalAlignment="Center"
+		                                   Text="{TemplateBinding Title}"
+		                                   FontWeight="Bold">
+									<TextBlock.TextDecorations>
+										<TextDecorationCollection>
+											<TextDecoration StrokeThickness="2"
+															StrokeOffset="2"
+														    StrokeOffsetUnit="Pixel"
+															StrokeThicknessUnit="Pixel"
+															Stroke="{DynamicResource AccentBrush}"/>
+										</TextDecorationCollection>
+									</TextBlock.TextDecorations>
+								</TextBlock>
+       
+								<ScrollViewer Grid.Row="1" Margin="16 5 16 10">
+									<SelectableTextBlock TextWrapping="WrapWithOverflow"
+					                                     FontSize="14"
+														 SelectionBrush="{DynamicResource AccentBrush}"
+														 Text="{TemplateBinding Message}"/>
+								</ScrollViewer>
+
+								<Grid Grid.Row="2"
+	                                  Margin="16 0 16 16"
+	                                  HorizontalAlignment="Stretch"
+	                                  ColumnDefinitions="1*,10,1*">
+									<Button FontSize="12"
+											Name="CustomButton"											
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Content="{TemplateBinding CustomButtonText}"
+											IsVisible="{TemplateBinding CustomButtonVisible}"
+											Foreground="{TemplateBinding Foreground}"/>
+
+									<Button FontSize="12"
+											Grid.Column="2"
+											Name="CloseButton"
+									        HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"  
+											Content="{TemplateBinding CloseButtonText}"
+											IsVisible="{TemplateBinding CloseButtonVisible}"
+											Background="#FF0000"
+											Foreground="{TemplateBinding Foreground}"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

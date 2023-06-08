@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="wonderlab.control.MainWindow"
+		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcc="using:wonderlab.control.Controls"
+        Title="wonderlab.control">
+	<Grid>
+		<wcd:ValidationDialog Name="vd"/>
+		<Button Name="mic" Content="Show MicrosoftDialog!" VerticalAlignment="Bottom"
+				HorizontalAlignment="Left"/>
+		
+		<Button Name="off" Content="Show OfflineDialog!" VerticalAlignment="Bottom"
+				HorizontalAlignment="Right"/>
+
+		<Button Name="ygg" Content="Show YggdrasilDialog!" VerticalAlignment="Bottom"
+		        HorizontalAlignment="Center"/>
+	</Grid>
+</Window>

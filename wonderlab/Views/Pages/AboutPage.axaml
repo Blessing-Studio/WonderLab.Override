@@ -1,0 +1,132 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
+			 xmlns:wb="using:wonderlab.control.Controls.Buttons"
+             x:Class="wonderlab.Views.Pages.AboutPage"
+			 xmlns:wcb="using:wonderlab.control.Controls.Bar">
+	<Grid>		
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="3*" />
+				<ColumnDefinition Width="2*" />
+			</Grid.ColumnDefinitions>
+
+			<ScrollViewer
+				Grid.Column="0"
+				Margin="32,58"
+				VerticalScrollBarVisibility="Hidden">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock
+						Grid.Row="0"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						FontSize="28"
+						FontWeight="Bold"
+						Text="WonderLab"
+						TextWrapping="Wrap" />
+
+					<StackPanel
+						Grid.Row="1"
+						Margin="0,4 0 8"
+						Orientation="Horizontal">
+						<TextBlock Text="© Blessing Studio(2021-2023) 保留所有权利" />
+					</StackPanel>
+
+					<!--  Dependencies  -->
+					<TextBlock
+						Grid.Row="2"
+						Margin="0,8,0,4"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Text="项目所使用的开源组件库" />
+
+					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="3">
+						<TextBlock Text="Avalonia"/>
+						<TextBlock Text="Harmony"/>
+						<TextBlock Text="ReactiveUI"/>
+						<TextBlock Text="SixLabors.ImageSharp"/>
+					</StackPanel>
+
+					<!--  Thanks to  -->
+					<TextBlock
+						Grid.Row="4"
+						Margin="0,8,0,4"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Text="鸣谢" />
+
+					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="5">
+						<TextBlock Text="感谢 泽托维尔克 赞助的服务器"/>
+						<TextBlock Text="感谢开发过程中 Natsurainko、llr下一你了亲并 的帮助"/>
+					</StackPanel>
+
+					<!--  Multilingual Translation  -->
+					<TextBlock
+						Grid.Row="6"
+						Margin="0,8,0,4"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Text="开发团队" />
+
+					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="7">
+						<TextBlock Text="UI 审查：Starcloudsea"/>
+						<TextBlock Text="前端开发：西路Baka"/>
+						<TextBlock Text="后端开发：Founder of Jvav，西路Baka，[mailset@arch ~ ]$"/>
+					</StackPanel>
+				
+					<TextBlock
+						Grid.Row="8"
+						Margin="0,8,0,4"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Text="灵感出处" />
+ 
+					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="9">
+						<TextBlock Text="UI 风格参考自碧蓝档案"/>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="部分 UI 参考自 "/>
+							<wb:HyperlinkButton Content="LauncherX"/>
+						</StackPanel>
+						
+						<TextBlock Text="图标 引用自 GBCLV3，Iconfont"/>
+					</StackPanel>
+				</Grid>
+			</ScrollViewer>
+
+			<Path Fill="Black"
+				  Margin="0,32,32,0"
+				  HorizontalAlignment="Right"
+				  VerticalAlignment="Top"
+				  Stretch="UniformToFill"
+				  Grid.Column="2"
+				  Opacity="0.6"
+				  Data="{StaticResource	Captain}"/>
+		</Grid>
+		 
+		<wcb:TitleBar Title="关于" TitleWidth="85" GoBackCommand="{Binding GoBackAction}"/>
+	</Grid>	
+</UserControl>

@@ -1,0 +1,54 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:wc="using:wonderlab.control.Controls">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+
+			<wc:FilpView/>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<Style Selector="wc|FilpView">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid>
+					<Image Source="{TemplateBinding Current}" Stretch="UniformToFill"/>
+
+					<Button HorizontalAlignment="Left"
+							Name="MoveToLeftButton"
+							Padding="0"							
+							Margin="15 0 0 0"
+							Classes="transparent"
+							VerticalAlignment="Center">
+						<Border CornerRadius="114514" Background="{DynamicResource DialogContentBackground}"
+								BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								Width="35" Height="35" Padding="0">
+							<Viewbox Width="15" VerticalAlignment="Center"
+									 HorizontalAlignment="Center">
+								<Path Fill="{DynamicResource AccentBrush}" Data="M401.066667 512l302.933333 302.933333-59.733333 59.733334L341.333333 571.733333 281.6 512 341.333333 452.266667l302.933334-302.933334 59.733333 59.733334L401.066667 512z"/>
+							</Viewbox>
+						</Border>
+					</Button>
+
+					<Button HorizontalAlignment="Right"
+							Name="MoveToRightButton"
+							Padding="0"
+							Margin="0 0 15 0"
+							Classes="transparent"
+		                    VerticalAlignment="Center">
+						<Border CornerRadius="114514" Background="{DynamicResource DialogContentBackground}"
+		                        BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								Width="35" Height="35" Padding="0">
+							<Viewbox Width="15" HorizontalAlignment="Center"
+									 VerticalAlignment="Center">
+								<Path Fill="{DynamicResource AccentBrush}" Data="M761.055557 532.128047c0.512619-0.992555 1.343475-1.823411 1.792447-2.848649 8.800538-18.304636 5.919204-40.703346-9.664077-55.424808L399.935923 139.743798c-19.264507-18.208305-49.631179-17.344765-67.872168 1.888778-18.208305 19.264507-17.375729 49.631179 1.888778 67.872168l316.960409 299.839269L335.199677 813.631716c-19.071845 18.399247-19.648112 48.767639-1.247144 67.872168 9.407768 9.791372 21.984142 14.688778 34.560516 14.688778 12.000108 0 24.000215-4.479398 33.311652-13.439914l350.048434-337.375729c0.672598-0.672598 0.927187-1.599785 1.599785-2.303346 0.512619-0.479935 1.056202-0.832576 1.567101-1.343475C757.759656 538.879828 759.199462 535.391265 761.055557 532.128047z"/>
+							</Viewbox>
+						</Border>
+					</Button>
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

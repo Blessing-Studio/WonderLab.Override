@@ -1,0 +1,266 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
+             x:Class="wonderlab.Views.Pages.NetConfigPage">
+	<Grid>
+		<ScrollViewer Background="{x:Null}">
+			<StackPanel Margin="0 15 0 0" Spacing="15">
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="Minecraft 本体下载源设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Command="{Binding SelectOfficialAction}" Name="official" Content="官方源"/>
+							<RadioButton Command="{Binding SelectMcbbsAction}" Name="mcbbs" Content="Mcbbs源"/>
+							<RadioButton Command="{Binding SelectBmclAction}" Name="bmcl" Content="BmclApi源"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="70" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="Auto"/>
+						</Grid.RowDefinitions>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+		                        Height="1" CornerRadius="114514"
+		                        VerticalAlignment="Bottom"/>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="下载线程设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<Grid Grid.Row="2" Margin="15 -5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="10"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Slider Value="{Binding DownloadCount}" Maximum="512" Minimum="1" Grid.Row="2"/>
+
+							<TextBlock Text="{Binding DownloadCount}" Grid.Column="2" VerticalAlignment="Center"/>
+						</Grid>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000"
+						Height="80" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="发行分支设置" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+						<!--Lsaac Albert-->
+						<StackPanel Margin="15 0" Grid.Row="2" Orientation="Horizontal" Spacing="100">
+							<RadioButton Name="lsaac" Command="{Binding	SelectLsaacAction}" Content="Lsaac（预览分支）"/>
+							<RadioButton Name="albert" Command="{Binding SelectAlbertAction}" Content="Albert（稳定分支）"/>
+						</StackPanel>
+					</Grid>
+				</Border>
+
+				<Border Background="{DynamicResource DialogContentBackground}"
+						BoxShadow="0 1 4 0 #66000000" Margin="15 0"
+						VerticalAlignment="Top"
+						CornerRadius="6">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="3"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
+									VerticalAlignment="Top">
+							<Border Width="2" Height="15" Background="{DynamicResource AccentBrush}" CornerRadius="114514"/>
+							<TextBlock Text="网络服务项检测" FontWeight="SemiBold"/>
+						</StackPanel>
+
+						<Border Grid.Row="1" Background="{DynamicResource DialogBackground}"
+								Height="1" CornerRadius="114514"
+								VerticalAlignment="Bottom"/>
+
+						<StackPanel VerticalAlignment="Top" Margin="15 5 15 15" Grid.Row="2" Orientation="Vertical">
+							<Button HorizontalAlignment="Left" Classes="wonderaccentbutton" Content="开始检测"
+									Command="{Binding RunConnectionTestAction}" Margin="0 10 0 0">
+								<Button.RenderTransform>
+									<TransformGroup>
+										<SkewTransform AngleX="-8"/>
+									</TransformGroup>
+								</Button.RenderTransform>
+							</Button>
+							<!---->
+							<ListBox IsVisible="{Binding TestListVisible}"
+									 Margin="0 10" Items="{Binding TestList}"
+									 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+									 ClipToBounds="False" Background="Transparent">
+								<ListBox.Styles>
+									<Styles>
+										<Style Selector="ListBoxItem">
+											<Setter Property="Margin" Value="5 6"/>
+											<Setter Property="ClipToBounds" Value="False"/>
+											<Setter Property="Template">
+												<ControlTemplate>
+													<!--{DynamicResource DialogContentBackground}-->
+													<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="5"
+															Name="Main">
+														<Border.RenderTransform>
+															<TransformGroup>
+																<SkewTransform AngleX="-8"/>
+															</TransformGroup>
+														</Border.RenderTransform>
+														<Border.Transitions>
+															<Transitions>
+																<BoxShadowsTransition Property="BoxShadow"
+																					  Easing="ExponentialEaseOut"
+																					  Duration="0:0:0.35"/>
+															</Transitions>
+														</Border.Transitions>
+
+														<Grid>
+															<Grid VerticalAlignment="Center" Margin="15 10">
+																<Grid.ColumnDefinitions>
+																	<ColumnDefinition Width="Auto"/>
+																	<ColumnDefinition Width="10"/>
+																	<ColumnDefinition Width="1*"/>
+																</Grid.ColumnDefinitions>
+																<TextBlock VerticalAlignment="Center" Text="{Binding Name}"
+																		   FontSize="16" FontWeight="SemiBold">
+																	<TextBlock.RenderTransform>
+																		<TransformGroup>
+																			<SkewTransform AngleX="8"/>
+																		</TransformGroup>
+																	</TextBlock.RenderTransform>
+																</TextBlock>
+															</Grid>
+
+															<Border Background="{DynamicResource AccentBrush}" HorizontalAlignment="Right"
+																	CornerRadius="0 5 5 0" Width="{Binding LoadingBorderWidth}"
+																	IsVisible="{Binding	IsLoading}">
+																<Border.Transitions>
+																	<Transitions>
+																		<DoubleTransition Property="Width" Duration="0:0:0.35"
+																						  Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Border.Transitions>
+																<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+																	<ProgressBar Width="20" Height="20" Classes="Circle" Foreground="Black" IsIndeterminate="True">
+																		<ProgressBar.RenderTransform>
+																			<TransformGroup>
+																				<SkewTransform AngleX="8"/>
+																			</TransformGroup>
+																		</ProgressBar.RenderTransform>
+																	</ProgressBar>
+
+																	<TextBlock FontSize="12" VerticalAlignment="Center" Text="连接测试中..."/>
+																</StackPanel>
+															</Border>
+
+															<Border Background="#80BEAF" HorizontalAlignment="Right" IsVisible="{Binding IsSuccess}"
+		                                                            Width="{Binding	SuccessBorderWidth}" CornerRadius="0 5 5 0">
+																<Border.Transitions>
+																	<Transitions>
+																		<DoubleTransition Property="Width" Duration="0:0:0.35"
+																						  Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Border.Transitions>
+																<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+																	<Viewbox Margin="0 -6 0 0" Width="20">
+																		<Path VerticalAlignment="Center" Fill="Black" Data="{StaticResource	Check}"/>
+																	</Viewbox>
+
+																	<TextBlock FontSize="12" VerticalAlignment="Center" Text="连接正常"/>
+																</StackPanel>
+															</Border>
+
+															<!--此处用 BoolReverseConverter 会出现一个傻逼的显示问题-->
+															<Border Background="#FD475D" HorizontalAlignment="Right"  IsVisible="{Binding IsError}"
+		                                                            Width="{Binding	ErrorBorderWidth}" CornerRadius="0 5 5 0">
+																<Border.Transitions>
+																	<Transitions>
+																		<DoubleTransition Property="Width" Duration="0:0:0.35"
+																						  Easing="ExponentialEaseOut"/>
+																	</Transitions>
+																</Border.Transitions>
+																<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+																	<Viewbox IsVisible="{Binding IsError}" Margin="0 -6 0 0" Width="20">
+																		<Path VerticalAlignment="Center" Fill="Black" Data="{StaticResource	Fork}"/>
+																	</Viewbox>
+
+																	<TextBlock FontSize="12" VerticalAlignment="Center" Text="连接错误或超时"/>
+																</StackPanel>
+															</Border>
+														</Grid>
+													</Border>
+												</ControlTemplate>
+											</Setter>
+										</Style>
+
+										<Style Selector="ListBoxItem /template/	Border#Main">
+											<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+											<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+										</Style>
+
+										<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+											<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+										</Style>
+									</Styles>
+								</ListBox.Styles>
+							</ListBox>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

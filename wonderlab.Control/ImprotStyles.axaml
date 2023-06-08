@@ -1,0 +1,25 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<StyleInclude Source="/Style/Dialog/MessageDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/Dialog/UpdateDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/Button/AccentButtonStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
+	<StyleInclude Source="/Style/Bar/ToolBarStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
+	<StyleInclude Source="/Style/Dialog/ContentDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
+	<StyleInclude Source="/Style/Button/HyperlinkButtonStyle.axaml"/>
+	<StyleInclude Source="/Style/Bar/TitleBarStyle.axaml"/>
+	<StyleInclude Source="/Style/Dialog/AccountDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/PageSwitcher.axaml"/>
+	<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
+	<StyleInclude Source="/Style/Dialog/ValidationDialogStyle.axaml"/>
+</Styles>

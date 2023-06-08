@@ -1,0 +1,380 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
+			 xmlns:wc="using:wonderlab.control.Controls"
+			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+             x:Class="wonderlab.Views.Pages.DownCenterPage">
+	<Grid>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+			VerticalAlignment="Bottom" Margin="15" Name="BottomBar">
+			<StackPanel.Transitions>
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.35"
+									  Easing="ExponentialEaseOut"
+									  Property="Spacing"/>
+				</Transitions>
+			</StackPanel.Transitions>
+			<StackPanel.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</StackPanel.RenderTransform>
+			<ToggleButton Content="Minecraft 本体" 
+						  Tag="Minecraft"
+						  IsChecked="True"
+						  Command="{Binding GetGameCoresAction}"/>
+			
+			<ToggleButton Content="Curseforge 资源" 
+						  Tag="Curseforge"
+						  Command="{Binding GetCurseforgeModpackAction}"/>
+			
+			<ToggleButton Content="Modrinth 资源" 
+						  Tag="Modrinth"
+						  Command="{Binding GetModrinthModpackAction}"/>
+		</StackPanel>
+
+		<Button Margin="15" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+				Command="{Binding OpenSearchOptionsAction}">
+			<Button.RenderTransform>
+				<TransformGroup>
+					<SkewTransform AngleX="-8"/>
+				</TransformGroup>
+			</Button.RenderTransform>
+			<StackPanel Orientation="Horizontal" Spacing="5">
+				<Viewbox Width="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Viewbox.RenderTransform>
+						<TransformGroup>
+							<SkewTransform AngleX="8"/>
+						</TransformGroup>
+					</Viewbox.RenderTransform>
+					<Path Fill="Black" Data="{StaticResource Search}"/>
+				</Viewbox>
+				
+				<TextBlock Text="搜索选项"/>
+			</StackPanel>
+		</Button>
+
+		<wc:PageSwitcher Margin="0 60 0 45"
+						 IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+						 Items="{Binding GameCores}">
+			<wc:PageSwitcher.Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="Margin" Value="15 6"/>
+					<Setter Property="ClipToBounds" Value="False"/>
+					<Setter Property="Height" Value="45"/>
+					<Setter Property="Template">
+						<ControlTemplate>
+							<Border Background="{DynamicResource DialogContentBackground}"
+									BoxShadow="0 1 4 0 #66000000"
+									BorderThickness="1"
+									BorderBrush="{DynamicResource DialogContentBorderBrush}"
+									CornerRadius="6"
+									Name="Main">
+								<Border.RenderTransform>
+									<TransformGroup>
+										<SkewTransform AngleX="-8"/>
+									</TransformGroup>
+								</Border.RenderTransform>
+
+								<Border.Transitions>
+									<Transitions>
+										<BoxShadowsTransition Property="BoxShadow"
+															  Easing="ExponentialEaseOut"
+															  Duration="0:0:0.35"/>
+									</Transitions>
+								</Border.Transitions>
+
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto"/>
+										<ColumnDefinition Width="1*"/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+
+									<Grid Margin="15 5">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="30"/>
+											<ColumnDefinition Width="15"/>
+											<ColumnDefinition Width="1*"/>
+										</Grid.ColumnDefinitions>
+
+										<Image Height="35" Width="35"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Center"
+											   Source="/Assets/Icons/Block.png">
+											<Image.RenderTransform>
+												<TransformGroup>
+													<SkewTransform AngleX="8"/>
+												</TransformGroup>
+											</Image.RenderTransform>
+										</Image>
+
+										<Grid Grid.Column="2" HorizontalAlignment="Left"
+											  VerticalAlignment="Center">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="1*"/>
+												<RowDefinition Height="1*"/>
+											</Grid.RowDefinitions>
+											<TextBlock Text="{Binding Id}"
+													   FontSize="15"/>
+
+											<TextBlock Text="{Binding Type}"
+													   Grid.Row="1"
+													   FontSize="12"
+													   Opacity="0.65"/>
+										</Grid>
+									</Grid>
+
+									<Button Width="80" Content="下载"
+											Grid.Column="2"
+											Click="OpenDialogAction"
+											Classes="wonderaccentbutton"
+											HorizontalContentAlignment="Center"
+											HorizontalAlignment="Right" 
+											Margin="15 0"/>
+								</Grid>
+							</Border>
+						</ControlTemplate>
+					</Setter>
+				</Style>
+			</wc:PageSwitcher.Styles>
+		</wc:PageSwitcher>
+
+		<ListBox Background="Transparent"
+				 VirtualizationMode="None"
+				 IsVisible="{Binding IsResource}"
+				 Margin="0 60" Items="{Binding Resources}">
+			<ListBox.Styles>
+				<Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="15 6"/>
+						<Setter Property="ClipToBounds" Value="False"/>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="10"
+										Name="Main">
+									<Border.RenderTransform>
+										<TransformGroup>
+											<SkewTransform AngleX="-8"/>
+										</TransformGroup>
+									</Border.RenderTransform>
+									<Border.Transitions>
+										<Transitions>
+											<BoxShadowsTransition Property="BoxShadow"
+																  Easing="ExponentialEaseOut"
+																  Duration="0:0:0.35"/>
+										</Transitions>
+									</Border.Transitions>
+
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="1*"/>
+											<ColumnDefinition Width="10"/>
+											<ColumnDefinition Width="1*"/>
+										</Grid.ColumnDefinitions>
+										<Grid>
+											<!--{Binding IsLoading}-->
+											<ProgressBar Classes="Circle" HorizontalAlignment="Left"
+			                                             VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}"
+			                                             Height="25" Width="25" Margin="25 15 15 15">
+												<ProgressBar.RenderTransform>
+													<TransformGroup>
+														<SkewTransform AngleX="8"/>
+													</TransformGroup>
+												</ProgressBar.RenderTransform>
+											</ProgressBar>
+											
+											<Border Height="35" Width="35"
+													IsVisible="{Binding IsLoading, Converter={StaticResource BoolReverseConverter}}"
+													HorizontalAlignment="Left"
+													Margin="20 10 10 10" CornerRadius="4"
+													BoxShadow="0 4 16 0 #66000000">
+												<Border.Background>
+													<ImageBrush Source="{Binding Icon}" BitmapInterpolationMode="MediumQuality" Stretch="UniformToFill"/>
+												</Border.Background>
+												<Border.RenderTransform>
+													<TransformGroup>
+														<SkewTransform AngleX="8"/>
+													</TransformGroup>
+												</Border.RenderTransform>
+											</Border>
+
+											<Grid VerticalAlignment="Center" Margin="70 0 0 0">
+												<Grid.RenderTransform>
+													<TransformGroup>
+														<SkewTransform AngleX="8"/>
+													</TransformGroup>
+												</Grid.RenderTransform>
+
+												<Grid.RowDefinitions>
+													<RowDefinition Height="Auto"/>
+													<RowDefinition Height="2"/>
+													<RowDefinition Height="Auto"/>
+												</Grid.RowDefinitions>
+
+												<Grid>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto"/>
+														<ColumnDefinition Width="10"/>
+														<ColumnDefinition Width="1*"/>
+													</Grid.ColumnDefinitions>
+
+													<!--{Binding Data.ChineseTitle}-->
+													<TextBlock VerticalAlignment="Center" Text="{Binding Data.ChineseTitle}" MaxWidth="450"
+															   FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+
+													<StackPanel Grid.Column="2" Orientation="Horizontal"
+																HorizontalAlignment="Left" Spacing="5">
+														<StackPanel.RenderTransform>
+															<TransformGroup>
+																<SkewTransform AngleX="-8"/>
+															</TransformGroup>
+														</StackPanel.RenderTransform>
+														
+														<Border Height="18" CornerRadius="3"
+																Background="{DynamicResource AccentBrush}">
+															<Grid VerticalAlignment="Center" Margin="5 0">
+																<TextBlock FontSize="11" Foreground="White" MaxWidth="450"
+																		   Text="{Binding Data.NormalTitle}" TextAlignment="Left"
+																		   TextTrimming="CharacterEllipsis"/>
+															</Grid>
+														</Border>
+
+														<Border Height="18" CornerRadius="3"
+																Background="{DynamicResource AccentBrush}">
+															<Grid VerticalAlignment="Center" Margin="5 0">
+																<TextBlock FontSize="11" Foreground="White"
+																		   Text="{Binding Data.GameVersions}" TextAlignment="Left"
+																		   TextTrimming="CharacterEllipsis"/>
+															</Grid>
+														</Border>
+													</StackPanel>
+												</Grid>
+
+
+												<TextBlock Grid.Row="2"
+														   FontSize="10" Opacity="0.55" TextTrimming="CharacterEllipsis"
+														   Text="{Binding Data.Description}"/>
+											</Grid>
+										</Grid>
+										
+										<Button Content="更多信息" Grid.Column="2"
+												HorizontalContentAlignment="Center"
+												Click="GoResourceInfoAction"
+												HorizontalAlignment="Right" Margin="15 0"/>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+
+					<Style Selector="ListBoxItem /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+					</Style>
+
+					<!--<Style Selector="ListBoxItem:pointerover /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 4 16 0 #66000000"/>
+					</Style>
+
+					<Style Selector="ListBoxItem:pressed /template/	Border#Main">
+						<Setter Property="BoxShadow" Value="0 0 0.1 0 #66000000"/>
+					</Style>-->
+				</Styles>
+			</ListBox.Styles>
+		</ListBox>
+ 
+		<wcb:TitleBar Title="下载中心" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+
+		<ProgressBar Classes="Circle" HorizontalAlignment="Center"
+					 VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}" Height="60" Width="60"/>
+
+		<!--{DynamicResource DialogContentBackground} {Binding SearcherHeight}-->
+		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
+		        BorderThickness="1"
+				Height="{Binding SearcherHeight}"
+			    VerticalAlignment="Bottom"
+				BoxShadow="0 4 32 0 #66000000"
+		        Background="White">
+			<Border.Transitions>
+				<Transitions>
+					<DoubleTransition Easing="ExponentialEaseOut"
+									  Duration="0:0:0.35"
+									  Property="Height"/>
+				</Transitions>
+			</Border.Transitions>
+			
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="10"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<Border Height="50" Background="#FFEEEEEE">
+					<Grid>
+						<TextBlock Text="搜索选项" 
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Margin="15 0"
+								   FontWeight="SemiBold" FontSize="16"/>
+
+						<Button Classes="rotatebutton"
+		                        HorizontalAlignment="Right"
+		                        Command="{Binding CloseSearchOptionsAction}"
+		                        VerticalAlignment="Center" Margin="15 0"/>
+					</Grid>
+				</Border>
+
+				<Grid Margin="15" Grid.Row="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="10"/>
+						<RowDefinition Height="1*"/>
+					</Grid.RowDefinitions>
+
+					<TextBox Text="{Binding SearchFilter}" Watermark="你想搜索的资源名" VerticalAlignment="Top"/>
+
+					<Grid Grid.Row="2">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="10"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+
+						<ComboBox SelectedItem="{Binding CurrentCategorie}"
+		                          HorizontalAlignment="Stretch" 
+								  IsVisible="{Binding IsResource}"
+		                          Items="{Binding Categories.Values}" PlaceholderText="具体资源类型">
+						</ComboBox>
+
+						<ComboBox Items="{Binding McVersions}"
+								  Grid.Column="2"
+								  IsVisible="{Binding IsResource}"
+								  HorizontalAlignment="Stretch"
+								  SelectedItem="{Binding CurrentMcVersion}"
+								  PlaceholderText="资源支持的 Mc 版本"/>
+
+						<ComboBox Items="{Binding McVersionTypes}"
+		                          Grid.Column="2"
+								  IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+								  IsHitTestVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+		                          HorizontalAlignment="Stretch"
+		                          SelectedItem="{Binding CurrentMcVersionType}"
+		                          PlaceholderText="Mc 版本类别"/>
+
+						<Button HorizontalAlignment="Stretch" Content="搜索"
+								Classes="wonderaccentbutton"
+		                        Command="{Binding SearchResourceAction}"
+		                        HorizontalContentAlignment="Center"
+								Grid.Column="4"/>
+					</Grid>
+				</Grid>			
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

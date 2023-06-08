@@ -1,0 +1,45 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="wonderlab.App"
+			 xmlns:c="using:wonderlab.Views.Converters">
+	<Application.Styles>
+		<FluentTheme Mode="Light"/>
+		<StyleInclude Source="avares://wonderlab.Control/ImprotStyles.axaml"/>
+		<Style Selector="ProgressBar /template/ Border#PART_Indicator">
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Duration="0:0:0.35" Property="Width" Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="Border">
+			<Setter Property="Transitions">
+				<Transitions>
+					<BrushTransition Property="Background"
+									 Easing="ExponentialEaseOut"
+									 Duration="0:0:0.35"/>
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="ContextMenu:open">			
+			<Setter Property="Opacity" Value="0.5"/>
+		</Style>
+	</Application.Styles>
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
+				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
+			</ResourceDictionary.MergedDictionaries>
+			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
+			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
+			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
+			<c:MaxWidthConverter x:Key="MaxWidthConverter"/>
+			<c:RunStateConverter x:Key="RunStateConverter"/>
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>
