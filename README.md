@@ -58,6 +58,10 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 
 ## 开发团队
 
+#### [Xilu](https://baka_hs.gitee.io/xilu-baka/)
+
+启动器主体框架编写，大部分基本功能都是这个人写的
+
 #### Ddggdd135
 
 全栈开发（确信）
