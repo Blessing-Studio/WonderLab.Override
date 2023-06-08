@@ -69,7 +69,7 @@ namespace wonderlab.Views.Pages
                 return;
             }
 
-            if (!GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() || GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
+            if (!GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() || !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
                 "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
                 return;
             }
