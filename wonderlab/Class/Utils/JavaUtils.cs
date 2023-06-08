@@ -41,13 +41,36 @@ namespace wonderlab.Class.Utils {
                     continue;
 
                 if ($"{i}/Contents/Home/bin/java".IsFile()) {
-                    yield return JavaToolkit.GetJavaInfo(i);
+                    yield return JavaToolkit.GetJavaInfo($"{i}/Contents/Home/bin/java");
                 }
             }
         }
 
         private static IEnumerable<JavaInfo> GetLinuxJavas() {
-            return Array.Empty<JavaInfo>();
+            //包管理器目录下已安装的java
+            foreach (var LinuxJavaHomePath in GlobalResources.LinuxJavaHomePaths.AsParallel()) {
+                if (!Directory.Exists(LinuxJavaHomePath))
+                    continue;
+                foreach (var jvmPath in Directory.EnumerateDirectories(LinuxJavaHomePath).AsParallel())
+                    if ($"{jvmPath}/bin/java".IsFile())
+                        yield return JavaToolkit.GetJavaInfo($"{jvmPath}/bin/java");
+            }
+            //设置了环境变量的java
+            using var cmd = new System.Diagnostics.Process {
+                StartInfo = new("which", "java") {
+                    WorkingDirectory = Directory.GetCurrentDirectory(),
+                    UseShellExecute = false,
+                    RedirectStandardInput = true,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                }
+            };
+            cmd.Start();
+            var envJvmPath = cmd.StandardError.ReadToEnd();
+            cmd.Close();
+            if (envJvmPath.IsFile())
+                yield return JavaToolkit.GetJavaInfo(envJvmPath);
         }
 
         private static IEnumerable<JavaInfo> GetJavaInOfficialGameCorePath() {

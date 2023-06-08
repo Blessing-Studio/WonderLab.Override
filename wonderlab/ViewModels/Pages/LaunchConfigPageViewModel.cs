@@ -149,6 +149,9 @@ namespace wonderlab.ViewModels.Pages {
             IsLoadJavaFinish = false;
             IsLoadJavaNow = true;
 
+            //在搜索前清除已有的搜索结果
+            Javas.Clear();
+
             await Task.Run(async () => {
                 if (SystemUtils.IsWindows) {
                     foreach (var drive in DriveInfo.GetDrives().AsParallel()) {
