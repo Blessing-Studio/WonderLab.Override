@@ -18,6 +18,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{A9F6CAF9-71D5-4EFC-AA61-B453B76D0BA0}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\CI-Build.yml = .github\workflows\CI-Build.yml
+		.github\workflows\CI-Check.yml = .github\workflows\CI-Check.yml
+		.github\workflows\close-invalid-issues.yml = .github\workflows\close-invalid-issues.yml
+		.github\workflows\label-resolved-issues.yml = .github\workflows\label-resolved-issues.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D2667F9-92A2-4477-9A0E-734DE758019F}"

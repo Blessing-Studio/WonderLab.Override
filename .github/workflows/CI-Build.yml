@@ -2,7 +2,7 @@ name: CI-Build
 on:
   workflow_dispatch:
   push:
-    branches: ["master"]
+    branches: [ "**" ]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -115,6 +115,8 @@ jobs:
   Release:
     permissions: write-all
     runs-on: ubuntu-latest
+    env:
+      GITHUB_REF: $ github.ref
     needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux]
     steps:
     - name: Download Windows Build
@@ -143,8 +145,8 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        automatic_release_tag: AutoBuild
-        title: "自动构建版本"
+        automatic_release_tag: AutoBuild-$GITHUB_REF##*/
+        title: "自动构建版本-$GITHUB_REF##*/"
         files: |
             *.exe
             *.zip
