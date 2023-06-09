@@ -86,9 +86,14 @@ public class ResourceInstaller {
     public async static ValueTask<List<IResource>> GetAssetFilesAsync(GameCore core) {
         var root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var asset = new AssetParser(new AssetJsonEntity().FromJson(await File.ReadAllTextAsync(core.AssetIndexFile.ToFileInfo().FullName)), core.Root).GetAssets().Select((Func<AssetResource, IResource>)((AssetResource x) => x)).ToList();
-        var res = core.LibraryResources.Where((LibraryResource x) => x.IsEnable).Select((Func<LibraryResource, IResource>)((LibraryResource x) => x)).ToList();
-        res.AddRange(asset);
-        res.Sort((x, x1) => x.Size.CompareTo(x1.Size));
+        List<IResource> resources = new List<IResource?>();
+        if (core.LibraryResources != null)
+        {
+            var res = core.LibraryResources!.Where((LibraryResource x) => x.IsEnable).Select((Func<LibraryResource, IResource>)((LibraryResource x) => x)).ToList();
+            resources.AddRange(res);
+        }
+        resources.AddRange(asset);
+        resources.Sort((x, x1) => x.Size.CompareTo(x1.Size));
 
         foreach (var i in asset) {
             if (File.Exists(Path.Combine(Path.Combine(root, i.ToDownloadRequest().Directory.FullName.Substring(i.ToDownloadRequest().Directory.FullName.IndexOf(".minecraft"))), i.ToDownloadRequest().FileName))) {
@@ -96,7 +101,7 @@ public class ResourceInstaller {
             }
         }
 
-        return res;
+        return resources;
     }
 
     public async Task<List<IResource>> GetAssetResourcesAsync() {
@@ -108,7 +113,9 @@ public class ResourceInstaller {
                 request.Directory.Create();
 
             var res = await HttpWrapper.HttpDownloadAsync(request);
-
+            if(res.FileInfo == null){
+                return new();
+            }
             if (!res.FileInfo.Exists)
                 return new();
         }
