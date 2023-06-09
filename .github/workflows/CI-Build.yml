@@ -119,6 +119,15 @@ jobs:
       GITHUB_REF: $ github.ref
     needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux]
     steps:
+    - name: Extract branch name on push
+      if: github.event_name != 'pull_request'
+      shell: bash
+      run: echo "::set-env name=BRANCH_NAME::$(echo $GITHUB_REF#refs/heads/)"
+      id: extract_branch
+
+    - name: Extract branch name on pull request
+      if: github.event_name == 'pull_request'
+      run: echo "::set-env name=BRANCH_NAME::$(echo $GITHUB_HEAD_REF)"
     - name: Download Windows Build
       uses: actions/download-artifact@v3
       with:
@@ -145,8 +154,8 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        automatic_release_tag: AutoBuild-$GITHUB_REF##*/
-        title: "自动构建版本-$GITHUB_REF##*/"
+        automatic_release_tag: AutoBuild_$ BRANCH_NAME
+        title: "自动构建版本 - $ BRANCH_NAME"
         files: |
             *.exe
             *.zip
