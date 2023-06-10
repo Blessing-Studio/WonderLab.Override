@@ -50,20 +50,30 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public Bitmap NewImage { get; set; }
 
-        public async void GetMojangNewsAction() {
-            try {
+        public async void GetMojangNewsAction()
+        {
+            try
+            {
                 New result = null;
-                if (CacheResources.MojangNews.Count <= 0) {
-                    result = (await HttpUtils.GetMojangNewsAsync()).First() ?? new();
-                } else {
+                if (CacheResources.MojangNews.Count <= 0)
+                {
+                    List<New> news = new(await HttpUtils.GetMojangNewsAsync());
+                    result = news.Count > 0 ? news.First() : new();
+                }
+                else
+                {
                     result = CacheResources.MojangNews.FirstOrDefault()!;
                 }
 
                 NewTitle = result.Title;
                 NewTag = result.Tag;
-                NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+                if (result.NewsPageImage != null)
+                {
+                    NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+                }
             }
-            catch (HttpRequestException ex) {
+            catch (HttpRequestException ex)
+            {
                 $"哎哟，获取失败力，请检查您的网络是否正常，详细信息：{ex.Message}".ShowMessage();
             }
         }
