@@ -26,7 +26,7 @@ public class HttpToolkit
 		return await HttpClient.GetStringAsync(Uri);
 	}
 
-	public static async ValueTask<HttpResponseMessage> HttpGetAsync(string url, Tuple<string, string> authorization = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
+	public static async ValueTask<HttpResponseMessage> HttpGetAsync(string url, Tuple<string, string>? authorization = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead)
 	{
 		using HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
 		if (authorization != null)
@@ -36,7 +36,7 @@ public class HttpToolkit
 		HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(requestMessage, httpCompletionOption, CancellationToken.None);
 		if (httpResponseMessage.StatusCode.Equals(HttpStatusCode.Found))
 		{
-			string absoluteUri = httpResponseMessage.Headers.Location.AbsoluteUri;
+			string absoluteUri = httpResponseMessage.Headers!.Location!.AbsoluteUri;
 			httpResponseMessage.Dispose();
 			GC.Collect();
 			return await HttpGetAsync(absoluteUri, authorization, httpCompletionOption);
@@ -57,10 +57,10 @@ public class HttpToolkit
 		HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(requestMessage, httpCompletionOption, CancellationToken.None);
 		if (httpResponseMessage.StatusCode.Equals(HttpStatusCode.Found))
 		{
-			string absoluteUri = httpResponseMessage.Headers.Location.AbsoluteUri;
+			string absoluteUri = httpResponseMessage.Headers.Location!.AbsoluteUri;
 			httpResponseMessage.Dispose();
 			GC.Collect();
-			return await HttpGetAsync(absoluteUri, headers, httpCompletionOption);
+			return await HttpGetAsync(absoluteUri, headers!, httpCompletionOption);
 		}
 		return httpResponseMessage;
 	}
@@ -102,15 +102,19 @@ public class HttpToolkit
 		return await HttpClient.SendAsync(httpRequestMessage);
 	}
 
-	public static async ValueTask<HttpDownloadResponse> HttpDownloadAsync(string url, string folder, string filename = null)
+	public static async ValueTask<HttpDownloadResponse> HttpDownloadAsync(string url, string folder, string? filename = null)
 	{
-		FileInfo fileInfo = null;
-		HttpResponseMessage responseMessage = null;
+		FileInfo? fileInfo = null;
+		HttpResponseMessage? responseMessage = null;
 		try
 		{
 		    responseMessage = await HttpWrapper.HttpGetAsync(url, new Dictionary<string, string>(), HttpCompletionOption.ResponseHeadersRead);
 			responseMessage.EnsureSuccessStatusCode();
-			fileInfo = ((responseMessage.Content.Headers == null || responseMessage.Content.Headers.ContentDisposition == null) ? new FileInfo(Path.Combine(folder, Path.GetFileName(responseMessage.RequestMessage.RequestUri.AbsoluteUri))) : new FileInfo(Path.Combine(folder, responseMessage.Content.Headers.ContentDisposition.FileName.Trim(new char[1] { '"' }))));
+			fileInfo = ((responseMessage.RequestMessage != null &&
+                responseMessage.RequestMessage.RequestUri != null) &&
+                (responseMessage.Content.Headers == null || responseMessage.Content.Headers.ContentDisposition == null)) ?
+				new FileInfo(Path.Combine(folder, Path.GetFileName(responseMessage.RequestMessage.RequestUri.AbsoluteUri))) :
+				new FileInfo(Path.Combine(folder, responseMessage.Content.Headers!.ContentDisposition!.FileName!.Trim(new char[1] { '"' })));
 			if (filename != null)
 			{
 				fileInfo = new FileInfo(fileInfo.FullName.Replace(fileInfo.Name, filename));
@@ -140,7 +144,7 @@ public class HttpToolkit
 			return new HttpDownloadResponse
 			{
 				FileInfo = fileInfo,
-				HttpStatusCode = (responseMessage?.StatusCode).Value,
+				HttpStatusCode = responseMessage!.StatusCode,
 				Message = ex.Message + "[" + url + "]"
 			};
 		}
@@ -160,19 +164,23 @@ public class HttpToolkit
 		return await HttpDownloadAsync(request.Url, request.Directory.FullName, request.FileName);
 	}
 
-	public static async ValueTask<HttpDownloadResponse> HttpDownloadAsync(string url, string folder, Action<float, string> progressChangedAction, string filename = null)
+	public static async ValueTask<HttpDownloadResponse> HttpDownloadAsync(string url, string folder, Action<float, string> progressChangedAction, string? filename = null)
 	{
 		Action<float, string> progressChangedAction2 = progressChangedAction;
-		FileInfo fileInfo = null;
-		HttpResponseMessage responseMessage = null;
+		FileInfo? fileInfo = null;
+		HttpResponseMessage? responseMessage = null;
 		using System.Timers.Timer timer = new System.Timers.Timer(1000.0);
 		_ = 4;
 		try
 		{
 			responseMessage = await HttpWrapper.HttpGetAsync(url, new Dictionary<string, string>(), HttpCompletionOption.ResponseHeadersRead);
 			responseMessage.EnsureSuccessStatusCode();
-			fileInfo = ((responseMessage.Content.Headers == null || responseMessage.Content.Headers.ContentDisposition == null) ? new FileInfo(Path.Combine(folder, Path.GetFileName(responseMessage.RequestMessage.RequestUri.AbsoluteUri))) : new FileInfo(Path.Combine(folder, responseMessage.Content.Headers.ContentDisposition.FileName.Trim(new char[1] { '"' }))));
-			if (filename != null)
+            fileInfo = ((responseMessage.RequestMessage != null &&
+                responseMessage.RequestMessage.RequestUri != null) &&
+                (responseMessage.Content.Headers == null || responseMessage.Content.Headers.ContentDisposition == null)) ?
+                new FileInfo(Path.Combine(folder, Path.GetFileName(responseMessage.RequestMessage.RequestUri.AbsoluteUri))) :
+                new FileInfo(Path.Combine(folder, responseMessage.Content.Headers!.ContentDisposition!.FileName!.Trim(new char[1] { '"' })));
+            if (filename != null)
 			{
 				fileInfo = new FileInfo(fileInfo.FullName.Replace(fileInfo.Name, filename));
 			}
@@ -186,7 +194,7 @@ public class HttpToolkit
 				using Stream stream = await responseMessage.Content.ReadAsStreamAsync();
 				timer.Elapsed += delegate
 				{
-					progressChangedAction2((float)fileStream.Length / (float)responseMessage.Content.Headers.ContentLength.Value, LongExtension.LengthToMb(fileStream.Length) + " / " + LongExtension.LengthToMb(responseMessage.Content.Headers.ContentLength.Value));
+					progressChangedAction2((float)fileStream.Length / (float)responseMessage.Content!.Headers!.ContentLength!, LongExtension.LengthToMb(fileStream.Length) + " / " + LongExtension.LengthToMb(responseMessage.Content.Headers.ContentLength.Value));
 				};
 				timer.Start();
 				byte[] bytes = new byte[BufferSize];
@@ -221,7 +229,7 @@ public class HttpToolkit
 			return new HttpDownloadResponse
 			{
 				FileInfo = fileInfo,
-				HttpStatusCode = (responseMessage?.StatusCode).Value,
+				HttpStatusCode = responseMessage!.StatusCode,
 				Message = ex.Message + "[" + url + "]"
 			};
 		}
