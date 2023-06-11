@@ -110,6 +110,6 @@
       <UseAppHost>true</UseAppHost>
     </PropertyGroup>
 	<ItemGroup>
-      <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
+      <PackageReference Include="Dotnet.Bundle" Version="*" />
 	</ItemGroup>
 </Project>

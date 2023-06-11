@@ -37,7 +37,7 @@ namespace wonderlab.Class.Utils {
         }
 
         public static void ShowMessage(this string message, HideOfRunAction action) {
-            App.CurrentWindow?.ShowInfoBar("Info".GetText(), message, action);
+            App.CurrentWindow?.ShowInfoBar("提示", message, action);
         }
 
         public static void ShowMessage(this string message, string title, HideOfRunAction action) {
@@ -282,22 +282,22 @@ namespace wonderlab.Class.Utils {
             App.CurrentWindow.DialogHost.ShowInfoDialog(title, message);
         }
 
-        public static void SwitchLanguage(this string tag) {
-            var resources = Application.Current!.Resources;
-            var news = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{tag}.axaml"));
-            var old = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{GlobalResources.LauncherData.LanguageType}.axaml"));
+        //public static void SwitchLanguage(this string tag) {
+        //    var resources = Application.Current!.Resources;
+        //    var news = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{tag}.axaml"));
+        //    var old = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{GlobalResources.LauncherData.LanguageType}.axaml"));
 
-            resources.MergedDictionaries.Remove(old);
-            resources.MergedDictionaries.Add(news);
-        }
+        //    resources.MergedDictionaries.Remove(old);
+        //    resources.MergedDictionaries.Add(news);
+        //}
 
-        public static string GetText(this string key) {
-            object temp = string.Empty;
-            if (GlobalResources.CurrentLanguage.TryGetValue(key, out temp)) {
-                return GlobalResources.CurrentLanguage[key]?.ToString() ?? "Not Found";
-            }
+        //public static string GetText(this string key) {
+        //    object temp = string.Empty;
+        //    if (GlobalResources.CurrentLanguage.TryGetValue(key, out temp)) {
+        //        return GlobalResources.CurrentLanguage[key]?.ToString() ?? "Not Found";
+        //    }
 
-            return "Not Found";
-        }
+        //    return "Not Found";
+        //}
     }
 }

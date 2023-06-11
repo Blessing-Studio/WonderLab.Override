@@ -65,25 +65,27 @@ namespace wonderlab.Views.Pages
 
         private void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             try {
+                "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
+
                 if (string.IsNullOrEmpty(ViewModel.SelectGameCoreId)) {
-                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                    "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
                     return;
                 }
 
                 if (GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
                     return;
                 } else if (!GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
                     return;
                 }
 
-                if (GlobalResources.LaunchInfoData.JavaRuntimePath.IsNull() ||
-                    !GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() ||
-                    !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
-                    return;
-                }
+                //if (GlobalResources.LaunchInfoData.JavaRuntimePath.IsNull() ||
+                //    !GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() ||
+                //    !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
+                //    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                //    return;
+                //}
 
                 ViewModel.SelectAccountAction();
             }
