@@ -346,11 +346,11 @@
 						</Grid.ColumnDefinitions>
 
 						<Button Grid.Column="2" Background="Transparent" Classes="transparent" Command="{Binding OpenActionCenterAction}">
-							<TextBlock FontSize="15" Text="{DynamicResource	ActionCenter}"/>
+							<TextBlock FontSize="15" Text="操作中心"/>
 						</Button>
 
 						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="transparent">
-							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="{DynamicResource ProcessManager}"/>
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="进程中心"/>
 						</Button>
 
 						<!--<Button Classes="transparent" Background="Transparent" Grid.Column="4">
@@ -383,7 +383,7 @@
 
 												<TextBlock FontSize="10"
 														   Opacity="0.65"
-														   Text="{DynamicResource CurrentGameCore}"
+														   Text="当前核心"
 														   Foreground="Black"
 														   HorizontalAlignment="Right"/>
 

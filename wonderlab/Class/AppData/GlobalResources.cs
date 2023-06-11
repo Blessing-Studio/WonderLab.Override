@@ -40,8 +40,5 @@ namespace wonderlab.Class.AppData {
         public static LaunchInfoDataModel DefaultLaunchInfoData { get; } = new();
 
         public static LauncherDataModel DefaultLauncherData { get; } = new();
-
-        public static ResourceDictionary CurrentLanguage { get; set; } =
-            (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{LanguageDir}{LauncherData.LanguageType ??= "zh-cn"}.axaml"));
     }
 }
