@@ -225,7 +225,7 @@ public static class ExtendToolkit
 
     public static bool IsNull(this object obj) => obj is null;
 
-    public static bool HasValue<T>(this IEnumerable<T> obj) => !obj.IsNull() && obj!.Any();
+	public static bool HasValue<T>(this IEnumerable<T> obj) => obj != null && obj.Count() > 0;
 
     public static DirectoryInfo[] FindAllDirectory(this string path) => Directory.GetDirectories(path).Select(x => new DirectoryInfo(x)).ToArray();
 

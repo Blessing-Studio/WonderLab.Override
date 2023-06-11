@@ -72,13 +72,15 @@ namespace wonderlab.Views.Pages
                     return;
                 }
 
-                if (GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
-                    return;
-                } else if (!GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
+                if (!GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
+                    "无法继续启动步骤，原因：没有 Java 运行时".ShowMessage("提示");
                     return;
                 }
+
+                if (!GlobalResources.LaunchInfoData.IsAutoSelectJava && (GlobalResources.LaunchInfoData.JavaRuntimePath == null || GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile())) {
+                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
+                    return;
+                } 
 
                 //if (GlobalResources.LaunchInfoData.JavaRuntimePath.IsNull() ||
                 //    !GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() ||
