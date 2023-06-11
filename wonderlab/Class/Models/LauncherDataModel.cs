@@ -35,6 +35,9 @@ namespace wonderlab.Class.Models
         [JsonProperty("currentdownloadAPI")]
         public DownloadApiType CurrentDownloadAPI { get; set; } = DownloadApiType.Mojang;
 
+        [JsonProperty("languageType")]
+        public string LanguageType { get; set; } = "zh-cn";
+
         [JsonProperty("launcherVersion")]
         public int LauncherVersion { get; set; } = 120;
 

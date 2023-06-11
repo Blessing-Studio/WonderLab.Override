@@ -1,4 +1,6 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
+﻿using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,8 @@ namespace wonderlab.Class.AppData {
 
         public const string HitokotoApi = "https://v1.hitokoto.cn/";
 
+        public const string LanguageDir = "avares://wonderlab/Assets/Strings/";
+
         public static CurseForgeToolkit CurseForgeToolkit { get; } = new(CurseforgeToken);
 
         public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
@@ -36,5 +40,8 @@ namespace wonderlab.Class.AppData {
         public static LaunchInfoDataModel DefaultLaunchInfoData { get; } = new();
 
         public static LauncherDataModel DefaultLauncherData { get; } = new();
+
+        public static ResourceDictionary CurrentLanguage { get; set; } =
+            (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{LanguageDir}{LauncherData.LanguageType ??= "zh-cn"}.axaml"));
     }
 }

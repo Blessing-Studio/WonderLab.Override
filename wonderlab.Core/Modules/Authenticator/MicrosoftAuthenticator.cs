@@ -200,16 +200,22 @@ namespace MinecraftLaunch.Modules.Authenticator {
                 #region Check with Game
                 Report("开始检查游戏所有权");
 
+                bool hasGame = false;
                 var authorization = new Tuple<string, string>("Bearer", access_token);
-                using var GameHasRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/entitlements/mcstore", authorization);
 
-                var ItemArray = (await GameHasRes.Content.ReadAsStringAsync()).ToJsonEntity<GameHasCheckResponseModel>();
-                bool hasgame = ItemArray.Items.Count > 0 ? true : false;
+                try {
+                    using var gameHasRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/entitlements/mcstore", authorization);
+                    var items = (JArray)JObject.Parse((await gameHasRes.Content.ReadAsStringAsync()))["items"]!;
+                    hasGame = items.Any();
+                }
+                catch (Exception) {    
+                    hasGame = false;
+                }
                 #endregion
 
                 #region Get the profile
 
-                if (hasgame) {
+                if (hasGame) {
                     Report("开始获取 玩家Profile");
 
                     using var profileRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/minecraft/profile", authorization);

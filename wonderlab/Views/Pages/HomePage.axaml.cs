@@ -64,16 +64,18 @@ namespace wonderlab.Views.Pages
         }
 
         private void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+
             try {
                 if (string.IsNullOrEmpty(ViewModel.SelectGameCoreId)) {
-                    "无法继续启动步骤，原因：未选择游戏核心".ShowMessage("提示");
+                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
                     return;
                 }
 
                 if (GlobalResources.LaunchInfoData.JavaRuntimePath.IsNull() ||
                     !GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile() ||
                     !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
-                    "无法继续启动步骤，原因：未选择 Java 运行时".ShowMessage("提示");
+                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
                     return;
                 }
 

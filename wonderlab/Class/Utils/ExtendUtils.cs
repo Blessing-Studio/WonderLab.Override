@@ -23,6 +23,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using wonderlab.Class.AppData;
+using Avalonia.Markup.Xaml;
+using Avalonia;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -35,7 +37,7 @@ namespace wonderlab.Class.Utils {
         }
 
         public static void ShowMessage(this string message, HideOfRunAction action) {
-            App.CurrentWindow?.ShowInfoBar("信息", message, action);
+            App.CurrentWindow?.ShowInfoBar("Info".GetText(), message, action);
         }
 
         public static void ShowMessage(this string message, string title, HideOfRunAction action) {
@@ -214,13 +216,6 @@ namespace wonderlab.Class.Utils {
             };
         }
         //resourcepack mod modpack shader
-        [Obsolete]
-        public static Bitmap ToReSizeBitmap(this MemoryStream stream, int width, int hight) {
-            using var memoryStream = new MemoryStream();
-
-            Bitmap.DecodeToWidth(stream, width).Save(memoryStream);
-            return Bitmap.DecodeToHeight(memoryStream, hight);
-        }
 
         public static async void WriteCompressedText(this string path, string? contents) {
             if (contents == null) {
@@ -285,6 +280,24 @@ namespace wonderlab.Class.Utils {
 
         public static void ShowInfoDialog(this string message, string title) {
             App.CurrentWindow.DialogHost.ShowInfoDialog(title, message);
+        }
+
+        public static void SwitchLanguage(this string tag) {
+            var resources = Application.Current!.Resources;
+            var news = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{tag}.axaml"));
+            var old = (ResourceDictionary)AvaloniaXamlLoader.Load(new($"{GlobalResources.LanguageDir}{GlobalResources.LauncherData.LanguageType}.axaml"));
+
+            resources.MergedDictionaries.Remove(old);
+            resources.MergedDictionaries.Add(news);
+        }
+
+        public static string GetText(this string key) {
+            object temp = string.Empty;
+            if (GlobalResources.CurrentLanguage.TryGetValue(key, out temp)) {
+                return GlobalResources.CurrentLanguage[key]?.ToString() ?? "Not Found";
+            }
+
+            return "Not Found";
         }
     }
 }
