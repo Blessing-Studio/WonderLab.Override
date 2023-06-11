@@ -19,7 +19,7 @@ namespace wonderlab {
         [STAThread]
         public static async Task Main(string[] args) {
             try {
-                //Environment.SetEnvironmentVariable("LC_CTYPE", "en_US.UTF-8");
+                Environment.SetEnvironmentVariable("LC_CTYPE", "en_US.UTF-8");
                 BuildAvaloniaApp()
                   .StartWithClassicDesktopLifetime(args);
             }
