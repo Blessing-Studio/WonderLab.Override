@@ -166,7 +166,7 @@
 															<Button Height="30" Width="30" Classes="transparent" Click="GoConfigClick">
 																<PathIcon VerticalAlignment="Center"
 																		  HorizontalAlignment="Center"
-																		  Data="{StaticResource	Info}"/>
+																		  Data="{StaticResource	InfoIcon}"/>
 															</Button>
 														</StackPanel>
 													</Grid>

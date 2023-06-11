@@ -56,6 +56,7 @@ public class ResourceInstaller {
             Trace.WriteLine($"×ÊÔ´Á´½Ó£º{request.Url}");
             var result = await HttpToolkit.HttpDownloadAsync(request);
             output++;
+
             if (result.HttpStatusCode != HttpStatusCode.OK)
                 this.FailedResources.Add(x);
         }, new ExecutionDataflowBlockOptions {

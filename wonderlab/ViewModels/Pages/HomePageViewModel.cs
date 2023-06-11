@@ -110,12 +110,12 @@ namespace wonderlab.ViewModels.Pages {
                 }
 
                 CurrentAccount = user.First().Data.ToAccount();
+                LaunchTaskAction();
             }
             catch (Exception) {
 
             }
             finally {
-                LaunchTaskAction();
                 GC.Collect();
             }
         }

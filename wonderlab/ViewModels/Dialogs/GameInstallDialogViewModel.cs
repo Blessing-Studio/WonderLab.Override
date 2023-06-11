@@ -285,11 +285,13 @@ namespace wonderlab.ViewModels.Dialogs {
 
             async void ProcessOutPut(object? sender, ProgressChangedEventArgs x) {
                 try {
-                    var progress = x.Progress * 100;
-                    data.ProgressOfBar = progress;
-                    data.Progress = $"{Math.Round(progress, 2)}%";
+                    await Task.Run(async() => {
+                        var progress = x.Progress * 100;
+                        data.ProgressOfBar = progress;
+                        data.Progress = $"{Math.Round(progress, 2)}%";
 
-                    await Task.Delay(1000);
+                        await Task.Delay(1000);
+                    });
                 }
                 catch (Exception ex) {
                     ex.ShowLog();
