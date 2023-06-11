@@ -64,10 +64,16 @@ namespace wonderlab.Views.Pages
         }
 
         private void OnLaunchButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
-
             try {
                 if (string.IsNullOrEmpty(ViewModel.SelectGameCoreId)) {
+                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                    return;
+                }
+
+                if (GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
+                    "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
+                    return;
+                } else if (!GlobalResources.LaunchInfoData.IsAutoSelectJava && !GlobalResources.LaunchInfoData.JavaRuntimes.HasValue()) {
                     "LaunchCheckError1".GetText().ShowMessage("Tip".GetText());
                     return;
                 }
