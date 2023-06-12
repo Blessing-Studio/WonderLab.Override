@@ -286,7 +286,7 @@
 			</ListBox.Styles>
 		</ListBox>
  
-		<wcb:TitleBar Title="{StaticResource DownloadCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="{DynamicResource DownloadCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
 
 		<ProgressBar Classes="Circle" HorizontalAlignment="Center"
 					 VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}" Height="60" Width="60"/>

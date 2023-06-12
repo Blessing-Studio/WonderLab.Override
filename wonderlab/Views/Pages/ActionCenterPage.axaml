@@ -124,7 +124,7 @@
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Text="{StaticResource AccountCenter}"
+								<TextBlock Text="{DynamicResource AccountCenter}"
 										   FontSize="20" 	
 										   HorizontalAlignment="Left"
 										   FontWeight="SemiBold"/>
@@ -168,6 +168,6 @@
 			</Grid>
 		</Grid>
 
-		<wcb:TitleBar Title="{StaticResource ActionCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="{DynamicResource ActionCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

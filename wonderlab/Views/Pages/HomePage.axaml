@@ -326,7 +326,7 @@
 							<SkewTransform AngleX="-8"/>
 						</TransformGroup>
 					</Button.RenderTransform>
-					<TextBlock Text="{StaticResource Launch}"/>
+					<TextBlock Text="{DynamicResource Launch}"/>
 				</Button>				
 				
 				<Grid Margin="115 0 0 0">
@@ -346,11 +346,11 @@
 						</Grid.ColumnDefinitions>
 
 						<Button Grid.Column="2" Background="Transparent" Classes="transparent" Command="{Binding OpenActionCenterAction}">
-							<TextBlock FontSize="15" Text="{StaticResource ActionCenter}"/>
+							<TextBlock FontSize="15" Text="{DynamicResource ActionCenter}"/>
 						</Button>
 
 						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="transparent">
-							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="{StaticResource ProgressCenter}"/>
+							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="{DynamicResource ProgressCenter}"/>
 						</Button>
 
 						<!--<Button Classes="transparent" Background="Transparent" Grid.Column="4">
