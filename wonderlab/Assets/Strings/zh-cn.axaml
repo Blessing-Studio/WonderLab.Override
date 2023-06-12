@@ -4,14 +4,35 @@
 	<sr:String x:Key="Tip">提示</sr:String>
 	<sr:String x:Key="Info">信息</sr:String>
 	<sr:String x:Key="Error">错误</sr:String>
+	<sr:String x:Key="Select">选择</sr:String>
+	<sr:String x:Key="CloseWindow">关闭</sr:String>
+	<sr:String x:Key="Install">开始安装</sr:String>
 	<sr:String x:Key="Launch">启动游戏</sr:String>
 	<sr:String x:Key="ActionCenter">操作中心</sr:String>
 	<sr:String x:Key="ProgressCenter">进程中心</sr:String>
 	<sr:String x:Key="NotificationCenter">通知中心</sr:String>
 	<sr:String x:Key="AccountCenter">账户中心</sr:String>
 	<sr:String x:Key="DownloadCenter">下载中心</sr:String>
+	<sr:String x:Key="GameCore">游戏核心</sr:String>
+	<sr:String x:Key="UsingAccount">使用的账户</sr:String>
+	<sr:String x:Key="ConfigRecords">配置记录</sr:String>
+	<sr:String x:Key="MemorySize">内存大小</sr:String>
+	<sr:String x:Key="Mb">Mb</sr:String>
+	<sr:String x:Key="JavaVersion">Java 版本</sr:String>
+	<sr:String x:Key="OS">操作系统</sr:String>
+	<sr:String x:Key="PossibleCrashCause">导致崩溃的可能原因</sr:String>
+	<sr:String x:Key="Understand">已经了解</sr:String>
+	<sr:String x:Key="ChooseForge">选择 Forge</sr:String>
+	<sr:String x:Key="ChooseFabric">选择 Fabric</sr:String>
+	<sr:String x:Key="ChooseOptfine">选择 Optfine</sr:String>
+	<sr:String x:Key="ChooseQuilt">选择 Quilt</sr:String>
+
 
 	<sr:String x:Key="LaunchCheckError1">无法继续启动步骤，原因：未选择游戏核心</sr:String>
 	<sr:String x:Key="LaunchCheckError2">无法继续启动步骤，原因：未选择 Java 运行时</sr:String>
 	<sr:String x:Key="LaunchCheckError3">无法继续启动步骤，原因：没有 Java 运行时</sr:String>
+
+	<sr:String x:Key="Ohno">哦豁</sr:String>
+	<sr:String x:Key="MinecraftCrash">您的 Minecraft 崩溃了</sr:String>
+
 </ResourceDictionary>

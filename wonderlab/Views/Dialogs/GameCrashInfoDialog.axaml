@@ -31,7 +31,7 @@
 							VerticalAlignment="Center"
 							FontSize="25"
 							FontWeight="Bold"
-							Text="哦豁"/>
+							Text="{StaticResource Ohno}"/>
 
 						<TextBlock
 							Grid.Row="1"
@@ -39,13 +39,13 @@
 							VerticalAlignment="Center"
 							FontSize="25"
 							FontWeight="Bold"
-							Text="您的 Minecraft 崩溃了"
+							Text="{StaticResource MinecraftCrash}"
 							TextWrapping="Wrap" />
 
 						<Button RenderTransform="skew(-8deg)"
 								Grid.Row="2" HorizontalAlignment="Left" Width="100"
 								Classes="wonderaccentbutton" Margin="0 10">
-							<TextBlock Text="游戏核心" FontWeight="SemiBold" />
+							<TextBlock Text="{StaticResource GameCore}" FontWeight="SemiBold" />
 						</Button>
 
 						<TextBlock TextWrapping="Wrap"
@@ -56,7 +56,7 @@
 						<Button RenderTransform="skew(-8deg)"
 							Grid.Row="4" HorizontalAlignment="Left" Width="100"
 							Classes="wonderaccentbutton" Margin="0 10">
-							<TextBlock Text="使用的账户" FontWeight="SemiBold" />
+							<TextBlock Text="{StaticResource UsingAccount}" FontWeight="SemiBold" />
 						</Button>
 
 						<Grid Grid.Row="5">
@@ -81,7 +81,7 @@
 						<Button RenderTransform="skew(-8deg)"
 								Grid.Row="6" HorizontalAlignment="Left" Width="100"
 								Classes="wonderaccentbutton" Margin="0 10">
-							<TextBlock Text="杂项配置记录" FontWeight="SemiBold" />
+							<TextBlock Text="{StaticResource ConfigRecords}" FontWeight="SemiBold" />
 						</Button>
 
 						<Grid HorizontalAlignment="Left" Grid.Row="7">
@@ -100,14 +100,14 @@
 									<ColumnDefinition Width="1*"/>
 									<ColumnDefinition Width="Auto"/>
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" FontWeight="Bold" Margin="0 0 0 3" Text="内存大小"/>
+								<TextBlock Grid.Column="0" FontWeight="Bold" Margin="0 0 0 3" Text="{StaticResource MemorySize}"/>
 
 								<TextBlock HorizontalAlignment="Right"
 										   Grid.Column="2"
 										   Margin="10 0">
 									<TextBlock.Inlines>
 										<Run Text="{Binding Memory}"/>
-										<Run Text=" Mb"/>
+										<Run Text=" {StaticResource Mb}"/>
 									</TextBlock.Inlines>
 								</TextBlock>
 							</Grid>
@@ -123,7 +123,7 @@
 									<ColumnDefinition Width="1*"/>
 									<ColumnDefinition Width="Auto"/>
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" FontWeight="Bold" Text="Java 版本"/>
+								<TextBlock Grid.Column="0" FontWeight="Bold" Text="{StaticResource JavaVersion}"/>
 
 								<TextBlock HorizontalAlignment="Right"
 										   Margin="10 0"
@@ -141,7 +141,7 @@
 									<ColumnDefinition Width="1*"/>
 									<ColumnDefinition Width="Auto"/>
 								</Grid.ColumnDefinitions>
-								<TextBlock Grid.Column="0" FontWeight="Bold" Text="系统 OS"/>
+								<TextBlock Grid.Column="0" FontWeight="Bold" Text="{StaticResource OS}"/>
 
 								<TextBlock HorizontalAlignment="Right"
 										   Margin="10 0"
@@ -190,7 +190,7 @@
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="Auto"/>
 							</Grid.RowDefinitions>
-							<TextBlock Text="导致崩溃的可能原因" FontSize="20" Margin="0 0 0 10"
+							<TextBlock Text="{StaticResource PossibleCrashCause}" FontSize="20" Margin="0 0 0 10"
 									   FontWeight="Bold"/>
 
 							<TextBlock Grid.Row="1">
@@ -228,7 +228,7 @@
 							Margin="70 20"
 							VerticalAlignment="Bottom"
 						    Command="{Binding HideDialogAction}">
-						<TextBlock Text="已经了解" FontWeight="SemiBold" />
+						<TextBlock Text="{StaticResource Understand}" FontWeight="SemiBold" />
 					</Button>
 				</Grid>
 			</Border>

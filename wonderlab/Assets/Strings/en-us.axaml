@@ -4,14 +4,35 @@
 	<sr:String x:Key="Tip">Tip</sr:String>
 	<sr:String x:Key="Info">Information</sr:String>
 	<sr:String x:Key="Error">Error</sr:String>
+	<sr:String x:Key="CloseWindow">Close</sr:String>
+	<sr:String x:Key="Install">Install</sr:String>
+	<sr:String x:Key="Select">Select</sr:String>
 	<sr:String x:Key="Launch">LaunchGame</sr:String>
 	<sr:String x:Key="ActionCenter">ActionCenter</sr:String>
 	<sr:String x:Key="ProgressCenter">ProgressCenter</sr:String>
 	<sr:String x:Key="NotificationCenter">NotificationCenter</sr:String>
 	<sr:String x:Key="AccountCenter">AccountCenter</sr:String>
 	<sr:String x:Key="DownloadCenter">DownloadCenter</sr:String>
+	<sr:String x:Key="GameCore">GameCore</sr:String>
+	<sr:String x:Key="UsingAccount">Using account</sr:String>
+	<sr:String x:Key="ConfigRecords">Config records</sr:String>
+	<sr:String x:Key="MemorySize">Memory size</sr:String>
+	<sr:String x:Key="Mb">Mb</sr:String>
+	<sr:String x:Key="JavaVersion">Java version</sr:String>
+	<sr:String x:Key="OS">OS</sr:String>
+	<sr:String x:Key="PossibleCrashCause">Possible causes of the crash</sr:String>
+	<sr:String x:Key="Understand">Understand</sr:String>
+	<sr:String x:Key="ChooseForge">Choose a Forge</sr:String>
+	<sr:String x:Key="ChooseFabric">Choose a Fabric</sr:String>
+	<sr:String x:Key="ChooseOptfine">Choose an Optfine</sr:String>
+	<sr:String x:Key="ChooseQuilt">Choose a Quilt</sr:String>
+
 
 	<sr:String x:Key="LaunchCheckError1">There is something wrong. You have not chosen a game core yet</sr:String>
 	<sr:String x:Key="LaunchCheckError2">There is something wrong. You have not chosen a java yet</sr:String>
 	<sr:String x:Key="LaunchCheckError3">There is something wrong. There is no java</sr:String>
+
+	<sr:String x:Key="Ohno">Oh, no</sr:String>
+	<sr:String x:Key="MinecraftCrash">Minecraft crashed</sr:String>
+
 </ResourceDictionary>
