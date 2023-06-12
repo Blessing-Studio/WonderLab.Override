@@ -57,7 +57,7 @@
 							Name="Close" Classes="transparent">
 						<Button.Content>
 							<Viewbox>
-								<PathIcon Data="{StaticResource Close}"/>
+								<PathIcon Data="{StaticResource CloseIcon}"/>
 							</Viewbox>
 						</Button.Content>
 					</Button>
@@ -159,7 +159,7 @@
 															</StackPanel.Background>
 															<Button Height="30" Width="30" Classes="transparent" ToolTip.Tip="启动此游戏核心">
 																<Grid>
-																	<PathIcon FontSize="1" Data="{StaticResource Launch}"/>
+																	<PathIcon FontSize="1" Data="{StaticResource LaunchIcon}"/>
 																</Grid>
 															</Button>
 
