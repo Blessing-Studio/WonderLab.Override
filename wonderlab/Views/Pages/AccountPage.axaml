@@ -199,6 +199,6 @@
 			</Grid>
 		</Grid>
 
-		<wcb:TitleBar Title="账户中心" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="{StaticResource AccountCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

@@ -124,7 +124,7 @@
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Text="账户中心"
+								<TextBlock Text="{StaticResource AccountCenter}"
 										   FontSize="20" 	
 										   HorizontalAlignment="Left"
 										   FontWeight="SemiBold"/>
@@ -168,6 +168,6 @@
 			</Grid>
 		</Grid>
 
-		<wcb:TitleBar Title="操作中心" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="{StaticResource ActionCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

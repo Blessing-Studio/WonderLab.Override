@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:sr="clr-namespace:System;assembly=System.Runtime">
+	<sr:String x:Key="Tip">Tip</sr:String>
+	<sr:String x:Key="Info">Information</sr:String>
+	<sr:String x:Key="Error">Error</sr:String>
+	<sr:String x:Key="Launch">LaunchGame</sr:String>
+	<sr:String x:Key="ActionCenter">ActionCenter</sr:String>
+	<sr:String x:Key="ProgressCenter">ProgressCenter</sr:String>
+	<sr:String x:Key="NotificationCenter">NotificationCenter</sr:String>
+	<sr:String x:Key="AccountCenter">AccountCenter</sr:String>
+	<sr:String x:Key="DownloadCenter">DownloadCenter</sr:String>
+
+	<sr:String x:Key="LaunchCheckError1">There is something wrong. You have not chosen a game core yet</sr:String>
+	<sr:String x:Key="LaunchCheckError2">There is something wrong. You have not chosen a java yet</sr:String>
+	<sr:String x:Key="LaunchCheckError3">There is something wrong. There is no java</sr:String>
+</ResourceDictionary>
