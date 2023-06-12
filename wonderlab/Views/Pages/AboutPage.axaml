@@ -44,7 +44,7 @@
 						Grid.Row="1"
 						Margin="0,4 0 8"
 						Orientation="Horizontal">
-						<TextBlock Text="© Blessing Studio(2021-2023) 保留所有权利" />
+						<TextBlock Text="{DynamicResource Copyright}" />
 					</StackPanel>
 
 					<!--  Dependencies  -->
@@ -55,7 +55,7 @@
 						VerticalAlignment="Center"
 						FontSize="16"
 						FontWeight="SemiBold"
-						Text="项目所使用的开源组件库" />
+						Text="{DynamicResource UsingLib}" />
 
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="3">
 						<TextBlock Text="Avalonia"/>
@@ -72,11 +72,11 @@
 						VerticalAlignment="Center"
 						FontSize="16"
 						FontWeight="SemiBold"
-						Text="鸣谢" />
+						Text="{DynamicResource Thanks}" />
 
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="5">
-						<TextBlock Text="感谢 泽托维尔克 赞助的服务器"/>
-						<TextBlock Text="感谢开发过程中 Natsurainko、llr下一你了亲并 的帮助"/>
+						<TextBlock Text="{DynamicResource Thank1}"/>
+						<TextBlock Text="{DynamicResource Thank2}"/>
 					</StackPanel>
 
 					<!--  Multilingual Translation  -->
@@ -87,12 +87,12 @@
 						VerticalAlignment="Center"
 						FontSize="16"
 						FontWeight="SemiBold"
-						Text="开发团队" />
+						Text="{DynamicResource Developers}" />
 
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="7">
-						<TextBlock Text="UI 审查：Starcloudsea"/>
-						<TextBlock Text="前端开发：西路Baka"/>
-						<TextBlock Text="后端开发：Founder of Jvav，西路Baka，[mailset@arch ~ ]$"/>
+						<TextBlock Text="{DynamicResource Developer1}"/>
+						<TextBlock Text="{DynamicResource Developer2}"/>
+						<TextBlock Text="{DynamicResource Developer3}"/>
 					</StackPanel>
 				
 					<TextBlock
@@ -102,17 +102,17 @@
 						VerticalAlignment="Center"
 						FontSize="16"
 						FontWeight="SemiBold"
-						Text="灵感出处" />
+						Text="{DynamicResource InspirationSource}" />
  
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="9">
-						<TextBlock Text="UI 风格参考自碧蓝档案"/>
+						<TextBlock Text="{DynamicResource UIReference1}"/>
 
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="部分 UI 参考自 "/>
+							<TextBlock Text="{DynamicResource UIReference2}"/>
 							<wb:HyperlinkButton Content="LauncherX"/>
 						</StackPanel>
 						
-						<TextBlock Text="图标 引用自 GBCLV3，Iconfont"/>
+						<TextBlock Text="{DynamicResource IconReference}"/>
 					</StackPanel>
 				</Grid>
 			</ScrollViewer>
@@ -127,6 +127,6 @@
 				  Data="{StaticResource	Captain}"/>
 		</Grid>
 		 
-		<wcb:TitleBar Title="关于" TitleWidth="85" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="{DynamicResource About}" TitleWidth="85" GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>	
 </UserControl>

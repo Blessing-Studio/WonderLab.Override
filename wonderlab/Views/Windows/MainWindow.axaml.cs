@@ -89,7 +89,7 @@ namespace wonderlab.Views.Windows {
 
         private async void DataInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
-
+            //ExtendUtils.SwitchLanguage("en-us");
             try {
                 if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mcbbs) {
                     APIManager.Current = APIManager.Mcbbs;

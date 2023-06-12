@@ -107,7 +107,7 @@
 										   Margin="10 0">
 									<TextBlock.Inlines>
 										<Run Text="{Binding Memory}"/>
-										<Run Text=" {DynamicResource Mb}"/>
+										<Run Text=" Mb"/>
 									</TextBlock.Inlines>
 								</TextBlock>
 							</Grid>

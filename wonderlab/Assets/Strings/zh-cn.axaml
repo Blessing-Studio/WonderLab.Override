@@ -6,6 +6,7 @@
 	<sr:String x:Key="Error">错误</sr:String>
 	<sr:String x:Key="Select">选择</sr:String>
 	<sr:String x:Key="CloseWindow">关闭</sr:String>
+	<sr:String x:Key="About">关于</sr:String>
 	<sr:String x:Key="Install">开始安装</sr:String>
 	<sr:String x:Key="Launch">启动游戏</sr:String>
 	<sr:String x:Key="ActionCenter">操作中心</sr:String>
@@ -17,7 +18,6 @@
 	<sr:String x:Key="UsingAccount">使用的账户</sr:String>
 	<sr:String x:Key="ConfigRecords">配置记录</sr:String>
 	<sr:String x:Key="MemorySize">内存大小</sr:String>
-	<sr:String x:Key="Mb">Mb</sr:String>
 	<sr:String x:Key="JavaVersion">Java 版本</sr:String>
 	<sr:String x:Key="OS">操作系统</sr:String>
 	<sr:String x:Key="PossibleCrashCause">导致崩溃的可能原因</sr:String>
@@ -26,6 +26,20 @@
 	<sr:String x:Key="ChooseFabric">选择 Fabric</sr:String>
 	<sr:String x:Key="ChooseOptfine">选择 Optfine</sr:String>
 	<sr:String x:Key="ChooseQuilt">选择 Quilt</sr:String>
+	<sr:String x:Key="Copyright">© Blessing Studio(2021-2023) 保留所有权利</sr:String>
+	<sr:String x:Key="UsingLib">项目所使用的开源组件库</sr:String>
+	<sr:String x:Key="Thanks">鸣谢</sr:String>
+	<sr:String x:Key="Thank1">感谢 泽托维尔克 赞助的服务器</sr:String>
+	<sr:String x:Key="Thank2">感谢开发过程中 Natsurainko、llr下一你了亲并 的帮助</sr:String>
+	<sr:String x:Key="Developers">开发团队</sr:String>
+	<sr:String x:Key="Developer1">UI 审查：Starcloudsea</sr:String>
+	<sr:String x:Key="Developer2">前端开发：西路Baka</sr:String>
+	<sr:String x:Key="Developer3">后端开发：Ddggdd135，西路Baka，[mailset@arch ~ ]$</sr:String>
+	<sr:String x:Key="InspirationSource">灵感出处</sr:String>
+	<sr:String x:Key="UIReference1">UI 风格参考自碧蓝档案</sr:String>
+	<sr:String x:Key="UIReference2">部分 UI 参考自   </sr:String>
+	<sr:String x:Key="IconReference">图标 引用自 GBCLV3，Iconfont</sr:String>
+
 
 
 	<sr:String x:Key="LaunchCheckError1">无法继续启动步骤，原因：未选择游戏核心</sr:String>

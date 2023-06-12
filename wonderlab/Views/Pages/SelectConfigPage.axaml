@@ -31,7 +31,7 @@
 				<ToggleButton Content="个性化" Background="Transparent"
 							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
 
-				<ToggleButton Content="关于" Background="Transparent"
+				<ToggleButton Content="{DynamicResource About}" Background="Transparent"
 			                  Command="{Binding	GoAboutPageAction}"/>
 			</StackPanel> 
 		</Border>
