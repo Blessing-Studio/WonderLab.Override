@@ -20,8 +20,8 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/BasicResource.axaml"/>
-				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
+				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

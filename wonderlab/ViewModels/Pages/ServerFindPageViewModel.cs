@@ -29,7 +29,7 @@ namespace wonderlab.ViewModels.Pages {
             try {
                 Servers.Clear();
 
-                var json = await HttpWrapper.HttpClient.GetStringAsync(GlobalResources.WonderApi);
+                var json = await HttpWrapper.HttpClient.GetStringAsync($"{GlobalResources.WonderApi}server");
                 var viewDatas = json.ToJsonEntity<IEnumerable<WonderServerModel>>().Select(x => x.CreateViewData<WonderServerModel, WonderServerViewData>()).ToList();
                 Servers.AddRange(viewDatas);
 

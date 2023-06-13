@@ -228,7 +228,6 @@
 					</Grid>
 				</Grid>
 			</Border>
-
 		</Grid>
 		
 		<wp:NotificationCenterPage Name="NotificationCenter"/>

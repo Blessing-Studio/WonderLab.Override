@@ -37,9 +37,6 @@ namespace wonderlab.ViewModels.Windows {
         [Reactive]
         public bool HasNotification { get; set; } = false;
 
-        [Reactive]
-        public double DownloadProgress { get; set; } = 0.0;
-
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {
                 Trace.WriteLine("[信息] 活动页面已改变");

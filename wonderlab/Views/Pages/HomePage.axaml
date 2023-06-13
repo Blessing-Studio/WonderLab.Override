@@ -8,6 +8,38 @@
 		     xmlns:wcb="using:wonderlab.control.Controls.Bar"
 			 DragDrop.AllowDrop="True"
              x:Class="wonderlab.Views.Pages.HomePage">
+	<UserControl.Styles>
+		<Style Selector="Button.select">
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border Padding="3" CornerRadius="4"
+							Name="Layout"
+							Background="Transparent"
+							BorderThickness="1">
+						<Border.Transitions>
+							<Transitions>
+								<BrushTransition Duration="0:0:0.35"
+												 Easing="ExponentialEaseOut"
+												 Property="BorderBrush"/>
+							</Transitions>
+						</Border.Transitions>
+
+						<ContentPresenter Foreground="Black"
+		                                  VerticalAlignment="Center"
+		                                  Content="{TemplateBinding Content}"/>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+
+		<Style Selector="Button.select /template/	Border#Layout">
+			<Setter Property="BorderBrush" Value="Transparent"/>
+		</Style>
+
+		<Style Selector="Button.select:pointerover /template/ Border#Layout">
+			<Setter Property="BorderBrush" Value="{DynamicResource DialogContentBorderBrush}"/>
+		</Style>
+	</UserControl.Styles>
 	<Grid>
 		<wcb:BottomActionBar IsVisible="False" x:Name="bab" GameCoreId="{Binding SelectGameCore.Id}"/>
 		<!--{DynamicResource DialogContentBackground}-->
@@ -338,18 +370,16 @@
 
 					<Grid Margin="15 0 0 0" Grid.Column="0">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="80"/>
+							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="10"/>
-							<ColumnDefinition Width="80"/>
-							<ColumnDefinition Width="10"/>
-							<ColumnDefinition Width="60"/>
+							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 
-						<Button Grid.Column="2" Background="Transparent" Classes="transparent" Command="{Binding OpenActionCenterAction}">
+						<Button Grid.Column="2" Background="Transparent" Classes="select" Command="{Binding OpenActionCenterAction}">
 							<TextBlock FontSize="15" Text="{DynamicResource ActionCenter}"/>
 						</Button>
 
-						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="transparent">
+						<Button Command="{Binding OpenConsoleAction}" Background="Transparent" Classes="select">
 							<TextBlock HorizontalAlignment="Center" FontSize="15" Text="{DynamicResource ProgressCenter}"/>
 						</Button>
 
@@ -412,7 +442,6 @@
 				</Grid>								
 			</Grid>
 		</Border>
-		
 		<!--<Button HorizontalAlignment="Right"
 				VerticalAlignment="Bottom" Height="35"
 				Margin="0 0 30 85" Width="120"

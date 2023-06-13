@@ -147,15 +147,15 @@ namespace wonderlab.Views.Windows {
                 if (result is not null && result.CanUpdate() && SystemUtils.IsWindows) {
                     DialogHost.UpdateDialog.CloseButtonClick += (_, _) => {
                         UpdateUtils.UpdateAsync(result, x => {
-                            ViewModel.DownloadProgress = x.ToDouble() * 100;
+                            DialogPage.ViewModel.DownloadProgress = x.ToDouble() * 100;
                         });
                     };
 
-                    DialogHost.BodyMessage.Text = result.Message;
-                    DialogHost.UpdateDialog.Title = $"有新的版本推送，版本编号 {result.TagName}";
-                    DialogHost.EndMessage.Text = $"于 {result.CreatedAt} 由 Xilu 修改并推送";
+                    DialogHost.BodyMessage.Text = result.Description;
+                    DialogHost.UpdateDialog.Title = $"有新的版本推送，版本编号 {result.Version}";
+                    DialogHost.EndMessage.Text = $"于 {result.CreatedTime} 由 {result.Author.UserName} 修改并推送";
                     await Task.Delay(1000);
-                    //UpdateDialog.ShowDialog();
+                    DialogHost.UpdateDialog.ShowDialog();
                 }
             }
             catch (Exception ex) {

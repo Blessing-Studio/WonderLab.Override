@@ -37,6 +37,9 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public string DeviceCodeText { get; set; }
 
+        [Reactive]
+        public double DownloadProgress { get; set; } = 0.0;
+
         public DialogPageViewModel() {
             PropertyChanged += OnPropertyChanged;
         }

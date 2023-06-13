@@ -122,7 +122,6 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
-
             NotificationViewData data = new() { 
                 Title = $"游戏 {SelectGameCoreId} 的启动任务"
             };
@@ -195,8 +194,6 @@ namespace wonderlab.ViewModels.Pages {
                     ProcessManager.GameCoreProcesses.Remove(viewData);
                     ProcessManager.History.Add(new(viewData.Data.Process.ExitTime.ToString("T"), viewData.Data.GameCore.Id!));
                 };
-
-                await gameProcess.WaitForExitAsync();
             }
             else {
                 data.Progress = $"启动失败 - 100%";
@@ -255,19 +252,14 @@ namespace wonderlab.ViewModels.Pages {
                 await Task.Run(async() => {
                     ResourceInstaller installer = new(gameCore!);
                     await installer.DownloadAsync(async (s, f) => {
-                        await Task.Run(async () => {
-                            try {
-                                data.Progress = $"补全文件中：{s}";
-                                data.ProgressOfBar = f * 100;
-                                await Task.Delay(1000);
-                            }
-                            catch {
-                                "Error".ShowLog();
-                            }
-                            finally {
-                                GC.Collect();
-                            }
-                        });
+                        try {
+                            data.Progress = $"补全文件中：{f * 100}%";
+                            data.ProgressOfBar = f * 100;
+                            await Task.Delay(1000);
+                        }
+                        catch {
+                            "Error".ShowLog();
+                        }
                     });
                 });
             }

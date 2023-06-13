@@ -76,15 +76,15 @@ namespace wonderlab.Class.Utils {
               => (Activator.CreateInstance(typeof(TResult), data!, arg2, arg3)! as TResult)!;
 
         public static bool CanUpdate(this UpdateInfo info) {
-            if (string.IsNullOrEmpty(info.Title)) {
+            if (string.IsNullOrEmpty(info.Branch)) {
                 return false;
             }
 
-            if (info.Title is not UpdateUtils.VersionType) {
+            if (info.Branch is not UpdateUtils.VersionType) {
                 return false;
             }
 
-            var intVersion = Convert.ToInt32(info.TagName.Replace(".", string.Empty));
+            var intVersion = Convert.ToInt32(info.Version.Replace(".", string.Empty));
             return intVersion > GlobalResources.LauncherData.LauncherVersion;
         }
 
@@ -240,11 +240,11 @@ namespace wonderlab.Class.Utils {
             if (model.ContainsKey("extra")) {
                 StringBuilder builder = new();
 
-                foreach (var item in (JArray)model["extra"]) {
+                foreach (var item in (JArray)model["extra"]!) {
                     var text = item["text"];
 
-                    builder.Append($"§{(item["color"].Type is JTokenType.Null ? "§f" :
-                        InlineUtils.GetColorCode(item["color"].ToString()))}{InlineUtils.GetFormat(item)}{text}");
+                    builder.Append($"§{(item["color"]!.Type is JTokenType.Null ? "§f" :
+                        InlineUtils.GetColorCode(item["color"]!.ToString()))}{InlineUtils.GetFormat(item)}{text}");
                 }
 
                 builder.ToString().ShowLog();

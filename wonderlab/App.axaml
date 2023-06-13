@@ -35,12 +35,13 @@
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 				<ResourceInclude Source="avares://wonderlab/Assets/Strings/zh-cn.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
-			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+			
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
-			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
-			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
 			<c:MaxWidthConverter x:Key="MaxWidthConverter"/>
 			<c:RunStateConverter x:Key="RunStateConverter"/>
+			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
+			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
+			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

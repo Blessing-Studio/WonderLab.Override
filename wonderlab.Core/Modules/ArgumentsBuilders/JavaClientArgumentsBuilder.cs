@@ -9,16 +9,14 @@ using MinecraftLaunch.Modules.Toolkits;
 
 namespace MinecraftLaunch.Modules.ArgumentsBuilders;
 
-public sealed partial class JavaClientArgumentsBuilder : IArgumentsBuilder
-{
-	public static readonly IEnumerable<string> DefaultAdvancedArguments = new string[8] { "-XX:-OmitStackTraceInFastThrow", "-XX:-DontCompileHugeMethods", "-Dfile.encoding=GB18030", "-Dfml.ignoreInvalidMinecraftCertificates=true", "-Dfml.ignorePatchDiscrepancies=true", "-Djava.rmi.server.useCodebaseOnly=true", "-Dcom.sun.jndi.rmi.object.trustURLCodebase=false", "-Dcom.sun.jndi.cosnaming.object.trustURLCodebase=false" };
+public sealed partial class JavaClientArgumentsBuilder : IArgumentsBuilder {
+    public static readonly IEnumerable<string> DefaultAdvancedArguments = new string[8] { "-XX:-OmitStackTraceInFastThrow", "-XX:-DontCompileHugeMethods", "-Dfile.encoding=GB18030", "-Dfml.ignoreInvalidMinecraftCertificates=true", "-Dfml.ignorePatchDiscrepancies=true", "-Djava.rmi.server.useCodebaseOnly=true", "-Dcom.sun.jndi.rmi.object.trustURLCodebase=false", "-Dcom.sun.jndi.cosnaming.object.trustURLCodebase=false" };
 
-	public static readonly IEnumerable<string> DefaultGCArguments = new string[7] { "-XX:+UseG1GC", "-XX:+UnlockExperimentalVMOptions", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=16m", "-XX:-UseAdaptiveSizePolicy" };
+    public static readonly IEnumerable<string> DefaultGCArguments = new string[7] { "-XX:+UseG1GC", "-XX:+UnlockExperimentalVMOptions", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=16m", "-XX:-UseAdaptiveSizePolicy" };
 
-	public bool EnableIndependencyCore { get; init; }
+    public bool EnableIndependencyCore { get; init; }
 
-    public JavaClientArgumentsBuilder(GameCore? gameCore, LaunchConfig? launchConfig, bool enableIndependencyCore = true)
-    {
+    public JavaClientArgumentsBuilder(GameCore? gameCore, LaunchConfig? launchConfig, bool enableIndependencyCore = true) {
         GameCore = gameCore;
         LaunchConfig = launchConfig;
         EnableIndependencyCore = enableIndependencyCore;
@@ -26,61 +24,54 @@ public sealed partial class JavaClientArgumentsBuilder : IArgumentsBuilder
 
     public GameCore? GameCore { get; private set; }
 
-	public LaunchConfig? LaunchConfig { get; private set; }
+    public LaunchConfig? LaunchConfig { get; private set; }
 
-	public IEnumerable<string> Build()
-	{
-		foreach (string frontArgument in GetFrontArguments())
+    public IEnumerable<string> Build() {
+        foreach (string frontArgument in GetFrontArguments())
             yield return frontArgument;
 
         yield return GameCore.MainClass;
 
-		foreach (string behindArgument in GetBehindArguments())
+        foreach (string behindArgument in GetBehindArguments())
             yield return behindArgument;
     }
 
-    public IEnumerable<string> GetBehindArguments()
-	{
+    public IEnumerable<string> GetBehindArguments() {
         var keyValuePairs = new Dictionary<string, string>()
         {
             { "${auth_player_name}" , this.LaunchConfig.Account.Name },
             { "${version_name}" , this.GameCore.Id },
-            { "${assets_root}" , Path.Combine(this.GameCore.Root.FullName, "assets").ToPath() },
-            { "${assets_index_name}" , Path.GetFileNameWithoutExtension(this.GameCore.AssetIndexFile.FileInfo.FullName) },
+            { "${assets_root}" , Path.Combine(this.GameCore.Root!.FullName, "assets").ToPath() },
+            { "${assets_index_name}" , Path.GetFileNameWithoutExtension(this.GameCore.AssetIndexFile!.FileInfo!.FullName) },
             { "${auth_uuid}" , this.LaunchConfig.Account.Uuid.ToString("N") },
             { "${auth_access_token}" , this.LaunchConfig.Account.AccessToken },
             { "${user_type}" , "Mojang" },
-            { "${version_type}" , this.GameCore.Type },
+            { "${version_type}" , this.GameCore.Type! },
             { "${user_properties}" , "{}" },
             { "${game_assets}" , Path.Combine(this.GameCore.Root.FullName, "assets").ToPath() },
             { "${auth_session}" , this.LaunchConfig.Account.AccessToken },
-			{ "${game_directory}" , this.EnableIndependencyCore ? Path.Combine(GameCore.Root.FullName,"versions",GameCore.Id) : GameCore.Root.FullName },
+            { "${game_directory}" , this.EnableIndependencyCore ? Path.Combine(GameCore.Root.FullName,"versions",GameCore.Id) : GameCore.Root.FullName },
         };
 
-        List<string> list = GameCore.BehindArguments.ToList();
-		
-		if (LaunchConfig.GameWindowConfig != null)
-		{
-			list.Add($"--width {LaunchConfig.GameWindowConfig.Width}");
-			list.Add($"--height {LaunchConfig.GameWindowConfig.Height}");
-			if (LaunchConfig.GameWindowConfig.IsFullscreen)
-			{
-				list.Add("--fullscreen");
-			}
-		}
-		
-		if (LaunchConfig.ServerConfig != null && !string.IsNullOrEmpty(LaunchConfig.ServerConfig.Ip) && LaunchConfig.ServerConfig.Port != 0)
-		{
-			list.Add("--server " + LaunchConfig.ServerConfig.Ip);
-			list.Add("--port " + LaunchConfig.ServerConfig.Port);
-		}
-		
-		foreach (string item in list)
+        var list = GameCore.BehindArguments.ToList();
+        if (LaunchConfig.GameWindowConfig != null) {
+            list.Add($"--width {LaunchConfig.GameWindowConfig.Width}");
+            list.Add($"--height {LaunchConfig.GameWindowConfig.Height}");
+            if (LaunchConfig.GameWindowConfig.IsFullscreen) {
+                list.Add("--fullscreen");
+            }
+        }
+
+        if (LaunchConfig.ServerConfig != null && !string.IsNullOrEmpty(LaunchConfig.ServerConfig.Ip) && LaunchConfig.ServerConfig.Port != 0) {
+            list.Add("--server " + LaunchConfig.ServerConfig.Ip);
+            list.Add("--port " + LaunchConfig.ServerConfig.Port);
+        }
+
+        foreach (string item in list)
             yield return item.Replace(keyValuePairs);
     }
 
-    public IEnumerable<string?> GetFrontArguments()
-	{
+    public IEnumerable<string?> GetFrontArguments() {
         var keyValuePairs = new Dictionary<string, string>()
         {
             { "${launcher_name}", "MinecraftLaunch" },
@@ -110,7 +101,7 @@ public sealed partial class JavaClientArgumentsBuilder : IArgumentsBuilder
 
         List<string> args = new string[3] { "-Xmn${min_memory}m", "-Xmx${max_memory}m", "-Dminecraft.client.jar=${client}" }.ToList();
 
-		foreach (string item4 in GetEnvironmentJvmArguments())
+        foreach (string item4 in GetEnvironmentJvmArguments())
             args.Add(item4);
 
         if (LaunchConfig.JvmConfig.GCArguments == null)
@@ -124,45 +115,37 @@ public sealed partial class JavaClientArgumentsBuilder : IArgumentsBuilder
             LaunchConfig.JvmConfig.AdvancedArguments.ToList().ForEach(x => args.Add(x));
 
         args.Add("-Dlog4j2.formatMsgNoLookups=true");
-		foreach (string item3 in GameCore.FrontArguments)
+        foreach (string item3 in GameCore.FrontArguments)
             args.Add(item3);
 
         foreach (string item2 in args)
             yield return item2.Replace(keyValuePairs);
     }
 
-	internal string GetClasspath()
-	{
-		List<IResource> loads = new List<IResource>();
-		GameCore.LibraryResources.ForEach(delegate(LibraryResource x)
-		{
-			if (x.IsEnable && !x.IsNatives)
-			{
-				loads.Add(x);
-			}
-		});
-		loads.Add(GameCore.ClientFile);
-		return string.Join(Path.PathSeparator.ToString(), loads.Select((IResource x) => x.ToFileInfo().FullName));
-	}
+    internal string GetClasspath() {
+        List<IResource> loads = new List<IResource>();
+        GameCore.LibraryResources.ForEach(delegate (LibraryResource x) {
+            if (x.IsEnable && !x.IsNatives) {
+                loads.Add(x);
+            }
+        });
+        loads.Add(GameCore.ClientFile);
+        return string.Join(Path.PathSeparator.ToString(), loads.Select((IResource x) => x.ToFileInfo().FullName));
+    }
 
-	internal static IEnumerable<string> GetEnvironmentJvmArguments()
-	{
-		string platformName = EnvironmentToolkit.GetPlatformName();
-		if (!(platformName == "windows"))
-		{
-			if (platformName == "osx")
+    internal static IEnumerable<string> GetEnvironmentJvmArguments() {
+        string platformName = EnvironmentToolkit.GetPlatformName();
+        if (!(platformName == "windows")) {
+            if (platformName == "osx")
                 yield return "-XstartOnFirstThread";
+        } else {
+            yield return "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump";
+            if (Environment.OSVersion.Version.Major == 10) {
+                yield return "-Dos.name=\"Windows 10\"";
+                yield return "-Dos.version=10.0";
+            }
         }
-        else
-		{
-			yield return "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump";
-			if (Environment.OSVersion.Version.Major == 10)
-			{
-				yield return "-Dos.name=\"Windows 10\"";
-				yield return "-Dos.version=10.0";
-			}
-		}
-		if (EnvironmentToolkit.Arch == "32")
+        if (EnvironmentToolkit.Arch == "32")
             yield return "-Xss1M";
     }
 }
