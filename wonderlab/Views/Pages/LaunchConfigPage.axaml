@@ -4,10 +4,10 @@
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 			 xmlns:ml="using:MinecraftLaunch.Modules.Models.Launch"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850" Background="{x:Null}"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
              x:Class="wonderlab.Views.Pages.LaunchConfigPage" Margin="0 0 0 10">
 	<Grid>
-		<ScrollViewer Background="{x:Null}">
+		<ScrollViewer>
 			<StackPanel Margin="0 15 0 10" Spacing="15">
 				<Border Background="{DynamicResource DialogContentBackground}"
 						BoxShadow="0 1 4 0 #66000000"

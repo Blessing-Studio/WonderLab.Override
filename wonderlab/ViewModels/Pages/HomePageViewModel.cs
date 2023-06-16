@@ -154,14 +154,15 @@ namespace wonderlab.ViewModels.Pages {
             await ResourceCheckOutAsync();
 
             data.Progress = "开始启动步骤 - 0%";
-            var javaInfo = GetCurrentJava();
+            bool flag = !GlobalResources.LaunchInfoData.IsAutoSelectJava && GlobalResources.LaunchInfoData.JavaRuntimePath.Equals(null);//手动选择 Java 的情况
+            var javaInfo = flag ? GlobalResources.LaunchInfoData.JavaRuntimePath : GetCurrentJava();//当选择手动时没有任何问题就手动选择，其他情况一律使用自动选择
             var config = new LaunchConfig() {
                 JvmConfig = new() {
                     AdvancedArguments = new List<string>() { GlobalResources.LaunchInfoData.JvmArgument, GetJvmArguments() },
                     MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
                     ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
                     : GlobalResources.LaunchInfoData.MaxMemory,
-                    JavaPath = SystemUtils.IsWindows ? javaInfo.JavaPath.ToJavaw().ToFile() : javaInfo.JavaPath.ToFile(),
+                    JavaPath = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
                 },
                 GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,
@@ -298,22 +299,18 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public JavaInfo GetCurrentJava() {
-            if (GlobalResources.LaunchInfoData.IsAutoSelectJava) {
-                var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit && 
-                x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
-                .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);                
+            var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit &&
+            x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+            .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
 
-                if (first.Any()) {
-                    return first.First();  
-                } else {
-                    var second = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
-                   .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
-                    
-                    return second.Any() ? second.First() : GlobalResources.LaunchInfoData.JavaRuntimePath;
-                }
+            if (first.Any()) {
+                return first.First();
+            } else {
+                var second = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+               .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
+
+                return second.Any() ? second.First() : GlobalResources.LaunchInfoData.JavaRuntimePath;
             }
-
-            return GlobalResources.LaunchInfoData.JavaRuntimePath;
         }
 
         public string GetJvmArguments() {

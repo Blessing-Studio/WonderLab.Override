@@ -220,7 +220,7 @@
 								Height="1"
 								Margin="0 0 15 0"/>
  
-						<TextBlock Text="Lsaac 1.2.5-Preview"
+						<TextBlock Text="Lsaac 1.2.6-Preview"
 								   Grid.Row="2"
 								   Margin="0 4 0 0"
 								   FontSize="12"

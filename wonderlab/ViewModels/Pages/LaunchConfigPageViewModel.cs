@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
+using wonderlab.control;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
@@ -29,14 +30,7 @@ namespace wonderlab.ViewModels.Pages {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                     ThreadPool.QueueUserWorkItem(x => {
                         Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                        CurrentJava = Javas.Where(x => {
-                            if (x != null) {
-                                if (x.JavaPath.ToJavaw() == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.ToJavaw()) {
-                                    return true;
-                                }
-                            }
-                            return false;
-                        })?.First()!;
+                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimePath;
                     });
                 }
 
@@ -161,10 +155,8 @@ namespace wonderlab.ViewModels.Pages {
                 else {
                     var result = await JavaUtils.GetJavas().ToListAsync();
                     if (!result.IsNull()) {
-                        foreach (var java in result) {
-                            Javas.Add(java);
-                            await Task.Delay(10);
-                        }
+                        Javas.Load(result);
+                        CurrentJava = Javas.Last();
                     }
                 }
 
@@ -236,7 +228,9 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void RemoveJavaRuntimeAction() {
-            Javas.Remove(CurrentJava);
+            var current = CurrentJava;
+            Javas.Remove(current);
+            GlobalResources.LaunchInfoData.JavaRuntimes.Remove(current);
             CurrentJava = Javas.Any() ? Javas.First() : null!;
         }
 

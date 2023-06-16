@@ -219,7 +219,7 @@ public static class ExtendToolkit
 
 	public static bool IsDirectory(this DirectoryInfo path) => path!.Exists;
 
-    public static bool IsFile(this string path) => File.Exists(path);
+    public static bool IsFile(this string path) => File.Exists(path ??= string.Empty);
 
     public static bool IsFile(this FileInfo path) => path!.Exists;
 

@@ -76,11 +76,6 @@ namespace wonderlab.Views.Pages
                     return;
                 }
 
-                if (!GlobalResources.LaunchInfoData.IsAutoSelectJava && (GlobalResources.LaunchInfoData.JavaRuntimePath == null || GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath.IsFile())) {
-                    "LaunchCheckError2".GetText().ShowMessage("Info".GetText());
-                    return;
-                }
-
                 ViewModel.SelectAccountAction();
             }
             catch (System.Exception) {
