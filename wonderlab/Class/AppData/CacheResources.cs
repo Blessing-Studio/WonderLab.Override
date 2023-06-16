@@ -2,18 +2,22 @@
 using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.AppData {
     public class CacheResources {
         public static List<New> MojangNews { get; set; } = new();
 
         public IEnumerable<MinecraftLaunchResponse>? GameProcesses { get; set; }
+
+        public static ObservableCollection<AccountViewData> Accounts { get; set; } = new();
 
         public static Dictionary<string, WebModpackInfoModel> WebModpackInfoDatas { get; set; } = new();
 

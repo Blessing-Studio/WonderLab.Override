@@ -1,16 +1,19 @@
-﻿using MinecraftLaunch.Modules.Enum;
+﻿using DynamicData;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.Utils {
-    public static class AccountUtils {
+    public class AccountUtils {
         public static async IAsyncEnumerable<AccountViewData> GetAsync(bool flag = false) {
             JsonUtils.DirectoryCheck();
 
@@ -21,10 +24,11 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static async ValueTask SaveAsync(UserModel user) {
+        public static async ValueTask SaveAsync(UserModel user, bool flag = false) {
             var json = user.ToJson(true);
             var text = CryptoToolkit.EncrytoOfKaiser(json).ConvertToBase64();
             await File.WriteAllTextAsync(Path.Combine(JsonUtils.UserDataPath, $"{user.Uuid}.dat"), text);
+            CacheResources.Accounts.Add(user.CreateViewData<UserModel, AccountViewData>(flag));
         }
 
         public static async ValueTask RefreshAsync(UserModel old, Account news) {
@@ -41,6 +45,14 @@ namespace wonderlab.Class.Utils {
 
             var text = CryptoToolkit.EncrytoOfKaiser(content.ToJson()).ConvertToBase64();
             await File.WriteAllTextAsync(Path.Combine(JsonUtils.UserDataPath, $"{old.Uuid}.dat"), text);
+        }
+
+        public static async ValueTask DeleteAsync(UserModel user) {
+            await Task.Run(() => {
+                File.Delete(Path.Combine(JsonUtils.UserDataPath, $"{user.Uuid}.dat"));
+                var index = CacheResources.Accounts.IndexOf(CacheResources.Accounts.Where(x => user.Uuid == x.Data.Uuid).FirstOrDefault()!);
+                CacheResources.Accounts.Remove(CacheResources.Accounts[index]);
+            });
         }
     }
 }

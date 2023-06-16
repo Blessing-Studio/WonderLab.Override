@@ -88,9 +88,12 @@ namespace wonderlab.ViewModels.Pages {
                     UserToken = account.AccessToken,
                     Uuid = account.Uuid.ToString(),
                     UserType = account.Type
-                });
+                }, true);
 
                 $"账户 {account.Name} 已成功添加至启动器".ShowMessage();
+                await Task.Run(async () => {
+                    AccountPage.ViewModel.GameAccounts = CacheResources.Accounts;
+                });
             }
             catch (Exception ex) when (ex is TimeoutException) {
                 App.CurrentWindow.DialogHost.Validation.HideDialog();
@@ -122,7 +125,7 @@ namespace wonderlab.ViewModels.Pages {
                             UserToken = account.AccessToken,
                             UserName = account.Name,
                             Uuid = account.Uuid.ToString(),
-                        });
+                        }, true);
 
                         $"账户 {account.Name} 已成功添加至启动器".ShowMessage();
                     } else {
@@ -140,9 +143,13 @@ namespace wonderlab.ViewModels.Pages {
                                 UserToken = account.AccessToken,
                                 AccessToken = account.ClientToken!,
                                 YggdrasilUrl = account.YggdrasilServerUrl
-                            });
+                            }, true);
                         }
                     }
+                });
+
+                await Task.Run(async () => {
+                    AccountPage.ViewModel.GameAccounts = CacheResources.Accounts;
                 });
             }
             catch (Exception ex) {
@@ -150,9 +157,6 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             CancelAction();
-            await Task.Run(async () => {
-                AccountPage.ViewModel.GameAccounts = (await AccountUtils.GetAsync(true).ToListAsync()).ToObservableCollection();
-            });
         }
 
         public void CancelAction() {

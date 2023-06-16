@@ -10,6 +10,7 @@ using System.Linq;
 using wonderlab.control;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using wonderlab.Class.AppData;
 
 namespace wonderlab.ViewModels.Pages {
     public class AccountPageViewModel : ViewModelBase {
@@ -34,6 +35,7 @@ namespace wonderlab.ViewModels.Pages {
             PropertyChanged += OnPropertyChanged;            
             await Task.Run(async () => {
                 GameAccounts = (await AccountUtils.GetAsync(true).ToListAsync()).ToObservableCollection();
+                CacheResources.Accounts = GameAccounts;
             });
         }
 

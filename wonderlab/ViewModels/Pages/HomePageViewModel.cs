@@ -94,8 +94,8 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void SelectAccountAction() {
             try {
-                var user = await AccountUtils.GetAsync().ToListAsync();
-                DialogPage.ViewModel.GameAccounts = (await AccountUtils.GetAsync().ToListAsync()).ToObservableCollection();
+                var user = CacheResources.Accounts;
+                DialogPage.ViewModel.GameAccounts = user;
 
                 if (user.Count > 1) {
                     App.CurrentWindow.DialogHost.AccountDialog.ShowDialog();
@@ -233,7 +233,7 @@ namespace wonderlab.ViewModels.Pages {
                         var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
 
                         CurrentAccount = result;
-                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                        await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     } else if (CurrentAccount.Type == AccountType.Microsoft) {
                         MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
                             ClientId = GlobalResources.ClientId,
@@ -242,7 +242,7 @@ namespace wonderlab.ViewModels.Pages {
 
                         var result = await authenticator.AuthAsync(x => data.Progress = $"当前步骤：{x}");
                         CurrentAccount = result;
-                        await AccountUtils.RefreshAsync((await AccountUtils.GetAsync().ToListAsync()).Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                        await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
                 });
             }
