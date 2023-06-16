@@ -5,6 +5,7 @@
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
+			<wc:UpdateDialog/> 
         </Border>
     </Design.PreviewWith>
 	
@@ -12,16 +13,17 @@
 	<Style Selector="wc|UpdateDialog">
 		<Style.Resources>
 			<ResourceDictionary>
+				<wcer:BoolReverseConverter x:Key="BoolReverseConverter"/>
 				<wcer:DownloadProgressConverter x:Key="DownloadProgressConverter"/>
 			</ResourceDictionary>
 		</Style.Resources>
-		<Setter Property="IsOpen" Value="False"/>
+
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="VerticalAlignment" Value="Stretch"/>
 		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
-		<Setter Property="MinWidth" Value="450"/>
+		<Setter Property="Padding" Value="2000"/>
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Border Name="Lay">
@@ -33,56 +35,97 @@
 
 						<!--DialogContent-->
 						<Border Background="{DynamicResource DialogContentBackground}"
-								BoxShadow="0 8 32 0 #66000000" Margin="20 25"
-								CornerRadius="8" HorizontalAlignment="Center"
-								MinWidth="{TemplateBinding MinWidth}"
-								BorderThickness="1" BorderBrush="{DynamicResource DialogContentBorderBrush}"
-								VerticalAlignment="Center" Name="DialogContent">
+								BoxShadow="0 8 32 0 #66000000"
+								Margin="20 25"
+								CornerRadius="8"
+								HorizontalAlignment="Center"
+								BorderThickness="1"
+								BorderBrush="{DynamicResource DialogContentBorderBrush}"
+								VerticalAlignment="Center"
+								MinHeight="100"
+								MinWidth="400"
+								Name="DialogContent">
 							<Grid>
 								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
 									<RowDefinition Height="1*"/>
-									<RowDefinition MaxHeight="20" Height="1*"/>
-									<RowDefinition Height="1*"/>
-									<RowDefinition MaxHeight="16" Height="0.2*"/>
-									<RowDefinition Height="1*"/>
+									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
-								<TextBlock Margin="16 16 16 0" FontSize="18" Text="{TemplateBinding Title}" FontWeight="Bold"/>
-																
-								<ContentPresenter Content="{TemplateBinding Message}" Margin="16 5 16 16" Grid.Row="2"/>
+								<TextBlock Margin="16 16 16 0"
+		                                   FontSize="18"
+		                                   HorizontalAlignment="Center"
+		                                   Text="启动器有更新"
+		                                   FontWeight="Bold">
+									<TextBlock.TextDecorations>
+										<TextDecorationCollection>
+											<TextDecoration StrokeThickness="2"
+															StrokeOffset="2"
+														    StrokeOffsetUnit="Pixel"
+															StrokeThicknessUnit="Pixel"
+															Stroke="{DynamicResource AccentBrush}"/>
+										</TextDecorationCollection>
+									</TextBlock.TextDecorations>
+								</TextBlock>
 
-								<Grid IsVisible="False" Name="UpP" Grid.Row="4" Margin="16 -10 16 16">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto"/>
-										<RowDefinition Height="2"/>
-										<RowDefinition Height="7"/>
-									</Grid.RowDefinitions>
-									
-									<DockPanel HorizontalAlignment="Stretch">
-										<TextBlock Text="{TemplateBinding UpdateProgress,Converter={StaticResource DownloadProgressConverter}}" DockPanel.Dock="Left"/>
-										<!--<TextBlock Text="00:00:01" DockPanel.Dock="Right" HorizontalAlignment="Right"/>-->
-									</DockPanel>
-									
-									<ProgressBar Value="{TemplateBinding UpdateProgress}"
-			                                     Height="5" CornerRadius="16" Grid.Row="2" Foreground="{DynamicResource AccentBrushDark1}"/>
+								<Grid Grid.Row="1"
+									   Margin="16 10 16 5"
+									  RowDefinitions="Auto,Auto">
+									<ScrollViewer>
+										<SelectableTextBlock TextWrapping="WrapWithOverflow"
+															 FontSize="14"
+															 SelectionBrush="{DynamicResource AccentBrush}"
+															 Text="{TemplateBinding	Message}"/>
+									</ScrollViewer>
+
+									<TextBlock FontSize="12"
+											   Text="{TemplateBinding Author}"
+											   Grid.Row="1"
+											   Margin="0 2 0 0"
+											   Opacity="0.65"/>
 								</Grid>
 
-								<Grid Name="Buttons" Margin="16 10 16 16" Grid.Row="4">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="1*"/>
-										<ColumnDefinition Width="10"/>
-										<ColumnDefinition Width="1*"/>
-									</Grid.ColumnDefinitions>
-									<Grid.RenderTransform>
-										<TransformGroup>
-											<SkewTransform AngleX="-8"/>
-										</TransformGroup>
-									</Grid.RenderTransform>
-									<Button FontSize="12" Classes="wonderaccentbutton" Content="{TemplateBinding Button2Text}" x:Name="Button2"
-		                                    IsVisible="{TemplateBinding Button2Visible}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Stretch"/>
-									
-									<Button FontSize="12" Classes="wonderaccentbutton" Name="CloseButton" Content="{TemplateBinding Button1Text}"
-											IsVisible="{TemplateBinding Button1Visible}" Background="#FF0000"
-											Foreground="{TemplateBinding Foreground}" Grid.Column="2" HorizontalAlignment="Stretch"/>
+								<Grid Grid.Row="2"
+									  Margin="16 0 16 16"
+									  IsVisible="{TemplateBinding Update}"
+									  RowDefinitions="Auto,Auto">
+
+									<ProgressBar Grid.Row="1"
+												 VerticalAlignment="Center"
+												 Value="{TemplateBinding UpdateProgress}"/>
+
+									<Grid Grid.Row="0" 										 
+										  ColumnDefinitions="Auto, 1*, Auto"
+										  VerticalAlignment="Center">
+										<TextBlock Margin="0 0 0 2"		                                           
+		                                           Text="正在下载更新，稍等片刻"/>
+
+										<TextBlock Text="{TemplateBinding UpdateProgress,Converter={StaticResource DownloadProgressConverter}}" 
+												   Grid.Column="2"/>
+									</Grid>
+									<!--{TemplateBinding UpdateProgress,Converter={StaticResource DownloadProgressConverter}}-->
+								</Grid>
+								
+								<Grid Grid.Row="2"
+	                                  Margin="16 0 16 16"
+	                                  HorizontalAlignment="Stretch"
+	                                  ColumnDefinitions="1*,10,1*"
+									  IsVisible="{TemplateBinding Update,Converter={StaticResource BoolReverseConverter}}">
+									<Button FontSize="12"
+											Content="立即更新"							
+											Name="CustomButton"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Foreground="{TemplateBinding Foreground}"
+											Command="{TemplateBinding UpdateButtonCommand}"/>
+
+									<Button FontSize="12"
+											Grid.Column="2"
+											Content="暂不更新"
+											Name="CloseButton"
+											Background="#FF0000"
+									        HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"
+											Foreground="{TemplateBinding Foreground}"/>
 								</Grid>
 							</Grid>
 						</Border>

@@ -145,15 +145,9 @@ namespace wonderlab.Views.Windows {
                 $"开始自动更新流程，当前启动器版本序列号 {GlobalResources.LauncherData.LauncherVersion}".ShowLog();
 
                 if (result is not null && result.CanUpdate() && SystemUtils.IsWindows) {
-                    DialogHost.UpdateDialog.CloseButtonClick += (_, _) => {
-                        UpdateUtils.UpdateAsync(result, x => {
-                            DialogPage.ViewModel.DownloadProgress = x.ToDouble() * 100;
-                        });
-                    };
-
-                    DialogHost.BodyMessage.Text = result.Description;
-                    DialogHost.UpdateDialog.Title = $"有新的版本推送，版本编号 {result.Version}";
-                    DialogHost.EndMessage.Text = $"于 {result.CreatedTime} 由 {result.Author.UserName} 修改并推送";
+                    DialogHost.UpdateDialog.Message = result.Description;
+                    DialogHost.UpdateDialog.Author = $"于 {result.CreatedTime} 由 {result.Author.UserName} 修改并推送";
+                    DialogPage.ViewModel.info = result;
                     await Task.Delay(1000);
                     DialogHost.UpdateDialog.ShowDialog();
                 }

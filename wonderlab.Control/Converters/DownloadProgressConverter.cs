@@ -16,7 +16,7 @@ namespace wonderlab.control.Converters
                 return $"{Math.Round(result!.Value, 2)}%";
             }
 
-            return "114514%";
+            return "11.4514%";
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {       

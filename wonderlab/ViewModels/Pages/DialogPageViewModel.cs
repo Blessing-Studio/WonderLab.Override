@@ -24,6 +24,8 @@ namespace wonderlab.ViewModels.Pages {
         private string ValidationLink { set; get; }
         private ValidationDialog.ValidationTypes CurrentType { set; get; }
 
+        public UpdateInfo info = null;
+
         [Reactive]
         [Obsolete("傻逼玩意没有用")]
         public AccountViewData SelectedAccount { get; set; } = null;
@@ -157,6 +159,12 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             CancelAction();
+        }
+
+        public void UpdateAction() {
+            UpdateUtils.UpdateAsync(info, x => {
+                DownloadProgress = x.ToDouble() * 100;
+            });
         }
 
         public void CancelAction() {
