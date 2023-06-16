@@ -147,17 +147,21 @@ namespace wonderlab.ViewModels.Pages {
             Javas.Clear();
 
             await Task.Run(async () => {
-                if (SystemUtils.IsWindows) {
-                    foreach (var drive in DriveInfo.GetDrives().AsParallel()) {
-                        FileSearchAsync(drive.RootDirectory, "javaw.exe");
+                try {
+                    if (SystemUtils.IsWindows) {
+                        foreach (var drive in DriveInfo.GetDrives().AsParallel()) {
+                            FileSearchAsync(drive.RootDirectory, "javaw.exe");
+                        }
+                    } else {
+                        var result = await JavaUtils.GetJavas().ToListAsync();
+                        if (!result.IsNull()) {
+                            Javas.Load(result);
+                            CurrentJava = result.Last();
+                        }
                     }
                 }
-                else {
-                    var result = await JavaUtils.GetJavas().ToListAsync();
-                    if (!result.IsNull()) {
-                        Javas.Load(result);
-                        CurrentJava = Javas.Last();
-                    }
+                catch (Exception ex) {
+                    $"{ex}".ShowInfoDialog("程序遭遇了异常");
                 }
 
                 IsLoadJavaFinish = true;
