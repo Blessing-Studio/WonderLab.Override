@@ -89,8 +89,13 @@ namespace wonderlab.Views.Windows {
 
         private async void DataInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
-            //ExtendUtils.SwitchLanguage("en-us");
             try {
+                await Task.Run(async () => {
+                    CacheResources.Accounts = (await AccountUtils.GetAsync(true)
+                                                                 .ToListAsync())
+                                                                 .ToObservableCollection();
+                });
+
                 if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mcbbs) {
                     APIManager.Current = APIManager.Mcbbs;
                 } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Bmcl) {
@@ -100,7 +105,7 @@ namespace wonderlab.Views.Windows {
                 } else {
                     GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Mojang;
                 }
-                APIManager.Mojang.Host.ShowLog();
+
                 BackgroundImage.IsVisible = GlobalResources.LauncherData.BakgroundType is "Í¼Æ¬±³¾°";
                 ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
                 CanParallax = GlobalResources.LauncherData.ParallaxType is not "ÎÞ";

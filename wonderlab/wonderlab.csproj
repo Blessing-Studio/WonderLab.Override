@@ -9,6 +9,7 @@
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	  <TrimMode>Link</TrimMode>
 	  <InvariantGlobalization>true</InvariantGlobalization>
+	  <RuntimeIdentifiers>osx-x64</RuntimeIdentifiers>
   </PropertyGroup>
 	<ItemGroup>
 		<None Remove=".gitignore" />
@@ -22,6 +23,7 @@
 		<None Remove="Assets\ModpackInfos.json" />
 		<None Remove="Assets\steve.png" />
 		<None Remove="Assets\y.jpg" />
+		<None Remove="wonderlab.icns" />
 	</ItemGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
@@ -30,6 +32,12 @@
 		<AvaloniaResource Include="Assets\Icons\Forge.png" />
 		<AvaloniaResource Include="Assets\Icons\OptiFine.png" />
 		<AvaloniaResource Include="Assets\Icons\Quilt.png" />
+		<AvaloniaResource Include="Assets\wonderlab.icns">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</AvaloniaResource>
+		<AvaloniaResource Include="wonderlab.icns">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</AvaloniaResource>
 		<EmbeddedResource Include="Assets\ModpackInfos.json" />
 		<AvaloniaResource Include="Assets\y.jpg" />
 	</ItemGroup>
@@ -71,7 +79,7 @@
 		<CFBundlePackageType>APPL</CFBundlePackageType>
 		<CFBundleSignature>????</CFBundleSignature>
 		<CFBundleExecutable>wonderlab</CFBundleExecutable>
-		<CFBundleIconFile>AppName.icns</CFBundleIconFile>
+		<CFBundleIconFile>wonderlab.icns</CFBundleIconFile>
 		<!-- Will be copied from output directory -->
 		<NSPrincipalClass>NSApplication</NSPrincipalClass>
 		<NSHighResolutionCapable>true</NSHighResolutionCapable>
@@ -79,9 +87,9 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>Assets\wonderlab.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
-		<Version>1.2.5-preview</Version>
-		<AssemblyVersion>1.2.5</AssemblyVersion>
-		<FileVersion>1.2.5-preview</FileVersion>
+		<Version>1.2.6-preview</Version>
+		<AssemblyVersion>1.2.6</AssemblyVersion>
+		<FileVersion>1.2.6-preview</FileVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\wonderlab.ico" />

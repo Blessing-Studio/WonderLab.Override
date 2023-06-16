@@ -33,9 +33,8 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void Init() {
             PropertyChanged += OnPropertyChanged;            
-            await Task.Run(async () => {
-                GameAccounts = (await AccountUtils.GetAsync(true).ToListAsync()).ToObservableCollection();
-                CacheResources.Accounts = GameAccounts;
+            await Task.Run(() => {
+                GameAccounts = CacheResources.Accounts;
             });
         }
 
