@@ -23,7 +23,6 @@
 		<None Remove="Assets\ModpackInfos.json" />
 		<None Remove="Assets\steve.png" />
 		<None Remove="Assets\y.jpg" />
-		<None Remove="wonderlab.icns" />
 	</ItemGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
@@ -33,9 +32,6 @@
 		<AvaloniaResource Include="Assets\Icons\OptiFine.png" />
 		<AvaloniaResource Include="Assets\Icons\Quilt.png" />
 		<AvaloniaResource Include="Assets\wonderlab.icns">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</AvaloniaResource>
-		<AvaloniaResource Include="wonderlab.icns">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</AvaloniaResource>
 		<EmbeddedResource Include="Assets\ModpackInfos.json" />

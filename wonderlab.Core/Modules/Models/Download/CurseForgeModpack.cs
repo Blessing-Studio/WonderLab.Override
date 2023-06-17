@@ -1,8 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Models.Download;
 
@@ -41,14 +42,14 @@ public class CurseForgeModpack
     [JsonProperty("screenshots")]
     public List<Screenshot> Screenshots { get; set; }
 
-
     public string IconUrl { get; set; }
 
 	public Dictionary<string, List<CurseForgeModpackFileInfo>> Files { get; set; } = new Dictionary<string, List<CurseForgeModpackFileInfo>>();
 
+
 	public string[] SupportedVersions { get; set; }
-	
-    public override string ToString()
+
+	public override string ToString()
 	{
 		try
 		{
@@ -96,8 +97,7 @@ public class CurseForgeModpack
 	}
 }
 
-public class Author
-{
+public class Author {
     [JsonProperty("id")]
     public int Id { get; set; }
 
@@ -108,8 +108,7 @@ public class Author
     public string Url { get; set; }
 }
 
-public class Screenshot
-{
+public class Screenshot {
     [JsonProperty("id")]
     public int Id { get; set; }
 
@@ -128,3 +127,4 @@ public class Screenshot
     [JsonProperty("url")]
     public string Url { get; set; }
 }
+

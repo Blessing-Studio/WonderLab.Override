@@ -29,7 +29,7 @@ namespace wonderlab.Class.Models
             Description = modpack.Description;
             ModpackSource = ModpackSource.Curseforge;
             GameVersions = modpack.ToString();
-            Author = modpack.Authors.First().Name;
+            //Author = modpack.Authors.First().Name;
             DownloadCount = modpack.DownloadCount;
             ScreenshotUrls = modpack.Screenshots.Select(x => x.Url);
             Categories = modpack.Categories.Select(x => x.Name);

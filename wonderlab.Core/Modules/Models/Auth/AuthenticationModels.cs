@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftLaunch.Modules.Models
+namespace MinecaftOAuth.Module.Models
 {
     public class Authentication
     {

@@ -82,10 +82,10 @@ namespace wonderlab.Class.ViewData
             var json = await res.Content.ReadAsStringAsync();
             Trace.WriteLine($"[信息] 返回的 Json 信息如下：{json}");
 
-            var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
+            var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToNewtonJsonEntity<AccountSkinModel>().Properties.First().Value));
             Trace.WriteLine($"[信息] 皮肤 Base64 解码的 Json 信息如下：{skinjson}");
 
-            var url = skinjson.ToJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
+            var url = skinjson.ToNewtonJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
             Trace.WriteLine($"[信息] 皮肤的链接如下：{url}");
             return url;
         }
@@ -95,10 +95,10 @@ namespace wonderlab.Class.ViewData
             var json = await res.Content.ReadAsStringAsync();
             Trace.WriteLine($"[信息] 返回的 Json 信息如下：{json}");
 
-            var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
+            var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToNewtonJsonEntity<AccountSkinModel>().Properties.First().Value));
             Trace.WriteLine($"[信息] 皮肤 Base64 解码的 Json 信息如下：{skinjson}");
 
-            var url = skinjson.ToJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
+            var url = skinjson.ToNewtonJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
             Trace.WriteLine($"[信息] 皮肤的链接如下：{url}");
             return url;
         }

@@ -14,13 +14,15 @@ using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.IO;
 using Natsurainko.Toolkits.Network;
 using Natsurainko.Toolkits.Network.Model;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Installer;
 
 public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 {
-	private float _totalDownloaded, _needToDownload;
+	private int _totalDownloaded;
+
+	private int _needToDownload;
 
 	private int _failedFiles = -1;
 
@@ -48,16 +50,16 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 		if (!di.Exists) {		
 			di.Create();
 		}
-        InvokeStatusChangedEvent(0.15f, "开始解析整合包模组链接");
+        InvokeStatusChangedEvent(0.4f, "开始解析整合包模组链接");
 
-		TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)> urlBlock = new(urls => urls.Select(file => (file.ProjectId, file.FileId)));
+		TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)> urlBlock = new TransformManyBlock<IEnumerable<ModsPacksFileModel>, (long, long)>((IEnumerable<ModsPacksFileModel> urls) => urls.Select((ModsPacksFileModel file) => (file.ProjectId, file.FileId)));
 		using (ZipArchive subPath = ZipFile.OpenRead(ModPacksPath))
 		{
 			foreach (ZipArchiveEntry i in subPath.Entries)
 			{
-				if (i.FullName.StartsWith(info.Overrides) && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName))))
+				if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName))))
 				{
-					string cutpath = i.FullName.Replace($"{info.Overrides}/", string.Empty);
+					string cutpath = i.FullName.Replace("overrides/", string.Empty);
 					FileInfo v = new FileInfo(Path.Combine(idpath, cutpath));
 					if (!Directory.Exists(Path.Combine(idpath, v.Directory.FullName)))
 					{
@@ -68,14 +70,14 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 			}
 		}
 		GameCoreToolkit.GetGameCore(GamePath, GameId);
-        InvokeStatusChangedEvent(0.2f, "开始下载整合包模组");
+        InvokeStatusChangedEvent(0.45f, "开始下载整合包模组");
 
-		ActionBlock<(long, long)> actionBlock = new(async delegate((long, long) t)
+		ActionBlock<(long, long)> actionBlock = new ActionBlock<(long, long)>(async delegate((long, long) t)
 		{
 			_ = 1;
 			try
 			{
-				string url = await new CurseForgeToolkit(CurseForgeToolkit.Key).GetModpackDownloadUrl(t.Item1, t.Item2);
+				string url = await new CurseForgeToolkit(CurseForgeToolkit.Key).GetModpackDownloadUrlAsync(t.Item1, t.Item2);
 				if ((await HttpWrapper.HttpDownloadAsync(new HttpDownloadRequest
 				{
 					Url = url,
@@ -86,7 +88,7 @@ public class ModsPacksInstaller : InstallerBase<InstallerResponse>
 					_failedFiles++;
 				}
 				_totalDownloaded++;
-				var e2 = _totalDownloaded / _needToDownload;
+				int e2 = _totalDownloaded / _needToDownload;
 				InvokeStatusChangedEvent(0.2f + (float)e2 * 0.8f, $"下载Mod中：{_totalDownloaded}/{_needToDownload}");
 			}
 			catch (Exception)

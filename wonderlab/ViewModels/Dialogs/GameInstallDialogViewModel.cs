@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Enum;
+﻿using MinecraftLaunch.Events;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
@@ -285,6 +286,7 @@ namespace wonderlab.ViewModels.Dialogs {
 
             async void ProcessOutPut(object? sender, ProgressChangedEventArgs x) {
                 try {
+                    x.ProgressDescription.ShowLog();
                     await Task.Run(async() => {
                         var progress = x.Progress * 100;
                         data.ProgressOfBar = progress;

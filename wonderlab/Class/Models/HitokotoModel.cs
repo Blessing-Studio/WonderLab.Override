@@ -3,46 +3,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace wonderlab.Class.Models
 {
     public class HitokotoModel
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("uuid")]
+        [JsonPropertyName("uuid")]
         public string Uuid { get; set; }
 
-        [JsonProperty("hitokoto")]
+        [JsonPropertyName("hitokoto")]
         public string Text { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonProperty("from")]
+        [JsonPropertyName("from")]
         public string From { get; set; }
 
-        [JsonProperty("from_who")]
+        [JsonPropertyName("from_who")]
         public string FromWho { get; set; }
 
-        [JsonProperty("creator")]
+        [JsonPropertyName("creator")]
         public string Creator { get; set; }
 
-        [JsonProperty("creator_uid")]
+        [JsonPropertyName("creator_uid")]
         public int CreatorUid { get; set; }
 
-        [JsonProperty("reviewer")]
+        [JsonPropertyName("reviewer")]
         public int Reviewer { get; set; }
 
-        [JsonProperty("commit_from")]
+        [JsonPropertyName("commit_from")]
         public string CommitFrom { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public string CreatedAt { get; set; }
 
-        [JsonProperty("length")]
+        [JsonPropertyName("length")]
         public int Length { get; set; }
     }
 

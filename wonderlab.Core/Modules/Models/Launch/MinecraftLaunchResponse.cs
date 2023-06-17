@@ -8,142 +8,124 @@ using MinecraftLaunch.Modules.Interface;
 
 namespace MinecraftLaunch.Modules.Models.Launch;
 
-public class MinecraftLaunchResponse : IDisposable
-{
-	private bool disposedValue;
+public class MinecraftLaunchResponse : IDisposable {
+    private bool disposedValue;
 
-	private List<string> Output = new();
+    private List<string> Output = new List<string>();
 
-	private string Cache = string.Empty;
+    private string Cache = string.Empty;
 
-	public LaunchState State { get; private set; }
+    public LaunchState State { get; private set; }
 
-	public IEnumerable<string> Arguemnts { get; private set; }
+    public IEnumerable<string> Arguemnts { get; private set; }
 
-	public Process Process { get; private set; }
-
-    public GameCore GameCore { get; private set; }
+    public Process Process { get; private set; }
 
     public Stopwatch RunTime { get; set; }
 
-	public Exception Exception { get; private set; }
+    public GameCore GameCore { get; set; }
 
-	public bool EnableXmlFormat { get; set; }
+    public Exception Exception { get; private set; }
 
-	public event EventHandler<ExitedArgs> Exited;
+    public bool EnableXmlFormat { get; set; }
 
-	public event EventHandler<IProcessOutput> ProcessOutput;
+    public event EventHandler<ExitedArgs> Exited;
 
-	public void WaitForExit()
-	{
-		Process?.WaitForExit();
-	}
+    public event EventHandler<IProcessOutput> ProcessOutput;
 
-	public async Task WaitForExitAsync()
-	{
-		await Task.Run(delegate
-		{
-			Process?.WaitForExit();
-		});
-	}
+    public void WaitForExit() {
+        Process?.WaitForExit();
+    }
 
-	public void Stop()
-	{
-		Process?.Kill();
-	}
+    public async Task WaitForExitAsync() {
+        await Task.Run(delegate {
+            Process?.WaitForExit();
+        });
+    }
 
-	public void Dispose()
-	{
-		Dispose(disposing: true);
-		GC.SuppressFinalize(this);
-	}
+    public void ReStart() {
+        Stop();
+        this.Process.Start();
+    }
 
-	protected virtual void Dispose(bool disposing)
-	{
-		if (disposedValue)
-		{
-			return;
-		}
-		Process?.Dispose();
-		Arguemnts = null;
-		Output = null;
-		Exception = null;
-		if (this.Exited != null)
-		{
-			Delegate[] invocationList = this.Exited.GetInvocationList();
-			foreach (Delegate @delegate in invocationList)
-			{
-				Exited -= (EventHandler<ExitedArgs>)@delegate;
-			}
-		}
-		if (this.ProcessOutput != null)
-		{
-			Delegate[] invocationList = this.ProcessOutput.GetInvocationList();
-			foreach (Delegate delegate2 in invocationList)
-			{
-				ProcessOutput -= (EventHandler<IProcessOutput>)delegate2;
-			}
-		}
-		disposedValue = true;
-	}
+    public void Stop() {
+        if (!Process.HasExited) {
+            Process?.Kill();
+        }
+    }
 
-	private void AddOutput(string text)
-	{
-		if (!string.IsNullOrEmpty(text))
-		{
-			if (!EnableXmlFormat)
-			{
-				Cache = text;
-				Output.Add(text);
-				this.ProcessOutput?.Invoke(this, new BaseProcessOutput(Cache));
-				Cache = string.Empty;
-			}
-			else
-			{
-				Cache = Cache + text + "\r\n";
-			}
-		}
-	}
+    public void Dispose() {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
-	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, GameCore core)
-	{
-		Process = process;
-		State = state;
-		Arguemnts = args;
-		GameCore = core;
-		if (state == LaunchState.Succeess)
-		{
-			Process.OutputDataReceived += delegate(object _, DataReceivedEventArgs e)
-			{
-				AddOutput(e.Data);
-			};
-			Process.ErrorDataReceived += delegate(object _, DataReceivedEventArgs e)
-			{
-				AddOutput(e.Data);
-			};
-			Process.Exited += delegate
-			{
-				RunTime?.Stop();
-				this.Exited?.Invoke(this, new ExitedArgs
-				{
-					Crashed = (Process.ExitCode != 0),
-					ExitCode = Process.ExitCode,
-					RunTime = (RunTime ?? (RunTime = new Stopwatch())),
-					Outputs = Output
-				});
-			};
-			Process.Start();
-			Process.BeginOutputReadLine();
-			Process.BeginErrorReadLine();
-		}
-	}
+    protected virtual void Dispose(bool disposing) {
+        if (disposedValue) {
+            return;
+        }
+        Process?.Dispose();
+        Arguemnts = null;
+        Output = null;
+        Exception = null;
+        if (this.Exited != null) {
+            Delegate[] invocationList = this.Exited.GetInvocationList();
+            foreach (Delegate @delegate in invocationList) {
+                Exited -= (EventHandler<ExitedArgs>)@delegate;
+            }
+        }
+        if (this.ProcessOutput != null) {
+            Delegate[] invocationList = this.ProcessOutput.GetInvocationList();
+            foreach (Delegate delegate2 in invocationList) {
+                ProcessOutput -= (EventHandler<IProcessOutput>)delegate2;
+            }
+        }
+        disposedValue = true;
+    }
 
-	public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, Exception exception, GameCore core)
-	{
-		Process = process;
-		State = state;
-		Arguemnts = args;
-		Exception = exception;
+    private void AddOutput(string text) {
+        if (!string.IsNullOrEmpty(text)) {
+            if (!EnableXmlFormat) {
+                Cache = text;
+                Output.Add(text);
+                this.ProcessOutput?.Invoke(this, new BaseProcessOutput(Cache));
+                Cache = string.Empty;
+            } else {
+                Cache = Cache + text + "\r\n";
+            }
+        }
+    }
+
+    public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args,GameCore core) {
+        Process = process;
+        State = state;
         GameCore = core;
+        Arguemnts = args;
+        if (state == LaunchState.Succeess) {
+            Process.OutputDataReceived += delegate (object _, DataReceivedEventArgs e) {
+                AddOutput(e.Data);
+            };
+            Process.ErrorDataReceived += delegate (object _, DataReceivedEventArgs e) {
+                AddOutput(e.Data);
+            };
+            Process.Exited += delegate {
+                RunTime?.Stop();
+                this.Exited?.Invoke(this, new ExitedArgs {
+                    Crashed = (Process.ExitCode != 0),
+                    ExitCode = Process.ExitCode,
+                    RunTime = (RunTime ?? (RunTime = new Stopwatch())),
+                    Outputs = Output
+                });
+            };
+            Process.Start();
+            Process.BeginOutputReadLine();
+            Process.BeginErrorReadLine();
+        }
+    }
+
+    public MinecraftLaunchResponse(Process process, LaunchState state, IEnumerable<string> args, Exception exception) {
+        Process = process;
+        State = state;
+        Arguemnts = args;
+        Exception = exception;
     }
 }

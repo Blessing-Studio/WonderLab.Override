@@ -1,14 +1,10 @@
 using Avalonia.Controls;
-using MinecraftLaunch.Modules.Models.Download;
-using MinecraftLaunch.Modules.Toolkits;
-using System;
-using System.Net.Http.Json;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
+using wonderlab.Class.Utils;
 using wonderlab.ViewModels.Pages;
 
-namespace wonderlab.Views.Pages
-{
+namespace wonderlab.Views.Pages {
     public partial class NetConfigPage : UserControl {   
         public static NetConfigPageViewModel ViewModel { get; set; } = new();
         public NetConfigPage() {       

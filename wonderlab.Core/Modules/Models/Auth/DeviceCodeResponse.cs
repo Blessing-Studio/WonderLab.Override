@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MinecraftLaunch.Modules.Models.Auth;
+namespace MinecaftOAuth.Module.Models;
 /// <summary>
 /// 设备代码响应模型类
 /// </summary>

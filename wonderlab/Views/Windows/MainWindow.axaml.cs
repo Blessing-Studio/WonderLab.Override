@@ -113,14 +113,14 @@ namespace wonderlab.Views.Windows {
                 if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(GlobalResources.LauncherData.ImagePath)) {
                     BackgroundImage.Source = new Bitmap(GlobalResources.LauncherData.ImagePath);
                 }
+
+                CacheResources.GetWebModpackInfoData();
             }
             catch {
                 if (GlobalResources.LauncherData.IsNull()) {
                     GlobalResources.LauncherData = new();
                 }
             }
-
-            CacheResources.GetWebModpackInfoData();
         }
 
         private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e) {

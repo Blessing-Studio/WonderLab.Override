@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftLaunch.Modules.Models.Auth
+namespace MinecaftOAuth.Module.Models
 {
     public class MicrosoftAuthenticationResponse
     {

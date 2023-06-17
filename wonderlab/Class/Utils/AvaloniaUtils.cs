@@ -1,6 +1,5 @@
 ﻿using Avalonia.Platform;
 using Avalonia;
-using Flurl;
 using System;
 using System.Collections.Generic;
 using System.Linq;

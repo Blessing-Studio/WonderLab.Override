@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,124 +13,178 @@ using MinecraftLaunch.Modules.Parser;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.IO;
 using Natsurainko.Toolkits.Network;
-using Natsurainko.Toolkits.Network.Downloader;
 using Natsurainko.Toolkits.Network.Model;
-using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MinecraftLaunch.Modules.Installer;
 
-public class ResourceInstaller {
-    public GameCore GameCore { get; set; }
+public class ResourceInstaller
+{
+	public GameCore GameCore { get; set; }
 
-    public List<IResource> FailedResources { get; set; } = new List<IResource>();
+	public List<IResource> FailedResources { get; set; } = new List<IResource>();
 
-    public static int MaxDownloadThreads { get; set; } = 64;
+	public static int MaxDownloadThreads { get; set; } = 64;
 
-    public async ValueTask<ResourceInstallResponse> DownloadAsync(Action<string, float> func) {
-        var resources = new List<IResource>();
-        resources.AddRange(GameCore.LibraryResources!.AsParallel().Where(x => x.IsEnable));
-        resources.AddRange(GetFileResources());
-        resources.AddRange(await GetAssetResourcesAsync());
+    public async ValueTask<ResourceInstallResponse> DownloadAsync(Action<string, float> func)
+    {
+        var progress = new Progress<(string, float)>();
+        var root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        void Progress_ProgressChanged(object _, (string, float) e) => func(e.Item1, e.Item2);
+        
+        progress.ProgressChanged += Progress_ProgressChanged!;
+        
+        var clientFile = GetFileResources()?.FirstOrDefault();
+        if (clientFile != null) {
+            var request = clientFile.ToDownloadRequest();                           
+            if (!request.Directory.Exists) {
+                request.Directory.Create();
+            }
 
-        resources = resources.AsParallel().Where(x => {
-            if (string.IsNullOrEmpty(x.CheckSum) && x.Size == 0)
+            if (APIManager.Current != APIManager.Mojang) {
+                request.Url = $"{APIManager.Current.Host}/version/{Path.GetFileNameWithoutExtension(clientFile.Name)}/client";
+            }
+
+            var httpDownloadResponse = await HttpWrapper.HttpDownloadAsync(request);
+            if (httpDownloadResponse.HttpStatusCode != HttpStatusCode.OK) {
+                FailedResources.Add(clientFile);
+            }            
+        }
+
+        var manyBlock = new TransformManyBlock<List<IResource>, IResource>(x => x.Where(x =>
+        {
+            if (string.IsNullOrEmpty(x.CheckSum) && x.Size == 0) { 
                 return false;
-            if (x.ToFileInfo().Verify(x.CheckSum) && x.ToFileInfo().Verify(x.Size))
-                return false;
+            }
+                
+            if (x.ToFileInfo().Verify(x.CheckSum) && x.ToFileInfo().Verify(x.Size)) { 
+                return true;
+            }
 
             return true;
-        }).ToList();
+        }));
 
-        int output = 0;
-        TransformManyBlock<List<IResource>, IResource> manyBlock = new(x => x);
-        ActionBlock<IResource> block = new(async x => {
-            var request = x.ToDownloadRequest();
+        int post = 0, output = 0;
+
+        var actionBlock = new ActionBlock<IResource>(async resource =>
+        {
+            post++;
+            var request = resource.ToDownloadRequest();
 
             if (!request.Directory.Exists)
                 request.Directory.Create();
 
-            func($"{output}/{resources.Count}", output / (float)resources.Count);
+            try
+            {
+                var info = request.Directory.FullName.Substring(request.Directory.FullName.IndexOf(".minecraft"));
+                var text = Path.Combine(root, info, request.FileName);
+                //先尝试使用缓存，不行就下一遍
+                if (File.Exists(text) && !resource.ToFileInfo().Exists) {               
+                    File.Copy(text, Path.Combine(request.Directory.FullName, request.FileName), true);
+                }
+                else if (!resource.ToFileInfo().Exists)//缓存和实际目录都没有此依赖的情况
+                {
+                    var httpDownloadResponse = await HttpToolkit.HttpDownloadAsync(request);
 
-            Trace.WriteLine($"资源链接：{request.Url}");
-            var result = await HttpToolkit.HttpDownloadAsync(request);
+                    if (httpDownloadResponse.HttpStatusCode != HttpStatusCode.OK)
+                        this.FailedResources.Add(resource);
+                    else
+                    {
+                        //将缓存没有的资源复制到缓存里，以供下次使用
+                        if (!Directory.Exists(Path.Combine(root, info))) {
+                            Directory.CreateDirectory(Path.Combine(root, info));
+                        }
+
+                        httpDownloadResponse.FileInfo.CopyTo(text, true);
+                    }
+                }
+            }
+            catch
+            {
+                this.FailedResources.Add(resource);
+            }
+
             output++;
 
-            if (result.HttpStatusCode != HttpStatusCode.OK)
-                this.FailedResources.Add(x);
-        }, new ExecutionDataflowBlockOptions {
+            ((IProgress<(string, float)>)progress).Report(($"{output}/{post}", output / (float)post));
+        }, new ExecutionDataflowBlockOptions
+        {
             BoundedCapacity = MaxDownloadThreads,
             MaxDegreeOfParallelism = MaxDownloadThreads
         });
+        var disposable = manyBlock.LinkTo(actionBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
-        DataflowLinkOptions linkOptions = new DataflowLinkOptions {
-            PropagateCompletion = true
-        };
-        using var disposable = manyBlock.LinkTo(block, linkOptions);
-        manyBlock.Post(resources);
+        manyBlock.Post(this.GameCore.LibraryResources!.Where(x => x.IsEnable && !x.ToFileInfo().Exists).Select(x => (IResource)x).ToList());
+        manyBlock.Post((await this.GetAssetResourcesAsync()).Where(x => !x.ToFileInfo().Exists).ToList());
+
         manyBlock.Complete();
-        await block.Completion;
 
-        return new ResourceInstallResponse {
+        await actionBlock.Completion;
+        disposable.Dispose();
+
+        GC.Collect();
+
+        progress.ProgressChanged -= Progress_ProgressChanged!;
+
+        return new ResourceInstallResponse
+        {
             FailedResources = this.FailedResources,
-            SuccessCount = 6 - this.FailedResources.Count,
-            Total = 6
+            SuccessCount = post - this.FailedResources.Count,
+            Total = post
         };
     }
 
-    public IEnumerable<IResource> GetFileResources() {
-        if (GameCore.ClientFile != null)
+    public IEnumerable<IResource> GetFileResources()
+	{
+		if (GameCore.ClientFile != null)
             yield return GameCore.ClientFile;
     }
 
-    public async static ValueTask<List<IResource>> GetAssetFilesAsync(GameCore core) {
-        var root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var asset = new AssetParser(new AssetJsonEntity().FromJson(await File.ReadAllTextAsync(core.AssetIndexFile.ToFileInfo().FullName)), core.Root).GetAssets().Select((Func<AssetResource, IResource>)((AssetResource x) => x)).ToList();
-        List<IResource> resources = new List<IResource?>();
-        if (core.LibraryResources != null)
-        {
-            var res = core.LibraryResources!.Where((LibraryResource x) => x.IsEnable).Select((Func<LibraryResource, IResource>)((LibraryResource x) => x)).ToList();
-            resources.AddRange(res);
-        }
-        resources.AddRange(asset);
-        resources.Sort((x, x1) => x.Size.CompareTo(x1.Size));
-
-        foreach (var i in asset) {
-            if (File.Exists(Path.Combine(Path.Combine(root, i.ToDownloadRequest().Directory.FullName.Substring(i.ToDownloadRequest().Directory.FullName.IndexOf(".minecraft"))), i.ToDownloadRequest().FileName))) {
-                Console.WriteLine("文件 {0} 存在在官方目录！", i.ToDownloadRequest().FileName);
-            }
-        }
-
-        return resources;
-    }
-
-    public async Task<List<IResource>> GetAssetResourcesAsync() {
-        if (!(GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.Size)
-            || GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.CheckSum))) {
-            var request = GameCore.AssetIndexFile.ToDownloadRequest();
+    public async ValueTask<List<IResource>> GetAssetResourcesAsync()
+    {
+        if (!(GameCore.AssetIndexFile!.FileInfo.Verify(GameCore.AssetIndexFile.Size) || GameCore.AssetIndexFile.FileInfo.Verify(GameCore.AssetIndexFile.CheckSum))) {   
+                
+            var request = this.GameCore.AssetIndexFile.ToDownloadRequest();
 
             if (!request.Directory.Exists)
                 request.Directory.Create();
 
             var res = await HttpWrapper.HttpDownloadAsync(request);
-            if(res.FileInfo == null){
-                return new();
-            }
-            if (!res.FileInfo.Exists)
-                return new();
         }
-        
-        var entity = JsonConvert.DeserializeObject<AssetJsonEntity>
-            (await File.ReadAllTextAsync(GameCore.AssetIndexFile.ToFileInfo()!.FullName));
 
-        return new AssetParser(entity!, GameCore.Root!).GetAssets().Select(x => (IResource)x).ToList();
+        var entity = new AssetJsonEntity();
+        entity = entity.FromJson(await File.ReadAllTextAsync(this.GameCore.AssetIndexFile?.ToFileInfo()!.FullName!));
+
+        return new AssetParser(entity, this.GameCore.Root!).GetAssets().Select(x => (IResource)x).ToList();
+	}
+
+	public async static ValueTask<List<IResource>> GetAssetFilesAsync(GameCore core)
+	{
+        var root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var asset = new AssetParser(new AssetJsonEntity().FromJson(await File.ReadAllTextAsync(core.AssetIndexFile.ToFileInfo().FullName)), core.Root).GetAssets().Select((Func<AssetResource, IResource>)((AssetResource x) => x)).ToList();
+        var res = core.LibraryResources.Where((LibraryResource x) => x.IsEnable).Select((Func<LibraryResource, IResource>)((LibraryResource x) => x)).ToList();
+		res.AddRange(asset);
+		res.Sort((x, x1) => x.Size.CompareTo(x1.Size));
+
+        foreach (var i in asset)
+        {
+            if (File.Exists(Path.Combine(Path.Combine(root, i.ToDownloadRequest().Directory.FullName.Substring(i.ToDownloadRequest().Directory.FullName.IndexOf(".minecraft"))),i.ToDownloadRequest().FileName)))
+            {
+                Console.WriteLine("文件 {0} 存在在官方目录！", i.ToDownloadRequest().FileName);
+            }
+        }
+
+        return res;
     }
 
     [Obsolete]
-    public IEnumerable<IResource> GetModLoaderResourcesAsync() {
+    public IEnumerable<IResource> GetModLoaderResourcesAsync()
+    {
         var entity = new GameCoreJsonEntity().FromJson(File.ReadAllText(Path.Combine(this.GameCore.Root.FullName, "versions", this.GameCore.Id, $"{this.GameCore.Id}.json")));
-        List<LibraryResource> list = entity.Libraries.Select(x => {
-            return new LibraryResource() {
+        List<LibraryResource> list = entity.Libraries.Select(x =>
+        {
+            return new LibraryResource()
+            {
                 Root = GameCore.Root,
                 Name = x.Name,
                 Size = x.Name.Length,
@@ -140,14 +193,17 @@ public class ResourceInstaller {
             };
         }).ToList();
 
-        foreach (var i in list) {
-            if (!i.ToFileInfo().Exists) {
+        foreach (var i in list)
+        {
+            if (!i.ToFileInfo().Exists)
+            {
                 yield return i;
             }
         }
     }
 
-    public ResourceInstaller(GameCore core) {
-        GameCore = core;
-    }
+    public ResourceInstaller(GameCore core)
+	{
+		GameCore = core;
+	}
 }

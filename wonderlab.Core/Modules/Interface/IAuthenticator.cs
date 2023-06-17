@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecaftOAuth.Module.Enum
+namespace MinecraftLaunch.Module.Base
 {
     /// <summary>
-    /// 验证类型
+    /// 声明型接口，除利用多态以外毫无用处
     /// </summary>
-    public enum AuthType
+    public interface IAuthenticator
     {
-        Access,
-        Refresh
+
     }
 }

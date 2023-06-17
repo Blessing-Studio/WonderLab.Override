@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MinecraftLaunch.Modules.Models.Auth;
+namespace MinecaftOAuth.Module.Models;
 
 public class ErrorResponse
 {

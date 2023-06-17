@@ -127,7 +127,7 @@ namespace wonderlab.ViewModels.Pages {
         public async ValueTask GetModrinthResourceAsync() {
             Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedsAsync());
+            var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
             foreach (var i in modpacks.Hits.AsParallel()) {
                 await Task.Run(async () => {
                     var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);

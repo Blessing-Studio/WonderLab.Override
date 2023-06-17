@@ -1,4 +1,4 @@
-﻿using MinecraftLaunch.Modules.Models;
+﻿using MinecraftLaunch.Module.Base;
 using MinecraftLaunch.Modules.Models.Auth;
 using Natsurainko.Toolkits.Values;
 using System;

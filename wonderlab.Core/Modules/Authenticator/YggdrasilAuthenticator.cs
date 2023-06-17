@@ -1,4 +1,7 @@
-﻿using MinecraftLaunch.Modules.Models;
+﻿using Flurl;
+using MinecaftOAuth.Module.Enum;
+using MinecaftOAuth.Module.Models;
+using MinecraftLaunch.Module.Base;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;

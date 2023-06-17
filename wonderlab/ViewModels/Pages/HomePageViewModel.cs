@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using MinecaftOAuth.Module.Enum;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
@@ -150,8 +151,8 @@ namespace wonderlab.ViewModels.Pages {
                 return;
             }
 
-            //游戏依赖检查
-            await ResourceCheckOutAsync();
+            ////游戏依赖检查
+            //await ResourceCheckOutAsync();
 
             data.Progress = "开始启动步骤 - 0%";
             bool flag = !GlobalResources.LaunchInfoData.IsAutoSelectJava && GlobalResources.LaunchInfoData.JavaRuntimePath.Equals(null);//手动选择 Java 的情况
@@ -175,7 +176,7 @@ namespace wonderlab.ViewModels.Pages {
 
             JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
             using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => { 
-                Trace.WriteLine($"[信息] {x.Item2}");
+                //Trace.WriteLine($"[信息] {x.Item2}");
                 data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
                 data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
             });
@@ -244,24 +245,6 @@ namespace wonderlab.ViewModels.Pages {
                         CurrentAccount = result;
                         await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
-                });
-            }
-
-            async ValueTask ResourceCheckOutAsync() {
-                data.Progress = "开始检查游戏依赖 - 0%";
-
-                await Task.Run(async() => {
-                    ResourceInstaller installer = new(gameCore!);
-                    await installer.DownloadAsync(async (s, f) => {
-                        try {
-                            data.Progress = $"补全文件中：{f * 100}%";
-                            data.ProgressOfBar = f * 100;
-                            await Task.Delay(1000);
-                        }
-                        catch {
-                            "Error".ShowLog();
-                        }
-                    });
                 });
             }
         }

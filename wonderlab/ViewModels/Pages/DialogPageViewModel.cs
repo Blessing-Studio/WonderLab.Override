@@ -2,22 +2,17 @@
 using System.Collections.ObjectModel;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using MinecraftLaunch.Modules.Toolkits;
-using MinecraftLaunch.Modules.Models.Auth;
 using System.ComponentModel;
 using wonderlab.Views.Pages;
 using System;
 using wonderlab.control.Controls.Dialog;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using MinecraftLaunch.Modules.Authenticator;
 using wonderlab.Class.AppData;
-using MinecraftLaunch.Modules.Enum;
-using Avalonia.Controls.Shapes;
 using System.Diagnostics;
 using Avalonia;
 using System.Linq;
 using System.Threading.Tasks;
-using wonderlab.control;
+using MinecraftLaunch.Modules.Authenticator;
+using MinecaftOAuth.Module.Enum;
 
 namespace wonderlab.ViewModels.Pages {
     public class DialogPageViewModel : ViewModelBase {

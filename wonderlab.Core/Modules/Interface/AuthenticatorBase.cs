@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftLaunch.Modules.Models
+namespace MinecraftLaunch.Module.Base
 {
     /// <summary>
     /// 验证器抽象基类

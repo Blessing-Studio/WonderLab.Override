@@ -66,6 +66,24 @@ namespace wonderlab.Class.Utils {
             return new(obj.Select(x => x).Distinct());
         }
 
+        public static string ToUri(this string raw) {
+            if (raw.EndsWith('/'))
+                return Regex.Replace(raw, ".$", "");
+            else
+                return raw;
+        }
+
+        public static async ValueTask<List<T>> ToListAsync<T>(this IAsyncEnumerable<T> raw) {
+            List<T> list = new List<T>();
+            await foreach (var i in raw)
+                list.Add(i);
+            return list;
+        }
+
+        public static bool IsNull<T>(this T obj) {
+            return obj is null;
+        }
+
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
@@ -299,5 +317,7 @@ namespace wonderlab.Class.Utils {
 
             return "Not Found";
         }
+
+        public static bool HasValue<T>(this IEnumerable<T> obj) => obj != null && obj.Count() > 0;
     }
 }

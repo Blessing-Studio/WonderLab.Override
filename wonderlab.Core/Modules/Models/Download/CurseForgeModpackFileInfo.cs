@@ -1,5 +1,6 @@
 using MinecraftLaunch.Modules.Enum;
 using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Models.Download;
 
@@ -18,15 +19,4 @@ public class CurseForgeModpackFileInfo
 
 	[JsonProperty("gameVersion")]
 	public string SupportedVersion { get; set; }
-
-    [JsonProperty("dependencies")]
-    public List<Dependencie> Dependencies { get; set; }
-}
-
-public class Dependencie {
-    [JsonProperty("modId")]
-    public long ModId { get; set; }
-
-    [JsonProperty("relationType")]
-    public long RelationType { get; set; }
 }
