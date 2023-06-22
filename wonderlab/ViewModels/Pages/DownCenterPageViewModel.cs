@@ -46,6 +46,9 @@ namespace wonderlab.ViewModels.Pages {
         public bool IsResource { get; set; } = false;
 
         [Reactive]
+        public bool IsLoaded { get; set; }
+
+        [Reactive]
         public string SearchFilter { get; set; }
 
         [Reactive]
@@ -213,10 +216,11 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
 
             var result = Cache.Where(x => x.Id.Contains(SearchFilter)).ToList();
-            IsLoading = false;
+            IsLoading = IsLoaded = false;
 
             var filtered = result.Where(x => x.Type.Contains(CurrentMcVersionType));
             GameCores = new(filtered.ToList());
+            IsLoaded = true;
         }
 
         public void OpenGameInstallDialogAction() {

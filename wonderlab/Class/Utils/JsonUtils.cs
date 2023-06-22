@@ -79,16 +79,21 @@ namespace wonderlab.Class.Utils {
         }
 
         internal static void DirectoryCheck() {
-            if (!Directory.Exists(DataPath)) {
-                Directory.CreateDirectory(DataPath);
-            }
+            try {
+                if (!Directory.Exists(DataPath)) {
+                    Directory.CreateDirectory(DataPath);
+                }
 
-            if (!Directory.Exists(UserDataPath)) {
-                Directory.CreateDirectory(UserDataPath);
-            }
+                if (!Directory.Exists(UserDataPath)) {
+                    Directory.CreateDirectory(UserDataPath);
+                }
 
-            if (!Directory.Exists(TempPath)) {
-                Directory.CreateDirectory(TempPath);
+                if (!Directory.Exists(TempPath)) {
+                    Directory.CreateDirectory(TempPath);
+                }
+            }
+            catch (Exception ex) {
+                $"{ex}".ShowMessage("程序遭到了错误");
             }
         }
     }

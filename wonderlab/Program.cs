@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using MinecraftLaunch.Modules.Toolkits;
+using Natsurainko.Toolkits.Network;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace wonderlab {
     internal class Program {
@@ -26,17 +29,33 @@ namespace wonderlab {
                   .StartWithClassicDesktopLifetime(args);
             }
             catch (Exception e) {
-                StringBuilder builder = new();
-                builder.AppendLine("非常抱歉您的 WonderLab 又又又炸了，以下是此次崩溃的错误信息");
-                builder.AppendLine("----------------------------------------------------------------------");
-                builder.AppendLine($"系统平台：{SystemUtils.GetPlatformName()}");
-                builder.AppendLine($"异常名：{e!.GetType().FullName}");
-                builder.AppendLine("----------------------------------------------------------------------");
-                builder.AppendLine($"异常堆栈信息：{e}");
+                var str = e.ToString();
+                StreamReader reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(str)));
+                List<string> lines = new();
+                while (reader.Peek() != -1) {
+                    lines.Add(reader.ReadLine()!);
+                }
 
-                await File.WriteAllTextAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"小蓝瓶错误报告-{e!.GetType().FullName}.txt"), builder.ToString());
-                JsonUtils.WriteLaunchInfoJson();
-                JsonUtils.WriteLauncherInfoJson();
+                StringBuilder builder = new();
+                builder.Append("非常抱歉您的 WonderLab 又又又炸了，以下是此次崩溃的错误信息\n");
+                builder.Append("----------------------------------------------------------------------\n");
+                builder.Append($"系统平台：{SystemUtils.GetPlatformName()}\n");
+                builder.Append($"异常名：{e!.GetType().FullName}\n");
+                builder.Append("----------------------------------------------------------------------\n");
+                builder.Append($"异常堆栈信息：{string.Join("\n",lines)}");
+
+                await Task.Run(async () => {
+                    var json = new Model(e!.GetType().FullName!, builder.ToString())!.ToNewtonJson(false)!;
+                    json.ShowLog();
+                    var result = await HttpWrapper.HttpPostAsync($"{GlobalResources.WonderApi}error", json);
+                    (await result.Content.ReadAsStringAsync()).ShowLog();
+                });
+
+                //await Task.Run(async () => {
+                //    await File.WriteAllTextAsync(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"小蓝瓶错误报告-{e!.GetType().FullName}.txt"), builder.ToString());
+                //    JsonUtils.WriteLaunchInfoJson();
+                //    JsonUtils.WriteLauncherInfoJson();
+                //});
             }
         }
 
@@ -46,5 +65,18 @@ namespace wonderlab {
                 .LogToTrace()
                 .With(new Win32PlatformOptions())
                 .With(new SkiaOptions());
+
+        record Model {
+            public Model(string et,string ei) {
+                ErrorType = et;
+                ErrorInfo = ei;
+            }
+
+            [JsonProperty("errorType")]
+            public string ErrorType { get; set; } = string.Empty;
+
+            [JsonProperty("errorInfo")]
+            public string ErrorInfo { get; set; } = string.Empty;
+        }
     }
 }

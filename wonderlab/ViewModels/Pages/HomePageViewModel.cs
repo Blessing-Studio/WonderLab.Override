@@ -129,6 +129,7 @@ namespace wonderlab.ViewModels.Pages {
 
             data.TimerStart();
             NotificationCenterPage.ViewModel.Notifications.Add(data);
+            await Task.Delay(1000);
 
             var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
@@ -175,10 +176,10 @@ namespace wonderlab.ViewModels.Pages {
             };
 
             JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
-            using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => { 
-                //Trace.WriteLine($"[信息] {x.Item2}");
+            using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
                 data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
                 data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
+                x.Item2.ShowLog();
             });
 
             data.ProgressOfBar = 100;
