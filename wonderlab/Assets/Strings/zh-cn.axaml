@@ -43,7 +43,7 @@
 
 
 	<sr:String x:Key="LaunchCheckError1">无法继续启动步骤，原因：未选择游戏核心</sr:String>
-	<sr:String x:Key="LaunchCheckError2">无法继续启动步骤，原因：未选择 Java 运行时</sr:String>
+	<sr:String x:Key="LaunchCheckError2">无法继续启动步骤，原因：未选择 Java 运行时，且未赋予自动选择的权限</sr:String>
 	<sr:String x:Key="LaunchCheckError3">无法继续启动步骤，原因：没有 Java 运行时</sr:String>
 
 	<sr:String x:Key="Ohno">哦豁</sr:String>

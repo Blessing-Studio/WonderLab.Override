@@ -90,12 +90,10 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
-
-            //x.CreateViewData<GameCore, GameCoreViewData>() await JsonUtils.ReadSingleGameCoreJsonAsync(item)
             GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
         }
 
-        public async void SelectAccountAction() {
+        public void SelectAccountAction() {
             try {
                 var user = CacheResources.Accounts;
                 DialogPage.ViewModel.GameAccounts = user;

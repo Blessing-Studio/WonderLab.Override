@@ -157,6 +157,7 @@ namespace wonderlab.ViewModels.Pages {
                         if (!result.IsNull()) {
                             Javas.Load(result);
                             CurrentJava = result.Last();
+                            GlobalResources.LaunchInfoData.JavaRuntimes = result;
                         }
                     }
                 }
