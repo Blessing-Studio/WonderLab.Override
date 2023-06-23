@@ -15,5 +15,8 @@ namespace wonderlab.Class.Models {
 
         [JsonProperty("isfullscreen")]
         public bool IsFullScreen { get; set; } = false;
+
+        [JsonProperty("issingleconfigenabled")]
+        public bool IsSingleConfigEnabled { get; set; } = false;
     }
 }

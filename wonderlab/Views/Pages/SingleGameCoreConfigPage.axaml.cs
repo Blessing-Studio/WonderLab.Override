@@ -13,7 +13,7 @@ namespace wonderlab.Views.Pages {
         public SingleGameCoreConfigPage(GameCoreViewData data) {
             InitializeComponent();
             ViewData = data;
-            ViewModel = new(data);
+            DataContext = ViewModel = new(data);
         }
     }
 }

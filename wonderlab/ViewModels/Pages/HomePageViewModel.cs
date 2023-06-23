@@ -274,12 +274,14 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void OpenConsoleAction() {
-            if(!ConsoleWindow.IsOpen) {
-                new ConsoleWindow().Show();
-            }
-            else {
-                ConsoleWindow.WindowActivate();
-            }
+            //if(!ConsoleWindow.IsOpen) {
+            //    new ConsoleWindow().Show();
+            //}
+            //else {
+            //    ConsoleWindow.WindowActivate();
+            //}
+            App.CurrentWindow.CloseTopBar();
+            new ConsoleCenterPage().Navigation();
         }
 
         public JavaInfo GetCurrentJava() {

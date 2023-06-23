@@ -83,8 +83,13 @@ namespace wonderlab.Class.Utils {
         public static SingleCoreModel WriteSingleGameCoreJson(GameCore core) {
             DirectoryCheck();
             var file = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
-            file.WriteCompressedText(new SingleCoreModel().ToNewtonJson());
-            return new SingleCoreModel();
+
+            if (!file.IsFile()) {
+                file.WriteCompressedText(new SingleCoreModel().ToNewtonJson());
+                return new SingleCoreModel();
+            }
+
+            return new();
         }
 
         public static async ValueTask<SingleCoreModel> ReadSingleGameCoreJsonAsync(GameCore core) {
@@ -98,6 +103,19 @@ namespace wonderlab.Class.Utils {
             }
 
             return data;
+        }
+
+        public static GameCoreViewData SaveSingleGameCoreJson(GameCoreViewData config) {
+            if (!config.IsNull()) {
+                string path = Path.Combine(config.Data.GetGameCorePath(true), $"singleConfig.wlcd");
+
+                if (path.IsFile()) {
+                    var json =  config.SingleConfig.ToJson();
+                    path.WriteCompressedText(json);
+                }
+            }
+
+            return config;
         }
 
         public static void DirectoryCheck() {

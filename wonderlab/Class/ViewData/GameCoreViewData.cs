@@ -23,7 +23,7 @@ namespace wonderlab.Class.ViewData {
             var result = await JsonUtils.ReadSingleGameCoreJsonAsync(data);
 
             if (!result.IsNull()) {
-
+                SingleConfig = result;
             }
         }
 

@@ -5,11 +5,13 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.SingleGameCoreConfigPage">
 	<ScrollViewer>
-		<Grid Margin="10" RowDefinitions="Auto,Auto">		
-			<Border CornerRadius="4" Background="#FFC5CBD0">
-				<Grid Margin="10" 
+		<Grid Margin="10" RowDefinitions="Auto,Auto,Auto,Auto">		
+			<Border CornerRadius="4"
+					Background="#FFC5CBD0"
+					BoxShadow="0 1 4 0 #FFC5CBD0">
+				<Grid Margin="15 5" 
 					  ColumnDefinitions="Auto,Auto,1*,Auto">
-					<Border Background="Black"
+					<Border Background="{DynamicResource AccentBrush}"
 							Width="2"							
 							Height="14"
 							Margin="0 0 5 0"
@@ -21,7 +23,9 @@
 							   FontWeight="Bold"/>
 					
 					<CheckBox Grid.Column="3"
-							  Content="关闭"/>
+							  Content="{Binding SingleConfigEnabledText}"
+							  IsChecked="{Binding IsSingleConfigEnabled}"
+							  Command="{Binding SingleConfigOpenAction}"/>
 				</Grid>
 			</Border>
 
@@ -36,7 +40,7 @@
 							BoxShadow="0 1 4 0 white">
 						<Grid Margin="10"
 							  ColumnDefinitions="Auto,Auto,1*,Auto">
-							<Border Background="Black"
+							<Border Background="{DynamicResource AccentBrush}"
 									Width="2"
 								    Height="14"
 							        Margin="0 0 5 0"
@@ -48,7 +52,9 @@
 									   FontWeight="Bold"/>
 
 							<CheckBox Grid.Column="3"
-									  Content="test"/>
+									  Content="{Binding FullScreenText}"
+									  IsChecked="{Binding IsFullScreen}"
+									  Command="{Binding FullScreenOpenAction}"/>
 						</Grid>
 					</Border>
 
@@ -59,7 +65,7 @@
 							BoxShadow="0 1 4 0 white">
 						<Grid Margin="10"
 							  ColumnDefinitions="Auto,Auto,1*,Auto">
-							<Border Background="Black"
+							<Border Background="{DynamicResource AccentBrush}"
 									Width="2"
 							        Height="14"
 							        Margin="0 0 5 0"
@@ -72,11 +78,11 @@
 
 							<StackPanel Grid.Column="3" 
 										Orientation="Horizontal" Spacing="10">
-								<TextBox MinWidth="100"										 
+								<TextBox Width="80"										 
 										 Text=""/>
 								<TextBlock Text="X" HorizontalAlignment="Center"
 										   VerticalAlignment="Center"/>
-								<TextBox MinWidth="100"
+								<TextBox Width="80"
 										 Text=""/>
 							</StackPanel>
 						</Grid>
@@ -106,6 +112,61 @@
 					</Border>-->
 				</Grid>
 			</Expander>
+
+			<Border CornerRadius="4"
+					Background="#FFC5CBD0"
+					Grid.Row="2"
+					Margin="0 15 0 0"
+					BoxShadow="0 1 4 0 #FFC5CBD0">
+				<Grid Margin="15 8"
+					  ColumnDefinitions="Auto,Auto,1*,Auto">
+					<Border Background="{DynamicResource AccentBrush}"
+							Width="2"
+							Height="15"
+							Margin="0 0 5 0"
+							CornerRadius="114514"/>
+
+					<TextBlock Text="导出核心"
+							   Grid.Column="1"
+							   VerticalAlignment="Center"
+							   FontWeight="Bold"/>
+
+					<Button Grid.Column="3"
+							Width="70"
+							Content="导出" 
+							IsEnabled="False"
+						    HorizontalContentAlignment="Center"
+							RenderTransform="skewX(-8deg)"/>
+				</Grid>
+			</Border>
+
+			<Border CornerRadius="4"
+		            Background="#FFC5CBD0"
+		            Grid.Row="3"
+		            Margin="0 15"
+		            BoxShadow="0 1 4 0 #FFC5CBD0">
+				<Grid Margin="15 8"
+					  ColumnDefinitions="Auto,Auto,1*,Auto">
+					<Border Background="{DynamicResource AccentBrush}"
+							Width="2"
+							Height="15"
+							Margin="0 0 5 0"
+							CornerRadius="114514"/>
+
+					<TextBlock Text="删除核心"
+							   Grid.Column="1"
+							   VerticalAlignment="Center"
+							   FontWeight="Bold"/>
+
+					<Button Grid.Column="3"
+							Content="删除"
+							IsEnabled="False"
+						    HorizontalContentAlignment="Center"
+							Width="70"
+							Background="Red"
+							RenderTransform="skewX(-8deg)"/>
+				</Grid>
+			</Border>
 		</Grid>
 	</ScrollViewer>
 </UserControl>
