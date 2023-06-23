@@ -26,9 +26,12 @@ namespace wonderlab.ViewModels.Pages {
                 var result = await Task.Run(async () => await Toolkit.LoadAllAsync());
 
                 if (result.Any()) {
-                    ModPacks = new();
+                    ModPacks.Clear();
                     try {
-                        await Task.Run(() => ModPacks.Load(result.Select(x => x.CreateViewData<ModPack, ModPackViewData>())));
+                        foreach (var item in result.Select(x => x.CreateViewData<ModPack, ModPackViewData>())) {
+                            ModPacks.Add(item);
+                            await Task.Delay(10);
+                        }
                     }
                     catch (System.Exception) {                        
                     }

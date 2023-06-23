@@ -191,6 +191,7 @@
 			</Style>
 		</Styles>
 	</UserControl.Styles>
+	
 	<Grid>
 		<Grid IsVisible="False">
 			<Grid.ColumnDefinitions>
@@ -434,7 +435,8 @@
 			                              Classes="left"
 			                              Background="Transparent"
 			                              HorizontalAlignment="Stretch"
-			                              IsChecked="true"/>
+			                              IsChecked="true"
+										  Command="{Binding GoSingleConfigPage}"/>
 
 							<ToggleButton Content="模组"
 										  Classes="center"

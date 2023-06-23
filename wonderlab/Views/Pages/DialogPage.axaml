@@ -26,6 +26,7 @@
 							   MicrosoftCommand="{Binding MicrosoftSelectedAction}"/>
 		
 		<wcd:ValidationDialog Name="Validation"		
+							  HasGame="{Binding HasGame}"
 							  DeviceCode="{Binding DeviceCodeText}"
 							  CancelCommand="{Binding CancelAction}"
 							  IsCodeLoading="{Binding IsCodeLoading}"

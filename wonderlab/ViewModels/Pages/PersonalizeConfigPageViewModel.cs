@@ -137,7 +137,7 @@ namespace wonderlab.ViewModels.Pages {
         };
 
         public async void GetImageFileAction() {
-            Uri uri = null;
+            Uri uri = null!;
                         
             try {
                 using var result = (await App.CurrentWindow.StorageProvider.OpenFilePickerAsync(new() {

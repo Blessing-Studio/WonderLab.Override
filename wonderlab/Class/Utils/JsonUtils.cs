@@ -1,9 +1,11 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
+﻿using MinecraftLaunch.Modules.Models.Launch;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
+using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.Utils {
     public static class JsonUtils {
@@ -78,7 +80,27 @@ namespace wonderlab.Class.Utils {
             jsonPath.WriteCompressedText(GlobalResources.LauncherData.ToNewtonJson());
         }
 
-        internal static void DirectoryCheck() {
+        public static SingleCoreModel WriteSingleGameCoreJson(GameCore core) {
+            DirectoryCheck();
+            var file = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
+            file.WriteCompressedText(new SingleCoreModel().ToNewtonJson());
+            return new SingleCoreModel();
+        }
+
+        public static async ValueTask<SingleCoreModel> ReadSingleGameCoreJsonAsync(GameCore core) {
+            string path = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
+            var json = await path.ReadCompressedText();
+            json.ShowLog();
+            var data = json.ToNewtonJsonEntity<SingleCoreModel>();
+
+            if (data.IsNull()) {
+                return WriteSingleGameCoreJson(core);
+            }
+
+            return data;
+        }
+
+        public static void DirectoryCheck() {
             try {
                 if (!Directory.Exists(DataPath)) {
                     Directory.CreateDirectory(DataPath);

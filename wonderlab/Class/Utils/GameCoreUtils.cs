@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
+using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.Utils {
     public static class GameCoreUtils {
@@ -19,8 +20,8 @@ namespace wonderlab.Class.Utils {
             var cores = await Task.Run(() => {
                 return new GameCoreToolkit(root).GetGameCores();
             });
-
-            return cores is null ? new() : cores.ToObservableCollection();
+            
+            return cores.ToObservableCollection() ?? new();
         }
 
         public static async ValueTask<ObservableCollection<GameCore>> SearchGameCoreAsync(string root, string text) {

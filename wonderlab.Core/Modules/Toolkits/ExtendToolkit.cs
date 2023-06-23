@@ -104,7 +104,7 @@ public static class ExtendToolkit
 	}
 
     public static string ToNewtonJson(this object entity, bool IsIndented = true) {
-        return JsonSerializer.Serialize(entity)!;
+        return JsonConvert.SerializeObject(entity)!;
     }
 
     public static T FromJson<T>(this T entity, string json) where T : IJsonEntity
@@ -224,7 +224,7 @@ public static class ExtendToolkit
 
     public static string GetModsPath(this GameCore row, bool Isolate = true) => Path.Combine(row.Root!.FullName, Isolate ? Path.Combine("versions", row.Id) : "", "mods");
 
-	public static string GetGameCorePath(this GameCore row, bool Isolate = true) => Path.Combine(row.GetVersionsPath(), row.Id!);
+	public static string GetGameCorePath(this GameCore row, bool Isolate = true) => Path.Combine(Isolate ? row.GetVersionsPath() : row.Root.FullName, Isolate ? row.Id! : string.Empty);
 
     public static string GetResourcePacksPath(this GameCore row, bool Isolate = true) => Path.Combine(row.Root!.FullName, Isolate ? Path.Combine("versions", row.Id) : "", "resourcepacks");
 }

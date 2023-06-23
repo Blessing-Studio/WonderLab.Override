@@ -11,11 +11,14 @@ using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
     public class GameCoreConfigPageViewModel : ViewModelBase {
+        private GameCoreViewData cache = null!;
+
         public GameCoreConfigPageViewModel(GameCoreViewData core) {
             PropertyChanged += OnPropertyChanged;
 
+            cache = core;
             Current = core.Data;
-            CurrentPage = new ModConfigPage(core.Data);
+            CurrentPage = new SingleGameCoreConfigPage(core);
 
             try {
                 AsyncRunAction();
@@ -75,6 +78,10 @@ namespace wonderlab.ViewModels.Pages {
 
         public void GoSaveAction() {
             CurrentPage = new SaveConfigPage();
+        }
+
+        public void GoSingleConfigPage() {
+            CurrentPage = new SingleGameCoreConfigPage(cache);
         }
     }
 }

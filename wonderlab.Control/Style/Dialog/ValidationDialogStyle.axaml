@@ -146,24 +146,36 @@
 												Command="{TemplateBinding ValidationWriteCommand}"/>
 									</Grid>
 
-									<Grid ColumnDefinitions="1*,10,1*"
+									<Grid RowDefinitions="Auto,Auto"
 										  IsVisible="True"
 										  Name="CodePanelButtons">
-										<Button FontSize="12"
-	                                            Content="取消"
-		                                        Classes="wonderaccentbutton"
-		                                        HorizontalAlignment="Stretch"
-		                                        HorizontalContentAlignment="Center"
-												Command="{TemplateBinding CancelCommand}"
-												Background="{DynamicResource ButtonBackground}"/>
+										<Grid ColumnDefinitions="1*,10,1*">
+											<Button FontSize="12"
+		                                            Content="取消"
+		                                            Classes="wonderaccentbutton"
+		                                            HorizontalAlignment="Stretch"
+		                                            HorizontalContentAlignment="Center"
+		                                            Command="{TemplateBinding CancelCommand}"
+		                                            Background="{DynamicResource ButtonBackground}"/>
 
-										<Button FontSize="12"
-	                                            Content="复制代码并打开浏览器"
-												Grid.Column="2"
-	                                            Classes="wonderaccentbutton"
-	                                            HorizontalAlignment="Stretch"
-	                                            HorizontalContentAlignment="Center"
-												Command="{TemplateBinding ValidationMicrosoftCommand}"/>
+											<Button FontSize="12"
+													Content="复制代码并打开浏览器"
+													Grid.Column="2"
+													Classes="wonderaccentbutton"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													Command="{TemplateBinding ValidationMicrosoftCommand}"/>
+										</Grid>
+										
+										<TextBlock Foreground="Red"
+												   FontSize="14"
+												   TextAlignment="Center"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Bottom"
+												   Grid.Row="1"
+												   Margin="0 3 0 0"
+												   IsVisible="{TemplateBinding HasGame}"
+												   Text="您的账户可能没有购买 Minecraft，如您已购买，则可能未创建游戏档案，请前往创建再回到启动器重新登录"/>
 									</Grid>
 								</Grid>		
 							</Grid>

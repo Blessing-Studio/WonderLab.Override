@@ -41,6 +41,8 @@ namespace wonderlab.control.Controls.Dialog {
 
         public bool IsCodeLoading { get => GetValue(IsCodeLoadingProperty); set => SetValue(IsCodeLoadingProperty, value); }
 
+        public bool HasGame { get => GetValue(HasGameProperty); set => SetValue(HasGameProperty, value); }
+
         public ICommand ValidationWriteCommand { get => GetValue(ValidationWriteCommandProperty); set => SetValue(ValidationWriteCommandProperty, value); }
 
         public ICommand ValidationMicrosoftCommand { get => GetValue(ValidationMicrosoftCommandProperty); set => SetValue(ValidationMicrosoftCommandProperty, value); }
@@ -54,7 +56,7 @@ namespace wonderlab.control.Controls.Dialog {
         public string Email { get => GetValue(EmailProperty); set => SetValue(EmailProperty, value); }
 
         public string Password { get => GetValue(PasswordProperty); set => SetValue(PasswordProperty, value); }
-
+        
         public static readonly StyledProperty<string> YggdrasilUriProperty =
             AvaloniaProperty.Register<ValidationDialog, string>(nameof(YggdrasilUri));
 
@@ -78,6 +80,9 @@ namespace wonderlab.control.Controls.Dialog {
 
         public static readonly StyledProperty<bool> IsCodeLoadingProperty =
             AvaloniaProperty.Register<ValidationDialog, bool>(nameof(IsCodeLoading), false);
+
+        public static readonly StyledProperty<bool> HasGameProperty =
+            AvaloniaProperty.Register<ValidationDialog, bool>(nameof(HasGame), false);
 
         public static readonly StyledProperty<ValidationTypes> ValidationTypeProperty =
             AvaloniaProperty.Register<ValidationDialog, ValidationTypes>(nameof(ValidationType), ValidationTypes.Offline);

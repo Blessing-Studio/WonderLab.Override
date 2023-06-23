@@ -29,6 +29,9 @@ namespace wonderlab.ViewModels.Pages {
         public ObservableCollection<AccountViewData> GameAccounts { set; get; } = null!;
 
         [Reactive]
+        public bool HasGame { get; set; } = false;
+
+        [Reactive]
         public bool IsCodeLoading { get; set; }
 
         [Reactive]
@@ -88,17 +91,25 @@ namespace wonderlab.ViewModels.Pages {
                 }, true);
 
                 $"账户 {account.Name} 已成功添加至启动器".ShowMessage();
-                await Task.Run(async () => {
+                await Task.Run(() => {
                     AccountPage.ViewModel.GameAccounts = CacheResources.Accounts;
                 });
+
+                CancelAction();
             }
             catch (Exception ex) when (ex is TimeoutException) {
                 App.CurrentWindow.DialogHost.Validation.HideDialog();
                 "无法完成此次验证操作，原因：验证超时！".ShowInfoDialog("错误");
-            }
-            finally {
                 CancelAction();
+                return;
             }
+            catch (Exception ex) when (ex is NotSupportedException) {
+                HasGame = true;
+                return;
+            }
+            catch (Exception ex) {
+                $"无法完成此次验证操作，原因：{ex}".ShowInfoDialog("错误");
+            }        
         }
 
         public async void GoValidationLinkAction() {

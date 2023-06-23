@@ -11,29 +11,24 @@ using Natsurainko.Toolkits.Network;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MinecraftLaunch.Modules.Authenticator
-{
+namespace MinecraftLaunch.Modules.Authenticator {
     /// <summary>
     /// 微软验证器
     /// </summary>
-    public partial class MicrosoftAuthenticator : AuthenticatorBase
-    {
+    public partial class MicrosoftAuthenticator : AuthenticatorBase {
         /// <summary>
         /// 获取一次性验证代码
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public async ValueTask<DeviceCodeResponse> GetDeviceInfo()
-        {
+        public async ValueTask<DeviceCodeResponse> GetDeviceInfo() {
             if (string.IsNullOrEmpty(ClientId))
                 throw new ArgumentNullException("ClientId为空！");
 
             //开始获取一次性验证代码
-            using (var client = new HttpClient())
-            {
+            using (var client = new HttpClient()) {
                 string tenant = "/consumers";
-                var content = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
+                var content = new FormUrlEncodedContent(new Dictionary<string, string> {
                     ["client_id"] = ClientId,
                     ["tenant"] = tenant,
                     ["scope"] = string.Join(" ", Scopes)
@@ -53,10 +48,8 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// 轮询获取令牌信息
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<TokenResponse> GetTokenResponse(DeviceCodeResponse codeResponse)
-        {
-            using (HttpClient client = new())
-            {
+        public async ValueTask<TokenResponse> GetTokenResponse(DeviceCodeResponse codeResponse) {
+            using (HttpClient client = new()) {
                 //开始轮询
                 string tenant = "/consumers";
                 TimeSpan pollingInterval = TimeSpan.FromSeconds(codeResponse.Interval);
@@ -64,12 +57,9 @@ namespace MinecraftLaunch.Modules.Authenticator
                 TimeSpan timeRemaining = codeExpiresOn - DateTimeOffset.UtcNow;
                 TokenResponse tokenResponse = default!;
 
-                while (timeRemaining.TotalSeconds > 0)
-                {
-                    var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/consumers/oauth2/v2.0/token")
-                    {
-                        Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                        {
+                while (timeRemaining.TotalSeconds > 0) {
+                    var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/consumers/oauth2/v2.0/token") {
+                        Content = new FormUrlEncodedContent(new Dictionary<string, string> {
                             ["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code",
                             ["device_code"] = codeResponse.DeviceCode,
                             ["client_id"] = ClientId,
@@ -86,8 +76,7 @@ namespace MinecraftLaunch.Modules.Authenticator
                     if (tokenRes.StatusCode == HttpStatusCode.OK)
                         tokenResponse = tempTokenResponse;
 
-                    if (tempTokenResponse.TokenType is "Bearer")
-                    {
+                    if (tempTokenResponse.TokenType is "Bearer") {
                         AccessToken = tempTokenResponse.AccessToken;
                         RefreshToken = tempTokenResponse.RefreshToken;
                         return tokenResponse;
@@ -96,12 +85,11 @@ namespace MinecraftLaunch.Modules.Authenticator
                     await Task.Delay(pollingInterval);
                     timeRemaining = codeExpiresOn - DateTimeOffset.UtcNow;
                 }
-                throw new("登录操作已超时");
+                throw new TimeoutException("登录操作已超时");
             }
         }
 
-        public new async ValueTask<MicrosoftAccount> AuthAsync(Action<string> func)
-        {
+        public new async ValueTask<MicrosoftAccount> AuthAsync(Action<string> func) {
             #region
             IProgress<string> progress = new Progress<string>();
             ((Progress<string>)progress).ProgressChanged += ProgressChanged!;
@@ -109,16 +97,14 @@ namespace MinecraftLaunch.Modules.Authenticator
             void ProgressChanged(object _, string e) =>
                 func(e);
 
-            void Report(string value)
-            {
+            void Report(string value) {
                 if (func is not null)
                     progress.Report(value);
             }
 
             #endregion
 
-            if (AuthType is AuthType.Refresh)
-            {
+            if (AuthType is AuthType.Refresh) {
                 Report("开始微软登录（刷新验证）");
                 progress.Report("开始获取 AccessToken");
                 var url = "https://login.live.com/oauth20_token.srf";
@@ -153,8 +139,7 @@ namespace MinecraftLaunch.Modules.Authenticator
 
                 #region Get the profile
 
-                if (hasgame)
-                {
+                if (hasgame) {
                     Report("开始获取 玩家Profile");
 
                     using var profileRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/minecraft/profile", authorization);
@@ -162,8 +147,7 @@ namespace MinecraftLaunch.Modules.Authenticator
 
                     Report("微软登录（刷新验证）完成");
 
-                    return new MicrosoftAccount
-                    {
+                    return new MicrosoftAccount {
                         AccessToken = access_token,
                         Type = AccountType.Microsoft,
                         ClientToken = Guid.NewGuid().ToString("N"),
@@ -172,16 +156,12 @@ namespace MinecraftLaunch.Modules.Authenticator
                         RefreshToken = string.IsNullOrEmpty(RefreshToken) ? "None" : RefreshToken,
                         DateTime = DateTime.Now
                     };
-                }
-                else
-                {
-                    throw new("未购买 Minecraft！");
+                } else {
+                    throw new NotSupportedException("未购买 Minecraft！");
                 }
 
                 #endregion
-            }
-            else if (AuthType is AuthType.Access)
-            {
+            } else if (AuthType is AuthType.Access) {
                 Report("开始微软登录（非刷新验证）");
 
                 #region Authenticate with XBL
@@ -221,62 +201,68 @@ namespace MinecraftLaunch.Modules.Authenticator
 
                 #region Check with Game
                 Report("开始检查游戏所有权");
+                var authorization = new Tuple<string, string>("Bearer", access_token!);
 
-                var authorization = new Tuple<string, string>("Bearer", access_token);
-                using var GameHasRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/entitlements/mcstore", authorization);
+                bool hasGame = false;
+                try {
+                    using var gameHasRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/entitlements/mcstore", authorization);
+                    var itemArray = (await gameHasRes.Content.ReadAsStringAsync()).ToJsonEntity<GameHasCheckResponseModel>();
 
-                var ItemArray = (await GameHasRes.Content.ReadAsStringAsync()).ToJsonEntity<GameHasCheckResponseModel>();
-                bool hasgame = ItemArray.Items.Count > 0 ? true : false;
+                    if (itemArray != null) {
+                        hasGame = itemArray.Items.Count > 0 ? true : false;
+                    } else {
+                        hasGame = true;
+                    }
+                }
+                catch (Exception ex) {
+                    Trace.WriteLine($"[错误] 未能成功检查游戏所有权，但会继续尝试获取 个人档案，错误的原因如下：{ex}");
+                }
                 #endregion
 
                 #region Get the profile
 
-                if (hasgame)
-                {
-                    Report("开始获取 玩家Profile");
+                if (hasGame) {
+                    try {
+                        Report("开始获取 玩家Profile");
+                        using var profileRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/minecraft/profile", authorization);
+                        var microsoftAuthenticationResponse = JsonConvert.DeserializeObject<MicrosoftAuthenticationResponse>(await profileRes.Content.ReadAsStringAsync());
+                        Report("微软登录（非刷新验证）完成");
 
-                    using var profileRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/minecraft/profile", authorization);
-                    var microsoftAuthenticationResponse = JsonConvert.DeserializeObject<MicrosoftAuthenticationResponse>(await profileRes.Content.ReadAsStringAsync());
-
-                    Report("微软登录（非刷新验证）完成");
-
-                    return new MicrosoftAccount
-                    {
-                        AccessToken = access_token,
-                        Type = AccountType.Microsoft,
-                        ClientToken = Guid.NewGuid().ToString("N"),
-                        Name = microsoftAuthenticationResponse.Name,
-                        Uuid = Guid.Parse(microsoftAuthenticationResponse.Id),
-                        RefreshToken = string.IsNullOrEmpty(RefreshToken) ? "None" : RefreshToken,
-                        DateTime = DateTime.Now
-                    };
-                }
-                else
-                {
-                    throw new("未购买 Minecraft！");
+                        return new MicrosoftAccount {
+                            AccessToken = access_token!,
+                            Type = AccountType.Microsoft,
+                            ClientToken = Guid.NewGuid().ToString("N"),
+                            Name = microsoftAuthenticationResponse!.Name,
+                            Uuid = Guid.Parse(microsoftAuthenticationResponse.Id),
+                            RefreshToken = string.IsNullOrEmpty(RefreshToken) ? "None" : RefreshToken,
+                            DateTime = DateTime.Now
+                        };
+                    }
+                    catch (Exception ex) {
+                        throw new($"在获取用户信息时遭遇了异常，类型如下：{ex}");
+                    }
+                } else {
+                    throw new NotSupportedException("未购买 Minecraft！");
                 }
 
                 #endregion
             }
 
-            throw new("验证失败！");
+            throw new InvalidOperationException("验证失败！");
         }
 
-        public override MicrosoftAccount Auth() => AuthAsync(null).GetAwaiter().GetResult();
+        public override MicrosoftAccount Auth() => AuthAsync(null!).GetAwaiter().GetResult();
     }
 
-    partial class MicrosoftAuthenticator
-    {
+    partial class MicrosoftAuthenticator {
         public MicrosoftAuthenticator() { }
 
-        public MicrosoftAuthenticator(AuthType authType = AuthType.Access)
-        {
+        public MicrosoftAuthenticator(AuthType authType = AuthType.Access) {
             AuthType = authType;
         }
     }
 
-    partial class MicrosoftAuthenticator
-    {
+    partial class MicrosoftAuthenticator {
         public string ClientId { get; set; } = string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
         public AuthType AuthType { get; set; } = AuthType.Access;
