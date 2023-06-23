@@ -25,7 +25,6 @@ namespace wonderlab {
         public override void Initialize() {
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException; ;
             AvaloniaXamlLoader.Load(this);
-            throw new NotImplementedException("114514");
         }
 
         private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
