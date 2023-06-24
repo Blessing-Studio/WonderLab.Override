@@ -136,6 +136,7 @@
 		</Grid>
 
 		<wcb:TitleBar Title="进程中心"
-			  TitleWidth="110"/>
+			  TitleWidth="110"
+		      GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>
