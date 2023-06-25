@@ -11,6 +11,7 @@
 			  ColumnDefinitions="Auto, 1*">
 			<ListBox Width="200"
 					 Background="Transparent"
+					 Items="{Binding GameProcesses}"
 					 ScrollViewer.VerticalScrollBarVisibility="Hidden">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
@@ -43,7 +44,7 @@
 										</Grid>
 									</Border>
 
-									<TextBlock Text="{TemplateBinding Content}"
+									<TextBlock Text="{Binding Data.GameCore.Id}"
 											   Margin="20 5"
 											   TextTrimming="CharacterEllipsis"
 											   VerticalAlignment="Center"
@@ -62,10 +63,6 @@
 						<Setter Property="RenderTransform" Value="skewX(-14deg)"/>
 					</Style>
 				</ListBox.Styles>
-				<ListBoxItem Content="1.12.2"/>
-				<ListBoxItem Content="1.20.1"/>
-				<ListBoxItem Content="1.7.10-forge-114514"/>
-				<ListBoxItem Content="1.16.5"/>
 			</ListBox>		
 
 			<Border Grid.Column="1"
@@ -75,7 +72,8 @@
 					BoxShadow="0 2 8 0 #66000000">
 				<Grid RowDefinitions="1*,Auto,Auto">
 					<ContentControl CornerRadius="4 4 0 0"
-						Background="Transparent"/>
+						Background="Transparent"
+									Content="{Binding CurrentPage}"/>
 
 					<StackPanel Spacing="2"
 			                    VerticalAlignment="Center"
@@ -106,8 +104,8 @@
 									CornerRadius="4">
 								<TextBlock Text="调试" Margin="6 4"/>
 							</Border>
-							<Border Background="White" 
-									BoxShadow="0 1 4 0 White"								
+							<Border Background="White"
+									BoxShadow="0 1 4 0 #64757575"					
 									CornerRadius="4">
 								<TextBlock Text="信息" Margin="6 4"/>
 							</Border>

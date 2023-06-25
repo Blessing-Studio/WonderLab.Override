@@ -45,7 +45,7 @@ namespace wonderlab {
                 builder.Append($"异常堆栈信息：{string.Join("\n",lines)}");
 
                 await Task.Run(async () => {
-                    var json = new Model(e!.GetType().FullName!, builder.ToString())!.ToNewtonJson(false)!;
+                    var json = new Model(e!.GetType().FullName!, builder.ToString())!.ToJson(false)!;
                     json.ShowLog();
                     var result = await HttpWrapper.HttpPostAsync($"{GlobalResources.WonderApi}error", json);
                     (await result.Content.ReadAsStringAsync()).ShowLog();

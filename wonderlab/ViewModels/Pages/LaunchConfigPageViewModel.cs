@@ -30,7 +30,13 @@ namespace wonderlab.ViewModels.Pages {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                     ThreadPool.QueueUserWorkItem(x => {
                         Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimePath;
+                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => {                            
+                            if (x.JavaPath == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath) {
+                                return true;
+                            }
+
+                            return false;
+                        }).FirstOrDefault()!;
                     });
                 }
 
@@ -52,10 +58,6 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName is nameof(Javas)) {
-                GlobalResources.LaunchInfoData.JavaRuntimes = Javas.ToList();
-            }
-
             if (e.PropertyName is nameof(GameDirectorys)) {
                 GlobalResources.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
             }

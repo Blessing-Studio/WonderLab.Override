@@ -12,7 +12,7 @@ using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
 using Natsurainko.Toolkits.Network;
 using Natsurainko.Toolkits.Network.Model;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Text.Json;
 using Newtonsoft.Json;
@@ -83,44 +83,30 @@ public static class ExtendToolkit
 
 	public static T ToJsonEntity<T>(this T entity, string json) where T : IJsonEntity
 	{
-        return JsonSerializer.Deserialize<T>(json)!;
+        return JsonConvert.DeserializeObject<T>(json)!;
     }
 
     public static string ToJson<T>(this T entity) where T : IJsonEntity {	
-        return JsonSerializer.Serialize((object)entity, options: new JsonSerializerOptions {		
-			WriteIndented = true
-		});
+        return JsonConvert.SerializeObject(entity);
 	}
 
-	public static string ToJson(this object entity, bool IsIndented = true) {
-	{
-		if (IsIndented)		
-			return JsonSerializer.Serialize(entity, options: new JsonSerializerOptions {    
-				WriteIndented = true
-            });
-        }
-
-		return JsonSerializer.Serialize(entity);
-	}
-
-    public static string ToNewtonJson(this object entity, bool IsIndented = true) {
-        return JsonConvert.SerializeObject(entity)!;
+    public static string ToJson(this object entity, bool IsIndented = true) {
+        return JsonConvert.SerializeObject(entity, new JsonSerializerSettings() {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore
+        })!;
     }
 
     public static T FromJson<T>(this T entity, string json) where T : IJsonEntity
 	{
-        return JsonSerializer.Deserialize<T>(json)!;
+        return JsonConvert.DeserializeObject<T>(json)!;
     }
 
     public static T ToJsonEntity<T>(this string json)
 	{
-		return JsonSerializer.Deserialize<T>(json)!;
+		return JsonConvert.DeserializeObject<T>(json)!;
 	}
 
-    public static T ToNewtonJsonEntity<T>(this string json)
-    {
-        return JsonConvert.DeserializeObject<T>(json)!;
-    }
 
     public static string ToDownloadLink(this OpenJdkType open, JdkDownloadSource jdkDownloadSource)
 	{
@@ -227,4 +213,8 @@ public static class ExtendToolkit
 	public static string GetGameCorePath(this GameCore row, bool Isolate = true) => Path.Combine(Isolate ? row.GetVersionsPath() : row.Root.FullName, Isolate ? row.Id! : string.Empty);
 
     public static string GetResourcePacksPath(this GameCore row, bool Isolate = true) => Path.Combine(row.Root!.FullName, Isolate ? Path.Combine("versions", row.Id) : "", "resourcepacks");
+
+	public static string Join(this HttpDownloadRequest request) {
+		return Path.Combine(request.Directory.FullName, request.FileName);
+	}
 }

@@ -24,7 +24,7 @@ namespace wonderlab.Class.Utils {
 
             try {
                 var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.MojangNewsApi)).Content.ReadAsStringAsync();
-                result = json.ToNewtonJsonEntity<MojangNewsModel>().Entries;
+                result = json.ToJsonEntity<MojangNewsModel>().Entries;
                 CacheResources.MojangNews = result;
             }
             catch (Exception ex) {

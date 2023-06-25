@@ -51,7 +51,7 @@ namespace MinecraftLaunch.Launch {
 
                 progress.Report((0.6f, "正在补全游戏依赖文件"));
                 await new ResourceInstaller(core).DownloadAsync(delegate (string x, float a) {
-                    progress.Report((0.6f + a * 0.8f, "正在下载游戏依赖文件：" + x));
+                    progress.Report((0.5f + a * 0.8f, "正在下载游戏依赖文件：" + x));
                 });
                 progress.Report((0.8f, "正在构建启动参数"));
                 ArgumentsBuilder = new JavaMinecraftArgumentsBuilder(core, LaunchSetting, EnableIndependencyCore);

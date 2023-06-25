@@ -3,24 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace MinecaftOAuth.Module.Models
 {
     public class OwnershipItem
     {
-        [JsonPropertyName("name")] public string Name { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-        [JsonPropertyName("signature")] public string Signature { get; set; }
+        [JsonProperty("signature")] public string Signature { get; set; }
     }
 
     public class GameHasCheckResponseModel
     {
-        [JsonPropertyName("items")] public List<OwnershipItem> Items { get; set; }
+        [JsonProperty("items")] public List<OwnershipItem> Items { get; set; }
 
-        [JsonPropertyName("signature")] public string Signature { get; set; }
+        [JsonProperty("signature")] public string Signature { get; set; }
 
-        [JsonPropertyName("keyId")] public string KeyId { get; set; }
+        [JsonProperty("keyId")] public string KeyId { get; set; }
     }
 }

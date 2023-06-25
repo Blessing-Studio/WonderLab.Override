@@ -22,13 +22,13 @@ namespace wonderlab.Class.Utils {
 
                 if (!File.Exists(jsonPath)) {
                     File.Create(jsonPath).Close();
-                    jsonPath.WriteCompressedText(new LaunchInfoDataModel().ToNewtonJson());
+                    jsonPath.WriteCompressedText(new LaunchInfoDataModel().ToJson());
                     GlobalResources.LaunchInfoData = new();
                     return;
                 }
 
                 var json = await jsonPath.ReadCompressedText();
-                GlobalResources.LaunchInfoData = json.ToNewtonJsonEntity<LaunchInfoDataModel>();
+                GlobalResources.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
 
                 if (GlobalResources.LaunchInfoData.IsNull()) {
                     GlobalResources.LaunchInfoData = GlobalResources.DefaultLaunchInfoData;
@@ -45,7 +45,7 @@ namespace wonderlab.Class.Utils {
             var jsonPath = Path.Combine(DataPath, "launchdata.wld");
             DirectoryCheck();
 
-            jsonPath.WriteCompressedText(GlobalResources.LaunchInfoData.ToNewtonJson());
+            jsonPath.WriteCompressedText(GlobalResources.LaunchInfoData.ToJson());
         }
 
         public static async void CreateLauncherInfoJson() {
@@ -54,13 +54,13 @@ namespace wonderlab.Class.Utils {
                 DirectoryCheck();
 
                 if (!File.Exists(jsonPath)) {
-                    jsonPath.WriteCompressedText(new LauncherDataModel().ToNewtonJson());
+                    jsonPath.WriteCompressedText(new LauncherDataModel().ToJson());
                     GlobalResources.LauncherData = new();
                     return;
                 }
 
                 var json = await jsonPath.ReadCompressedText();
-                GlobalResources.LauncherData = json.ToNewtonJsonEntity<LauncherDataModel>();
+                GlobalResources.LauncherData = json.ToJsonEntity<LauncherDataModel>();
 
                 if (GlobalResources.LauncherData.IsNull()) {
                     GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
@@ -77,7 +77,7 @@ namespace wonderlab.Class.Utils {
             var jsonPath = Path.Combine(DataPath, "launcherdata.wld");
             DirectoryCheck();
 
-            jsonPath.WriteCompressedText(GlobalResources.LauncherData.ToNewtonJson());
+            jsonPath.WriteCompressedText(GlobalResources.LauncherData.ToJson());
         }
 
         public static SingleCoreModel WriteSingleGameCoreJson(GameCore core) {
@@ -85,7 +85,7 @@ namespace wonderlab.Class.Utils {
             var file = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
 
             if (!file.IsFile()) {
-                file.WriteCompressedText(new SingleCoreModel().ToNewtonJson());
+                file.WriteCompressedText(new SingleCoreModel().ToJson());
                 return new SingleCoreModel();
             }
 
@@ -96,7 +96,7 @@ namespace wonderlab.Class.Utils {
             string path = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
             var json = await path.ReadCompressedText();
             json.ShowLog();
-            var data = json.ToNewtonJsonEntity<SingleCoreModel>();
+            var data = json.ToJsonEntity<SingleCoreModel>();
 
             if (data.IsNull()) {
                 return WriteSingleGameCoreJson(core);

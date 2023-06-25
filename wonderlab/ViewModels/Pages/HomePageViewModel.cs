@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
@@ -152,8 +153,8 @@ namespace wonderlab.ViewModels.Pages {
                 return;
             }
 
-            ////游戏依赖检查
-            //await ResourceCheckOutAsync();
+            //游戏依赖检查
+            await ResourcesCheckOutAsync();
 
             data.Progress = "开始启动步骤 - 0%";
             bool flag = !GlobalResources.LaunchInfoData.IsAutoSelectJava && GlobalResources.LaunchInfoData.JavaRuntimePath.Equals(null);//手动选择 Java 的情况
@@ -177,8 +178,6 @@ namespace wonderlab.ViewModels.Pages {
 
             JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
             using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
-                data.Progress = $"{x.Item2} - {Math.Round(x.Item1 * 100, 2)}%";
-                data.ProgressOfBar = Math.Round(x.Item1 * 100, 2);
                 x.Item2.ShowLog();
             });
 
@@ -246,6 +245,20 @@ namespace wonderlab.ViewModels.Pages {
                         CurrentAccount = result;
                         await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
                     }
+                });
+            }
+
+            async ValueTask ResourcesCheckOutAsync() {
+                ResourceInstaller installer = new(GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath,
+                    GlobalResources.LaunchInfoData.SelectGameCore));
+
+                var result = await installer.DownloadAsync(async (s,f) => {
+                    await Task.Run(() => {
+                        data.Progress = $"{Math.Round(f * 100, 2)}%";
+                        data.ProgressOfBar = Math.Round(f * 100, 2);
+                        s.ShowLog();
+                        Thread.Sleep(1000);
+                    });
                 });
             }
         }

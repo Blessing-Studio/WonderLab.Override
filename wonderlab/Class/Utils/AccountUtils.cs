@@ -28,10 +28,10 @@ namespace wonderlab.Class.Utils {
             var json = user.ToJson(true);
             var text = CryptoToolkit.EncrytoOfKaiser(json).ConvertToBase64();
             await File.WriteAllTextAsync(Path.Combine(JsonUtils.UserDataPath, $"{user.Uuid}.dat"), text);
+
             if (!CacheResources.Accounts.Any(x=> x.Data.Uuid == user.Uuid && x.Data.UserType == user.UserType)) {
                 CacheResources.Accounts.Add(user.CreateViewData<UserModel, AccountViewData>(flag));
             }
-
         }
 
         public static async ValueTask RefreshAsync(UserModel old, Account news) {

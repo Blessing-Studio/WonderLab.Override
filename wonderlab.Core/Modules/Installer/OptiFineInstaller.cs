@@ -15,7 +15,7 @@ using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.IO;
 using Natsurainko.Toolkits.Network;
 using Natsurainko.Toolkits.Network.Model;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
@@ -222,7 +222,7 @@ namespace MinecraftLaunch.Modules.Installer
                 using var responseMessage = await HttpWrapper.HttpGetAsync($"{(APIManager.Current.Host.Equals(APIManager.Mojang.Host) ? APIManager.Bmcl.Host : APIManager.Current.Host)}/optifine/{mcVersion}");
                 responseMessage.EnsureSuccessStatusCode();
 
-                var list = JsonSerializer.Deserialize<List<OptiFineInstallEntity>>(await responseMessage.Content.ReadAsStringAsync());
+                var list = JsonConvert.DeserializeObject<List<OptiFineInstallEntity>>(await responseMessage.Content.ReadAsStringAsync());
 
                 var preview = list!.Where(x => x.Patch.StartsWith("pre")).ToList();
                 var release = list!.Where(x => !x.Patch.StartsWith("pre")).ToList();
