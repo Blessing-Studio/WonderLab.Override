@@ -32,7 +32,7 @@
 										<Grid>
 											<Border Margin="0 0 10 0"
 													CornerRadius="0 4 4 0"
-													BoxShadow="0 1 4 0 #64757575">
+													BoxShadow="0 1 4 0 #66000000">
 												<Border.Background>
 													<LinearGradientBrush>
 														<GradientStop Offset="0" Color="#fff3f3f3" />
@@ -47,7 +47,8 @@
 											   Margin="20 5"
 											   TextTrimming="CharacterEllipsis"
 											   VerticalAlignment="Center"
-											   FontSize="14"/>
+											   FontSize="14"
+											   FontWeight="Bold"/>
 								</Grid>
 							</ControlTemplate>
 						</Setter>
@@ -70,7 +71,8 @@
 			<Border Grid.Column="1"
 					Margin="10 0 0 0"
 					Background="{DynamicResource DialogContentBackground}"
-					CornerRadius="4">
+					CornerRadius="4"
+					BoxShadow="0 2 8 0 #66000000">
 				<Grid RowDefinitions="1*,Auto,Auto">
 					<ContentControl CornerRadius="4 4 0 0"
 						Background="Transparent"/>

@@ -280,6 +280,13 @@ namespace wonderlab.ViewModels.Pages {
             //else {
             //    ConsoleWindow.WindowActivate();
             //}
+
+            var back = App.CurrentWindow.Back;
+            OpacityChangeAnimation opacity = new(false) {
+                RunValue = 0,
+            };
+
+            opacity.RunAnimation(back);
             App.CurrentWindow.CloseTopBar();
             new ConsoleCenterPage().Navigation();
         }
