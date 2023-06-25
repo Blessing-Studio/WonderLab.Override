@@ -206,7 +206,8 @@ namespace MinecraftLaunch.Modules.Authenticator {
                 bool hasGame = false;
                 try {
                     using var gameHasRes = await HttpWrapper.HttpGetAsync("https://api.minecraftservices.com/entitlements/mcstore", authorization);
-                    var itemArray = (await gameHasRes.Content.ReadAsStringAsync()).ToJsonEntity<GameHasCheckResponseModel>();
+                    string json = await gameHasRes.Content.ReadAsStringAsync();
+                    var itemArray = json.ToJsonEntity<GameHasCheckResponseModel>();
 
                     if (itemArray != null) {
                         hasGame = itemArray.Items.Count > 0 ? true : false;

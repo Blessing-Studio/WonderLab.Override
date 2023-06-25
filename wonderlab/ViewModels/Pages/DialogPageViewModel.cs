@@ -174,6 +174,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void CancelAction() {
+            HasGame = false;
             App.CurrentWindow.DialogHost.Validation.HideDialog();
         }
     }
