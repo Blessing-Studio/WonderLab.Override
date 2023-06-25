@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using MinecaftOAuth.Module.Enum;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Authenticator;
@@ -252,13 +253,17 @@ namespace wonderlab.ViewModels.Pages {
                 ResourceInstaller installer = new(GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath,
                     GlobalResources.LaunchInfoData.SelectGameCore));
 
+                data.Progress = $"开始检查并补全丢失的资源";
                 var result = await installer.DownloadAsync(async (s,f) => {
-                    await Task.Run(() => {
-                        data.Progress = $"{Math.Round(f * 100, 2)}%";
-                        data.ProgressOfBar = Math.Round(f * 100, 2);
-                        s.ShowLog();
-                        Thread.Sleep(1000);
-                    });
+                    try {
+                        Dispatcher.UIThread.Post(() => {
+                            var value = Math.Round(f * 100, 2);
+                            data.ProgressOfBar = value;
+                            //s.ShowLog();
+                        }, DispatcherPriority.Background);
+                    }
+                    catch (Exception) {
+                    }
                 });
             }
         }
