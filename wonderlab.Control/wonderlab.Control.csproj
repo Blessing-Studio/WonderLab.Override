@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -9,6 +9,20 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Icons\Block.png" />
+    <None Remove="Icons\defaultavatar.jpg" />
+    <None Remove="Icons\Fabric.png" />
+    <None Remove="Icons\Forge.png" />
+    <None Remove="Icons\OptiFine.png" />
+    <None Remove="Icons\Quilt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Icons\Block.png" />
+    <AvaloniaResource Include="Icons\defaultavatar.jpg" />
+    <AvaloniaResource Include="Icons\Fabric.png" />
+    <AvaloniaResource Include="Icons\Forge.png" />
+    <AvaloniaResource Include="Icons\OptiFine.png" />
+    <AvaloniaResource Include="Icons\Quilt.png" />
   </ItemGroup>
 
   <ItemGroup>

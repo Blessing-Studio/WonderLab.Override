@@ -77,6 +77,7 @@
 					<StackPanel Spacing="2" Orientation="Vertical" Margin="0,4" Grid.Row="5">
 						<TextBlock Text="{DynamicResource Thank1}"/>
 						<TextBlock Text="{DynamicResource Thank2}"/>
+						<TextBlock Text="{DynamicResource Thank3}"/>						
 					</StackPanel>
 
 					<!--  Multilingual Translation  -->

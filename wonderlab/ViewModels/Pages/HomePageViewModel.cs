@@ -213,16 +213,22 @@ namespace wonderlab.ViewModels.Pages {
 
             async ValueTask ModpackCheckAsync() {
                 data.Progress = "开始检查 Mod";
-                ModPackToolkit toolkit = new(gameCore, true);
-                var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
-                modCount = modpacks.Count();
 
-                var result = modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
-                if (result.Count() > 0) {
-                    foreach (var item in result) {
-                        $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
-                        return;
+                try {
+                    ModPackToolkit toolkit = new(gameCore, true);
+                    var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
+                    modCount = modpacks.Count();
+
+                    var result = modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
+                    if (result.Count() > 0) {
+                        foreach (var item in result) {
+                            $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
+                            return;
+                        }
                     }
+                }
+                catch (Exception) {
+
                 }
             }
 
@@ -250,21 +256,31 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             async ValueTask ResourcesCheckOutAsync() {
-                ResourceInstaller installer = new(GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath,
-                    GlobalResources.LaunchInfoData.SelectGameCore));
+                try {
+                    ResourceInstaller installer = new(GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath,
+                        GlobalResources.LaunchInfoData.SelectGameCore));
 
-                data.Progress = $"开始检查并补全丢失的资源";
-                var result = await installer.DownloadAsync(async (s,f) => {
-                    try {
-                        Dispatcher.UIThread.Post(() => {
-                            var value = Math.Round(f * 100, 2);
-                            data.ProgressOfBar = value;
-                            //s.ShowLog();
-                        }, DispatcherPriority.Background);
+                    data.Progress = $"开始检查并补全丢失的资源";
+                    var result = await installer.DownloadAsync(async (s, f) => {
+                        try {
+                            Dispatcher.UIThread.Post(() => {
+                                var value = Math.Round(f * 100, 2);
+                                data.ProgressOfBar = value;
+                                //s.ShowLog();
+                            }, DispatcherPriority.Background);
+                        }
+                        catch (Exception) {
+                        }
+                    });
+
+                    if (installer.FailedResources.Any()) {
+                        $"我日，游戏资源文件没下完,共计 {installer.FailedResources.Count} 下载失败".ShowMessage("错误");
                     }
-                    catch (Exception) {
-                    }
-                });
+                }
+                catch (Exception) {
+
+                    throw;
+                }
             }
         }
 

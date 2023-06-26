@@ -31,6 +31,7 @@
 	<sr:String x:Key="Thanks">鸣谢</sr:String>
 	<sr:String x:Key="Thank1">感谢 泽托维尔克 赞助的服务器</sr:String>
 	<sr:String x:Key="Thank2">感谢开发过程中 Natsurainko、llr下一你了亲并 的帮助</sr:String>
+	<sr:String x:Key="Thank3">感谢测试期中 ic58N 为启动器的 Mac 端找到了大量 Bug</sr:String>
 	<sr:String x:Key="Developers">开发团队</sr:String>
 	<sr:String x:Key="Developer1">UI 审查：Starcloudsea</sr:String>
 	<sr:String x:Key="Developer2">前端开发：西路Baka</sr:String>

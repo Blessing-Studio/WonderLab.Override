@@ -32,7 +32,6 @@ namespace wonderlab.control.Animation
                     {
                         Setters =
                         {
-                            new Setter(Visual.OpacityProperty, 0.0),
                             new Setter(ScaleTransform.ScaleXProperty, IsReversed ? 1.0 : 0.0),
                         },
                         Cue = new Avalonia.Animation.Cue(0d)
@@ -41,7 +40,6 @@ namespace wonderlab.control.Animation
                     {
                         Setters =
                         {
-                            new Setter(Visual.OpacityProperty, 1.0),
                             new Setter(ScaleTransform.ScaleXProperty, IsReversed ? 0 : 1.0),
                         },
                         Cue = new Avalonia.Animation.Cue(1d)
