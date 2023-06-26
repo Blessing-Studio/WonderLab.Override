@@ -33,7 +33,7 @@ namespace wonderlab.Views.Windows {
             Initialized += DataInitialized;
 
             InitializeComponent();
-            Drop.AddHandler(DragDrop.DropEvent, DropAction);
+            this.AddHandler(DragDrop.DropEvent, DropAction);
             try {
                 ThemeUtils.Init();
                 DataContext = ViewModel = new();

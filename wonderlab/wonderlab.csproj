@@ -53,6 +53,7 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview4" />
     <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+    <PackageReference Include="Natsurainko.FluentCore" Version="2.0.6" />
     <PackageReference Include="ReactiveUI" Version="18.4.44" />
     <PackageReference Include="ReactiveUI.Fody" Version="18.4.44" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />

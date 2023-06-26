@@ -1,5 +1,6 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
+using Natsurainko.FluentCore.Model.Launch;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
+using GameCore = Natsurainko.FluentCore.Model.Launch.GameCore;
 
 namespace wonderlab.ViewModels.Pages {
     public class GameCoreConfigPageViewModel : ViewModelBase {
@@ -17,12 +19,12 @@ namespace wonderlab.ViewModels.Pages {
             PropertyChanged += OnPropertyChanged;
 
             cache = core;
-            Current = core.Data;
+            //Current = core.Data;
             CurrentPage = new SingleGameCoreConfigPage(core);
 
             try {
                 AsyncRunAction();
-                ModLoaders = core.Data.HasModLoader ? string.Join(",", core.Data.ModLoaderInfos.Select(x => x.ModLoaderType)) : "Vanllia";
+                //ModLoaders = core.Data.HasModLoader ? string.Join(",", core.Data.ModLoaderInfos.Select(x => x.ModLoaderType)) : "Vanllia";
             }
             catch (Exception) {
 
@@ -65,7 +67,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void GoModPackAction() {
-            CurrentPage = new ModConfigPage(Current);
+            //CurrentPage = new ModConfigPage(Current);
         }
 
         public void GoSharePackAction() {
@@ -73,7 +75,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void GoResourePackAction() {
-            CurrentPage = new ResourePackConfigPage(Current);
+            //CurrentPage = new ResourePackConfigPage(Current);
         }
 
         public void GoSaveAction() {

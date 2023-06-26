@@ -107,12 +107,12 @@ namespace wonderlab.Class.Utils {
 
         public static GameCoreViewData SaveSingleGameCoreJson(GameCoreViewData config) {
             if (!config.IsNull()) {
-                string path = Path.Combine(config.Data.GetGameCorePath(true), $"singleConfig.wlcd");
+                //string path = Path.Combine(config.Data.GetGameCorePath(true), $"singleConfig.wlcd");
 
-                if (path.IsFile()) {
-                    var json =  config.SingleConfig.ToJson();
-                    path.WriteCompressedText(json);
-                }
+                //if (path.IsFile()) {
+                //    var json =  config.SingleConfig.ToJson();
+                //    path.WriteCompressedText(json);
+                //}
             }
 
             return config;
