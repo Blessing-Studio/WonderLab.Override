@@ -178,7 +178,6 @@ namespace wonderlab.ViewModels.Pages {
 
             data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
-                gameProcess.Process.PriorityClass = ProcessPriorityClass.High;
                 data.Progress = $"启动成功 - 100%";
                 $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
                 var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
