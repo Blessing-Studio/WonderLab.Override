@@ -162,7 +162,7 @@ namespace wonderlab.ViewModels.Pages {
                     MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
                     ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
                     : GlobalResources.LaunchInfoData.MaxMemory,
-                    JavaPath = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
+                    JavaPath = "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java".ToFile(),
                 },
                 GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,
