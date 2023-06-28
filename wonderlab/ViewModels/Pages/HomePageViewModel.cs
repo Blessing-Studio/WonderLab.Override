@@ -27,8 +27,7 @@ using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
-    public class HomePageViewModel : ViewModelBase
-    {
+    public class HomePageViewModel : ViewModelBase {
         public HomePageViewModel() {
             this.PropertyChanged += OnPropertyChanged;
         }
@@ -54,10 +53,10 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public GameCoreViewData SelectGameCore { get; set; }
-        
+
         [Reactive]
         public ObservableCollection<GameCoreViewData> GameCores { get; set; } = new();
-        
+
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName is nameof(SearchCondition)) {
                 SeachGameCore(SearchCondition);
@@ -70,7 +69,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void SeachGameCore(string text) {
-            if (!GameCores.Any()) {             
+            if (!GameCores.Any()) {
                 return;
             }
 
@@ -80,8 +79,7 @@ namespace wonderlab.ViewModels.Pages {
 
             if (!GameCores.Any()) {
                 SearchSuccess = 1;
-            }
-            else SearchSuccess = 0;            
+            } else SearchSuccess = 0;
         }
 
         public async void GetGameCoresAction() {
@@ -121,7 +119,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void LaunchTaskAction() {
             $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
-            NotificationViewData data = new() { 
+            NotificationViewData data = new() {
                 Title = $"游戏 {SelectGameCoreId} 的启动任务"
             };
 
@@ -158,11 +156,11 @@ namespace wonderlab.ViewModels.Pages {
             var javaInfo = flag ? GlobalResources.LaunchInfoData.JavaRuntimePath : GetCurrentJava();//当选择手动时没有任何问题就手动选择，其他情况一律使用自动选择
             var config = new LaunchConfig() {
                 JvmConfig = new() {
-                    AdvancedArguments = new List<string>() { GlobalResources.LaunchInfoData.JvmArgument, GetJvmArguments() },
-                    MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
-                    ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
+                    AdvancedArguments = GetAdvancedArguments(),
+                    MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory
+                    ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader, modCount).ToInt32()
                     : GlobalResources.LaunchInfoData.MaxMemory,
-                    JavaPath = "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java".ToFile(),
+                    JavaPath = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
                 },
                 GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,
@@ -180,6 +178,7 @@ namespace wonderlab.ViewModels.Pages {
 
             data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
+                gameProcess.Process.PriorityClass = ProcessPriorityClass.High;
                 data.Progress = $"启动成功 - 100%";
                 $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
                 var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
@@ -193,12 +192,46 @@ namespace wonderlab.ViewModels.Pages {
                     //ProcessManager.GameCoreProcesses.Remove(viewData);
                     //ProcessManager.History.Add(new(viewData.Data.Process.ExitTime.ToString("T"), viewData.Data.GameCore.Id!));
                 };
-            }
-            else {
+            } else {
                 data.Progress = $"启动失败 - 100%";
                 $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
             }
             data.TimerStop();
+
+            IEnumerable<string> GetAdvancedArguments() {
+                List<string> normal = new() {
+                    "-XX:-DontCompileHugeMethods",
+                    "-Dfile.encoding=UTF-8",
+                    "-Dsun.stdout.encoding=UTF-8",
+                    "-Dsun.stdout.encoding=UTF-8",
+                    "-Dsun.stderr.encoding=UTF-8",
+                    "-Djava.rmi.server.useCodebaseOnly=true",
+                    "-Dcom.sun.jndi.rmi.object.trustURLCodebase=false",
+                    "-Dcom.sun.jndi.cosnaming.object.trustURLCodebase=false",
+                    "-Dfml.ignoreInvalidMinecraftCertificates=true",
+                    "-Dfml.ignorePatchDiscrepancies=true",
+                    "-Dfml.ignoreInvalidMinecraftCertificates=true",
+                    "-Dfml.ignorePatchDiscrepancies=true",
+                };
+
+                foreach (var item in normal) {
+                    yield return item;
+                }
+
+                if (SystemUtils.IsMacOS) {
+                    yield return $"-Xdock:name=Minecraft {gameCore!.Source ?? gameCore.InheritsFrom}";
+                    yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0","f00657542252858a721e715a2e888a9226404e35")}";
+                }
+
+                if (!string.IsNullOrEmpty(GlobalResources.LaunchInfoData.JvmArgument)) {
+                    yield return GlobalResources.LaunchInfoData.JvmArgument;
+                }
+
+                var authlibJvm = GetAuthlibJvmArguments();
+                if (!string.IsNullOrEmpty(authlibJvm)) {
+                    yield return authlibJvm;
+                }
+            }
 
             async ValueTask DownloadAuthlibAsync() {
                 data.Progress = "下载 Authlib-Injector 中";
@@ -285,7 +318,7 @@ namespace wonderlab.ViewModels.Pages {
                 new("整合包文件") { Patterns = new List<string>() { "*.zip", "*.mrpack" } }
             }, "请选择整合包文件");
 
-            if(result!.IsNull()) {
+            if (result!.IsNull()) {
                 return;
             }
 
@@ -336,8 +369,8 @@ namespace wonderlab.ViewModels.Pages {
             }
         }
 
-        public string GetJvmArguments() {
-            if (CurrentAccount.Type == AccountType.Yggdrasil) { 
+        public string GetAuthlibJvmArguments() {
+            if (CurrentAccount.Type == AccountType.Yggdrasil) {
                 var account = CurrentAccount as YggdrasilAccount;
                 return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account!.YggdrasilServerUrl}";
             }
