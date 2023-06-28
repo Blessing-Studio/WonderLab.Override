@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MinecaftOAuth.Module.Enum;
 using MinecraftLaunch.Launch;
@@ -10,11 +9,7 @@ using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.FluentCore.Model.Launch;
-using Natsurainko.FluentCore.Module.Downloader;
-using Natsurainko.FluentCore.Module.Launcher;
 using Natsurainko.Toolkits.Network;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -23,7 +18,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
@@ -31,8 +25,6 @@ using wonderlab.Class.ViewData;
 using wonderlab.control;
 using wonderlab.control.Animation;
 using wonderlab.Views.Pages;
-using wonderlab.Views.Windows;
-using GameCore = Natsurainko.FluentCore.Model.Launch.GameCore;
 
 namespace wonderlab.ViewModels.Pages {
     public class HomePageViewModel : ViewModelBase
@@ -164,37 +156,37 @@ namespace wonderlab.ViewModels.Pages {
             data.Progress = "开始启动步骤 - 0%";
             bool flag = !GlobalResources.LaunchInfoData.IsAutoSelectJava && GlobalResources.LaunchInfoData.JavaRuntimePath.Equals(null);//手动选择 Java 的情况
             var javaInfo = flag ? GlobalResources.LaunchInfoData.JavaRuntimePath : GetCurrentJava();//当选择手动时没有任何问题就手动选择，其他情况一律使用自动选择
-            var config = new LaunchSetting() {
-                JvmSetting = new() {
-                    JvmArguments = new List<string>() { GlobalResources.LaunchInfoData.JvmArgument, GetJvmArguments() },
+            var config = new LaunchConfig() {
+                JvmConfig = new() {
+                    AdvancedArguments = new List<string>() { GlobalResources.LaunchInfoData.JvmArgument, GetJvmArguments() },
                     MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory 
                     ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader,modCount).ToInt32() 
                     : GlobalResources.LaunchInfoData.MaxMemory,
-                    Javaw = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
+                    JavaPath = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
                 },
-                GameWindowSetting = new() {
+                GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,
                     Height = GlobalResources.LaunchInfoData.WindowHeight,
                     IsFullscreen = GlobalResources.LaunchInfoData.WindowHeight == 0 && GlobalResources.LaunchInfoData.WindowWidth == 0,
                 },
-                Account = new Natsurainko.FluentCore.Model.Auth.OfflineAccount() { Name = CurrentAccount.Name,Uuid =CurrentAccount.Uuid,AccessToken = CurrentAccount.AccessToken },
+                Account = CurrentAccount,
                 WorkingFolder = gameCore.GetGameCorePath().ToDirectory()!,
             };
 
-            Natsurainko.FluentCore.Wrapper.MinecraftLauncher launcher = new(config,new GameCoreLocator(GlobalResources.LaunchInfoData.GameDirectoryPath));
-            using var gameProcess = await launcher.LaunchMinecraftAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
-                x.Message.ShowLog();
+            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
+            using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
+                x.Item2.ShowLog();
             });
 
             data.ProgressOfBar = 100;
-            if (gameProcess.State is Natsurainko.FluentCore.Model.Launch.LaunchState.Succeess) {
+            if (gameProcess.State is LaunchState.Succeess) {
                 data.Progress = $"启动成功 - 100%";
                 $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
-                //var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
-
-                //ProcessManager.GameCoreProcesses.Add(viewData);
-                //gameProcess.ProcessOutput += ProcessOutput;
-                gameProcess.GameProcessOutput += (_, x) => x.GameProcessOutput.ShowLog();
+                var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
+                File.WriteAllLines(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "wonderArgs.txt"), gameProcess.Arguemnts);
+                //CacheResources.GameCoreProcesses.Add(viewData);
+                gameProcess.ProcessOutput += ProcessOutput;
+                //gameProcess.GameProcessOutput += (_, x) => x.GameProcessOutput.ShowLog();
                 gameProcess.Process.Exited += (sender, e) => {
                     Trace.WriteLine($"[信息] 游戏退出");
 
@@ -261,22 +253,21 @@ namespace wonderlab.ViewModels.Pages {
 
             async ValueTask ResourcesCheckOutAsync() {
                 try {
-                    ResourceDownloader installer = new(new GameCoreLocator(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                    ResourceInstaller installer = new(new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
                         .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore));
 
                     data.Progress = $"开始检查并补全丢失的资源";
-                    installer.DownloadProgressChanged += async (s, f) => {
+                    var result = await installer.DownloadAsync(async (s, f) => {
                         try {
                             Dispatcher.UIThread.Post(() => {
-                                var value = Math.Round(f.Progress * 100, 2);
+                                var value = Math.Round(f * 100, 2);
                                 data.ProgressOfBar = value;
                                 //s.ShowLog();
                             }, DispatcherPriority.Background);
                         }
                         catch (Exception) {
                         }
-                    };
-                    var result = await installer.DownloadAsync();
+                    });
 
                     //if (installer.FailedResources.Any()) {
                     //    $"我日，游戏资源文件没下完,共计 {installer.FailedResources.Count} 下载失败".ShowMessage("错误");

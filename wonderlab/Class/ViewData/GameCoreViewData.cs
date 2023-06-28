@@ -1,5 +1,4 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
-using Natsurainko.FluentCore.Model.Launch;
 using Newtonsoft.Json;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -10,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
-using GameCore = Natsurainko.FluentCore.Model.Launch.GameCore;
 
 namespace wonderlab.Class.ViewData {
     public class GameCoreViewData : ViewDataBase<GameCore> {
@@ -22,11 +20,11 @@ namespace wonderlab.Class.ViewData {
         public SingleCoreModel SingleConfig { get; set; }
 
         public async void AsyncRunner(GameCore data) {
-            //var result = await JsonUtils.ReadSingleGameCoreJsonAsync(data);
+            var result = await JsonUtils.ReadSingleGameCoreJsonAsync(data);
 
-            //if (!result.IsNull()) {
-            //    SingleConfig = result;
-            //}
+            if (!result.IsNull()) {
+                SingleConfig = result;
+            }
         }
 
         public void OpenFolderAction() {

@@ -3,9 +3,6 @@ using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Models.Launch;
 using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.FluentCore.Model.Launch;
-using Natsurainko.FluentCore.Module.Downloader;
-using Natsurainko.FluentCore.Module.Launcher;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,13 +13,12 @@ using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
-using GameCore = Natsurainko.FluentCore.Model.Launch.GameCore;
 
 namespace wonderlab.Class.Utils {
     public static class GameCoreUtils {
         public static async ValueTask<ObservableCollection<GameCore>> GetLocalGameCores(string root) {
             var cores = await Task.Run(() => {
-                return new GameCoreLocator(root).GetGameCores();
+                return new GameCoreToolkit(root).GetGameCores();
             });
             
             return cores.ToObservableCollection() ?? new();
@@ -31,7 +27,7 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask<ObservableCollection<GameCore>> SearchGameCoreAsync(string root, string text) {
             var cores = await Task.Run(() => {
                 try {
-                    return new GameCoreLocator(root).GetGameCores();
+                    return new GameCoreToolkit(root).GetGameCores();
                 }
                 catch { }
 
@@ -107,7 +103,7 @@ namespace wonderlab.Class.Utils {
             }
 
             try {
-                var assets = await new ResourceDownloader(id).GetAssetResourcesAsync();
+                var assets = await new ResourceInstaller(id).GetAssetResourcesAsync();
 
                 foreach (var asset in assets) {
 
