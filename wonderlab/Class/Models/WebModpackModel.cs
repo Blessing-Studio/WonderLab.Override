@@ -52,23 +52,27 @@ namespace wonderlab.Class.Models
         }
 
         public WebModpackModel(ModrinthProjectInfoSearchResult info, List<ModrinthProjectInfoItem> files) {
-            NormalTitle = info.Title;
-            ChineseTitle = info.Title;
-            IconUrl = info.IconUrl;
-            LastUpdateTime = info.DateModified;
-            Description = info.Description;
-            DownloadCount = info.Downloads;
-            ModpackSource = ModpackSource.Modrinth;
-            Author = info.Author;
-            Categories = info.Categories;
+            try {
+                NormalTitle = info.Title;
+                ChineseTitle = info.Title;
+                IconUrl = info.IconUrl;
+                LastUpdateTime = info.DateModified;
+                Description = info.Description;
+                DownloadCount = info.Downloads;
+                ModpackSource = ModpackSource.Modrinth;
+                Author = info.Author;
+                Categories = info.Categories;
 
-            GameVersions = files.Any() ?
-                (files.First().GameVersion.First() == files.Last().GameVersion.Last() ? files.First().GameVersion.First() : $"{files.First().GameVersion.First()}-{files.Last().GameVersion.Last()}") : "Unknown";
+                GameVersions = files.Any() ?
+                    (files.First().GameVersion.First() == files.Last().GameVersion.Last() ? files.First().GameVersion.First() : $"{files.First().GameVersion.First()}-{files.Last().GameVersion.Last()}") : "Unknown";
 
-            foreach (var x in files.AsParallel()) {
-                if(!Files.ContainsKey(x.GameVersion.First())){
-                    Files.Add(x.GameVersion.First(), x.Files.Select(x1 => new WebModpackFilesModel(x1.FileName, x1.Url, $"{x.GameVersion.First()} 适用于 {string.Join(", ", x.Loaders)}")).ToObservableCollection());
+                foreach (var x in files.AsParallel()) {
+                    if (!Files.ContainsKey(x.GameVersion.First())) {
+                        Files.Add(x.GameVersion.First(), x.Files.Select(x1 => new WebModpackFilesModel(x1.FileName, x1.Url, $"{x.GameVersion.First()} 适用于 {string.Join(", ", x.Loaders)}")).ToObservableCollection());
+                    }
                 }
+            }
+            catch (Exception) {
             }
         }
 

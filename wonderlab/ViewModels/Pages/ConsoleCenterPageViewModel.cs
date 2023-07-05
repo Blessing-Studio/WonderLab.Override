@@ -4,6 +4,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -17,15 +18,33 @@ using wonderlab.Views.Windows;
 namespace wonderlab.ViewModels.Pages {
     public class ConsoleCenterPageViewModel : ViewModelBase {
         public ConsoleCenterPageViewModel() {
-            GameProcesses = CacheResources.GameProcesses!.Select(x => x
-                .CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>())
-                .ToObservableCollection();
+            PropertyChanged += OnPropertyChanged;
+            GameProcesses = CacheResources.GameProcesses;
         }
+
+        [Reactive]
+        public ConsolePage CurrentPage { get; set; }
+
+        [Reactive]
+        public bool IsSelectGameProcess { get; set; } = false;
+
+        [Reactive]
+        public MinecraftProcessViewData CurrentGameProcess { get; set; } = null;
 
         [Reactive]
         public ObservableCollection<MinecraftProcessViewData> GameProcesses { get; set; } = new();
 
-        [Reactive]
-        public ConsolePage CurrentPage { get; set; }
+        public void StopMinecraftAction() {
+            if (!CurrentGameProcess.IsNull()) {
+                CurrentGameProcess.MinecraftStopAction();
+            }
+        }
+
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
+            if (e.PropertyName is nameof(CurrentGameProcess)) {
+                CurrentPage = new(CurrentGameProcess);
+                IsSelectGameProcess = !CurrentGameProcess.IsNull();
+            }
+        }
     }
 }

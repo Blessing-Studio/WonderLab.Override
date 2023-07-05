@@ -15,7 +15,7 @@ namespace wonderlab.Class.AppData {
     public class CacheResources {
         public static List<New> MojangNews { get; set; } = new();
 
-        public static IEnumerable<MinecraftLaunchResponse>? GameProcesses { get; set; } = new List<MinecraftLaunchResponse>();
+        public static ObservableCollection<MinecraftProcessViewData> GameProcesses { get; set; } = new();
 
         public static ObservableCollection<AccountViewData> Accounts { get; set; } = new();
 
