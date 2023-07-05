@@ -47,7 +47,7 @@ public sealed partial class JavaMinecraftArgumentsBuilder : IArgumentsBuilder {
             { "${auth_uuid}" , this.LaunchConfig.Account.Uuid.ToString("N") },
             { "${auth_access_token}" , this.LaunchConfig.Account.AccessToken },
             { "${user_type}" , "Mojang" },
-            { "${version_type}" , this.GameCore.Type },
+            { "${version_type}" , "WonderLab.Override" },
             { "${user_properties}" , "{}" },
             { "${game_assets}" , Path.Combine(this.GameCore.Root.FullName, "assets").ToPath() },
             { "${auth_session}" , this.LaunchConfig.Account.AccessToken },

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using MinecraftLaunch.Modules.ArgumentsBuilders;
 using MinecraftLaunch.Modules.Enum;
@@ -70,6 +71,7 @@ namespace MinecraftLaunch.Launch {
                 #endregion
 
                 #region 启动
+                
                 progress.Report((1f, "正在尝试启动游戏"));
                 process = new Process {
                     StartInfo = new ProcessStartInfo {

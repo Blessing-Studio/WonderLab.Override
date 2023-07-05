@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
@@ -175,6 +176,39 @@ namespace wonderlab.ViewModels.Pages {
             using var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
                 x.Item2.ShowLog();
             });
+
+            string java = (SystemUtils.IsWindows ? Path.Combine(new FileInfo(javaInfo!.JavaPath).Directory.FullName,"java.exe") : javaInfo!.JavaPath.ToFile().FullName);
+            StringBuilder builder = new();
+            if (SystemUtils.IsWindows) {
+                builder.AppendLine("@echo off");
+                builder.AppendLine($"set APPDATA={gameCore.Root.Root.FullName}");
+                builder.AppendLine($"set INST_NAME={gameCore.Id}");
+                builder.AppendLine($"set INST_ID={gameCore.Id}");
+                builder.AppendLine($"set INST_DIR={gameCore.GetGameCorePath()}");
+                builder.AppendLine($"set INST_MC_DIR={gameCore.Root.FullName}");
+                builder.AppendLine($"set INST_JAVA=\"{java}\"");
+                builder.AppendLine($"cd /D {gameCore.Root.FullName}");
+                builder.AppendLine($"\"{java}\" {string.Join(' '.ToString(), gameProcess.Arguemnts)}");
+                builder.AppendLine($"pause");
+            } else if (SystemUtils.IsMacOS) {
+                builder.AppendLine($"export INST_NAME={gameCore.Id}");
+                builder.AppendLine($"export INST_ID={gameCore.Id}");
+                builder.AppendLine($"export INST_DIR=\"{gameCore.GetGameCorePath(launcher.EnableIndependencyCore)}\"");
+                builder.AppendLine($"export INST_MC_DIR=\"{gameCore.Root.FullName}\"");
+                builder.AppendLine($"export INST_JAVA=\"{java}\"");
+                builder.AppendLine($"cd \"{gameCore.Root!.FullName}\"");
+                builder.AppendLine($"\"{java}\" {string.Join(' '.ToString(), launcher.ArgumentsBuilder.Build())}");
+            } else if (SystemUtils.IsLinux) {
+                builder.AppendLine($"export INST_JAVA={java}");
+                builder.AppendLine($"export INST_MC_DIR={gameCore.Root!.FullName}");
+                builder.AppendLine($"export INST_NAME={gameCore.Id}");
+                builder.AppendLine($"export INST_ID={gameCore.Id}");
+                builder.AppendLine($"export INST_DIR={gameCore.GetGameCorePath(launcher.EnableIndependencyCore)}");
+                builder.AppendLine($"cd {gameCore.Root!.FullName}");
+                builder.AppendLine($"{java} {string.Join(' '.ToString(), launcher.ArgumentsBuilder.Build())}");
+            }
+
+            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "launchScript.bat"), builder.ToString());
 
             data.ProgressOfBar = 100;
             if (gameProcess.State is LaunchState.Succeess) {
