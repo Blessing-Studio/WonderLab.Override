@@ -84,6 +84,7 @@
 												 Watermark="{TemplateBinding ValidationType,Converter={StaticResource ValidationWatermarkConverter}}"/>
 										
 										<TextBox Grid.Row="2"
+												 PasswordChar="*"
 												 Watermark="账户密码"
 												 Name="YggdrasilPassword"
 												 Text="{TemplateBinding Password}"/>

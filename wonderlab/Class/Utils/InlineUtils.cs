@@ -88,16 +88,13 @@ namespace wonderlab.Class.Utils {
 
             if (!(log.LogType is GameLogType.Exception) && !(log.LogType is GameLogType.Unknown) && !(log.LogType is GameLogType.StackTrace)) {
                 list.Add(new Run("["));
-
                 //time
                 list.Add(new Run(log.Time) {
                     Foreground = ThemeUtils.GetBrush("AccentBrush")
                 });
-
                 list.Add(new Run("]"));
 
                 list.Add(new Run("["));
-
                 //info
                 list.Add(new Run(log.Source) {
                     Foreground = ThemeUtils.GetBrush("AccentBrushDark2")

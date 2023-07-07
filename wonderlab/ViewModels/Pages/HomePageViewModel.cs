@@ -161,6 +161,7 @@ namespace wonderlab.ViewModels.Pages {
                     ? GameCoreUtils.GetOptimumMemory(!gameCore.HasModLoader, modCount).ToInt32()
                     : GlobalResources.LaunchInfoData.MaxMemory,
                     JavaPath = SystemUtils.IsWindows ? javaInfo!.JavaPath.ToJavaw().ToFile() : javaInfo!.JavaPath.ToFile(),
+                    AdvancedArguments = GetAdvancedArguments(),
                 },
                 GameWindowConfig = new() {
                     Width = GlobalResources.LaunchInfoData.WindowWidth,
@@ -231,25 +232,6 @@ namespace wonderlab.ViewModels.Pages {
             data.TimerStop();
 
             IEnumerable<string> GetAdvancedArguments() {
-                List<string> normal = new() {
-                    "-XX:-DontCompileHugeMethods",
-                    "-Dfile.encoding=UTF-8",
-                    "-Dsun.stdout.encoding=UTF-8",
-                    "-Dsun.stdout.encoding=UTF-8",
-                    "-Dsun.stderr.encoding=UTF-8",
-                    "-Djava.rmi.server.useCodebaseOnly=true",
-                    "-Dcom.sun.jndi.rmi.object.trustURLCodebase=false",
-                    "-Dcom.sun.jndi.cosnaming.object.trustURLCodebase=false",
-                    "-Dfml.ignoreInvalidMinecraftCertificates=true",
-                    "-Dfml.ignorePatchDiscrepancies=true",
-                    "-Dfml.ignoreInvalidMinecraftCertificates=true",
-                    "-Dfml.ignorePatchDiscrepancies=true",
-                };
-
-                foreach (var item in normal) {
-                    yield return item;
-                }
-
                 if (SystemUtils.IsMacOS) {
                     yield return $"-Xdock:name=Minecraft {gameCore!.Source ?? gameCore.InheritsFrom}";
                     yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0","f00657542252858a721e715a2e888a9226404e35")}";
@@ -262,6 +244,15 @@ namespace wonderlab.ViewModels.Pages {
                 var authlibJvm = GetAuthlibJvmArguments();
                 if (!string.IsNullOrEmpty(authlibJvm)) {
                     yield return authlibJvm;
+                }
+
+                string GetAuthlibJvmArguments() {
+                    if (CurrentAccount.Type == AccountType.Yggdrasil) {
+                        var account = CurrentAccount as YggdrasilAccount;
+                        return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account!.YggdrasilServerUrl}";
+                    }
+
+                    return string.Empty;
                 }
             }
 
@@ -369,13 +360,6 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void OpenConsoleAction() {
-            //if(!ConsoleWindow.IsOpen) {
-            //    new ConsoleWindow().Show();
-            //}
-            //else {
-            //    ConsoleWindow.WindowActivate();
-            //}
-
             var back = App.CurrentWindow.Back;
             OpacityChangeAnimation opacity = new(false) {
                 RunValue = 0,
@@ -399,15 +383,6 @@ namespace wonderlab.ViewModels.Pages {
 
                 return second.Any() ? second.First() : GlobalResources.LaunchInfoData.JavaRuntimePath;
             }
-        }
-
-        public string GetAuthlibJvmArguments() {
-            if (CurrentAccount.Type == AccountType.Yggdrasil) {
-                var account = CurrentAccount as YggdrasilAccount;
-                return $"-javaagent:{Path.Combine(JsonUtils.DataPath, "authlib-injector.jar")}={account!.YggdrasilServerUrl}";
-            }
-
-            return string.Empty;
         }
 
         private void ProcessOutput(object? sender, IProcessOutput e) {

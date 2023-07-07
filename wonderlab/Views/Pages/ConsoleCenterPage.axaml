@@ -19,6 +19,12 @@
 						<Setter Property="Margin" Value="0 0 0 15"/>
 						<Setter Property="Height" Value="35"/>
 						<Setter Property="ClipToBounds" Value="False"/>
+						<Setter Property="ContextMenu">
+							<ContextMenu PlacementMode="Right">
+								<MenuItem Command="{Binding	MinecraftStopAction}"
+										  Header="强制关闭游戏"/>
+							</ContextMenu>
+						</Setter>
 						<Setter Property="Template">
 							<ControlTemplate>
 								<Grid>

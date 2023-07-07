@@ -123,6 +123,7 @@ namespace wonderlab.ViewModels.Pages {
         public async void GoWriteAction() {
             var validation = App.CurrentWindow.DialogHost.Validation;
             string email = validation.Email, uri = validation.YggdrasilUri, password = validation.Password;
+
             try {
                 await Task.Run(async () => {
                     if (CurrentType is ValidationDialog.ValidationTypes.Offline) {
@@ -174,7 +175,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void CancelAction() {
-            HasGame = false;
+            HasGame = false;            
             App.CurrentWindow.DialogHost.Validation.HideDialog();
         }
     }

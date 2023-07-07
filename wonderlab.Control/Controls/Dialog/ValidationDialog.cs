@@ -91,6 +91,7 @@ namespace wonderlab.control.Controls.Dialog {
             BackgroundBorder.IsHitTestVisible = false;
             Content.IsHitTestVisible = false;
 
+            Password = Email = YggdrasilUri = string.Empty;
             OpacityChangeAnimation animation = new(true);
             animation.RunAnimation(BackgroundBorder);
             animation.RunAnimation(Content);
