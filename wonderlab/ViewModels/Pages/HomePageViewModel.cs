@@ -119,14 +119,8 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void LaunchTaskAction() {
-            $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
-            NotificationViewData data = new() {
-                Title = $"游戏 {SelectGameCoreId} 的启动任务"
-            };
-
-            data.TimerStart();
-            NotificationCenterPage.ViewModel.Notifications.Add(data);
-            await Task.Delay(1000);
+            NotificationViewData data = null;
+            await PreUIProcessingAsync();
 
             var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile()) {
@@ -177,6 +171,7 @@ namespace wonderlab.ViewModels.Pages {
                 x.Item2.ShowLog();
             });
 
+            await PostUIProcessingAsync();
             #region Launch Script Create Method
             //string java = (SystemUtils.IsWindows ? Path.Combine(new FileInfo(javaInfo!.JavaPath).Directory.FullName,"java.exe") : javaInfo!.JavaPath.ToFile().FullName);
             //StringBuilder builder = new();
@@ -212,25 +207,6 @@ namespace wonderlab.ViewModels.Pages {
             //File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "launchScript.bat"), builder.ToString());
             #endregion
 
-            data.ProgressOfBar = 100;
-            if (gameProcess.State is LaunchState.Succeess) {
-                data.Progress = $"启动成功 - 100%";
-                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
-                var viewData = gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
-
-                CacheResources.GameProcesses.Add(viewData);
-                gameProcess.ProcessOutput += ProcessOutput;
-                gameProcess.Process.Exited += (sender, e) => {
-                    Trace.WriteLine($"[信息] 游戏退出");
-
-                    CacheResources.GameProcesses.Remove(viewData);
-                };
-            } else {
-                data.Progress = $"启动失败 - 100%";
-                $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
-            }
-            data.TimerStop();
-
             IEnumerable<string> GetAdvancedArguments() {
                 if (SystemUtils.IsMacOS) {
                     yield return $"-Xdock:name=Minecraft {gameCore!.Source ?? gameCore.InheritsFrom}";
@@ -254,6 +230,45 @@ namespace wonderlab.ViewModels.Pages {
 
                     return string.Empty;
                 }
+            }
+
+            async ValueTask PostUIProcessingAsync() {
+                data.ProgressOfBar = 100;
+                if (gameProcess.State is LaunchState.Succeess) {
+                    data.Progress = $"启动成功 - 100%";
+                    $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
+                    var viewData = await Task.Run(() => gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo));
+
+                    Dispatcher.UIThread.Post(() => {
+                        CacheResources.GameProcesses.Add(viewData);
+                        gameProcess.ProcessOutput += ProcessOutput;
+                        gameProcess.Process.Exited += (sender, e) => {
+                            "Game exit".ShowLog();
+                            CacheResources.GameProcesses.Remove(viewData);
+                        };
+                    }, DispatcherPriority.Background);
+                } else {
+                    await Dispatcher.UIThread.InvokeAsync(() => {
+                        data.Progress = $"启动失败 - 100%";
+                        $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
+                    });
+                }
+
+                data.TimerStop();
+            }
+
+            async ValueTask PreUIProcessingAsync() {
+                await Dispatcher.UIThread.InvokeAsync(() => {
+                    $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
+                    data = new() {
+                        Title = $"游戏 {SelectGameCoreId} 的启动任务"
+                    };
+
+                    data.TimerStart();
+                    NotificationCenterPage.ViewModel.Notifications.Add(data);
+                });
+
+                await Task.Delay(1500);
             }
 
             async ValueTask DownloadAuthlibAsync() {
