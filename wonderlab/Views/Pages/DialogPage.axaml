@@ -36,5 +36,7 @@
 		<wcd:UpdateDialog x:Name="UpdateDialog"
 						  UpdateButtonCommand="{Binding	UpdateAction}"
 						  UpdateProgress="{Binding DownloadProgress}"/>
+		
+		<wcd:InstallDialog/>
 	</Grid>
 </UserControl>

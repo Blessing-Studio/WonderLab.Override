@@ -9,6 +9,16 @@
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control">
 	<Grid>
-		<wcd:InstallDialog/>
+		<wcd:InstallDialog Name="id"/>
+		<Button HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Content="Show" Name="Show"/>
+		<Button HorizontalAlignment="Right"
+				VerticalAlignment="Top"
+				Content="Hide" Name="Hide"/>
+
+		<Button HorizontalAlignment="Center"
+		VerticalAlignment="Top"
+		Content="Action" Name="Action"/>
 	</Grid>
 </Window>
