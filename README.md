@@ -64,7 +64,7 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 
 #### Ddggdd135
 
-全栈开发（确信）
+全栈开发
 
 #### [mail_set](https://mailset.top)
 
