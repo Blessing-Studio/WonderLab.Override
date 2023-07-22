@@ -150,18 +150,10 @@ namespace wonderlab.ViewModels.Pages {
 
             await Task.Run(async () => {
                 try {
-                    if (SystemUtils.IsWindows) {
-                        var result = await Task.Run(() => JavaToolkit.GetJavas());
-                        if (!result.IsNull() && result.Any()) {
-                            Javas.Load(result);
-                            GlobalResources.LaunchInfoData.JavaRuntimes = result.ToList();
-                        }
-                    } else {
-                        var result = await JavaUtils.GetJavas().ToListAsync();
-                        if (!result.IsNull()) {
-                            Javas.Load(result);
-                            GlobalResources.LaunchInfoData.JavaRuntimes = result;
-                        }
+                    var result = await Task.Run(() => JavaToolkit.GetJavas());
+                    if (!result.IsNull() && result.Any()) {
+                        Javas.Load(result);
+                        GlobalResources.LaunchInfoData.JavaRuntimes = result.ToList();
                     }
 
                     CurrentJava = Javas.Last();

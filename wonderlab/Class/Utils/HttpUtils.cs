@@ -12,10 +12,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Tmds.DBus;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -43,7 +45,7 @@ namespace wonderlab.Class.Utils {
 
             try {
                 var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.HitokotoApi)).Content.ReadAsStringAsync();
-                result = json.ToJsonEntity<HitokotoModel>();
+                result = JsonSerializer.Deserialize<HitokotoModel>(json);
             }
             catch (Exception ex) {
                 Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
