@@ -93,7 +93,7 @@ public class LibraryParser {
                     continue;
                 }
                 if (item.System == null) {
-                    windows = (linux = (osx = false));
+                    windows = linux = osx = false;
                     continue;
                 }
                 using Dictionary<string, string>.Enumerator enumerator2 = item.System.GetEnumerator();

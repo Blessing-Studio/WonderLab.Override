@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using MinecraftLaunch.Modules.Models.Install;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -52,6 +53,7 @@ namespace wonderlab.Views.Pages
 
         private void OpenDialogAction(object? sender, RoutedEventArgs args) {
             GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
+            CacheResources.GameCoreInstallInfo = ((sender as Button)!.DataContext as GameCoreEmtity)!;
             ViewModel.OpenGameInstallDialogAction();
         }
 

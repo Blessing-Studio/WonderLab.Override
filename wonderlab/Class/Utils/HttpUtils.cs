@@ -1,4 +1,5 @@
 ﻿using Avalonia.Media.Imaging;
+using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Toolkits;
 using Natsurainko.Toolkits.Network;
@@ -71,11 +72,89 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask<bool> ConnectionTestAsync(string url) {
             try {
                 var result = await Task.Run(async () => await HttpWrapper.HttpClient.GetAsync(url));
+                GC.Collect();
                 return true;
             }
             catch (Exception) {
                 GC.Collect();
                 return false;
+            }
+        }
+
+        public static async ValueTask<bool> GetModLoadersFromMcVersionAsync(string id) {
+            try {
+                await Task.Run(async () => CacheResources.Forges.AddRange(await GetForgesAsync()));
+                await Task.Run(async () => CacheResources.Quilts.AddRange(await GetQuiltsAsync()));
+                await Task.Run(async () => CacheResources.Fabrics.AddRange(await GetFabricsAsync()));
+                await Task.Run(async () => CacheResources.Optifines.AddRange(await GetOptifinesAsync()));
+            }
+            catch (Exception) {
+                GC.Collect();
+            }
+
+            return true;
+            async ValueTask<IEnumerable<ModLoaderModel>> GetForgesAsync() {
+                var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(id)).Select(x => new ModLoaderModel() {
+                    ModLoaderType = ModLoaderType.Forge,
+                    ModLoaderBuild = x,
+                    GameCoreVersion = x.McVersion,
+                    Id = x.ForgeVersion,
+                    Time = x.ModifiedTime
+                });
+
+                if (!result.Any()) {
+                    return Array.Empty<ModLoaderModel>();
+                }
+
+                return result;
+            }
+
+            async ValueTask<IEnumerable<ModLoaderModel>> GetQuiltsAsync() {
+                var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
+                    ModLoaderType = ModLoaderType.Quilt,
+                    GameCoreVersion = x.Intermediary.Version,
+                    ModLoaderBuild = x,
+                    Id = x.Loader.Version,
+                    Time = DateTime.Now
+                });
+
+                if (!result.Any()) {
+                    return Array.Empty<ModLoaderModel>();
+                }
+
+                return result;
+            }
+
+            async ValueTask<IEnumerable<ModLoaderModel>> GetFabricsAsync() {
+                var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
+                    ModLoaderType = ModLoaderType.Quilt,
+                    GameCoreVersion = x.Intermediary.Version,
+                    ModLoaderBuild = x,
+                    Id = x.Loader.Version,
+                    Time = DateTime.Now
+                });
+
+                if (!result.Any()) {
+                    return Array.Empty<ModLoaderModel>();
+                }
+
+                return result;
+            }
+
+            async ValueTask<IEnumerable<ModLoaderModel>> GetOptifinesAsync() {
+                var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(id)).Select(x => new ModLoaderModel() {
+                    ModLoaderType = ModLoaderType.OptiFine,
+                    ModLoaderBuild = x,
+                    GameCoreVersion = x.McVersion,
+                    Id = x.Type,
+                    Time = DateTime.Now
+                });
+
+                if (!result.Any()) {
+                    return Array.Empty<ModLoaderModel>();
+                }
+
+                return result;
             }
         }
     }

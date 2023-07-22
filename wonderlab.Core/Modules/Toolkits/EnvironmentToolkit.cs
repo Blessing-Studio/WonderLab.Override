@@ -17,7 +17,13 @@ public class EnvironmentToolkit
 		}
 	}
 
-	public static string GetPlatformName()
+    public readonly static bool IsMac = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+    public readonly static bool IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+    public readonly static bool IsWindow = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+    public static string GetPlatformName()
 	{
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 		{

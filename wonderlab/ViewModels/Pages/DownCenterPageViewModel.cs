@@ -223,8 +223,10 @@ namespace wonderlab.ViewModels.Pages {
             IsLoaded = true;
         }
 
-        public void OpenGameInstallDialogAction() {
-            App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
+        public async void OpenGameInstallDialogAction() {
+            //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
+            await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id);
+            App.CurrentWindow.DialogHost.InstallDialog.ShowDialog();
         }
 
         public async void GetGameCoresAction() {

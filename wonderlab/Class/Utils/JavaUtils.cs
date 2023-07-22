@@ -15,6 +15,7 @@ namespace wonderlab.Class.Utils {
     /// </summary>
     [SupportedOSPlatform("OSX")]
     [SupportedOSPlatform("LINUX")]
+    [Obsolete("由 MinecraftLaunch 所替代")]
     public class JavaUtils {        
         public static async IAsyncEnumerable<JavaInfo> GetJavas() {
             var result = await Task.Run(() => {

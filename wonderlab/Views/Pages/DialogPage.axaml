@@ -37,6 +37,7 @@
 						  UpdateButtonCommand="{Binding	UpdateAction}"
 						  UpdateProgress="{Binding DownloadProgress}"/>
 		
-		<wcd:InstallDialog/>
+		<wcd:InstallDialog Name="InstallDialog"
+						   SelectedLoader="{Binding SelectedLoader}"/>
 	</Grid>
 </UserControl>

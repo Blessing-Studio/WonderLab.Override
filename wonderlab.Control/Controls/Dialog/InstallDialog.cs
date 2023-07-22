@@ -92,7 +92,7 @@ namespace wonderlab.control.Controls.Dialog {
         }
 
         private void OnCurrentModLoaderSelectionChanged(object? sender, SelectionChangedEventArgs e) {
-            SelectedLoader = ((ListBoxItem)((ListBox)sender!).SelectedItem!).Tag!.ToString()!;
+            SetValue(SelectedLoaderProperty, ((ListBoxItem)((ListBox)sender!).SelectedItem!).Tag!.ToString()!);
         }
 
         private void HideAction(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
