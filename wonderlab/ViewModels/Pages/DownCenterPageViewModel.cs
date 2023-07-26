@@ -225,8 +225,10 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void OpenGameInstallDialogAction() {
             //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
-            await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id);
             App.CurrentWindow.DialogHost.InstallDialog.ShowDialog();
+
+            "下载对话框开启，开始加载加载器信息".ShowLog();
+            await Task.Run(async () => await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id));
         }
 
         public async void GetGameCoresAction() {

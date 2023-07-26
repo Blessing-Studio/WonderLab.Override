@@ -139,9 +139,9 @@ namespace wonderlab.Class.Utils {
             for (int i = 0; i < w; i++) {
                 for (int j = 0; j < h; j++) {
                     double tmp;
-                    tmp = (double)image.Width / (double)w;
+                    tmp = image.Width / (double)w;
                     double realW = tmp * (i);
-                    tmp = (double)image.Height / (double)h;
+                    tmp = image.Height / (double)h;
                     double realH = (tmp) * (j);
                     image2[i, j] = image[(int)realW, (int)realH];
                 }
@@ -149,6 +149,5 @@ namespace wonderlab.Class.Utils {
             
             return image2;
         }
-
     }
 }

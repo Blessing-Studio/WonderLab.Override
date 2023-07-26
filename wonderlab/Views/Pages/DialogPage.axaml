@@ -37,7 +37,11 @@
 						  UpdateButtonCommand="{Binding	UpdateAction}"
 						  UpdateProgress="{Binding DownloadProgress}"/>
 		
-		<wcd:InstallDialog Name="InstallDialog"
-						   SelectedLoader="{Binding SelectedLoader}"/>
+		<wcd:InstallDialog Name="InstallDialog"		
+						   IsQuiltLoaded="{Binding IsQuiltLoaded}"
+						   IsForgeLoaded="{Binding IsForgeLoaded}"
+						   IsFabricLoaded="{Binding IsFabricLoaded}"
+						   IsOptifineLoaded="{Binding IsOptifineLoaded}"
+						   SelectModLoaderChanged="OnSelectModLoaderChanged"/>
 	</Grid>
 </UserControl>

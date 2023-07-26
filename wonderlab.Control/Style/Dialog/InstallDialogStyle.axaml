@@ -40,21 +40,25 @@
 										<ListBox Name="CurrentLoaders"
 												 Background="Transparent">
 											<ListBoxItem Tag="Optifine"
+														 IsVisible="{TemplateBinding IsOptifineLoaded}"														 
 														 ToolTip.Tip="OptiFine - 光影加载器">
 												<Image Source="/Icons/OptiFine.png"/>
 											</ListBoxItem>
 
 											<ListBoxItem Tag="Forge"
+														 IsVisible="{TemplateBinding IsForgeLoaded}"
 														 ToolTip.Tip="Forge - 模组加载器">
 												<Image Source="/Icons/Forge.png"/>
 											</ListBoxItem>
 
-											<ListBoxItem Tag="Fabric"
+											<ListBoxItem Tag="Fabric" 
+														 IsVisible="{TemplateBinding IsFabricLoaded}"														 
 														 ToolTip.Tip="Fabric - 模组加载器">
 												<Image Source="/Icons/Fabric.png"/>
 											</ListBoxItem>
 
 											<ListBoxItem Tag="Quilt"
+														 IsVisible="{TemplateBinding IsQuiltLoaded}"														 
 														 ToolTip.Tip="Quilt - 模组加载器">
 												<Image Source="/Icons/Quilt.png"/>
 											</ListBoxItem>
@@ -117,8 +121,10 @@
 															   VerticalAlignment="Center"/>
 												</StackPanel>
 											</Border>
-
-											<ListBox Margin="0 2 0 0" Grid.Row="3">
+  
+											<ListBox Margin="0 2 0 0" 
+													 Grid.Row="3"
+													 Height="203" Items="{TemplateBinding ModLoaders}"> 
 												<ListBox.Styles>
 													<Style Selector="ListBoxItem">
 														<Setter Property="Height" Value="40"/>
@@ -144,11 +150,11 @@
 																			<Grid VerticalAlignment="Center"
 																				  RowDefinitions="Auto,Auto"
 																				  Grid.Column="2" Margin="5 0 0 0">
-																				<TextBlock Text="1145141919810 "/>
+																				<TextBlock Text="{Binding Data.Id}"/>
 																				<TextBlock Grid.Row="1"
 																						   FontSize="11"
 																						   Opacity="0.65"
-																						   Text="发表日期 1154/14/19"/>
+																						   Text="{Binding Type}"/>
 																			</Grid>
 																		</Grid>
 																		
@@ -165,14 +171,18 @@
 
 													<Style Selector="ListBoxItem">
 														<Setter Property="RenderTransform" Value="scale(1)"/>
+														<Setter Property="Background" Value="Transparent"/>
 													</Style>
 
-													<Style Selector="ListBoxItem:selected">
+													<Style Selector="ListBoxItem:pointerover">
 														<Setter Property="RenderTransform" Value="scale(0.97)"/>
 													</Style>
+													
+													<Style Selector="ListBoxItem:selected">
+														<Setter Property="RenderTransform" Value="scale(0.95)"/>
+														<Setter Property="Background" Value="{DynamicResource DialogBackground}"/>
+													</Style>
 												</ListBox.Styles>
-												<ListBoxItem Content="114514"/>
-												<ListBoxItem Content="114514"/>
 											</ListBox>
 										</Grid>
 

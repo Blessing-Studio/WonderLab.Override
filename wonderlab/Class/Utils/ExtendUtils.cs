@@ -324,5 +324,9 @@ namespace wonderlab.Class.Utils {
         public static bool HasValue<T>(this IEnumerable<T> obj) => obj != null && obj.Count() > 0;
 
         public static bool HasValue(this JavaInfo obj) => obj != null && obj.JavaPath.IsFile();
+        
+        public static string GetValueInArray(this string[] strings, int index) {
+            return strings[index] ?? string.Empty;
+        }
     }
 }

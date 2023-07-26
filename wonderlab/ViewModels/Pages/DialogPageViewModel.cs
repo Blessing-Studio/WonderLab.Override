@@ -23,7 +23,7 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         [Obsolete("傻逼玩意没有用")]
-        public AccountViewData SelectedAccount { get; set; } = null;
+        public AccountViewData SelectedAccount { get; set; } = null!;
 
         [Reactive]
         public ObservableCollection<AccountViewData> GameAccounts { set; get; } = null!;
@@ -39,6 +39,21 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public double DownloadProgress { get; set; } = 0.0;
+
+        [Reactive]
+        public bool IsForgeLoaded { get; set; } = false;
+
+        [Reactive]
+        public bool IsFabricLoaded { get; set; } = false;
+
+        [Reactive]
+        public bool IsOptifineLoaded { get; set; } = false;
+
+        [Reactive]
+        public bool IsQuiltLoaded { get; set; } = false;
+
+        [Reactive]
+        public bool SelectedLoader { get; set; } = false;
 
         public DialogPageViewModel() {
             PropertyChanged += OnPropertyChanged;

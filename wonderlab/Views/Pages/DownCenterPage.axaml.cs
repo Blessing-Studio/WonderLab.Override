@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.Media.Imaging;
 using MinecraftLaunch.Modules.Models.Install;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -9,10 +8,8 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.ViewModels.Pages;
-using wonderlab.Views.Dialogs;
 
-namespace wonderlab.Views.Pages
-{
+namespace wonderlab.Views.Pages {
     public partial class DownCenterPage : UserControl
     {
         public static DownCenterPageViewModel ViewModel { get; set; } = new();
@@ -52,7 +49,7 @@ namespace wonderlab.Views.Pages
         }
 
         private void OpenDialogAction(object? sender, RoutedEventArgs args) {
-            GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
+            //GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
             CacheResources.GameCoreInstallInfo = ((sender as Button)!.DataContext as GameCoreEmtity)!;
             ViewModel.OpenGameInstallDialogAction();
         }

@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,7 +30,19 @@ namespace wonderlab.control.Controls.Dialog {
 
         private StackPanel GlobalTopContent = null!;
 
+        public event EventHandler<SelectModLoaderChangedArgs>? SelectModLoaderChanged;
+
         public string SelectedLoader { get => GetValue(SelectedLoaderProperty); set => SetValue(SelectedLoaderProperty, value); }
+
+        public bool IsForgeLoaded { get => GetValue(IsForgeLoadedProperty); set => SetValue(ModLoadersProperty, value); }
+               
+        public bool IsFabricLoaded { get => GetValue(IsFabricLoadedProperty); set => SetValue(ModLoadersProperty, value); }
+               
+        public bool IsOptifineLoaded { get => GetValue(IsOptifineLoadedProperty); set => SetValue(ModLoadersProperty, value); }
+               
+        public bool IsQuiltLoaded { get => GetValue(IsQuiltLoadedProperty); set => SetValue(ModLoadersProperty, value); }
+
+        public IEnumerable ModLoaders { get => GetValue(ModLoadersProperty); set => SetValue(ModLoadersProperty, value); }
 
         public ICommand InstallCommand { get => GetValue(InstallCommandProperty); set => SetValue(InstallCommandProperty, value); }
 
@@ -38,6 +51,21 @@ namespace wonderlab.control.Controls.Dialog {
 
         public static readonly StyledProperty<ICommand> InstallCommandProperty =
             AvaloniaProperty.Register<InstallDialog, ICommand>(nameof(InstallCommand));
+
+        public static readonly StyledProperty<IEnumerable> ModLoadersProperty =
+            AvaloniaProperty.Register<InstallDialog, IEnumerable>(nameof(ModLoaders));
+
+        public static readonly StyledProperty<bool> IsForgeLoadedProperty =
+            AvaloniaProperty.Register<InstallDialog, bool>(nameof(IsForgeLoaded), false);
+
+        public static readonly StyledProperty<bool> IsFabricLoadedProperty =
+            AvaloniaProperty.Register<InstallDialog, bool>(nameof(IsFabricLoaded), false);
+
+        public static readonly StyledProperty<bool> IsOptifineLoadedProperty =
+            AvaloniaProperty.Register<InstallDialog, bool>(nameof(IsOptifineLoaded), false);
+
+        public static readonly StyledProperty<bool> IsQuiltLoadedProperty =
+            AvaloniaProperty.Register<InstallDialog, bool>(nameof(IsQuiltLoaded), false);
 
         public void HideDialog() {
             BackgroundBorder.IsHitTestVisible = false;
@@ -93,6 +121,7 @@ namespace wonderlab.control.Controls.Dialog {
 
         private void OnCurrentModLoaderSelectionChanged(object? sender, SelectionChangedEventArgs e) {
             SetValue(SelectedLoaderProperty, ((ListBoxItem)((ListBox)sender!).SelectedItem!).Tag!.ToString()!);
+            SelectModLoaderChanged?.Invoke(sender,SelectModLoaderChangedArgs.Build(SelectedLoader));
         }
 
         private void HideAction(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {

@@ -18,11 +18,11 @@ using Tmds.DBus;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
+using wonderlab.Views.Pages;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
-
         public static async ValueTask<IEnumerable<New>> GetMojangNewsAsync() {
             var result = new List<New>();
 
@@ -83,79 +83,115 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<bool> GetModLoadersFromMcVersionAsync(string id) {
             try {
-                await Task.Run(async () => CacheResources.Forges.AddRange(await GetForgesAsync()));
-                await Task.Run(async () => CacheResources.Quilts.AddRange(await GetQuiltsAsync()));
-                await Task.Run(async () => CacheResources.Fabrics.AddRange(await GetFabricsAsync()));
-                await Task.Run(async () => CacheResources.Optifines.AddRange(await GetOptifinesAsync()));
+                await Task.Run(async() => {
+                    await Task.Run(GetFabricsAsync);
+                    await Task.Run(GetQuiltsAsync);
+                    await Task.Run(GetOptifinesAsync);
+                    await Task.Run(GetForgesAsync);
+                });
             }
             catch (Exception ex) {
                 ex.ShowLog(LogLevel.Error);
                 GC.Collect();
             }
+            finally {
+                GC.Collect();
+            }
 
             return true;
-            async ValueTask<IEnumerable<ModLoaderModel>> GetForgesAsync() {
-                var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(id)).Select(x => new ModLoaderModel() {
-                    ModLoaderType = ModLoaderType.Forge,
-                    ModLoaderBuild = x,
-                    GameCoreVersion = x.McVersion,
-                    Id = x.ForgeVersion,
-                    Time = x.ModifiedTime
+
+            async ValueTask GetForgesAsync() {
+                DialogPage.ViewModel.IsQuiltLoaded = false;
+                await Task.Run(async () => {
+                    var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(id)).Select(x => new ModLoaderModel() {
+                        ModLoaderType = ModLoaderType.Forge,
+                        ModLoaderBuild = x,
+                        GameCoreVersion = x.McVersion,
+                        Id = x.ForgeVersion,
+                        Time = x.ModifiedTime
+                    });
+
+                    if (!result.Any()) {
+                        result = Array.Empty<ModLoaderModel>();
+                    }
+
+                    "Forge 加载完毕".ShowLog();       
+                    CacheResources.Forges.AddRange(result);
+                    DialogPage.ViewModel.IsForgeLoaded = result.Any();
                 });
-
-                if (!result.Any()) {
-                    return Array.Empty<ModLoaderModel>();
-                }
-
-                return result;
             }
 
-            async ValueTask<IEnumerable<ModLoaderModel>> GetQuiltsAsync() {
-                var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
-                    ModLoaderType = ModLoaderType.Quilt,
-                    GameCoreVersion = x.Intermediary.Version,
-                    ModLoaderBuild = x,
-                    Id = x.Loader.Version,
-                    Time = DateTime.Now
+            async ValueTask GetQuiltsAsync() {
+                await Task.Run(async () => {
+                    DialogPage.ViewModel.IsQuiltLoaded = false;
+                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                        $"Mc 版本 {id} 无可用的 Quilt".ShowLog();
+                        DialogPage.ViewModel.IsQuiltLoaded = false;
+                    } else {
+                        var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
+                            ModLoaderType = ModLoaderType.Quilt,
+                            GameCoreVersion = x.Intermediary.Version,
+                            ModLoaderBuild = x,
+                            Id = x.Loader.Version,
+                            Time = DateTime.Now
+                        });
+
+                        if (!result.Any()) {
+                            result = Array.Empty<ModLoaderModel>();
+                        }
+
+                        "Quilt 加载完毕".ShowLog();
+                        CacheResources.Quilts.AddRange(result);
+                        DialogPage.ViewModel.IsQuiltLoaded = result.Any();
+                    }
                 });
-
-                if (!result.Any()) {
-                    return Array.Empty<ModLoaderModel>();
-                }
-
-                return result;
             }
 
-            async ValueTask<IEnumerable<ModLoaderModel>> GetFabricsAsync() {
-                var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
-                    ModLoaderType = ModLoaderType.Quilt,
-                    GameCoreVersion = x.Intermediary.Version,
-                    ModLoaderBuild = x,
-                    Id = x.Loader.Version,
-                    Time = DateTime.Now
+            async ValueTask GetFabricsAsync() {
+                DialogPage.ViewModel.IsFabricLoaded = false;
+                await Task.Run(async () => {
+                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                        $"Mc 版本 {id} 无可用的 Fabric".ShowLog();
+                        DialogPage.ViewModel.IsFabricLoaded = false;
+                    } else {
+                        var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
+                            ModLoaderType = ModLoaderType.Quilt,
+                            GameCoreVersion = x.Intermediary.Version,
+                            ModLoaderBuild = x,
+                            Id = x.Loader.Version,
+                            Time = DateTime.Now
+                        });
+
+                        if (!result.Any()) {
+                            result = Array.Empty<ModLoaderModel>();
+                        }
+
+                        "Fabric 加载完毕".ShowLog();
+                        CacheResources.Fabrics.AddRange(result);
+                        DialogPage.ViewModel.IsFabricLoaded = result.Any();
+                    }
                 });
-
-                if (!result.Any()) {
-                    return Array.Empty<ModLoaderModel>();
-                }
-
-                return result;
             }
 
-            async ValueTask<IEnumerable<ModLoaderModel>> GetOptifinesAsync() {
-                var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(id)).Select(x => new ModLoaderModel() {
-                    ModLoaderType = ModLoaderType.OptiFine,
-                    ModLoaderBuild = x,
-                    GameCoreVersion = x.McVersion,
-                    Id = x.Type,
-                    Time = DateTime.Now
+            async ValueTask GetOptifinesAsync() {
+                DialogPage.ViewModel.IsOptifineLoaded = false;
+                await Task.Run(async () => {
+                    var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(id)).Select(x => new ModLoaderModel() {
+                        ModLoaderType = ModLoaderType.OptiFine,
+                        ModLoaderBuild = x,
+                        GameCoreVersion = x.McVersion,
+                        Id = x.Type,
+                        Time = DateTime.Now
+                    });
+
+                    if (!result.Any()) {
+                        result = Array.Empty<ModLoaderModel>();
+                    }
+
+                    "Optifine 加载完毕".ShowLog();
+                    CacheResources.Optifines.AddRange(result);
+                    DialogPage.ViewModel.IsOptifineLoaded = result.Any();
                 });
-
-                if (!result.Any()) {
-                    return Array.Empty<ModLoaderModel>();
-                }
-
-                return result;
             }
         }
     }
