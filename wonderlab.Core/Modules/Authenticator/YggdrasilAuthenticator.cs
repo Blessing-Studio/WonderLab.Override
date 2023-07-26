@@ -12,13 +12,11 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 
-namespace MinecraftLaunch.Modules.Authenticator
-{
+namespace MinecraftLaunch.Modules.Authenticator {
     /// <summary>
     /// 第三方验证器
     /// </summary>
-    public partial class YggdrasilAuthenticator : AuthenticatorBase
-    {
+    public partial class YggdrasilAuthenticator : AuthenticatorBase {
         /// <summary>
         /// 身份验证方法
         /// </summary>
@@ -30,18 +28,15 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        public async ValueTask<IEnumerable<YggdrasilAccount>> AuthAsync()
-        {
+        public async ValueTask<IEnumerable<YggdrasilAccount>> AuthAsync() {
             var ru = Uri;
             string content = string.Empty;
-            var requestJson = new
-            {
+            var requestJson = new {
                 clientToken = Guid.NewGuid().ToString("N"),
                 username = Email,
                 password = Password,
                 requestUser = false,
-                agent = new
-                {
+                agent = new {
                     name = "Minecraft",
                     version = 1
                 }
@@ -52,8 +47,7 @@ namespace MinecraftLaunch.Modules.Authenticator
 
             ClientToken = content.ToJsonEntity<YggdrasilResponse>().ClientToken;
             foreach (var i in content.ToJsonEntity<YggdrasilResponse>().UserAccounts)
-                accounts.Add(new YggdrasilAccount()
-                {
+                accounts.Add(new YggdrasilAccount() {
                     AccessToken = content.ToJsonEntity<YggdrasilResponse>().AccessToken,
                     ClientToken = content.ToJsonEntity<YggdrasilResponse>().ClientToken,
                     Name = i.Name,
@@ -69,37 +63,37 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// 异步刷新验证方法
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<YggdrasilAccount> RefreshAsync(YggdrasilAccount selectProfile)
-        {
-            var content = new
-            {
-                clientToken = selectProfile.ClientToken,
-                accessToken = selectProfile.AccessToken,
-                requestUser = true
-            }.ToJson();
+        public async ValueTask<YggdrasilAccount> RefreshAsync(YggdrasilAccount selectProfile) {
+            try {
+                var content = new {
+                    clientToken = selectProfile.ClientToken,
+                    accessToken = selectProfile.AccessToken,
+                    requestUser = true
+                }.ToJson();
 
-            using var res = await HttpWrapper.HttpPostAsync($"{Uri}{(string.IsNullOrEmpty(Uri) ? "https://authserver.mojang.com" : "/authserver")}/refresh", content);
-            string result = await res.Content.ReadAsStringAsync();
-            await Console.Out.WriteLineAsync(result);
-            res.EnsureSuccessStatusCode();
-            var responses = result.ToJsonEntity<YggdrasilResponse>().UserAccounts;
+                using var res = await HttpWrapper.HttpPostAsync($"{Uri}{(string.IsNullOrEmpty(Uri) ? "https://authserver.mojang.com" : "/authserver")}/refresh", content);
+                string result = await res.Content.ReadAsStringAsync();
+                await Console.Out.WriteLineAsync(result);
+                res.EnsureSuccessStatusCode();
+                var responses = result.ToJsonEntity<YggdrasilResponse>().UserAccounts;
 
-            foreach (var i in responses)
-            {
-                if (i.Uuid.Equals(selectProfile.Uuid.ToString().Replace("-", ""))) {
-                    return new()
-                    {
-                        AccessToken = result.ToJsonEntity<YggdrasilResponse>().AccessToken,
-                        ClientToken = result.ToJsonEntity<YggdrasilResponse>().ClientToken,
-                        Name = i.Name,
-                        Uuid = Guid.Parse(i.Uuid),
-                        YggdrasilServerUrl = this.Uri!,
-                        Email = this.Email!,
-                        Password = this.Password!
-                    };
+                foreach (var i in responses) {
+                    if (i.Uuid.Equals(selectProfile.Uuid.ToString().Replace("-", ""))) {
+                        return new() {
+                            AccessToken = result.ToJsonEntity<YggdrasilResponse>().AccessToken,
+                            ClientToken = result.ToJsonEntity<YggdrasilResponse>().ClientToken,
+                            Name = i.Name,
+                            Uuid = Guid.Parse(i.Uuid),
+                            YggdrasilServerUrl = this.Uri!,
+                            Email = this.Email!,
+                            Password = this.Password!
+                        };
+                    }
                 }
+            } finally { 
+                GC.Collect();
             }
-            
+
             return null!;//执行到此处的原因可能是此角色已删除的原因导致的
         }
 
@@ -107,18 +101,16 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// 异步登出方法
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<bool> SignoutAsync()
-        {
+        public async ValueTask<bool> SignoutAsync() {
             string content = JsonConvert.SerializeObject(
-                new
-                {
+                new {
                     username = Email,
                     password = Password
                 }
             );
-            
+
             using var res = await HttpWrapper.HttpPostAsync($"{Uri}{(string.IsNullOrEmpty(Uri) ? "https://authserver.mojang.com" : "/authserver")}/signout", content);
-            
+
             return res.IsSuccessStatusCode;
         }
 
@@ -127,10 +119,8 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// </summary>
         /// <param name="accesstoken"></param>
         /// <returns></returns>
-        public async ValueTask<bool> ValidateAsync(string accesstoken)
-        {
-            var content = new
-            {
+        public async ValueTask<bool> ValidateAsync(string accesstoken) {
+            var content = new {
                 clientToken = ClientToken,
                 accesstoken = accesstoken
             }.ToJson();
@@ -139,8 +129,7 @@ namespace MinecraftLaunch.Modules.Authenticator
         }
     }
 
-    partial class YggdrasilAuthenticator
-    {
+    partial class YggdrasilAuthenticator {
         public YggdrasilAuthenticator() { }
 
         /// <summary>
@@ -149,8 +138,7 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// <param name="uri"></param>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public YggdrasilAuthenticator(string uri, string email, string password)
-        {
+        public YggdrasilAuthenticator(string uri, string email, string password) {
             Uri = uri;
             Email = email;
             Password = password;
@@ -162,8 +150,7 @@ namespace MinecraftLaunch.Modules.Authenticator
         /// <param name="IsLittleSkin"></param>
         /// <param name="email"></param>
         /// <param name="password"></param>
-        public YggdrasilAuthenticator(bool IsLittleSkin, string email, string password)
-        {
+        public YggdrasilAuthenticator(bool IsLittleSkin, string email, string password) {
             if (IsLittleSkin)
                 Uri = "https://littleskin.cn/api/yggdrasil";
             Email = email;
@@ -178,8 +165,7 @@ namespace MinecraftLaunch.Modules.Authenticator
         [Obsolete] public YggdrasilAuthenticator(string email, string password) { }
     }
 
-    partial class YggdrasilAuthenticator
-    {
+    partial class YggdrasilAuthenticator {
         public string? Uri { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
@@ -187,8 +173,7 @@ namespace MinecraftLaunch.Modules.Authenticator
         //public string AccessToken { get; set; } = string.Empty;
     }
 
-    internal class Model
-    {
+    internal class Model {
         public string username { get; set; } = "";
         public string password { get; set; } = "";
     }

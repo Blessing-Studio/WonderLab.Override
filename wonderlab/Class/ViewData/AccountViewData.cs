@@ -14,10 +14,9 @@ using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 
-namespace wonderlab.Class.ViewData
-{
-    public class AccountViewData : ViewDataBase<UserModel> {   
-        public AccountViewData(UserModel data,bool flag) : base(data) {
+namespace wonderlab.Class.ViewData {
+    public class AccountViewData : ViewDataBase<UserModel> {
+        public AccountViewData(UserModel data, bool flag) : base(data) {
             if (flag) {
                 Dispatcher.UIThread.Post(async () => {
                     await GetSkinAsync();
@@ -46,7 +45,7 @@ namespace wonderlab.Class.ViewData
         public async ValueTask GetSkinAsync() {
             try {
                 var url = await Task.Run(async () => {
-                    return Data.UserType switch {               
+                    return Data.UserType switch {
                         AccountType.Yggdrasil => await GetYggdrasilSkinUrlAsync(Data.Uuid, Data.YggdrasilUrl),
                         AccountType.Microsoft => await GetMicrosoftSkinUrlAsync(Data.Uuid),
                         _ => string.Empty,
@@ -54,10 +53,9 @@ namespace wonderlab.Class.ViewData
                 });
 
                 byte[]? skin = null;
-                if(!string.IsNullOrEmpty(url)) {
+                if (!string.IsNullOrEmpty(url)) {
                     skin = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
-                }
-                else {
+                } else {
                     var path = Path.Combine(JsonUtils.TempPath, "steve.png");
                     ((Bitmap)BitmapUtils.GetAssetBitmap("steve.png"))!.Save(path);
 
@@ -75,31 +73,31 @@ namespace wonderlab.Class.ViewData
                 Trace.WriteLine($"[错误] {ex}");
             }
         }
-        
-        internal async ValueTask<string> GetMicrosoftSkinUrlAsync(string uuid)
-        {
+
+        private async ValueTask<string> GetMicrosoftSkinUrlAsync(string uuid) {
             var res = await HttpWrapper.HttpGetAsync($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
             var json = await res.Content.ReadAsStringAsync();
-            Trace.WriteLine($"[信息] 返回的 Json 信息如下：{json}");
+            $"返回的 Json 信息如下：{json}".ShowLog();
 
             var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
-            Trace.WriteLine($"[信息] 皮肤 Base64 解码的 Json 信息如下：{skinjson}");
+            $"皮肤 Base64 解码的 Json 信息如下：{skinjson}".ShowLog();
 
             var url = skinjson.ToJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
-            Trace.WriteLine($"[信息] 皮肤的链接如下：{url}");
+            $"皮肤的链接如下：{url}".ShowLog();
             return url;
         }
 
-        internal async ValueTask<string> GetYggdrasilSkinUrlAsync(string uuid, string uri){
+        private async ValueTask<string> GetYggdrasilSkinUrlAsync(string uuid, string uri) {
             var res = await HttpWrapper.HttpGetAsync($"{uri}/sessionserver/session/minecraft/profile/{uuid.Replace("-", string.Empty)}");
+            uri.ShowLog();
             var json = await res.Content.ReadAsStringAsync();
-            Trace.WriteLine($"[信息] 返回的 Json 信息如下：{json}");
+            $"返回的 Json 信息如下：{json}".ShowLog();
 
             var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
-            Trace.WriteLine($"[信息] 皮肤 Base64 解码的 Json 信息如下：{skinjson}");
+            $"皮肤 Base64 解码的 Json 信息如下：{skinjson}".ShowLog();
 
             var url = skinjson.ToJsonEntity<SkinMoreInfo>().Textures.Skin.Url;
-            Trace.WriteLine($"[信息] 皮肤的链接如下：{url}");
+            $"皮肤的链接如下：{url}".ShowLog();
             return url;
         }
     }

@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Tmds.DBus;
 using wonderlab.Class.AppData;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -31,9 +32,7 @@ namespace wonderlab.Class.Utils {
                 CacheResources.MojangNews = result;
             }
             catch (Exception ex) {
-                Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
-                Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
-
+                ex.ShowLog(LogLevel.Error);
                 $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
             }
 
@@ -48,9 +47,7 @@ namespace wonderlab.Class.Utils {
                 result = JsonSerializer.Deserialize<HitokotoModel>(json);
             }
             catch (Exception ex) {
-                Trace.WriteLine($"[信息] 异常名 {ex.GetType().Name}");
-                Trace.WriteLine($"[信息] 异常信息 {ex.Message}");
-
+                ex.ShowLog(LogLevel.Error);
                 $"无法获取到一言，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
             }
 
@@ -77,8 +74,9 @@ namespace wonderlab.Class.Utils {
                 GC.Collect();
                 return true;
             }
-            catch (Exception) {
+            catch (Exception ex) {
                 GC.Collect();
+                ex.ShowLog(LogLevel.Error);
                 return false;
             }
         }
@@ -90,7 +88,8 @@ namespace wonderlab.Class.Utils {
                 await Task.Run(async () => CacheResources.Fabrics.AddRange(await GetFabricsAsync()));
                 await Task.Run(async () => CacheResources.Optifines.AddRange(await GetOptifinesAsync()));
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                ex.ShowLog(LogLevel.Error);
                 GC.Collect();
             }
 

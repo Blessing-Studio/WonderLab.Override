@@ -139,7 +139,7 @@ namespace wonderlab.ViewModels.Pages {
 
             await PreConfigProcessingAsync();
 
-            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
+            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
             var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
                 x.Item2.ShowLog();
             });
@@ -274,8 +274,14 @@ namespace wonderlab.ViewModels.Pages {
 
                     await Task.Run(async () => {
                         if (CurrentAccount.Type == AccountType.Yggdrasil) {
-                            YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl, "", "");
+                            var userData = CacheResources.Accounts.Where(x => x.Data.Uuid == CurrentAccount.Uuid.ToString()).First().Data;
+                            YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl,
+                                userData.Email, userData.Password);
                             var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
+
+                            if (result.IsNull()) {
+                                "需重新验证".ShowLog();
+                            }
 
                             CurrentAccount = result;
                             await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);

@@ -25,6 +25,7 @@ using Newtonsoft.Json.Linq;
 using wonderlab.Class.AppData;
 using Avalonia.Markup.Xaml;
 using Avalonia;
+using wonderlab.Class.Enum;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -272,29 +273,31 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static void ShowLog<T>(this T log) => Trace.WriteLine($"[{SystemUtils.GetPlatformName()}][信息] {log}");
+        public static void ShowLog<T>(this T log, LogLevel level = LogLevel.Info) {
+            switch (level) {
+                case LogLevel.Info:
+                    App.Logger.Info($"{log}");
+                    break;
+                case LogLevel.Error:
+                    App.Logger.Error($"{log}");
+                    break;
+                case LogLevel.Normal:
+                    App.Logger.Log($"{log}");
+                    break;
+                case LogLevel.Warning:
+                    App.Logger.Warning($"{log}");
+                    break;
+                default:
+                    App.Logger.Log($"{log}");
+                    break;
+            }
+        }
 
         public static void Navigation(this UserControl control) => App.CurrentWindow.Navigation(control);
 
         public static MemoryStream ToMemoryStream(this string base64) => new MemoryStream(Convert.FromBase64String(base64)) {
             Position = 0
         };
-
-        public static LauncherDataModel TryGetData(this LauncherDataModel model) {
-            if (model.IsNull()) {
-                return GlobalResources.DefaultLauncherData;
-            }
-
-            return model;
-        }
-
-        public static LaunchInfoDataModel TryGetData(this LaunchInfoDataModel model) {
-            if (model.IsNull()) {
-                return GlobalResources.DefaultLaunchInfoData;
-            }
-
-            return model;
-        }
 
         public static void ShowInfoDialog(this string message, string title) {
             App.CurrentWindow.DialogHost.ShowInfoDialog(title, message);
