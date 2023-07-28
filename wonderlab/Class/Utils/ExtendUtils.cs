@@ -26,6 +26,7 @@ using wonderlab.Class.AppData;
 using Avalonia.Markup.Xaml;
 using Avalonia;
 using wonderlab.Class.Enum;
+using Avalonia.Platform.Storage;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -148,6 +149,18 @@ namespace wonderlab.Class.Utils {
             }
 
             return new(path);
+        }
+
+        public static FileInfo ToFileInfo(this string path) {
+            if (path.IsFile()) {
+                return new FileInfo(path);
+            }
+
+            throw new Exception("Is not File");
+        }
+
+        public static FileInfo ToFile(this IStorageItem item) {
+            return item.Path.LocalPath.ToFileInfo();
         }
 
         public static DirectoryInfo? ToDirectory(this string path) {

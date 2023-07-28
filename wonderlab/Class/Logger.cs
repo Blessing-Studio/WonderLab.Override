@@ -45,7 +45,7 @@ namespace wonderlab.Class {
 
         public static Logger LoadLogger() {
             Logger logger = new Logger();
-            AssemblyLoadContext.Default.Unloading += async (ctx) => {
+            App.CurrentWindow.Closed += async (o, ctx) => {
                 Trace.WriteLine("closing");
                 await logger.EncapsulateLogsToFileAsync();
             };

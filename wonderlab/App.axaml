@@ -3,6 +3,7 @@
              x:Class="wonderlab.App"
 			 xmlns:c="using:wonderlab.Views.Converters"
 			 RequestedThemeVariant="Light">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Styles>
 		<FluentTheme/>
 		<StyleInclude Source="avares://wonderlab.Control/ImprotStyles.axaml"/>
@@ -24,7 +25,7 @@
 			</Setter>
 		</Style>
 
-		<Style Selector="ContextMenu:open">			
+		<Style Selector="ContextMenu:open">
 			<Setter Property="Opacity" Value="0.5"/>
 		</Style>
 	</Application.Styles>
@@ -36,7 +37,7 @@
 				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 				<ResourceInclude Source="avares://wonderlab/Assets/Strings/zh-cn.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
-			
+
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
 			<c:MaxWidthConverter x:Key="MaxWidthConverter"/>
 			<c:RunStateConverter x:Key="RunStateConverter"/>
