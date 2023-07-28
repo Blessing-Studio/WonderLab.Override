@@ -32,7 +32,7 @@
 					<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
 						<ComboBox Width="350" Margin="15 5 0 0"
 		                          SelectedItem="{Binding CurrentBakgroundType}"
-		                          Items="{Binding BakgroundTypes}"/>						
+		                          ItemsSource="{Binding BakgroundTypes}"/>						
 					</StackPanel>
 				</Grid>
 			</Border>
@@ -59,7 +59,7 @@
 							Height="1" CornerRadius="114514"
 						    VerticalAlignment="Top"/>
 					
-					<ListBox Items="{Binding PredefinedColors}"
+					<ListBox ItemsSource="{Binding PredefinedColors}"
 			                 SelectedItem="{Binding CurrentAccentColor}"
 			                 MaxWidth="800"
 							 Margin="15 2"
@@ -162,7 +162,7 @@
 
 						<ComboBox MinWidth="245"
 		                          SelectedItem="{Binding CurrentParallaxType}"
-		                          Items="{Binding ParallaxTypes}"/>
+		                          ItemsSource="{Binding ParallaxTypes}"/>
 					</StackPanel>
 				</Grid>
 			</Border>						

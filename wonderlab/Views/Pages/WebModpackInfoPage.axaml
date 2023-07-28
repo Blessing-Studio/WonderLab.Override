@@ -67,7 +67,7 @@
 
 							<Border Background="Black" Height="0.6" HorizontalAlignment="Stretch" Grid.Row="1"/>
 
-							<ListBox Items="{Binding Categories}" Grid.Row="2" Margin="0 6 0 2" Background="Transparent" ClipToBounds="False">
+							<ListBox ItemsSource="{Binding Categories}" Grid.Row="2" Margin="0 6 0 2" Background="Transparent" ClipToBounds="False">
 								<ListBox.ItemsPanel>
 									<ItemsPanelTemplate>
 										<StackPanel ClipToBounds="False" Orientation="Horizontal"/>
@@ -117,12 +117,12 @@
 							<ComboBox HorizontalAlignment="Right"
 									  Width="180"
 									  SelectedItem="{Binding CurrentResourceVersion}"
-									  Items="{Binding Data.Data.Files.Keys}"
+									  ItemsSource="{Binding Data.Data.Files.Keys}"
 									  VerticalAlignment="Center" Margin="15 0"/>
 						</Grid>
 					</Border>
 
-					<ListBox Items="{Binding CurrentResources}" Grid.Row="2" ClipToBounds="False" Background="Transparent">
+					<ListBox ItemsSource="{Binding CurrentResources}" Grid.Row="2" ClipToBounds="False" Background="Transparent">
 						<ListBox.Styles>
 							<Style Selector="ListBoxItem">
 								<Setter Property="Height" Value="50"/>

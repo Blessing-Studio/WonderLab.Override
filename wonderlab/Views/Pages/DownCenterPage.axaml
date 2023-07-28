@@ -144,9 +144,8 @@
 		</wc:PageSwitcher>
 
 		<ListBox Background="Transparent"
-				 VirtualizationMode="None"
 				 IsVisible="{Binding IsResource}"
-				 Margin="0 60" Items="{Binding Resources}">
+				 Margin="0 60" ItemsSource="{Binding Resources}">
 			<ListBox.Styles>
 				<Styles>
 					<Style Selector="ListBoxItem">
@@ -193,7 +192,7 @@
 													Margin="20 10 10 10" CornerRadius="4"
 													BoxShadow="0 4 16 0 #66000000">
 												<Border.Background>
-													<ImageBrush Source="{Binding Icon}" BitmapInterpolationMode="MediumQuality" Stretch="UniformToFill"/>
+													<ImageBrush Source="{Binding Icon}" Stretch="UniformToFill"/>
 												</Border.Background>
 												<Border.RenderTransform>
 													<TransformGroup>
@@ -349,17 +348,17 @@
 						<ComboBox SelectedItem="{Binding CurrentCategorie}"
 		                          HorizontalAlignment="Stretch" 
 								  IsVisible="{Binding IsResource}"
-		                          Items="{Binding Categories.Values}" PlaceholderText="具体资源类型">
+		                          ItemsSource="{Binding Categories.Values}" PlaceholderText="具体资源类型">
 						</ComboBox>
 
-						<ComboBox Items="{Binding McVersions}"
+						<ComboBox ItemsSource="{Binding McVersions}"
 								  Grid.Column="2"
 								  IsVisible="{Binding IsResource}"
 								  HorizontalAlignment="Stretch"
 								  SelectedItem="{Binding CurrentMcVersion}"
 								  PlaceholderText="资源支持的 Mc 版本"/>
 
-						<ComboBox Items="{Binding McVersionTypes}"
+						<ComboBox ItemsSource="{Binding McVersionTypes}"
 		                          Grid.Column="2"
 								  IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
 								  IsHitTestVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"

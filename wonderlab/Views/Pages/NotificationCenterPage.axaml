@@ -75,8 +75,8 @@
 				</Border.Transitions>
 				<Grid>
 
-					<!--Items="{Binding Notifications}"-->
-					<ListBox Items="{Binding Notifications}"
+					<!--ItemsSource="{Binding Notifications}"-->
+					<ListBox ItemsSource="{Binding Notifications}"
 							 Background="Transparent" IsHitTestVisible="False">
 						<ListBox.Styles>
 							<Styles>

@@ -32,7 +32,7 @@
 								VerticalAlignment="Bottom"/>
 
 						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
-							<ComboBox Width="350" Items="{Binding GameDirectorys}"
+							<ComboBox Width="350" ItemsSource="{Binding GameDirectorys}"
 									  SelectedItem="{Binding CurrentGameDirectory}"
 									  Margin="15 5 0 0"
 									  PlaceholderText="请选择您的游戏目录"/>
@@ -72,7 +72,7 @@
 
 						<StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10">
 							<ComboBox Width="350"
-									  Items="{Binding Javas}"
+									  ItemsSource="{Binding Javas}"
 									  Margin="15 5 0 0"
 									  SelectedItem="{Binding CurrentJava}"
 									  PlaceholderText="请选择您的 Java 运行时"

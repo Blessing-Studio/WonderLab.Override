@@ -124,7 +124,7 @@
   
 											<ListBox Margin="0 2 0 0" 
 													 Grid.Row="3"
-													 Height="203" Items="{TemplateBinding ModLoaders}"> 
+													 Height="203" ItemsSource="{TemplateBinding ModLoaders}"> 
 												<ListBox.Styles>
 													<Style Selector="ListBoxItem">
 														<Setter Property="Height" Value="40"/>

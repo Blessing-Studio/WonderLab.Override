@@ -1,9 +1,10 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="wonderlab.App"
-			 xmlns:c="using:wonderlab.Views.Converters">
+			 xmlns:c="using:wonderlab.Views.Converters"
+			 RequestedThemeVariant="Light">
 	<Application.Styles>
-		<FluentTheme Mode="Light"/>
+		<FluentTheme/>
 		<StyleInclude Source="avares://wonderlab.Control/ImprotStyles.axaml"/>
 		<Style Selector="ProgressBar /template/ Border#PART_Indicator">
 			<Setter Property="Transitions">

@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -16,11 +17,8 @@ namespace wonderlab.Class.Utils {
         }
 
         public static IImage GetIconBitmap(string uri) {
-            var al = AvaloniaLocator.Current.GetService<IAssetLoader>();
-            if (al != null) {
-                using (var s = al.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}"))) {
-                    return new Bitmap(s);
-                }
+            using (var s = AssetLoader.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}"))) {
+                return new Bitmap(s);
             }
 
             throw new Exception("获取 Icon 失败，可能是不存在或类型不是 AvaloniaResource 导致的");

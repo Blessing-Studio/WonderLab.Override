@@ -57,8 +57,8 @@ namespace wonderlab.control.Animation
                 FillMode = Avalonia.Animation.FillMode.Forward
             };
 
-            await animation.RunAsync(ctrl, null);
-            (ctrl as IVisual)!.Opacity = 1;
+            await animation.RunAsync(ctrl);
+            (ctrl as Visual)!.Opacity = 1;
 
             AnimationCompleted?.Invoke(this, new());
         }

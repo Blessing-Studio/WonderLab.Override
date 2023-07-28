@@ -6,7 +6,7 @@
              x:Class="wonderlab.Views.Pages.ConsolePage" Margin="10">
 	<ListBox Name="e"
 			 Background="Transparent"
-			 Items="{Binding GameLogs}">
+			 ItemsSource="{Binding GameLogs}">
 		<ListBox.Styles>
 			<Styles>
 				<Style Selector="ListBoxItem">

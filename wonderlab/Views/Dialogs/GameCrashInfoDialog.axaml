@@ -200,7 +200,7 @@
 								</TextBlock.Inlines>
 							</TextBlock>
 
-							<ListBox Items="{Binding CrashModpacks}" Margin="20 0" Background="Transparent" Grid.Row="2">
+							<ListBox ItemsSource="{Binding CrashModpacks}" Margin="20 0" Background="Transparent" Grid.Row="2">
 								<ListBox.Styles>
 									<Style Selector="ListBoxItem">
 										<Setter Property="Template">

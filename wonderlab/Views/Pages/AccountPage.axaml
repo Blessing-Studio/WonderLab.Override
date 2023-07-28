@@ -143,9 +143,8 @@
 				</Button>
 
 				<ListBox Background="{x:Null}" Grid.Row="2"
-						 VirtualizationMode="None"
 						 ClipToBounds="False" Margin="0 0 0 60"
-						 Items="{Binding GameAccounts}"
+						 ItemsSource="{Binding GameAccounts}"
 						 SelectedItem="{Binding CurrentGameAccount}">
 					<ListBox.Styles>
 						<Styles>

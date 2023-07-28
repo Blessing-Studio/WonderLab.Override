@@ -31,8 +31,7 @@
 
 		<ListBox Background="{x:Null}"
 				 VerticalAlignment="Top"
-			     VirtualizationMode="None"
-				 Items="{Binding ResourcePacks}"
+				 ItemsSource="{Binding ResourcePacks}"
 			     ClipToBounds="False">
 			<ListBox.Styles>
 				<Styles>

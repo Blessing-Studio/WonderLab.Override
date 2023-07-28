@@ -73,10 +73,10 @@ namespace wonderlab.control.Controls.Bar
                 IsOpen = false;
 
                 IsHitTestVisible = false;
-                MessageTipsBarClickAnimation animation = new();
-                animation.RunAnimation(this);                
+                //MessageTipsBarClickAnimation animation = new();
+                //animation.RunAnimation(this);                
 
-                animation.AnimationCompleted += (_, _) => { if (HideOfRun is not null) HideOfRun(); };
+                //animation.AnimationCompleted += (_, _) => { if (HideOfRun is not null) HideOfRun(); };
             }
         }
 

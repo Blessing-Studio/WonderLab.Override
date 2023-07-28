@@ -7,7 +7,7 @@
         x:Class="wonderlab.control.MainWindow"
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
-        Title="wonderlab.control">
+        Title="wonderlab.control" Background="White">
 	<Grid>
 		<wcd:InstallDialog Name="id"/>
 		<Button HorizontalAlignment="Left"
@@ -20,5 +20,8 @@
 		<Button HorizontalAlignment="Center"
 		VerticalAlignment="Top"
 		Content="Action" Name="Action"/>
+
+		<ProgressBar Classes="circular" Height="260"
+			 IsIndeterminate="True" Width="260" />
 	</Grid>
 </Window>

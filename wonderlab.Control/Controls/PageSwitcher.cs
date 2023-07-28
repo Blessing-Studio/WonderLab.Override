@@ -94,7 +94,7 @@ namespace wonderlab.control.Controls {
 
             if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
                 var cache = new ObservableCollection<object>();                
-                ListBox.Items = cache;
+                ListBox.ItemsSource = cache;
                 cache.Load(Cache[CurrentItemsIndex]);
 
                 PageNumberDisplay.Text = GetPageNumberText();
@@ -113,7 +113,7 @@ namespace wonderlab.control.Controls {
 
             if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
                 var cache = new ObservableCollection<object>();
-                ListBox.Items = cache;
+                ListBox.ItemsSource = cache;
                 cache.Load(Cache[CurrentItemsIndex]);
 
                 PageNumberDisplay.Text = GetPageNumberText();
@@ -152,7 +152,7 @@ namespace wonderlab.control.Controls {
 
                 if (ListBox is not null && PageNumberDisplay is not null && Cache.Count > 0) {
                     var cache = new ObservableCollection<object>();
-                    ListBox.Items = cache;
+                    ListBox.ItemsSource = cache;
                     cache.Load(Cache[CurrentItemsIndex]);
                     PageNumberDisplay.Text = GetPageNumberText();
                 }

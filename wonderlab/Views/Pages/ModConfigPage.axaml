@@ -31,8 +31,7 @@
 
 		<ListBox Background="{x:Null}"
 				 VerticalAlignment="Top"
-				 VirtualizationMode="None"
-				 Items="{Binding ModPacks}"
+				 ItemsSource="{Binding ModPacks}"
 				 ClipToBounds="True"
 			     RenderTransform="rotate(0deg)">
 			<ListBox.Styles>

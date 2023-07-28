@@ -28,7 +28,7 @@
 		                   Text="运行中的游戏" Grid.Row="0" FontWeight="SemiBold"/>
 
 				<ListBox Background="Transparent" Grid.Row="1"
-						 Items="{Binding GameCoreProcesses}"
+						 ItemsSource="{Binding GameCoreProcesses}"
 					     SelectedItem="{Binding CurrentGameCoreProcess}">
 					<ListBox.Styles>
 						<Styles>
@@ -119,7 +119,7 @@
 						   Margin="15 0 0 0"
 						   Text="历史记录" Grid.Row="2" FontWeight="SemiBold"/>
 
-				<ListBox Grid.Row="3" Background="Transparent" Items="{Binding History}">
+				<ListBox Grid.Row="3" Background="Transparent" ItemsSource="{Binding History}">
 					<ListBox.Styles>
 						<Styles>
 							<Style Selector="ListBoxItem">
@@ -158,7 +158,7 @@
 		
 		<ContentControl BorderThickness="1 0 0 0" BorderBrush="{DynamicResource	DialogContentBorderBrush}" Grid.Column="2" Content="{Binding CurrentConsolePage}"/>
 		
-		<!--<ListBox Grid.Column="2" Name="e" Items="{Binding GameLogs}">
+		<!--<ListBox Grid.Column="2" Name="e" ItemsSource="{Binding GameLogs}">
 			<ListBox.Styles>
 				<Styles>
 					<Style Selector="ListBoxItem">

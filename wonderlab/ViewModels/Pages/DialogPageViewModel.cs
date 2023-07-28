@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MinecraftLaunch.Modules.Authenticator;
 using MinecaftOAuth.Module.Enum;
+using Avalonia.Controls;
 
 namespace wonderlab.ViewModels.Pages {
     public class DialogPageViewModel : ViewModelBase {
@@ -128,7 +129,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void GoValidationLinkAction() {
-            await Application.Current!.Clipboard!.SetTextAsync(DeviceCodeText);
+            await TopLevel.GetTopLevel(App.CurrentWindow).Clipboard.SetTextAsync(DeviceCodeText);
             using var process = Process.Start(new ProcessStartInfo(ValidationLink) {
                 UseShellExecute = true,
                 Verb = "open"

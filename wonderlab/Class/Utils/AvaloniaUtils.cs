@@ -12,9 +12,7 @@ namespace wonderlab.Class.Utils {
     public static class AvaloniaUtils {
         public static MemoryStream GetAssetsStream(string uri) {
             var memoryStream = new MemoryStream();
-
-            IAssetLoader service = AvaloniaLocator.Current.GetService<IAssetLoader>()!;
-            using var stream = service?.Open(new Uri($"resm:wonderlab.Assets.{uri}"));
+            using var stream = AssetLoader.Open(new Uri($"resm:wonderlab.Assets.{uri}"));
             stream!.CopyTo(memoryStream);
             memoryStream.Position = 0;
 

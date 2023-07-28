@@ -53,9 +53,9 @@ namespace wonderlab.control.Animation
                 FillMode = Avalonia.Animation.FillMode.Forward
             };
 
-            await animation.RunAsync(ctrl, null);
-            (ctrl as IVisual)!.Opacity = 1;
-            (ctrl as IVisual)!.RenderTransform = new ScaleTransform()
+            await animation.RunAsync(ctrl);
+            (ctrl as Visual)!.Opacity = 1;
+            (ctrl as Visual)!.RenderTransform = new ScaleTransform()
             {
                 ScaleY = IsReversed ? 0 : 1.0
             };

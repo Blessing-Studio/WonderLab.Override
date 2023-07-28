@@ -56,7 +56,7 @@ namespace wonderlab.control.Animation
                 FillMode = FillMode.Forward
             };
 
-            await animation.RunAsync(ctrl, null);
+            await animation.RunAsync(ctrl);
 
             (ctrl as Visual)!.Opacity = IsReversed ? 0.0d : 1d;  
             AnimationCompleted?.Invoke(this, new EventArgs());

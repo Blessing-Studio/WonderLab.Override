@@ -10,12 +10,9 @@ using wonderlab.Class.AppData;
 
 namespace wonderlab.Class.Utils {
     public class DialogUtils {
-        private static Uri PathCache = null!;
-
         private readonly static IStorageProvider StorageProvider = App.CurrentWindow.StorageProvider;
 
         public static async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title) {
-            PathCache = null!;//先清除缓存
             var result = await StorageProvider.OpenFilePickerAsync(new() {
                 AllowMultiple = false,
                 FileTypeFilter = filters.ToList(),
@@ -26,12 +23,7 @@ namespace wonderlab.Class.Utils {
                 return null!;
             }
 
-            result.First().TryGetUri(out PathCache!);
-            if (!PathCache.IsNull() && PathCache.LocalPath.IsFile()) {
-                return new(PathCache.LocalPath);
-            }
-
-            return null!;
+            return new(result.First().Path.LocalPath);
         }
 
         public static async ValueTask<DirectoryInfo> OpenFolderPickerAsync(string title) {
@@ -44,12 +36,7 @@ namespace wonderlab.Class.Utils {
                 return null!;
             }
 
-            result.First().TryGetUri(out PathCache!);
-            if (!PathCache.IsNull() && PathCache.LocalPath.IsDirectory()) {
-                return PathCache.LocalPath.ToDirectory()!;
-            }
-
-            return null!;
+            return new(result.First().Path.LocalPath);
         }
 
         public static async ValueTask<FileInfo> SaveFilePickerAsync(string title,string fileName) {
@@ -62,12 +49,7 @@ namespace wonderlab.Class.Utils {
                 return null!;
             }
 
-            result!.TryGetUri(out PathCache!);
-            if (!PathCache.IsNull()) {
-                return PathCache.LocalPath.ToFile();
-            }
-
-            return null!;
+            return new(result.Path.LocalPath);
         }
     }
 }

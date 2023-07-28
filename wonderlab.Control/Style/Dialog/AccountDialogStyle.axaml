@@ -65,8 +65,7 @@
 										 Margin="16 10 16 10"
 										 ClipToBounds="False"
 										 Background="Transparent"
-										 VirtualizationMode="None"	
-										 Items="{TemplateBinding Accounts}"
+										 ItemsSource="{TemplateBinding Accounts}"
 										 ScrollViewer.VerticalScrollBarVisibility="Hidden">
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">

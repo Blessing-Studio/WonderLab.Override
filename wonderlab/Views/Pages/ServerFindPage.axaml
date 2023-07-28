@@ -127,14 +127,14 @@
 								Background="#6620546C" Grid.Row="2"
 								VerticalAlignment="Top">
 							<Border Background="White" Margin="10" CornerRadius="3" ClipToBounds="False">
-								<!--Items="{Binding Servers}"-->
+								<!--ItemsSource="{Binding Servers}"-->
 								<Border Margin="6" BorderThickness="1" BorderBrush="Black">
 									<ListBox Background="Transparent"
 										     Margin="10"
 									         ClipToBounds="False"
 										     ScrollViewer.VerticalScrollBarVisibility="Hidden"
 										     VerticalAlignment="Stretch"
-											 Items="{Binding Servers}">
+											 ItemsSource="{Binding Servers}">
 										<ListBox.ItemsPanel>
 											<ItemsPanelTemplate>
 												<WrapPanel Margin="10 0 0 0" Orientation="Horizontal" />

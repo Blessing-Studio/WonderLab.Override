@@ -11,7 +11,7 @@
 			  ColumnDefinitions="Auto, 1*">
 			<ListBox Width="200"
 					 Background="Transparent"
-					 Items="{Binding GameProcesses}"
+					 ItemsSource="{Binding GameProcesses}"
 					 SelectedItem="{Binding CurrentGameProcess}"
 					 ScrollViewer.VerticalScrollBarVisibility="Hidden">
 				<ListBox.Styles>

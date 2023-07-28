@@ -148,7 +148,7 @@ namespace wonderlab.ViewModels.Pages {
                 })).FirstOrDefault()!;
 
                 if (!result.IsNull()) {
-                    result.TryGetUri(out uri!);
+                    uri = result.Path;
                 }
 
                 App.CurrentWindow.BackgroundImage.Source = !uri!.IsNull() && uri!.IsFile ? new Bitmap(uri!.LocalPath)! : null!;

@@ -55,10 +55,10 @@ namespace wonderlab.control.Animation
                 FillMode = FillMode.Forward
             };
 
-            await animation.RunAsync(ctrl, null);
+            await animation.RunAsync(ctrl);
 
             AnimationCompleted?.Invoke(this, new());
-            (ctrl as IVisual).Opacity = 1;
+            (ctrl as Visual).Opacity = 1;
         }
     }
 }
