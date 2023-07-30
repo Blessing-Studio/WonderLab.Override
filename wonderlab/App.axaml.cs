@@ -2,7 +2,9 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using wonderlab.Class;
+using wonderlab.control;
 using wonderlab.Views.Windows;
+using MainWindow = wonderlab.Views.Windows.MainWindow;
 
 namespace wonderlab;
 
@@ -20,6 +22,7 @@ public partial class App : Application {
             };
 
             CurrentWindow = (desktop.MainWindow as MainWindow)!;
+            Manager.Current = CurrentWindow;
         }
 
         Logger = Logger.LoadLogger();

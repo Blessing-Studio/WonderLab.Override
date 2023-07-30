@@ -20,7 +20,15 @@
 			
 		</Border>
 
-		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage"/>
+		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage">
+			<Image.Transitions>
+				<Transitions>
+					<EffectTransition Property="Effect"
+									  Duration="0:0:0.37"
+									  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Image.Transitions>
+		</Image>
 		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
 		<Grid Background="Transparent"
 			  DragDrop.AllowDrop="True"
@@ -235,7 +243,7 @@
 		
 		<Image Name="test"/>
 		
-		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>	
+		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 	</Grid>
 </Window>
   

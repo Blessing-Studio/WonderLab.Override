@@ -41,7 +41,7 @@
 
 	<Design.PreviewWith>
 		<Grid Height="600" Width="600">
-			<ProgressBar Classes="Circle" Height="260"
+			<ProgressBar Classes="circular" Height="260"
 						 IsIndeterminate="True" Width="260" />
 		</Grid>
 	</Design.PreviewWith>
@@ -59,7 +59,8 @@
 					<Border Name="PART_RootBorder"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+							HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
 						<Panel Name="PART_RootPanel">
 							<Panel.RenderTransform>
 								<ScaleTransform />
@@ -67,6 +68,8 @@
 
 							<controls:Rotator Name="PART_Rotator">
 								<Arc Name="PART_Animation"
+									 Width="{TemplateBinding Width}"
+									 Height="{TemplateBinding Height}"
                                      Stroke="{TemplateBinding Foreground}"/>
 							</controls:Rotator>
 

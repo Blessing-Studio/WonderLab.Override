@@ -99,7 +99,8 @@ namespace wonderlab.control.Controls.Dialog {
             FirstPanel.CornerRadius = new(8, 8, 0, 0);
             FirstPanel.Height = 35;
             await Task.Delay(100);
-            GlobalTopContent.Height = GlobalTopButton.Height = 20;
+            GlobalTopButton.Height = 25;
+            GlobalTopContent.Height = 20;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {

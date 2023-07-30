@@ -1,4 +1,5 @@
-﻿using Avalonia.Platform.Storage;
+﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using MinecaftOAuth.Module.Enum;
 using MinecraftLaunch.Launch;
@@ -345,7 +346,7 @@ namespace wonderlab.ViewModels.Pages {
             OpacityChangeAnimation opacity = new(false) {
                 RunValue = 0,
             };
-
+            
             opacity.RunAnimation(back);
             App.CurrentWindow.CloseTopBar();
             new ActionCenterPage().Navigation();

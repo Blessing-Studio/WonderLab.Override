@@ -331,8 +331,9 @@
 										<Button Margin="15 5"
 												Height="0"
 												Padding="0"
-												Background="Transparent"
+												Width="25"
 												VerticalAlignment="Top"
+												Background="Transparent"
 												HorizontalAlignment="Right"
 												Name="GlobalTopButton">
 											<Button.Transitions>
@@ -342,10 +343,12 @@
 																	  Easing="CircularEaseOut"/>
 												</Transitions>
 											</Button.Transitions>
-											<Viewbox Width="20"
+											<Viewbox Width="20" Margin="-4 -4 0 0"
 													 VerticalAlignment="Center"
 													 HorizontalAlignment="Center">
 												<Path Fill="White"
+													  VerticalAlignment="Center"
+													  HorizontalAlignment="Center"
 													  Data="{StaticResource Fork}"/>
 											</Viewbox>
 										</Button>

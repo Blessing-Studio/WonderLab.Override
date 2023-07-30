@@ -34,14 +34,12 @@ namespace wonderlab.ViewModels.Pages {
                 Servers.AddRange(viewDatas);
 
                 foreach (var x in viewDatas.AsParallel()) {
-                    try
-                    {
+                    try {
                         await x.GetServerInfoAction();
                         $"来自 {x.Data.Author} 的服务器延迟为 {x.ServerInfo.Latency}ms".ShowLog();
                     }
                     //Fix #18
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) {
                         ex.ShowLog();
                     }
                 }

@@ -172,27 +172,32 @@ namespace wonderlab.Views.Windows {
         }
 
         public async void DropAction(object? sender, DragEventArgs e) {
-            "检测到拖入！".ShowLog();
-            var result = e.Data.GetFiles();
+            try {
+                "检测到拖入！".ShowLog();
+                var result = e.Data.GetFiles();
 
-            if (!result.IsNull() && !result.Any()) {
-                return;
+                if (!result.IsNull() && !result.Any()) {
+                    return;
+                }
+
+                if (result!.Count() > 1) {
+                    "一次只能拖入一个文件".ShowMessage("提示");
+                    return;
+                }
+
+                "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
+                var file = result!.FirstOrDefault()!.ToFile();
+                if (!(file.Name.EndsWith(".zip") || file.Name.EndsWith(".mrpack"))) {
+                    "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
+                    return;
+                }
+
+                await Task.Delay(1000);
+                await ModpacksUtils.ModpacksInstallAsync(file.FullName);
             }
-
-            if (result!.Count() > 1) {
-                "一次只能拖入一个文件".ShowMessage("提示");
-                return;
+            catch (Exception) {
+                "Fuck".ShowLog(LogLevel.Error);
             }
-
-            "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
-            var file = result!.FirstOrDefault()!.ToFile();
-            if (!(file.Name.EndsWith(".zip") || file.Name.EndsWith(".mrpack"))) {
-                "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
-                return;
-            }
-
-            await Task.Delay(1000);
-            await ModpacksUtils.ModpacksInstallAsync(file.FullName);
         }
 
         public void ShowInfoBar(string title, string message, HideOfRunAction action) {

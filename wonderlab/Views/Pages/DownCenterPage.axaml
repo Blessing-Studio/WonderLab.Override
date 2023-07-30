@@ -176,15 +176,21 @@
 										</Grid.ColumnDefinitions>
 										<Grid>
 											<!--{Binding IsLoading}-->
-											<ProgressBar Classes="Circle" HorizontalAlignment="Left"
-			                                             VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}"
-			                                             Height="25" Width="25" Margin="25 15 15 15">
-												<ProgressBar.RenderTransform>
-													<TransformGroup>
-														<SkewTransform AngleX="8"/>
-													</TransformGroup>
-												</ProgressBar.RenderTransform>
-											</ProgressBar>
+											<Border Margin="25 15 15 15"
+													HorizontalAlignment="Left" 
+													Height="35" Width="35"
+													VerticalAlignment="Center">
+												<ProgressBar Classes="circular"
+												 Height="35" Width="35"
+						                         HorizontalAlignment="Left"
+												 IsIndeterminate="{Binding IsLoading}">
+													<ProgressBar.RenderTransform>
+														<TransformGroup>
+															<SkewTransform AngleX="8"/>
+														</TransformGroup>
+													</ProgressBar.RenderTransform>
+												</ProgressBar>
+											</Border>
 											
 											<Border Height="35" Width="35"
 													IsVisible="{Binding IsLoading, Converter={StaticResource BoolReverseConverter}}"
@@ -285,10 +291,13 @@
 			</ListBox.Styles>
 		</ListBox>
  
-		<wcb:TitleBar Title="{DynamicResource DownloadCenter}" TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
-
-		<ProgressBar Classes="Circle" HorizontalAlignment="Center"
-					 VerticalAlignment="Center" IsIndeterminate="{Binding IsLoading}" Height="60" Width="60"/>
+		<wcb:TitleBar Title="{DynamicResource DownloadCenter}"
+					  TitleWidth="110" GoBackCommand="{Binding GoBackAction}"/>
+		<!--{Binding IsLoading}-->
+		<ProgressBar Classes="circular"
+					 Width="30"
+					 Height="30"
+					 IsIndeterminate="{Binding IsLoading}"/>
 
 		<!--{DynamicResource DialogContentBackground} {Binding SearcherHeight}-->
 		<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"

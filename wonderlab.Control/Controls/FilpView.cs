@@ -24,7 +24,7 @@ namespace wonderlab.control.Controls
 
         public static readonly StyledProperty<IImage> CurrentProperty =
             AvaloniaProperty.Register<FilpView, IImage>(nameof(Current));
-
+        
         public ObservableCollection<IImage> Source { get => GetValue(SourceProperty); set => SetValue(SourceProperty, value); }
 
         public IImage Current { get => GetValue(CurrentProperty); set => SetValue(CurrentProperty, value); }
