@@ -128,29 +128,47 @@ namespace wonderlab.ViewModels.Pages {
         };
 
         public async ValueTask GetModrinthResourceAsync() {
-            Resources.Clear();
+            try {
+                Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
-            foreach (var i in modpacks.Hits.AsParallel()) {
-                await Task.Run(async () => {
-                    var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
-                    Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
-                });
+                var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
+                foreach (var i in modpacks.Hits.AsParallel()) {
+                    await Task.Run(async () => {
+                        var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                        Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
+                    });
+                }
+
+                IsLoading = false;
             }
-
-            IsLoading = false;
+            catch (Exception ex) {
+                if (ex.Message.Contains("Timeout of 30 seconds elapsing")) {
+                    "WonderLab 在获取 Modrinth 资源时连接超时，请检查您的网络是否有问题！".ShowInfoDialog("拉取失败");
+                } else {
+                    $"WonderLab 在获取 Modrinth 资源时遭遇未知异常，信息如下：{ex}".ShowInfoDialog("程序遭遇异常");
+                }
+            }
         }
 
         public async ValueTask GetCurseforgeResourceAsync() {
-            Resources.Clear();
+            try {
+                Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await GlobalResources.CurseForgeToolkit.GetFeaturedsAsync());
-            foreach (var x in modpacks) {
-                Resources.Add(new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>());
-                await Task.Delay(10);
+                var modpacks = await Task.Run(async () => await GlobalResources.CurseForgeToolkit.GetFeaturedsAsync());
+                foreach (var x in modpacks) {
+                    Resources.Add(new WebModpackModel(x).CreateViewData<WebModpackModel, WebModpackViewData>());
+                    await Task.Delay(10);
+                }
+
+                IsLoading = false;
             }
-
-            IsLoading = false;
+            catch (Exception ex) {
+                if (ex.Message.Contains("Timeout of 30 seconds elapsing")) {
+                    "WonderLab 在获取 Curseforge 资源时连接超时，请检查您的网络是否有问题！".ShowInfoDialog("拉取失败");
+                } else {
+                    $"WonderLab 在获取 Curseforge 资源时遭遇未知异常，信息如下：{ex}".ShowInfoDialog("程序遭遇异常");
+                }
+            }
         }
 
         public async ValueTask SearchCurseforgeResourceAsync() {
