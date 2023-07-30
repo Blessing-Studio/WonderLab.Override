@@ -155,7 +155,7 @@ namespace wonderlab.Class.Utils {
                         DialogPage.ViewModel.IsFabricLoaded = false;
                     } else {
                         var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
-                            ModLoaderType = ModLoaderType.Quilt,
+                            ModLoaderType = ModLoaderType.Fabric,
                             GameCoreVersion = x.Intermediary.Version,
                             ModLoaderBuild = x,
                             Id = x.Loader.Version,

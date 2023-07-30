@@ -1,6 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:wcd="using:wonderlab.control.Controls.Dialog">
+		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
+		xmlns:wcc="using:wonderlab.control.Converters">
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
@@ -8,6 +9,12 @@
         </Border>
     </Design.PreviewWith>
 
+	<Styles.Resources>
+		<ResourceDictionary>
+			<wcc:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+		</ResourceDictionary>
+	</Styles.Resources>
+	
     <!-- Add Styles Here -->
 	<Style Selector="wcd|InstallDialog">
 		<Setter Property="ClipToBounds" Value="False"/>
@@ -124,7 +131,8 @@
   
 											<ListBox Margin="0 2 0 0" 
 													 Grid.Row="3"
-													 Height="203" ItemsSource="{TemplateBinding ModLoaders}"> 
+													 Height="203" 
+													 ItemsSource="{TemplateBinding ModLoaders}"> 
 												<ListBox.Styles>
 													<Style Selector="ListBoxItem">
 														<Setter Property="Height" Value="40"/>
@@ -145,7 +153,7 @@
 	                                                                               HorizontalAlignment="Center"
 	                                                                               Height="30"
 	                                                                               Width="30"
-	                                                                               Source="/Icons/Quilt.png"/>
+	                                                                               Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}"/>
 																			
 																			<Grid VerticalAlignment="Center"
 																				  RowDefinitions="Auto,Auto"

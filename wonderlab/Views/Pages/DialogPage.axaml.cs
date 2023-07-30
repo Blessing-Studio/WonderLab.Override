@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -25,39 +26,41 @@ namespace wonderlab.Views.Pages {
             MainDialog.ShowDialog();
         }
 
-        private async void OnSelectModLoaderChanged(object? sender, SelectModLoaderChangedArgs args) {
-            await Dispatcher.UIThread.InvokeAsync(() => {
+        private void OnSelectModLoaderChanged(object? sender, SelectModLoaderChangedArgs args) {
+            ObservableCollection<ModLoaderViewData> modLoaders = new();
+            InstallDialog.ModLoaders = modLoaders;
+            Dispatcher.UIThread.Post(() => {
                 switch (args.ModLoaderName) {
                     case "Forge":
-                        InstallDialog.ModLoaders = CacheResources.Forges.Select(x => {
+                        modLoaders.Load(CacheResources.Forges.Select(x => {
                             var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
                             return data;
-                        }).ToObservableCollection();
+                        }).ToObservableCollection());
                         break;
                     case "Fabric":
-                        InstallDialog.ModLoaders = CacheResources.Fabrics.Select(x => {
+                        modLoaders.Load(CacheResources.Fabrics.Select(x => {
                             var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
                             return data;
-                        }).ToObservableCollection();
+                        }).ToObservableCollection());
                         break;
                     case "Optifine":
-                        InstallDialog.ModLoaders = CacheResources.Optifines.Select(x => {
+                        modLoaders.Load(CacheResources.Optifines.Select(x => {
                             var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
                             return data;
-                        }).ToObservableCollection();
+                        }).ToObservableCollection());
                         break;
                     case "Quilt":
-                        InstallDialog.ModLoaders = CacheResources.Quilts.Select(x => {
+                        modLoaders.Load(CacheResources.Quilts.Select(x => {
                             var data = x.CreateViewData<ModLoaderModel, ModLoaderViewData>();
                             data.Type = $"标准版本 {data.Data.Time.ToString(@"yyyy\-MM\-dd hh\:mm")}";
                             return data;
-                        }).ToObservableCollection();
+                        }).ToObservableCollection());
                         break;
                 }
-            });
+            }, DispatcherPriority.Background);
         }
     }
 }
