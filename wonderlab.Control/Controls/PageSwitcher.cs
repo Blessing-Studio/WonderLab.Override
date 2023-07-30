@@ -135,13 +135,13 @@ namespace wonderlab.control.Controls {
             NextPageButton!.Click += GoNextPage;
             BackButton.IsEnabled = false;
             ListBox.Items.CollectionChanged += (_, _) => {
-                if (!Cache.ContainsKey(CurrentItemsIndex - 1)) {
-                    BackButton.IsEnabled = false;
-                }
+                //if (!Cache.ContainsKey(CurrentItemsIndex - 1)) {
+                //    BackButton.IsEnabled = false;
+                //}
 
-                if (!Cache.ContainsKey(CurrentItemsIndex + 1)) {
-                    NextPageButton.IsEnabled = false;
-                }
+                //if (!Cache.ContainsKey(CurrentItemsIndex + 1)) {
+                //    NextPageButton.IsEnabled = false;
+                //}
 
                 if (CurrentItemsIndex == 1 && Cache.Keys.Any() && !NextPageButton.IsEnabled) {
                     NextPageButton.IsEnabled = true;

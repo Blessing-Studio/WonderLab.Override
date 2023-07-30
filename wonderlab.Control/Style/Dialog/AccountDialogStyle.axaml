@@ -25,7 +25,7 @@
 	                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
 								Name="BackgroundBorder" 
 								Opacity="0.5"/>
-
+						
 						<!--DialogContent-->
 						<Border Background="{DynamicResource DialogContentBackground}"
 								BoxShadow="0 8 32 0 #66000000"

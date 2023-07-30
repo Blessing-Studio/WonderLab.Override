@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -132,6 +133,12 @@ namespace wonderlab.control.Controls.Dialog {
                 WritePanelButtons.IsVisible = false;
                 ValidationType = ValidationTypes.Microsoft;
             }
+
+            YggdrasilUrl.AddHandler(DragDrop.DropEvent, (o, args) => {
+                if (!string.IsNullOrEmpty(args.Data.GetText())) {
+                    SetValue(YggdrasilUriProperty!, args.Data.GetText());
+                }
+            });
 
             ShowDialog();
             return ValidationType;

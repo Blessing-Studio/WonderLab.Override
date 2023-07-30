@@ -191,7 +191,7 @@
 																	</Transitions>
 																</Border.Transitions>
 																<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
-																	<ProgressBar Width="20" Height="20" Classes="Circle" Foreground="Black" IsIndeterminate="True">
+																	<ProgressBar Width="20" Height="20" Classes="circular" Foreground="Black" IsIndeterminate="True">
 																		<ProgressBar.RenderTransform>
 																			<TransformGroup>
 																				<SkewTransform AngleX="8"/>

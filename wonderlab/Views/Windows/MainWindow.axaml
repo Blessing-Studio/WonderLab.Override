@@ -16,10 +16,6 @@
 		Background="{DynamicResource AccentBrushDark1}"		
 		Initialized="WindowsInitialized">
 	<Grid>
-		<Border Margin="-20" IsVisible="False">
-			
-		</Border>
-
 		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage">
 			<Image.Transitions>
 				<Transitions>
@@ -30,17 +26,18 @@
 			</Image.Transitions>
 		</Image>
 		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
-		<Grid Background="Transparent"
-			  DragDrop.AllowDrop="True"
-			  Name="Drop"/>
-
 		<Border Name="Back" Opacity="0" IsHitTestVisible="False" Background="#99FFFFFF">
 		</Border> 
+		
+		
 
 		<Border VerticalAlignment="Stretch"
 		HorizontalAlignment="Stretch"
 		BorderBrush="{DynamicResource AccentBrush}" 
 		BorderThickness="1"/>
+
+		<Grid Background="Transparent"
+	          Name="Drop"/>
 
 		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>

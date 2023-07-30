@@ -75,6 +75,7 @@
 												 Margin="0 0 0 10"
 												 Name="YggdrasilUrl"
 												 Watermark="皮肤站认证地址"
+												 DragDrop.AllowDrop="True"
 												 Text="{TemplateBinding YggdrasilUri}"/>
 										
 										<TextBox Grid.Row="1"
@@ -92,13 +93,16 @@
 
 									<Grid RowDefinitions="Auto,Auto"
 										  IsVisible="{TemplateBinding IsCodeLoading}">
-										<ProgressBar Classes="Circle"
-													 Margin="0 10"
-													 IsIndeterminate="True"/>
+										<TextBlock Text="Now Loading..."
+												   FontSize="16"
+				                                   HorizontalAlignment="Center"/>
 										
-										<TextBlock Grid.Row="1"
-											       Text="Now Loading..."
-												   HorizontalAlignment="Center"/>
+										<ProgressBar Classes="circular"
+													 Grid.Row="1"
+													 Margin="0 10"
+													 HorizontalAlignment="Center"
+													 VerticalAlignment="Center"
+													 IsIndeterminate="True"/>									
 									</Grid>
 
 									<Grid RowDefinitions="Auto,Auto,Auto"
