@@ -41,7 +41,6 @@ namespace wonderlab.control.Controls.Dialog {
             AvaloniaProperty.Register<AccountTypeDialog, ICommand>(nameof(MicrosoftCommand));
 
         public void HideDialog() {
-            OfflineButton.IsEnabled = YggdrasilButton.IsEnabled = MicrosoftButton.IsEnabled = false;
             BackgroundBorder.IsHitTestVisible = false;
             Content.IsHitTestVisible = false;
 
@@ -69,10 +68,6 @@ namespace wonderlab.control.Controls.Dialog {
             OfflineButton = e.NameScope.Find<Button>("OfflineButton")!;
             YggdrasilButton = e.NameScope.Find<Button>("YggdrasilButton")!;
             MicrosoftButton = e.NameScope.Find<Button>("MicrosoftButton")!;
-            OfflineButton.IsEnabled = YggdrasilButton.IsEnabled = MicrosoftButton.IsEnabled = false;
-            if (Content is not null) {
-                Content.PointerPressed += OnPointerPressed;
-            }
 
             OfflineButton.Click += OnClick;
             MicrosoftButton.Click += OnClick;
@@ -85,8 +80,5 @@ namespace wonderlab.control.Controls.Dialog {
             HideDialog();
         }
 
-        private void OnPointerPressed(object? sender, PointerPressedEventArgs e) {
-            OfflineButton.IsEnabled = YggdrasilButton.IsEnabled = MicrosoftButton.IsEnabled = true;
-        }
     }
 }

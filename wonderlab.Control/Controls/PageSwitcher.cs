@@ -111,11 +111,10 @@ namespace wonderlab.control.Controls {
                 NextPageButton.IsEnabled = true;
             }
 
-            if (Cache != null && Cache.Count > 0 && Cache.ContainsKey(CurrentItemsIndex)) {
+            if (Cache != null && Cache.Any() && Cache.ContainsKey(CurrentItemsIndex)) {
                 var cache = new ObservableCollection<object>();
                 ListBox.ItemsSource = cache;
                 cache.Load(Cache[CurrentItemsIndex]);
-
                 PageNumberDisplay.Text = GetPageNumberText();
             }
 
@@ -134,8 +133,20 @@ namespace wonderlab.control.Controls {
 
             NextPageButton = e.NameScope.Find<Button>("NextPageButton")!;
             NextPageButton!.Click += GoNextPage;
-
             BackButton.IsEnabled = false;
+            ListBox.Items.CollectionChanged += (_, _) => {
+                if (!Cache.ContainsKey(CurrentItemsIndex - 1)) {
+                    BackButton.IsEnabled = false;
+                }
+
+                if (!Cache.ContainsKey(CurrentItemsIndex + 1)) {
+                    NextPageButton.IsEnabled = false;
+                }
+
+                if (CurrentItemsIndex == 1 && Cache.Keys.Any() && !NextPageButton.IsEnabled) {
+                    NextPageButton.IsEnabled = true;
+                }
+            };
         }
 
         protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
