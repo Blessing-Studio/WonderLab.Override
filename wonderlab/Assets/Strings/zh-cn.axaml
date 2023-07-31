@@ -46,6 +46,9 @@
 	<sr:String x:Key="LaunchCheckError1">无法继续启动步骤，原因：未选择游戏核心</sr:String>
 	<sr:String x:Key="LaunchCheckError2">无法继续启动步骤，原因：未选择 Java 运行时，且未赋予自动选择的权限</sr:String>
 	<sr:String x:Key="LaunchCheckError3">无法继续启动步骤，原因：没有 Java 运行时</sr:String>
+	<!--Fix #24-->
+	<sr:String x:Key="GameDirectoryError1">未选择任何游戏目录，无法获取游戏核心，您可以点击此条以转到启动设置！</sr:String>
+	<sr:String x:Key="GameDirectoryError2">未添加任何游戏目录，无法获取游戏核心，您可以点击此条以转到启动设置！</sr:String>
 
 	<sr:String x:Key="Ohno">哦豁</sr:String>
 	<sr:String x:Key="MinecraftCrash">您的 Minecraft 崩溃了</sr:String>
