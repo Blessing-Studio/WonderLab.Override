@@ -89,6 +89,20 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             if (string.IsNullOrEmpty(GlobalResources.LaunchInfoData.GameDirectoryPath)) {
                 HasGameCore = 1;
+                if(GlobalResources.LaunchInfoData.GameDirectorys.Any())
+                {
+                    "GameDirectoryError1".GetText().ShowMessage("提示", async () =>
+                    {
+                        OpenLaunchConfigAction();
+                    });
+                }
+                else
+                {
+                    "GameDirectoryError2".GetText().ShowMessage("提示", async () =>
+                    {
+                        OpenLaunchConfigAction();
+                    });
+                }
                 return;
             }
 
@@ -373,7 +387,18 @@ namespace wonderlab.ViewModels.Pages {
             App.CurrentWindow.CloseTopBar();
             new ConsoleCenterPage().Navigation();
         }
+        public void OpenLaunchConfigAction()
+        {
+            var back = App.CurrentWindow.Back;
+            OpacityChangeAnimation opacity = new(false)
+            {
+                RunValue = 0,
+            };
 
+            opacity.RunAnimation(back);
+            App.CurrentWindow.CloseTopBar();
+            new LaunchConfigPage().Navigation();
+        }
         public JavaInfo GetCurrentJava() {
             var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit &&
             x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
