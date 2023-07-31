@@ -16,6 +16,7 @@
 		<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Dialog/ValidationDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Dialog/InstallDialogStyle.axaml"/>
+		<StyleInclude Source="/Style/TipBarViewStyle.axaml"/>
     </Application.Styles>
 
 	<Application.Resources>

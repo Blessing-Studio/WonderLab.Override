@@ -8,6 +8,7 @@
 		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		xmlns:wp="using:wonderlab.Views.Pages"	    
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
+		xmlns:wcc="using:wonderlab.control.Controls"
         Title="WonderLab"
 		CornerRadius="4"
 		DragDrop.AllowDrop="True"
@@ -240,7 +241,9 @@
 		
 		<Image Name="test"/>
 		
-		<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+		<!--<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>-->
+
+		<wcc:TipBarView Margin="0 60 0 0" Name="tipBarView"/>
 	</Grid>
 </Window>
   

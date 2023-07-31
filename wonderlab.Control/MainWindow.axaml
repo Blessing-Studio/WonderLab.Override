@@ -8,19 +8,8 @@
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control" Background="White">
-	<Grid>
-		<wcd:InstallDialog Name="id"/>
-		<Button HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Content="Show" Name="Show"/>
-		<Button HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				Content="Hide" Name="Hide"/>
-
-		<Button HorizontalAlignment="Center"
-		VerticalAlignment="Top"
-		Content="Action" Name="Action"/>
-		
-		<ProgressBar IsIndeterminate="True" Classes="circular"/>
+	<Grid>		
+		<Button Name="Test" Content="Add"/>
+		<wcc:TipBarView Name="tbv"/>
 	</Grid>
 </Window>

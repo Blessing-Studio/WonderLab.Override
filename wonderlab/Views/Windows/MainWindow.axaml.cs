@@ -205,38 +205,13 @@ namespace wonderlab.Views.Windows {
         }
 
         public void ShowInfoBar(string title, string message, HideOfRunAction action) {
-            MessageTipsBar bar = new MessageTipsBar(action) {
-                Title = title,
-                Message = message,
-            };
-
-            grid.Children.Add(bar);
-            bar.Opened += async (_, _) => {
-                await Task.Delay(3000);
-                bar.HideDialog();
-            };
-
-            bar.ShowDialog();
+            tipBarView.Add(title,message);
         }
 
         public void ShowInfoBar(string title, string message) {
             Dispatcher.UIThread.Post(() => {
-                MessageTipsBar bar = new MessageTipsBar() {
-                    Title = title,
-                    Message = message,
-                };
-                bar.HideOfRun = new(() => {
-                    grid.Children.Remove(bar);
-                });
-
-                grid.Children.Add(bar);
-                bar.Opened += async (_, _) => {
-                    await Task.Delay(3000);
-                    bar.HideDialog();
-                };
-
-                bar.ShowDialog();
-            });
+                tipBarView.Add(title, message);
+            }, DispatcherPriority.Background);
         }
 
         public async void Navigation(UserControl control) {

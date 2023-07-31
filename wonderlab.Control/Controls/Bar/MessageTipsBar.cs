@@ -1,8 +1,11 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +13,11 @@ using wonderlab.control.Animation;
 using wonderlab.control.Controls.Dialog;
 using wonderlab.control.Interface;
 
-namespace wonderlab.control.Controls.Bar
-{
+namespace wonderlab.control.Controls.Bar {
     /// <summary>
     /// 消息提示框
     /// </summary>
-    public class MessageTipsBar : Button,IDialog
-    {
+    public class MessageTipsBar : ListBoxItem {
         public string? Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
         public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty, value); }
         public string? Time { get => GetValue(TimeProperty); set => SetValue(TimeProperty, value); }
@@ -44,10 +45,9 @@ namespace wonderlab.control.Controls.Bar
             AvaloniaProperty.Register<MessageTipsBar, string>(nameof(Message), "Some Message in the MessageTipsBar");
 
         public static readonly StyledProperty<string> TimeProperty =
-            AvaloniaProperty.Register<MessageTipsBar, string>(nameof(Time), DateTime.Now.ToString(@"HH\:mm"));
+            AvaloniaProperty.Register<MessageTipsBar, string>(nameof(Time), "11:45");
 
-        public void ShowDialog()
-        {
+        public void ShowDialog() {
             IsOpen = true;
             OffsetChangeAnimation animation = new();
             animation.FromVerticalOffset = -120;
@@ -56,8 +56,7 @@ namespace wonderlab.control.Controls.Bar
             animation.AnimationCompleted += (_, _) => Opened.Invoke(this, new());
         }
 
-        public void HideDialog()
-        {
+        public void HideDialog() {
             if (IsOpen) {
                 IsOpen = false;
 
@@ -67,8 +66,7 @@ namespace wonderlab.control.Controls.Bar
             }
         }
 
-        private void OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
+        private void OnClick(object? sender, RoutedEventArgs e) {
             if (IsOpen) {
                 IsOpen = false;
 
@@ -80,13 +78,27 @@ namespace wonderlab.control.Controls.Bar
             }
         }
 
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+            base.OnApplyTemplate(e);
+            Margin = new(0, 0, -430, 0);
+        }
+
+        protected override async void OnLoaded(RoutedEventArgs e) {
+            base.OnLoaded(e);
+            Margin = new(0, 0, 0, 0);
+            await Task.Delay(4000);
+            Opacity = 0;
+            await Task.Delay(150);
+            App.Cache.Remove(this);
+        }
+
         public MessageTipsBar() {
-            Click += OnClick;
+            PointerPressed += OnClick;            
         }
 
         public MessageTipsBar(HideOfRunAction action) {
             HideOfRun = action;
-            Click += OnClick;
+            PointerPressed += OnClick;
         }
     }
 }

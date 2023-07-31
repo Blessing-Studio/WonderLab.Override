@@ -6,21 +6,12 @@ namespace wonderlab.control {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            Hide.Click += Hide_Click;
-            Show.Click += Show_Click;
-            Action.Click += Action_Click;
+            Test.Click += Test_Click;
         }
-
-        private void Action_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            Trace.WriteLine(id.SelectedLoader);
-        }
-
-        private void Show_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            id.ShowDialog();
-        }
-
-        private void Hide_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            id.HideDialog();
+        int count;
+        private async void Test_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            count++;
+            tbv.Add("测试标题", $"第 {count} 次被触发");
         }
     }
 }
