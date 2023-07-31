@@ -110,46 +110,60 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask CurseforgeModpacksInstallAsync(string path) {
             ModsPacksInstaller installer = new(path, GlobalResources.LaunchInfoData.GameDirectoryPath);
             var info = await installer.GetModsPacksInfoAsync();
-            $"开始安装整合包 {info.Name}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() => {
-                App.CurrentWindow.NotificationCenter.Open();
-            });
+            //Fix #30
+            if (info != null)
+            {
+                $"开始安装整合包 {info.Name}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(() =>
+                {
+                    App.CurrentWindow.NotificationCenter.Open();
+                });
 
-            NotificationViewData data = new() {
-                Title = $"整合包 {info.Name} 的安装任务",
-            };
-            data.TimerStart();
-            NotificationCenterPage.ViewModel.Notifications.Add(data);
+                NotificationViewData data = new()
+                {
+                    Title = $"整合包 {info.Name} 的安装任务",
+                };
+                data.TimerStart();
+                NotificationCenterPage.ViewModel.Notifications.Add(data);
 
-            //游戏核心安装
-            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, info.Name) == null) {
-                await GameCoreUtils.CompLexGameCoreInstallAsync(info.Minecraft.Version, info.Name, async (x, e) => {
-                    x.ShowLog();
+                //游戏核心安装
+                if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, info.Name) == null)
+                {
+                    await GameCoreUtils.CompLexGameCoreInstallAsync(info.Minecraft.Version, info.Name, async (x, e) =>
+                    {
+                        x.ShowLog();
 
-                    data.ProgressOfBar = e;
-                    data.Progress = $"{Math.Round(e, 2)}%";
-                    await Task.Delay(1000);
-                }, info.Minecraft.ModLoaders);
-            }
+                        data.ProgressOfBar = e;
+                        data.Progress = $"{Math.Round(e, 2)}%";
+                        await Task.Delay(1000);
+                    }, info.Minecraft.ModLoaders);
+                }
 
-            data.ProgressOfBar = 0;
-            data.Progress = $"0%";
-            await Task.Delay(1000);
-
-            //资源安装
-            installer.ProgressChanged += async (_, x) => {
-                var progress = x.Progress * 100;
-                data.ProgressOfBar = progress;
-                data.Progress = $"{Math.Round(progress, 2)}%";
-
-                x.ProgressDescription!.ShowLog();
+                data.ProgressOfBar = 0;
+                data.Progress = $"0%";
                 await Task.Delay(1000);
-            };
+
+                //资源安装
+                installer.ProgressChanged += async (_, x) =>
+                {
+                    var progress = x.Progress * 100;
+                    data.ProgressOfBar = progress;
+                    data.Progress = $"{Math.Round(progress, 2)}%";
+
+                    x.ProgressDescription!.ShowLog();
+                    await Task.Delay(1000);
+                };
 
 
-            var result = await installer.InstallAsync();
-            if (result.Success) {
-                data.TimerStop();
-                $"整合包 {info.Name} 安装成功！".ShowMessage("成功");
+                var result = await installer.InstallAsync();
+                if (result.Success)
+                {
+                    data.TimerStop();
+                    $"整合包 {info.Name} 安装成功！".ShowMessage("成功");
+                }
+            }
+            else
+            {
+                "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
             }
         }
 
