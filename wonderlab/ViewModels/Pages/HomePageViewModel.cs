@@ -345,7 +345,7 @@ namespace wonderlab.ViewModels.Pages {
             }
             var type = ModpacksUtils.ModpacksTypeAnalysis(result.FullName);
             if (type is ModpacksType.Unknown) {
-                "".ShowMessage();
+                "未知整合包类型".ShowMessage();
                 return;
             }
 

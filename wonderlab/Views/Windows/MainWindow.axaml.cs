@@ -194,7 +194,7 @@ namespace wonderlab.Views.Windows {
                 var type = ModpacksUtils.ModpacksTypeAnalysis(file.FullName);
                 if (type is ModpacksType.Unknown)
                 {
-                    "".ShowMessage();
+                    "未知整合包类型".ShowMessage();
                     return;
                 }
                 await ModpacksUtils.ModpacksInstallAsync(file.FullName, type);
