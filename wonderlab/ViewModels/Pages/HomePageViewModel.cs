@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.control;
@@ -342,8 +343,13 @@ namespace wonderlab.ViewModels.Pages {
             if (result!.IsNull()) {
                 return;
             }
+            var type = ModpacksUtils.ModpacksTypeAnalysis(result.FullName);
+            if (type is ModpacksType.Unknown) {
+                "".ShowMessage();
+                return;
+            }
 
-            await ModpacksUtils.ModpacksInstallAsync(result.FullName);
+            await ModpacksUtils.ModpacksInstallAsync(result.FullName, type);
         }
 
         public void OpenActionCenterAction() {

@@ -9,6 +9,7 @@ namespace wonderlab.Class.Enum
     public enum ModpacksType {
         Mcbbs,
         Curseforge,
-        Modrinth
+        Modrinth,
+        Unknown
     }
 }

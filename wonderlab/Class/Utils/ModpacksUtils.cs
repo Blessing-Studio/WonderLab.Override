@@ -34,14 +34,16 @@ namespace wonderlab.Class.Utils {
                 if (zipItem.FullName.Contains("modrinth.index.json")) {
                     return ModpacksType.Modrinth;
                 }
+                
+                if (zipItem.FullName.Contains("manifest.json")) {
+                    return ModpacksType.Curseforge;
+                }
             }
 
-            return ModpacksType.Curseforge;
+            return ModpacksType.Unknown;
         }
 
-        public static async ValueTask ModpacksInstallAsync(string path) {
-            var type = ModpacksTypeAnalysis(path);
-
+        public static async ValueTask ModpacksInstallAsync(string path, ModpacksType type) {
             if (type == ModpacksType.Mcbbs) {
                 await McbbsModpacksInstallAsync(path);
             } else if (type == ModpacksType.Curseforge) {

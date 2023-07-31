@@ -191,9 +191,13 @@ namespace wonderlab.Views.Windows {
                     "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
                     return;
                 }
-
-                await Task.Delay(1000);
-                await ModpacksUtils.ModpacksInstallAsync(file.FullName);
+                var type = ModpacksUtils.ModpacksTypeAnalysis(file.FullName);
+                if (type is ModpacksType.Unknown)
+                {
+                    "".ShowMessage();
+                    return;
+                }
+                await ModpacksUtils.ModpacksInstallAsync(file.FullName, type);
             }
             catch (Exception) {
                 "Fuck".ShowLog(LogLevel.Error);
