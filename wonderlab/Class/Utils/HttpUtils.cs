@@ -60,12 +60,19 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) {
-            return await Task.Run(async () => {
-                var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
+            try {
+                return await Task.Run(async () => {
+                    var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
 
-                using var stream = new MemoryStream(bytes);
-                return new Bitmap(stream);
-            });
+                    using var stream = new MemoryStream(bytes);
+                    return new Bitmap(stream);
+                });
+            }
+            catch (Exception) {
+                "拉取图片时遭遇了异常".ShowMessage("错误");
+            }
+
+            return null!;
         }
 
         public static async ValueTask<bool> ConnectionTestAsync(string url) {
