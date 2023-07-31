@@ -58,10 +58,6 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName is nameof(GameDirectorys)) {
-                GlobalResources.LaunchInfoData.GameDirectorys = GameDirectorys.ToList();
-            }
-
             if (e.PropertyName is nameof(CurrentJava)) {
                 GlobalResources.LaunchInfoData.JavaRuntimePath = CurrentJava;
             }
@@ -225,6 +221,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void RemoveDirectoryAction() {
+            GlobalResources.LaunchInfoData.GameDirectorys.Remove(CurrentGameDirectory);
             GameDirectorys.Remove(CurrentGameDirectory);
             CurrentGameDirectory = GameDirectorys.Any() ? GameDirectorys.First() : string.Empty;
         }

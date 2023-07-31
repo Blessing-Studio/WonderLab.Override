@@ -86,6 +86,11 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void GetGameCoresAction() {
             GameCores.Clear();
+            if (string.IsNullOrEmpty(GlobalResources.LaunchInfoData.GameDirectoryPath)) {
+                HasGameCore = 1;
+                return;
+            }
+
             var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
             HasGameCore = cores.Any() ? 0 : 1;
             GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
