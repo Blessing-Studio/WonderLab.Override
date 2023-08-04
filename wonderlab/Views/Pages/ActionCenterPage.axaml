@@ -157,7 +157,7 @@
 
 						<Button Grid.Column="2" HorizontalAlignment="Stretch" Classes="shadowbutton">
 							<Grid>
-								<TextBlock Text="爆炸电台" FontWeight="SemiBold"/>
+								<TextBlock Text="爆炸电台（WIP）" FontWeight="SemiBold"/>
 
 								<TextBlock FontSize="12" VerticalAlignment="Center"
 										   TextAlignment="Right" Text="正在播放：无"/>

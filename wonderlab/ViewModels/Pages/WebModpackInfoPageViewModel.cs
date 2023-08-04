@@ -17,11 +17,6 @@ namespace wonderlab.ViewModels.Pages {
     public class WebModpackInfoPageViewModel : ViewModelBase {
         public WebModpackInfoPageViewModel() {
             PropertyChanged += OnPropertyChanged;
-            Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\yuanshen.jpeg"));
-            Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\RIJTTWLM_85WTQGJS9SQ(4V.jpg"));
-            Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\R-C.jpg"));
-            Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\vsbj.jpg"));
-            Screenshots.Add(new Bitmap("C:\\Users\\w\\Desktop\\总整包\\素材库\\图片素材\\桌面背景\\VL9KJ`D88L@Y7)@~[G{WJ(T.jpg"));
         }
 
         public WebModpackInfoPageViewModel(WebModpackViewData data) {

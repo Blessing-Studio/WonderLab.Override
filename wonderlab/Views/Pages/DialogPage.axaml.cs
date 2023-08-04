@@ -21,9 +21,11 @@ namespace wonderlab.Views.Pages {
         }
 
         public void ShowInfoDialog(string title, string message) {
-            MainDialog.Title = title;
-            MainDialog.Message = message;
-            MainDialog.ShowDialog();
+            Dispatcher.UIThread.Post(() => {
+                MainDialog.Title = title;
+                MainDialog.Message = message;
+                MainDialog.ShowDialog();
+            });
         }
 
         private void OnSelectModLoaderChanged(object? sender, SelectModLoaderChangedArgs args) {

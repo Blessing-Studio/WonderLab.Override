@@ -53,7 +53,7 @@ namespace wonderlab.control.Controls.Bar {
 
         private async void RunAnimation() {
             await Task.Delay(100);
-            top.Margin = new(0);
+            top.Margin = new(15, 0, 15, 0);
         }
     }
 }
