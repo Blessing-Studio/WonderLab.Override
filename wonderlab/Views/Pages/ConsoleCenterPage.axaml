@@ -22,7 +22,7 @@
 						<Setter Property="ContextMenu">
 							<ContextMenu PlacementMode="Right">
 								<MenuItem Command="{Binding	MinecraftStopAction}"
-										  Header="强制关闭游戏"/>
+										  Header="{DynamicResource ForceStop}"/>
 							</ContextMenu>
 						</Setter>
 						<Setter Property="Template">
@@ -91,7 +91,7 @@
 									  Foreground="Black"/>
 						</Viewbox>
 
-						<TextBlock Text="点击左侧进程卡片以查看日志"/>
+						<TextBlock Text="{DynamicResource ViewLogs}"/>
 					</StackPanel>
 
 					<Border Background="{DynamicResource DialogContentBorderBrush}"
@@ -109,41 +109,41 @@
 							<Border Background="Gray"
 									BoxShadow="0 1 4 0 Gray"
 									CornerRadius="4">
-								<TextBlock Text="调试" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource Debug}" Margin="6 4"/>
 							</Border>
 							<Border Background="White"
 									BoxShadow="0 1 4 0 #64757575"					
 									CornerRadius="4">
-								<TextBlock Text="信息" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource Info}" Margin="6 4"/>
 							</Border>
 							<Border Background="Yellow" 
 									BoxShadow="0 1 4 0 Yellow"									
 									CornerRadius="4">
-								<TextBlock Text="警告" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource Warn}" Margin="6 4"/>
 							</Border>
 							<Border Background="Orange" 
 									BoxShadow="0 1 4 0 Orange"
 									CornerRadius="4">
-								<TextBlock Text="错误" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource Err}" Margin="6 4"/>
 							</Border>
 							<Border Background="Red" 
 									BoxShadow="0 1 4 0 Red"
 									CornerRadius="4">
-								<TextBlock Text="致命" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource Fatal}" Margin="6 4"/>
 							</Border>
 						</StackPanel>
 						
 						<Button Margin="10" 
 								Grid.Column="2"								
 								Background="Red"
-								Content="关闭 Minecraft"
+								Content="{DynamicResource StopMC}"
 								Command="{Binding StopMinecraftAction}"/>
 					</Grid>
 				</Grid>
 			</Border>
 		</Grid>
 
-		<wcb:TitleBar Title="进程中心"
+		<wcb:TitleBar Title="{DynamicResource ProcCenter}"
 			  TitleWidth="110"
 		      GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>

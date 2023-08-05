@@ -95,7 +95,7 @@
 									<RowDefinition Height="Auto"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Text="资源下载" FontSize="20" FontWeight="SemiBold" />
+								<TextBlock Text="{DynamicResource ResDownload}" FontSize="20" FontWeight="SemiBold" />
 
 								<Border Background="{DynamicResource AccentBrush}" Grid.Row="2"
 										CornerRadius="4" HorizontalAlignment="Left">
@@ -106,7 +106,7 @@
 											<ColumnDefinition Width="1*"/>
 										</Grid.ColumnDefinitions>
 
-										<TextBlock Text="最新版本" Foreground="White" FontSize="12"/>
+										<TextBlock Text="{DynamicResource LatestVersion}" Foreground="White" FontSize="12"/>
 										<TextBlock Text="{Binding LatestGameCore}" Grid.Column="2" Foreground="White"
 												   FontSize="12" TextTrimming="CharacterEllipsis" Margin="0 0 5 0"/>
 									</Grid>
@@ -141,7 +141,7 @@
 
 					<Button Width="370" HorizontalAlignment="Left"
 							Command="{Binding OpenServerFindPageAction}"
-							Grid.Row="2" Content="服务器匣子" FontWeight="SemiBold"
+							Grid.Row="2" Content="{DynamicResource ServerBox}" FontWeight="SemiBold"
 							Classes="shadowbutton"/>
 					
 					<Grid HorizontalAlignment="Left" Width="370" Grid.Row="4">
@@ -152,15 +152,15 @@
 						</Grid.ColumnDefinitions>
 						<Button Command="{Binding OpenSelectConfigPageAction}"
 								HorizontalAlignment="Stretch" Classes="shadowbutton">
-							<TextBlock Text="设置" FontWeight="SemiBold" />
+							<TextBlock Text="{DynamicResource Settings}" FontWeight="SemiBold" />
 						</Button>
 
 						<Button Grid.Column="2" HorizontalAlignment="Stretch" Classes="shadowbutton">
 							<Grid>
-								<TextBlock Text="爆炸电台（WIP）" FontWeight="SemiBold"/>
+								<TextBlock Text="{DynamicResource WIP}" FontWeight="SemiBold"/>
 
 								<TextBlock FontSize="12" VerticalAlignment="Center"
-										   TextAlignment="Right" Text="正在播放：无"/>
+										   TextAlignment="Right" Text="{DynamicResource Playing}"/>
 							</Grid>
 						</Button>
 					</Grid>

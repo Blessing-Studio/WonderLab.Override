@@ -1,6 +1,9 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:sr="clr-namespace:System;assembly=System.Runtime">
+  <!--
+  <sr:String x:Key=""></sr:String>
+  -->
 	<sr:String x:Key="Tip">提示</sr:String>
 	<sr:String x:Key="Info">信息</sr:String>
 	<sr:String x:Key="Error">错误</sr:String>
@@ -26,6 +29,11 @@
 	<sr:String x:Key="ChooseFabric">选择 Fabric</sr:String>
 	<sr:String x:Key="ChooseOptfine">选择 Optfine</sr:String>
 	<sr:String x:Key="ChooseQuilt">选择 Quilt</sr:String>
+  <!--AccountPage-->
+  <sr:String x:Key="ViewSkin">点击右侧卡片以浏览皮肤</sr:String>
+  <sr:String x:Key="CreateAccount">创建或添加新的游戏账户</sr:String>
+  <sr:String x:Key="DeleteAccount">删除此账户</sr:String>
+  <!--AboutPage-->
 	<sr:String x:Key="Copyright">© Blessing Studio(2021-2023) 保留所有权利</sr:String>
 	<sr:String x:Key="UsingLib">项目所使用的开源组件库</sr:String>
 	<sr:String x:Key="Thanks">鸣谢</sr:String>
@@ -40,12 +48,32 @@
 	<sr:String x:Key="UIReference1">UI 风格参考自碧蓝档案</sr:String>
 	<sr:String x:Key="UIReference2">部分 UI 参考自   </sr:String>
 	<sr:String x:Key="IconReference">图标 引用自 GBCLV3，Iconfont</sr:String>
+  <!--ActionCenterPage-->
+  <sr:String x:Key="ResDownload">资源下载</sr:String>
+  <sr:String x:Key="LatestVersion">最新版本</sr:String>
+  <sr:String x:Key="ServerBox">服务器匣子</sr:String>
+  <sr:String x:Key="Settings">设置</sr:String>
+  <sr:String x:Key="WIP">爆炸电台（WIP）</sr:String>
+  <sr:String x:Key="Playing">正在播放：无</sr:String>
+  <!--ConsoleCenterPage-->
+  <sr:String x:Key="ForceStop">强制关闭游戏</sr:String>
+  <sr:String x:Key="ViewLogs">点击左侧进程卡片以查看日志</sr:String>
+  <sr:String x:Key="Debug">调试</sr:String>
+  <sr:String x:Key="Info">信息</sr:String>
+  <sr:String x:Key="Warn">警告</sr:String>
+  <sr:String x:Key="Err">错误</sr:String>
+  <sr:String x:Key="Fatal">致命</sr:String>
+  <sr:String x:Key="StopMC">关闭 Minecraft</sr:String>
+  <sr:String x:Key="ProcCenter">进程中心</sr:String>
+  <!--DialogPage-->
+  <sr:String x:Key="ContinueUse">继续使用</sr:String>
+  <sr:String x:Key="Exit">退出 WonderLab</sr:String>
 
-
-
+  <!--LaunchErrors-->
 	<sr:String x:Key="LaunchCheckError1">无法继续启动步骤，原因：未选择游戏核心</sr:String>
 	<sr:String x:Key="LaunchCheckError2">无法继续启动步骤，原因：未选择 Java 运行时，且未赋予自动选择的权限</sr:String>
 	<sr:String x:Key="LaunchCheckError3">无法继续启动步骤，原因：没有 Java 运行时</sr:String>
+  
 	<!--Fix #24-->
 	<sr:String x:Key="GameDirectoryError1">未选择任何游戏目录，无法获取游戏核心，您可以点击此条以转到启动设置！</sr:String>
 	<sr:String x:Key="GameDirectoryError2">未添加任何游戏目录，无法获取游戏核心，您可以点击此条以转到启动设置！</sr:String>

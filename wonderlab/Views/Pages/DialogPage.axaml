@@ -8,8 +8,8 @@
 		     xmlns:wcdx="using:wonderlab.Views.Dialogs"			 
              x:Class="wonderlab.Views.Pages.DialogPage">
 	<Grid>
-		<wcd:MessageDialog CustomButtonText="继续使用"
-				   CloseButtonText="退出 WonderLab"
+		<wcd:MessageDialog CustomButtonText="{DynamicResource ContinueUse}"
+				   CloseButtonText="{DynamicResource Exit}"
 				   x:Name="MainDialog"/>
 
 		<wcdx:GameInstallDialog Name="Install"/>

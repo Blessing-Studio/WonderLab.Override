@@ -115,7 +115,7 @@
 							  Foreground="Black"/>
 				</Viewbox>
 
-				<TextBlock Text="点击右侧卡片以浏览皮肤"/>
+				<TextBlock Text="{DynamicResource ViewSkin}"/>
 			</StackPanel>
 
 			<Grid Margin="0 60 0 0" Grid.Column="2">
@@ -130,7 +130,7 @@
 						CornerRadius="3"
 						Classes="shadowbutton"
 		                VerticalAlignment="Top" 
-						Content="创建或添加新的游戏账户"
+						Content="{DynamicResource CreateAccount}"
 						HorizontalAlignment="Stretch"
 						VerticalContentAlignment="Center"
 						HorizontalContentAlignment="Center"
@@ -153,7 +153,7 @@
 								<Setter Property="ClipToBounds" Value="False"/>
 								<Setter Property="ContextMenu">
 									<ContextMenu>
-										<MenuItem Header="删除此账户" Click="OnAccountDeleteClick"/>
+										<MenuItem Header="{DynamicResource DeleteAccount}" Click="OnAccountDeleteClick"/>
 									</ContextMenu>
 								</Setter>
 								<Setter Property="Template">
