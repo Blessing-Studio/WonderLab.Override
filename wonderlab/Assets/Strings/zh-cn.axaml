@@ -58,11 +58,11 @@
   <!--ConsoleCenterPage-->
   <sr:String x:Key="ForceStop">强制关闭游戏</sr:String>
   <sr:String x:Key="ViewLogs">点击左侧进程卡片以查看日志</sr:String>
-  <sr:String x:Key="Debug">调试</sr:String>
-  <sr:String x:Key="Info">信息</sr:String>
-  <sr:String x:Key="Warn">警告</sr:String>
-  <sr:String x:Key="Err">错误</sr:String>
-  <sr:String x:Key="Fatal">致命</sr:String>
+  <sr:String x:Key="DebugBut">调试</sr:String>
+  <sr:String x:Key="InfoBut">信息</sr:String>
+  <sr:String x:Key="WarnBut">警告</sr:String>
+  <sr:String x:Key="ErrBut">错误</sr:String>
+  <sr:String x:Key="FatalBut">致命</sr:String>
   <sr:String x:Key="StopMC">关闭 Minecraft</sr:String>
   <sr:String x:Key="ProcCenter">进程中心</sr:String>
   <!--DialogPage-->

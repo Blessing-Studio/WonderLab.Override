@@ -109,27 +109,27 @@
 							<Border Background="Gray"
 									BoxShadow="0 1 4 0 Gray"
 									CornerRadius="4">
-								<TextBlock Text="{DynamicResource Debug}" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource DebugBut}" Margin="6 4"/>
 							</Border>
 							<Border Background="White"
 									BoxShadow="0 1 4 0 #64757575"					
 									CornerRadius="4">
-								<TextBlock Text="{DynamicResource Info}" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource InfoBut}" Margin="6 4"/>
 							</Border>
 							<Border Background="Yellow" 
 									BoxShadow="0 1 4 0 Yellow"									
 									CornerRadius="4">
-								<TextBlock Text="{DynamicResource Warn}" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource WarnBut}" Margin="6 4"/>
 							</Border>
 							<Border Background="Orange" 
 									BoxShadow="0 1 4 0 Orange"
 									CornerRadius="4">
-								<TextBlock Text="{DynamicResource Err}" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource ErrBut}" Margin="6 4"/>
 							</Border>
 							<Border Background="Red" 
 									BoxShadow="0 1 4 0 Red"
 									CornerRadius="4">
-								<TextBlock Text="{DynamicResource Fatal}" Margin="6 4"/>
+								<TextBlock Text="{DynamicResource FatalBut}" Margin="6 4"/>
 							</Border>
 						</StackPanel>
 						

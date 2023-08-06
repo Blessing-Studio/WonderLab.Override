@@ -73,6 +73,8 @@
 		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
+		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest"/>
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,11 +82,11 @@
 		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
 	
-	<ItemGroup>
-    <ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
-    <ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
-    <ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
-  </ItemGroup>
+  	<ItemGroup>
+    	<ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
+    	<ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
+    	<ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
+  	</ItemGroup>
 
 	<PropertyGroup>
 		<UseAppHost>true</UseAppHost>
