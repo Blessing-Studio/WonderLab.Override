@@ -43,6 +43,30 @@ jobs:
       with:
         name: Windows
         path: wonderlab/bin/Release/net7.0/win10-${{ matrix.arch }}/*.zip
+  build_Windows_Installer:
+    strategy:
+      matrix:
+        arch: ["x64", "x86", "arm64"]
+    runs-on: windows-latest
+    needs: [test, test_build, build_Windows]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install InnoSetup
+      uses: ConorMacBride/install-package@v1
+      with:
+        choco: innosetup
+    - name: Install pupnet
+      run: dotnet tool install -g KuiperZone.PupNet
+    - name: Build
+      run: pupnet -r win-${{ matrix.arch }} -k setup -y
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: WindowsInstaller
+        path: Deploy/OUT/WonderLab.${{ matrix.arch }}.exe
   build_Linux:
     strategy:
       matrix:
@@ -61,6 +85,30 @@ jobs:
       with:
         name: Linux
         path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.zip
+  build_Linux_Appimage:
+    strategy:
+      matrix:
+        arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
+    runs-on: ubuntu-latest
+    needs: [test, test_build, build_Linux]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install pupnet
+      run: dotnet tool install -g KuiperZone.PupNet
+    - name: Install Linrary
+      run: |
+          sudo add-apt-repository universe
+          sudo apt install libfuse2
+    - name: Build
+      run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: AppImage
+        path: Deploy/OUT/*.AppImage
   build_MacOS:
     strategy:
       matrix:
@@ -84,7 +132,7 @@ jobs:
       matrix:
         arch: ["x64", "arm", "arm64"]
     runs-on: ubuntu-latest
-    needs: [test, test_build]
+    needs: [test, test_build, build_Linux]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -102,7 +150,7 @@ jobs:
       matrix:
         arch: ["x64", "arm", "arm64"]
     runs-on: ubuntu-latest
-    needs: [test, test_build]
+    needs: [test, test_build, build_Linux]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -120,7 +168,7 @@ jobs:
       matrix:
         arch: ["x64", "arm64"]
     runs-on: ubuntu-latest
-    needs: [test, test_build]
+    needs: [test, test_build, build_MacOS]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -145,17 +193,25 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_REF: $ github.ref
-    needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux, build_MacOS_App]
+    needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux, build_MacOS_App, build_Windows_Installer, build_Linux_Appimage]
     steps:
     - uses: nelonoel/branch-name@v1
     - name: Download Windows Build
       uses: actions/download-artifact@v3
       with:
        name: Windows
+    - name: Download Windows Installer Build
+      uses: actions/download-artifact@v3
+      with:
+       name: WindowsInstaller
     - name: Download Linux Build
       uses: actions/download-artifact@v3
       with:
        name: Linux
+    - name: Download AppImage Build
+      uses: actions/download-artifact@v3
+      with:
+       name: AppImage
     - name: Download Deb Build
       uses: actions/download-artifact@v3
       with:
@@ -181,6 +237,7 @@ jobs:
             *.zip
             *.deb
             *.rpm
+            *.appimage
   Delete_Artifacts:
     permissions: write-all
     runs-on: ubuntu-latest
@@ -206,3 +263,11 @@ jobs:
       uses: geekyeggo/delete-artifact@v2
       with:
           name: MacOS
+    - name: Delete WindowsInstaller Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: WindowsInstaller
+    - name: Delete AppImage Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: AppImage
