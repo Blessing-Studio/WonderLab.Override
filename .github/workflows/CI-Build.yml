@@ -237,7 +237,7 @@ jobs:
             *.zip
             *.deb
             *.rpm
-            *.appimage
+            *.AppImage
   Delete_Artifacts:
     permissions: write-all
     runs-on: ubuntu-latest
