@@ -11,7 +11,7 @@ namespace wonderlab.Views.Pages
 
         public SelectConfigPage() {       
             InitializeComponent();
-            DataContext = ViewModel = new();
+            DataContext = ViewModel = new(Left, Right);
 
             var togglebuttonGroup = ButtonGroup.Children.Where(x => x.Name != "button");
             foreach (var item in togglebuttonGroup) {

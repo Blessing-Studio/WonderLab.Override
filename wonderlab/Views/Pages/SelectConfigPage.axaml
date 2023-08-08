@@ -7,9 +7,14 @@
 			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.SelectConfigPage">
 	<Grid>
-		<ContentControl Content="{Binding SelectConfigPage}"
-						Margin="0 50"/>
-		<!--Background="{DynamicResource DialogContentBackground}"-->
+		<ContentControl Content="{Binding LeftSelectConfigPage}"
+						Margin="0 50"
+						Name="Left"/>
+
+		<ContentControl Content="{Binding RightSelectConfigPage}"
+				        Margin="0 50"
+						Name="Right"/>
+
 		<Border HorizontalAlignment="Right" Height="40" Width="260"
 				VerticalAlignment="Bottom" Margin="0 0 -5 10"
 				CornerRadius="4"
@@ -25,13 +30,21 @@
 						Spacing="10" Margin="15 0 0 0"
 						HorizontalAlignment="Left"
 						Name="ButtonGroup">
-				<ToggleButton Content="启动" Background="Transparent" IsChecked="True"
+				<ToggleButton Content="启动" 
+							  IsChecked="True"
+							  Background="Transparent"
 							  Command="{Binding	GoLaunchConfigPageAction}"/>
-				<ToggleButton Content="网络" Background="Transparent" Command="{Binding	GoWebConfigPageAction}"/>
-				<ToggleButton Content="个性化" Background="Transparent"
+				
+				<ToggleButton Content="网络"
+							  Background="Transparent"
+							  Command="{Binding	GoWebConfigPageAction}"/>
+				
+				<ToggleButton Content="个性化"
+							  Background="Transparent"
 							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
 
-				<ToggleButton Content="{DynamicResource About}" Background="Transparent"
+				<ToggleButton Background="Transparent"
+							  Content="{DynamicResource About}"							 
 			                  Command="{Binding	GoAboutPageAction}"/>
 			</StackPanel> 
 		</Border>
