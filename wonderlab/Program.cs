@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.ReactiveUI;
 
 namespace wonderlab;
@@ -21,9 +22,12 @@ class Program {
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
+            .With(new FontManagerOptions() {
+                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+            })
             .LogToTrace()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .UsePlatformDetect();
 
     private static void SilenceConsole() {
         new Thread(() => {
