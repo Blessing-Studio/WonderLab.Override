@@ -154,6 +154,11 @@ namespace wonderlab.ViewModels.Pages {
 
                         $"账户 {account.Name} 已成功添加至启动器".ShowMessage();
                     } else {
+                        if (!RegexUtils.EmailCheck.IsMatch(email)) {
+                            "不正确的邮箱地址，请校正后再次尝试！".ShowMessage("提示");
+                            return;
+                        }
+
                         YggdrasilAuthenticator authenticator = new(uri, email, password);
                         var result = await authenticator.AuthAsync();
                         $"已成功将 {email} 名下所有的账户全部添加至启动器".ShowMessage();

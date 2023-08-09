@@ -136,7 +136,8 @@ namespace wonderlab.control.Controls.Dialog {
 
             YggdrasilUrl.AddHandler(DragDrop.DropEvent, (o, args) => {
                 if (!string.IsNullOrEmpty(args.Data.GetText())) {
-                    SetValue(YggdrasilUriProperty!, args.Data.GetText());
+                    SetValue(YggdrasilUriProperty!, args.Data.GetText().Replace("authlib-injector:yggdrasil-server:", 
+                        string.Empty).Replace("%2F", "/").Replace("%3A", ":")); ;
                 }
             });
 
