@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.McProtocol", "won
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wonderlab.Control", "wonderlab.Control\wonderlab.Control.csproj", "{743FBD14-547A-404C-9C86-EE9683987DA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorMC.Gui", "C:\Users\w\Desktop\ColorMC-master\src\ColorMC.Gui\ColorMC.Gui.csproj", "{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,26 +105,6 @@ Global
 		{743FBD14-547A-404C-9C86-EE9683987DA0}.Release|x64.Build.0 = Release|Any CPU
 		{743FBD14-547A-404C-9C86-EE9683987DA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{743FBD14-547A-404C-9C86-EE9683987DA0}.Release|x86.Build.0 = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|ARM32.ActiveCfg = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|ARM32.Build.0 = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|x64.Build.0 = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Debug|x86.Build.0 = Debug|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|ARM32.ActiveCfg = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|ARM32.Build.0 = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|ARM64.Build.0 = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|x64.ActiveCfg = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|x64.Build.0 = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|x86.ActiveCfg = Release|Any CPU
-		{E397AAB5-54F3-47FC-A3A2-1F7050D9A097}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
