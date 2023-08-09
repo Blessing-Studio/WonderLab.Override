@@ -34,6 +34,9 @@ namespace wonderlab.ViewModels.Pages {
         public object LeftSelectConfigPage { get; set; } = new LaunchConfigPage();
 
         [Reactive]
+        public bool CanClick { get; set; } = true;
+
+        [Reactive]
         public object RightSelectConfigPage { get; set; }
 
         public int CurrentPageIndex { get; set; } = 0;
@@ -64,8 +67,10 @@ namespace wonderlab.ViewModels.Pages {
             new ActionCenterPage().Navigation();
         }
 
-        public void RunVaryAnimation(object to) {
+        public async void RunVaryAnimation(object to) {
+            CanClick = false;
             if (oldIndex == CurrentPageIndex) {
+                CanClick = true;
                 return;
             }
 
@@ -77,9 +82,11 @@ namespace wonderlab.ViewModels.Pages {
                 LeftSelectConfigPage = to;
                 _ = varyAnimation.Start(RightContent, LeftContent, oldIndex < CurrentPageIndex, default);
             }
-
+            
             Isswitch = !Isswitch;
             oldIndex = CurrentPageIndex;
+            await Task.Delay(400);
+            CanClick = true;
         }
     }
 }

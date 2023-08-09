@@ -33,14 +33,17 @@
 				<ToggleButton Content="启动" 
 							  IsChecked="True"
 							  Background="Transparent"
+							  IsEnabled="{Binding CanClick}"
 							  Command="{Binding	GoLaunchConfigPageAction}"/>
 				
 				<ToggleButton Content="网络"
 							  Background="Transparent"
+							  IsEnabled="{Binding CanClick}"
 							  Command="{Binding	GoWebConfigPageAction}"/>
 				
 				<ToggleButton Content="个性化"
 							  Background="Transparent"
+							  IsEnabled="{Binding CanClick}"
 							  Command="{Binding	GoPersonalizeConfigPageAction}"/>
 
 				<ToggleButton Background="Transparent"
