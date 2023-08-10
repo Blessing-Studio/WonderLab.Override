@@ -56,9 +56,7 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>Assets\wonderlab.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
-		<Version>1.2.6-preview</Version>
 		<AssemblyVersion>1.2.6</AssemblyVersion>
-		<FileVersion>1.2.6-preview</FileVersion>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -90,5 +88,9 @@
 
 	<PropertyGroup>
 		<UseAppHost>true</UseAppHost>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version>1.2.6-preview</Version>
 	</PropertyGroup>
 </Project>
