@@ -82,7 +82,7 @@
 										<StackPanel VerticalAlignment="Center"
 													HorizontalAlignment="Left"
 											Orientation="Horizontal">
-											<TextBlock Text="Java " FontWeight="SemiBold"/>
+											<TextBlock Text="Java " FontWeight="Bold"/>
 											<TextBlock Text="{Binding JavaSlugVersion}" FontWeight="SemiBold"/>
 											<TextBlock Text=" ("/>
 											<TextBlock Text="{Binding Is64Bit,Converter={StaticResource	JavaBitConcerter}}" FontWeight="SemiBold"/>
@@ -175,7 +175,7 @@
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Left"
 								 Margin="15 5"
-		                         Text="{Binding	MaxMemory}"
+		                         Text="{Binding	MaxMemory,Converter={StaticResource ClassToInt32Converter}}"
 								 IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
 					</Grid>
 				</Border>

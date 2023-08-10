@@ -26,16 +26,11 @@
 				</Transitions>
 			</Image.Transitions>
 		</Image>
-		<!--Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\93402609_p0.jpg"-->
-		<Border Name="Back" Opacity="0" IsHitTestVisible="False" Background="#99FFFFFF">
-		</Border> 
-		
-		
 
-		<Border VerticalAlignment="Stretch"
-		HorizontalAlignment="Stretch"
-		BorderBrush="{DynamicResource AccentBrush}" 
-		BorderThickness="1"/>
+		<Border Name="Back"
+				Opacity="0" 
+				IsHitTestVisible="False"
+				Background="#99FFFFFF"/>
 
 		<Grid Background="Transparent"
 	          Name="Drop"/>
@@ -47,10 +42,10 @@
 				</Transitions>
 			</ContentControl.Transitions>
 		</ContentControl>
-
-		<!--Height="400"-->
 		
-		<Grid Margin="16" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+		<Grid Margin="16"
+			  HorizontalAlignment="Stretch" 
+			  VerticalAlignment="Top">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="10"/>
@@ -160,7 +155,7 @@
 													<ColumnDefinition Width="Auto"/>
 												</Grid.ColumnDefinitions>
 
-												<ProgressBar Classes="Circle"
+												<ProgressBar Classes="circular"
 															 HorizontalAlignment="Left"
 															 Height="20" Width="20"
 															 IsIndeterminate="True"
@@ -171,6 +166,7 @@
 												<TextBlock Grid.Column="1"		
 														   Foreground="Black"
 														   VerticalAlignment="Center"
+														   HorizontalAlignment="Left"
 														   Text="{TemplateBinding Content}"/>
 											</Grid>
 										</Border>
@@ -238,11 +234,7 @@
 		<wp:NotificationCenterPage Name="NotificationCenter"/>
 		
 		<wp:DialogPage Name="DialogHost"/>
-		
-		<Image Name="test"/>
-		
-		<!--<Grid x:Name="grid" VerticalAlignment="Top" HorizontalAlignment="Center"/>-->
-
+				
 		<wcc:TipBarView Margin="0 60 0 0" Name="tipBarView"/>
 	</Grid>
 </Window>

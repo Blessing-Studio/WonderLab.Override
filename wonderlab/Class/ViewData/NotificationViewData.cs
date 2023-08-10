@@ -34,7 +34,7 @@ namespace wonderlab.Class.ViewData
         [Reactive]
         public DateTime Time { set; get; }
 
-        public Timer Timer { set; get; } = new (1000);
+        public Timer Timer { set; get; } = new(1000);
 
         public void TimerStart() {
             Timer.Elapsed += TimerElapsed;
@@ -47,7 +47,7 @@ namespace wonderlab.Class.ViewData
             NotificationCenterPage.ViewModel.Notifications.Remove(this);
         }
 
-        void TimerElapsed(object? sender, ElapsedEventArgs e) {       
+        private void TimerElapsed(object? sender, ElapsedEventArgs e) {       
             RunTime = (DateTime.Now - Time).ToString(@"hh\:mm\:ss");
         }
     }

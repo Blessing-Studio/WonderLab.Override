@@ -34,8 +34,8 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceInclude Source="avares://wonderlab.Control/IconPack.axaml"/>
-				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 				<ResourceInclude Source="avares://wonderlab/Assets/Strings/zh-cn.axaml"/>
+				<ResourceInclude Source="avares://wonderlab.Control/Theme/LightResource.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 
 			<c:JavaBitConcerter x:Key="JavaBitConcerter"/>
@@ -44,6 +44,7 @@
 			<c:BoolReverseConverter x:Key="BoolReverseConverter"/>
 			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
+			<c:ClassToInt32Converter x:Key="ClassToInt32Converter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

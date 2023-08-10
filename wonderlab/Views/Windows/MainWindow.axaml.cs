@@ -161,7 +161,7 @@ namespace wonderlab.Views.Windows {
                 $"{ex.Message}".ShowMessage();
             }
         }
-
+        
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e) {
             try {
                 BeginMoveDrag(e);
@@ -188,7 +188,7 @@ namespace wonderlab.Views.Windows {
                 "开始分析文件类型，此过程会持续两到三秒，请耐心等待".ShowMessage("提示");
                 var file = result!.FirstOrDefault()!.ToFile();
                 if (!(file.Name.EndsWith(".zip") || file.Name.EndsWith(".mrpack"))) {
-                    "WonderLab 未能确定此文件格式应当执行的相关操作".ShowMessage("错误");
+                    $"WonderLab 未能确定文件 {file.Name} 的格式应当执行的相关操作".ShowMessage("错误");
                     return;
                 }
                 var type = ModpacksUtils.ModpacksTypeAnalysis(file.FullName);
