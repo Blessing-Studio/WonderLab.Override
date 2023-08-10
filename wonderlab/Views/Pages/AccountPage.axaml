@@ -109,7 +109,7 @@
 			<StackPanel Spacing="2"
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center"
-						IsVisible="{Binding	IsSelectAccount,Converter={StaticResource BoolReverseConverter}}">
+						IsVisible="{Binding	IsSelectAccount, Converter={StaticResource BoolReverseConverter}}">
 				<Viewbox Width="32">
 					<PathIcon Data="{StaticResource	Eye}"
 							  Foreground="Black"/>

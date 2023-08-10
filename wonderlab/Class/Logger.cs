@@ -46,8 +46,8 @@ namespace wonderlab.Class {
         public static Logger LoadLogger() {
             Logger logger = new Logger();
             App.CurrentWindow.Closed += async (o, ctx) => {
-                Trace.WriteLine("closing");
                 await logger.EncapsulateLogsToFileAsync();
+                Environment.Exit(0);
             };
 
             return logger.Info("日志记录器已加载");
@@ -59,7 +59,7 @@ namespace wonderlab.Class {
             }
 
             var today = DateTime.Now;
-            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶 - {today.Day}{today.Hour}{today.Minute}{today.Second}.log"), Logs);
+            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶{today:yyyy-MM-dd-HH-mm-ss}.log"), Logs);
         }
     }
 }

@@ -249,11 +249,11 @@
 
 						<StackPanel VerticalAlignment="Top" Margin="15 5" Grid.Row="2" Orientation="Horizontal" Spacing="10">
 							<TextBox MinWidth="100"
-		                             Text="{Binding WindowWidth}"/>
+		                             Text="{Binding WindowWidth,Converter={StaticResource ClassToInt32Converter}}"/>
 							<TextBlock Text="X" HorizontalAlignment="Center"
 									   VerticalAlignment="Center"/>
 							<TextBox MinWidth="100"
-		                             Text="{Binding	WindowHeight}"/>
+		                             Text="{Binding	WindowHeight,Converter={StaticResource ClassToInt32Converter}}"/>
 						</StackPanel>
 					</Grid>
 				</Border>

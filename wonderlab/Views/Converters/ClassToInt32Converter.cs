@@ -23,7 +23,7 @@ namespace wonderlab.Views.Converters {
 			}
 
             "转换无效，不是数字！".ShowMessage();
-            return GlobalResources.DefaultLaunchInfoData.MaxMemory.ToString();
+            return 0;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
@@ -36,9 +36,9 @@ namespace wonderlab.Views.Converters {
             catch (Exception ex) {
                 $"转换失败，原因：{ex}".ShowLog(LogLevel.Error);
             }
-
+            
             "转换无效，不是数字！".ShowMessage();
-            return GlobalResources.DefaultLaunchInfoData.MaxMemory.ToInt32();
+            return 0;
         }
     }
 }
