@@ -8,6 +8,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   target-version: "net7.0"
   compile-flags: "--self-contained=true -c Release -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:PublishSingleFile=true"
+  version_regex: "[\\s\\S]<Version>(.*?)<\\/Version>[\\s\\S]"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -67,6 +68,7 @@ jobs:
       uses: KageKirin/get-csproj-version@v0
       with:
         file: wonderlab/wonderlab.csproj
+        regex: ${{  env.version_regex  }}
     - name: Build
       run: pupnet -r win-${{ matrix.arch }} -k setup -y -o wonderlab.${{ steps.package_version.version }}.win-${{ matrix.arch }}.installer.exe
     - name: Upload build artifacts
@@ -114,6 +116,7 @@ jobs:
       uses: KageKirin/get-csproj-version@v0
       with:
         file: wonderlab/wonderlab.csproj
+        regex: ${{  env.version_regex  }}
     - name: Build
       run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o wonderlab.${{ steps.package_version.version }}.linux-${{ matrix.arch }}.AppImage
     - name: Upload build artifacts
@@ -191,6 +194,7 @@ jobs:
       uses: KageKirin/get-csproj-version@v0
       with:
         file: wonderlab/wonderlab.csproj
+        regex: ${{  env.version_regex  }}
     - name: Build
       run: dotnet publish wonderlab/wonderlab.csproj --arch ${{ matrix.arch }} --os osx  -t:BundleApp ${{ env.compile-flags }}
     - name: Create Windows ZIP
