@@ -110,7 +110,7 @@
 						VerticalAlignment="Center"
 						HorizontalAlignment="Center"
 						IsVisible="{Binding	IsSelectAccount,Converter={StaticResource BoolReverseConverter}}">
-				<Viewbox Width="30">
+				<Viewbox Width="32">
 					<PathIcon Data="{StaticResource	Eye}"
 							  Foreground="Black"/>
 				</Viewbox>
