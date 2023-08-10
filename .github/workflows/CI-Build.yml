@@ -67,30 +67,30 @@ jobs:
       with:
         name: WindowsInstaller
         path: Deploy/OUT/WonderLab.${{ matrix.arch }}.exe
-  build_Linux:
-    strategy:
-      matrix:
-        arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
-    runs-on: ubuntu-latest
-    needs: [test, test_build]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Build
-      run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: Linux
-        path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.zip
+  #build_Linux:
+  #  strategy:
+  #    matrix:
+  #      arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
+  #  runs-on: ubuntu-latest
+  #  needs: [test, test_build]
+  #  steps:
+  #  - name: Checkout
+  #    uses: actions/checkout@v3
+  #    with:
+  #      fetch-depth: 0
+  #  - name: Build
+  #    run: dotnet build wonderlab/wonderlab.csproj --configuration Release -t:CreateZip --arch ${{ matrix.arch }} --os linux -p:PublishSingleFile=true --self-contained true
+  #  - name: Upload build artifacts
+  #    uses: actions/upload-artifact@v3
+  #    with:
+  #      name: Linux
+  #      path: wonderlab/bin/Release/net7.0/linux-${{ matrix.arch }}/*.zip
   build_Linux_Appimage:
     strategy:
       matrix:
         arch: ["x64", "arm", "arm64"] #"bionic-arm64", "musl-x64" is not available
     runs-on: ubuntu-latest
-    needs: [test, test_build, build_Linux]
+    needs: [test, test_build]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -132,7 +132,7 @@ jobs:
       matrix:
         arch: ["x64", "arm", "arm64"]
     runs-on: ubuntu-latest
-    needs: [test, test_build, build_Linux]
+    needs: [test, test_build]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -150,7 +150,7 @@ jobs:
       matrix:
         arch: ["x64", "arm", "arm64"]
     runs-on: ubuntu-latest
-    needs: [test, test_build, build_Linux]
+    needs: [test, test_build]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -204,10 +204,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
        name: WindowsInstaller
-    - name: Download Linux Build
-      uses: actions/download-artifact@v3
-      with:
-       name: Linux
+    #- name: Download Linux Build
+    #  uses: actions/download-artifact@v3
+    #  with:
+    #   name: Linux
     - name: Download AppImage Build
       uses: actions/download-artifact@v3
       with:
@@ -247,10 +247,10 @@ jobs:
       uses: geekyeggo/delete-artifact@v2
       with:
           name: Windows
-    - name: Delete Linux Artifact
-      uses: geekyeggo/delete-artifact@v2
-      with:
-          name: Linux
+    #- name: Delete Linux Artifact
+    #  uses: geekyeggo/delete-artifact@v2
+    #  with:
+    #      name: Linux
     - name: Delete Deb Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
