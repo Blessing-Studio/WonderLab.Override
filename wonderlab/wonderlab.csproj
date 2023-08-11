@@ -1,29 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <OutputType>WinExe</OutputType>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Version>1.2.6-preview</Version>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<OutputType>WinExe</OutputType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <TrimmerRootDescriptor Include="Roots.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="Roots.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.1" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.1" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.1" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.1" />
-    <PackageReference Include="Lib.Harmony" Version="2.3.0-prerelease.2" />
-    <PackageReference Include="ReactiveUI" Version="19.4.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
-    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-preview.6.23329.7" />
-	  <PackageReference Include="Dotnet.Bundle" Version="*" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.0.1" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.1" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.1" />
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.1" />
+		<PackageReference Include="Lib.Harmony" Version="2.3.0-prerelease.2" />
+		<PackageReference Include="ReactiveUI" Version="19.4.1" />
+		<PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-preview.6.23329.7" />
+		<PackageReference Include="Dotnet.Bundle" Version="*" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\y.jpg" />
@@ -58,7 +61,7 @@
 		<StartupObject>wonderlab.Program</StartupObject>
 		<AssemblyVersion>1.2.6</AssemblyVersion>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\wonderlab.ico" />
 		<Content Include="Assets\wonderlab.ico" />
@@ -66,7 +69,7 @@
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</Content>
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
@@ -79,18 +82,15 @@
 		<EmbeddedResource Include="Assets\steve.png" />
 		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
-	
-  	<ItemGroup>
-    	<ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
-    	<ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
-    	<ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
-  	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\wonderlab.Control\wonderlab.Control.csproj" />
+		<ProjectReference Include="..\wonderlab.Core\wonderlab.Core.csproj" />
+		<ProjectReference Include="..\wonderlab.McProtocol\wonderlab.McProtocol.csproj" />
+	</ItemGroup>
 
 	<PropertyGroup>
 		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<Version>1.2.6-preview</Version>
-	</PropertyGroup>
 </Project>
