@@ -87,6 +87,7 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 #### [mail_set](https://blogs.mailset.top)
 
 一个热爱Linux的Arch使用者（虽然打游戏还是会用Windows）
+
 [Github](https://github.com/mailset)
 [Bilibili](https://space.bilibili.com/435654748)
 [Blog](https://blogs.mailset.top)
