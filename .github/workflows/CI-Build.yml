@@ -64,7 +64,7 @@ jobs:
       run: dotnet tool install -g KuiperZone.PupNet
     - name: Get version
       id: package_version
-      uses: Blessing-Studio/Get-Csproj-Version
+      uses: Blessing-Studio/Get-Csproj-Version@1.0.0
       with:
         file: wonderlab/wonderlab.csproj
     - name: Build
@@ -111,7 +111,7 @@ jobs:
           sudo apt install libfuse2
     - name: Get version
       id: package_version
-      uses: Blessing-Studio/Get-Csproj-Version
+      uses: Blessing-Studio/Get-Csproj-Version@1.0.0
       with:
         file: wonderlab/wonderlab.csproj
     - name: Build
@@ -188,7 +188,7 @@ jobs:
         fetch-depth: 0
     - name: Get version
       id: package_version
-      uses: Blessing-Studio/Get-Csproj-Version
+      uses: Blessing-Studio/Get-Csproj-Version@1.0.0
       with:
         file: wonderlab/wonderlab.csproj
     - name: Build
