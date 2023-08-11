@@ -8,8 +8,6 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   target-version: "net7.0"
   compile-flags: "--self-contained=true -c Release -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:PublishSingleFile=true"
-  #version_regex: "[\\s\\S]<Version>(.*?)<\\/Version>[\\s\\S]"
-  version_regex: ".*?"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -66,13 +64,11 @@ jobs:
       run: dotnet tool install -g KuiperZone.PupNet
     - name: Get version
       id: package_version
-      uses: KageKirin/get-csproj-version@v0
+      uses: Blessing-Studio/get-csproj-version@main
       with:
         file: wonderlab/wonderlab.csproj
-        regex: ${{  env.version_regex  }}
-        xpath: "//PropertyGroup/Version"
     - name: Build
-      run: pupnet -r win-${{ matrix.arch }} -k setup -y -o wonderlab.${{ steps.package_version.version }}.win-${{ matrix.arch }}.installer.exe
+      run: pupnet -r win-${{ matrix.arch }} -k setup -y -o wonderlab.${{ steps.package_version.outputs.version }}.win-${{ matrix.arch }}.installer.exe
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -115,13 +111,11 @@ jobs:
           sudo apt install libfuse2
     - name: Get version
       id: package_version
-      uses: KageKirin/get-csproj-version@v0
+      uses: Blessing-Studio/get-csproj-version@main
       with:
         file: wonderlab/wonderlab.csproj
-        regex: ${{  env.version_regex  }}
-        xpath: "//PropertyGroup/Version"
     - name: Build
-      run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o wonderlab.${{ steps.package_version.version }}.linux-${{ matrix.arch }}.AppImage
+      run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o wonderlab.${{ steps.package_version.outputs.version }}.linux-${{ matrix.arch }}.AppImage
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -194,11 +188,9 @@ jobs:
         fetch-depth: 0
     - name: Get version
       id: package_version
-      uses: KageKirin/get-csproj-version@v0
+      uses: Blessing-Studio/get-csproj-version@main
       with:
         file: wonderlab/wonderlab.csproj
-        regex: ${{  env.version_regex  }}
-        xpath: "//PropertyGroup/Version"
     - name: Build
       run: dotnet publish wonderlab/wonderlab.csproj --arch ${{ matrix.arch }} --os osx  -t:BundleApp ${{ env.compile-flags }}
     - name: Create Windows ZIP
@@ -206,7 +198,7 @@ jobs:
       with:
          directory: 'wonderlab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/'
          type: 'zip'
-         filename: 'wonderlab.${{ steps.package_version.version }}.osx.app-${{ matrix.arch }}.zip'
+         filename: 'wonderlab.${{ steps.package_version.outputs.version }}.osx.app-${{ matrix.arch }}.zip'
          path: 'WonderLab.app'
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
