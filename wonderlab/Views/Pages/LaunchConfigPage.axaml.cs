@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using wonderlab.ViewModels.Pages;
+using wonderlab.Class.Utils;
 
 namespace wonderlab.Views.Pages
 {
