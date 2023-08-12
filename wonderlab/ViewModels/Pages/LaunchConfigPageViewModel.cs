@@ -108,6 +108,9 @@ namespace wonderlab.ViewModels.Pages {
         public int MaxMemory { get; set; }
 
         [Reactive]
+        public double TotalMemory { get; set; } = SystemUtils.GetMemoryInfo().Total;
+
+        [Reactive]
         public int WindowWidth { get; set; } = 854;
 
         [Reactive]

@@ -169,14 +169,22 @@
 								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
-						<TextBox Watermark="最大内存"
-								 MinWidth="230"
-								 Grid.Row="2"
-								 VerticalAlignment="Top"
-								 HorizontalAlignment="Left"
-								 Margin="15 5"
-		                         Text="{Binding	MaxMemory,Converter={StaticResource ClassToInt32Converter}}"
-								 IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
+						<Grid Grid.Row="2" Margin="15 -5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="10"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Slider Value="{Binding MaxMemory}" 
+									Maximum="{Binding TotalMemory}" 
+									Minimum="1024" 
+									Grid.Row="2" 
+									IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
+
+							<TextBlock Text="{Binding MaxMemory}" 
+									   Grid.Column="2" 
+									   VerticalAlignment="Center"/>
+						</Grid>
 					</Grid>
 				</Border>
 
