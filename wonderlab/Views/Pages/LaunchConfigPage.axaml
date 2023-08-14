@@ -177,7 +177,7 @@
 							</Grid.ColumnDefinitions>
 							<Slider Value="{Binding MaxMemory}" 
 									Maximum="{Binding TotalMemory}" 
-									Minimum="1024" 
+									Minimum="1"
 									Grid.Row="2" 
 									IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
 

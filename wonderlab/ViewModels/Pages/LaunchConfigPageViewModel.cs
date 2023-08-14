@@ -24,7 +24,6 @@ using wonderlab.Views.Windows;
 namespace wonderlab.ViewModels.Pages {
     public class LaunchConfigPageViewModel : ViewModelBase {
         public LaunchConfigPageViewModel() {
-            PropertyChanged += OnPropertyChanged;
 
             try {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
@@ -45,16 +44,22 @@ namespace wonderlab.ViewModels.Pages {
                     GameDirectorys = GlobalResources.LaunchInfoData.GameDirectorys.ToObservableCollection();
                 }
 
+                ThreadPool.QueueUserWorkItem(x => {
+                    TotalMemory = SystemUtils.GetMemoryInfo().Total.ToInt32();
+                    MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
+                    PropertyChanged += OnPropertyChanged;
+                });
+
                 WindowHeight = GlobalResources.LaunchInfoData.WindowHeight;
                 WindowWidth = GlobalResources.LaunchInfoData.WindowWidth;
                 IsAutoSelectJava = GlobalResources.LaunchInfoData.IsAutoSelectJava;
                 IsAutoGetMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory;
-                MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
                 JvmArgument = GlobalResources.LaunchInfoData.JvmArgument;
             }
             catch (Exception ex) {
                 $"{ex.Message}".ShowMessage();
             }
+
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -105,10 +110,10 @@ namespace wonderlab.ViewModels.Pages {
         public bool IsLoadJavaNow { get; set; } = false;
 
         [Reactive]
-        public int MaxMemory { get; set; }
+        public int MaxMemory { get; set; } = 6;
 
         [Reactive]
-        public double TotalMemory { get; set; } = SystemUtils.GetMemoryInfo().Total;
+        public int TotalMemory { get; set; } = 0;
 
         [Reactive]
         public int WindowWidth { get; set; } = 854;
