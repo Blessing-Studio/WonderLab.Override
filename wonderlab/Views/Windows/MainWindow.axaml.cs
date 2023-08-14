@@ -27,7 +27,7 @@ namespace wonderlab.Views.Windows {
 
         public bool IsOpen, CanParallax;
 
-        public static MainWindowViewModel ViewModel { get; private set; }
+        public static MainWindowViewModel ViewModel { get; set; }
 
         public MainWindow() {
             Initialized += DataInitialized;
@@ -36,7 +36,6 @@ namespace wonderlab.Views.Windows {
             this.AddHandler(DragDrop.DropEvent, DropAction);
             try {
                 ThemeUtils.Init();
-                DataContext = ViewModel = new();
                 WindowWidth = Width;
                 WindowHeight = Height;
 

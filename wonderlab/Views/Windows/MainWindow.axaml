@@ -13,6 +13,7 @@
 		CornerRadius="4"
 		DragDrop.AllowDrop="True"
 		ExtendClientAreaToDecorationsHint="True"
+		WindowStartupLocation="CenterScreen"
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="{DynamicResource AccentBrushDark1}"		
 		Initialized="WindowsInitialized">

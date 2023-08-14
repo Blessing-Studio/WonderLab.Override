@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using System.Threading.Tasks;
 using wonderlab.Class;
 using wonderlab.control;
 using wonderlab.Views.Windows;
@@ -16,16 +17,28 @@ public partial class App : Application {
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted() {
+    public override async void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            desktop.MainWindow = new MainWindow {
+            var load = new LoadWindow();
+            load.Show();
+
+            var main = new MainWindow {
+                DataContext = MainWindow.ViewModel = new()
             };
+            main.Hide();
+
+            await Task.Delay(3000);
+            desktop.MainWindow = main;
+
+            main.Show();
+            load.Close();
 
             CurrentWindow = (desktop.MainWindow as MainWindow)!;
             Manager.Current = CurrentWindow;
+            Logger = Logger.LoadLogger();
         }
 
-        Logger = Logger.LoadLogger();
+        //Logger = Logger.LoadLogger();
         base.OnFrameworkInitializationCompleted();
     }
 }

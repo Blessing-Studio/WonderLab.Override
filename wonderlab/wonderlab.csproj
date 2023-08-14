@@ -63,18 +63,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<AvaloniaResource Include="Assets\wonderlab.ico" />
+		<EmbeddedResource Include="Assets\wonderlab.ico" />
 		<Content Include="Assets\wonderlab.ico" />
-		<Content Include="Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+		<EmbeddedResource Include="Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
-		</Content>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
 		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
-		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest"/>
+		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" />
 
 	</ItemGroup>
 
