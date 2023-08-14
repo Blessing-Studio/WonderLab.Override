@@ -197,8 +197,12 @@
 														<ColumnDefinition Width="10"/>
 														<ColumnDefinition Width="1*"/>
 													</Grid.ColumnDefinitions>
-													<TextBlock VerticalAlignment="Center" Text="{Binding Data.UserName}"
-															   FontSize="16" FontWeight="SemiBold"/>
+													<TextBlock VerticalAlignment="Center"
+															   Text="{Binding Data.UserName}"
+															   FontSize="16"
+															   TextTrimming="CharacterEllipsis"
+															   FontWeight="SemiBold"
+															   MaxWidth="300"/>
 
 													<Border Height="26" CornerRadius="4" Grid.Column="2"
 															Background="{DynamicResource AccentBrush}" Margin="2 2 10 2"
