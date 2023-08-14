@@ -59,6 +59,16 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: solution
+    attributes:
+      label: 解决方案
+      description: 你认为应该如何解决(给有能力的人用的 别乱写)
+      placeholder: |
+        在这里简略说明如何让这个问题修复
+    validations:
+      required: false
+
   - type: dropdown
     id: server-platform-type
     attributes:
@@ -91,9 +101,13 @@ body:
       description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
       placeholder: |
         插件: 版本
+    validations:
+      required: false
 
   - type: textarea
     id: additional
     attributes:
       label: 补充信息
       description: 如有必要，你可以在下文继续添加其他信息
+    validations:
+      required: false
