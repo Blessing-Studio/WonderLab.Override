@@ -27,7 +27,7 @@ public partial class App : Application {
             };
             main.Hide();
 
-            await Task.Delay(3000);
+            await Task.Delay(1000);
             desktop.MainWindow = main;
 
             main.Show();

@@ -38,14 +38,19 @@
 					</StackPanel>
 				</Border>
  
-				<Border CornerRadius="6" Height="175" BorderBrush="{DynamicResource DialogContentBorderBrush}" BorderThickness="1"
-						BoxShadow="0 1 4 0 #66000000" Grid.Row="2" Name="Bitmap" MinWidth="360"> 					
+				<Border CornerRadius="6" Height="175"
+						BorderThickness="1"
+						BoxShadow="0 1 4 0 #66000000"
+						Grid.Row="2" 
+						Name="Bitmap" 
+						MinWidth="360"> 					
 					<Border.Background>
 						<ImageBrush Source="{Binding NewImage}" Stretch="UniformToFill"/>
 					</Border.Background>
 					<Grid> 
 						<Border Background="{DynamicResource DialogContentBackground}" Height="50"
-								VerticalAlignment="Bottom" CornerRadius="0 0 6 6" Name="Content">
+								VerticalAlignment="Bottom"
+								CornerRadius="0 0 6 6" Name="Content">
 							<Border.Transitions>
 								<Transitions>
 									<DoubleTransition Property="Height"

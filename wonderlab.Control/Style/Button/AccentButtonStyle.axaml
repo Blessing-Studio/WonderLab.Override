@@ -1,11 +1,12 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
-        <Border Width="100" Height="100">
+        <Border Background="Black" Width="100" Height="100">
             <!-- Add Controls for Previewer Here -->
 			<Button
 			   Classes="wonderaccentbutton"
 			   Padding="4"
+			   Content="123"
 			   HorizontalAlignment="Stretch"
 			   VerticalAlignment="Stretch"
 			   HorizontalContentAlignment="Stretch"
@@ -34,10 +35,20 @@
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Grid>
-					<Border Background="{TemplateBinding Background}" 
+					<Border Background="{TemplateBinding Background}"
 							CornerRadius="{TemplateBinding CornerRadius}"
 							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch"/>
+							VerticalAlignment="Stretch"
+							BorderThickness="1"
+							Name="Layout">
+						<Border.Transitions>
+							<Transitions>
+								<BoxShadowsTransition Duration="0:0:0.35"
+													  Property="BoxShadow"
+													  Easing="ExponentialEaseOut"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
 
 					<Border Name="pointerover" HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch" CornerRadius="{TemplateBinding CornerRadius}">
@@ -48,8 +59,7 @@
 						</Border.Transitions>
 					</Border>
 
-					<ContentPresenter 
-                                      Content="{TemplateBinding Content}"
+					<ContentPresenter Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       CornerRadius="{TemplateBinding CornerRadius}"
                                       Padding="{TemplateBinding Padding}"
@@ -59,7 +69,7 @@
 			</ControlTemplate>
 		</Setter>
 	</Style>
-
+	
 	<Style Selector="Button /template/ Border#pointerover">
 		<Setter Property="Background" Value="Transparent"/>
 	</Style>
