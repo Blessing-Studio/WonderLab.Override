@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Views.Pages;
 using Timer = System.Timers.Timer;
@@ -36,6 +37,8 @@ namespace wonderlab.Class.ViewData
 
         public Timer Timer { set; get; } = new(1000);
 
+        public NotificationType NotificationType { get; set; } = new();
+
         public void TimerStart() {
             Timer.Elapsed += TimerElapsed;
             Time = DateTime.Now;
@@ -49,6 +52,10 @@ namespace wonderlab.Class.ViewData
 
         private void TimerElapsed(object? sender, ElapsedEventArgs e) {       
             RunTime = (DateTime.Now - Time).ToString(@"hh\:mm\:ss");
+        }
+
+        public NotificationViewData(NotificationType type) {
+            NotificationType = type;
         }
     }
 }

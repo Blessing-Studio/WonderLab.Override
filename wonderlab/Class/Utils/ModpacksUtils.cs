@@ -68,7 +68,7 @@ namespace wonderlab.Class.Utils {
                 App.CurrentWindow.NotificationCenter.Open();
             });
 
-            NotificationViewData data = new() {
+            NotificationViewData data = new(NotificationType.Install) {
                 Title = $"整合包 {modpackInfo.Name} 的安装任务",
             };
             data.TimerStart();
@@ -120,7 +120,7 @@ namespace wonderlab.Class.Utils {
                     App.CurrentWindow.NotificationCenter.Open();
                 });
 
-                NotificationViewData data = new()
+                NotificationViewData data = new(NotificationType.Install)
                 {
                     Title = $"整合包 {info.Name} 的安装任务",
                 };
@@ -186,7 +186,7 @@ namespace wonderlab.Class.Utils {
                 App.CurrentWindow.NotificationCenter.Open();
             });
 
-            NotificationViewData data = new() {
+            NotificationViewData data = new(NotificationType.Install) {
                 Title = $"整合包 {modpackInfo.Name} 的安装任务",
             };
             data.TimerStart();

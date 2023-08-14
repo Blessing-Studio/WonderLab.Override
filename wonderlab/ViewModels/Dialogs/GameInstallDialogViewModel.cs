@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
+using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -215,7 +216,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public async void GameCoreInstallAction() {
-            NotificationViewData data = new();
+            NotificationViewData data = new(NotificationType.Install);
 
             try {
                 if (CurrentGameCore is null) {

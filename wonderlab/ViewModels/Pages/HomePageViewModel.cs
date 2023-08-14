@@ -141,9 +141,22 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void LaunchTaskAction() {
             int modCount = 0;
+            bool canLaunch = true;
             JavaInfo javaInfo = null!;
             LaunchConfig config = null!;
             NotificationViewData data = null!;
+
+            if (NotificationCenterPage.ViewModel.Notifications.Where(x => {
+                if (x.NotificationType is NotificationType.Install && x.Title.Contains(SelectGameCoreId)) {
+                    return true;
+                }
+
+                return false;
+            }).Count() > 0) {
+                $"检测到游戏核心 \"{SelectGameCoreId}\" 仍有安装任务正在进行，无法进行启动步骤！".ShowMessage();
+                return;
+            }
+
             await PreUIProcessingAsync();
 
             var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
@@ -217,7 +230,7 @@ namespace wonderlab.ViewModels.Pages {
             async ValueTask PreUIProcessingAsync() {
                 await Dispatcher.UIThread.InvokeAsync(() => {
                     $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
-                    data = new() {
+                    data = new(NotificationType.Launch) {
                         Title = $"游戏 {SelectGameCoreId} 的启动任务"
                     };
 
@@ -387,6 +400,7 @@ namespace wonderlab.ViewModels.Pages {
             App.CurrentWindow.CloseTopBar();
             new ConsoleCenterPage().Navigation();
         }
+
         public void OpenLaunchConfigAction()
         {
             var back = App.CurrentWindow.Back;
@@ -399,6 +413,7 @@ namespace wonderlab.ViewModels.Pages {
             App.CurrentWindow.CloseTopBar();
             new LaunchConfigPage().Navigation();
         }
+
         public JavaInfo GetCurrentJava() {
             var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit &&
             x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)

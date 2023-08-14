@@ -126,7 +126,7 @@ namespace wonderlab.Class.Models
                     App.CurrentWindow.NotificationCenter.Open();
                 });
 
-                NotificationViewData data = new() {
+                NotificationViewData data = new(NotificationType.Install) {
                     Title = $"资源 {Title} 的下载任务"
                 };
                 data.TimerStart();
