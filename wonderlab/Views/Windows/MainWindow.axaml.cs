@@ -9,6 +9,7 @@ using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace wonderlab.Views.Windows {
             Initialized += DataInitialized;
 
             InitializeComponent();
-            this.AddHandler(DragDrop.DropEvent, DropAction);
+            AddHandler(DragDrop.DropEvent, DropAction);
             try {
                 ThemeUtils.Init();
                 WindowWidth = Width;
@@ -138,19 +139,18 @@ namespace wonderlab.Views.Windows {
 
         private async void WindowsInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
-
+            
             try {
                 Drop.PointerPressed += OnPointerPressed;
                 TopInfoBar.PointerPressed += OnPointerPressed;
                 TopInfoBar1.PointerPressed += OnPointerPressed;
                 TopInfoBar2.PointerPressed += OnPointerPressed;
 
-                UpdateInfo result = await UpdateUtils.GetLatestUpdateInfoAsync();
-                $"开始自动更新流程，当前启动器版本序列号 {GlobalResources.LauncherData.LauncherVersion}".ShowLog();
+                var result = await UpdateUtils.GetLatestVersionInfoAsync();
 
-                if (result is not null && result.CanUpdate() && SystemUtils.IsWindows) {
-                    DialogHost.UpdateDialog.Message = result.Description;
-                    DialogHost.UpdateDialog.Author = $"于 {result.CreatedTime} 由 {result.Author.UserName} 修改并推送";
+                if (result is not null && UpdateUtils.Index.Latest.Replace(".","").ToInt32() > UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
+                    DialogHost.UpdateDialog.Message = string.Join("\n",result.UpdateMessage);
+                    DialogHost.UpdateDialog.Author = $"于 {result.Date}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}";
                     DialogPage.ViewModel.info = result;
                     await Task.Delay(1000);
                     DialogHost.UpdateDialog.ShowDialog();

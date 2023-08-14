@@ -95,19 +95,6 @@ namespace wonderlab.Class.Utils {
         public static TResult CreateViewData<TData, TResult>(this TData data, object arg2, object arg3) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!, arg2, arg3)! as TResult)!;
 
-        public static bool CanUpdate(this UpdateInfo info) {
-            if (string.IsNullOrEmpty(info.Branch)) {
-                return false;
-            }
-
-            if (info.Branch is not UpdateUtils.VersionType) {
-                return false;
-            }
-
-            var intVersion = Convert.ToInt32(info.Version.Replace(".", string.Empty));
-            return intVersion > GlobalResources.LauncherData.LauncherVersion;
-        }
-
         public static ModLoaderViewData GetForge(this ObservableCollection<ModLoaderViewData> data) {
             if (data.First().Data.ModLoaderType == ModLoaderType.Forge) {
                 return data.First();

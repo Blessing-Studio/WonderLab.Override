@@ -25,6 +25,8 @@ public partial class App : Application {
             var main = new MainWindow {
                 DataContext = MainWindow.ViewModel = new()
             };
+
+            Logger = Logger.LoadLogger(main);
             main.Hide();
 
             await Task.Delay(1000);
@@ -35,7 +37,6 @@ public partial class App : Application {
 
             CurrentWindow = (desktop.MainWindow as MainWindow)!;
             Manager.Current = CurrentWindow;
-            Logger = Logger.LoadLogger();
         }
 
         //Logger = Logger.LoadLogger();

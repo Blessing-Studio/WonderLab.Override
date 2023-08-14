@@ -22,8 +22,6 @@ namespace wonderlab.Class.AppData {
         public const string ClientId = "9fd44410-8ed7-4eb3-a160-9f1cc62c824c";
 
         public const string WonderApi = "http://43.136.86.16:14514/api/";
-        //http://api.2018k.cn/getExample?id=f08e3a0d2d8f47d6b5aee68ec2499a21&data=version|notice|url|remark|lasttime
-        public const string UpdateApi = $"{WonderApi}update";
 
         public const string MojangNewsApi = "https://launchercontent.mojang.com/news.json";
 

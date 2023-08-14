@@ -45,7 +45,6 @@ namespace wonderlab.ViewModels.Pages {
                 }
 
                 ThreadPool.QueueUserWorkItem(x => {
-                    TotalMemory = SystemUtils.GetMemoryInfo().Total.ToInt32();
                     MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
                     PropertyChanged += OnPropertyChanged;
                 });
@@ -60,6 +59,7 @@ namespace wonderlab.ViewModels.Pages {
                 $"{ex.Message}".ShowMessage();
             }
 
+            GetMemoryAction();
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -114,6 +114,9 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public int TotalMemory { get; set; } = 0;
+
+        [Reactive]
+        public int FreeMemory { get; set; } = 0;
 
         [Reactive]
         public int WindowWidth { get; set; } = 854;
@@ -256,6 +259,17 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenAutoGetMemoryAction() {
             IsAutoGetMemory = true;
+        }
+
+        public async void GetMemoryAction() {
+            await Task.Run(async () => {
+                while (true) {
+                    var result = SystemUtils.GetMemoryInfo();
+                    FreeMemory = result.Free.ToInt32();
+                    TotalMemory = result.Total.ToInt32();
+                    await Task.Delay(2000);
+                }
+            });
         }
     }
 }

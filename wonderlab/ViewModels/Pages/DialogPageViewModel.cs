@@ -20,7 +20,7 @@ namespace wonderlab.ViewModels.Pages {
         private string ValidationLink { set; get; }
         private ValidationDialog.ValidationTypes CurrentType { set; get; }
 
-        public UpdateInfo info = null;
+        public VersionInfo info = null;
 
         [Reactive]
         [Obsolete("傻逼玩意没有用")]
@@ -160,25 +160,30 @@ namespace wonderlab.ViewModels.Pages {
                         }
 
                         YggdrasilAuthenticator authenticator = new(uri, email, password);
-                        var result = await authenticator.AuthAsync();
-                        $"已成功将 {email} 名下所有的账户全部添加至启动器".ShowMessage();
-
-                        foreach (var account in result.AsParallel()) {
-                            await AccountUtils.SaveAsync(new() {
-                                Email = account.Email,
-                                UserName = account.Name,
-                                UserType = account.Type,
-                                Password = account.Password,
-                                Uuid = account.Uuid.ToString(),
-                                UserToken = account.AccessToken,
-                                AccessToken = account.ClientToken!,
-                                YggdrasilUrl = account.YggdrasilServerUrl
-                            }, true);
+                        try {
+                            var result = await authenticator.AuthAsync();
+                            foreach (var account in result.AsParallel()) {
+                                await AccountUtils.SaveAsync(new() {
+                                    Email = account.Email,
+                                    UserName = account.Name,
+                                    UserType = account.Type,
+                                    Password = account.Password,
+                                    Uuid = account.Uuid.ToString(),
+                                    UserToken = account.AccessToken,
+                                    AccessToken = account.ClientToken!,
+                                    YggdrasilUrl = account.YggdrasilServerUrl
+                                }, true);
+                            }
                         }
+                        catch (Exception ex) {
+                            $"登录失败，请检查您的信息是否填写正确，详细信息如下：{ex}".ShowInfoDialog("登录失败");
+                        }
+
+                        $"已成功将 {email} 名下所有的账户全部添加至启动器".ShowMessage();
                     }
                 });
 
-                await Task.Run(async () => {
+                await Task.Run(() => {
                     AccountPage.ViewModel.GameAccounts = CacheResources.Accounts;
                 });
             }

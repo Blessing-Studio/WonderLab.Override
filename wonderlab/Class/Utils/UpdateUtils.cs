@@ -1,11 +1,13 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
+﻿using Natsurainko.Toolkits.Network;
+using Natsurainko.Toolkits.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -14,13 +16,30 @@ using wonderlab.Class.AppData;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
-        public const string VersionType = "Lsaac";
+        public const string LocalVersion = "1.2.6";
 
-        public static async ValueTask<UpdateInfo> GetLatestUpdateInfoAsync() {
+        private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
+
+        public static readonly string IndexUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/index.json";
+
+        public static readonly string VersionInfoUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/files/window/*/info.json";
+
+        public static Index Index { get; private set; }
+
+        public static async ValueTask<VersionInfo> GetLatestVersionInfoAsync() {
             try {
-                var responseMessage = await HttpWrapper.HttpGetAsync(GlobalResources.UpdateApi);
+                var responseMessage = await HttpWrapper.HttpGetAsync(IndexUrl);
+                IndexUrl.ShowLog();
                 var json = await responseMessage.Content.ReadAsStringAsync();
-                return json.ToJsonEntity<UpdateInfo>();
+                Index = json.ToJsonEntity<Index>();
+
+                var versionInfoUrl = VersionInfoUrl.Replace("*",$"{Index.Type}{Index.Latest}");
+                VersionInfoUrl.Replace("*", $"{Index.Type}{Index.Latest}").ShowLog();
+
+                var responseMessage1 = await HttpWrapper.HttpGetAsync(versionInfoUrl);
+                var versionInfoJson = await responseMessage1.Content.ReadAsStringAsync();
+
+                return versionInfoJson.ToJsonEntity<VersionInfo>();
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -29,25 +48,26 @@ namespace wonderlab.Class.Utils {
             return null!;
         }
 
-        public static async void UpdateAsync(UpdateInfo info, Action<float> action) {
-            if (info.CanUpdate()) {
-                var downloadResponse = await HttpWrapper.HttpDownloadAsync(info.Assets.First().Url, Directory.GetCurrentDirectory(), (p, s) => {
+        public static async void UpdateAsync(VersionInfo info, Action<float> action) {
+            if (Index.Latest.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
+                var downloadResponse = await HttpWrapper.HttpDownloadAsync(string.Format(info.DownloadUrl,$"x64"), Directory.GetCurrentDirectory(), (p, s) => {
                     action(p);
-                }, "WonderLab.update");
+                }, "WonderLab.zip");
 
                 if (downloadResponse.HttpStatusCode is HttpStatusCode.OK) {
                     try {
+                        using var zip = ZipFile.OpenRead(downloadResponse.FileInfo.FullName);
+                        zip.ExtractToDirectory(downloadResponse.FileInfo.Directory.FullName);
+
+                        await Task.Delay(1000);
+                        JsonUtils.WriteLauncherInfoJson();
                         Process.Start(new ProcessStartInfo {
                             FileName = "powershell.exe",
                             Arguments = ArgumentsBuilding(),
                             WorkingDirectory = Directory.GetCurrentDirectory(),
                             UseShellExecute = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
-                        });
-
-                        var intVersion = Convert.ToInt32(info.Version.Replace(".", string.Empty));
-                        GlobalResources.LauncherData.LauncherVersion = intVersion;
-                        JsonUtils.WriteLauncherInfoJson();
+                        })!.Dispose();
                     }
                     catch (Exception) { }
                 }
@@ -60,10 +80,30 @@ namespace wonderlab.Class.Utils {
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +
+                   $"Remove-Item WonderLab.zip -Force;" +
                    $"Remove-Item {filename} -Force;" +
-                   $"Rename-Item WonderLab.update {filename};" +
+                   $"Rename-Item launcher.exe {filename};" +
                    $"Start-Process {name}.exe -Args updated;";
         }
+    }
+
+    public record Index {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("latest")]
+        public string Latest { get; set; }
+    }
+
+    public record VersionInfo {
+        [JsonProperty("url")]
+        public string DownloadUrl { get; set; }
+
+        [JsonProperty("message")]
+        public IEnumerable<string> UpdateMessage { get; set; }
+
+        [JsonProperty("date")]
+        public string Date { get; set; }
     }
 
     public class UpdateInfo {

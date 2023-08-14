@@ -20,7 +20,7 @@
 
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="VerticalAlignment" Value="Stretch"/>
-		<Setter Property="Foreground" Value="{DynamicResource DialogForeground}"/>
+		<Setter Property="Foreground" Value="Black"/>
 		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 		<Setter Property="Padding" Value="2000"/>
@@ -115,7 +115,7 @@
 											Name="CustomButton"
 											HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"
-											Foreground="{TemplateBinding Foreground}"
+											Foreground="White"
 											Command="{TemplateBinding UpdateButtonCommand}"/>
 
 									<Button FontSize="12"
@@ -125,7 +125,7 @@
 											Background="#FF0000"
 									        HorizontalAlignment="Stretch"
 											HorizontalContentAlignment="Center"
-											Foreground="{TemplateBinding Foreground}"/>
+											Foreground="White"/>
 								</Grid>
 							</Grid>
 						</Border>

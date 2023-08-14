@@ -38,9 +38,6 @@ namespace wonderlab.Class.Models
         [JsonProperty("languageType")]
         public string LanguageType { get; set; } = "zh-cn";
 
-        [JsonProperty("launcherVersion")]
-        public int LauncherVersion { get; set; } = 120;
-
         [JsonProperty("downloadCount")]
         public int DownloadCount { get; set; } = 64;
     }

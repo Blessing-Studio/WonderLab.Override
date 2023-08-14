@@ -149,14 +149,15 @@
 
 				<Border Background="{DynamicResource DialogContentBackground}"
 		                BoxShadow="0 1 4 0 #66000000"
-		                Height="80" Margin="15 0"
+		                Height="140" Margin="15 0"
 		                VerticalAlignment="Top"
 		                CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
 							<RowDefinition Height="3"/>
-							<RowDefinition Height="1*"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
 						</Grid.RowDefinitions>
 
 						<StackPanel Spacing="5" Orientation="Horizontal" Margin="15 8 10 4"
@@ -169,21 +170,58 @@
 								Height="1" CornerRadius="114514"
 								VerticalAlignment="Bottom"/>
 
-						<Grid Grid.Row="2" Margin="15 -5">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="1*"/>
-								<ColumnDefinition Width="10"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Slider Value="{Binding MaxMemory}" 
-									Maximum="{Binding TotalMemory}" 
-									Minimum="1"
-									Grid.Row="2" 
-									IsEnabled="{Binding IsAutoGetMemory,Converter={StaticResource BoolReverseConverter}}"/>
+						<TextBox Margin="15 8 5 0"
+								 Grid.Row="2"
+								 MinWidth="230"
+								 Name="MemoryTextBox"
+								 Watermark="最大内存"
+								 VerticalAlignment="Top"
+								 HorizontalAlignment="Left"
+								 Text="{Binding	MaxMemory,Converter={StaticResource ClassToInt32Converter}}"/>
 
-							<TextBlock Text="{Binding MaxMemory}" 
-									   Grid.Column="2" 
-									   VerticalAlignment="Center"/>
+						<Grid Grid.Row="3"
+							  Margin="15 5"
+							  HorizontalAlignment="Left"
+							  RowDefinitions="Auto,Auto">
+							<ProgressBar Value="{Binding FreeMemory}"
+										 Maximum="{Binding TotalMemory}"
+										 Width="{Binding ElementName=MemoryTextBox,Path=Bounds.Width}"
+										 HorizontalAlignment="Left"
+										 Foreground="{DynamicResource AccentBrush}"
+										 Background="{DynamicResource AccentBrushDark2}"/>
+
+							<Grid Grid.Row="1"
+								  Margin="0 6"
+								  HorizontalAlignment="Left"
+								  RowDefinitions="Auto,Auto">
+								<StackPanel Spacing="5"
+											Orientation="Horizontal">
+									<Border Width="12"
+											Height="12"
+											Background="{DynamicResource AccentBrush}"/>
+
+									<TextBlock FontSize="12" Text="Free">
+										<Run Text=" ["/>
+										<Run Text="{Binding FreeMemory}"/>
+										<Run Text="MB ]"/>
+									</TextBlock>
+								</StackPanel>
+
+								<StackPanel Spacing="5"
+											Grid.Row="1"
+											Margin="0 2 0 0"
+			                                Orientation="Horizontal">
+									<Border Width="12"
+											Height="12"
+											Background="{DynamicResource AccentBrushDark2}"/>
+
+									<TextBlock FontSize="12" Text="Total">
+										<Run Text=" ["/>
+										<Run Text="{Binding TotalMemory}"/>
+										<Run Text="MB ]"/>
+									</TextBlock>
+								</StackPanel>
+							</Grid>
 						</Grid>
 					</Grid>
 				</Border>

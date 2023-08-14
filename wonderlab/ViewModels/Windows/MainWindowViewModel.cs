@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -36,6 +37,8 @@ namespace wonderlab.ViewModels.Windows {
 
         [Reactive]
         public bool HasNotification { get; set; } = false;
+
+        public string Version => $"{GlobalResources.LauncherData.IssuingBranch} {UpdateUtils.LocalVersion}";
 
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CurrentPage)) {

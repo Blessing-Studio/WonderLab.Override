@@ -1,4 +1,5 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
+﻿using Avalonia.Controls;
+using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,9 +44,9 @@ namespace wonderlab.Class {
             return this;
         }
 
-        public static Logger LoadLogger() {
+        public static Logger LoadLogger(Window window) {
             Logger logger = new Logger();
-            App.CurrentWindow.Closed += async (o, ctx) => {
+            window.Closed += async (o, ctx) => {
                 await logger.EncapsulateLogsToFileAsync();
                 Environment.Exit(0);
             };
