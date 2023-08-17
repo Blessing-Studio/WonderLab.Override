@@ -152,14 +152,15 @@
 											</Border.Transitions>
 											<Grid>
 												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="20"/>
-													<ColumnDefinition Width="Auto"/>
+													<ColumnDefinition MaxWidth="35" Width="Auto"/>
+													<ColumnDefinition Width="1*"/>
 												</Grid.ColumnDefinitions>
 
 												<ProgressBar Classes="circular"
 															 HorizontalAlignment="Left"
-															 Height="15" Width="15"
+															 Height="20" Width="20"
 															 IsIndeterminate="True"
+															 VerticalAlignment="Center"
 															 IsVisible="{Binding HasNotification}"
 															 Margin="0 0 15 0"
 															 Foreground="{DynamicResource AccentBrushDark1}"/>

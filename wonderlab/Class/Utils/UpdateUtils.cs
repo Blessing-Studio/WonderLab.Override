@@ -16,7 +16,7 @@ using wonderlab.Class.AppData;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
-        public const string LocalVersion = "1.2.6";
+        public const string LocalVersion = "1.2.7";
 
         private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
 
