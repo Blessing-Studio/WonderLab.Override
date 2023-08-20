@@ -72,7 +72,13 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             if (e.PropertyName is nameof(MaxMemory)) {
-                GlobalResources.LaunchInfoData.MaxMemory = MaxMemory;
+                if (MaxMemory > TotalMemory)
+                {
+                    $"内存设置不得大于实际内存！".ShowMessage();
+                    MaxMemory = GlobalResources.LaunchInfoData.MaxMemory;
+                } else {
+                    GlobalResources.LaunchInfoData.MaxMemory = MaxMemory;
+                }
             }
 
             if (e.PropertyName is nameof(IsAutoSelectJava)) {
