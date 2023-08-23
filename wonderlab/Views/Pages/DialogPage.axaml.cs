@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Threading;
+using MinecraftLaunch.Modules.Enum;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,10 +15,41 @@ using wonderlab.ViewModels.Pages;
 namespace wonderlab.Views.Pages {
     public partial class DialogPage : UserControl {
         public static DialogPageViewModel ViewModel { get; set; } = new();
+        public static List<ModLoaderViewData> CurrentModLoaders = new();
 
         public DialogPage() {
             InitializeComponent();
             DataContext = ViewModel;
+        }
+
+        private void OnCurrentModLoaderChanged(object? sender, SelectModLoaderChangedArgs e) {
+            var loader = (ModLoaderViewData)((ListBox)sender!).SelectedItem!;
+            var loaders = CurrentModLoaders;
+            if (!loader.IsNull()) {
+                if (loaders.Count() == 0) {
+                    CurrentModLoaders.Add(loader);
+                    InstallDialog.CurrentModLoadersListBox.Items.Add(loader);
+                }
+
+                foreach (var x in loaders) {
+                    if (x.Id != loader.Id && x.Data.ModLoader == loader.Data.ModLoader) {
+                        //x = loader;
+                    }
+
+                    if ((x.Data.ModLoaderType == ModLoaderType.Forge || x.Data.ModLoaderType == ModLoaderType.OptiFine)
+                        && (loader.Data.ModLoaderType == ModLoaderType.Fabric || loader.Data.ModLoaderType == ModLoaderType.Quilt)) {
+                        "无法选择这个加载器，原因：加载器冲突！".ShowMessage();
+                    }
+
+                    if ((x.Data.ModLoaderType == ModLoaderType.Fabric || x.Data.ModLoaderType == ModLoaderType.Quilt)
+                        && (loader.Data.ModLoaderType == ModLoaderType.OptiFine || loader.Data.ModLoaderType == ModLoaderType.Forge)) {
+                        "无法选择这个加载器，原因：加载器冲突！".ShowMessage();
+                    }
+
+                    CurrentModLoaders.Add(loader);
+                    InstallDialog.CurrentModLoadersListBox.Items.Add(loader);
+                }
+            }
         }
 
         public void ShowInfoDialog(string title, string message) {
@@ -28,10 +60,11 @@ namespace wonderlab.Views.Pages {
             });
         }
 
-        private void OnSelectModLoaderChanged(object? sender, SelectModLoaderChangedArgs args) {
+        private async void OnSelectModLoaderChanged(object? sender, SelectModLoaderChangedArgs args) {
             ObservableCollection<ModLoaderViewData> modLoaders = new();
             InstallDialog.ModLoaders = modLoaders;
-            Dispatcher.UIThread.Post(() => {
+            await Task.Delay(50);
+            await Task.Run(() => {
                 switch (args.ModLoaderName) {
                     case "Forge":
                         modLoaders.Load(CacheResources.Forges.Select(x => {
@@ -62,7 +95,8 @@ namespace wonderlab.Views.Pages {
                         }).ToObservableCollection());
                         break;
                 }
-            }, DispatcherPriority.Background);
+
+            });
         }
     }
 }

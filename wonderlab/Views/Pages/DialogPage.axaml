@@ -42,6 +42,7 @@
 						   IsForgeLoaded="{Binding IsForgeLoaded}"
 						   IsFabricLoaded="{Binding IsFabricLoaded}"
 						   IsOptifineLoaded="{Binding IsOptifineLoaded}"
+					       CurrentModLoaderChanged="OnCurrentModLoaderChanged"
 						   SelectModLoaderChanged="OnSelectModLoaderChanged"/>
 	</Grid>
 </UserControl>
