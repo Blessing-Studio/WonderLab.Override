@@ -20,6 +20,8 @@ namespace wonderlab.Class.Utils {
 
         private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
 
+        private const string UpdateUrl = "http://43.136.86.16:14514/api/lsaac/download";
+
         public static readonly string IndexUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/index.json";
 
         public static readonly string VersionInfoUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/files/window/*/info.json";
