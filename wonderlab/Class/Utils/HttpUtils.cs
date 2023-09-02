@@ -1,25 +1,18 @@
 ﻿using Avalonia.Media.Imaging;
+using Flurl.Http;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Tmds.DBus;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Views.Pages;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -27,7 +20,7 @@ namespace wonderlab.Class.Utils {
             var result = new List<New>();
 
             try {
-                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.MojangNewsApi)).Content.ReadAsStringAsync();
+                var json = await (await GlobalResources.MojangNewsApi.GetAsync()).GetStringAsync();
                 result = json.ToJsonEntity<MojangNewsModel>().Entries;
                 CacheResources.MojangNews = result;
             }
@@ -43,7 +36,7 @@ namespace wonderlab.Class.Utils {
             var result = new HitokotoModel();
 
             try {
-                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.HitokotoApi)).Content.ReadAsStringAsync();
+                var json = await (await GlobalResources.HitokotoApi.GetAsync()).GetStringAsync();
                 result = JsonSerializer.Deserialize<HitokotoModel>(json);
             }
             catch (Exception ex) {
@@ -62,7 +55,7 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) {
             try {
                 return await Task.Run(async () => {
-                    var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
+                    var bytes = await url.GetBytesAsync();
 
                     using var stream = new MemoryStream(bytes);
                     return new Bitmap(stream);
@@ -77,7 +70,7 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<bool> ConnectionTestAsync(string url) {
             try {
-                var result = await Task.Run(async () => await HttpWrapper.HttpClient.GetAsync(url));
+                await Task.Run(async () => (await url.GetAsync()).Dispose());
                 GC.Collect();
                 return true;
             }

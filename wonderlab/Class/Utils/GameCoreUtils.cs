@@ -2,23 +2,21 @@
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
-using wonderlab.Class.ViewData;
 
 namespace wonderlab.Class.Utils {
     public static class GameCoreUtils {
         public static async ValueTask<ObservableCollection<GameCore>> GetLocalGameCores(string root) {
             var cores = await Task.Run(() => {
-                return new GameCoreToolkit(root).GetGameCores();
+                return new GameCoreUtil(root).GetGameCores();
             });
             
             return cores.ToObservableCollection() ?? new();
@@ -27,7 +25,7 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask<ObservableCollection<GameCore>> SearchGameCoreAsync(string root, string text) {
             var cores = await Task.Run(() => {
                 try {
-                    return new GameCoreToolkit(root).GetGameCores();
+                    return new GameCoreUtil(root).GetGameCores();
                 }
                 catch { }
 
@@ -69,7 +67,7 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask CompLexGameCoreInstallAsync(string name, Action<string, float> action, Dependencies dependencies) {
             InstallerBase<InstallerResponse> installer = null;
 
-            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, name) == null) {
+            if (GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, name) == null) {
                 if (!string.IsNullOrEmpty(dependencies.QuiltLoader)) {
                     var buildResult = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(dependencies.Minecraft)).AsEnumerable();
                     var result = buildResult.Where(x => dependencies.QuiltLoader.Contains(x.Loader.Version))?.FirstOrDefault();

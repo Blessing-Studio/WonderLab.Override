@@ -1,26 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Flurl.Http;
+using MinecraftLaunch.Modules.Downloaders;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
-using Natsurainko.Toolkits.Network.Model;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using MinecraftLaunch.Modules.Utils;
 using System.Text.Json;
 
-namespace MinecraftLaunch.Modules.Installer
-{
-    public partial class FabricInstaller : InstallerBase<InstallerResponse>
-    {
-        public override async ValueTask<InstallerResponse> InstallAsync()
-        {
+namespace MinecraftLaunch.Modules.Installer {
+    public partial class FabricInstaller : InstallerBase<InstallerResponse> {
+        public override async ValueTask<InstallerResponse> InstallAsync() {
             #region Parse Build
             InvokeStatusChangedEvent(0.25f, "开始分析生成");
             var libraries = FabricBuild.LauncherMeta.Libraries["common"];
@@ -30,9 +18,9 @@ namespace MinecraftLaunch.Modules.Installer
 
             libraries.Insert(0, new() { Name = FabricBuild.Intermediary.Maven });
             libraries.Insert(0, new() { Name = FabricBuild.Loader.Maven });
-
-            string mainClass = FabricBuild.LauncherMeta.MainClass.Type == JTokenType.Object
-                ? FabricBuild.LauncherMeta.MainClass.ToObject<Dictionary<string, string>>()["client"]
+            //JsonElement
+            string mainClass = FabricBuild.LauncherMeta.MainClass.ValueKind == JsonValueKind.Object
+                ? JsonSerializer.Deserialize<Dictionary<string, string>>(FabricBuild.LauncherMeta.MainClass.GetRawText())!["client"]
                 : string.IsNullOrEmpty(FabricBuild.LauncherMeta.MainClass.ToString())
                     ? "net.minecraft.client.main.Main"
                     : FabricBuild.LauncherMeta.MainClass.ToString();
@@ -40,8 +28,7 @@ namespace MinecraftLaunch.Modules.Installer
             string inheritsFrom = FabricBuild.Intermediary.Version;
 
             if (mainClass == "net.minecraft.client.main.Main")
-                return new()
-                {
+                return new() {
                     Success = false,
                     GameCore = null,
                     Exception = new ArgumentNullException("MainClass")
@@ -50,7 +37,7 @@ namespace MinecraftLaunch.Modules.Installer
 
             #region Download Libraries
             InvokeStatusChangedEvent(0.45f, "开始下载依赖文件");
-            libraries.ForEach(x => x.Url = UrlExtension.Combine("https://maven.fabricmc.net", UrlExtension.Combine(LibraryResource.FormatName(x.Name).ToArray())));
+            libraries.ForEach(x => x.Url = ExtendUtil.Combine("https://maven.fabricmc.net", ExtendUtil.Combine(LibraryResource.FormatName(x.Name).ToArray())));
 
             var downloader = new MultithreadedDownloader<LibraryResource>
                 (x => x.ToDownloadRequest(), libraries.Select(y => new LibraryResource { Root = GameCoreLocator.Root, Name = y.Name, Url = y.Url }).ToList());
@@ -61,8 +48,7 @@ namespace MinecraftLaunch.Modules.Installer
 
             #region Check Inherited Core
             InvokeStatusChangedEvent(0.55f, "开始检查继承的核心");
-            if (GameCoreLocator.GetGameCore(FabricBuild.Intermediary.Version) == null)
-            {
+            if (GameCoreLocator.GetGameCore(FabricBuild.Intermediary.Version) == null) {
                 var installer = new GameCoreInstaller(GameCoreLocator, FabricBuild.Intermediary.Version);
                 installer.ProgressChanged += (_, e) => {
                     InvokeStatusChangedEvent(0.45f + (0.85f - 0.45f) * e.Progress, "正在下载继承的游戏核心：" + e.ProgressDescription);
@@ -74,57 +60,51 @@ namespace MinecraftLaunch.Modules.Installer
 
             #region Write File
             InvokeStatusChangedEvent(0.85f, "开始写入文件");
-            var entity = new FabricGameCoreJsonEntity
-            {
+            var entity = new FabricGameCoreJsonEntity {
                 Id = string.IsNullOrEmpty(CustomId) ? $"fabric-loader-{FabricBuild.Loader.Version}-{FabricBuild.Intermediary.Version}" : CustomId,
                 InheritsFrom = inheritsFrom,
                 ReleaseTime = DateTime.Now.ToString("O"),
                 Time = DateTime.Now.ToString("O"),
                 Type = "release",
                 MainClass = mainClass,
-                Arguments = new() { Jvm = new() { "-DFabricMcEmu= net.minecraft.client.main.Main" } },
+                Arguments = new() { Jvm = new() { JsonDocument.Parse("\"-DFabricMcEmu= net.minecraft.client.main.Main\"").RootElement } },
                 Libraries = libraries
             };
 
-            var versionJsonFile = new FileInfo(Path.Combine(GameCoreLocator.Root.FullName, "versions", entity.Id, $"{entity.Id}.json"));
+            var versionJsonFile = new FileInfo(Path.Combine(GameCoreLocator.Root!.FullName, "versions", entity.Id, $"{entity.Id}.json"));
 
             if (!versionJsonFile.Directory!.Exists)
                 versionJsonFile.Directory.Create();
 
-            File.WriteAllText(versionJsonFile.FullName, entity.ToJson());
+            await Console.Out.WriteLineAsync(entity.ToJson());
+            await File.WriteAllTextAsync(versionJsonFile.FullName, entity.ToJson());
             #endregion
 
             InvokeStatusChangedEvent(1f, "安装完成");
-            return new InstallerResponse
-            {
+            return new InstallerResponse {
                 Success = true,
                 GameCore = GameCoreLocator.GetGameCore(entity.Id),
                 Exception = null!
             };
         }
+        public static async ValueTask<FabricMavenItem[]> GetFabricLoaderMavensAsync() {
+            try {
+                using var responseMessage = await "https://meta.fabricmc.net/v2/versions/loader".GetAsync();
+                responseMessage.ResponseMessage.EnsureSuccessStatusCode();
 
-        public static async ValueTask<FabricMavenItem[]> GetFabricLoaderMavensAsync()
-        {
-            try
-            {
-                using HttpResponseMessage responseMessage = await HttpWrapper.HttpGetAsync("https://meta.fabricmc.net/v2/versions/loader");
-                responseMessage.EnsureSuccessStatusCode();
-                return JsonConvert.DeserializeObject<FabricMavenItem[]>(await responseMessage.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<FabricMavenItem[]>(await responseMessage.GetStringAsync())!;
             }
-            catch
-            {
+            catch {
                 return Array.Empty<FabricMavenItem>();
             }
         }
 
-        public static async ValueTask<FabricInstallBuild[]> GetFabricBuildsByVersionAsync(string mcVersion)
-        {
-            try
-            {
-                using var responseMessage = await HttpWrapper.HttpGetAsync($"https://meta.fabricmc.net/v2/versions/loader/{mcVersion}");
-                responseMessage.EnsureSuccessStatusCode();
-                
-                var list = JsonConvert.DeserializeObject<List<FabricInstallBuild>>(await responseMessage.Content.ReadAsStringAsync());
+        public static async ValueTask<FabricInstallBuild[]> GetFabricBuildsByVersionAsync(string mcVersion) {
+            try {
+                using var responseMessage = await $"https://meta.fabricmc.net/v2/versions/loader/{mcVersion}".GetAsync();
+                responseMessage.ResponseMessage.EnsureSuccessStatusCode();
+
+                var list = JsonSerializer.Deserialize<List<FabricInstallBuild>>(await responseMessage.GetStringAsync());
 
                 list.Sort((a, b) => new Version(a.Loader.Version.Replace(a.Loader.Separator, ".")).CompareTo(new Version(b.Loader.Version.Replace(b.Loader.Separator, "."))));
                 list.Reverse();
@@ -138,16 +118,14 @@ namespace MinecraftLaunch.Modules.Installer
         }
     }
 
-    partial class FabricInstaller
-    {
+    partial class FabricInstaller {
         public FabricInstallBuild FabricBuild { get; private set; }
 
-        public GameCoreToolkit GameCoreLocator { get; private set; }
+        public GameCoreUtil GameCoreLocator { get; private set; }
 
         public string CustomId { get; private set; }
 
-        public FabricInstaller(GameCoreToolkit coreLocator, FabricInstallBuild build, string customId = null)
-        {
+        public FabricInstaller(GameCoreUtil coreLocator, FabricInstallBuild build, string customId = null) {
             FabricBuild = build;
             GameCoreLocator = coreLocator;
             CustomId = customId;

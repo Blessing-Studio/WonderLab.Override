@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,67 +8,67 @@ using System.Threading.Tasks;
 namespace wonderlab.Class.Models
 {
     public class ModrinthJsonModel {
-        [JsonProperty("formatVersion")]
+        [JsonPropertyName("formatVersion")]
         public int FormatVersion { get; set; }
 
-        [JsonProperty("game")]
+        [JsonPropertyName("game")]
         public string Game { get; set; }
 
-        [JsonProperty("versionId")]
+        [JsonPropertyName("versionId")]
         public string VersionId { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public IEnumerable<Files> Files { get; set; }
 
-        [JsonProperty("dependencies")]
+        [JsonPropertyName("dependencies")]
         public Dependencies Dependencies { get; set; }
     }
 
     public class Dependencies {      
-        [JsonProperty("minecraft")]
+        [JsonPropertyName("minecraft")]
         public string Minecraft { get; set; }
 
-        [JsonProperty("quilt-loader")]
+        [JsonPropertyName("quilt-loader")]
         public string QuiltLoader { get; set; } = string.Empty;
 
-        [JsonProperty("fabric-loader")]
+        [JsonPropertyName("fabric-loader")]
         public string FabricLoader { get; set; } = string.Empty;
     }
 
     public class Files {
-        [JsonProperty("fileSize")]
+        [JsonPropertyName("fileSize")]
         public int FileSize { get; set; }
 
-        [JsonProperty("path")]
+        [JsonPropertyName("path")]
         public string Path { get; set; }
 
-        [JsonProperty("hashes")]
+        [JsonPropertyName("hashes")]
         public Hashes Hashes { get; set; }
 
-        [JsonProperty("env")]
+        [JsonPropertyName("env")]
         public Env Env { get; set; }
 
-        [JsonProperty("downloads")]
+        [JsonPropertyName("downloads")]
         public string[] Downloads { get; set; }
 
     }
 
     public class Hashes {
-        [JsonProperty("sha1")]
+        [JsonPropertyName("sha1")]
         public string Sha1 { get; set; }
 
-        [JsonProperty("sha512")]
+        [JsonPropertyName("sha512")]
         public string Sha512 { get; set; }
     }
 
     public class Env {
-        [JsonProperty("client")]
+        [JsonPropertyName("client")]
         public string Client { get; set; }
 
-        [JsonProperty("server")]
+        [JsonPropertyName("server")]
         public string Server { get; set; }
     }
 }

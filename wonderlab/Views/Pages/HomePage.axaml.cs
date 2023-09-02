@@ -1,22 +1,13 @@
 using Avalonia.Controls;
-using System.Diagnostics;
-using System.Runtime.InteropServices.ComTypes;
-using Avalonia.Media;
-using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
-using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
-using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using Avalonia.Input;
-using wonderlab.Views.Windows;
 using wonderlab.Class.AppData;
-using MinecraftLaunch.Modules.Toolkits;
 using wonderlab.Class.ViewData;
 
-namespace wonderlab.Views.Pages
-{
+namespace wonderlab.Views.Pages {
     public partial class HomePage : UserControl
     {
         public static HomePageViewModel ViewModel { get; set; }

@@ -1,11 +1,10 @@
 ﻿using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using Flurl.Http;
 using MinecraftLaunch.Modules.Enum;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -54,7 +53,7 @@ namespace wonderlab.Class.ViewData {
 
                 byte[]? skin = null;
                 if (!string.IsNullOrEmpty(url)) {
-                    skin = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
+                    skin = await url.GetBytesAsync();
                 } else {
                     var path = Path.Combine(JsonUtils.TempPath, "steve.png");
                     ((Bitmap)BitmapUtils.GetAssetBitmap("steve.png"))!.Save(path);
@@ -75,8 +74,9 @@ namespace wonderlab.Class.ViewData {
         }
 
         private async ValueTask<string> GetMicrosoftSkinUrlAsync(string uuid) {
-            var res = await HttpWrapper.HttpGetAsync($"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}");
-            var json = await res.Content.ReadAsStringAsync();
+            using var result = await $"https://sessionserver.mojang.com/session/minecraft/profile/{uuid}"
+                .GetAsync();
+            var json = await result.GetStringAsync();
             $"返回的 Json 信息如下：{json}".ShowLog();
 
             var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
@@ -88,12 +88,18 @@ namespace wonderlab.Class.ViewData {
         }
 
         private async ValueTask<string> GetYggdrasilSkinUrlAsync(string uuid, string uri) {
-            var res = await HttpWrapper.HttpGetAsync($"{uri}/sessionserver/session/minecraft/profile/{uuid.Replace("-", string.Empty)}");
-            uri.ShowLog();
-            var json = await res.Content.ReadAsStringAsync();
+            using var result = await $"{uri}/sessionserver/session/minecraft/profile/{uuid
+                .Replace("-", string.Empty)}"
+                .GetAsync();
+
+            var json = await result.GetStringAsync();
             $"返回的 Json 信息如下：{json}".ShowLog();
 
-            var skinjson = Encoding.UTF8.GetString(Convert.FromBase64String(json.ToJsonEntity<AccountSkinModel>().Properties.First().Value));
+            var skinjson = Encoding.UTF8.GetString(Convert
+                .FromBase64String(json
+                .ToJsonEntity<AccountSkinModel>()
+                .Properties.First().Value));
+
             $"皮肤 Base64 解码的 Json 信息如下：{skinjson}".ShowLog();
 
             var url = skinjson.ToJsonEntity<SkinMoreInfo>().Textures.Skin.Url;

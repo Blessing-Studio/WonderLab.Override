@@ -1,40 +1,40 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace wonderlab.Class.Models {
     public class WonderServerModel {
-        [JsonProperty("isOfficial")]
+        [JsonPropertyName("isOfficial")]
         public bool IsOfficial { get; set; }
 
-        [JsonProperty("isWelfare")]
+        [JsonPropertyName("isWelfare")]
         public bool IsWelfare { get; set; }
 
-        [JsonProperty("hasModpacks")]
+        [JsonPropertyName("hasModpacks")]
         public bool HasModpacks { get; set; }
 
-        [JsonProperty("hasClient")]
+        [JsonPropertyName("hasClient")]
         public bool HasClient { get; set; }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("author")]
+        [JsonPropertyName("author")]
         public string Author { get; set; }
 
-        [JsonProperty("serverIp")]
+        [JsonPropertyName("serverIp")]
         public string ServerIp { get; set; }
 
-        [JsonProperty("serverPort")]
+        [JsonPropertyName("serverPort")]
         public int ServerPort { get; set; }
 
-        [JsonProperty("mcVersion")]
+        [JsonPropertyName("mcVersion")]
         public string McVersion { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonProperty("downloadMethod")]
-        public IEnumerable<JObject> DownloadMethod { get; set; }
+        [JsonPropertyName("downloadMethod")]
+        public IEnumerable<JsonElement> DownloadMethod { get; set; }
     }
 }

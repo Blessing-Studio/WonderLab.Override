@@ -1,7 +1,6 @@
 ﻿using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using ReactiveUI;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -39,6 +38,6 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public ObservableCollection<ResourcePack> ResourcePacks { get; set; } = new();
 
-        public static ResourcePackToolkit Toolkit { get; set; }
+        public static ResourcePackUtil Toolkit { get; set; }
     }
 }

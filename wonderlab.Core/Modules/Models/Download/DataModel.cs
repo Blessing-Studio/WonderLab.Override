@@ -1,10 +1,9 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Models.Download;
 
 public class DataModel<T>
 {
-	[JsonProperty("data")]
+	[JsonPropertyName("data")]
 	public T Data { get; set; }
 }

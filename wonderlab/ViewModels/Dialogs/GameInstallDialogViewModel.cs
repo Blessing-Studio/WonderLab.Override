@@ -3,14 +3,13 @@ using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
@@ -18,8 +17,6 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
-using wonderlab.Views.Windows;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class GameInstallDialogViewModel : ReactiveObject {

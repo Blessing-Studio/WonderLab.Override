@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace wonderlab.Class.AppData {
 
         public const string LanguageDir = "avares://wonderlab/Assets/Strings/";
 
-        public static CurseForgeToolkit CurseForgeToolkit { get; } = new(CurseforgeToken);
+        public static CurseForgeUtil CurseForgeToolkit { get; } = new(CurseforgeToken);
 
         public static LaunchInfoDataModel LaunchInfoData { get; set; } = new();
 

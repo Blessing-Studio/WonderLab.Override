@@ -1,26 +1,24 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
-namespace MinecaftOAuth.Module.Models
-{
-    public class MicrosoftAuthenticationResponse
-    {
-        [JsonProperty("id")]
+namespace MinecraftOAuth.Module.Models {
+    public class MicrosoftAuthenticationResponse {
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("skins")]
+        [JsonPropertyName("skins")]
         public List<SkinModel> Skins { get; set; }
 
-        [JsonProperty("capes")]
-        public JArray Capes { get; set; }
+        [JsonPropertyName("capes")]
+        public JsonElement Capes { get; set; }
 
         public string AccessToken { get; set; }
 
@@ -31,21 +29,20 @@ namespace MinecaftOAuth.Module.Models
         public string Time { get; set; }
     }
 
-    public class SkinModel
-    {
-        [JsonProperty("id")]
+    public class SkinModel {
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("state")]
+        [JsonPropertyName("state")]
         public string State { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty("variant")]
+        [JsonPropertyName("variant")]
         public string Variant { get; set; }
 
-        [JsonProperty("alias")]
+        [JsonPropertyName("alias")]
         public string Alias { get; set; }
     }
 }

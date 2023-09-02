@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
-using MinecraftLaunch.Modules.Toolkits;
 using MinecraftLaunch.Modules.Models.Launch;
 using System.Runtime.Versioning;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.Class.Utils {
     /// <summary>
@@ -42,7 +42,7 @@ namespace wonderlab.Class.Utils {
                     continue;
 
                 if ($"{i}/Contents/Home/bin/java".IsFile()) {
-                    yield return JavaToolkit.GetJavaInfo($"{i}/Contents/Home/bin/java");
+                    yield return JavaUtil.GetJavaInfo($"{i}/Contents/Home/bin/java");
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace wonderlab.Class.Utils {
                     continue;
                 foreach (var jvmPath in Directory.EnumerateDirectories(LinuxJavaHomePath).AsParallel())
                     if ($"{jvmPath}/bin/java".IsFile())
-                        yield return JavaToolkit.GetJavaInfo($"{jvmPath}/bin/java");
+                        yield return JavaUtil.GetJavaInfo($"{jvmPath}/bin/java");
             }
             //设置了环境变量的java
             using var cmd = new System.Diagnostics.Process {
@@ -71,7 +71,7 @@ namespace wonderlab.Class.Utils {
             var envJvmPath = cmd.StandardError.ReadToEnd();
             cmd.Close();
             if (envJvmPath.IsFile())
-                yield return JavaToolkit.GetJavaInfo(envJvmPath);
+                yield return JavaUtil.GetJavaInfo(envJvmPath);
         }
 
         private static IEnumerable<JavaInfo> GetJavaInOfficialGameCorePath() {
@@ -79,7 +79,7 @@ namespace wonderlab.Class.Utils {
 
             return paths.Select(path => Path.Combine(GameCoreUtils.GetOfficialGameCorePath().FullName, path, "bin", "java"))
                 .Where(File.Exists)
-                .Select(JavaToolkit.GetJavaInfo);
+                .Select(JavaUtil.GetJavaInfo);
         }
     }
 }

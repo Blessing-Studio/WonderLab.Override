@@ -1,9 +1,8 @@
 ﻿using DynamicData;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Text;
-using Newtonsoft.Json;
+using MinecraftLaunch.Modules.Utils;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
+using System.Text.Json;
 
 namespace wonderlab.Class.Utils {
     public class AccountUtils {
@@ -20,13 +20,16 @@ namespace wonderlab.Class.Utils {
             var usersFile = Directory.EnumerateFiles(JsonUtils.UserDataPath);
             foreach (var user in usersFile) {
                 var text = await File.ReadAllTextAsync(user);
-                yield return JsonConvert.DeserializeObject<UserModel>(await Task.Run(() => CryptoToolkit.DecrytOfKaiser(text.ConvertToString())))!.CreateViewData<UserModel, AccountViewData>(flag);
+                yield return JsonSerializer.Deserialize<UserModel>(await Task.Run(() => 
+                CryptoUtil.DecrytOfKaiser(text
+                .ConvertToString())))!
+                .CreateViewData<UserModel, AccountViewData>(flag);
             }
         }
 
         public static async ValueTask SaveAsync(UserModel user, bool flag = false) {
-            var json = user.ToJson(true);
-            var text = CryptoToolkit.EncrytoOfKaiser(json).ConvertToBase64();
+            var json = user.ToJson();
+            var text = CryptoUtil.EncrytoOfKaiser(json).ConvertToBase64();
             await File.WriteAllTextAsync(Path.Combine(JsonUtils.UserDataPath, $"{user.Uuid}.dat"), text);
 
             if (!CacheResources.Accounts.Any(x=> x.Data.Uuid == user.Uuid && x.Data.UserType == user.UserType)) {
@@ -46,7 +49,7 @@ namespace wonderlab.Class.Utils {
                 AccessToken = news.Type is AccountType.Yggdrasil ? (news as YggdrasilAccount)!.ClientToken : old.AccessToken
             };
 
-            var text = CryptoToolkit.EncrytoOfKaiser(content.ToJson()).ConvertToBase64();
+            var text = CryptoUtil.EncrytoOfKaiser(content.ToJson()).ConvertToBase64();
             await File.WriteAllTextAsync(Path.Combine(JsonUtils.UserDataPath, $"{old.Uuid}.dat"), text);
         }
 

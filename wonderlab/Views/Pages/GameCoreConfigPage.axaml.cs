@@ -1,15 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
-using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using System.Threading.Tasks;
 using wonderlab.Class.ViewData;
-using wonderlab.control.Animation;
 using wonderlab.ViewModels.Pages;
 
-namespace wonderlab.Views.Pages
-{
+namespace wonderlab.Views.Pages {
     public partial class GameCoreConfigPage : UserControl {   
 
         public static GameCoreConfigPageViewModel ViewModel { get; set; }

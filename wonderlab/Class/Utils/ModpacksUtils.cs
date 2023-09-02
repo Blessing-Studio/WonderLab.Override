@@ -1,8 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.IO;
+using MinecraftLaunch.Modules.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +57,7 @@ namespace wonderlab.Class.Utils {
             string json = string.Empty;
             using ZipArchive zipinfo = ZipFile.OpenRead(path);
             if (zipinfo.GetEntry("manifest.json") != null) {
-                json = ZipExtension.GetString(zipinfo.GetEntry("manifest.json"));
+                json = ExtendUtil.GetString(zipinfo.GetEntry("manifest.json"));
             }
 
             var modpackInfo = json.ToJsonEntity<ModsPacksModel>();
@@ -75,7 +74,7 @@ namespace wonderlab.Class.Utils {
             NotificationCenterPage.ViewModel.Notifications.Add(data);
 
             //游戏核心安装
-            if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name) == null) {
+            if (GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name) == null) {
                 await GameCoreUtils.CompLexGameCoreInstallAsync(modpackInfo.Minecraft.Version, modpackInfo.Name, async (x, e) => {
                     x.ShowLog();
 
@@ -89,17 +88,18 @@ namespace wonderlab.Class.Utils {
             data.Progress = $"0%";
             await Task.Delay(1000);
 
-            var gamcorePath = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
+            var gamcorePath = GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
             await Task.Run(() => {
                 using (ZipArchive subPath = ZipFile.OpenRead(path)) {
                     foreach (ZipArchiveEntry i in subPath.Entries.AsParallel()) {
-                        if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName)))) {
+                        if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ExtendUtil.GetString(subPath.GetEntry(i.FullName)))) {
                             string cutpath = i.FullName.Replace("overrides/", string.Empty);
                             FileInfo v = new FileInfo(Path.Combine(gamcorePath, cutpath));
                             if (!Directory.Exists(Path.Combine(gamcorePath, v.Directory.FullName))) {
                                 Directory.CreateDirectory(Path.Combine(gamcorePath, v.Directory.FullName));
                             }
-                            ZipExtension.ExtractTo(subPath.GetEntry(i.FullName), Path.Combine(gamcorePath, cutpath));
+
+                            ExtendUtil.ExtractTo(subPath.GetEntry(i.FullName), Path.Combine(gamcorePath, cutpath));
                         }
                     }
                 }
@@ -128,7 +128,7 @@ namespace wonderlab.Class.Utils {
                 NotificationCenterPage.ViewModel.Notifications.Add(data);
 
                 //游戏核心安装
-                if (GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, info.Name) == null)
+                if (GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, info.Name) == null)
                 {
                     await GameCoreUtils.CompLexGameCoreInstallAsync(info.Minecraft.Version, info.Name, async (x, e) =>
                     {
@@ -175,7 +175,7 @@ namespace wonderlab.Class.Utils {
             float _totalDownloaded = 0, _needToDownload = 0;
             using ZipArchive zipinfo = ZipFile.OpenRead(path);
             if (zipinfo.GetEntry("modrinth.index.json") != null) {
-                json = ZipExtension.GetString(zipinfo.GetEntry("modrinth.index.json"));
+                json = ExtendUtil.GetString(zipinfo.GetEntry("modrinth.index.json"));
             }
 
             var modpackInfo = json.ToJsonEntity<ModrinthJsonModel>();
@@ -205,7 +205,7 @@ namespace wonderlab.Class.Utils {
             data.Progress = $"0%";
             await Task.Delay(1000);
 
-            var gamecorePath = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
+            var gamecorePath = GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, modpackInfo.Name).GetGameCorePath();
             //资源安装 -1
             var actionBlock = new ActionBlock<IEnumerable<Files>>(async x => {
                 try {
@@ -213,7 +213,7 @@ namespace wonderlab.Class.Utils {
                         foreach (var url in item.Downloads.AsParallel()) {
                             var folder = item.Path.Split('/').First();
 
-                            var result = await HttpToolkit.HttpDownloadAsync(url, Path.Combine(gamecorePath, folder), Path.GetFileName(url));
+                            var result = await HttpUtil.HttpDownloadAsync(url, Path.Combine(gamecorePath, folder), Path.GetFileName(url));
                         }
 
                         _totalDownloaded++;
@@ -243,13 +243,14 @@ namespace wonderlab.Class.Utils {
             await Task.Run(() => {
                 using (ZipArchive subPath = ZipFile.OpenRead(path)) {
                     foreach (ZipArchiveEntry i in subPath.Entries.AsParallel()) {
-                        if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ZipExtension.GetString(subPath.GetEntry(i.FullName)))) {
+                        if (i.FullName.StartsWith("overrides") && !string.IsNullOrEmpty(ExtendUtil.GetString(subPath.GetEntry(i.FullName)))) {
                             string cutpath = i.FullName.Replace("overrides/", string.Empty);
                             FileInfo v = new FileInfo(Path.Combine(gamecorePath, cutpath));
                             if (!Directory.Exists(Path.Combine(gamecorePath, v.Directory.FullName))) {
                                 Directory.CreateDirectory(Path.Combine(gamecorePath, v.Directory.FullName));
                             }
-                            ZipExtension.ExtractTo(subPath.GetEntry(i.FullName), Path.Combine(gamecorePath, cutpath));
+
+                            ExtendUtil.ExtractTo(subPath.GetEntry(i.FullName), Path.Combine(gamecorePath, cutpath));
                         }
                     }
                 }

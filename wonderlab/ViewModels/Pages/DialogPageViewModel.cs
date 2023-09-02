@@ -8,12 +8,11 @@ using System;
 using wonderlab.control.Controls.Dialog;
 using wonderlab.Class.AppData;
 using System.Diagnostics;
-using Avalonia;
 using System.Linq;
 using System.Threading.Tasks;
-using MinecraftLaunch.Modules.Authenticator;
-using MinecaftOAuth.Module.Enum;
 using Avalonia.Controls;
+using MinecraftOAuth.Authenticator;
+using MinecraftOAuth.Module.Enum;
 
 namespace wonderlab.ViewModels.Pages {
     public class DialogPageViewModel : ViewModelBase {

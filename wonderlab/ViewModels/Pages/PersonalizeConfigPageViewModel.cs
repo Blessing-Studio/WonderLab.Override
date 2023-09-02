@@ -1,19 +1,13 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
-using MinecraftLaunch.Modules.Toolkits;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
-using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
     public class PersonalizeConfigPageViewModel : ViewModelBase {

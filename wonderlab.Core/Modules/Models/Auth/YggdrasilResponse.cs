@@ -1,35 +1,32 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecaftOAuth.Module.Models
-{
-    public class YggdrasilResponse
-    {
+namespace MinecraftOAuth.Module.Models {
+    public class YggdrasilResponse {
         /// <summary>
         /// 验证令牌
         /// </summary>
-        [JsonProperty("accessToken")] public string AccessToken { get; internal set; }
+        [JsonPropertyName("accessToken")] public string AccessToken { get; init; }
 
-        [JsonProperty("clientToken")] public string ClientToken { get; internal set; }
+        [JsonPropertyName("clientToken")] public string ClientToken { get; init; }
         /// <summary>
         /// 用户在皮肤站注册的所有游戏账号
         /// </summary>
-        [JsonProperty("availableProfiles")] public List<AvailableProfiles> UserAccounts { get; internal set; }
+        [JsonPropertyName("availableProfiles")] public List<AvailableProfiles> UserAccounts { get; init; }
     }
 }
 
-public class AvailableProfiles
-{
+public class AvailableProfiles {
     /// <summary>
     /// 游戏角色Uuid
     /// </summary>
-    [JsonProperty("id")]public string Uuid { get; set; }
+    [JsonPropertyName("id")] public string Uuid { get; init; }
     /// <summary>
     /// 游戏角色名
     /// </summary>
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonPropertyName("name")] public string Name { get; init; }
 }

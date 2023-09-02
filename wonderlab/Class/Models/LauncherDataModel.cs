@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 using MinecraftLaunch.Modules.Models.Download;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,31 +14,31 @@ namespace wonderlab.Class.Models
     /// 启动器设置数据模型
     /// </summary>
     public class LauncherDataModel {
-        [JsonProperty("accentColor")]
+        [JsonPropertyName("accentColor")]
         public Color AccentColor { get; set; } = Color.FromRgb(255, 185, 0);
         
-        [JsonProperty("bakgroundType")]
+        [JsonPropertyName("bakgroundType")]
         public string BakgroundType { get; set; } = "主题色背景";
 
-        [JsonProperty("themeType")]
+        [JsonPropertyName("themeType")]
         public string ThemeType { get; set; } = "亮色主题";
 
-        [JsonProperty("parallaxType")]
+        [JsonPropertyName("parallaxType")]
         public string ParallaxType { get; set; } = "无";
 
-        [JsonProperty("imagePath")]
+        [JsonPropertyName("imagePath")]
         public string ImagePath { get; set; } = string.Empty;
 
-        [JsonProperty("issuingBranch")]
+        [JsonPropertyName("issuingBranch")]
         public IssuingBranch IssuingBranch { get; set; } = IssuingBranch.Lsaac;
 
-        [JsonProperty("currentdownloadAPI")]
+        [JsonPropertyName("currentdownloadAPI")]
         public DownloadApiType CurrentDownloadAPI { get; set; } = DownloadApiType.Mojang;
 
-        [JsonProperty("languageType")]
+        [JsonPropertyName("languageType")]
         public string LanguageType { get; set; } = "zh-cn";
 
-        [JsonProperty("downloadCount")]
+        [JsonPropertyName("downloadCount")]
         public int DownloadCount { get; set; } = 64;
     }
 }

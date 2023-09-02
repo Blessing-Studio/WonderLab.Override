@@ -5,7 +5,6 @@ using MinecraftLaunch.Events;
 using MinecraftLaunch.Modules.Analyzers;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -36,9 +35,9 @@ namespace wonderlab.Class.ViewData
 
         private void OnExited(object? sender, ExitedArgs e) {       
             if (e.Crashed && !IsLauncherStop) {
-                Dispatcher.UIThread.Post(() => {
+                Dispatcher.UIThread.Post(async () => {
                     GameCrashAnalyzer analyzer = new(Outputs.Select(x => x.Text).ToList()!);
-                    var analyzerResult = analyzer.AnalyseAsync();
+                    var analyzerResult = await analyzer.AnalyseAsync();
                     var viewModel = GameCrashInfoDialog.ViewModel!;
                     App.CurrentWindow.Activate();
 

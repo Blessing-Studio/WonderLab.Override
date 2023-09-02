@@ -1,19 +1,10 @@
-﻿using JetBrains.Annotations;
-using MinecraftLaunch.Modules.Models.Auth;
+﻿using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
-using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class GameCrashInfoDialogViewModel : ReactiveObject {

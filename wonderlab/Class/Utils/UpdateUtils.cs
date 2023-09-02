@@ -1,18 +1,14 @@
-﻿using Natsurainko.Toolkits.Network;
-using Natsurainko.Toolkits.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ReactiveUI;
+﻿using Flurl.Http;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
@@ -30,16 +26,16 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<VersionInfo> GetLatestVersionInfoAsync() {
             try {
-                var responseMessage = await HttpWrapper.HttpGetAsync(IndexUrl);
+                using var responseMessage = await IndexUrl.GetAsync();
                 IndexUrl.ShowLog();
-                var json = await responseMessage.Content.ReadAsStringAsync();
+                var json = await responseMessage.GetStringAsync();
                 Index = json.ToJsonEntity<Index>();
 
                 var versionInfoUrl = VersionInfoUrl.Replace("*",$"{Index.Type}{Index.Latest}");
                 VersionInfoUrl.Replace("*", $"{Index.Type}{Index.Latest}").ShowLog();
 
-                var responseMessage1 = await HttpWrapper.HttpGetAsync(versionInfoUrl);
-                var versionInfoJson = await responseMessage1.Content.ReadAsStringAsync();
+                using var responseMessage1 = await versionInfoUrl.GetAsync();
+                var versionInfoJson = await responseMessage1.GetStringAsync();
 
                 return versionInfoJson.ToJsonEntity<VersionInfo>();
             }
@@ -52,7 +48,7 @@ namespace wonderlab.Class.Utils {
 
         public static async void UpdateAsync(VersionInfo info, Action<float> action) {
             if (Index.Latest.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
-                var downloadResponse = await HttpWrapper.HttpDownloadAsync(string.Format(info.DownloadUrl,$"x64"), Directory.GetCurrentDirectory(), (p, s) => {
+                var downloadResponse = await HttpUtil.HttpDownloadAsync(string.Format(info.DownloadUrl,$"x64"), Directory.GetCurrentDirectory(), (p, s) => {
                     action(p);
                 }, "WonderLab.zip");
 
@@ -90,112 +86,112 @@ namespace wonderlab.Class.Utils {
     }
 
     public record Index {
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonProperty("latest")]
+        [JsonPropertyName("latest")]
         public string Latest { get; set; }
     }
 
     public record VersionInfo {
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string DownloadUrl { get; set; }
 
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public IEnumerable<string> UpdateMessage { get; set; }
 
-        [JsonProperty("date")]
+        [JsonPropertyName("date")]
         public string Date { get; set; }
     }
 
     public class UpdateInfo {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("tag_name")]
+        [JsonPropertyName("tag_name")]
         public string Version { get; set; }
 
-        [JsonProperty("target_commitish")]
+        [JsonPropertyName("target_commitish")]
         public string Sha1 { get; set; }
 
-        [JsonProperty("prerelease")]
+        [JsonPropertyName("prerelease")]
         public bool IsPreview { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Branch { get; set; }
 
-        [JsonProperty("body")]
+        [JsonPropertyName("body")]
         public string Description { get; set; }
 
-        [JsonProperty("author")]
+        [JsonPropertyName("author")]
         public Author Author { get; set; }
 
-        [JsonProperty("created_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedTime { get; set; }
 
-        [JsonProperty("assets")]
+        [JsonPropertyName("assets")]
         public List<Assets> Assets { get; set; }
 
     }
 
     public class Author {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("login")]
+        [JsonPropertyName("login")]
         public string OwnerName { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string UserName { get; set; }
 
-        [JsonProperty("avatar_url")]
+        [JsonPropertyName("avatar_url")]
         public string AvatarUrl { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string UserInfoUrl { get; set; }
 
-        [JsonProperty("html_url")]
+        [JsonPropertyName("html_url")]
         public string UserHomeUrl { get; set; }
 
-        [JsonProperty("remark")]
+        [JsonPropertyName("remark")]
         public string Remark { get; set; }
 
-        [JsonProperty("followers_url")]
+        [JsonPropertyName("followers_url")]
         public string followers_url { get; set; }
 
-        [JsonProperty("following_url")]
+        [JsonPropertyName("following_url")]
         public string following_url { get; set; }
 
-        [JsonProperty("gists_url")]
+        [JsonPropertyName("gists_url")]
         public string gists_url { get; set; }
 
-        [JsonProperty("starred_url")]
+        [JsonPropertyName("starred_url")]
         public string starred_url { get; set; }
 
-        [JsonProperty("subscriptions_url")]
+        [JsonPropertyName("subscriptions_url")]
         public string subscriptions_url { get; set; }
 
-        [JsonProperty("organizations_url")]
+        [JsonPropertyName("organizations_url")]
         public string organizations_url { get; set; }
 
-        [JsonProperty("repos_url")]
+        [JsonPropertyName("repos_url")]
         public string repos_url { get; set; }
 
-        [JsonProperty("events_url")]
+        [JsonPropertyName("events_url")]
         public string events_url { get; set; }
 
-        [JsonProperty("received_events_url")]
+        [JsonPropertyName("received_events_url")]
         public string received_events_url { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
     }
 
     public class Assets {
-        [JsonProperty("browser_download_url")]
+        [JsonPropertyName("browser_download_url")]
         public string Url { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string FileName { get; set; }
     }
 }

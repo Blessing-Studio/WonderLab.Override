@@ -1,7 +1,7 @@
 ﻿using HarfBuzzSharp;
 using MinecraftProtocol.Client;
 using MinecraftProtocol.Server;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Splat;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tmds.DBus;
 using wonderlab.Class.Models;
+using System.Text.Json;
 
 namespace wonderlab.Class.Utils {
     public class ServerUtils {
@@ -57,7 +58,7 @@ namespace wonderlab.Class.Utils {
                 serverConnection.SendPacket(new HandShakePacket(761, Address, Port));
                 serverConnection.SendPacket(new PingPacket());
                 StatusPacket statusPacket = (StatusPacket)serverConnection.ReceivePacket();
-                var ping = JsonConvert.DeserializeObject<PingPayload>(statusPacket.Status);
+                var ping = JsonSerializer.Deserialize<PingPayload>(statusPacket.Status);
 
                 return new ServerInfoModel {
                     Latency = sw.ElapsedMilliseconds,

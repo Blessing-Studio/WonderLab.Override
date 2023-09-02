@@ -1,6 +1,6 @@
 ﻿using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -50,6 +50,6 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public ObservableCollection<ModPackViewData> ModPacks { get; set; } = new();
 
-        public static ModPackToolkit Toolkit { get; set; }
+        public static ModPackUtil Toolkit { get; set; }
     }
 }

@@ -1,16 +1,14 @@
-﻿using Avalonia.Controls;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 using Avalonia.Threading;
-using MinecaftOAuth.Module.Enum;
 using MinecraftLaunch.Launch;
-using MinecraftLaunch.Modules.Authenticator;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
+using MinecraftLaunch.Modules.Utils;
+using MinecraftOAuth.Authenticator;
+using MinecraftOAuth.Module.Enum;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -19,7 +17,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
@@ -159,7 +156,7 @@ namespace wonderlab.ViewModels.Pages {
 
             await PreUIProcessingAsync();
 
-            var gameCore = GameCoreToolkit.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
+            var gameCore = GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
             await DownloadAuthlibAsync();
 
             //Modpack 重复处理
@@ -173,7 +170,7 @@ namespace wonderlab.ViewModels.Pages {
 
             await PreConfigProcessingAsync();
 
-            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath, true);
+            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
             var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
                 x.Item2.ShowLog();
             });
@@ -223,7 +220,7 @@ namespace wonderlab.ViewModels.Pages {
                         IsFullscreen = GlobalResources.LaunchInfoData.WindowHeight == 0 && GlobalResources.LaunchInfoData.WindowWidth == 0,
                     },
                     Account = CurrentAccount,
-                    WorkingFolder = gameCore.GetGameCorePath().ToDirectory()!,
+                    IsEnableIndependencyCore = true
                 };
             }
 
@@ -271,7 +268,7 @@ namespace wonderlab.ViewModels.Pages {
                     data!.Progress = "下载 Authlib-Injector 中";
 
                     var result = await Task.Run(async () => {
-                        return await HttpWrapper.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
+                        return await HttpUtil.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
                             JsonUtils.DataPath, "authlib-injector.jar");
                     });
                 }
@@ -283,7 +280,7 @@ namespace wonderlab.ViewModels.Pages {
 
                     try {
                         var result = await Task.Run(async () => {
-                            ModPackToolkit toolkit = new(gameCore, true);
+                            ModPackUtil toolkit = new(gameCore, true);
                             var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
                             modCount = modpacks.Count();
                             return modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
@@ -341,7 +338,7 @@ namespace wonderlab.ViewModels.Pages {
             async ValueTask ResourcesCheckOutAsync() {
                 try {
                     await Task.Run(async () => {
-                        ResourceInstaller installer = new(new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                        ResourceInstaller installer = new(new GameCoreUtil(GlobalResources.LaunchInfoData.GameDirectoryPath)
                             .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore));
 
                         data.Progress = $"开始检查并补全丢失的资源";
@@ -416,13 +413,13 @@ namespace wonderlab.ViewModels.Pages {
 
         public JavaInfo GetCurrentJava() {
             var first = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.Is64Bit &&
-            x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+            x.JavaSlugVersion == new GameCoreUtil(GlobalResources.LaunchInfoData.GameDirectoryPath)
             .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
 
             if (first.Any()) {
                 return first.First();
             } else {
-                var second = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreToolkit(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                var second = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => x.JavaSlugVersion == new GameCoreUtil(GlobalResources.LaunchInfoData.GameDirectoryPath)
                .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore).JavaVersion);
 
                 return second.Any() ? second.First() : GlobalResources.LaunchInfoData.JavaRuntimePath;

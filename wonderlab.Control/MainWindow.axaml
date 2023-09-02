@@ -8,7 +8,7 @@
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control" Background="White">
-	<Grid>		
+	<Grid>
 		<Button Name="Test" Content="Add"/>
 		<wcc:TipBarView Name="tbv"/>
 	</Grid>

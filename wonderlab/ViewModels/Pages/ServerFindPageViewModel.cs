@@ -1,7 +1,5 @@
 ﻿using DynamicData;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
-using ReactiveUI;
+using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +10,7 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.ViewModels.Pages {
     public class ServerFindPageViewModel : ViewModelBase {
@@ -29,7 +28,7 @@ namespace wonderlab.ViewModels.Pages {
             try {
                 Servers.Clear();
 
-                var json = await HttpWrapper.HttpClient.GetStringAsync($"{GlobalResources.WonderApi}server");
+                var json = await $"{GlobalResources.WonderApi}server".GetStringAsync();
                 var viewDatas = json.ToJsonEntity<IEnumerable<WonderServerModel>>().Select(x => x.CreateViewData<WonderServerModel, WonderServerViewData>()).ToList();
                 Servers.AddRange(viewDatas);
 

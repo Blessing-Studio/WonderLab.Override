@@ -1,26 +1,10 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using MinecraftLaunch.Modules.Enum;
-using MinecraftLaunch.Modules.Installer;
-using MinecraftLaunch.Modules.Interface;
-using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
+﻿using Avalonia.Controls;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using wonderlab.Class.AppData;
-using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
-using wonderlab.Class.ViewData;
-using wonderlab.control.Controls.Dialog;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Windows {

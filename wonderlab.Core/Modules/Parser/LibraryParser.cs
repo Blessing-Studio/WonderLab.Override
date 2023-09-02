@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 
 namespace MinecraftLaunch.Modules.Parser;
 
@@ -34,46 +34,50 @@ public class LibraryParser {
                     num = 0;
                 }
             }
-
-            obj.Size = ((num == 0) ? (libraryJsonEntity.Downloads?.Artifact?.Size).Value : 0);
+            obj.Size = ((num == 0) ? (libraryJsonEntity.Downloads?.Artifact?.Size)!.Value : 0);
             obj.Url = (libraryJsonEntity.Downloads?.Artifact?.Url ?? string.Empty) + libraryJsonEntity.Url;
             obj.Name = libraryJsonEntity.Name;
             obj.Root = Root;
             obj.IsEnable = true;
             LibraryResource libraryResource = obj;
+
             if (libraryJsonEntity.Rules != null) {
-                libraryResource.IsEnable = GetAblility(libraryJsonEntity, EnvironmentToolkit.GetPlatformName());
+                libraryResource.IsEnable = GetAblility(libraryJsonEntity, EnvironmentUtil.GetPlatformName());
             }
+
             if (libraryJsonEntity.Natives != null) {
                 libraryResource.IsNatives = true;
-                if (!libraryJsonEntity.Natives.ContainsKey(EnvironmentToolkit.GetPlatformName())) {
+                if (!libraryJsonEntity.Natives.ContainsKey(EnvironmentUtil.GetPlatformName())) {
                     libraryResource.IsEnable = false;
                 }
+
                 if (libraryResource.IsEnable) {
                     libraryResource.Name = libraryResource.Name + ":" + GetNativeName(libraryJsonEntity);
-                    FileJsonEntity file = libraryJsonEntity.Downloads.Classifiers[libraryJsonEntity.Natives[EnvironmentToolkit.GetPlatformName()].Replace("${arch}", EnvironmentToolkit.Arch)];
+                    FileJsonEntity file = libraryJsonEntity.Downloads.Classifiers[libraryJsonEntity.Natives[EnvironmentUtil.GetPlatformName()].Replace("${arch}", EnvironmentUtil.Arch)];
                     libraryResource.CheckSum = file.Sha1;
                     libraryResource.Size = file.Size;
                     libraryResource.Url = file.Url;
                 }
             }
+
             yield return libraryResource;
         }
     }
 
     private string GetNativeName(LibraryJsonEntity libraryJsonEntity) {
-        return libraryJsonEntity.Natives[EnvironmentToolkit.GetPlatformName()].Replace("${arch}", EnvironmentToolkit.Arch);
+        return libraryJsonEntity.Natives[EnvironmentUtil.GetPlatformName()].Replace("${arch}", EnvironmentUtil.Arch);
     }
 
     private bool GetAblility(LibraryJsonEntity libraryJsonEntity, string platform) {
-        bool linux, osx, windows = linux = osx = false;
+        bool linux;
+        bool osx;
+        bool windows = (linux = (osx = false));
         foreach (RuleEntity item in libraryJsonEntity.Rules) {
             if (item.Action == "allow") {
                 if (item.System == null) {
                     windows = (linux = (osx = true));
                     continue;
                 }
-
                 using Dictionary<string, string>.Enumerator enumerator2 = item.System.GetEnumerator();
                 while (enumerator2.MoveNext()) {
                     switch (enumerator2.Current.Value) {
@@ -93,7 +97,7 @@ public class LibraryParser {
                     continue;
                 }
                 if (item.System == null) {
-                    windows = linux = osx = false;
+                    windows = (linux = (osx = false));
                     continue;
                 }
                 using Dictionary<string, string>.Enumerator enumerator2 = item.System.GetEnumerator();

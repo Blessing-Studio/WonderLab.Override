@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace wonderlab.Class.Models {
     public class SingleCoreModel {
-        [JsonProperty("height")]
+        [JsonPropertyName("height")]
         public int GameWindowHeight { get; set; } = 480;
 
-        [JsonProperty("width")]
+        [JsonPropertyName("width")]
         public int GameWindowWidth { get; set; } = 854;
 
-        [JsonProperty("isfullscreen")]
+        [JsonPropertyName("isfullscreen")]
         public bool IsFullScreen { get; set; } = false;
 
-        [JsonProperty("issingleconfigenabled")]
+        [JsonPropertyName("issingleconfigenabled")]
         public bool IsSingleConfigEnabled { get; set; } = false;
     }
 }

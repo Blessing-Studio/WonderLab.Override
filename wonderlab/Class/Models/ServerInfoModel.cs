@@ -1,6 +1,6 @@
-﻿using MinecraftLaunch.Modules.Toolkits;
+﻿using MinecraftLaunch.Modules.Utils;
 using MinecraftProtocol.Server;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace wonderlab.Class.Models
@@ -12,30 +12,30 @@ namespace wonderlab.Class.Models
     }
 
     public record PlayersPayload {   
-        [JsonProperty("max")]
+        [JsonPropertyName("max")]
         public int Max { get; set; }
 
-        [JsonProperty("online")]
+        [JsonPropertyName("online")]
         public int Online { get; set; }
 
-        [JsonProperty("sample")]
+        [JsonPropertyName("sample")]
         public List<Player> Sample { get; set; }
     }
 
     public record PingPayload {   
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public VersionPayload Version { get; set; }
 
-        [JsonProperty("players")]
+        [JsonPropertyName("players")]
         public PlayersPayload Players { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public object Description { get; set; }
 
-        [JsonProperty("modinfo")]
+        [JsonPropertyName("modinfo")]
         public ServerPingModInfo ModInfo { get; set; }
 
-        [JsonProperty("favicon")] 
+        [JsonPropertyName("favicon")] 
         public string Icon { get; set; }
         public static implicit operator Status(PingPayload ping)
         {
@@ -44,34 +44,34 @@ namespace wonderlab.Class.Models
     }
 
     public record Player {   
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("id")] 
+        [JsonPropertyName("id")] 
         public string Id { get; set; }
     }
 
     public record VersionPayload {   
-        [JsonProperty("protocol")] 
+        [JsonPropertyName("protocol")] 
         public int Protocol { get; set; }
 
-        [JsonProperty("name")] 
+        [JsonPropertyName("name")] 
         public string Name { get; set; }
     }
 
     public record ServerPingModInfo {   
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonProperty("modList")] 
+        [JsonPropertyName("modList")] 
         public List<ModInfo> ModList { get; set; }
     }
 
     public record ModInfo {
-        [JsonProperty("modid")]
+        [JsonPropertyName("modid")]
         public string ModId { get; set; }
 
-        [JsonProperty("version")] 
+        [JsonPropertyName("version")] 
         public string Version { get; set; }
     }
 }

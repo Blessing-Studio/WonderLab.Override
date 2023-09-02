@@ -3,8 +3,6 @@ using Avalonia.Media;
 using DynamicData;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using Newtonsoft.Json.Linq;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -12,6 +10,7 @@ using System.Linq;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using Color = Avalonia.Media.Color;
+using System.Text.Json;
 
 namespace wonderlab.Class.Utils {
     public class InlineUtils {
@@ -75,11 +74,8 @@ namespace wonderlab.Class.Utils {
             return $"§{result}" ?? "f";
         }
 
-        public static string GetFormat(JToken info) {
-            if (info == null) {
-                return string.Empty;
-            }
-            Chat chat = Chat.FromJson(info.ToString());
+        public static string GetFormat(JsonElement info) {
+            Chat chat = Chat.FromJson(info.GetRawText());
             return chat.Bold ? $"§l" : string.Empty;
         }
 

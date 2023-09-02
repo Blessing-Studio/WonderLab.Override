@@ -1,7 +1,7 @@
 ﻿using DynamicData;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -131,10 +131,10 @@ namespace wonderlab.ViewModels.Pages {
             try {
                 Resources.Clear();
 
-                var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
+                var modpacks = await Task.Run(async () => await ModrinthUtil.GetFeaturedModpacksAsync());
                 foreach (var i in modpacks.Hits.AsParallel()) {
                     await Task.Run(async () => {
-                        var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                        var infos = await ModrinthUtil.GetProjectInfos(i.ProjectId);
                         Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                     });
                 }
@@ -219,12 +219,12 @@ namespace wonderlab.ViewModels.Pages {
         public async ValueTask SearchModrinthResourceAsync() {
             Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
+            var modpacks = await Task.Run(async () => await ModrinthUtil.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
             IsLoading = false;
 
             foreach (var i in modpacks.Hits.AsParallel()) {
                 await Task.Run(async () => {
-                    var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                    var infos = await ModrinthUtil.GetProjectInfos(i.ProjectId);
                     Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                 });
             }

@@ -1,5 +1,5 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;

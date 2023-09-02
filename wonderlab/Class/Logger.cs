@@ -1,14 +1,11 @@
 ﻿using Avalonia.Controls;
-using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.Class {
     public class Logger {

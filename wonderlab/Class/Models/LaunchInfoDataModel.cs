@@ -1,5 +1,5 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,37 +14,37 @@ namespace wonderlab.Class.Models
     /// 启动信息数据模型
     /// </summary>
     public class LaunchInfoDataModel {
-        [JsonProperty("gameDirectoryPath")]
+        [JsonPropertyName("gameDirectoryPath")]
         public string GameDirectoryPath { get; set; } = GameCoreUtils.GetOfficialGameCorePath().FullName;
 
-        [JsonProperty("javaruntimePath")]
+        [JsonPropertyName("javaruntimePath")]
         public JavaInfo JavaRuntimePath { get; set; } = new();
 
-        [JsonProperty("selectGameCore")]
+        [JsonPropertyName("selectGameCore")]
         public string SelectGameCore { get; set; } = string.Empty;
 
-        [JsonProperty("jvmArgument")]
+        [JsonPropertyName("jvmArgument")]
         public string JvmArgument { get; set; } = string.Empty;
 
-        [JsonProperty("maxMemory")]
+        [JsonPropertyName("maxMemory")]
         public int MaxMemory { get; set; } = 1024;
 
-        [JsonProperty("windowHeight")]
+        [JsonPropertyName("windowHeight")]
         public int WindowHeight { get; set; } = 480;
 
-        [JsonProperty("windowWidth")]
+        [JsonPropertyName("windowWidth")]
         public int WindowWidth { get; set; } = 854;
 
-        [JsonProperty("isAutoSelectjava")]
+        [JsonPropertyName("isAutoSelectjava")]
         public bool IsAutoSelectJava { get; set; } = false;
 
-        [JsonProperty("isAutoGetMemory")]
+        [JsonPropertyName("isAutoGetMemory")]
         public bool IsAutoGetMemory { get; set; } = false;
 
-        [JsonProperty("javaRuntimes")]
+        [JsonPropertyName("javaRuntimes")]
         public List<JavaInfo> JavaRuntimes { get; set; } = new();
 
-        [JsonProperty("gameDirectorys")]
+        [JsonPropertyName("gameDirectorys")]
         public List<string> GameDirectorys { get; set; } = new() { GameCoreUtils.GetOfficialGameCorePath().FullName };
     }
 }

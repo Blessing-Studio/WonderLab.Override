@@ -1,11 +1,13 @@
 ﻿using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using System;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
 using wonderlab.Class.ViewData;
+using wonderlab.Views.Converters;
 
 namespace wonderlab.Class.Utils {
     public static class JsonUtils {
@@ -60,7 +62,10 @@ namespace wonderlab.Class.Utils {
                 }
 
                 var json = await jsonPath.ReadCompressedText();
-                GlobalResources.LauncherData = json.ToJsonEntity<LauncherDataModel>();
+                JsonSerializerOptions options = new();
+                options.Converters.Add(new JsonToColorConverter());
+                
+                GlobalResources.LauncherData = JsonSerializer.Deserialize<LauncherDataModel>(json, options)!;
 
                 if (GlobalResources.LauncherData.IsNull()) {
                     GlobalResources.LauncherData = GlobalResources.DefaultLauncherData;
@@ -69,7 +74,8 @@ namespace wonderlab.Class.Utils {
             catch (Exception) {
                 await Task.Delay(500);
                 WriteLauncherInfoJson();
-                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意".ShowInfoDialog("程序遭遇了异常");
+                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意"
+                    .ShowInfoDialog("程序遭遇了异常");
             }
         }
 
@@ -95,12 +101,13 @@ namespace wonderlab.Class.Utils {
         public static async ValueTask<SingleCoreModel> ReadSingleGameCoreJsonAsync(GameCore core) {
             string path = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
             var json = await path.ReadCompressedText();
-            json.ShowLog();
-            var data = json.ToJsonEntity<SingleCoreModel>();
 
-            if (data.IsNull()) {
+            if (!path.IsFile()) {
                 return WriteSingleGameCoreJson(core);
             }
+
+            json.ShowLog();
+            var data = json.ToJsonEntity<SingleCoreModel>();
 
             return data;
         }
