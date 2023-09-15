@@ -296,7 +296,7 @@ namespace wonderlab.Class.Utils {
         };
 
         public static void ShowInfoDialog(this string message, string title) {
-            App.CurrentWindow.DialogHost.ShowInfoDialog(title, message);
+            App.CurrentWindow.dialogHost.ShowInfoDialog(title, message);
         }
 
         public static void SwitchLanguage(this string tag) {

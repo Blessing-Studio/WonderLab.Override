@@ -9,6 +9,8 @@ using System.Net;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using MinecraftLaunch.Modules.Utils;
+using wonderlab.Class.Enum;
+using MinecraftLaunch.Modules.Downloaders;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
@@ -16,28 +18,21 @@ namespace wonderlab.Class.Utils {
 
         private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
 
-        private const string UpdateUrl = "http://43.136.86.16:14514/api/lsaac/download";
+        private const string UpdateUrl = "http://43.136.86.16:14514/api/update/info";
+
+        private const string DownloadUrl = "http://43.136.86.16:14514/api/update/lsaac/download";
 
         public static readonly string IndexUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/index.json";
 
         public static readonly string VersionInfoUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/files/window/*/info.json";
 
-        public static Index Index { get; private set; }
+        //public static Index Index { get; private set; }
 
         public static async ValueTask<VersionInfo> GetLatestVersionInfoAsync() {
             try {
-                using var responseMessage = await IndexUrl.GetAsync();
-                IndexUrl.ShowLog();
+                using var responseMessage = await UpdateUrl.GetAsync();
                 var json = await responseMessage.GetStringAsync();
-                Index = json.ToJsonEntity<Index>();
-
-                var versionInfoUrl = VersionInfoUrl.Replace("*",$"{Index.Type}{Index.Latest}");
-                VersionInfoUrl.Replace("*", $"{Index.Type}{Index.Latest}").ShowLog();
-
-                using var responseMessage1 = await versionInfoUrl.GetAsync();
-                var versionInfoJson = await responseMessage1.GetStringAsync();
-
-                return versionInfoJson.ToJsonEntity<VersionInfo>();
+                return json.ToJsonEntity<VersionInfo>();                
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -46,16 +41,25 @@ namespace wonderlab.Class.Utils {
             return null!;
         }
 
-        public static async void UpdateAsync(VersionInfo info, Action<float> action) {
-            if (Index.Latest.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
-                var downloadResponse = await HttpUtil.HttpDownloadAsync(string.Format(info.DownloadUrl,$"x64"), Directory.GetCurrentDirectory(), (p, s) => {
-                    action(p);
-                }, "WonderLab.zip");
+        public static async void UpdateAsync(VersionInfo info, Action<double> action) {
+            if (info.Id.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
+                using var downloader = FileDownloader.Build(new() {
+                    Url = DownloadUrl,
+                    Directory = Directory.GetCurrentDirectory().ToDirectory()!,
+                    FileName = "launcher.zip"
+                });
 
-                if (downloadResponse.HttpStatusCode is HttpStatusCode.OK) {
+                downloader.DownloadProgressChanged += (_, raw) => {
+                    action(raw.Progress);
+                };
+
+                downloader.BeginDownload();
+                var result = await downloader.CompleteAsync();
+
+                if (result.HttpStatusCode is HttpStatusCode.OK) {
                     try {
-                        using var zip = ZipFile.OpenRead(downloadResponse.FileInfo.FullName);
-                        zip.ExtractToDirectory(downloadResponse.FileInfo.Directory.FullName);
+                        using var zip = ZipFile.OpenRead(result.Result.FullName);
+                        zip.ExtractToDirectory(result.Result.Directory!.FullName);
 
                         await Task.Delay(1000);
                         JsonUtils.WriteLauncherInfoJson();
@@ -94,14 +98,17 @@ namespace wonderlab.Class.Utils {
     }
 
     public record VersionInfo {
-        [JsonPropertyName("url")]
-        public string DownloadUrl { get; set; }
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
-        [JsonPropertyName("message")]
+        [JsonPropertyName("messages")]
         public IEnumerable<string> UpdateMessage { get; set; }
 
-        [JsonPropertyName("date")]
-        public string Date { get; set; }
+        [JsonPropertyName("time")]
+        public string Time { get; set; }
+
+        [JsonPropertyName("branch")]
+        public IssuingBranch Branch { get; set; }
     }
 
     public class UpdateInfo {

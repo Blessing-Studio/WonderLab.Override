@@ -8,6 +8,10 @@ namespace wonderlab.control {
             InitializeComponent();
             Test.Click += Test_Click;
         }
+
+        private async void Open_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
+        }
+
         int count;
         private async void Test_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
             count++;

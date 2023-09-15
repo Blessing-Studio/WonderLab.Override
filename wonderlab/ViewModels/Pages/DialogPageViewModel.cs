@@ -70,15 +70,15 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public void OfflineSelectedAction() {
-            CurrentType = App.CurrentWindow.DialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Offline);
+            CurrentType = App.CurrentWindow.dialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Offline);
         }
 
         public void YggdrasilSelectedAction() {
-            CurrentType = App.CurrentWindow.DialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Yggdrasil);
+            CurrentType = App.CurrentWindow.dialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Yggdrasil);
         }
 
         public async void MicrosoftSelectedAction() {
-            App.CurrentWindow.DialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Microsoft);
+            App.CurrentWindow.dialogHost.Validation.ShowDialog(ValidationDialog.ValidationTypes.Microsoft);
             MicrosoftAuthenticator authenticator = new() {
                 ClientId = GlobalResources.ClientId,
                 AuthType = AuthType.Access
@@ -88,7 +88,7 @@ namespace wonderlab.ViewModels.Pages {
                 var deviceCodeInfo = await authenticator.GetDeviceInfo();
                 if (!deviceCodeInfo.IsNull()) {
                     DeviceCodeText = deviceCodeInfo.UserCode;
-                    App.CurrentWindow.DialogHost.Validation.IsCodeLoading = false;
+                    App.CurrentWindow.dialogHost.Validation.IsCodeLoading = false;
                     ValidationLink = deviceCodeInfo.VerificationUrl;
                 }
 
@@ -113,7 +113,7 @@ namespace wonderlab.ViewModels.Pages {
                 CancelAction();
             }
             catch (Exception ex) when (ex is TimeoutException) {
-                App.CurrentWindow.DialogHost.Validation.HideDialog();
+                App.CurrentWindow.dialogHost.Validation.HideDialog();
                 "无法完成此次验证操作，原因：验证超时！".ShowInfoDialog("错误");
                 CancelAction();
                 return;
@@ -136,7 +136,7 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void GoWriteAction() {
-            var validation = App.CurrentWindow.DialogHost.Validation;
+            var validation = App.CurrentWindow.dialogHost.Validation;
             string email = validation.Email, uri = validation.YggdrasilUri, password = validation.Password;
 
             try {
@@ -201,7 +201,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public void CancelAction() {
             HasGame = false;            
-            App.CurrentWindow.DialogHost.Validation.HideDialog();
+            App.CurrentWindow.dialogHost.Validation.HideDialog();
         }
     }
 }

@@ -50,30 +50,23 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public Bitmap NewImage { get; set; }
 
-        public async void GetMojangNewsAction()
-        {
-            try
-            {
+        public async void GetMojangNewsAction() {
+            try {
                 New result = null;
-                if (CacheResources.MojangNews.Count <= 0)
-                {
+                if (CacheResources.MojangNews.Count <= 0) {
                     List<New> news = new(await HttpUtils.GetMojangNewsAsync());
                     result = news.Count > 0 ? news.First() : new();
-                }
-                else
-                {
+                } else {
                     result = CacheResources.MojangNews.FirstOrDefault()!;
                 }
 
                 NewTitle = result.Title;
                 NewTag = result.Tag;
-                if (result.NewsPageImage != null)
-                {
+                if (result.NewsPageImage != null) {
                     NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
                 }
             }
-            catch (HttpRequestException ex)
-            {
+            catch (HttpRequestException ex) {
                 $"哎哟，获取失败力，请检查您的网络是否正常，详细信息：{ex.Message}".ShowMessage();
             }
         }
@@ -99,7 +92,6 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenInstallDialogAction() {
             new DownCenterPage().Navigation();
-            //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
         }
 
         public void OpenSelectConfigPageAction() {

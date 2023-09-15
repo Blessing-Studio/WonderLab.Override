@@ -242,8 +242,8 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void OpenGameInstallDialogAction() {
-            //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
-            App.CurrentWindow.DialogHost.InstallDialog.ShowDialog();
+            //App.CurrentWindow.dialogHost.Install.InstallDialog.ShowDialog();
+            App.CurrentWindow.dialogHost.InstallDialog.ShowDialog();
 
             "下载对话框开启，开始加载加载器信息".ShowLog();
             await Task.Run(async () => await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id));
@@ -252,7 +252,7 @@ namespace wonderlab.ViewModels.Pages {
         public async void GetGameCoresAction() {
             try {
                 var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
-                GameCores.Clear();
+                GameCores?.Clear();
 
                 var temp = result.Cores.Where(x => {
                     x.Type = x.Type switch {

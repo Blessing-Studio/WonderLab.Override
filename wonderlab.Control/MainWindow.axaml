@@ -11,5 +11,6 @@
 	<Grid>
 		<Button Name="Test" Content="Add"/>
 		<wcc:TipBarView Name="tbv"/>
+
 	</Grid>
 </Window>

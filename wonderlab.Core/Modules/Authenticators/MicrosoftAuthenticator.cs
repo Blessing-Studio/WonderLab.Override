@@ -8,6 +8,7 @@ using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Utils;
 using Flurl.Http;
 using System.Text.Json.Nodes;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MinecraftOAuth.Authenticator {
     /// <summary>
@@ -24,22 +25,19 @@ namespace MinecraftOAuth.Authenticator {
                 throw new ArgumentNullException("ClientId为空！");
 
             //开始获取一次性验证代码
-            using (var client = new HttpClient()) {
-                string tenant = "/consumers";
-                var content = new FormUrlEncodedContent(new Dictionary<string, string> {
-                    ["client_id"] = ClientId,
-                    ["tenant"] = tenant,
-                    ["scope"] = string.Join(" ", Scopes)
-                });
+            string tenant = "/consumers";
+            var content = new {
+                client_id = ClientId,
+                tenant = tenant,
+                scope = string.Join(" ", Scopes)
+            };
 
-                var req = new HttpRequestMessage(HttpMethod.Post, "https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode");
-                req.Content = content;
-                var res = await client.SendAsync(req);
+            using var response = await "https://login.microsoftonline.com/consumers/oauth2/v2.0/devicecode"
+                .PostUrlEncodedAsync(content);
 
-                string json = await res.Content.ReadAsStringAsync();
-                var codeResponse = json.ToJsonEntity<DeviceCodeResponse>();
-                return codeResponse;
-            }
+            string json = await response.GetStringAsync();
+            var codeResponse = json.ToJsonEntity<DeviceCodeResponse>();
+            return codeResponse;
         }
 
         /// <summary>

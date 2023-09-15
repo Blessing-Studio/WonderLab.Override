@@ -19,24 +19,12 @@ public partial class App : Application {
 
     public override async void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var load = new LoadWindow();
-            load.Show();
-
-            var main = new MainWindow {
+            desktop.MainWindow = new MainWindow {
                 DataContext = MainWindow.ViewModel = new()
             };
-
-            Logger = Logger.LoadLogger(main);
-            main.Hide();
-
-            await Task.Delay(1000);
-            desktop.MainWindow = main;
-
-            main.Show();
-            load.Close();
-
             CurrentWindow = (desktop.MainWindow as MainWindow)!;
             Manager.Current = CurrentWindow;
+            Logger = Logger.LoadLogger(CurrentWindow);
         }
 
         //Logger = Logger.LoadLogger();

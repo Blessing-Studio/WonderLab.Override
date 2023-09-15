@@ -1,5 +1,6 @@
 ﻿using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using DialogHostAvalonia;
 using MinecraftLaunch.Launch;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
@@ -24,6 +25,7 @@ using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.control;
 using wonderlab.control.Animation;
+using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
@@ -108,13 +110,13 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
         }
 
-        public void SelectAccountAction() {
+        public async void SelectAccountAction() {
             try {
                 var user = CacheResources.Accounts;
                 DialogPage.ViewModel.GameAccounts = user;
 
                 if (user.Count > 1) {
-                    App.CurrentWindow.DialogHost.AccountDialog.ShowDialog();
+                    await DialogHost.Show(new AccountDialogContent(), "dialogHost");
                     return;
                 } else if (user.Count <= 0) {
                     "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！".ShowMessage("提示", async () => {

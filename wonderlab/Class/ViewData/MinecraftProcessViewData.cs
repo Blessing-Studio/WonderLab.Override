@@ -45,7 +45,7 @@ namespace wonderlab.Class.ViewData
                     viewModel.Account = Account;
                     viewModel.JavaVersion = JavaInfo.JavaSlugVersion;                    
 
-                    App.CurrentWindow.DialogHost.GameCrashInfo.CrashDialog.ShowDialog();
+                    App.CurrentWindow.dialogHost.GameCrashInfo.CrashDialog.ShowDialog();
                     if (!analyzerResult.IsNull() && analyzerResult.Count > 0) {
                         viewModel.CrashInfo = string.Join("\n", analyzerResult.Keys.Select(x => x.ToString()));
 

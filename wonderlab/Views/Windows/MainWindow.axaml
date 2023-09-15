@@ -11,11 +11,12 @@
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="WonderLab"
 		CornerRadius="4"
-		DragDrop.AllowDrop="True"
+		DragDrop.AllowDrop="True"		
 		ExtendClientAreaToDecorationsHint="True"
 		WindowStartupLocation="CenterScreen"
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="{DynamicResource AccentBrushDark1}"		
+		xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 		Initialized="WindowsInitialized">
 	<Grid>
 		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage">
@@ -235,8 +236,15 @@
 		</Grid>
 		
 		<wp:NotificationCenterPage Name="NotificationCenter"/>
+
+		<dialogHostAvalonia:DialogHost CloseOnClickAway="False"									   
+									   DialogMargin="16"
+									   dialogHostAvalonia:DialogHostStyle.CornerRadius="8"
+									   DisableOpeningAnimation="True"
+									   Identifier="dialogHost">
+		</dialogHostAvalonia:DialogHost>
 		
-		<wp:DialogPage Name="DialogHost"/>
+		<wp:DialogPage Opacity="0" Name="dialogHost"/>
 				
 		<wcc:TipBarView Margin="0 60 0 0" Name="tipBarView"/>
 	</Grid>

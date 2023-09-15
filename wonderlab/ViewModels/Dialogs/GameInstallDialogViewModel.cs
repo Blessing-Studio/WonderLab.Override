@@ -209,7 +209,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public void HideInstallDialogAction() {
-            App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
+            App.CurrentWindow.dialogHost.Install.InstallDialog.HideDialog();
         }
 
         public async void GameCoreInstallAction() {
@@ -263,7 +263,7 @@ namespace wonderlab.ViewModels.Dialogs {
                     return;
                 }
 
-                App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
+                App.CurrentWindow.dialogHost.Install.InstallDialog.HideDialog();
                 data.Title = $"游戏 {customId} 的安装任务";
                 $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
                 NotificationCenterPage.ViewModel.Notifications.Add(data);
@@ -310,7 +310,7 @@ namespace wonderlab.ViewModels.Dialogs {
                 "无法继续安装，因为未选择任何 Java！".ShowMessage();
             }
 
-            App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
+            App.CurrentWindow.dialogHost.Install.InstallDialog.HideDialog();
             NotificationCenterPage.ViewModel.Notifications.Add(data);
             var forgedata = CurrentModLoaders.GetForge().Data;
             var optifinrdata = CurrentModLoaders.GetOptiFine().Data;

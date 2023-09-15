@@ -140,29 +140,75 @@
 							<SkewTransform AngleX="-8"/>
 						</TransformGroup>
 					</Button.RenderTransform>
-				</Button>
-
+				</Button>								
+				
 				<ListBox Background="{x:Null}" Grid.Row="2"
 						 ClipToBounds="False" Margin="0 0 0 60"
 						 ItemsSource="{Binding GameAccounts}"
 						 SelectedItem="{Binding CurrentGameAccount}">
-					<ListBox.Styles>
+					<ListBox.Styles>						
 						<Styles>
+							<Style Selector="ToolTip">
+								<Setter Property="CornerRadius" Value="6"/>
+								<Setter Property="ClipToBounds" Value="True"/>
+								<Setter Property="Template">
+									<ControlTemplate>
+										<Grid>
+											<Border Width="200"
+		                                            Height="60"
+		                                            CornerRadius="6"
+													ClipToBounds="True"													
+		                                            BorderBrush="{DynamicResource AccentBrush}"
+		                                            BorderThickness="5 0 0 0">
+												<Border.Background>
+													<ImageBrush Stretch="UniformToFill"
+																Source="{Binding Head}"/>
+												</Border.Background>
+												<Border.Effect>
+													<BlurEffect Radius="5"/>
+												</Border.Effect>
+											</Border>
+
+											<Grid VerticalAlignment="Center"
+												  HorizontalAlignment="Left"
+												  Margin="10 0"
+												  RowDefinitions="Auto,Auto">
+												<TextBlock Foreground="White"
+														   FontWeight="Bold"
+														   Text="{Binding Data.UserName}" 
+														   FontSize="18"/>
+
+												<Border CornerRadius="2"
+														HorizontalAlignment="Left"
+														Background="{DynamicResource AccentBrush}"
+														Padding="3" Grid.Row="1">
+													<TextBlock Text="{Binding Data.UserType}"		                                                       
+		                                                       Foreground="White"
+		                                                       Opacity="0.75"/>
+												</Border>
+											</Grid>
+										</Grid>
+									</ControlTemplate>
+								</Setter>
+							</Style>
+							
 							<Style Selector="ListBoxItem">
 								<Setter Property="Margin" Value="15 6"/>
 								<Setter Property="ClipToBounds" Value="False"/>
+								<Setter Property="ToolTip.Tip" Value="1111"/>
 								<Setter Property="ContextMenu">
 									<ContextMenu>
 										<MenuItem Header="{DynamicResource DeleteAccount}" Click="OnAccountDeleteClick"/>
 									</ContextMenu>
 								</Setter>
+
 								<Setter Property="Template">
 									<ControlTemplate>
 										<Border Background="{DynamicResource DialogContentBackground}"
 												CornerRadius="6"
 												BorderThickness="1"
 												BorderBrush="{DynamicResource DialogContentBorderBrush}"
-												Name="Main">
+												Name="Main">																					
 											<Border.RenderTransform>
 												<TransformGroup>
 													<SkewTransform AngleX="-8"/>

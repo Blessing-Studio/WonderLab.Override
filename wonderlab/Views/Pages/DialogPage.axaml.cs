@@ -24,7 +24,7 @@ namespace wonderlab.Views.Pages {
 
         private void OnCurrentModLoaderChanged(object? sender, SelectModLoaderChangedArgs e) {
             var loader = (ModLoaderViewData)((ListBox)sender!).SelectedItem!;
-            var loaders = CurrentModLoaders;
+            var loaders = CurrentModLoaders.ToList();
             if (!loader.IsNull()) {
                 if (loaders.Count() == 0) {
                     CurrentModLoaders.Add(loader);

@@ -4,14 +4,17 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using DialogHostAvalonia;
 using MinecraftLaunch.Modules.Models.Download;
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.ViewModels.Windows;
+using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
@@ -43,8 +46,8 @@ namespace wonderlab.Views.Windows {
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
-                DialogHost.MainDialog.CustomButtonClick += (_, _) => DialogHost.MainDialog.HideDialog();
-                DialogHost.MainDialog.CloseButtonClick += (_, _) => Close();
+                dialogHost.MainDialog.CustomButtonClick += (_, _) => dialogHost.MainDialog.HideDialog();
+                dialogHost.MainDialog.CloseButtonClick += (_, _) => Close();
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
                 JsonUtils.CreateLaunchInfoJson();
                 JsonUtils.CreateLauncherInfoJson();
@@ -132,7 +135,7 @@ namespace wonderlab.Views.Windows {
 
         private async void WindowsInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
-            
+
             try {
                 Drop.PointerPressed += OnPointerPressed;
                 TopInfoBar.PointerPressed += OnPointerPressed;
@@ -141,12 +144,13 @@ namespace wonderlab.Views.Windows {
 
                 var result = await UpdateUtils.GetLatestVersionInfoAsync();
 
-                if (result is not null && UpdateUtils.Index.Latest.Replace(".","").ToInt32() > UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
-                    DialogHost.UpdateDialog.Message = string.Join("\n",result.UpdateMessage);
-                    DialogHost.UpdateDialog.Author = $"于 {result.Date}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}";
-                    DialogPage.ViewModel.info = result;
-                    await Task.Delay(1000);
-                    DialogHost.UpdateDialog.ShowDialog();
+                if (result is not null && result.Id.Replace(".","").ToInt32() >
+                    UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
+                    UpdateDialogContent content = new(result,
+                        string.Join("\n", result.UpdateMessage),
+                        $"于 {result.Time}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
+
+                    await DialogHost.Show(content, "dialogHost");
                 }
             }
             catch (Exception ex) {

@@ -10,7 +10,6 @@ namespace wonderlab.control
         // yet and stuff might break.
         [STAThread]
         public static void Main(string[] args) {
-            Environment.SetEnvironmentVariable("LC_CTYPE", "en_US.UTF-8", EnvironmentVariableTarget.User);
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         }
             

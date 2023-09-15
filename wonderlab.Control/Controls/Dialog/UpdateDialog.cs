@@ -30,6 +30,8 @@ namespace wonderlab.control.Controls.Dialog {
 
         public double UpdateProgress { get => GetValue(UpdateProgressProperty); set => SetValue(UpdateProgressProperty, value); }
 
+        public bool IsUpdate { get; set; } = false;
+
         public static readonly StyledProperty<string> AuthorProperty =
             AvaloniaProperty.Register<UpdateDialog, string>(nameof(Author), "");
 
@@ -82,7 +84,9 @@ namespace wonderlab.control.Controls.Dialog {
                 Manager.Current.BeginMoveDrag(args);
             };
 
-            HideDialog();
+            if (!IsUpdate) {
+                HideDialog();
+            }
         }
     }
 }

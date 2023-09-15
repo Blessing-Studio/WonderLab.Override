@@ -136,7 +136,7 @@ namespace wonderlab.control.Controls.Dialog {
                 CurrentModLoaderChanged?.Invoke(sender, SelectModLoaderChangedArgs.Build(SelectedLoader));
             };
 
-            ShowDialog();
+            HideDialog();
         }
 
         private void OnCurrentModLoaderSelectionChanged(object? sender, SelectionChangedEventArgs e) {
