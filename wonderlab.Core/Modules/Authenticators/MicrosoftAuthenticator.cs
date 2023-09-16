@@ -1,14 +1,13 @@
-﻿using System.Diagnostics;
+﻿using Flurl.Http;
 using System.Net;
+using System.Diagnostics;
+using System.Text.Json.Nodes;
 using MinecraftOAuth.Module.Base;
 using MinecraftOAuth.Module.Enum;
 using MinecraftOAuth.Module.Models;
 using MinecraftLaunch.Modules.Enum;
-using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Utils;
-using Flurl.Http;
-using System.Text.Json.Nodes;
-using static System.Formats.Asn1.AsnWriter;
+using MinecraftLaunch.Modules.Models.Auth;
 
 namespace MinecraftOAuth.Authenticator {
     /// <summary>
