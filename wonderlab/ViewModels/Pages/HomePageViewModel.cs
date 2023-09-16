@@ -113,7 +113,6 @@ namespace wonderlab.ViewModels.Pages {
         public async void SelectAccountAction() {
             try {
                 var user = CacheResources.Accounts;
-                DialogPage.ViewModel.GameAccounts = user;
 
                 if (user.Count > 1) {
                     await DialogHost.Show(new AccountDialogContent(), "dialogHost");

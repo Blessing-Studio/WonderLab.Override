@@ -101,7 +101,6 @@ namespace wonderlab.Class.Utils {
             return true;
 
             async ValueTask GetForgesAsync() {
-                DialogPage.ViewModel.IsQuiltLoaded = false;
                 await Task.Run(async () => {
                     var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(id)).Select(x => new ModLoaderModel() {
                         ModLoaderType = ModLoaderType.Forge,
@@ -117,16 +116,13 @@ namespace wonderlab.Class.Utils {
 
                     "Forge 加载完毕".ShowLog();       
                     CacheResources.Forges.AddRange(result);
-                    DialogPage.ViewModel.IsForgeLoaded = result.Any();
                 });
             }
 
             async ValueTask GetQuiltsAsync() {
                 await Task.Run(async () => {
-                    DialogPage.ViewModel.IsQuiltLoaded = false;
                     if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Quilt".ShowLog();
-                        DialogPage.ViewModel.IsQuiltLoaded = false;
                     } else {
                         var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
                             ModLoaderType = ModLoaderType.Quilt,
@@ -142,17 +138,14 @@ namespace wonderlab.Class.Utils {
 
                         "Quilt 加载完毕".ShowLog();
                         CacheResources.Quilts.AddRange(result);
-                        DialogPage.ViewModel.IsQuiltLoaded = result.Any();
                     }
                 });
             }
 
             async ValueTask GetFabricsAsync() {
-                DialogPage.ViewModel.IsFabricLoaded = false;
                 await Task.Run(async () => {
                     if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Fabric".ShowLog();
-                        DialogPage.ViewModel.IsFabricLoaded = false;
                     } else {
                         var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
                             ModLoaderType = ModLoaderType.Fabric,
@@ -168,13 +161,11 @@ namespace wonderlab.Class.Utils {
 
                         "Fabric 加载完毕".ShowLog();
                         CacheResources.Fabrics.AddRange(result);
-                        DialogPage.ViewModel.IsFabricLoaded = result.Any();
                     }
                 });
             }
 
             async ValueTask GetOptifinesAsync() {
-                DialogPage.ViewModel.IsOptifineLoaded = false;
                 await Task.Run(async () => {
                     var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(id)).Select(x => new ModLoaderModel() {
                         ModLoaderType = ModLoaderType.OptiFine,
@@ -190,7 +181,6 @@ namespace wonderlab.Class.Utils {
 
                     "Optifine 加载完毕".ShowLog();
                     CacheResources.Optifines.AddRange(result);
-                    DialogPage.ViewModel.IsOptifineLoaded = result.Any();
                 });
             }
         }

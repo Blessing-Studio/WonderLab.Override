@@ -243,8 +243,6 @@
 									   DisableOpeningAnimation="True"
 									   Identifier="dialogHost">
 		</dialogHostAvalonia:DialogHost>
-		
-		<wp:DialogPage Opacity="0" Name="dialogHost"/>
 				
 		<wcc:TipBarView Margin="0 60 0 0" Name="tipBarView"/>
 	</Grid>

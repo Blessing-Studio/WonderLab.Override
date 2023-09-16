@@ -46,8 +46,7 @@ namespace wonderlab.Views.Windows {
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
-                dialogHost.MainDialog.CustomButtonClick += (_, _) => dialogHost.MainDialog.HideDialog();
-                dialogHost.MainDialog.CloseButtonClick += (_, _) => Close();
+
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
                 JsonUtils.CreateLaunchInfoJson();
                 JsonUtils.CreateLauncherInfoJson();
