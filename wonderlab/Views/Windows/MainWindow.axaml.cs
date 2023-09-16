@@ -135,6 +135,7 @@ namespace wonderlab.Views.Windows {
 
         private async void WindowsInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
+            //await DialogHost.Show(new CrashDialogContent(), "dialogHost");
 
             try {
                 Drop.PointerPressed += OnPointerPressed;
