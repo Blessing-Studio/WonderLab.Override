@@ -37,6 +37,7 @@
 		<Grid Background="Transparent"
 	          Name="Drop"/>
 
+
 		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>
 				<Transitions>
@@ -234,8 +235,8 @@
 				</Grid>
 			</Border>
 		</Grid>
-		
-		<wp:NotificationCenterPage Name="NotificationCenter"/>
+
+		<wp:NotificationCenterPage IsHitTestVisible="False" Name="NotificationCenter"/>
 
 		<dialogHostAvalonia:DialogHost CloseOnClickAway="False"									   
 									   DialogMargin="16"

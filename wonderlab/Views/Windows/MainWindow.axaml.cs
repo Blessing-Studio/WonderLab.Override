@@ -35,7 +35,7 @@ namespace wonderlab.Views.Windows {
                 ThemeUtils.Init();
                 WindowWidth = Width;
                 WindowHeight = Height;
-
+                
                 Closed += (_, x) => {
                     JsonUtils.WriteLaunchInfoJson();
                     JsonUtils.WriteLauncherInfoJson();
