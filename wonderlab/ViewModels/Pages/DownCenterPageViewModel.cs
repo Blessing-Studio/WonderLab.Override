@@ -248,23 +248,12 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void GetGameCoresAction() {
             try {
-                var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
+                var result = await Task.Run(async () => await HttpUtils.GetGameCoresAsync());
                 GameCores?.Clear();
+                Cache = result.ToList();
 
-                var temp = result.Cores.Where(x => {
-                    x.Type = x.Type switch {
-                        "snapshot" => "快照版本",
-                        "release" => "正式版本",
-                        "old_alpha" => "远古版本",
-                        "old_beta" => "远古版本",
-                        _ => "正式版本"
-                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
-
-                    return true;
-                }).ToList();
-
-                Cache = temp.ToList();
-                GameCores = new(Cache.Where(x => x.Type.Contains(CurrentMcVersionType)));
+                GameCores = new(Cache.Where(x => x.Type
+                   .Contains(CurrentMcVersionType)));
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");

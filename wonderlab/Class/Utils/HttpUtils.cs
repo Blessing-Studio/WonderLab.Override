@@ -13,6 +13,8 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Utils;
+using MinecraftLaunch.Modules.Models.Install;
+using wonderlab.control;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -20,13 +22,18 @@ namespace wonderlab.Class.Utils {
             var result = new List<New>();
 
             try {
-                var json = await (await GlobalResources.MojangNewsApi.GetAsync()).GetStringAsync();
-                result = json.ToJsonEntity<MojangNewsModel>().Entries;
+                var json = await (await GlobalResources.MojangNewsApi.GetAsync())
+                    .GetStringAsync();
+
+                result = json.ToJsonEntity<MojangNewsModel>()
+                    .Entries;
+
                 CacheResources.MojangNews = result;
             }
             catch (Exception ex) {
                 ex.ShowLog(LogLevel.Error);
-                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
+                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}"
+                    .ShowMessage();
             }
 
             return result;
@@ -36,7 +43,9 @@ namespace wonderlab.Class.Utils {
             var result = new HitokotoModel();
 
             try {
-                var json = await (await GlobalResources.HitokotoApi.GetAsync()).GetStringAsync();
+                var json = await (await GlobalResources.HitokotoApi.GetAsync())
+                    .GetStringAsync();
+
                 result = JsonSerializer.Deserialize<HitokotoModel>(json);
             }
             catch (Exception ex) {
@@ -47,9 +56,31 @@ namespace wonderlab.Class.Utils {
             return result;
         }
 
+        public static async ValueTask<IEnumerable<GameCoreEmtity>> GetGameCoresAsync() {
+            if (!CacheResources.GameCores.Any()) {
+                var cores = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
+                var result = cores.Cores.Where(x => {
+                    x.Type = x.Type switch {
+                        "snapshot" => "快照版本",
+                        "release" => "正式版本",
+                        "old_alpha" => "远古版本",
+                        "old_beta" => "远古版本",
+                        _ => "正式版本"
+                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                    return true;
+                }).AsEnumerable();
+
+                CacheResources.GameCores.Load(result);
+                return result;
+            }
+
+            return CacheResources.GameCores;
+        }
+
         public static async ValueTask<string> GetLatestGameCoreAsync() {
-            var result = await GameCoreInstaller.GetGameCoresAsync();
-            return result.Latest.Last().Value;
+            var result = await GetGameCoresAsync();
+            return result.FirstOrDefault().Id;
         }
 
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) {

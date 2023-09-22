@@ -12,6 +12,8 @@
 				<Border Background="{DynamicResource DialogContentBackground}"
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 						VerticalAlignment="Top"
 						CornerRadius="6">
 					<Grid>
@@ -52,6 +54,8 @@
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
 						VerticalAlignment="Top"
+					    BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 						CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -101,7 +105,7 @@
 									Classes="wonderaccentbutton">
 								<Grid>
 									<TextBlock Text="搜索 Java" IsVisible="{Binding IsLoadJavaFinish}"/>
-									<ProgressBar Classes="Circle" IsIndeterminate="True" Height="20"
+									<ProgressBar Classes="circular" IsIndeterminate="True" Height="20"
 												 Width="20" IsVisible="{Binding IsLoadJavaNow}"
 												 Foreground="{DynamicResource FontColorBrush}"/>
 								</Grid>
@@ -122,6 +126,8 @@
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
 						VerticalAlignment="Top"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 						CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -151,6 +157,8 @@
 		                BoxShadow="0 1 4 0 #66000000"
 		                Height="140" Margin="15 0"
 		                VerticalAlignment="Top"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 		                CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -200,7 +208,7 @@
 											Height="12"
 											Background="{DynamicResource AccentBrush}"/>
 
-									<TextBlock FontSize="12" Text="Free">
+									<TextBlock FontSize="12" Text="空闲">
 										<Run Text=" ["/>
 										<Run Text="{Binding FreeMemory}"/>
 										<Run Text="MB ]"/>
@@ -215,7 +223,7 @@
 											Height="12"
 											Background="{DynamicResource AccentBrushDark2}"/>
 
-									<TextBlock FontSize="12" Text="Total">
+									<TextBlock FontSize="12" Text="全部">
 										<Run Text=" ["/>
 										<Run Text="{Binding TotalMemory}"/>
 										<Run Text="MB ]"/>
@@ -230,6 +238,8 @@
 		                BoxShadow="0 1 4 0 #66000000"
 		                Height="80"
 						Margin="15 0"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 		                VerticalAlignment="Top"
 		                CornerRadius="6">
 					<Grid>
@@ -275,6 +285,8 @@
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
 						VerticalAlignment="Top"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 						CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -308,6 +320,8 @@
 						BoxShadow="0 1 4 0 #66000000"
 						Height="80" Margin="15 0"
 						VerticalAlignment="Top"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}"
+						BorderThickness="1"
 						CornerRadius="6">
 					<Grid>
 						<Grid.RowDefinitions>

@@ -9,6 +9,10 @@
 		<OutputType>WinExe</OutputType>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Assets\Fonts\DinPro.ttf" />
+	  <None Remove="Assets\Fonts\MinecraftTen.ttf" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<TrimmerRootDescriptor Include="Roots.xml" />
@@ -82,6 +86,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\steve.png" />
+		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
+		<EmbeddedResource Include="Assets\Fonts\MinecraftTen.ttf" />
 		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
 

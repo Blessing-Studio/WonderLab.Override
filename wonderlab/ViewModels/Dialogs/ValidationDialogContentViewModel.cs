@@ -156,7 +156,8 @@ namespace wonderlab.ViewModels.Dialogs {
                 }
             }
             catch (Exception ex) {
-                $"登录失败，请检查您的信息是否填写正确，详细信息如下：{ex}".ShowInfoDialog("登录失败");
+                $"登录失败，请检查您的信息是否填写正确，详细信息如下：{ex}"
+                    .ShowInfoDialog("登录失败");
             }
 
             $"已成功将 {Email} 名下所有的账户全部添加至启动器".ShowMessage();

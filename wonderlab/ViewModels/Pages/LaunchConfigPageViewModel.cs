@@ -18,7 +18,6 @@ using wonderlab.control;
 namespace wonderlab.ViewModels.Pages {
     public class LaunchConfigPageViewModel : ViewModelBase {
         public LaunchConfigPageViewModel() {
-
             try {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                     ThreadPool.QueueUserWorkItem(x => {

@@ -5,10 +5,12 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
@@ -22,30 +24,31 @@ namespace wonderlab.ViewModels.Pages {
     public class ActionCenterPageViewModel : ViewModelBase {
         public ActionCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
-            GetMojangNewsAction();
-            GetHitokotoAction();
-            GetLatestGameCoreAction();
+            Dispatcher.UIThread.Post(() => {
+                Task.Factory.StartNew(GetMojangNewsAction);
+                Task.Factory.StartNew(GetHitokotoAction);
+                Task.Factory.StartNew(GetLatestGameCoreAction);
+            }, DispatcherPriority.Background);
         }
 
-        public void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        public void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
 
         }
 
+        [Reactive]
+        public string NewTitle { get; set; } = "Loading...";
 
         [Reactive]
-        public string? NewTitle { get; set; } = "Loading...";
+        public string NewTag { get; set; } = "Loading...";
 
         [Reactive]
-        public string? NewTag { get; set; } = "Loading...";
-
-        [Reactive]
-        public string? HitokotoTitle { get; set; }
+        public string HitokotoTitle { get; set; }
 
         [Reactive]
         public string LatestGameCore { get; set; }
 
         [Reactive]
-        public string? HitokotoCreator { get; set; }
+        public string HitokotoCreator { get; set; }
 
         [Reactive]
         public Bitmap NewImage { get; set; }
@@ -63,7 +66,8 @@ namespace wonderlab.ViewModels.Pages {
                 NewTitle = result.Title;
                 NewTag = result.Tag;
                 if (result.NewsPageImage != null) {
-                    NewImage = await HttpUtils.GetWebBitmapAsync($"https://launchercontent.mojang.com/{result.NewsPageImage.Url}");
+                    string url = $"https://launchercontent.mojang.com/{result.NewsPageImage.Url}";
+                    NewImage = NewImage.IsNull() ? await HttpUtils.GetWebBitmapAsync(url) : NewImage;
                 }
             }
             catch (HttpRequestException ex) {

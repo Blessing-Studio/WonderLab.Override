@@ -23,7 +23,7 @@ class Program {
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .With(new FontManagerOptions() {
-                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro"
             })
             .LogToTrace()
             .UseReactiveUI()

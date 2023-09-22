@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Threading;
 using System.Threading.Tasks;
 using wonderlab.ViewModels.Pages;
 
@@ -9,7 +10,7 @@ namespace wonderlab.Views.Pages
         public static ActionCenterPageViewModel ViewModel { get; set; }
         public ActionCenterPage() {    
             InitializeComponent();
-            DataContext = ViewModel = new();
+            Loaded += ActionCenterPageLoaded;
             Bitmap.PointerEntered += (_,_) => {
                 Content.Height = 0;
             };
@@ -17,6 +18,16 @@ namespace wonderlab.Views.Pages
             Bitmap.PointerExited += (_,_) => {
                 Content.Height = 50;
             };
+        }
+
+        private async void ActionCenterPageLoaded(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            if(ViewModel != null) {
+                DataContext = ViewModel;
+            } else {
+                Dispatcher.UIThread.Post(() => {
+                    DataContext = ViewModel = new();
+                },DispatcherPriority.Background);
+            }
         }
     }
 }

@@ -26,6 +26,8 @@ namespace wonderlab.Class.AppData {
 
         public static ObservableCollection<AccountViewData> Accounts { get; set; } = new();
 
+        public static ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
+
         public static Dictionary<string, WebModpackInfoModel> WebModpackInfoDatas { get; set; } = new();
 
         public static void GetWebModpackInfoData() {

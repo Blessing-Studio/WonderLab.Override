@@ -49,7 +49,8 @@ namespace MinecraftLaunch.Modules.Installer {
         }
 
         public static async ValueTask<GameCoresEntity> GetGameCoresAsync() {
-            return (await APIManager.Current.VersionManifest.GetStringAsync()).ToJsonEntity<GameCoresEntity>();
+            return (await APIManager.Current.VersionManifest.GetStringAsync())
+                .ToJsonEntity<GameCoresEntity>();
         }
     }
 
