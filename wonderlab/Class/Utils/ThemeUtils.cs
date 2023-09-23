@@ -2,20 +2,23 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Threading;
 using System;
 
 namespace wonderlab.Class.Utils {
     public static class ThemeUtils {
         public static void SetAccentColor(Color value) {
-            ColorUtils utils = value;
+            Dispatcher.UIThread.Post(() => {
+                ColorUtils utils = value;
 
-            AccentColorResources["AccentColor"] = value;
-            AccentColorResources["AccentColorLight1"] = (Color)utils.LightenPercent(0.15f);
-            AccentColorResources["AccentColorLight2"] = (Color)utils.LightenPercent(0.30f);
-            AccentColorResources["AccentColorLight3"] = (Color)utils.LightenPercent(0.45f);
-            AccentColorResources["AccentColorDark1"] = (Color)utils.LightenPercent(-0.15f);
-            AccentColorResources["AccentColorDark2"] = (Color)utils.LightenPercent(-0.30f);
-            AccentColorResources["AccentColorDark3"] = (Color)utils.LightenPercent(-0.45f);
+                AccentColorResources["AccentColor"] = value;
+                AccentColorResources["AccentColorLight1"] = (Color)utils.LightenPercent(0.15f);
+                AccentColorResources["AccentColorLight2"] = (Color)utils.LightenPercent(0.30f);
+                AccentColorResources["AccentColorLight3"] = (Color)utils.LightenPercent(0.45f);
+                AccentColorResources["AccentColorDark1"] = (Color)utils.LightenPercent(-0.15f);
+                AccentColorResources["AccentColorDark2"] = (Color)utils.LightenPercent(-0.30f);
+                AccentColorResources["AccentColorDark3"] = (Color)utils.LightenPercent(-0.45f);
+            });
         }
 
         public static Color GetColor(string name) {

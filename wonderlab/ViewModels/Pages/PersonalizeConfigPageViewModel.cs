@@ -66,6 +66,8 @@ namespace wonderlab.ViewModels.Pages {
         public ObservableCollection<string> BakgroundTypes => new() {
             "主题色背景",
             "图片背景",
+            "亚克力背景",
+            "云母背景（Win11+）",
         };
 
         public ObservableCollection<string> ThemeTypes => new() {

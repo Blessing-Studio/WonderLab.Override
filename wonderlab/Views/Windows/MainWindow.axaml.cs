@@ -1,15 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using DialogHostAvalonia;
-using MinecraftLaunch.Modules.Models.Download;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
@@ -21,39 +19,48 @@ using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
 namespace wonderlab.Views.Windows {
     public partial class MainWindow : Window {
-        public double WindowHeight, WindowWidth;
-
         public bool IsOpen, CanParallax;
 
         public static MainWindowViewModel ViewModel { get; set; }
 
         public MainWindow() {
-            Initialized += DataInitialized;
-
             InitializeComponent();
             AddHandler(DragDrop.DropEvent, DropAction);
+            ThemeUtils.Init();
+        }
 
+        private async void MainWindowLoaded(object sender, RoutedEventArgs e) {
             try {
-                ThemeUtils.Init();
-                WindowWidth = Width;
-                WindowHeight = Height;
-                Closed += (_, x) => {
+                PointerMoved += OnPointerMoved;
+                PropertyChanged += OnPropertyChanged;
+                Drop.PointerPressed += OnPointerPressed;
+                TopInfoBar.PointerPressed += OnPointerPressed;
+                TopInfoBar1.PointerPressed += OnPointerPressed;
+                TopInfoBar2.PointerPressed += OnPointerPressed;
+                this.Closed += (_, x) => {
                     JsonUtils.WriteLaunchInfoJson();
                     JsonUtils.WriteLauncherInfoJson();
                 };
 
-                PointerMoved += OnPointerMoved;
-                PropertyChanged += OnPropertyChanged;
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
 
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
-                JsonUtils.CreateLaunchInfoJson();
-                JsonUtils.CreateLauncherInfoJson();
+                CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
+
+                var result = await UpdateUtils.GetLatestVersionInfoAsync();
+                if (result is not null && result.Id.Replace(".", "").ToInt32() >
+                    UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
+                    UpdateDialogContent content = new(result,
+                        string.Join("\n", result.UpdateMessage),
+                        $"于 {result.Time}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
+
+                    await DialogHost.Show(content, "dialogHost");
+                }
             }
             catch (Exception ex) {
-                $"初始化信息失败，错误信息如下：{ex.Message}".ShowMessage("Error");
+                $"{ex.Message}".ShowMessage();
             }
         }
 
@@ -83,26 +90,6 @@ namespace wonderlab.Views.Windows {
             }
         }
 
-        private async void DataInitialized(object? sender, EventArgs e) {
-            await Task.Delay(500);
-            try {
-
-                BackgroundImage.IsVisible = GlobalResources.LauncherData.BakgroundType is "图片背景";
-                CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
-
-                if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(GlobalResources.LauncherData.ImagePath)) {
-                    BackgroundImage.Source = new Bitmap(GlobalResources.LauncherData.ImagePath);
-                }
-
-                CacheResources.GetWebModpackInfoData();
-            }
-            catch {
-                if (GlobalResources.LauncherData.IsNull()) {
-                    GlobalResources.LauncherData = new();
-                }
-            }
-        }
-
         private void OnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e) {
             if (e.Property == HeightProperty) {
                 if (ViewModel.CurrentPage is HomePage) {
@@ -110,36 +97,6 @@ namespace wonderlab.Views.Windows {
                         HomePage.ViewModel.PanelHeight = Height - 180;
                     }
                 }
-
-                WindowHeight = e.NewValue!.ToDouble();
-            } else if (e.Property == WidthProperty) {
-                WindowWidth = e.NewValue!.ToDouble();
-            }
-        }
-
-        private async void WindowsInitialized(object? sender, EventArgs e) {
-            await Task.Delay(500);
-
-            try {
-                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
-                Drop.PointerPressed += OnPointerPressed;
-                TopInfoBar.PointerPressed += OnPointerPressed;
-                TopInfoBar1.PointerPressed += OnPointerPressed;
-                TopInfoBar2.PointerPressed += OnPointerPressed;
-
-                var result = await UpdateUtils.GetLatestVersionInfoAsync();
-
-                if (result is not null && result.Id.Replace(".","").ToInt32() >
-                    UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
-                    UpdateDialogContent content = new(result,
-                        string.Join("\n", result.UpdateMessage),
-                        $"于 {result.Time}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
-
-                    await DialogHost.Show(content, "dialogHost");
-                }
-            }
-            catch (Exception ex) {
-                $"{ex.Message}".ShowMessage();
             }
         }
         

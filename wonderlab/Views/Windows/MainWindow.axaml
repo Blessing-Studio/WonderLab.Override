@@ -16,12 +16,12 @@
 		WindowStartupLocation="CenterScreen"
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="Transparent"
+		Loaded="MainWindowLoaded"
 		TransparencyLevelHint="Mica,AcrylicBlur"
-		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}"
-		Initialized="WindowsInitialized">
+		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}">
 	<!--{DynamicResource AccentBrushDark1}-->
 	<Grid>
-		<ExperimentalAcrylicBorder IsVisible="False"
+		<ExperimentalAcrylicBorder IsVisible="True"
 								   IsHitTestVisible="False">
 			<ExperimentalAcrylicBorder.Material>
 				<ExperimentalAcrylicMaterial
@@ -35,7 +35,7 @@
 		<Border/>
 		
 		<Image Margin="-20"
-			   IsVisible="False"
+			   IsVisible="{Binding IsLoadImageBackground}"
 			   Name="BackgroundImage"
 			   Stretch="UniformToFill">
 			<Image.Transitions>

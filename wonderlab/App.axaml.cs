@@ -17,17 +17,16 @@ public partial class App : Application {
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override async void OnFrameworkInitializationCompleted() {
+    public override void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             desktop.MainWindow = new MainWindow {
                 DataContext = MainWindow.ViewModel = new()
             };
-            CurrentWindow = (desktop.MainWindow as MainWindow)!;
-            Manager.Current = CurrentWindow;
+
+            Manager.Current = CurrentWindow = (desktop.MainWindow as MainWindow)!;
             Logger = Logger.LoadLogger(CurrentWindow);
         }
 
-        //Logger = Logger.LoadLogger();
         base.OnFrameworkInitializationCompleted();
     }
 }
