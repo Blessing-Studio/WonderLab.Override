@@ -44,13 +44,14 @@ namespace wonderlab.ViewModels.Pages {
                 if (CurrentBakgroundType is "亚克力背景") {
                     effectBackground.Add(WindowTransparencyLevel.AcrylicBlur);
                     App.CurrentWindow.TransparencyLevelHint = effectBackground;
+                    MainWindow.ViewModel.IsLoadAcrylicBackground = true;
                 }
 
                 bool isLoadMica = CurrentBakgroundType.Contains("云母背景");
-                if (isLoadMica && SystemUtils.IsWindows11) {
+                if (isLoadMica) {
                     effectBackground.Add(WindowTransparencyLevel.Mica);
-                } else if (isLoadMica && !SystemUtils.IsWindows11) {
-                    effectBackground.Add(WindowTransparencyLevel.AcrylicBlur);
+                    App.CurrentWindow.TransparencyLevelHint = effectBackground;
+                    MainWindow.ViewModel.IsLoadAcrylicBackground = false;
                 }
             }
 
