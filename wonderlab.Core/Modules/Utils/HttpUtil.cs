@@ -198,7 +198,6 @@ public class HttpUtil {
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.AcceptEncoding.Add(new("gzip"));
         request.Headers.Connection.Add("keep-alive");
-
         return await HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
     }
 }

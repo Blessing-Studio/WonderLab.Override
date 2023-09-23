@@ -118,7 +118,8 @@ namespace wonderlab.ViewModels.Pages {
                     await DialogHost.Show(new AccountDialogContent(), "dialogHost");
                     return;
                 } else if (user.Count <= 0) {
-                    "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！".ShowMessage("提示", async () => {
+                    "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！"
+                        .ShowMessage("提示", async () => {
                         OpenActionCenterAction();
                         await Task.Delay(1000);
                         new AccountPage().Navigation();
@@ -126,7 +127,10 @@ namespace wonderlab.ViewModels.Pages {
                     return;
                 }
 
-                CurrentAccount = user.First().Data.ToAccount();
+                CurrentAccount = user.First()
+                    .Data
+                    .ToAccount();
+
                 LaunchTaskAction();
             }
             catch (Exception) {
@@ -151,7 +155,9 @@ namespace wonderlab.ViewModels.Pages {
 
                 return false;
             }).Count() > 0) {
-                $"检测到游戏核心 \"{SelectGameCoreId}\" 仍有安装任务正在进行，无法进行启动步骤！".ShowMessage();
+                $"检测到游戏核心 \"{SelectGameCoreId}\" 仍有安装任务正在进行，无法进行启动步骤！"
+                    .ShowMessage();
+
                 return;
             }
 

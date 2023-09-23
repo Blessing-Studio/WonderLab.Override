@@ -1,5 +1,7 @@
-﻿using DynamicData;
+﻿using Avalonia.Media.Imaging;
+using DynamicData;
 using MinecraftLaunch.Modules.Installer;
+using MinecraftLaunch.Modules.Models.Http;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -25,6 +28,7 @@ namespace wonderlab.ViewModels.Pages {
         public DownCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             GetGameCoresAction();
+            GetMcVersionUpdatesAction();
         }
 
         private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -68,6 +72,18 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public ResourceType ResourceType { get; set; } = ResourceType.Minecraft;
+
+        [Reactive]
+        public ArticleJsonEntity NewCard1 { get; set; }
+
+        [Reactive]
+        public ArticleJsonEntity NewCard2 { get; set; }
+
+        [Reactive]
+        public Bitmap NewCard1Image { get; set; }
+
+        [Reactive]
+        public Bitmap NewCard2Image { get; set; }
 
         public List<string> McVersions { get; } = new() {
             "All",
@@ -292,6 +308,30 @@ namespace wonderlab.ViewModels.Pages {
 
         public void CloseSearchOptionsAction() {
             SearcherHeight = 0;
+        }
+
+        public async void GetMcVersionUpdatesAction() {
+            await Task.Run(async () => {
+                var result = await HttpUtils.GetMcVersionUpdatesAsync();
+                NewCard1 = result.Item1;
+                NewCard2 = result.Item2;
+                NewCard1 = await McNewsUtil.GetNewImageUrlAsync(result.Item1);
+                NewCard2 = await McNewsUtil.GetNewImageUrlAsync(result.Item2);
+
+                await Task.Run(async () => {
+                    using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard2.ImageUrl);
+                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                    NewCard2Image = new(new MemoryStream(bytes));
+                });
+
+                await Task.Run(async () => {
+                    using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard1.ImageUrl);
+                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                    NewCard1Image = new(new MemoryStream(bytes));
+                });
+            });
         }
 
         public override void GoBackAction() {

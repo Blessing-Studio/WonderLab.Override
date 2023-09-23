@@ -15,6 +15,7 @@ using wonderlab.Views.Pages;
 using MinecraftLaunch.Modules.Utils;
 using MinecraftLaunch.Modules.Models.Install;
 using wonderlab.control;
+using MinecraftLaunch.Modules.Models.Http;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -214,6 +215,13 @@ namespace wonderlab.Class.Utils {
                     CacheResources.Optifines.AddRange(result);
                 });
             }
+        }
+
+        public static async ValueTask<(ArticleJsonEntity, ArticleJsonEntity, IEnumerable<ArticleJsonEntity>)> GetMcVersionUpdatesAsync() {
+            var result = (await McNewsUtil.GetMcVersionUpdatesAsync())
+                .Where(x => x.PrimaryCategory is "News");
+
+            return new(result.ElementAtOrDefault(0), result.ElementAtOrDefault(1), result);
         }
     }
 }

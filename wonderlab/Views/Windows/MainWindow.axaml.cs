@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using DialogHostAvalonia;
 using MinecraftLaunch.Modules.Models.Download;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
@@ -31,11 +32,11 @@ namespace wonderlab.Views.Windows {
 
             InitializeComponent();
             AddHandler(DragDrop.DropEvent, DropAction);
+
             try {
                 ThemeUtils.Init();
                 WindowWidth = Width;
                 WindowHeight = Height;
-                
                 Closed += (_, x) => {
                     JsonUtils.WriteLaunchInfoJson();
                     JsonUtils.WriteLauncherInfoJson();
@@ -85,24 +86,8 @@ namespace wonderlab.Views.Windows {
         private async void DataInitialized(object? sender, EventArgs e) {
             await Task.Delay(500);
             try {
-                await Task.Run(async () => {
-                    CacheResources.Accounts = (await AccountUtils.GetAsync(true)
-                                                                 .ToListAsync())
-                                                                 .ToObservableCollection();
-                });
-
-                if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mcbbs) {
-                    APIManager.Current = APIManager.Mcbbs;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Bmcl) {
-                    APIManager.Current = APIManager.Bmcl;
-                } else if (GlobalResources.LauncherData.CurrentDownloadAPI is DownloadApiType.Mojang) {
-                    APIManager.Current = APIManager.Mojang;
-                } else {
-                    GlobalResources.LauncherData.CurrentDownloadAPI = DownloadApiType.Mojang;
-                }
 
                 BackgroundImage.IsVisible = GlobalResources.LauncherData.BakgroundType is "图片背景";
-                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
                 CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
 
                 if (BackgroundImage.IsVisible && !string.IsNullOrEmpty(GlobalResources.LauncherData.ImagePath)) {
@@ -136,6 +121,7 @@ namespace wonderlab.Views.Windows {
             await Task.Delay(500);
 
             try {
+                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
                 Drop.PointerPressed += OnPointerPressed;
                 TopInfoBar.PointerPressed += OnPointerPressed;
                 TopInfoBar1.PointerPressed += OnPointerPressed;
@@ -158,12 +144,7 @@ namespace wonderlab.Views.Windows {
         }
         
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e) {
-            try {
-                BeginMoveDrag(e);
-            }
-            catch (Exception) {
-                "错误，在拖动窗口时遇到了点小麻烦".ShowMessage();
-            }
+            BeginMoveDrag(e);
         }
 
         public async void DropAction(object? sender, DragEventArgs e) {

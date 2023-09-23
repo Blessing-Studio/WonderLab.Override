@@ -5,21 +5,39 @@
         mc:Ignorable="d" Width="800" Height="450"
 		MinWidth="800" MinHeight="450"
         x:Class="wonderlab.Views.Windows.MainWindow"
+		xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"		
 		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		xmlns:wp="using:wonderlab.Views.Pages"	    
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="WonderLab"
-		CornerRadius="4"
 		DragDrop.AllowDrop="True"		
 		ExtendClientAreaToDecorationsHint="True"
 		WindowStartupLocation="CenterScreen"
 		ExtendClientAreaChromeHints="NoChrome"
-		Background="{DynamicResource AccentBrushDark1}"		
-		xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+		Background="Transparent"
+		TransparencyLevelHint="Mica,AcrylicBlur"
+		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}"
 		Initialized="WindowsInitialized">
+	<!--{DynamicResource AccentBrushDark1}-->
 	<Grid>
-		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage">
+		<ExperimentalAcrylicBorder IsVisible="False"
+								   IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="White"
+					TintOpacity="0.6"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Border/>
+		
+		<Image Margin="-20"
+			   IsVisible="False"
+			   Name="BackgroundImage"
+			   Stretch="UniformToFill">
 			<Image.Transitions>
 				<Transitions>
 					<EffectTransition Property="Effect"
@@ -30,9 +48,9 @@
 		</Image>
 
 		<Border Name="Back"
-				Opacity="0" 
-				IsHitTestVisible="False"
-				Background="#99FFFFFF"/>
+				Opacity="0" 				
+				Background="#99FFFFFF"
+				IsHitTestVisible="False"/>
 
 		<Grid Background="Transparent"
 	          Name="Drop"/>

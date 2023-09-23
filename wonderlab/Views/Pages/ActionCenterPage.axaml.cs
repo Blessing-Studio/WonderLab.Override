@@ -20,13 +20,13 @@ namespace wonderlab.Views.Pages
             };
         }
 
-        private async void ActionCenterPageLoaded(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+        private void ActionCenterPageLoaded(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
             if(ViewModel != null) {
                 DataContext = ViewModel;
             } else {
                 Dispatcher.UIThread.Post(() => {
                     DataContext = ViewModel = new();
-                },DispatcherPriority.Background);
+                }, DispatcherPriority.Background);
             }
         }
     }

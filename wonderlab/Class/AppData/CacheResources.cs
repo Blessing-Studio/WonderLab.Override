@@ -31,7 +31,7 @@ namespace wonderlab.Class.AppData {
         public static Dictionary<string, WebModpackInfoModel> WebModpackInfoDatas { get; set; } = new();
 
         public static void GetWebModpackInfoData() {
-            StreamReader reader = new(AvaloniaUtils.GetAssetsStream("ModpackInfos.json"));
+            using StreamReader reader = new(AvaloniaUtils.GetAssetsStream("ModpackInfos.json"));
             var infos = reader.ReadToEnd().ToJsonEntity<List<WebModpackInfoModel>>();
             if (infos is not null && infos.Any()) {
                 infos.ForEach(x => {
