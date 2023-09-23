@@ -1,4 +1,5 @@
-﻿using Avalonia.Media;
+﻿using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using ReactiveUI.Fody.Helpers;
@@ -8,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
+using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
     public class PersonalizeConfigPageViewModel : ViewModelBase {
@@ -34,8 +36,22 @@ namespace wonderlab.ViewModels.Pages {
 
             if (e.PropertyName is nameof(CurrentBakgroundType)) {
                 IsImageVisible = CurrentBakgroundType is "图片背景";
-                App.CurrentWindow.BackgroundImage.IsVisible = IsImageVisible;
+                MainWindow.ViewModel.IsLoadImageBackground = IsImageVisible;
                 GlobalResources.LauncherData.BakgroundType = CurrentBakgroundType;
+                MainWindow.ViewModel.IsLoadColorBackground = CurrentBakgroundType is "主题色背景";
+
+                List<WindowTransparencyLevel> effectBackground = new();
+                if (CurrentBakgroundType is "亚克力背景") {
+                    effectBackground.Add(WindowTransparencyLevel.AcrylicBlur);
+                    App.CurrentWindow.TransparencyLevelHint = effectBackground;
+                }
+
+                bool isLoadMica = CurrentBakgroundType.Contains("云母背景");
+                if (isLoadMica && SystemUtils.IsWindows11) {
+                    effectBackground.Add(WindowTransparencyLevel.Mica);
+                } else if (isLoadMica && !SystemUtils.IsWindows11) {
+                    effectBackground.Add(WindowTransparencyLevel.AcrylicBlur);
+                }
             }
 
             if (e.PropertyName is nameof(CurrentParallaxType)) {

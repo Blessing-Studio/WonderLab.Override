@@ -30,9 +30,3 @@ namespace wonderlab.Views.Converters {
 
     }
 }
-//{
-//    "A": 0,
-//    "R": 0,
-//    "G": 0,
-//    "B": 0
-//}

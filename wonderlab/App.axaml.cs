@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using System.Threading.Tasks;
 using wonderlab.Class;
+using wonderlab.Class.Utils;
 using wonderlab.control;
 using wonderlab.Views.Windows;
 using MainWindow = wonderlab.Views.Windows.MainWindow;
@@ -17,8 +18,10 @@ public partial class App : Application {
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted() {
+    public override async void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+            JsonUtils.CreateLauncherInfoJson();
+            JsonUtils.CreateLaunchInfoJson();
             desktop.MainWindow = new MainWindow {
                 DataContext = MainWindow.ViewModel = new()
             };

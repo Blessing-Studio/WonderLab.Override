@@ -39,7 +39,8 @@ namespace wonderlab.Class.Utils {
             catch (Exception) {
                 await Task.Delay(500);
                 WriteLaunchInfoJson();
-                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意".ShowInfoDialog("程序遭遇了异常");
+                "WonderLab在加载数据文件时出现了异常，初步判定为数据文件损坏或格式更新，我们已为您重新创建了新的数据文件，原先的数据已丢失，在此深表歉意"
+                    .ShowInfoDialog("程序遭遇了异常");
             }
         }
 

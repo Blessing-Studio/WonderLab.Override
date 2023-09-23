@@ -26,11 +26,13 @@ namespace wonderlab.Views.Windows {
         public MainWindow() {
             InitializeComponent();
             AddHandler(DragDrop.DropEvent, DropAction);
-            ThemeUtils.Init();
         }
 
         private async void MainWindowLoaded(object sender, RoutedEventArgs e) {
             try {
+                ThemeUtils.Init();
+                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
+
                 PointerMoved += OnPointerMoved;
                 PropertyChanged += OnPropertyChanged;
                 Drop.PointerPressed += OnPointerPressed;

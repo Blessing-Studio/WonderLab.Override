@@ -17,12 +17,11 @@
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="Transparent"
 		Loaded="MainWindowLoaded"
-		TransparencyLevelHint="Mica,AcrylicBlur"
 		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}">
 	<!--{DynamicResource AccentBrushDark1}-->
 	<Grid>
-		<ExperimentalAcrylicBorder IsVisible="True"
-								   IsHitTestVisible="False">
+		<ExperimentalAcrylicBorder IsHitTestVisible="False"
+								   IsVisible="{Binding IsLoadAcrylicBackground}">
 			<ExperimentalAcrylicBorder.Material>
 				<ExperimentalAcrylicMaterial
 					BackgroundSource="Digger"
@@ -32,11 +31,15 @@
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
 
-		<Border/>
+		<Border VerticalAlignment="Stretch"
+				HorizontalAlignment="Stretch"	
+				IsVisible="{Binding IsLoadColorBackground}"
+				Background="{DynamicResource AccentBrushDark1}"/>
 		
 		<Image Margin="-20"
-			   IsVisible="{Binding IsLoadImageBackground}"
 			   Name="BackgroundImage"
+			   Source="{Binding ImageSource}"
+			   IsVisible="{Binding IsLoadImageBackground}"
 			   Stretch="UniformToFill">
 			<Image.Transitions>
 				<Transitions>
