@@ -7,6 +7,7 @@ using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
+using wonderlab.control;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages {
@@ -48,10 +49,12 @@ namespace wonderlab.Views.Pages {
             BottomBar.Spacing = 15;
         }
 
-        private void OpenDialogAction(object? sender, RoutedEventArgs args) {
-            //GameInstallDialog.ViewModel.CurrentGameCore = ((sender as Button)!.DataContext as GameCoreEmtity)!;
-            CacheResources.GameCoreInstallInfo = ((sender as Button)!.DataContext as GameCoreEmtity)!;
-            ViewModel.OpenGameInstallDialogAction();
+        private async void OpenDialogAction(object? sender, RoutedEventArgs args) {
+            ViewModel.SelectGameCore = CacheResources.GameCoreInstallInfo = ((sender as Button)!.DataContext as GameCoreEmtity)!;
+            ViewModel.InstallerWidth = App.CurrentWindow.Bounds.Width / 2;
+            await Task.Run(async () => {
+                await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id);
+            });
         }
 
         public void GoResourceInfoAction(object? sender, RoutedEventArgs args) {

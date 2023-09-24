@@ -17,7 +17,7 @@ using System.Collections.ObjectModel;
 using Avalonia.Threading;
 
 namespace wonderlab.ViewModels.Windows {
-    public class MainWindowViewModel : ReactiveObject {
+    public class MainWindowViewModel : ViewModelBase {
         public MainWindowViewModel() {
             this.PropertyChanged += OnPropertyChanged;
 

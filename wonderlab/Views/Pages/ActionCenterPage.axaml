@@ -47,9 +47,37 @@
 					<Border.Background>
 						<ImageBrush Source="{Binding NewImage}" Stretch="UniformToFill"/>
 					</Border.Background>
-					<Grid> 
+					<Grid>
+						<Border VerticalAlignment="Bottom"
+								CornerRadius="0 0 6 6"
+		                        ClipToBounds="True" Height="50">
+							<Border VerticalAlignment="Bottom"
+									Height="300" Margin="-150 0 -150 -80">
+								<Border.Effect>
+									<BlurEffect Radius="150"/>
+								</Border.Effect>
+								<Border.Background>
+									<Binding ElementName="Bitmap" Path="Background"/>
+								</Border.Background>
+							</Border>
+						</Border>
+
+						<Grid>
+							<TextBlock Text="{Binding NewTitle}"
+									   TextTrimming="CharacterEllipsis"
+									   TextAlignment="Right"
+									   VerticalAlignment="Bottom"
+									   FontSize="18"
+									   Foreground="White"
+									   Margin="10 5 15 22.5"/>
+
+							<TextBlock Text="{Binding NewTag}" Margin="10 0 15 5"
+									   TextAlignment="Right"
+									   VerticalAlignment="Bottom"/>
+						</Grid>
+
 						<Border Background="{DynamicResource DialogContentBackground}" Height="50"
-								VerticalAlignment="Bottom"
+								VerticalAlignment="Bottom" IsVisible="False"
 								CornerRadius="0 0 6 6" Name="Content">
 							<Border.Transitions>
 								<Transitions>
@@ -59,18 +87,7 @@
 								</Transitions>
 							</Border.Transitions>
 							
-							<Grid>
-								<TextBlock Text="{Binding NewTitle}"
-										   TextTrimming="CharacterEllipsis"
-										   TextAlignment="Right" FontWeight="UltraBold"
-										   VerticalAlignment="Bottom"
-										   FontSize="18"
-										   Margin="10 5 15 22.5"/>
 
-								<TextBlock Text="{Binding NewTag}" Margin="10 0 15 5"
-										   TextAlignment="Right"
-										   VerticalAlignment="Bottom"/>
-							</Grid>
 						</Border>
 					</Grid>
 				</Border>

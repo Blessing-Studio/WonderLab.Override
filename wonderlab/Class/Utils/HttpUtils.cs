@@ -16,6 +16,7 @@ using MinecraftLaunch.Modules.Utils;
 using MinecraftLaunch.Modules.Models.Install;
 using wonderlab.control;
 using MinecraftLaunch.Modules.Models.Http;
+using DynamicData;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -72,7 +73,7 @@ namespace wonderlab.Class.Utils {
                     return true;
                 }).AsEnumerable();
 
-                CacheResources.GameCores.Load(result);
+                CacheResources.GameCores.AddRange(result);
                 return result;
             }
 
@@ -114,12 +115,27 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async ValueTask<bool> GetModLoadersFromMcVersionAsync(string id) {
+            var viewModel = DownCenterPage.ViewModel;
+
             try {
+                viewModel.IsQuiltLoading = true;
+                viewModel.IsFabricLoading = true;
+                viewModel.IsForgeLoading = true;
+                viewModel.IsNeoForgeLoading = true;
+                viewModel.IsOptifineLoading = true;
+
+                viewModel.Optifines.Clear();
+                viewModel.NeoForges.Clear();
+                viewModel.Fabrics.Clear();
+                viewModel.Quilts.Clear();
+                viewModel.Forges.Clear();
+
                 await Task.Run(async() => {
                     await Task.Run(GetFabricsAsync);
                     await Task.Run(GetQuiltsAsync);
                     await Task.Run(GetOptifinesAsync);
                     await Task.Run(GetForgesAsync);
+                    await Task.Run(GetNeoForgesAsync);
                 });
             }
             catch (Exception ex) {
@@ -146,8 +162,31 @@ namespace wonderlab.Class.Utils {
                         result = Array.Empty<ModLoaderModel>();
                     }
 
-                    "Forge 加载完毕".ShowLog();       
+                    "Forge 加载完毕".ShowLog();
+                    viewModel.IsForgeLoading = false;
                     CacheResources.Forges.AddRange(result);
+                    viewModel.Forges.AddRange(result);
+                });
+            }
+
+            async ValueTask GetNeoForgesAsync() {
+                await Task.Run(async () => {
+                    var result = (await NeoForgeInstaller.GetNeoForgesOfVersionAsync(id).ToListAsync()).Select(x => new ModLoaderModel() {
+                        ModLoaderType = ModLoaderType.NeoForged,
+                        ModLoaderBuild = x,
+                        GameCoreVersion = x.McVersion,
+                        Id = x.NeoForgeVersion,
+                        Time = DateTime.Now
+                    });
+
+                    if (!result.Any()) {
+                        result = Array.Empty<ModLoaderModel>();
+                    }
+
+                    "NeoForge 加载完毕".ShowLog();
+                    viewModel.IsNeoForgeLoading = false;
+                    CacheResources.NeoForges.AddRange(result);
+                    viewModel.NeoForges.AddRange(result);
                 });
             }
 
@@ -169,7 +208,9 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Quilt 加载完毕".ShowLog();
+                        viewModel.IsQuiltLoading = false;
                         CacheResources.Quilts.AddRange(result);
+                        viewModel.Quilts.AddRange(result);
                     }
                 });
             }
@@ -192,7 +233,9 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Fabric 加载完毕".ShowLog();
+                        viewModel.IsFabricLoading = false;
                         CacheResources.Fabrics.AddRange(result);
+                        viewModel.Fabrics.AddRange(result);
                     }
                 });
             }
@@ -212,7 +255,9 @@ namespace wonderlab.Class.Utils {
                     }
 
                     "Optifine 加载完毕".ShowLog();
+                    viewModel.IsOptifineLoading = false;
                     CacheResources.Optifines.AddRange(result);
+                    viewModel.Optifines.AddRange(result);
                 });
             }
         }

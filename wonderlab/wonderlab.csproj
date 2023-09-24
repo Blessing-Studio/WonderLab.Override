@@ -13,6 +13,7 @@
 	  <None Remove="Assets\downloadcenter.jpg" />
 	  <None Remove="Assets\Fonts\DinPro.ttf" />
 	  <None Remove="Assets\Fonts\MinecraftTen.ttf" />
+	  <None Remove="Assets\Icons\NeoForge.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -37,6 +38,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\downloadcenter.jpg" />
+		<AvaloniaResource Include="Assets\Icons\NeoForge.png" />
 		<AvaloniaResource Include="Assets\y.jpg" />
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
 		<AvaloniaResource Include="Assets\Icons\Forge.png" />

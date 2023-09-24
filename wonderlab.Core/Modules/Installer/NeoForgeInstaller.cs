@@ -38,8 +38,11 @@ namespace MinecraftLaunch.Modules.Installer {
         }
 
         public static async IAsyncEnumerable<NeoForgeInstallEntity> GetNeoForgesOfVersionAsync(string mcVersion = "1.20.1") {
-            using var responseMessage = await VersionApi.GetAsync();
-            string xml = await responseMessage.GetStringAsync();
+            using var responseMessage = await VersionApi
+                .GetAsync();
+
+            string xml = await responseMessage
+                .GetStringAsync();
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);

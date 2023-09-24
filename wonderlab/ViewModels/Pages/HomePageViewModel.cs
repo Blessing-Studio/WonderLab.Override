@@ -385,22 +385,28 @@ namespace wonderlab.ViewModels.Pages {
 
         public void OpenActionCenterAction() {
             var back = App.CurrentWindow.Back;
-            OpacityChangeAnimation opacity = new(false) {
-                RunValue = 0,
-            };
-            
-            opacity.RunAnimation(back);
+            if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
+                OpacityChangeAnimation opacity = new(false) {
+                    RunValue = 0,
+                };
+
+                opacity.RunAnimation(back);
+            }
+
             App.CurrentWindow.CloseTopBar();
             new ActionCenterPage().Navigation();
         }
 
         public void OpenConsoleAction() {
             var back = App.CurrentWindow.Back;
-            OpacityChangeAnimation opacity = new(false) {
-                RunValue = 0,
-            };
+            if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
+                OpacityChangeAnimation opacity = new(false) {
+                    RunValue = 0,
+                };
 
-            opacity.RunAnimation(back);
+                opacity.RunAnimation(back);
+            }
+
             App.CurrentWindow.CloseTopBar();
             new ConsoleCenterPage().Navigation();
         }
@@ -408,12 +414,14 @@ namespace wonderlab.ViewModels.Pages {
         public void OpenLaunchConfigAction()
         {
             var back = App.CurrentWindow.Back;
-            OpacityChangeAnimation opacity = new(false)
-            {
-                RunValue = 0,
-            };
+            if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
+                OpacityChangeAnimation opacity = new(false) {
+                    RunValue = 0,
+                };
 
-            opacity.RunAnimation(back);
+                opacity.RunAnimation(back);
+            }
+
             App.CurrentWindow.CloseTopBar();
             new LaunchConfigPage().Navigation();
         }

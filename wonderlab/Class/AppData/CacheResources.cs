@@ -16,6 +16,8 @@ namespace wonderlab.Class.AppData {
 
         public static List<ModLoaderModel> Forges { get; set; } = new();
 
+        public static List<ModLoaderModel> NeoForges { get; set; } = new();
+
         public static List<ModLoaderModel> Fabrics { get; set; } = new();
 
         public static List<ModLoaderModel> Optifines { get; set; } = new();

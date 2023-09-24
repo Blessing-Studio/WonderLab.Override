@@ -40,6 +40,7 @@
 			<Setter Property="BoxShadow" Value="0 1 8 0 #66000000"/>
 		</Style>
 	</UserControl.Styles>
+	
 	<Grid>
 		<Grid IsVisible="False">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
@@ -90,99 +91,6 @@
 					<TextBlock Text="搜索选项"/>
 				</StackPanel>
 			</Button>
-
-			<wc:PageSwitcher Margin="0 60 0 45"
-							 IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
-							 Items="{Binding GameCores}">
-				<wc:PageSwitcher.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Margin" Value="15 6"/>
-						<Setter Property="ClipToBounds" Value="False"/>
-						<Setter Property="Height" Value="45"/>
-						<Setter Property="Template">
-							<ControlTemplate>
-								<Border Background="{DynamicResource DialogContentBackground}"
-										BorderThickness="1"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}"
-										CornerRadius="6"
-										Name="Main">
-									<Border.RenderTransform>
-										<TransformGroup>
-											<SkewTransform AngleX="-8"/>
-										</TransformGroup>
-									</Border.RenderTransform>
-
-									<Border.Transitions>
-										<Transitions>
-											<BoxShadowsTransition Property="BoxShadow"
-																  Easing="ExponentialEaseOut"
-																  Duration="0:0:0.35"/>
-										</Transitions>
-									</Border.Transitions>
-
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto"/>
-											<ColumnDefinition Width="1*"/>
-											<ColumnDefinition Width="Auto"/>
-										</Grid.ColumnDefinitions>
-
-										<Grid Margin="15 5">
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="30"/>
-												<ColumnDefinition Width="15"/>
-												<ColumnDefinition Width="1*"/>
-											</Grid.ColumnDefinitions>
-
-											<Image Height="35" Width="35"
-												   HorizontalAlignment="Left"
-												   VerticalAlignment="Center"
-												   Source="/Assets/Icons/Block.png">
-												<Image.RenderTransform>
-													<TransformGroup>
-														<SkewTransform AngleX="8"/>
-													</TransformGroup>
-												</Image.RenderTransform>
-											</Image>
-
-											<Grid Grid.Column="2" HorizontalAlignment="Left"
-												  VerticalAlignment="Center">
-												<Grid.RowDefinitions>
-													<RowDefinition Height="1*"/>
-													<RowDefinition Height="1*"/>
-												</Grid.RowDefinitions>
-												<TextBlock Text="{Binding Id}"
-														   FontSize="15"/>
-
-												<TextBlock Text="{Binding Type}"
-														   Grid.Row="1"
-														   FontSize="12"
-														   Opacity="0.65"/>
-											</Grid>
-										</Grid>
-
-										<Button Width="80" Content="下载"
-												Grid.Column="2"
-												Click="OpenDialogAction"
-												Classes="wonderaccentbutton"
-												HorizontalContentAlignment="Center"
-												HorizontalAlignment="Right"
-												Margin="15 0"/>
-									</Grid>
-								</Border>
-							</ControlTemplate>
-						</Setter>
-					</Style>
-
-					<Style Selector="ListBoxItem /template/ Border#Main">
-						<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
-					</Style>
-
-					<Style Selector="ListBoxItem:pointerover /template/ Border#Main">
-						<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
-					</Style>
-				</wc:PageSwitcher.Styles>
-			</wc:PageSwitcher>
 
 			<ListBox Background="Transparent"
 					 IsVisible="{Binding IsResource}"
@@ -406,13 +314,6 @@
 									  SelectedItem="{Binding CurrentMcVersion}"
 									  PlaceholderText="资源支持的 Mc 版本"/>
 
-							<ComboBox ItemsSource="{Binding McVersionTypes}"
-									  Grid.Column="2"
-									  IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
-									  IsHitTestVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
-									  HorizontalAlignment="Stretch"
-									  SelectedItem="{Binding CurrentMcVersionType}"
-									  PlaceholderText="Mc 版本类别"/>
 
 							<Button HorizontalAlignment="Stretch" Content="搜索"
 									Classes="wonderaccentbutton"
@@ -425,156 +326,561 @@
 			</Border>
 		</Grid>
 
-		<wcb:TitleBar TitleWidth="110" 
-					  Title="{DynamicResource DownloadCenter}"			          
-					  GoBackCommand="{Binding GoBackAction}"/>
-
-		<Border Background="Transparent" Margin="15 50 15 20">
-			<Grid ColumnDefinitions="1*,10,1*">
-				<!--Left-->
-				<Grid RowDefinitions="1*,10,1*">
-					<Border Grid.Row="0"
-							CornerRadius="4"
-							BorderThickness="1"
-							BorderBrush="#64757575">
-						<Border.Background>
-							<ImageBrush Source="{Binding NewCard1Image}" Stretch="UniformToFill"/>
-						</Border.Background>
-						<Border CornerRadius="4">
-							<Border.Background>
-								<LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
-									<LinearGradientBrush.GradientStops>
-										<GradientStop Color="Transparent" Offset="0.0" />
-										<GradientStop Color="White" Offset="1.0" />
-									</LinearGradientBrush.GradientStops>
-								</LinearGradientBrush>
-							</Border.Background>
-
-							<Grid Margin="5">
-								<TextBlock FontSize="30"
-		                                   Margin="10 25"
-										   FontWeight="Bold"
-		                                   HorizontalAlignment="Left"
-		                                   VerticalAlignment="Bottom"
-										   TextWrapping="WrapWithOverflow"
-										   FontFamily="resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten"
-		                                   Text="{Binding NewCard1.default_tile.Title}"/>
-
-								<TextBlock FontSize="12"
-										   Margin="10 10"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Bottom"
-										   Text="{Binding NewCard1.PublishDate}"/>
-							</Grid>
-						</Border>
-					</Border>
-
-					<Border Grid.Row="2"
-						    CornerRadius="4"
-						    BorderThickness="1"
-						    BorderBrush="#64757575">
-						<Border.Background>
-							<ImageBrush Source="{Binding NewCard2Image}" Stretch="UniformToFill"/>
-						</Border.Background>
-						<Border CornerRadius="4">
-							<Border.Background>
-								<LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
-									<LinearGradientBrush.GradientStops>
-										<GradientStop Color="Transparent" Offset="0.0" />
-										<GradientStop Color="White" Offset="1.0" />
-									</LinearGradientBrush.GradientStops>
-								</LinearGradientBrush>
-							</Border.Background>
-
-							<Grid Margin="5">
-								<TextBlock FontSize="30"
-		                                   Margin="10 25"
-										   FontWeight="Bold"
-										   TextWrapping="WrapWithOverflow"
-		                                   HorizontalAlignment="Left"
-		                                   VerticalAlignment="Bottom"
-										   FontFamily="resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten"
-		                                   Text="{Binding NewCard2.default_tile.Title}"/>
-
-								<TextBlock FontSize="12"
-										   Margin="10 10"
-										   HorizontalAlignment="Left"
-										   VerticalAlignment="Bottom"
-										   Text="{Binding NewCard2.PublishDate}"/>
-							</Grid>
-						</Border>
-					</Border>
-				</Grid>
-				
-				<!--Right-->
-				<Grid Grid.Column="2"
-					  RowDefinitions="Auto,10,Auto,10,1*">
-					<AutoCompleteBox Watermark="搜你想搜的资源" FilterMode="Contains"/>
-					
-					<Grid Grid.Row="2" 
-						  ColumnDefinitions="1*,10,1*,10,1*">
-						<Button Classes="topbutton"
-								Content="Minecraft"/>
-						
-						<Button Grid.Column="2"
-								Classes="topbutton"
-								Content="Curseforge"/>
-
-						<Button Grid.Column="4"
-								Classes="topbutton"
-								Content="Modrinth"/>
-					</Grid>
-														
-					<Border Grid.Row="4"
-							CornerRadius="4">
-						<Border.Background>
-							<ImageBrush Source="resm:wonderlab.Assets.downloadcenter.jpg" Stretch="UniformToFill"/>
-						</Border.Background>
-						<Border CornerRadius="4"
+		<Border Margin="15 50 15 20">
+			<Grid>
+				<Grid IsVisible="False" ColumnDefinitions="1*,10,1*">
+					<!--Left-->
+					<Grid RowDefinitions="1*,10,1*">
+						<Border Grid.Row="0"
+								CornerRadius="4"
 								BorderThickness="1"
 								BorderBrush="#64757575">
 							<Border.Background>
-								<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
-									<LinearGradientBrush.GradientStops>
-										<GradientStop Color="Transparent" Offset="0.0" />
-										<GradientStop Color="White" Offset="1.0" />
-									</LinearGradientBrush.GradientStops>
-								</LinearGradientBrush>
+								<ImageBrush Source="{Binding NewCard1Image}" Stretch="UniformToFill"/>
 							</Border.Background>
+							<Border CornerRadius="4">
+								<Border.Background>
+									<LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+										<LinearGradientBrush.GradientStops>
+											<GradientStop Color="Transparent" Offset="0.0" />
+											<GradientStop Color="White" Offset="1.0" />
+										</LinearGradientBrush.GradientStops>
+									</LinearGradientBrush>
+								</Border.Background>
 
-							<Grid Background="Transparent"
-								  Margin="15 0"
-								  HorizontalAlignment="Right"
-								  VerticalAlignment="Center"
-								  RowDefinitions="Auto, Auto, Auto">
-								<TextBlock HorizontalAlignment="Right"
-										   Text="下载中心全面重构"
-										   FontSize="16"/>
-								
-								<TextBlock Grid.Row="1"
-										   FontSize="25" FontWeight="Bold"
-										   Text="更好的UI，更好的性能"/>
-								
-								<Button Grid.Row="2"
-										Margin="0 5 0 0"
-										HorizontalAlignment="Right"
-										Content="下载 Minecraft"/>
-							</Grid>
+								<Grid Margin="5">
+									<TextBlock FontSize="30"
+											   Margin="10 25"
+											   FontWeight="Bold"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Bottom"
+											   TextWrapping="WrapWithOverflow"
+											   FontFamily="resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten"
+											   Text="{Binding NewCard1.default_tile.Title}"/>
+
+									<TextBlock FontSize="12"
+											   Margin="10 10"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Bottom"
+											   Text="{Binding NewCard1.PublishDate}"/>
+								</Grid>
+							</Border>
 						</Border>
+
+						<Border Grid.Row="2"
+								CornerRadius="4"
+								BorderThickness="1"
+								BorderBrush="#64757575">
+							<Border.Background>
+								<ImageBrush Source="{Binding NewCard2Image}" Stretch="UniformToFill"/>
+							</Border.Background>
+							<Border CornerRadius="4">
+								<Border.Background>
+									<LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+										<LinearGradientBrush.GradientStops>
+											<GradientStop Color="Transparent" Offset="0.0" />
+											<GradientStop Color="White" Offset="1.0" />
+										</LinearGradientBrush.GradientStops>
+									</LinearGradientBrush>
+								</Border.Background>
+
+								<Grid Margin="5">
+									<TextBlock FontSize="30"
+											   Margin="10 25"
+											   FontWeight="Bold"
+											   TextWrapping="WrapWithOverflow"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Bottom"
+											   FontFamily="resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten"
+											   Text="{Binding NewCard2.default_tile.Title}"/>
+
+									<TextBlock FontSize="12"
+											   Margin="10 10"
+											   HorizontalAlignment="Left"
+											   VerticalAlignment="Bottom"
+											   Text="{Binding NewCard2.PublishDate}"/>
+								</Grid>
+							</Border>
+						</Border>
+					</Grid>
+
+					<!--Right-->
+					<Grid Grid.Column="2"
+						  RowDefinitions="Auto,10,Auto,10,1*">
+						<AutoCompleteBox Watermark="搜你想搜的资源" FilterMode="Contains"/>
+
+						<Grid Grid.Row="2"
+							  ColumnDefinitions="1*,10,1*,10,1*">
+							<Button Classes="topbutton"
+									Content="Minecraft"/>
+
+							<Button Grid.Column="2"
+									Classes="topbutton"
+									Content="Curseforge"/>
+
+							<Button Grid.Column="4"
+									Classes="topbutton"
+									Content="Modrinth"/>
+						</Grid>
+
+						<Border Grid.Row="4"
+								CornerRadius="4">
+							<Border.Background>
+								<ImageBrush Source="resm:wonderlab.Assets.downloadcenter.jpg" Stretch="UniformToFill"/>
+							</Border.Background>
+							<Border CornerRadius="4"
+									BorderThickness="1"
+									BorderBrush="#64757575">
+								<Border.Background>
+									<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+										<LinearGradientBrush.GradientStops>
+											<GradientStop Color="Transparent" Offset="0.0" />
+											<GradientStop Color="White" Offset="1.0" />
+										</LinearGradientBrush.GradientStops>
+									</LinearGradientBrush>
+								</Border.Background>
+
+								<Grid Background="Transparent"
+									  Margin="15 0"
+									  HorizontalAlignment="Right"
+									  VerticalAlignment="Center"
+									  RowDefinitions="Auto, Auto, Auto">
+									<TextBlock HorizontalAlignment="Right"
+											   Text="下载中心全面重构"
+											   FontSize="16"/>
+
+									<TextBlock Grid.Row="1"
+											   FontSize="25" FontWeight="Bold"
+											   Text="更好的UI，更好的性能"/>
+
+									<Button Grid.Row="2"
+											Margin="0 5 0 0"
+											HorizontalAlignment="Right"
+											Content="下载 Minecraft"/>
+								</Grid>
+							</Border>
+						</Border>
+					</Grid>
+				</Grid>
+
+				<Grid ColumnDefinitions="1*,15,Auto">
+					<Grid RowDefinitions="Auto,10,1*">
+						<Grid ColumnDefinitions="Auto,10,Auto,10,1*">
+							<ComboBox SelectedIndex="0" Width="150">
+								<ComboBoxItem Content="Minecraft 本体"/>
+							</ComboBox>
+
+							<ComboBox ItemsSource="{Binding McVersionTypes}"
+									  HorizontalAlignment="Stretch"
+									  SelectedItem="{Binding CurrentMcVersionType}"
+									  Grid.Column="2"
+									  IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+									  IsHitTestVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}"
+									  PlaceholderText="Mc 版本类别"/>
+
+							<AutoCompleteBox Grid.Column="4"/>
+						</Grid>
+
+						<wc:PageSwitcher Grid.Row="2"
+										 Margin="0 0 0 -15"
+										 Items="{Binding GameCores}"
+										 IsVisible="{Binding IsResource,Converter={StaticResource BoolReverseConverter}}">
+							<wc:PageSwitcher.Styles>
+								<Style Selector="ListBox">
+									<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+								</Style>
+								<Style Selector="ListBoxItem">
+									<Setter Property="Margin" Value="0 6"/>
+									<Setter Property="ClipToBounds" Value="False"/>
+									<Setter Property="Height" Value="45"/>
+									<Setter Property="Template">
+										<ControlTemplate>
+											<Border Background="{DynamicResource DialogContentBackground}"
+													BorderThickness="1"
+													BorderBrush="{DynamicResource DialogContentBorderBrush}"
+													CornerRadius="6"
+													Name="Main">
+												<Border.Transitions>
+													<Transitions>
+														<BoxShadowsTransition Property="BoxShadow"
+																			  Easing="ExponentialEaseOut"
+																			  Duration="0:0:0.35"/>
+													</Transitions>
+												</Border.Transitions>
+
+												<Grid>
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto"/>
+														<ColumnDefinition Width="1*"/>
+														<ColumnDefinition Width="Auto"/>
+													</Grid.ColumnDefinitions>
+
+													<Grid Margin="15 5">
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="30"/>
+															<ColumnDefinition Width="15"/>
+															<ColumnDefinition Width="1*"/>
+														</Grid.ColumnDefinitions>
+
+														<Image Height="35" Width="35"
+															   HorizontalAlignment="Left"
+															   VerticalAlignment="Center"
+															   Source="/Assets/Icons/Block.png">
+														</Image>
+
+														<Grid Grid.Column="2" HorizontalAlignment="Left"
+															  VerticalAlignment="Center">
+															<Grid.RowDefinitions>
+																<RowDefinition Height="1*"/>
+																<RowDefinition Height="1*"/>
+															</Grid.RowDefinitions>
+															<TextBlock Text="{Binding Id}"
+																	   FontSize="15"/>
+
+															<TextBlock Text="{Binding Type}"
+																	   Grid.Row="1"
+																	   FontSize="12"
+																	   Opacity="0.65"/>
+														</Grid>
+													</Grid>
+
+													<Button Width="80" Content="下载"
+															Grid.Column="2"
+															Click="OpenDialogAction"
+															Classes="wonderaccentbutton"
+															HorizontalContentAlignment="Center"
+															HorizontalAlignment="Right"
+															Margin="15 0"/>
+												</Grid>
+											</Border>
+										</ControlTemplate>
+									</Setter>
+								</Style>
+
+								<Style Selector="ListBoxItem /template/ Border#Main">
+									<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+								</Style>
+
+								<Style Selector="ListBoxItem:pointerover /template/ Border#Main">
+									<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+								</Style>
+							</wc:PageSwitcher.Styles>
+						</wc:PageSwitcher>
+					</Grid>
+					<!--Width="{Binding InstallerWidth}"-->
+					<Border Grid.Column="2"
+							Background="White"
+							Margin="0 -50 -15 -50"
+							BoxShadow="0 1 12 0 #66000000"
+							Width="{Binding InstallerWidth}"	
+							HorizontalAlignment="Right">
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Property="Width"
+												  Duration="0:0:0.35"
+												  Easing="ExponentialEaseInOut"/>
+							</Transitions>
+						</Border.Transitions>
+						<Grid Margin="0 50 0 0"
+							  ClipToBounds="True"
+							  RowDefinitions="Auto,10,Auto,10,Auto">
+							<!--Top-->
+							<StackPanel Spacing="0"
+										Orientation="Horizontal">
+								<Button Width="30"
+		                                Height="30"
+		                                Margin="15 0"
+		                                Padding="0"
+		                                Name="NextPageButton"
+		                                HorizontalAlignment="Left"
+		                                Classes="wonderaccentbutton"										
+		                                HorizontalContentAlignment="Center"
+										Command="{Binding CloseInstallerAction}">
+									<Viewbox HorizontalAlignment="Right"
+											 Height="12"
+											 Width="12">
+										<PathIcon Data="{StaticResource GoNext}"/>
+									</Viewbox>
+								</Button>
+
+								<TextBlock FontSize="18"
+										   VerticalAlignment="Center">
+									<Run Text="安装"/>
+									<Run Text="{Binding SelectGameCore.Id}"/>
+								</TextBlock>
+							</StackPanel>
+							
+							<!--Content-->
+							<StackPanel Grid.Row="2"
+										Spacing="10"
+										Margin="15 0">
+								<Border CornerRadius="4"
+										BorderThickness="1"
+										BoxShadow="0 1 4 0 #66000000"
+										Background="{DynamicResource DialogContentBackground}"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid Margin="10 0"
+										  ColumnDefinitions="Auto,Auto,1*,Auto">
+										<CheckBox/>
+
+										<StackPanel Grid.Column="2"
+													Margin="0 8"
+													Orientation="Horizontal">
+											<Image Height="40"
+												   Width="40"
+												   Source="/Assets/Icons/Forge.png"/>
+
+											<StackPanel Margin="10 0 0 0">
+												<TextBlock Text="Forge"
+														   FontSize="16"/>
+												<TextBlock FontSize="12"
+														   TextWrapping="WrapWithOverflow"
+														   Text="经典的模组加载器"/>
+											</StackPanel>											
+										</StackPanel>
+
+										<Grid Grid.Column="3">
+											<ComboBox VerticalAlignment="Center"
+		                                              ItemsSource="{Binding Forges}"
+		                                              AutoScrollToSelectedItem="True"
+													  IsVisible="{Binding IsForgeLoading,Converter={StaticResource BoolReverseConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding Id}"/>
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+
+											<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Right"
+														IsHitTestVisible="False"
+														Margin="-70 0">
+												<ProgressBar Classes="circular"
+															 Width="20"
+															 Height="20"															 
+															 IsIndeterminate="{Binding IsForgeLoading}"/>
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</Border>
+
+								<Border CornerRadius="4"
+										BorderThickness="1"
+										BoxShadow="0 1 4 0 #66000000"
+										Background="{DynamicResource DialogContentBackground}"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid Margin="10 0"
+										  ColumnDefinitions="Auto,Auto,1*,Auto">
+										<CheckBox/>
+
+										<StackPanel Grid.Column="2"
+													Margin="0 8"
+													Orientation="Horizontal">
+											<Image Height="30"
+												   Width="40"
+												   Source="/Assets/Icons/NeoForge.png"/>
+
+											<StackPanel Margin="10 0 0 0">
+												<TextBlock Text="NeoForge"
+														   FontSize="16"/>
+												<TextBlock FontSize="12"
+														   TextWrapping="WrapWithOverflow"
+														   Text="Forge的新型分支"/>
+											</StackPanel>
+										</StackPanel>
+
+										<Grid Grid.Column="3">
+											<ComboBox VerticalAlignment="Center"
+		                                              ItemsSource="{Binding NeoForges}"
+		                                              AutoScrollToSelectedItem="True"
+													  IsVisible="{Binding IsNeoForgeLoading,Converter={StaticResource BoolReverseConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding Id}"/>
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+
+											<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Right"
+														Margin="-70 0"
+														IsHitTestVisible="False">
+												<ProgressBar Classes="circular"
+															 Width="20"
+															 Height="20"
+															 IsIndeterminate="{Binding IsNeoForgeLoading}"/>
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</Border>
+
+								<Border CornerRadius="4"
+										BorderThickness="1"
+										BoxShadow="0 1 4 0 #66000000"
+										Background="{DynamicResource DialogContentBackground}"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid Margin="10 0"
+										  ColumnDefinitions="Auto,Auto,1*,Auto">
+										<CheckBox/>
+
+										<StackPanel Grid.Column="2"
+													Margin="0 8"
+													Orientation="Horizontal">
+											<Image Height="30"
+												   Width="40"
+												   Source="/Assets/Icons/OptiFine.png"/>
+
+											<StackPanel Margin="10 0 0 0">
+												<TextBlock Text="Optifine"
+														   FontSize="16"/>
+												<TextBlock FontSize="12"
+														   TextWrapping="WrapWithOverflow"
+														   Text="经典的光影加载器"/>
+											</StackPanel>
+										</StackPanel>
+
+										<Grid Grid.Column="3">
+											<ComboBox VerticalAlignment="Center"
+		                                              AutoScrollToSelectedItem="True"
+		                                              ItemsSource="{Binding Optifines}"
+													  IsVisible="{Binding IsOptifineLoading,Converter={StaticResource BoolReverseConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding Id}"/>
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+
+											<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Right"
+														Margin="-70 0"
+														IsHitTestVisible="False">
+												<ProgressBar Classes="circular"
+															 Width="20"
+															 Height="20"
+															 IsIndeterminate="{Binding IsOptifineLoading}"/>
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</Border>
+
+								<Border CornerRadius="4"
+										BorderThickness="1"
+										BoxShadow="0 1 4 0 #66000000"
+										Background="{DynamicResource DialogContentBackground}"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid Margin="10 0"
+										  ColumnDefinitions="Auto,Auto,1*,Auto">
+										<CheckBox/>
+
+										<StackPanel Grid.Column="2"
+													Margin="0 8"
+													Orientation="Horizontal">
+											<Image Height="35"
+												   Width="40"
+												   Source="/Assets/Icons/Fabric.png"/>
+
+											<StackPanel Margin="10 0 0 0">
+												<TextBlock Text="Fabric"
+														   FontSize="16"/>
+												<TextBlock FontSize="12"
+														   TextWrapping="WrapWithOverflow"
+														   Text="新型的模组加载器"/>
+											</StackPanel>
+										</StackPanel>
+
+										<Grid Grid.Column="3">
+											<ComboBox VerticalAlignment="Center"
+		                                              ItemsSource="{Binding Fabrics}"
+		                                              AutoScrollToSelectedItem="True"
+													  IsVisible="{Binding IsFabricLoading,Converter={StaticResource BoolReverseConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding Id}"/>
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+
+											<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Right"
+														Margin="-70 0"
+														IsHitTestVisible="False">
+												<ProgressBar Classes="circular"
+															 Width="20"
+															 Height="20"
+															 IsIndeterminate="{Binding IsFabricLoading}"/>
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</Border>
+
+								<Border CornerRadius="4"
+										BorderThickness="1"
+										BoxShadow="0 1 4 0 #66000000"
+										Background="{DynamicResource DialogContentBackground}"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid Margin="10 0"
+										  ColumnDefinitions="Auto,Auto,1*,Auto">
+										<CheckBox/>
+
+										<StackPanel Grid.Column="2"
+													Margin="0 8"
+													Orientation="Horizontal">
+											<Image Height="30"
+												   Width="40"
+												   Source="/Assets/Icons/Quilt.png"/>
+
+											<StackPanel Margin="10 0 0 0">
+												<TextBlock Text="Quilt"
+														   FontSize="16"/>
+												<TextBlock FontSize="12"
+														   TextWrapping="WrapWithOverflow"
+														   Text="新型的模组加载器"/>
+											</StackPanel>
+										</StackPanel>
+
+										<Grid Grid.Column="3">
+											<ComboBox VerticalAlignment="Center"
+		                                              ItemsSource="{Binding Quilts}"
+		                                              AutoScrollToSelectedItem="True"
+													  IsVisible="{Binding IsQuiltLoading,Converter={StaticResource BoolReverseConverter}}">
+												<ComboBox.ItemTemplate>
+													<DataTemplate>
+														<TextBlock Text="{Binding Id}"/>
+													</DataTemplate>
+												</ComboBox.ItemTemplate>
+											</ComboBox>
+
+											<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Right"
+														Margin="-70 0"
+														IsHitTestVisible="False">
+												<ProgressBar Classes="circular"
+															 Width="20"
+															 Height="20"
+															 IsIndeterminate="{Binding IsQuiltLoading}"/>																						
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</Border>
+							</StackPanel>
+							
+							<!--Bottom-->
+							<Button Grid.Row="4"
+									Width="150"
+									Content="安装"
+									Margin="15 0"
+									HorizontalAlignment="Right"
+									HorizontalContentAlignment="Center"/>
+						</Grid>
 					</Border>
 				</Grid>
-			</Grid>
+			</Grid>					
 		</Border>
-		<!--<Border Background="Black">
-			<Border>
-				<Border.Background>
-					<LinearGradientBrush >
-						<GradientStop Color="white" Offset="0.0"/>
-						<GradientStop Color="Transparent" Offset="0.9"/>
-					</LinearGradientBrush>
-				</Border.Background>
-			</Border>
-		</Border>-->
 
+
+		<wcb:TitleBar TitleWidth="110"
+					  Title="{DynamicResource DownloadCenter}"
+					  GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

@@ -51,6 +51,24 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public bool IsLoaded { get; set; }
+        
+        [Reactive]
+        public bool IsForgeLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsOptifineLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsNeoForgeLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsFabricLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsQuiltLoading { get; set; } = true;
+
+        [Reactive]
+        public double InstallerWidth { get; set; } = 0;
 
         [Reactive]
         public string SearchFilter { get; set; }
@@ -84,6 +102,24 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public Bitmap NewCard2Image { get; set; }
+
+        [Reactive]
+        public GameCoreEmtity SelectGameCore { get; set; }
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Forges { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Optifines { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Fabrics { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> NeoForges { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Quilts { get; set; } = new();
 
         public List<string> McVersions { get; } = new() {
             "All",
@@ -257,11 +293,6 @@ namespace wonderlab.ViewModels.Pages {
             IsLoaded = true;
         }
 
-        public async void OpenGameInstallDialogAction() {
-            "下载对话框开启，开始加载加载器信息".ShowLog();
-            await Task.Run(async () => await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id));
-        }
-
         public async void GetGameCoresAction() {
             try {
                 var result = await Task.Run(async () => await HttpUtils.GetGameCoresAsync());
@@ -332,6 +363,10 @@ namespace wonderlab.ViewModels.Pages {
                     NewCard1Image = new(new MemoryStream(bytes));
                 });
             });
+        }
+
+        public void CloseInstallerAction() {
+            InstallerWidth = 0;
         }
 
         public override void GoBackAction() {

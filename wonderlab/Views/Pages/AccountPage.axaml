@@ -158,16 +158,16 @@
 		                                            MinHeight="60"
 		                                            CornerRadius="6"
 													ClipToBounds="True"													
-		                                            BorderBrush="{DynamicResource AccentBrush}"
+		                                            BorderBrush="{DynamicResource AccentBrushLight1}"
 		                                            BorderThickness="5 0 0 0">
 												<Grid>
-													<Border Margin="-15" ClipToBounds="True">
+													<Border Margin="-50" ClipToBounds="True">
 														<Border.Background>
 															<ImageBrush Stretch="UniformToFill"
 																		Source="{Binding Head}"/>
 														</Border.Background>
 														<Border.Effect>
-															<BlurEffect Radius="30"/>
+															<BlurEffect Radius="95"/>
 														</Border.Effect>
 													</Border>
  

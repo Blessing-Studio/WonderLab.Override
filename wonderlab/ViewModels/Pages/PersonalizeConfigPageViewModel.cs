@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
+using wonderlab.control.Animation;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
