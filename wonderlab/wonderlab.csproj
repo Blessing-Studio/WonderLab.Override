@@ -32,7 +32,7 @@
 		<PackageReference Include="ReactiveUI" Version="19.4.1" />
 		<PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
-		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-preview.6.23329.7" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-rc.1.23419.4" />
 		<PackageReference Include="Dotnet.Bundle" Version="*" />
 	</ItemGroup>
 
