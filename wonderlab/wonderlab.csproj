@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Version>1.2.7-preview</Version>
 	</PropertyGroup>
@@ -21,7 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.1" />
+		<PackageReference Include="Avalonia" Version="11.0.4" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.0.1" />
 		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.1" />
