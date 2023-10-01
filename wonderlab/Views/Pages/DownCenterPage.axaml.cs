@@ -7,7 +7,6 @@ using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using wonderlab.control;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages {
@@ -19,7 +18,6 @@ namespace wonderlab.Views.Pages {
             Initialized += Loaded;
             InitializeComponent();
             DataContext = ViewModel;
-
             foreach (var item in BottomBar.Children) {           
                 (item as ToggleButton)!.Click += (x, e) => {
                     foreach (var button in BottomBar.Children) {                   

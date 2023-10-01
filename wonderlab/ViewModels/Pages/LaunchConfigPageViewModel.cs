@@ -72,7 +72,6 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             if (e.PropertyName is nameof(WindowWidth)) {
-                WindowWidth.ShowLog();
                 GlobalResources.LaunchInfoData.WindowWidth = WindowWidth;
             }
 
