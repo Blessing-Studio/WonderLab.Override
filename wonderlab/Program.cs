@@ -5,6 +5,7 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
+using wonderlab.Class;
 using wonderlab.Class.Models;
 
 namespace wonderlab;
@@ -20,6 +21,8 @@ class Program {
             builder.StartWithClassicDesktopLifetime(args);
         }
         catch (Exception ex) {
+            App.Logger.Error(ex.ToString());
+            _ = App.Logger.EncapsulateLogsToFileAsync();
             var model = new ExceptionModel() {
                 Message = ex.Message,
                 StackTrace = ex.StackTrace,

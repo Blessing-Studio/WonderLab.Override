@@ -51,7 +51,7 @@ namespace wonderlab.Class {
             return logger.Info("日志记录器已加载");
         }
 
-        private async ValueTask EncapsulateLogsToFileAsync() {
+        public async ValueTask EncapsulateLogsToFileAsync() {
             if (!LogsPath.IsDirectory()) {
                 Directory.CreateDirectory(LogsPath);
             }

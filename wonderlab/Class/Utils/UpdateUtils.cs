@@ -67,7 +67,7 @@ namespace wonderlab.Class.Utils {
                         JsonUtils.WriteLauncherInfoJson();
                         Process.Start(new ProcessStartInfo {
                             FileName = "powershell.exe",
-                            Arguments = ArgumentsBuilding(result.Result.Name),
+                            Arguments = ArgumentsBuilding(),
                             WorkingDirectory = Directory.GetCurrentDirectory(),
                             UseShellExecute = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
@@ -78,13 +78,13 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static string ArgumentsBuilding(string fileName) {
+        public static string ArgumentsBuilding() {
             int currentPID = Process.GetCurrentProcess().Id;
             string name = Process.GetCurrentProcess().ProcessName, filename = $"{name}.exe";
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +
-                   $"Remove-Item {fileName}.zip -Force;" +
+                   $"Remove-Item {launcher.zip}.zip -Force;" +
                    $"Remove-Item {filename} -Force;" +
                    $"Rename-Item wlo.exe {filename};" +
                    $"Start-Process {name}.exe -Args updated;";
