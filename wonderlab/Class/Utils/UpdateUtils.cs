@@ -84,7 +84,7 @@ namespace wonderlab.Class.Utils {
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +
-                   $"Remove-Item {launcher.zip}.zip -Force;" +
+                   $"Remove-Item launcher.zip -Force;" +
                    $"Remove-Item {filename} -Force;" +
                    $"Rename-Item wlo.exe {filename};" +
                    $"Start-Process {name}.exe -Args updated;";
