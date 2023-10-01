@@ -69,7 +69,6 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>Assets\wonderlab.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
-		<AssemblyVersion>1.2.7</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

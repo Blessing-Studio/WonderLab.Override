@@ -342,27 +342,32 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void GetMcVersionUpdatesAction() {
-            await Task.Run(async () => {
-                var result = await HttpUtils.GetMcVersionUpdatesAsync();
-                NewCard1 = result.Item1;
-                NewCard2 = result.Item2;
-                NewCard1 = await McNewsUtil.GetNewImageUrlAsync(result.Item1);
-                NewCard2 = await McNewsUtil.GetNewImageUrlAsync(result.Item2);
-
+            try {
                 await Task.Run(async () => {
-                    using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard2.ImageUrl);
-                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                    var result = await HttpUtils.GetMcVersionUpdatesAsync();
+                    NewCard1 = result.Item1;
+                    NewCard2 = result.Item2;
+                    NewCard1 = await McNewsUtil.GetNewImageUrlAsync(result.Item1);
+                    NewCard2 = await McNewsUtil.GetNewImageUrlAsync(result.Item2);
 
-                    NewCard2Image = new(new MemoryStream(bytes));
+                    await Task.Run(async () => {
+                        using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard2.ImageUrl);
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        NewCard2Image = new(new MemoryStream(bytes));
+                    });
+
+                    await Task.Run(async () => {
+                        using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard1.ImageUrl);
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        NewCard1Image = new(new MemoryStream(bytes));
+                    });
                 });
-
-                await Task.Run(async () => {
-                    using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard1.ImageUrl);
-                    var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
-
-                    NewCard1Image = new(new MemoryStream(bytes));
-                });
-            });
+            }
+            catch (Exception ex) {
+                App.Logger.Error(ex.ToString());
+            }
         }
 
         public void CloseInstallerAction() {
