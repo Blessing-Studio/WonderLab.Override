@@ -15,7 +15,7 @@ using System.Text.Json.Nodes;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
-        public const string LocalVersion = "1.2.6";
+        public const string LocalVersion = "1.2.7";
 
         private const string UpdateUrl = "http://43.136.86.16:14514/api/update/";
 
