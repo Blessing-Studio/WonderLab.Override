@@ -22,13 +22,8 @@ namespace wonderlab.ViewModels.Pages {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                     ThreadPool.QueueUserWorkItem(x => {
                         Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => {                            
-                            if (x.JavaPath == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath) {
-                                return true;
-                            }
-
-                            return false;
-                        }).FirstOrDefault()!;
+                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimes
+                           .FirstOrDefault(x=> x.JavaPath == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath);
                     });
                 }
 
@@ -207,7 +202,6 @@ namespace wonderlab.ViewModels.Pages {
             if (!file.IsNull()) {
                 //由于需启动新进程，可能耗时会卡主线程，因此使用异步
                 var java = await Task.Run(() => JavaUtil.GetJavaInfo(file.FullName));
-
                 if (!java.IsNull()) {
                     Javas.Add(java);
                     GlobalResources.LaunchInfoData.JavaRuntimes.Add(java);
