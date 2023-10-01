@@ -69,7 +69,7 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 
 #### Ddggdd135
 
-一个喜欢编程的学生, Minecraft肝帝
+一个喜欢编程的学生, Minecraft肝帝, C#爱好者
 
 [GitHub](https://github.com/JWJUN233233)
 [Bilibili](https://space.bilibili.com/1049351987)
