@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using DialogHostAvalonia;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -52,11 +53,18 @@ namespace wonderlab.Views.Windows {
                 CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
 
                 var result = await UpdateUtils.GetLatestVersionInfoAsync();
-                if (result is not null && result.Id.Replace(".", "").ToInt32() >
-                    UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
+                var id = result["version"].GetValue<string>()
+                    .Replace(".", "")
+                    .Replace("-preview", "")
+                    .ToInt32();
+
+                if (result is not null && id > UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
+                    string time = DateTime.Parse(result["time"].GetValue<string>())
+                        .ToString("yyyy-MM-dd HH:MM:ff");
+
                     UpdateDialogContent content = new(result,
-                        string.Join("\n", result.UpdateMessage),
-                        $"于 {result.Time}  发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
+                        string.Join("\n", result["messages"].AsArray()),
+                        $"于 {time} 发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
 
                     await DialogHost.Show(content, "dialogHost");
                 }

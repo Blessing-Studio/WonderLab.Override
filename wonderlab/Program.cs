@@ -5,6 +5,7 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
+using wonderlab.Class.Models;
 
 namespace wonderlab;
 
@@ -14,8 +15,19 @@ class Program {
     // yet and stuff might break.
     [STAThread]
     public static int Main(string[] args) {
-        var builder = BuildAvaloniaApp();
-        return builder.StartWithClassicDesktopLifetime(args);
+        try {
+            var builder = BuildAvaloniaApp();
+            builder.StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception ex) {
+            var model = new ExceptionModel() {
+                Message = ex.Message,
+                StackTrace = ex.StackTrace,
+                Exception = ex.GetType().Name,
+            };
+        }
+
+        return 114514;
     }
 
 
@@ -28,12 +40,4 @@ class Program {
             .LogToTrace()
             .UseReactiveUI()
             .UsePlatformDetect();
-
-    private static void SilenceConsole() {
-        new Thread(() => {
-            Console.CursorVisible = false;
-            while (true)
-                Console.ReadKey(true);
-        }) { IsBackground = true }.Start();
-    }
 }

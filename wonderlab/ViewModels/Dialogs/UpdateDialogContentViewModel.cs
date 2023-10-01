@@ -4,14 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class UpdateDialogContentViewModel : ViewModelBase {
-        private VersionInfo VersionInfo { get; set; }
+        private JsonNode VersionInfo { get; set; }
 
-        public UpdateDialogContentViewModel(VersionInfo versionInfo,
+        public UpdateDialogContentViewModel(JsonNode versionInfo,
             string message, string author) {
             VersionInfo = versionInfo;
             Message = message;

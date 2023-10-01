@@ -11,28 +11,23 @@ using wonderlab.Class.AppData;
 using MinecraftLaunch.Modules.Utils;
 using wonderlab.Class.Enum;
 using MinecraftLaunch.Modules.Downloaders;
+using System.Text.Json.Nodes;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
-        public const string LocalVersion = "1.2.7";
+        public const string LocalVersion = "1.2.6";
 
-        private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
+        private const string UpdateUrl = "http://43.136.86.16:14514/api/update/";
 
-        private const string UpdateUrl = "http://43.136.86.16:14514/api/update/info";
-
-        private const string DownloadUrl = "http://43.136.86.16:14514/api/update/lsaac/download";
-
-        public static readonly string IndexUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/index.json";
-
-        public static readonly string VersionInfoUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/files/window/*/info.json";
-
-        //public static Index Index { get; private set; }
-
-        public static async ValueTask<VersionInfo> GetLatestVersionInfoAsync() {
+        public static async ValueTask<JsonNode> GetLatestVersionInfoAsync() {
             try {
-                using var responseMessage = await UpdateUrl.GetAsync();
-                var json = await responseMessage.GetStringAsync();
-                return json.ToJsonEntity<VersionInfo>();                
+                using var responseMessage = await UpdateUrl
+                    .GetAsync();
+
+                var json = await responseMessage
+                    .GetStringAsync();
+
+                return JsonNode.Parse(json);        
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -41,10 +36,15 @@ namespace wonderlab.Class.Utils {
             return null!;
         }
 
-        public static async void UpdateAsync(VersionInfo info, Action<double> action) {
-            if (info.Id.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
+        public static async void UpdateAsync(JsonNode info, Action<double> action) {
+            var id = info["version"].GetValue<string>()
+                .Replace(".","")
+                .Replace("-preview","")
+                .ToInt32();
+
+            if (id > LocalVersion.Replace(".", "").ToInt32()) {
                 using var downloader = FileDownloader.Build(new() {
-                    Url = DownloadUrl,
+                    Url = $"https://ghproxy.com/{info["windows_file_url"].GetValue<string>()}",
                     Directory = Directory.GetCurrentDirectory().ToDirectory()!,
                     FileName = "launcher.zip"
                 });
@@ -59,13 +59,15 @@ namespace wonderlab.Class.Utils {
                 if (result.HttpStatusCode is HttpStatusCode.OK) {
                     try {
                         using var zip = ZipFile.OpenRead(result.Result.FullName);
-                        zip.ExtractToDirectory(result.Result.Directory!.FullName);
-
+                        var entry = zip.GetEntry("wonderlab.exe");
+                        if (entry is not null) {
+                            entry.ExtractToFile("wlo.exe");
+                        }
                         await Task.Delay(1000);
                         JsonUtils.WriteLauncherInfoJson();
                         Process.Start(new ProcessStartInfo {
                             FileName = "powershell.exe",
-                            Arguments = ArgumentsBuilding(),
+                            Arguments = ArgumentsBuilding(result.Result.Name),
                             WorkingDirectory = Directory.GetCurrentDirectory(),
                             UseShellExecute = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
@@ -76,15 +78,15 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static string ArgumentsBuilding() {
+        public static string ArgumentsBuilding(string fileName) {
             int currentPID = Process.GetCurrentProcess().Id;
             string name = Process.GetCurrentProcess().ProcessName, filename = $"{name}.exe";
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +
-                   $"Remove-Item WonderLab.zip -Force;" +
+                   $"Remove-Item {fileName}.zip -Force;" +
                    $"Remove-Item {filename} -Force;" +
-                   $"Rename-Item launcher.exe {filename};" +
+                   $"Rename-Item wlo.exe {filename};" +
                    $"Start-Process {name}.exe -Args updated;";
         }
     }
