@@ -244,7 +244,15 @@ namespace wonderlab.Class.Utils {
             await File.WriteAllBytesAsync(path, tmp);
         }
 
-        public static async ValueTask<string> ReadCompressedText(this string path) {
+        public static string ReadCompressedText(this string path) {
+            if (!File.Exists(path)) {
+                return string.Empty;
+            }
+
+            return Encoding.UTF8.GetString(zlib.Decompress(File.ReadAllBytes(path)));
+        }
+
+        public static async ValueTask<string> ReadCompressedTextAsync(this string path) {
             if (!File.Exists(path)) {
                 return string.Empty;
             }

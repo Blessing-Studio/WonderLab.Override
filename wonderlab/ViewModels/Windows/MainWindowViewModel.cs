@@ -15,6 +15,9 @@ using MinecraftLaunch.Modules.Models.Download;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia.Threading;
+using System;
+using wonderlab.Views.Dialogs;
+using DialogHostAvalonia;
 
 namespace wonderlab.ViewModels.Windows {
     public class MainWindowViewModel : ViewModelBase {
@@ -22,7 +25,6 @@ namespace wonderlab.ViewModels.Windows {
             this.PropertyChanged += OnPropertyChanged;
 
             ThreadPool.QueueUserWorkItem(async x => {
-                await Task.Delay(500);
                 var launcherData = GlobalResources.LauncherData;
 
                 IsLoadImageBackground = launcherData.BakgroundType is "图片背景";
@@ -48,13 +50,6 @@ namespace wonderlab.ViewModels.Windows {
                     }
                 });
 
-                //Load Data
-                await Task.Run(async () => {
-                    CacheResources.Accounts = (await AccountUtils.GetAsync(true)
-                         .ToListAsync())
-                         .ToObservableCollection();
-                });
-               
                 APIManager.Current = launcherData.CurrentDownloadAPI switch {
                     DownloadApiType.Bmcl => APIManager.Bmcl,
                     DownloadApiType.Mcbbs => APIManager.Mcbbs,
@@ -62,7 +57,21 @@ namespace wonderlab.ViewModels.Windows {
                     _ => APIManager.Mcbbs,
                 };
 
-                CacheResources.GetWebModpackInfoData();
+
+                var result = await UpdateUtils.GetLatestVersionInfoAsync();
+                if (UpdateUtils.Check(result)) {
+                    string time = DateTime.Parse(result["time"].GetValue<string>())
+                        .ToString("yyyy-MM-dd HH:MM:ff");
+
+                    Dispatcher.Post(async () => {
+                        UpdateDialogContent content = new(result,
+                            string.Join("\n", result["messages"].AsArray()),
+                            $"于 {time} 发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
+
+                        await Task.Delay(500);
+                        await DialogHost.Show(content, "dialogHost");
+                    });
+                }
             });
         }
 

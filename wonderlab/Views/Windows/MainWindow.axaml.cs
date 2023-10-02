@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
+using wonderlab.control;
 using wonderlab.ViewModels.Windows;
 using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
@@ -20,7 +21,7 @@ using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
 namespace wonderlab.Views.Windows {
     public partial class MainWindow : Window {
-        public bool IsOpen, CanParallax;
+        public bool CanParallax;
 
         public static MainWindowViewModel ViewModel { get; set; }
 
@@ -29,45 +30,20 @@ namespace wonderlab.Views.Windows {
             AddHandler(DragDrop.DropEvent, DropAction);
         }
 
-        private async void MainWindowLoaded(object sender, RoutedEventArgs e) {
+        private void MainWindowLoaded(object sender, RoutedEventArgs e) {
             try {
-                ThemeUtils.Init();
-                ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
-
                 PointerMoved += OnPointerMoved;
                 PropertyChanged += OnPropertyChanged;
                 Drop.PointerPressed += OnPointerPressed;
                 TopInfoBar.PointerPressed += OnPointerPressed;
                 TopInfoBar1.PointerPressed += OnPointerPressed;
                 TopInfoBar2.PointerPressed += OnPointerPressed;
-                this.Closed += (_, x) => {
-                    JsonUtils.WriteLaunchInfoJson();
-                    JsonUtils.WriteLauncherInfoJson();
-                };
-
 
                 close.Click += (_, _) => Close();
                 Mini.Click += (_, _) => WindowState = WindowState.Minimized;
 
                 NotificationCenterButton.Click += (_, _) => NotificationCenter.Open();
                 CanParallax = GlobalResources.LauncherData.ParallaxType is not "无";
-
-                var result = await UpdateUtils.GetLatestVersionInfoAsync();
-                var id = result["version"].GetValue<string>()
-                    .Replace(".", "")
-                    .Replace("-preview", "")
-                    .ToInt32();
-
-                if (result is not null && id > UpdateUtils.LocalVersion.Replace(".", "").ToInt32() && SystemUtils.IsWindows) {
-                    string time = DateTime.Parse(result["time"].GetValue<string>())
-                        .ToString("yyyy-MM-dd HH:MM:ff");
-
-                    UpdateDialogContent content = new(result,
-                        string.Join("\n", result["messages"].AsArray()),
-                        $"于 {time} 发布，发行分支：{GlobalResources.LauncherData.IssuingBranch}");
-
-                    await DialogHost.Show(content, "dialogHost");
-                }
             }
             catch (Exception ex) {
                 $"{ex.Message}".ShowMessage();
@@ -76,25 +52,8 @@ namespace wonderlab.Views.Windows {
 
         private void OnPointerMoved(object? sender, PointerEventArgs e) {
             if (CanParallax) {
-                Point position = e.GetPosition(BackgroundImage);
-                int xOffset = 50, yOffset = 50;
-
-                double num = BackgroundImage.DesiredSize.Height - position.X / xOffset - BackgroundImage.DesiredSize.Height;
-                double num2 = BackgroundImage.DesiredSize.Width - position.Y / yOffset - BackgroundImage.DesiredSize.Width;
-
-                if (!(BackgroundImage.RenderTransform is TranslateTransform)) {
-                    BackgroundImage.RenderTransform = new TranslateTransform(num, num2);
-                    return;
-                }
-
-                TranslateTransform translateTransform = (TranslateTransform)BackgroundImage.RenderTransform;
-                if (xOffset > 0) {
-                    translateTransform.X = num;
-                }
-
-                if (yOffset > 0) {
-                    translateTransform.Y = num2;
-                }
+                var control = BackgroundImage;
+                ParallaxUtil.RunFlatParallax(control, e.GetPosition(control));
             } else {
                 BackgroundImage.RenderTransform = new TranslateTransform(0, 0);
             }

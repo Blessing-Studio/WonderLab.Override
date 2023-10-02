@@ -29,7 +29,7 @@ namespace wonderlab.Class.Utils {
                     return;
                 }
 
-                var json = await jsonPath.ReadCompressedText();
+                var json = jsonPath.ReadCompressedText();
                 GlobalResources.LaunchInfoData = json.ToJsonEntity<LaunchInfoDataModel>();
 
                 if (GlobalResources.LaunchInfoData.IsNull()) {
@@ -62,7 +62,7 @@ namespace wonderlab.Class.Utils {
                     return;
                 }
 
-                var json = await jsonPath.ReadCompressedText();
+                var json = jsonPath.ReadCompressedText();
                 JsonSerializerOptions options = new();
                 options.Converters.Add(new JsonToColorConverter());
                 
@@ -101,7 +101,7 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<SingleCoreModel> ReadSingleGameCoreJsonAsync(GameCore core) {
             string path = Path.Combine(core.GetGameCorePath(true), $"singleConfig.wlcd");
-            var json = await path.ReadCompressedText();
+            var json = await path.ReadCompressedTextAsync();
 
             if (!path.IsFile()) {
                 return WriteSingleGameCoreJson(core);
