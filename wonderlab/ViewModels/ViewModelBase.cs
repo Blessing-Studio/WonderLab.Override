@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Threading;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels {
     public class ViewModelBase : ReactiveObject {
+        public Dispatcher Dispatcher => Dispatcher.UIThread;
+
         public virtual void GoBackAction() {
             App.CurrentWindow.OpenTopBar();
             new HomePage().Navigation();
