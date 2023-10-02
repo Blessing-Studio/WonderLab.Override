@@ -4,7 +4,6 @@
         <Border Background="Black" Width="100" Height="100">
             <!-- Add Controls for Previewer Here -->
 			<Button
-			   Classes="wonderaccentbutton"
 			   Padding="4"
 			   Content="123"
 			   HorizontalAlignment="Stretch"
@@ -37,6 +36,7 @@
 				<Grid>
 					<Border Background="{TemplateBinding Background}"
 							CornerRadius="{TemplateBinding CornerRadius}"
+							BorderBrush="{TemplateBinding BorderBrush}"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							BorderThickness="1"

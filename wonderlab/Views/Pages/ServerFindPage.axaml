@@ -73,154 +73,180 @@
 	</UserControl.Styles>
 	
 	<Grid>
-		<ScrollViewer>
-			<Grid Margin="10 65 10 0" RowDefinitions="Auto,10,Auto">
-				<Border BorderBrush="{DynamicResource DialogContentBorderBrush}"
-						CornerRadius="4" 
-						BorderThickness="1">
-					<Grid RowDefinitions="Auto,Auto">
-						<Border CornerRadius="4 4 0 0" Background="#4C5C808F">
-							<!--#6620546C #4C5C808F-->
-							<Grid>
-								<TextBlock Text="在线服务器匣子"
-										   Margin="15 5"
-										   VerticalAlignment="Center"
-										   FontWeight="SemiBold"
-										   FontSize="16"/>
+		<ScrollViewer Margin="0 50 0 0">
+			<ListBox Background="Transparent"	
+					 Margin="15 0 15 0"
+					 Name="ServerList"
+					 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="ClipToBounds" Value="False"/>
+						<Setter Property="Margin" Value="55 15 55 10"/>	
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Background="{DynamicResource DialogContentBackground}"
+										CornerRadius="8"
+									    BoxShadow="0 1 6 0 #66000000"
+								        BorderThickness="1"
+										BorderBrush="{DynamicResource DialogContentBorderBrush}">
+									<Grid RowDefinitions="Auto,Auto">
+										<!--Top Bar-->
+										<Grid Margin="15 0"
+											  RowDefinitions="Auto,Auto">
+											<Grid ColumnDefinitions="Auto,Auto">
+												<Viewbox Width="30"
+														 Margin="10 10 10 5">
+													<Path Fill="Black"
+														  Data="{StaticResource Server}"/>
+												</Viewbox>
+												<TextBlock Text="MC服务器名"
+														   Grid.Column="1"
+														   FontSize="25"
+														   Margin="0 8 0 0"
+														   VerticalAlignment="Center"/>
+											</Grid>
 
-								<StackPanel HorizontalAlignment="Right" VerticalAlignment="Top"
-											RenderTransform="skew(-8deg)"
-											Orientation="Horizontal" Margin="0 5 90 0">
-									<ToggleButton IsChecked="true"
-												  CornerRadius="2.5 0 0 2.5"
-												  Content="全部"
-												  BorderThickness="0"
-												  Classes="ba"/>
+											<StackPanel Spacing="5"
+														Margin="0 -5 0 0"
+														Orientation="Horizontal"
+														HorizontalAlignment="Right">												
+												<Viewbox Width="18">
+													<Path Fill="Black"
+														  Data="{StaticResource Delay}"/>
+												</Viewbox>
+												
+												<TextBlock Text="114514 ms"
+														   Margin="0 2 0 0"
+														   VerticalAlignment="Center"/>
+											</StackPanel>
+											
+											<TextBlock Text="哼哼哼，这是一段MC服务器描述啊啊啊啊啊啊啊啊啊啊啊"
+													   Margin="10 0 0 5"
+													   Grid.Row="1"/>
+										</Grid>
+										
+										<!--Content-->
+										<Grid Grid.Row="1"
+											  Name="BarContent"
+											  RowDefinitions="Auto,Auto,Auto,Auto"
+											  ClipToBounds="True">
+											<Grid.Transitions>
+												<Transitions>
+													<DoubleTransition Property="Height"
+																	  Duration="0:0:0.35"
+																	  Easing="ExponentialEaseInOut"/>
+												</Transitions>
+											</Grid.Transitions>
+											<Border Background="{DynamicResource DialogContentBorderBrush}"
+		                                            Height="1"
+		                                            Grid.Row="0"
+													Opacity="1"
+													Margin="50 0"/>
+											<!--IsOpen-->
+											<Border Grid.Row="1"
+													Height="35"
+													Margin="28 5 28 0"
+													Background="#FF8BB762">
+												<TextBlock Text="服务器现已开放"
+														   FontSize="18"
+														   Foreground="White"
+														   Margin="15 0 0 0"
+														   VerticalAlignment="Center"/>
+											</Border>
 
-									<ToggleButton Content="公益服"
-												  CornerRadius="0"
-												  BorderThickness="0.8 0 0 0"
-												  Classes="ba"/>
+											<!--Function Panel-->
+											<Grid Margin="40 15 0 0" 
+												  Grid.Row="2"
+												  ColumnDefinitions="0.6*,1*">
+												<!--Left-->
+												<Grid VerticalAlignment="Center"
+													  RowDefinitions="Auto,Auto,Auto,Auto">
+													<Border Background="{DynamicResource DialogContentBorderBrush}"
+															Height="1"
+															Grid.Row="0"
+															Opacity="1"
+															Margin="0 0"/>
 
-									<ToggleButton Content="商业服"
-												  BorderThickness="0.8 0 0 0"
-												  CornerRadius="0 2.5 2.5 0"
-												  Classes="ba"/>
-								</StackPanel>
-								   
-								<Button Content="刷新" 
-										Width="70"
-										Height="30"
-										MaxHeight="30"
-										Margin="0 5 10 5"	
-										CornerRadius="2.5"
-										Classes="shadowbutton"		
-										VerticalAlignment="Center"
-										HorizontalAlignment="Right"
-										RenderTransform="skew(-8deg)"
-										HorizontalContentAlignment="Center"
-										Command="{Binding GetServerListAction}"/>
-							</Grid>
-						</Border>
+													<Button Height="50"
+															Grid.Row="1"
+															Foreground="Black"
+															Background="Transparent"
+															HorizontalAlignment="Stretch"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center">
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Text="没想好做什么功能"/>
+														</StackPanel>
+													</Button>
 
-						<Border CornerRadius="0 0 4 4"
-								Background="#6620546C" Grid.Row="2"
-								VerticalAlignment="Top">
-							<Border Background="White" Margin="10" CornerRadius="3" ClipToBounds="False">
-								<!--ItemsSource="{Binding Servers}"-->
-								<Border Margin="6" BorderThickness="1" BorderBrush="Black">
-									<ListBox Background="Transparent"
-										     Margin="10"
-									         ClipToBounds="False"
-										     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-										     VerticalAlignment="Stretch"
-											 ItemsSource="{Binding Servers}">
-										<ListBox.ItemsPanel>
-											<ItemsPanelTemplate>
-												<WrapPanel Margin="10 0 0 0" Orientation="Horizontal" />
-											</ItemsPanelTemplate>
-										</ListBox.ItemsPanel>
-										<ListBox.Styles>
-											<Style Selector="ListBoxItem">
-												<Setter Property="Margin" Value="0 10 10 0"/>
-												<Setter Property="ClipToBounds" Value="False"/>
-												<Setter Property="Template">
-													<ControlTemplate>
-														<Grid RowDefinitions="Auto,5,Auto">
-															<Border Background="{DynamicResource DialogContentBackground}" CornerRadius="6"
-																	BorderThickness="1"
-																	BorderBrush="{DynamicResource DialogContentBorderBrush}"
-																	Name="Main" Width="130" Height="150">
-																<Grid>
-																	<Grid Margin="3">
-																		<Border CornerRadius="3"
-																				BorderThickness="1"
-																				BorderBrush="{DynamicResource DialogContentBorderBrush}">
-																			<Border.Background>
-																				<ImageBrush Stretch="UniformToFill" Source="{Binding Icon}"/>
-																			</Border.Background>
-																		</Border>
-
-																		<ProgressBar Classes="Circle"
-																					 Foreground="{DynamicResource AccentBrush}"
-																					 IsIndeterminate="{Binding IsImageLoading}"/>
-
-																		<Border Height="30" Background="#4C000000"
-																				VerticalAlignment="Bottom"
-																				CornerRadius="0 0 2 2">
-																			<TextBlock Text="运行中" VerticalAlignment="Center"
-																					   HorizontalAlignment="Center"
-																					   FontSize="15"
-																					   Foreground="White"
-																					   FontWeight="SemiBold"/>
-																		</Border>
-																	</Grid>
-
-																	<Border CornerRadius="114514"
-																			Width="20" Height="20"
-																			Background="Green"
-																			HorizontalAlignment="Left"
-																			VerticalAlignment="Top"
-																			BoxShadow="0 1 4 0 #66000000"
-																			Margin="-5 -5 0 0"/>
-																</Grid>
-															</Border>
-
-															<TextBlock Grid.Row="2"
-																	   FontSize="15"
-																	   FontWeight="SemiBold"
-																	   HorizontalAlignment="Center"
-																	   TextAlignment="Center"
-																	   MaxWidth="120"
-																	   TextTrimming="CharacterEllipsis"
-																	   Text="{Binding Data.Id}">
-
-																<TextBlock.TextDecorations>
-																	<TextDecorationCollection>
-																		<TextDecoration StrokeThickness="2"
-																						StrokeThicknessUnit="Pixel"
-																						Stroke="{DynamicResource AccentBrushLight3}"/>
-																	</TextDecorationCollection>
-																</TextBlock.TextDecorations>
-															</TextBlock>
-														</Grid>
-													</ControlTemplate>
-												</Setter>
-											</Style>
-
-											<Style Selector="ListBoxItem /template/	Border#Main">
-												<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
-											</Style>
-										</ListBox.Styles>
-									</ListBox>
+													<Button Height="50"
+		                                                    Grid.Row="2"
+		                                                    Foreground="Black"
+															Background="Transparent"															
+															HorizontalAlignment="Stretch"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center">
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Text="没想好做什么功能"/>
+														</StackPanel>
+													</Button>
+													
+													<Border Background="{DynamicResource DialogContentBorderBrush}"
+															Height="1"
+															Grid.Row="3"															
+															Opacity="1"
+															Margin="0 0"/>
+												</Grid>
+												
+												<!--Right-->
+												<Image Grid.Column="1"
+													   Stretch="UniformToFill"
+													   Height="126"
+													   Margin="15 0 28 0"
+													   Source="resm:wonderlab.Assets.downloadcenter.jpg"/>
+											</Grid>
+											
+											<!--Bottom Button Group-->
+											<Grid Grid.Row="3" Margin="0 5 0 0">
+												<Button Width="20" Height="20"
+														CornerRadius="100" 
+														BorderThickness="1"
+														BorderBrush="Black"
+														Background="Transparent"	
+														Name="CloseButton"
+														Click="CloseClick"
+													    Padding="0" Opacity="0.45">
+													<Viewbox Width="6"
+															 Margin="0.5 -2.5 0 0"
+															 RenderTransform="rotate(90deg)">
+														<Path Fill="Black" Data="{StaticResource GoBack}"/>
+													</Viewbox>
+												</Button>
+											</Grid>
+										</Grid>
+									</Grid>
 								</Border>
-							</Border>
-						</Border>
-					</Grid>
-				</Border>
-			</Grid>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+
+					<Style Selector="ListBoxItem /template/ Grid#BarContent">
+						<Setter Property="Height" Value="0"/>
+					</Style>
+					
+					<Style Selector="ListBoxItem:selected /template/ Grid#BarContent">
+						<Setter Property="Height" Value="215"/>
+					</Style>
+				</ListBox.Styles>
+
+				<ListBoxItem/>
+				<ListBoxItem/>
+				<ListBoxItem/>
+			</ListBox>
 		</ScrollViewer>				
 
-		<wcb:TitleBar Title="服务器匣子" TitleWidth="130" GoBackCommand="{Binding GoBackAction}"/>
+		<wcb:TitleBar Title="服务器匣子"
+					  TitleWidth="130" 
+					  GoBackCommand="{Binding GoBackAction}"/>
 	</Grid>
 </UserControl>

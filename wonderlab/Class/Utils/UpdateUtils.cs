@@ -1,15 +1,10 @@
 ﻿using Flurl.Http;
-using System.Text.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Threading.Tasks;
-using wonderlab.Class.AppData;
-using MinecraftLaunch.Modules.Utils;
-using wonderlab.Class.Enum;
 using MinecraftLaunch.Modules.Downloaders;
 using System.Text.Json.Nodes;
 

@@ -8,14 +8,12 @@ namespace wonderlab.Views.Pages {
         public static ServerFindPageViewModel ViewModel { get; set; } = new();
 
         public ServerFindPage() {
-            Initialized += InitializedAction;
             InitializeComponent();
-            DataContext = ViewModel;
+            DataContext = ViewModel; new Button().Click += CloseClick;
         }
 
-        private async void InitializedAction(object? sender, System.EventArgs e) {
-            await Task.Delay(100);
-            await ViewModel.GetServerListAsync();
+        private void CloseClick(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            ServerList.SelectedItem = null; 
         }
     }
 }

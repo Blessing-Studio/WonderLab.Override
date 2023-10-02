@@ -42,12 +42,13 @@
 						BorderThickness="1"
 						BoxShadow="0 1 4 0 #66000000"
 						Grid.Row="2" 
-						Name="Bitmap" 
 						MinWidth="360"> 					
-					<Border.Background>
-						<ImageBrush Source="{Binding NewImage}" Stretch="UniformToFill"/>
-					</Border.Background>
 					<Grid>
+						<Border Name="Bitmap" CornerRadius="6">
+							<Border.Background>
+								<ImageBrush Source="{Binding NewImage}" Stretch="UniformToFill"/>
+							</Border.Background>
+						</Border>
 						<Border VerticalAlignment="Bottom"
 								CornerRadius="0 0 6 6"
 		                        ClipToBounds="True" Height="50">
@@ -85,9 +86,7 @@
 													  Easing="ExponentialEaseOut"
 													  Duration="0:0:0.35"/>
 								</Transitions>
-							</Border.Transitions>
-							
-
+							</Border.Transitions>						
 						</Border>
 					</Grid>
 				</Border>
