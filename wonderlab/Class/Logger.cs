@@ -52,12 +52,15 @@ namespace wonderlab.Class {
         }
 
         public async ValueTask EncapsulateLogsToFileAsync() {
+            JsonUtils.WriteLaunchInfoJson();
+            JsonUtils.WriteLauncherInfoJson();
+
             if (!LogsPath.IsDirectory()) {
                 Directory.CreateDirectory(LogsPath);
             }
 
             var today = DateTime.Now;
-            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶{today:yyyy-MM-dd-HH-mm-ss}.log"), Logs);
+            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶 {today:yyyy-MM-dd-HH-mm-ss}.log"), Logs);
         }
     }
 }
