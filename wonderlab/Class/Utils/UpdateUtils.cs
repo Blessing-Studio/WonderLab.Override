@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MinecraftLaunch.Modules.Downloaders;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
@@ -36,15 +37,17 @@ namespace wonderlab.Class.Utils {
         }
 
         public static bool Check(JsonNode node) {
-            int localVersion = AssemblyUtil.Version
-                .Replace(".", "")
-                .ToInt32();
+            var localVersion = AssemblyUtil.Version
+                .Replace(".", "");
 
-            int newVersion = node["version"].GetValue<string>()
-                .Replace(".", "")
-                .ToInt32();
+            var newVersion = node["version"].GetValue<string>()
+                .Replace(".", "");
 
-            return (localVersion < newVersion) && SystemUtils.IsWindows;
+            if (newVersion.Last() is '0') {
+                return SystemUtils.IsWindows;
+            }
+
+            return (localVersion.ToInt32() < newVersion.ToInt32()) && SystemUtils.IsWindows;
         }
 
         public static async void UpdateAsync(JsonNode info, Action<double> action) {
