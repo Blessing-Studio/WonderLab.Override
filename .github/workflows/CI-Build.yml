@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         arch: ["x64", "x86", "arm64"]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [test, test_build]
     steps:
     - name: Checkout
@@ -125,7 +125,7 @@ jobs:
     strategy:
       matrix:
         arch: ["x64", "arm64"]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [test, test_build]
     steps:
     - name: Checkout
