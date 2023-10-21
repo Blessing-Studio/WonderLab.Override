@@ -17,7 +17,7 @@ namespace wonderlab.Class.Utils {
 
         //public const string Local
 
-        private const string UpdateUrl = "http://43.136.86.16:14514/api/update/";
+        private const string UpdateUrl = "http://s2.fxidc.net:2999/api/update/";
 
         public static async ValueTask<JsonNode> GetLatestVersionInfoAsync() {
             try {
@@ -40,14 +40,14 @@ namespace wonderlab.Class.Utils {
             var localVersion = AssemblyUtil.Version
                 .Replace(".", "");
 
-            var newVersion = node["version"].GetValue<string>()
+            var newVersion = node?["version"].GetValue<string>()
                 .Replace(".", "");
 
-            if (newVersion.Last() is '0') {
+            if (newVersion?.Last() is '0') {
                 return SystemUtils.IsWindows;
             }
 
-            return (localVersion.ToInt32() < newVersion.ToInt32()) && SystemUtils.IsWindows;
+            return (localVersion.ToInt32() < newVersion?.ToInt32()) && SystemUtils.IsWindows;
         }
 
         public static async void UpdateAsync(JsonNode info, Action<double> action) {

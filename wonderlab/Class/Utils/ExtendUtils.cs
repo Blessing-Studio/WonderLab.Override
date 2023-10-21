@@ -85,6 +85,10 @@ namespace wonderlab.Class.Utils {
             return obj is null;
         }
 
+        public static bool IsNullOrEmpty(this string obj) {
+            return string.IsNullOrEmpty(obj);
+        }
+
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
