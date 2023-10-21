@@ -38,16 +38,33 @@ namespace wonderlab.Class.Utils {
 
         public static bool Check(JsonNode node) {
             var localVersion = AssemblyUtil.Version
-                .Replace(".", "");
+                .Replace(".", "")
+                .ToInt32();
 
             var newVersion = node?["version"].GetValue<string>()
-                .Replace(".", "");
+                .Replace(".", "")
+                .ToInt32();
 
-            if (newVersion?.Last() is '0') {
-                return SystemUtils.IsWindows;
+            if (newVersion % 10 is '0') {
+                return CheckNumber(localVersion, newVersion ?? 6666);
             }
 
-            return (localVersion.ToInt32() < newVersion?.ToInt32()) && SystemUtils.IsWindows;
+            return (localVersion < newVersion) && SystemUtils.IsWindows;
+
+            bool CheckNumber(int num1, int num2) {
+                int lastDigitNum2 = num2 % 10;
+
+                int firstThreeDigitsNum1 = num1 / 10;
+                int firstThreeDigitsNum2 = num2 / 10;
+
+                if (firstThreeDigitsNum1 == firstThreeDigitsNum2 && lastDigitNum2 == 0 && num2 > num1)
+                    return false;
+
+                if(firstThreeDigitsNum1 > firstThreeDigitsNum2 && lastDigitNum2 == 0)
+                    return false;
+
+                return true;
+            }
         }
 
         public static async void UpdateAsync(JsonNode info, Action<double> action) {
