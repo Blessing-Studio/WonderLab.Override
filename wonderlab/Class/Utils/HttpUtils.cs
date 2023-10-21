@@ -192,7 +192,7 @@ namespace wonderlab.Class.Utils {
 
             async ValueTask GetQuiltsAsync() {
                 await Task.Run(async () => {
-                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                    if (id.Split('.').ElementAtOrDefault(1)?.ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Quilt".ShowLog();
                     } else {
                         var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
@@ -217,7 +217,7 @@ namespace wonderlab.Class.Utils {
 
             async ValueTask GetFabricsAsync() {
                 await Task.Run(async () => {
-                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                    if (id.Split('.').ElementAtOrDefault(1)?.ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Fabric".ShowLog();
                     } else {
                         var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {

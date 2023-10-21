@@ -23,7 +23,6 @@ public partial class App : Application {
 
     public override void Initialize() {
         AvaloniaXamlLoader.Load(this);
-        RxApp.MainThreadScheduler.Schedule(LoadAllDataAsync);
     }
 
     public override async void OnFrameworkInitializationCompleted() {
@@ -38,21 +37,6 @@ public partial class App : Application {
         }
 
         base.OnFrameworkInitializationCompleted();
-    }
-
-    public async void LoadAllDataAsync() {
-        ThemeUtils.Init();
-        ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
-
-        JsonUtils.CreateLauncherInfoJson();
-        JsonUtils.CreateLaunchInfoJson();
-        await Task.Run(async () => {
-            CacheResources.Accounts = (await AccountUtils.GetAsync(true)
-                 .ToListAsync())
-                 .ToObservableCollection();
-        });
-
-        CacheResources.GetWebModpackInfoData();
     }
 }
 

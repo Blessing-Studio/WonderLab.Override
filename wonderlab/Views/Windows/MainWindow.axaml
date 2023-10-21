@@ -239,7 +239,7 @@
 						</Grid.RowDefinitions>
 						<TextBlock Text="WonderLab"
 								   FontSize="16"
-								   FontWeight="SemiBold"/>
+							 	   FontWeight="SemiBold"/>
 
 						<Border Grid.Row="1" Background="Black"
 								HorizontalAlignment="Stretch"

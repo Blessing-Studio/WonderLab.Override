@@ -77,14 +77,15 @@ namespace wonderlab.Class.Utils {
                     if (entry is not null) {
                         entry.ExtractToFile("wlo.exe");
                     }
+
                     await Task.Delay(1000);
                     JsonUtils.WriteLauncherInfoJson();
                     Process.Start(new ProcessStartInfo {
-                        FileName = "powershell.exe",
-                        Arguments = ArgumentsBuilding(),
-                        WorkingDirectory = Directory.GetCurrentDirectory(),
                         UseShellExecute = true,
+                        FileName = "powershell.exe",
+                        Arguments = BuildArguments(),
                         WindowStyle = ProcessWindowStyle.Hidden,
+                        WorkingDirectory = Directory.GetCurrentDirectory(),
                     })!.Dispose();
                 }
                 catch (Exception ex) {
@@ -93,9 +94,11 @@ namespace wonderlab.Class.Utils {
             }
         }
 
-        public static string ArgumentsBuilding() {
+        public static string BuildArguments() {
             int currentPID = Process.GetCurrentProcess().Id;
-            string name = Process.GetCurrentProcess().ProcessName, filename = $"{name}.exe";
+            string name = Process.GetCurrentProcess().ProcessName, 
+                filename = $"{name}.exe";
+
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +

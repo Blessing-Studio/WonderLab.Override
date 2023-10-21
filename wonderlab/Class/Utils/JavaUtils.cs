@@ -37,7 +37,7 @@ namespace wonderlab.Class.Utils {
         }
 
         private static IEnumerable<JavaInfo> GetMacJavas() {
-            foreach (var i in Directory.EnumerateDirectories(GlobalResources.MacJavaHomePath).AsParallel()) {
+            foreach (var i in Directory.EnumerateDirectories(GlobalResources.MacJavaHomePath!).AsParallel()) {
                 if (!Directory.Exists(i + "/Contents/Home/bin"))
                     continue;
 
@@ -49,7 +49,7 @@ namespace wonderlab.Class.Utils {
 
         private static IEnumerable<JavaInfo> GetLinuxJavas() {
             //包管理器目录下已安装的java
-            foreach (var LinuxJavaHomePath in GlobalResources.LinuxJavaHomePaths.AsParallel()) {
+            foreach (var LinuxJavaHomePath in GlobalResources.LinuxJavaHomePaths!.AsParallel()) {
                 if (!Directory.Exists(LinuxJavaHomePath))
                     continue;
                 foreach (var jvmPath in Directory.EnumerateDirectories(LinuxJavaHomePath).AsParallel())
@@ -70,8 +70,9 @@ namespace wonderlab.Class.Utils {
             cmd.Start();
             var envJvmPath = cmd.StandardError.ReadToEnd();
             cmd.Close();
-            if (envJvmPath.IsFile())
+            if (envJvmPath.IsFile()) {
                 yield return JavaUtil.GetJavaInfo(envJvmPath);
+            }
         }
 
         private static IEnumerable<JavaInfo> GetJavaInOfficialGameCorePath() {

@@ -138,20 +138,23 @@ namespace wonderlab.Class.Utils {
         }
 
         public static double GetOptimumMemory(bool isVanilla, int modCount = 0) {
-            var free = SystemUtils.GetMemoryInfo().Free;
-            if (isVanilla && modCount is 0) {//原版
-                return (2.5 * 1024) + free / 4;
-            } else if (modCount > 0) {
-                double cache = (3 + modCount / 60) * 1024;
-                cache = ((free - cache) / 4) + (3 + modCount / 60) * 1024;
-                if (cache > free) {
-                    return free - 100;
-                }
+            var free = SystemUtils.GetMemoryInfo()
+                .Free;
+            double cache = 1024;
 
-                return cache;
+            if (isVanilla && modCount == 0) { //原版
+                cache = (2.5 * 1024) + free / 4;
+            } else if (modCount > 0) {
+                cache = (3 + modCount / 60) * 1024;
+                cache = ((free - cache) / 4) + cache;
+                if (cache > free) {
+                    cache = free - 100;
+                }
             } else {
-                return (3 * 1024) + free / 4;
+                cache = (3 * 1024) + free / 4;
             }
+
+            return cache;
         }
     }
 }

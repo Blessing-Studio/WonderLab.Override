@@ -3,19 +3,17 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Threading;
-using DialogHostAvalonia;
+using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.control;
 using wonderlab.ViewModels.Windows;
-using wonderlab.Views.Dialogs;
 using wonderlab.Views.Pages;
 using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
@@ -27,6 +25,8 @@ namespace wonderlab.Views.Windows {
 
         public MainWindow() {
             InitializeComponent();
+            RxApp.MainThreadScheduler.Schedule(LoadAllDataAsync);
+
             AddHandler(DragDrop.DropEvent, DropAction);
         }
 
@@ -68,7 +68,7 @@ namespace wonderlab.Views.Windows {
                 }
             }
         }
-        
+
         private void OnPointerPressed(object? sender, PointerPressedEventArgs e) {
             BeginMoveDrag(e);
         }
@@ -94,8 +94,7 @@ namespace wonderlab.Views.Windows {
                     return;
                 }
                 var type = ModpacksUtils.ModpacksTypeAnalysis(file.FullName);
-                if (type is ModpacksType.Unknown)
-                {
+                if (type is ModpacksType.Unknown) {
                     "未知整合包类型".ShowMessage();
                     return;
                 }
@@ -107,7 +106,7 @@ namespace wonderlab.Views.Windows {
         }
 
         public void ShowInfoBar(string title, string message, HideOfRunAction action) {
-            tipBarView.Add(title,message);
+            tipBarView.Add(title, message, action);
         }
 
         public void ShowInfoBar(string title, string message) {
@@ -142,7 +141,20 @@ namespace wonderlab.Views.Windows {
             await Task.Delay(50);
             TopBar1.Margin = new(0);
         }
+
+        public async void LoadAllDataAsync() {
+            ThemeUtils.Init();
+            ThemeUtils.SetAccentColor(GlobalResources.LauncherData.AccentColor);
+
+            JsonUtils.CreateLauncherInfoJson();
+            JsonUtils.CreateLaunchInfoJson();
+            await Task.Run(async () => {
+                CacheResources.Accounts = (await AccountUtils.GetAsync(true)
+                     .ToListAsync())
+                     .ToObservableCollection();
+
+                CacheResources.GetWebModpackInfoData();
+            });
+        }
     }
 }
-
-
