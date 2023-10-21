@@ -1,10 +1,6 @@
-﻿using Avalonia.Controls;
-using Avalonia.Media;
-using Avalonia.Platform.Storage;
-using DynamicData;
+﻿using Avalonia.Platform.Storage;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using ReactiveUI;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -13,29 +9,21 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
 using wonderlab.control;
-using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
     public class LaunchConfigPageViewModel : ViewModelBase {
         public LaunchConfigPageViewModel() {
-
             try {
                 if (GlobalResources.LaunchInfoData.JavaRuntimes.Any()) {
                     ThreadPool.QueueUserWorkItem(x => {
                         Javas = GlobalResources.LaunchInfoData.JavaRuntimes.ToObservableCollection();
-                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimes.Where(x => {                            
-                            if (x.JavaPath == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath) {
-                                return true;
-                            }
-
-                            return false;
-                        }).FirstOrDefault()!;
+                        CurrentJava = GlobalResources.LaunchInfoData.JavaRuntimes
+                           .FirstOrDefault(x=> x.JavaPath == GlobalResources.LaunchInfoData.JavaRuntimePath.JavaPath);
                     });
                 }
 
@@ -90,7 +78,6 @@ namespace wonderlab.ViewModels.Pages {
             }
 
             if (e.PropertyName is nameof(WindowWidth)) {
-                WindowWidth.ShowLog();
                 GlobalResources.LaunchInfoData.WindowWidth = WindowWidth;
             }
 
@@ -164,7 +151,7 @@ namespace wonderlab.ViewModels.Pages {
 
             await Task.Run(async () => {
                 try {
-                    var result = await Task.Run(() => JavaToolkit.GetJavas());
+                    var result = await Task.Run(() => JavaUtil.GetJavas());
                     if (!result.IsNull() && result.Any()) {
                         Javas.Load(result);
                         GlobalResources.LaunchInfoData.JavaRuntimes = result.ToList();
@@ -204,9 +191,9 @@ namespace wonderlab.ViewModels.Pages {
             FileInfo fileInfo = new FileInfo(path);
             DirectoryInfo? directory = fileInfo.Directory;
             if (directory != null) {
-                var javaInfo = JavaToolkit.GetJavaInfo(Path.Combine(path1: directory.FullName, "java.exe"));
+                var javaInfo = JavaUtil.GetJavaInfo(Path.Combine(path1: directory.FullName, "java.exe"));
                 Javas.Add(javaInfo);
-                GlobalResources.LaunchInfoData.JavaRuntimes.Add(JavaToolkit.GetJavaInfo(path));
+                GlobalResources.LaunchInfoData.JavaRuntimes.Add(JavaUtil.GetJavaInfo(path));
                 CurrentJava = javaInfo;
                 Trace.WriteLine($"[信息] 这是第 {Javas.Count} 找到的 Java 运行时，完整路径为 {path}");
             }
@@ -219,8 +206,7 @@ namespace wonderlab.ViewModels.Pages {
 
             if (!file.IsNull()) {
                 //由于需启动新进程，可能耗时会卡主线程，因此使用异步
-                var java = await Task.Run(() => JavaToolkit.GetJavaInfo(file.FullName));
-
+                var java = await Task.Run(() => JavaUtil.GetJavaInfo(file.FullName));
                 if (!java.IsNull()) {
                     Javas.Add(java);
                     GlobalResources.LaunchInfoData.JavaRuntimes.Add(java);

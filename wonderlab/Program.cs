@@ -5,6 +5,8 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.ReactiveUI;
+using wonderlab.Class;
+using wonderlab.Class.Models;
 
 namespace wonderlab;
 
@@ -14,8 +16,21 @@ class Program {
     // yet and stuff might break.
     [STAThread]
     public static int Main(string[] args) {
-        var builder = BuildAvaloniaApp();
-        return builder.StartWithClassicDesktopLifetime(args);
+        try {
+            var builder = BuildAvaloniaApp();
+            builder.StartWithClassicDesktopLifetime(args);
+        }
+        catch (Exception ex) {
+            App.Logger.Error(ex.ToString());
+            _ = App.Logger.EncapsulateLogsToFileAsync();
+            var model = new ExceptionModel() {
+                Message = ex.Message,
+                StackTrace = ex.StackTrace,
+                Exception = ex.GetType().Name,
+            };
+        }
+
+        return 114514;
     }
 
 
@@ -23,17 +38,9 @@ class Program {
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .With(new FontManagerOptions() {
-                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro"
             })
             .LogToTrace()
             .UseReactiveUI()
             .UsePlatformDetect();
-
-    private static void SilenceConsole() {
-        new Thread(() => {
-            Console.CursorVisible = false;
-            while (true)
-                Console.ReadKey(true);
-        }) { IsBackground = true }.Start();
-    }
 }

@@ -2,17 +2,14 @@
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
-using MinecraftLaunch.Modules.Toolkits;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Utils;
+using wonderlab.control.Animation;
 using wonderlab.Views.Windows;
 
 namespace wonderlab.ViewModels.Pages {
@@ -40,8 +37,23 @@ namespace wonderlab.ViewModels.Pages {
 
             if (e.PropertyName is nameof(CurrentBakgroundType)) {
                 IsImageVisible = CurrentBakgroundType is "图片背景";
-                App.CurrentWindow.BackgroundImage.IsVisible = IsImageVisible;
+                MainWindow.ViewModel.IsLoadImageBackground = IsImageVisible;
                 GlobalResources.LauncherData.BakgroundType = CurrentBakgroundType;
+                MainWindow.ViewModel.IsLoadColorBackground = CurrentBakgroundType is "主题色背景";
+
+                List<WindowTransparencyLevel> effectBackground = new();
+                if (CurrentBakgroundType is "亚克力背景") {
+                    effectBackground.Add(WindowTransparencyLevel.AcrylicBlur);
+                    App.CurrentWindow.TransparencyLevelHint = effectBackground;
+                    MainWindow.ViewModel.IsLoadAcrylicBackground = true;
+                }
+
+                bool isLoadMica = CurrentBakgroundType.Contains("云母背景");
+                if (isLoadMica) {
+                    effectBackground.Add(WindowTransparencyLevel.Mica);
+                    App.CurrentWindow.TransparencyLevelHint = effectBackground;
+                    MainWindow.ViewModel.IsLoadAcrylicBackground = false;
+                }
             }
 
             if (e.PropertyName is nameof(CurrentParallaxType)) {
@@ -72,6 +84,8 @@ namespace wonderlab.ViewModels.Pages {
         public ObservableCollection<string> BakgroundTypes => new() {
             "主题色背景",
             "图片背景",
+            "亚克力背景",
+            "云母背景（Win11+）",
         };
 
         public ObservableCollection<string> ThemeTypes => new() {

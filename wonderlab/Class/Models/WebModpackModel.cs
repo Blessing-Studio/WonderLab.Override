@@ -1,26 +1,16 @@
-﻿using Avalonia.Controls;
-using Avalonia.Platform.Storage;
-using MinecraftLaunch.Modules.Models.Download;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
-using ReactiveUI;
+﻿using MinecraftLaunch.Modules.Models.Download;
+using MinecraftLaunch.Modules.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
-using wonderlab.Views.Windows;
 
-namespace wonderlab.Class.Models
-{
+namespace wonderlab.Class.Models {
     public class WebModpackModel {
         public WebModpackModel(CurseForgeModpack modpack) {
             NormalTitle = modpack.Name;
@@ -132,7 +122,7 @@ namespace wonderlab.Class.Models
                 data.TimerStart();
 
                 NotificationCenterPage.ViewModel.Notifications.Add(data);
-                var doanloadResult = await HttpWrapper.HttpDownloadAsync(Url, result.FullName.Replace(Title, string.Empty), (e, _) => {
+                var doanloadResult = await HttpUtil.HttpDownloadAsync(Url, result.FullName.Replace(Title, string.Empty), (e, _) => {
                     var progress = e * 100;
                     data.ProgressOfBar = progress;
                     data.Progress = $"{Math.Round(progress, 2)}%";

@@ -1,45 +1,45 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MinecraftLaunch.Modules.Models.Download;
 
 public class CurseForgeModpack
 {
-	[JsonProperty("id")]
+	[JsonPropertyName("id")]
 	public int Id { get; set; }
 
-	[JsonProperty("name")]
+	[JsonPropertyName("name")]
 	public string Name { get; set; }
 
-	[JsonProperty("summary")]
+	[JsonPropertyName("summary")]
 	public string Description { get; set; }
 
-	[JsonProperty("links")]
+	[JsonPropertyName("links")]
 	public Dictionary<string, string> Links { get; set; }
 
-	[JsonProperty("downloadCount")]
+	[JsonPropertyName("downloadCount")]
 	public int DownloadCount { get; set; }
 
-	[JsonProperty("dateModified")]
+	[JsonPropertyName("dateModified")]
 	public DateTime LastUpdateTime { get; set; }
 
-	[JsonProperty("gamePopularityRank")]
+	[JsonPropertyName("gamePopularityRank")]
 	public int GamePopularityRank { get; set; }
 
-	[JsonProperty("latestFilesIndexes")]
+	[JsonPropertyName("latestFilesIndexes")]
 	public List<CurseForgeModpackFileInfo> LatestFilesIndexes { get; set; }
 
-	[JsonProperty("categories")]
+	[JsonPropertyName("categories")]
 	public List<CurseForgeModpackCategory> Categories { get; set; }
 
-    [JsonProperty("authors")]
+    [JsonPropertyName("authors")]
     public List<Author> Authors { get; set; }
 
-    [JsonProperty("screenshots")]
+    [JsonPropertyName("screenshots")]
     public List<Screenshot> Screenshots { get; set; }
 
     public string IconUrl { get; set; }
@@ -97,34 +97,39 @@ public class CurseForgeModpack
 	}
 }
 
+public class CurseForgeResourcePack : CurseForgeModpack
+{
+
+}
+
 public class Author {
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    [JsonProperty("url")]
+    [JsonPropertyName("url")]
     public string Url { get; set; }
 }
 
 public class Screenshot {
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
 
-    [JsonProperty("modId")]
+    [JsonPropertyName("modId")]
     public int ModId { get; set; }
 
-    [JsonProperty("title")]
+    [JsonPropertyName("title")]
     public string Title { get; set; }
 
-    [JsonProperty("thumbnailUrl")]
+    [JsonPropertyName("thumbnailUrl")]
     public string ThumbnailUrl { get; set; }
 
-    [JsonProperty("description")]
+    [JsonPropertyName("description")]
     public string Description { get; set; }
 
-    [JsonProperty("url")]
+    [JsonPropertyName("url")]
     public string Url { get; set; }
 }
 

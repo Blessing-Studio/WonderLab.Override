@@ -1,6 +1,5 @@
 ﻿using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;

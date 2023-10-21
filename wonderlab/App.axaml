@@ -2,10 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="wonderlab.App"
 			 xmlns:c="using:wonderlab.Views.Converters"
+			 xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 			 RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Styles>
 		<FluentTheme/>
+		<dialogHostAvalonia:DialogHostStyles />
 		<StyleInclude Source="avares://wonderlab.Control/ImprotStyles.axaml"/>
 		<Style Selector="ProgressBar /template/ Border#PART_Indicator">
 			<Setter Property="Transitions">
@@ -45,6 +47,7 @@
 			<c:StreamToBitmapConverter x:Key="StreamToBitmapConverter"/>
 			<c:ModLoaderImageConverter x:Key="ModLoaderImageConverter"/>
 			<c:ClassToInt32Converter x:Key="ClassToInt32Converter"/>
+			<c:DownloadProgressConverter x:Key="DownloadProgressConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

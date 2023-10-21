@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using System;
 using System.Collections.ObjectModel;
 using wonderlab.control.Controls.Bar;
+using static wonderlab.control.Controls.Bar.MessageTipsBar;
 
 namespace wonderlab.control.Controls {
     public class TipBarView : ContentControl {
@@ -18,6 +19,16 @@ namespace wonderlab.control.Controls {
                 Message = message,
                 Time = DateTime.Now.ToString(@"HH\:mm")
             };
+            App.Cache.Add(result);
+        }
+
+        public void Add(string title, string message, HideOfRunAction action) {
+            var result = new MessageTipsBar(action) {
+                Title = title,
+                Message = message,
+                Time = DateTime.Now.ToString(@"HH\:mm")
+            };
+
             App.Cache.Add(result);
         }
 

@@ -5,20 +5,42 @@
         mc:Ignorable="d" Width="800" Height="450"
 		MinWidth="800" MinHeight="450"
         x:Class="wonderlab.Views.Windows.MainWindow"
+		xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"		
 		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		xmlns:wp="using:wonderlab.Views.Pages"	    
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="WonderLab"
-		CornerRadius="4"
-		DragDrop.AllowDrop="True"
+		DragDrop.AllowDrop="True"		
 		ExtendClientAreaToDecorationsHint="True"
 		WindowStartupLocation="CenterScreen"
 		ExtendClientAreaChromeHints="NoChrome"
-		Background="{DynamicResource AccentBrushDark1}"		
-		Initialized="WindowsInitialized">
+		Background="Transparent"
+		Loaded="MainWindowLoaded"
+		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}">
+	<!--{DynamicResource AccentBrushDark1}-->
 	<Grid>
-		<Image Stretch="UniformToFill" Margin="-20" IsVisible="False" Name="BackgroundImage">
+		<ExperimentalAcrylicBorder IsHitTestVisible="False"
+								   IsVisible="{Binding IsLoadAcrylicBackground}">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="White"
+					TintOpacity="0.6"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Border VerticalAlignment="Stretch"
+				HorizontalAlignment="Stretch"	
+				IsVisible="{Binding IsLoadColorBackground}"
+				Background="{DynamicResource AccentBrushDark1}"/>
+		
+		<Image Margin="-20"
+			   Name="BackgroundImage"
+			   Source="{Binding ImageSource}"
+			   IsVisible="{Binding IsLoadImageBackground}"
+			   Stretch="UniformToFill">
 			<Image.Transitions>
 				<Transitions>
 					<EffectTransition Property="Effect"
@@ -29,12 +51,13 @@
 		</Image>
 
 		<Border Name="Back"
-				Opacity="0" 
-				IsHitTestVisible="False"
-				Background="#99FFFFFF"/>
+				Opacity="0" 				
+				Background="#99FFFFFF"
+				IsHitTestVisible="False"/>
 
 		<Grid Background="Transparent"
 	          Name="Drop"/>
+
 
 		<ContentControl Name="Page" Margin="0 0 0 0" Content="{Binding CurrentPage}">
 			<ContentControl.Transitions>
@@ -216,7 +239,7 @@
 						</Grid.RowDefinitions>
 						<TextBlock Text="WonderLab"
 								   FontSize="16"
-								   FontWeight="SemiBold"/>
+							 	   FontWeight="SemiBold"/>
 
 						<Border Grid.Row="1" Background="Black"
 								HorizontalAlignment="Stretch"
@@ -233,10 +256,15 @@
 				</Grid>
 			</Border>
 		</Grid>
-		
-		<wp:NotificationCenterPage Name="NotificationCenter"/>
-		
-		<wp:DialogPage Name="DialogHost"/>
+
+		<wp:NotificationCenterPage IsHitTestVisible="False" Name="NotificationCenter"/>
+
+		<dialogHostAvalonia:DialogHost CloseOnClickAway="False"									   
+									   DialogMargin="16"
+									   dialogHostAvalonia:DialogHostStyle.CornerRadius="8"
+									   DisableOpeningAnimation="True"
+									   Identifier="dialogHost">
+		</dialogHostAvalonia:DialogHost>
 				
 		<wcc:TipBarView Margin="0 60 0 0" Name="tipBarView"/>
 	</Grid>

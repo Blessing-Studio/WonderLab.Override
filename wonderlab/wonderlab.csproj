@@ -1,35 +1,44 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>1.2.6-preview</Version>
+		<Version>1.2.8.1</Version>
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Nullable>enable</Nullable>
+		<Nullable>disable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<OutputType>WinExe</OutputType>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Assets\downloadcenter.jpg" />
+	  <None Remove="Assets\Fonts\DinPro.ttf" />
+	  <None Remove="Assets\Fonts\MinecraftTen.ttf" />
+	  <None Remove="Assets\Icons\NeoForge.png" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<TrimmerRootDescriptor Include="Roots.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.1" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.1" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.1" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.1" />
+		<PackageReference Include="Avalonia" Version="11.0.5" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.1" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
+		<PackageReference Include="dialogHost.Avalonia" Version="0.7.7" />
 		<PackageReference Include="Lib.Harmony" Version="2.3.0-prerelease.2" />
-		<PackageReference Include="ReactiveUI" Version="19.4.1" />
-		<PackageReference Include="ReactiveUI.Fody" Version="19.4.1" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
-		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-preview.6.23329.7" />
+		<PackageReference Include="ReactiveUI" Version="19.5.1" />
+		<PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0-rc.2.23479.6" />
 		<PackageReference Include="Dotnet.Bundle" Version="*" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Assets\downloadcenter.jpg" />
+		<AvaloniaResource Include="Assets\Icons\NeoForge.png" />
 		<AvaloniaResource Include="Assets\y.jpg" />
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
 		<AvaloniaResource Include="Assets\Icons\Forge.png" />
@@ -60,7 +69,6 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>Assets\wonderlab.ico</ApplicationIcon>
 		<StartupObject>wonderlab.Program</StartupObject>
-		<AssemblyVersion>1.2.6</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -81,6 +89,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\steve.png" />
+		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
+		<EmbeddedResource Include="Assets\Fonts\MinecraftTen.ttf" />
 		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
 

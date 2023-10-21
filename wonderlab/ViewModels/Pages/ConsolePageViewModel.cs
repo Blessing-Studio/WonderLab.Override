@@ -1,10 +1,10 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Threading;
 using DynamicData;
 using MinecraftLaunch.Modules.Analyzers;
 using MinecraftLaunch.Modules.Interface;
-using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -18,7 +18,7 @@ using wonderlab.Class.ViewData;
 
 namespace wonderlab.ViewModels.Pages {
     public class ConsolePageViewModel : ViewModelBase {
-        public ConsolePageViewModel(MinecraftProcessViewData data, ListBox box) {
+        public ConsolePageViewModel(MinecraftProcessViewData data, ScrollViewer box) {
             if (!data.IsNull()) {
                 GameLogs.AddRange(data!.Outputs);
                 data.Data.ProcessOutput += OnProcessOutput;
@@ -32,13 +32,13 @@ namespace wonderlab.ViewModels.Pages {
             var result = GameLogAnalyzer.AnalyseAsync(e.Raw);
             Dispatcher.UIThread.Post(() => {
                 GameLogs.Add(InlineUtils.CraftGameLogsInline(result));
-                Box.ScrollIntoView(GameLogs.Last());
+                Box.ScrollToEnd();
             });
         }
 
-        public ListBox Box { get; private set; }
+        public ScrollViewer Box { get; private set; }
 
         [Reactive]
-        public ObservableCollection<InlineCollection> GameLogs { get; set; } = new();
+        public AvaloniaList<InlineCollection> GameLogs { get; set; } = new();
     }
 }

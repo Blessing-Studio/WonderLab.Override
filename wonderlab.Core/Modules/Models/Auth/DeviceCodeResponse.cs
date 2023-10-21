@@ -1,39 +1,43 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace MinecaftOAuth.Module.Models;
+namespace MinecraftOAuth.Module.Models;
 /// <summary>
 /// 设备代码响应模型类
 /// </summary>
-public class DeviceCodeResponse
-{
+public class DeviceCodeResponse {
     /// <summary>
     /// 用户代码
     /// </summary>
-    [JsonProperty("user_code")]
+    [JsonPropertyName("user_code")]
     public string UserCode { get; set; }
+
     /// <summary>
     /// 设备代码
     /// </summary>
-    [JsonProperty("device_code")]
+    [JsonPropertyName("device_code")]
     public string DeviceCode { get; set; }
+
     /// <summary>
     /// 验证网址
     /// </summary>
-    [JsonProperty("verification_uri")]
+    [JsonPropertyName("verification_uri")]
     public string VerificationUrl { get; set; }
+
     /// <summary>
     /// 过期时间
     /// </summary>
-    [JsonProperty("expires_in")]
+    [JsonPropertyName("expires_in")]
     public int ExpiresIn { get; set; }
+
     /// <summary>
     /// 间隔
     /// </summary>
-    [JsonProperty("interval")]
+    [JsonPropertyName("interval")]
     public int Interval { get; set; }
+
     /// <summary>
     /// 消息
     /// </summary>
-    [JsonProperty("message")]
+    [JsonPropertyName("message")]
     public string Message { get; set; }
 }

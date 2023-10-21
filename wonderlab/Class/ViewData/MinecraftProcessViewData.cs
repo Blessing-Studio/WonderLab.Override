@@ -1,12 +1,13 @@
 ﻿using Avalonia.Controls.Documents;
 using Avalonia.Threading;
+using DialogHostAvalonia;
 using DynamicData;
 using MinecraftLaunch.Events;
 using MinecraftLaunch.Modules.Analyzers;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
 using ReactiveUI.Fody.Helpers;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using wonderlab.Class.Enum;
@@ -25,6 +26,7 @@ namespace wonderlab.Class.ViewData
             data.ProcessOutput += (_, x) => {
                 RunState = data.Process.Responding ? RunState.Normal : RunState.NotResponding;
                 var result = GameLogAnalyzer.AnalyseAsync(x.Raw);
+                CacheOutputs.Add(x.Raw);
 
                 Dispatcher.UIThread.Post(() => {
                     Outputs.Add(InlineUtils.CraftGameLogsInline(result));
@@ -36,31 +38,12 @@ namespace wonderlab.Class.ViewData
 
         private void OnExited(object? sender, ExitedArgs e) {       
             if (e.Crashed && !IsLauncherStop) {
-                Dispatcher.UIThread.Post(() => {
+                Dispatcher.UIThread.Post(async () => {
                     GameCrashAnalyzer analyzer = new(Outputs.Select(x => x.Text).ToList()!);
-                    var analyzerResult = analyzer.AnalyseAsync();
-                    var viewModel = GameCrashInfoDialog.ViewModel!;
+                    var analyzerResult = await analyzer.AnalyseAsync();
                     App.CurrentWindow.Activate();
 
-                    viewModel.GameCore = Data.GameCore;
-                    viewModel.Account = Account;
-                    viewModel.JavaVersion = JavaInfo.JavaSlugVersion;                    
-
-                    App.CurrentWindow.DialogHost.GameCrashInfo.CrashDialog.ShowDialog();
-                    if (!analyzerResult.IsNull() && analyzerResult.Count > 0) {
-                        viewModel.CrashInfo = string.Join("\n", analyzerResult.Keys.Select(x => x.ToString()));
-
-                        //判断是否具有导致崩溃的模组，没有则直接跳出方法
-                        if (analyzerResult.Values.IsNull() || analyzerResult.Count == 0) {
-                            return;
-                        }
-
-                        foreach (var item in analyzerResult.Values) {                       
-                            if(!item.IsNull() && item.Count > 0) {
-                                viewModel.CrashModpacks.AddRange(item);
-                            }
-                        }
-                    }
+                    await DialogHost.Show(new CrashDialogContent(Data, CacheOutputs),"dialogHost");
                 });
             }
         }
@@ -81,9 +64,12 @@ namespace wonderlab.Class.ViewData
         [Reactive]
         public RunState RunState { get; set; }
 
+        [Reactive]
+        public ObservableCollection<InlineCollection> Outputs { get; set; } = new();
+
         /// <summary>
         /// 日志缓存集合
         /// </summary>
-        public ObservableCollection<InlineCollection> Outputs { get; set; } = new();
+        public List<string> CacheOutputs { get; set; } = new();
     }
 }

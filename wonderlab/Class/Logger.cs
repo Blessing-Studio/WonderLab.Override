@@ -1,14 +1,11 @@
 ﻿using Avalonia.Controls;
-using MinecraftLaunch.Modules.Toolkits;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
+using MinecraftLaunch.Modules.Utils;
 
 namespace wonderlab.Class {
     public class Logger {
@@ -54,13 +51,16 @@ namespace wonderlab.Class {
             return logger.Info("日志记录器已加载");
         }
 
-        private async ValueTask EncapsulateLogsToFileAsync() {
+        public async ValueTask EncapsulateLogsToFileAsync() {
+            JsonUtils.WriteLaunchInfoJson();
+            JsonUtils.WriteLauncherInfoJson();
+
             if (!LogsPath.IsDirectory()) {
                 Directory.CreateDirectory(LogsPath);
             }
 
             var today = DateTime.Now;
-            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶{today:yyyy-MM-dd-HH-mm-ss}.log"), Logs);
+            await File.WriteAllLinesAsync(Path.Combine(LogsPath, $"运行日志漂流瓶 {today:yyyy-MM-dd-HH-mm-ss}.log"), Logs);
         }
     }
 }

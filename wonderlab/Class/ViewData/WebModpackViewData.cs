@@ -1,21 +1,13 @@
 ﻿using Avalonia.Media.Imaging;
-using Avalonia.Threading;
-using Natsurainko.Toolkits.Network;
+using Flurl.Http;
 using ReactiveUI.Fody.Helpers;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 
-namespace wonderlab.Class.ViewData
-{
+namespace wonderlab.Class.ViewData {
     public class WebModpackViewData : ViewDataBase<WebModpackModel>
     {
         public WebModpackViewData(WebModpackModel data) : base(data) {
@@ -32,7 +24,7 @@ namespace wonderlab.Class.ViewData
             try {
                 IsLoading = true;
 
-                using var result = new MemoryStream(await HttpWrapper.HttpClient.GetByteArrayAsync(Data.IconUrl)) { Position = 0 };
+                using var result = new MemoryStream(await Data.IconUrl.GetBytesAsync()) { Position = 0 };
                 var cache = new Bitmap(result);
                 Icon = cache.CreateScaledBitmap(new(Convert.ToInt32(cache.Size.Width / 4), Convert.ToInt32(cache.Size.Height / 4)));
 

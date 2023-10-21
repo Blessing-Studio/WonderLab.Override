@@ -4,18 +4,12 @@
 			 RequestedThemeVariant="Light">
     <Application.Styles>
         <FluentTheme/>
-		<StyleInclude Source="/Style/Dialog/MessageDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Button/AccentButtonStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/ToolBarStyle.axaml"/>
-		<StyleInclude Source="/Style/Dialog/UpdateDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/MessageTipsBarStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/BottomActionBarStyle.axaml"/>
 		<StyleInclude Source="/Style/Bar/ProgressBar.axaml"/>
 		<StyleInclude Source="/Style/FilpViewStyle.axaml"/>
-		<StyleInclude Source="/Style/Dialog/AccountDialogStyle.axaml"/>
-		<StyleInclude Source="/Style/Dialog/AccountTypeDialogStyle.axaml"/>
-		<StyleInclude Source="/Style/Dialog/ValidationDialogStyle.axaml"/>
-		<StyleInclude Source="/Style/Dialog/InstallDialogStyle.axaml"/>
 		<StyleInclude Source="/Style/TipBarViewStyle.axaml"/>
     </Application.Styles>
 

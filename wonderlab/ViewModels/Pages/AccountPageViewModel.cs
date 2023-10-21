@@ -6,6 +6,8 @@ using wonderlab.Views.Pages;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using wonderlab.Class.AppData;
+using DialogHostAvalonia;
+using wonderlab.Views.Dialogs;
 
 namespace wonderlab.ViewModels.Pages {
     public class AccountPageViewModel : ViewModelBase {
@@ -22,8 +24,8 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public bool IsSelectAccount { get; set; }
 
-        public void CreateAccountAction() {
-            App.CurrentWindow.DialogHost.AccountTypeDialog.ShowDialog();
+        public async void CreateAccountAction() {
+            await DialogHost.Show(new ValidationDialogContent(), "dialogHost");
         }
 
         public async void Init() {

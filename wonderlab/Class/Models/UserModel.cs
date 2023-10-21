@@ -1,6 +1,6 @@
 ﻿using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +10,28 @@ using System.Threading.Tasks;
 namespace wonderlab.Class.Models
 {
     public class UserModel {
-        [JsonProperty("uuid")]
+        [JsonPropertyName("uuid")]
         public string Uuid { get; set; }
 
-        [JsonProperty("userName")]
+        [JsonPropertyName("userName")]
         public string UserName { get; set; }
 
-        [JsonProperty("userToken")]
+        [JsonPropertyName("userToken")]
         public string UserToken { get; set; }
 
-        [JsonProperty("accessToken")]
+        [JsonPropertyName("accessToken")]
         public string AccessToken { get; set; }
 
-        [JsonProperty("yggdrasilUrl")]
+        [JsonPropertyName("yggdrasilUrl")]
         public string YggdrasilUrl { get; set; }
 
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonProperty("password")]
+        [JsonPropertyName("password")]
         public string Password { get; set; }
 
-        [JsonProperty("userType")]
+        [JsonPropertyName("userType")]
         public AccountType UserType { get; set; } = AccountType.Offline;
     }
 }

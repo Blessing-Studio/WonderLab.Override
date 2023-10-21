@@ -1,14 +1,12 @@
 ﻿using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using wonderlab.Class.Models;
@@ -21,12 +19,13 @@ using Image = SixLabors.ImageSharp.Image;
 using MinecraftProtocol;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using wonderlab.Class.AppData;
 using Avalonia.Markup.Xaml;
 using Avalonia;
 using wonderlab.Class.Enum;
 using Avalonia.Platform.Storage;
+using MinecraftLaunch.Modules.Utils;
+using System.Text.Json;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -86,6 +85,10 @@ namespace wonderlab.Class.Utils {
             return obj is null;
         }
 
+        public static bool IsNullOrEmpty(this string obj) {
+            return string.IsNullOrEmpty(obj);
+        }
+
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
               => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;
 
@@ -114,7 +117,7 @@ namespace wonderlab.Class.Utils {
         public static JavaInfo? ToJava(this string path) {
             if (!string.IsNullOrEmpty(path) && path.IsFile()) {
                 var info = new FileInfo(path);
-                return JavaToolkit.GetJavaInfo(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
+                return JavaUtil.GetJavaInfo(Path.Combine(info.Directory!.FullName, SystemUtils.IsWindows ? "java.exe" : "java"));
             }
 
             return null;
@@ -245,7 +248,15 @@ namespace wonderlab.Class.Utils {
             await File.WriteAllBytesAsync(path, tmp);
         }
 
-        public static async ValueTask<string> ReadCompressedText(this string path) {
+        public static string ReadCompressedText(this string path) {
+            if (!File.Exists(path)) {
+                return string.Empty;
+            }
+
+            return Encoding.UTF8.GetString(zlib.Decompress(File.ReadAllBytes(path)));
+        }
+
+        public static async ValueTask<string> ReadCompressedTextAsync(this string path) {
             if (!File.Exists(path)) {
                 return string.Empty;
             }
@@ -254,22 +265,19 @@ namespace wonderlab.Class.Utils {
         }
 
         public static string ToMotd(this object json) {
-            JObject model = JObject.Parse(json.ToString());
-
-            if (model.ContainsKey("extra")) {
-                StringBuilder builder = new();
-
-                foreach (var item in (JArray)model["extra"]!) {
-                    var text = item["text"];
-
-                    builder.Append($"§{(item["color"]!.Type is JTokenType.Null ? "§f" :
-                        InlineUtils.GetColorCode(item["color"]!.ToString()))}{InlineUtils.GetFormat(item)}{text}");
+            using (JsonDocument document = JsonDocument.Parse(json.ToString())) {
+                if (document.RootElement.TryGetProperty("extra", out JsonElement extraElement)) {
+                    StringBuilder builder = new();
+                    foreach (var item in extraElement.EnumerateArray()) {
+                        var text = item.GetProperty("text").GetString();
+                        builder.Append($"§{(item.TryGetProperty("color", out JsonElement colorElement) ? "§f" :
+                            InlineUtils.GetColorCode(colorElement.GetString()))}{InlineUtils.GetFormat(item)}{text}");
+                    }
+                    builder.ToString().ShowLog();
+                    return builder.ToString();
+                } else {
+                    return document.RootElement.GetProperty("text").GetString();
                 }
-
-                builder.ToString().ShowLog();
-                return builder.ToString();
-            } else {
-                return model["text"].ToString();
             }
         }
 
@@ -300,7 +308,6 @@ namespace wonderlab.Class.Utils {
         };
 
         public static void ShowInfoDialog(this string message, string title) {
-            App.CurrentWindow.DialogHost.ShowInfoDialog(title, message);
         }
 
         public static void SwitchLanguage(this string tag) {
@@ -327,6 +334,16 @@ namespace wonderlab.Class.Utils {
         
         public static string GetValueInArray(this string[] strings, int index) {
             return strings[index] ?? string.Empty;
+        }
+
+        public static string ConvertToBase64(this string value) {
+            try { return string.IsNullOrEmpty(value) ? string.Empty : Convert.ToBase64String(Encoding.UTF8.GetBytes(value)); }
+            catch (Exception ex) { return $"{ex.Message}\r\n{ex.StackTrace}"; }
+        }
+
+        public static string ConvertToString(this string value) {
+            try { return string.IsNullOrEmpty(value) ? string.Empty : Encoding.UTF8.GetString(Convert.FromBase64String(value)); }
+            catch (Exception ex) { return $"{ex.Message}\r\n{ex.StackTrace}"; }
         }
     }
 }

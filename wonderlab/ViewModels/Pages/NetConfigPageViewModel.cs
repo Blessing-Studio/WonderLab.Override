@@ -1,6 +1,4 @@
 ﻿using MinecraftLaunch.Modules.Models.Download;
-using MinecraftLaunch.Modules.Toolkits;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;

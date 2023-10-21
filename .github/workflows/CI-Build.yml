@@ -7,7 +7,7 @@ on:
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   target-version: "net7.0"
-  compile-flags: "--self-contained=true -c Release -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:PublishSingleFile=true"
+  compile-flags: "--self-contained=true -c Release -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishSingleFile=true"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         arch: ["x64", "x86", "arm64"]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [test, test_build]
     steps:
     - name: Checkout
@@ -125,7 +125,7 @@ jobs:
     strategy:
       matrix:
         arch: ["x64", "arm64"]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [test, test_build]
     steps:
     - name: Checkout

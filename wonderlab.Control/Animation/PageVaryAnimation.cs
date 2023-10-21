@@ -17,6 +17,8 @@ namespace wonderlab.control.Animation {
 
         public bool Fade { get; set; }
 
+        public bool IsHorizontal { get; set; } = false;
+
         public TimeSpan Duration { get; set; }
 
         public Easing VaryEasing { get; set; } = new CircularEaseInOut();
@@ -29,7 +31,7 @@ namespace wonderlab.control.Animation {
             var tasks = new List<Task>();
             var parent = GetVisualParent(from, to);
             var distance = parent.Bounds.Width;
-            var translateProperty = TranslateTransform.YProperty;
+            var translateProperty = TranslateTransform.XProperty;
 
             if (from != null) {
                 double end = forward ? -distance : distance;

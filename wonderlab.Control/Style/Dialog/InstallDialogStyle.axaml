@@ -132,6 +132,7 @@
 											<ListBox Margin="0 2 0 0" 
 													 Grid.Row="3"
 													 Height="203" 
+													 Name="ModLoadersListBox"
 													 ItemsSource="{TemplateBinding ModLoaders}"> 
 												<ListBox.Styles>
 													<Style Selector="ListBoxItem">
@@ -194,13 +195,15 @@
 											</ListBox>
 										</Grid>
 
+										<!--这一块的后台逻辑我已经自暴自弃了，所以写的一坨翔-->
 										<Border Grid.Row="2"
 												Background="#FF5E718A"
 												CornerRadius="0 0 8 0">
 											<Grid RenderTransform="skewX(-8deg)">
 												<ListBox Margin="10 5"
 														 Background="Transparent"
-														 HorizontalAlignment="Left">
+														 HorizontalAlignment="Left"
+														 Name="CurrentModLoadersListBox">
 													<ListBox.ItemsPanel>
 														<ItemsPanelTemplate>
 															<StackPanel Orientation="Horizontal"/>
@@ -220,16 +223,16 @@
 																		<Grid Margin="10 0" 
 																			  ColumnDefinitions="Auto,Auto,Auto,Auto"
 																			  RenderTransform="skewX(8deg)">
-																			<Image Source="/Icons/Quilt.png" 
+																			<Image Source="{Binding	Data.ModLoaderType,Converter={StaticResource ModLoaderImageConverter}}" 
 																				   Stretch="UniformToFill"
 																				   Height="20" Width="20"/>
-																			<TextBlock Text="Quilt"
+																			<TextBlock Text="{Binding Data.ModLoader}"
 																					   Grid.Column="1"
 																					   Margin="5 0 0 0"
 																					   HorizontalAlignment="Center"
 																					   VerticalAlignment="Center"/>
 
-																			<TextBlock Text="1.14.514"
+																			<TextBlock Text="{Binding Data.Id}"
 		                                                                               Grid.Column="2"
 		                                                                               Margin="2 0 0 0"
 		                                                                               HorizontalAlignment="Center"
@@ -271,8 +274,6 @@
 															<Setter Property="Width" Value="14"/>
 														</Style>
 													</ListBox.Styles>
-													<ListBoxItem/>
-													<ListBoxItem/>
 												</ListBox>
 												
 												<Button Content="开始下载"

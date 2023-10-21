@@ -1,13 +1,16 @@
-﻿using DynamicData;
+﻿using Avalonia.Media.Imaging;
+using DynamicData;
 using MinecraftLaunch.Modules.Installer;
+using MinecraftLaunch.Modules.Models.Http;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
@@ -25,6 +28,7 @@ namespace wonderlab.ViewModels.Pages {
         public DownCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
             GetGameCoresAction();
+            GetMcVersionUpdatesAction();
         }
 
         private async void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -47,6 +51,24 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public bool IsLoaded { get; set; }
+        
+        [Reactive]
+        public bool IsForgeLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsOptifineLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsNeoForgeLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsFabricLoading { get; set; } = true;
+
+        [Reactive]
+        public bool IsQuiltLoading { get; set; } = true;
+
+        [Reactive]
+        public double InstallerWidth { get; set; } = 0;
 
         [Reactive]
         public string SearchFilter { get; set; }
@@ -68,6 +90,36 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public ResourceType ResourceType { get; set; } = ResourceType.Minecraft;
+
+        [Reactive]
+        public ArticleJsonEntity NewCard1 { get; set; }
+
+        [Reactive]
+        public ArticleJsonEntity NewCard2 { get; set; }
+
+        [Reactive]
+        public Bitmap NewCard1Image { get; set; }
+
+        [Reactive]
+        public Bitmap NewCard2Image { get; set; }
+
+        [Reactive]
+        public GameCoreEmtity SelectGameCore { get; set; }
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Forges { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Optifines { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Fabrics { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> NeoForges { get; set; } = new();
+
+        [Reactive]
+        public ObservableCollection<ModLoaderModel> Quilts { get; set; } = new();
 
         public List<string> McVersions { get; } = new() {
             "All",
@@ -131,10 +183,10 @@ namespace wonderlab.ViewModels.Pages {
             try {
                 Resources.Clear();
 
-                var modpacks = await Task.Run(async () => await ModrinthToolkit.GetFeaturedModpacksAsync());
+                var modpacks = await Task.Run(async () => await ModrinthUtil.GetFeaturedModpacksAsync());
                 foreach (var i in modpacks.Hits.AsParallel()) {
                     await Task.Run(async () => {
-                        var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                        var infos = await ModrinthUtil.GetProjectInfos(i.ProjectId);
                         Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                     });
                 }
@@ -219,12 +271,12 @@ namespace wonderlab.ViewModels.Pages {
         public async ValueTask SearchModrinthResourceAsync() {
             Resources.Clear();
 
-            var modpacks = await Task.Run(async () => await ModrinthToolkit.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
+            var modpacks = await Task.Run(async () => await ModrinthUtil.SearchAsync(SearchFilter, ProjectType: CurrentCategorie.ToModrinthProjectType()));
             IsLoading = false;
 
             foreach (var i in modpacks.Hits.AsParallel()) {
                 await Task.Run(async () => {
-                    var infos = await ModrinthToolkit.GetProjectInfos(i.ProjectId);
+                    var infos = await ModrinthUtil.GetProjectInfos(i.ProjectId);
                     Resources.Add(new WebModpackModel(i, infos).CreateViewData<WebModpackModel, WebModpackViewData>());
                 });
             }
@@ -241,33 +293,14 @@ namespace wonderlab.ViewModels.Pages {
             IsLoaded = true;
         }
 
-        public async void OpenGameInstallDialogAction() {
-            //App.CurrentWindow.DialogHost.Install.InstallDialog.ShowDialog();
-            App.CurrentWindow.DialogHost.InstallDialog.ShowDialog();
-
-            "下载对话框开启，开始加载加载器信息".ShowLog();
-            await Task.Run(async () => await HttpUtils.GetModLoadersFromMcVersionAsync(CacheResources.GameCoreInstallInfo.Id));
-        }
-
         public async void GetGameCoresAction() {
             try {
-                var result = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
-                GameCores.Clear();
+                var result = await Task.Run(async () => await HttpUtils.GetGameCoresAsync());
+                GameCores?.Clear();
+                Cache = result.ToList();
 
-                var temp = result.Cores.Where(x => {
-                    x.Type = x.Type switch {
-                        "snapshot" => "快照版本",
-                        "release" => "正式版本",
-                        "old_alpha" => "远古版本",
-                        "old_beta" => "远古版本",
-                        _ => "正式版本"
-                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
-
-                    return true;
-                }).ToList();
-
-                Cache = temp.ToList();
-                GameCores = new(Cache.Where(x => x.Type.Contains(CurrentMcVersionType)));
+                GameCores = new(Cache.Where(x => x.Type
+                   .Contains(CurrentMcVersionType)));
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -306,6 +339,39 @@ namespace wonderlab.ViewModels.Pages {
 
         public void CloseSearchOptionsAction() {
             SearcherHeight = 0;
+        }
+
+        public async void GetMcVersionUpdatesAction() {
+            try {
+                await Task.Run(async () => {
+                    var result = await HttpUtils.GetMcVersionUpdatesAsync();
+                    NewCard1 = result.Item1;
+                    NewCard2 = result.Item2;
+                    NewCard1 = await McNewsUtil.GetNewImageUrlAsync(result.Item1);
+                    NewCard2 = await McNewsUtil.GetNewImageUrlAsync(result.Item2);
+
+                    await Task.Run(async () => {
+                        using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard2.ImageUrl);
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        NewCard2Image = new(new MemoryStream(bytes));
+                    });
+
+                    await Task.Run(async () => {
+                        using var responseMessage = await HttpUtil.HttpSimulateBrowserGetAsync(NewCard1.ImageUrl);
+                        var bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+
+                        NewCard1Image = new(new MemoryStream(bytes));
+                    });
+                });
+            }
+            catch (Exception ex) {
+                App.Logger.Error(ex.ToString());
+            }
+        }
+
+        public void CloseInstallerAction() {
+            InstallerWidth = 0;
         }
 
         public override void GoBackAction() {

@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace wonderlab.control.Controls.Dialog {
 
         private ListBox CurrentLoaders = null!;
 
+        private ListBox ModLoadersListBox = null!;
+
         private Border FirstPanel = null!;
 
         private Button GlobalTopButton = null!;
@@ -30,7 +33,11 @@ namespace wonderlab.control.Controls.Dialog {
 
         private StackPanel GlobalTopContent = null!;
 
+        public ListBox CurrentModLoadersListBox = null!;
+
         public event EventHandler<SelectModLoaderChangedArgs>? SelectModLoaderChanged;
+
+        public event EventHandler<SelectModLoaderChangedArgs>? CurrentModLoaderChanged;
 
         public string SelectedLoader { get => GetValue(SelectedLoaderProperty); set => SetValue(SelectedLoaderProperty, value); }
 
@@ -44,6 +51,8 @@ namespace wonderlab.control.Controls.Dialog {
 
         public IEnumerable ModLoaders { get => GetValue(ModLoadersProperty); set => SetValue(ModLoadersProperty, value); }
 
+        public IEnumerable SelectedLoaders { get => GetValue(ModLoadersProperty); set => SetValue(ModLoadersProperty, value); }
+
         public ICommand InstallCommand { get => GetValue(InstallCommandProperty); set => SetValue(InstallCommandProperty, value); }
 
         public static readonly StyledProperty<string> SelectedLoaderProperty =
@@ -54,6 +63,9 @@ namespace wonderlab.control.Controls.Dialog {
 
         public static readonly StyledProperty<IEnumerable> ModLoadersProperty =
             AvaloniaProperty.Register<InstallDialog, IEnumerable>(nameof(ModLoaders));
+
+        public static readonly StyledProperty<IEnumerable> SelectedLoadersProperty =
+            AvaloniaProperty.Register<InstallDialog, IEnumerable>(nameof(SelectedLoaders));
 
         public static readonly StyledProperty<bool> IsForgeLoadedProperty =
             AvaloniaProperty.Register<InstallDialog, bool>(nameof(IsForgeLoaded), false);
@@ -80,27 +92,29 @@ namespace wonderlab.control.Controls.Dialog {
         }
 
         public async void ShowDialog() {
-            BackgroundBorder.IsHitTestVisible = true;
-            DialogContent.IsHitTestVisible = true;
+            await Dispatcher.UIThread.InvokeAsync(async () => {
+                BackgroundBorder.IsHitTestVisible = true;
+                DialogContent.IsHitTestVisible = true;
 
-            OpacityChangeAnimation animation = new(false) {
-                RunValue = 0
-            };
-            animation.RunAnimation(BackgroundBorder);
-            animation.RunAnimation(DialogContent);
+                OpacityChangeAnimation animation = new(false) {
+                    RunValue = 0
+                };
+                animation.RunAnimation(BackgroundBorder);
+                animation.RunAnimation(DialogContent);
 
-            await Task.Delay(300);
-            FirstPanelContent.Width = 120;
-            FirstPanelContent.Height = 90;
-            await Task.Delay(500);
-            FirstPanelContent.Width = 0;
-            FirstPanelContent.Height = 0;
-            await Task.Delay(100);
-            FirstPanel.CornerRadius = new(8, 8, 0, 0);
-            FirstPanel.Height = 35;
-            await Task.Delay(100);
-            GlobalTopButton.Height = 25;
-            GlobalTopContent.Height = 20;
+                await Task.Delay(300);
+                FirstPanelContent.Width = 120;
+                FirstPanelContent.Height = 90;
+                await Task.Delay(500);
+                FirstPanelContent.Width = 0;
+                FirstPanelContent.Height = 0;
+                await Task.Delay(100);
+                FirstPanel.CornerRadius = new(8, 8, 0, 0);
+                FirstPanel.Height = 35;
+                await Task.Delay(100);
+                GlobalTopButton.Height = 25;
+                GlobalTopContent.Height = 20;
+            });
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -111,18 +125,23 @@ namespace wonderlab.control.Controls.Dialog {
             CurrentLoaders = e.NameScope.Find<ListBox>("CurrentLoaders")!;
             GlobalTopButton = e.NameScope.Find<Button>("GlobalTopButton")!;
             BackgroundBorder = e.NameScope.Find<Border>("BackgroundBorder")!;
+            ModLoadersListBox = e.NameScope.Find<ListBox>("ModLoadersListBox")!;
             GlobalTopContent = e.NameScope.Find<StackPanel>("GlobalTopContent")!;
             FirstPanelContent = e.NameScope.Find<StackPanel>("FirstPanelContent")!;
-
+            CurrentModLoadersListBox = e.NameScope.Find<ListBox>("CurrentModLoadersListBox")!;
+            
             CurrentLoaders.SelectionChanged += OnCurrentModLoaderSelectionChanged;
             GlobalTopButton.Click += HideAction;
-            
-            ShowDialog();
+            ModLoadersListBox.SelectionChanged += (sender, args) => {
+                CurrentModLoaderChanged?.Invoke(sender, SelectModLoaderChangedArgs.Build(SelectedLoader));
+            };
+
+            HideDialog();
         }
 
         private void OnCurrentModLoaderSelectionChanged(object? sender, SelectionChangedEventArgs e) {
             SetValue(SelectedLoaderProperty, ((ListBoxItem)((ListBox)sender!).SelectedItem!).Tag!.ToString()!);
-            SelectModLoaderChanged?.Invoke(sender,SelectModLoaderChangedArgs.Build(SelectedLoader));
+            SelectModLoaderChanged?.Invoke(sender, SelectModLoaderChangedArgs.Build(SelectedLoader));
         }
 
         private void HideAction(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {

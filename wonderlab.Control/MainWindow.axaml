@@ -3,13 +3,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		Width="800" Height="450"
+		Width="800" Height="450" 
         x:Class="wonderlab.control.MainWindow"
 		xmlns:wcd="using:wonderlab.control.Controls.Dialog"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control" Background="White">
-	<Grid>		
+	<Grid>
 		<Button Name="Test" Content="Add"/>
+		<Button Name="Test1"
+				Margin="0 80 0 0"
+				Content="Add and Action"/> 
+		
 		<wcc:TipBarView Name="tbv"/>
 	</Grid>
 </Window>

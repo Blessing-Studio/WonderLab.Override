@@ -1,4 +1,5 @@
-﻿using Avalonia.Media.Imaging;
+﻿using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;

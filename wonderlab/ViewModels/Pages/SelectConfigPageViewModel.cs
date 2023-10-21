@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using wonderlab.Class.Utils;
 using wonderlab.control.Animation;
@@ -21,6 +22,8 @@ namespace wonderlab.ViewModels.Pages {
 
         private int oldIndex = 0;
 
+        private CancellationTokenSource token = new();
+
         private readonly PageVaryAnimation varyAnimation = new(TimeSpan.FromMilliseconds(500));
 
         public SelectConfigPageViewModel(ContentControl left, ContentControl right) {
@@ -32,9 +35,6 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public object LeftSelectConfigPage { get; set; } = new LaunchConfigPage();
-
-        [Reactive]
-        public bool CanClick { get; set; } = true;
 
         [Reactive]
         public object RightSelectConfigPage { get; set; }
@@ -68,25 +68,25 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         public async void RunVaryAnimation(object to) {
-            CanClick = false;
             if (oldIndex == CurrentPageIndex) {
-                CanClick = true;
                 return;
             }
+
+            token.Cancel();
+            token.Dispose();
+            token = new();
 
             if (!Isswitch) {
                 RightSelectConfigPage = to;
                 _ = varyAnimation.Start(LeftContent, RightContent,
-                    oldIndex < CurrentPageIndex, default);
+                    oldIndex < CurrentPageIndex, token.Token);
             } else {
                 LeftSelectConfigPage = to;
-                _ = varyAnimation.Start(RightContent, LeftContent, oldIndex < CurrentPageIndex, default);
+                _ = varyAnimation.Start(RightContent, LeftContent, oldIndex < CurrentPageIndex, token.Token);
             }
             
             Isswitch = !Isswitch;
             oldIndex = CurrentPageIndex;
-            await Task.Delay(400);
-            CanClick = true;
         }
     }
 }

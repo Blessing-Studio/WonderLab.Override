@@ -1,45 +1,33 @@
-﻿using Natsurainko.Toolkits.Network;
-using Natsurainko.Toolkits.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ReactiveUI;
+﻿using Flurl.Http;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using wonderlab.Class.AppData;
+using MinecraftLaunch.Modules.Downloaders;
+using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {
-        public const string LocalVersion = "1.2.7";
+        public static string LocalVersion => 
+            $"{Regex.Replace(AssemblyUtil.Version, @"\.\d+$", "")} {(AssemblyUtil.Build is 0 ? "" : $"Pre {AssemblyUtil.Build}")}";
 
-        private const string BaseUpdateUrl = "https://yangspring114.github.io/wonderlab.update/";
+        //public const string Local
 
-        public static readonly string IndexUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/index.json";
+        private const string UpdateUrl = "http://s2.fxidc.net:2999/api/update/";
 
-        public static readonly string VersionInfoUrl = $"{BaseUpdateUrl}{GlobalResources.LauncherData.IssuingBranch.ToString().ToLower()}/files/window/*/info.json";
-
-        public static Index Index { get; private set; }
-
-        public static async ValueTask<VersionInfo> GetLatestVersionInfoAsync() {
+        public static async ValueTask<JsonNode> GetLatestVersionInfoAsync() {
             try {
-                var responseMessage = await HttpWrapper.HttpGetAsync(IndexUrl);
-                IndexUrl.ShowLog();
-                var json = await responseMessage.Content.ReadAsStringAsync();
-                Index = json.ToJsonEntity<Index>();
+                using var responseMessage = await UpdateUrl
+                    .GetAsync();
 
-                var versionInfoUrl = VersionInfoUrl.Replace("*",$"{Index.Type}{Index.Latest}");
-                VersionInfoUrl.Replace("*", $"{Index.Type}{Index.Latest}").ShowLog();
+                var json = await responseMessage
+                    .GetStringAsync();
 
-                var responseMessage1 = await HttpWrapper.HttpGetAsync(versionInfoUrl);
-                var versionInfoJson = await responseMessage1.Content.ReadAsStringAsync();
-
-                return versionInfoJson.ToJsonEntity<VersionInfo>();
+                return JsonNode.Parse(json);        
             }
             catch (Exception ex) {
                 $"网络异常，{ex.Message}".ShowMessage("错误");
@@ -48,153 +36,94 @@ namespace wonderlab.Class.Utils {
             return null!;
         }
 
-        public static async void UpdateAsync(VersionInfo info, Action<float> action) {
-            if (Index.Latest.Replace(".","").ToInt32() > LocalVersion.Replace(".", "").ToInt32()) {
-                var downloadResponse = await HttpWrapper.HttpDownloadAsync(string.Format(info.DownloadUrl,$"x64"), Directory.GetCurrentDirectory(), (p, s) => {
-                    action(p);
-                }, "WonderLab.zip");
+        public static bool Check(JsonNode node) {
+            var localVersion = AssemblyUtil.Version
+                .Replace(".", "")
+                .ToInt32();
 
-                if (downloadResponse.HttpStatusCode is HttpStatusCode.OK) {
-                    try {
-                        using var zip = ZipFile.OpenRead(downloadResponse.FileInfo.FullName);
-                        zip.ExtractToDirectory(downloadResponse.FileInfo.Directory.FullName);
+            var newVersion = node?["version"].GetValue<string>()
+                .Replace(".", "")
+                .ToInt32();
 
-                        await Task.Delay(1000);
-                        JsonUtils.WriteLauncherInfoJson();
-                        Process.Start(new ProcessStartInfo {
-                            FileName = "powershell.exe",
-                            Arguments = ArgumentsBuilding(),
-                            WorkingDirectory = Directory.GetCurrentDirectory(),
-                            UseShellExecute = true,
-                            WindowStyle = ProcessWindowStyle.Hidden,
-                        })!.Dispose();
+            if (newVersion % 10 is '0') {
+                return CheckNumber(localVersion, newVersion ?? 6666);
+            }
+
+            return (localVersion < newVersion) && SystemUtils.IsWindows;
+
+            bool CheckNumber(int num1, int num2) {
+                int lastDigitNum2 = num2 % 10;
+
+                int firstThreeDigitsNum1 = num1 / 10;
+                int firstThreeDigitsNum2 = num2 / 10;
+
+                if (firstThreeDigitsNum1 == firstThreeDigitsNum2 && lastDigitNum2 == 0 && num2 > num1)
+                    return false;
+
+                if(firstThreeDigitsNum1 > firstThreeDigitsNum2 && lastDigitNum2 == 0)
+                    return false;
+
+                return true;
+            }
+        }
+
+        public static async void UpdateAsync(JsonNode info, Action<double> action) {
+            var version = info["version"].GetValue<string>();
+            Match match = Regex.Match(version, @"(?<=1\.2\.7\-preview)\d+");
+            if (match.Success) {
+
+            }
+            
+            using var downloader = FileDownloader.Build(new() {
+                Url = $"https://ghproxy.com/{info["windows_file_url"].GetValue<string>()}",
+                Directory = Directory.GetCurrentDirectory().ToDirectory()!,
+                FileName = "launcher.zip"
+            });
+
+            downloader.DownloadProgressChanged += (_, raw) => {
+                action(raw.Progress);
+            };
+
+            downloader.BeginDownload();
+            var result = await downloader.CompleteAsync();
+
+            if (result.HttpStatusCode is HttpStatusCode.OK) {
+                try {
+                    using var zip = ZipFile.OpenRead(result.Result.FullName);
+                    var entry = zip.GetEntry("wonderlab.exe");
+                    if (entry is not null) {
+                        entry.ExtractToFile("wlo.exe");
                     }
-                    catch (Exception) { }
+
+                    await Task.Delay(1000);
+                    JsonUtils.WriteLauncherInfoJson();
+                    Process.Start(new ProcessStartInfo {
+                        UseShellExecute = true,
+                        FileName = "powershell.exe",
+                        Arguments = BuildArguments(),
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        WorkingDirectory = Directory.GetCurrentDirectory(),
+                    })!.Dispose();
+                }
+                catch (Exception ex) {
+                    App.Logger.Error(ex.ToString());
                 }
             }
         }
 
-        public static string ArgumentsBuilding() {
+        public static string BuildArguments() {
             int currentPID = Process.GetCurrentProcess().Id;
-            string name = Process.GetCurrentProcess().ProcessName, filename = $"{name}.exe";
+            string name = Process.GetCurrentProcess().ProcessName, 
+                filename = $"{name}.exe";
+
             return $"Stop-Process -Id {currentPID} -Force;" +
                    $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
                    $"Start-Sleep -Milliseconds 500;" +
-                   $"Remove-Item WonderLab.zip -Force;" +
+                   $"Remove-Item launcher.zip -Force;" +
                    $"Remove-Item {filename} -Force;" +
-                   $"Rename-Item launcher.exe {filename};" +
+                   $"Rename-Item wlo.exe {filename};" +
                    $"Start-Process {name}.exe -Args updated;";
         }
-    }
-
-    public record Index {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-
-        [JsonProperty("latest")]
-        public string Latest { get; set; }
-    }
-
-    public record VersionInfo {
-        [JsonProperty("url")]
-        public string DownloadUrl { get; set; }
-
-        [JsonProperty("message")]
-        public IEnumerable<string> UpdateMessage { get; set; }
-
-        [JsonProperty("date")]
-        public string Date { get; set; }
-    }
-
-    public class UpdateInfo {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("tag_name")]
-        public string Version { get; set; }
-
-        [JsonProperty("target_commitish")]
-        public string Sha1 { get; set; }
-
-        [JsonProperty("prerelease")]
-        public bool IsPreview { get; set; }
-
-        [JsonProperty("name")]
-        public string Branch { get; set; }
-
-        [JsonProperty("body")]
-        public string Description { get; set; }
-
-        [JsonProperty("author")]
-        public Author Author { get; set; }
-
-        [JsonProperty("created_at")]
-        public DateTime CreatedTime { get; set; }
-
-        [JsonProperty("assets")]
-        public List<Assets> Assets { get; set; }
-
-    }
-
-    public class Author {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-
-        [JsonProperty("login")]
-        public string OwnerName { get; set; }
-
-        [JsonProperty("name")]
-        public string UserName { get; set; }
-
-        [JsonProperty("avatar_url")]
-        public string AvatarUrl { get; set; }
-
-        [JsonProperty("url")]
-        public string UserInfoUrl { get; set; }
-
-        [JsonProperty("html_url")]
-        public string UserHomeUrl { get; set; }
-
-        [JsonProperty("remark")]
-        public string Remark { get; set; }
-
-        [JsonProperty("followers_url")]
-        public string followers_url { get; set; }
-
-        [JsonProperty("following_url")]
-        public string following_url { get; set; }
-
-        [JsonProperty("gists_url")]
-        public string gists_url { get; set; }
-
-        [JsonProperty("starred_url")]
-        public string starred_url { get; set; }
-
-        [JsonProperty("subscriptions_url")]
-        public string subscriptions_url { get; set; }
-
-        [JsonProperty("organizations_url")]
-        public string organizations_url { get; set; }
-
-        [JsonProperty("repos_url")]
-        public string repos_url { get; set; }
-
-        [JsonProperty("events_url")]
-        public string events_url { get; set; }
-
-        [JsonProperty("received_events_url")]
-        public string received_events_url { get; set; }
-
-        [JsonProperty("type")]
-        public string Type { get; set; }
-    }
-
-    public class Assets {
-        [JsonProperty("browser_download_url")]
-        public string Url { get; set; }
-
-        [JsonProperty("name")]
-        public string FileName { get; set; }
     }
 }
 

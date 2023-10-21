@@ -3,14 +3,13 @@ using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Toolkits;
+using MinecraftLaunch.Modules.Utils;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
@@ -18,8 +17,6 @@ using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.Views.Pages;
-using wonderlab.Views.Windows;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace wonderlab.ViewModels.Dialogs {
     public class GameInstallDialogViewModel : ReactiveObject {
@@ -212,7 +209,7 @@ namespace wonderlab.ViewModels.Dialogs {
         }
 
         public void HideInstallDialogAction() {
-            App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
+            //App.CurrentWindow.dialogHost.Install.InstallDialog.HideDialog();
         }
 
         public async void GameCoreInstallAction() {
@@ -266,7 +263,6 @@ namespace wonderlab.ViewModels.Dialogs {
                     return;
                 }
 
-                App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
                 data.Title = $"游戏 {customId} 的安装任务";
                 $"开始安装游戏 {customId}！此过程不会很久，坐和放宽，您可以点击此条进入通知中心以查看下载进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
                 NotificationCenterPage.ViewModel.Notifications.Add(data);
@@ -313,7 +309,6 @@ namespace wonderlab.ViewModels.Dialogs {
                 "无法继续安装，因为未选择任何 Java！".ShowMessage();
             }
 
-            App.CurrentWindow.DialogHost.Install.InstallDialog.HideDialog();
             NotificationCenterPage.ViewModel.Notifications.Add(data);
             var forgedata = CurrentModLoaders.GetForge().Data;
             var optifinrdata = CurrentModLoaders.GetOptiFine().Data;

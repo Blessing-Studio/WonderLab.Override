@@ -1,25 +1,22 @@
 ﻿using Avalonia.Media.Imaging;
+using Flurl.Http;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
-using MinecraftLaunch.Modules.Toolkits;
-using Natsurainko.Toolkits.Network;
-using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Tmds.DBus;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Views.Pages;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using MinecraftLaunch.Modules.Utils;
+using MinecraftLaunch.Modules.Models.Install;
+using wonderlab.control;
+using MinecraftLaunch.Modules.Models.Http;
+using DynamicData;
 
 namespace wonderlab.Class.Utils {
     public static class HttpUtils {
@@ -27,13 +24,18 @@ namespace wonderlab.Class.Utils {
             var result = new List<New>();
 
             try {
-                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.MojangNewsApi)).Content.ReadAsStringAsync();
-                result = json.ToJsonEntity<MojangNewsModel>().Entries;
+                var json = await (await GlobalResources.MojangNewsApi.GetAsync())
+                    .GetStringAsync();
+
+                result = json.ToJsonEntity<MojangNewsModel>()
+                    .Entries;
+
                 CacheResources.MojangNews = result;
             }
             catch (Exception ex) {
                 ex.ShowLog(LogLevel.Error);
-                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}".ShowMessage();
+                $"无法获取到新闻，可能是您的网络出现了小问题，异常信息：{ex.Message}"
+                    .ShowMessage();
             }
 
             return result;
@@ -43,7 +45,9 @@ namespace wonderlab.Class.Utils {
             var result = new HitokotoModel();
 
             try {
-                var json = await (await HttpWrapper.HttpGetAsync(GlobalResources.HitokotoApi)).Content.ReadAsStringAsync();
+                var json = await (await GlobalResources.HitokotoApi.GetAsync())
+                    .GetStringAsync();
+
                 result = JsonSerializer.Deserialize<HitokotoModel>(json);
             }
             catch (Exception ex) {
@@ -54,15 +58,37 @@ namespace wonderlab.Class.Utils {
             return result;
         }
 
+        public static async ValueTask<IEnumerable<GameCoreEmtity>> GetGameCoresAsync() {
+            if (!CacheResources.GameCores.Any()) {
+                var cores = await Task.Run(async () => await GameCoreInstaller.GetGameCoresAsync());
+                var result = cores.Cores.Where(x => {
+                    x.Type = x.Type switch {
+                        "snapshot" => "快照版本",
+                        "release" => "正式版本",
+                        "old_alpha" => "远古版本",
+                        "old_beta" => "远古版本",
+                        _ => "正式版本"
+                    } + $" {x.ReleaseTime.ToString(@"yyyy\-MM\-dd hh\:mm")}";
+
+                    return true;
+                }).AsEnumerable();
+
+                CacheResources.GameCores.AddRange(result);
+                return result;
+            }
+
+            return CacheResources.GameCores;
+        }
+
         public static async ValueTask<string> GetLatestGameCoreAsync() {
-            var result = await GameCoreInstaller.GetGameCoresAsync();
-            return result.Latest.Last().Value;
+            var result = await GetGameCoresAsync();
+            return result.FirstOrDefault().Id;
         }
 
         public static async ValueTask<Bitmap> GetWebBitmapAsync(string url) {
             try {
                 return await Task.Run(async () => {
-                    var bytes = await HttpWrapper.HttpClient.GetByteArrayAsync(url);
+                    var bytes = await url.GetBytesAsync();
 
                     using var stream = new MemoryStream(bytes);
                     return new Bitmap(stream);
@@ -77,7 +103,7 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<bool> ConnectionTestAsync(string url) {
             try {
-                var result = await Task.Run(async () => await HttpWrapper.HttpClient.GetAsync(url));
+                await Task.Run(async () => (await url.GetAsync()).Dispose());
                 GC.Collect();
                 return true;
             }
@@ -89,12 +115,27 @@ namespace wonderlab.Class.Utils {
         }
 
         public static async ValueTask<bool> GetModLoadersFromMcVersionAsync(string id) {
+            var viewModel = DownCenterPage.ViewModel;
+
             try {
+                viewModel.IsQuiltLoading = true;
+                viewModel.IsFabricLoading = true;
+                viewModel.IsForgeLoading = true;
+                viewModel.IsNeoForgeLoading = true;
+                viewModel.IsOptifineLoading = true;
+
+                viewModel.Optifines.Clear();
+                viewModel.NeoForges.Clear();
+                viewModel.Fabrics.Clear();
+                viewModel.Quilts.Clear();
+                viewModel.Forges.Clear();
+
                 await Task.Run(async() => {
                     await Task.Run(GetFabricsAsync);
                     await Task.Run(GetQuiltsAsync);
                     await Task.Run(GetOptifinesAsync);
                     await Task.Run(GetForgesAsync);
+                    await Task.Run(GetNeoForgesAsync);
                 });
             }
             catch (Exception ex) {
@@ -108,7 +149,6 @@ namespace wonderlab.Class.Utils {
             return true;
 
             async ValueTask GetForgesAsync() {
-                DialogPage.ViewModel.IsQuiltLoaded = false;
                 await Task.Run(async () => {
                     var result = (await ForgeInstaller.GetForgeBuildsOfVersionAsync(id)).Select(x => new ModLoaderModel() {
                         ModLoaderType = ModLoaderType.Forge,
@@ -122,18 +162,38 @@ namespace wonderlab.Class.Utils {
                         result = Array.Empty<ModLoaderModel>();
                     }
 
-                    "Forge 加载完毕".ShowLog();       
+                    "Forge 加载完毕".ShowLog();
+                    viewModel.IsForgeLoading = false;
                     CacheResources.Forges.AddRange(result);
-                    DialogPage.ViewModel.IsForgeLoaded = result.Any();
+                    viewModel.Forges.AddRange(result);
+                });
+            }
+
+            async ValueTask GetNeoForgesAsync() {
+                await Task.Run(async () => {
+                    var result = (await NeoForgeInstaller.GetNeoForgesOfVersionAsync(id).ToListAsync()).Select(x => new ModLoaderModel() {
+                        ModLoaderType = ModLoaderType.NeoForged,
+                        ModLoaderBuild = x,
+                        GameCoreVersion = x.McVersion,
+                        Id = x.NeoForgeVersion,
+                        Time = DateTime.Now
+                    });
+
+                    if (!result.Any()) {
+                        result = Array.Empty<ModLoaderModel>();
+                    }
+
+                    "NeoForge 加载完毕".ShowLog();
+                    viewModel.IsNeoForgeLoading = false;
+                    CacheResources.NeoForges.AddRange(result);
+                    viewModel.NeoForges.AddRange(result);
                 });
             }
 
             async ValueTask GetQuiltsAsync() {
                 await Task.Run(async () => {
-                    DialogPage.ViewModel.IsQuiltLoaded = false;
-                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                    if (id.Split('.').ElementAtOrDefault(1)?.ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Quilt".ShowLog();
-                        DialogPage.ViewModel.IsQuiltLoaded = false;
                     } else {
                         var result = (await QuiltInstaller.GetQuiltBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
                             ModLoaderType = ModLoaderType.Quilt,
@@ -148,18 +208,17 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Quilt 加载完毕".ShowLog();
+                        viewModel.IsQuiltLoading = false;
                         CacheResources.Quilts.AddRange(result);
-                        DialogPage.ViewModel.IsQuiltLoaded = result.Any();
+                        viewModel.Quilts.AddRange(result);
                     }
                 });
             }
 
             async ValueTask GetFabricsAsync() {
-                DialogPage.ViewModel.IsFabricLoaded = false;
                 await Task.Run(async () => {
-                    if (id.Split('.').GetValueInArray(1).ToInt32() < 14) {
+                    if (id.Split('.').ElementAtOrDefault(1)?.ToInt32() < 14) {
                         $"Mc 版本 {id} 无可用的 Fabric".ShowLog();
-                        DialogPage.ViewModel.IsFabricLoaded = false;
                     } else {
                         var result = (await FabricInstaller.GetFabricBuildsByVersionAsync(id)).Select(x => new ModLoaderModel() {
                             ModLoaderType = ModLoaderType.Fabric,
@@ -174,14 +233,14 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Fabric 加载完毕".ShowLog();
+                        viewModel.IsFabricLoading = false;
                         CacheResources.Fabrics.AddRange(result);
-                        DialogPage.ViewModel.IsFabricLoaded = result.Any();
+                        viewModel.Fabrics.AddRange(result);
                     }
                 });
             }
 
             async ValueTask GetOptifinesAsync() {
-                DialogPage.ViewModel.IsOptifineLoaded = false;
                 await Task.Run(async () => {
                     var result = (await OptiFineInstaller.GetOptiFineBuildsFromMcVersionAsync(id)).Select(x => new ModLoaderModel() {
                         ModLoaderType = ModLoaderType.OptiFine,
@@ -196,10 +255,18 @@ namespace wonderlab.Class.Utils {
                     }
 
                     "Optifine 加载完毕".ShowLog();
+                    viewModel.IsOptifineLoading = false;
                     CacheResources.Optifines.AddRange(result);
-                    DialogPage.ViewModel.IsOptifineLoaded = result.Any();
+                    viewModel.Optifines.AddRange(result);
                 });
             }
+        }
+
+        public static async ValueTask<(ArticleJsonEntity, ArticleJsonEntity, IEnumerable<ArticleJsonEntity>)> GetMcVersionUpdatesAsync() {
+            var result = (await McNewsUtil.GetMcVersionUpdatesAsync())
+                .Where(x => x.PrimaryCategory is "News");
+
+            return new(result.ElementAtOrDefault(0), result.ElementAtOrDefault(1), result);
         }
     }
 }

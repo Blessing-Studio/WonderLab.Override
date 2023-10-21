@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,73 +8,70 @@ using System.Threading.Tasks;
 namespace wonderlab.Class.Models
 {
     public class MojangNewsModel {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public int Version { get; set; }
         
-        [JsonProperty("entries")]
+        [JsonPropertyName("entries")]
         public List<New> Entries { get; set; }
     }
 
     public class New {
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
       
-        [JsonProperty("tag")]
+        [JsonPropertyName("tag")]
         public string Tag { get; set; }
 
-        [JsonProperty("category")]
+        [JsonPropertyName("category")]
         public string Category { get; set; }
 
-        [JsonProperty("date")]
+        [JsonPropertyName("date")]
         public string Date { get; set; }
 
-        [JsonProperty("text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
-        [JsonProperty("playPageImage")]
+        [JsonPropertyName("playPageImage")]
         public PlayPageBitMap PlayPageImage { get; set; }
 
-        [JsonProperty("newsPageImage")]
+        [JsonPropertyName("newsPageImage")]
         public NewsBitMap NewsPageImage { get; set; }
 
-        [JsonProperty("readMoreLink")]
+        [JsonPropertyName("readMoreLink")]
         public string ReadMoreLink { get; set; }
 
-        [JsonProperty("cardBorder")]
-        public string CardBorder { get; set; }
-
-        [JsonProperty("newsType")]
+        [JsonPropertyName("newsType")]
         public List<string> NewsType { get; set; }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
     }
 
     public class PlayPageBitMap {   
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string title { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string url { get; set; }
     }
 
     public class Dimensions {   
-        [JsonProperty("width")]
+        [JsonPropertyName("width")]
         public int Width { get; set; }
 
-        [JsonProperty("height")]
+        [JsonPropertyName("height")]
         public int Height { get; set; }
     }
 
     public class NewsBitMap {   
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty("dimensions")]
+        [JsonPropertyName("dimensions")]
         public Dimensions? Dimensions { get; set; }
     }
 }

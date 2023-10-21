@@ -18,10 +18,15 @@ namespace wonderlab.control.Controls.Bar {
     /// 消息提示框
     /// </summary>
     public class MessageTipsBar : ListBoxItem {
+        private Border layout = default!;
+        private Button closeButton = default!;
+        private Button gotoButton = default!;
+        private Border messageContentLayout = default!;
+        
         public string? Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
         public string? Message { get => GetValue(MessageProperty); set => SetValue(MessageProperty, value); }
         public string? Time { get => GetValue(TimeProperty); set => SetValue(TimeProperty, value); }
-        public bool IsOpen { get; set; } = false;
+        public bool IsOpen { get; set; } = true;
 
         //Event
         /// <summary>
@@ -66,39 +71,62 @@ namespace wonderlab.control.Controls.Bar {
             }
         }
 
-        private void OnClick(object? sender, RoutedEventArgs e) {
+        private async void OnClick(object? sender, RoutedEventArgs e) {
             if (IsOpen) {
                 IsOpen = false;
-
                 IsHitTestVisible = false;
-                //MessageTipsBarClickAnimation animation = new();
-                //animation.RunAnimation(this);                
-
-                //animation.AnimationCompleted += (_, _) => { if (HideOfRun is not null) HideOfRun(); };
+                layout.Opacity = 0;
+                Margin = new(0, 0, -430, 0);
+                if ((sender as Button)?.Name is "GotoButton") {
+                    await Task.Delay(200);
+                    HideOfRun?.Invoke();
+                }
             }
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
-            Margin = new(0, 0, -430, 0);
+            layout = e.NameScope.Find<Border>("Layout")!;
+            gotoButton = e.NameScope.Find<Button>("GotoButton")!;
+            closeButton = e.NameScope.Find<Button>("CloseButton")!;
+            messageContentLayout = e.NameScope.Find<Border>("MessageContentLayout")!;
+            
+            layout.Opacity = 0;
+            Margin = new(0, 0, -430, 0); 
+            closeButton.Click += OnClick;
+            gotoButton.Click += OnClick;
+            PointerEntered += OnPointerEntered;
+            PointerExited += OnPointerExited;
         }
 
+        private void OnPointerEntered(object? sender, Avalonia.Input.PointerEventArgs e) {
+            if(HideOfRun is null) {
+                messageContentLayout.Width = 348;
+            } else {
+                messageContentLayout.Width = 318;
+            }
+        }
+
+        private void OnPointerExited(object? sender, Avalonia.Input.PointerEventArgs e) {
+            messageContentLayout.Width = 378;
+        }
+        
         protected override async void OnLoaded(RoutedEventArgs e) {
             base.OnLoaded(e);
             Margin = new(0, 0, 0, 0);
+            layout.Opacity = 1;
             await Task.Delay(4000);
             Opacity = 0;
+            Margin = new(0, 0, -430, 0);
             await Task.Delay(150);
             App.Cache.Remove(this);
         }
 
         public MessageTipsBar() {
-            PointerPressed += OnClick;            
         }
 
         public MessageTipsBar(HideOfRunAction action) {
             HideOfRun = action;
-            PointerPressed += OnClick;
         }
     }
 }

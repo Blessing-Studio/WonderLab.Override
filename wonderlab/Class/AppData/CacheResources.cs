@@ -1,13 +1,9 @@
 ﻿using MinecraftLaunch.Modules.Models.Install;
-using MinecraftLaunch.Modules.Models.Launch;
-using MinecraftLaunch.Modules.Toolkits;
-using System;
+using MinecraftLaunch.Modules.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
@@ -20,6 +16,8 @@ namespace wonderlab.Class.AppData {
 
         public static List<ModLoaderModel> Forges { get; set; } = new();
 
+        public static List<ModLoaderModel> NeoForges { get; set; } = new();
+
         public static List<ModLoaderModel> Fabrics { get; set; } = new();
 
         public static List<ModLoaderModel> Optifines { get; set; } = new();
@@ -30,10 +28,12 @@ namespace wonderlab.Class.AppData {
 
         public static ObservableCollection<AccountViewData> Accounts { get; set; } = new();
 
+        public static ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
+
         public static Dictionary<string, WebModpackInfoModel> WebModpackInfoDatas { get; set; } = new();
 
         public static void GetWebModpackInfoData() {
-            StreamReader reader = new(AvaloniaUtils.GetAssetsStream("ModpackInfos.json"));
+            using StreamReader reader = new(AvaloniaUtils.GetAssetsStream("ModpackInfos.json"));
             var infos = reader.ReadToEnd().ToJsonEntity<List<WebModpackInfoModel>>();
             if (infos is not null && infos.Any()) {
                 infos.ForEach(x => {
