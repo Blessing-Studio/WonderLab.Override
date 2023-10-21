@@ -37,16 +37,16 @@ namespace wonderlab.Class.Utils {
         }
 
         public static bool Check(JsonNode node) {
-            var localVersion = AssemblyUtil.Version
+            int localVersion = AssemblyUtil.Version
                 .Replace(".", "")
                 .ToInt32();
 
-            var newVersion = node?["version"].GetValue<string>()
+            int? newVersion = node?["version"].GetValue<string>()
                 .Replace(".", "")
                 .ToInt32();
 
             if (newVersion % 10 is '0') {
-                return CheckNumber(localVersion, newVersion ?? 6666);
+                return CheckNumber(localVersion, newVersion.Value);
             }
 
             return (localVersion < newVersion) && SystemUtils.IsWindows;
