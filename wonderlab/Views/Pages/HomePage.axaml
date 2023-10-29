@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:wcd="using:wonderlab.control.Controls.Dialog" 
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		     xmlns:wcb="using:wonderlab.control.Controls.Bar"
 			 DragDrop.AllowDrop="True"
              x:Class="wonderlab.Views.Pages.HomePage">
@@ -82,7 +81,6 @@
 					</Grid.ColumnDefinitions>
 
 					<TextBox Margin="15" Grid.Column="0" Watermark="通过 Polymerize 聚合搜索管理您的游戏核心"
-							 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 							 Text="{Binding SearchCondition}"/>
 
 					<Button Grid.Column="2" Margin="0 0 10 0"
@@ -322,7 +320,6 @@
 								</Viewbox>
 								<TextBlock Text="获取热门整合包"
 		                                   Margin="20 0 0 0" FontSize="13"
-		                                   FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 		                                   VerticalAlignment="Center"/>
 							</Grid>
 						</Button>-->

@@ -1,10 +1,7 @@
 ﻿using Avalonia.Media.Imaging;
-using DynamicData;
-using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Http;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Utils;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,7 +15,6 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using wonderlab.control;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {

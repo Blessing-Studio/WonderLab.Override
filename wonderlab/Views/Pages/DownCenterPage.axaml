@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
 			 xmlns:wc="using:wonderlab.control.Controls"
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
+			 xmlns:test="using:wonderlab.Views.Pages"
              x:Class="wonderlab.Views.Pages.DownCenterPage">
 	<UserControl.Styles>
 		<Style Selector="Button.topbutton">
@@ -572,7 +572,7 @@
 							Background="White"
 							Margin="0 -50 -15 -50"
 							BoxShadow="0 1 12 0 #66000000"
-							Width="{Binding InstallerWidth}"	
+							Width="{Binding InstallerWidth}"
 							HorizontalAlignment="Right">
 						<Border.Transitions>
 							<Transitions>
@@ -582,16 +582,18 @@
 							</Transitions>
 						</Border.Transitions>
 						<Grid Margin="0 50 0 0"
-							  ClipToBounds="True"
-							  RowDefinitions="Auto,10,Auto,10,Auto">
+							  ClipToBounds="True">
 							<!--Top-->
 							<StackPanel Spacing="0"
-										Orientation="Horizontal">
+										Orientation="Horizontal"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top"> 
 								<Button Width="30"
 		                                Height="30"
 		                                Margin="15 0"
 		                                Padding="0"
 		                                Name="NextPageButton"
+										Background="Transparent"
 		                                HorizontalAlignment="Left"
 		                                Classes="wonderaccentbutton"										
 		                                HorizontalContentAlignment="Center"
@@ -610,268 +612,7 @@
 								</TextBlock>
 							</StackPanel>
 							
-							<!--Content-->
-							<StackPanel Grid.Row="2"
-										Spacing="10"
-										Margin="15 0">
-								<Border CornerRadius="4"
-										BorderThickness="1"
-										BoxShadow="0 1 4 0 #66000000"
-										Background="{DynamicResource DialogContentBackground}"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}">
-									<Grid Margin="10 0"
-										  ColumnDefinitions="Auto,Auto,1*,Auto">
-										<CheckBox/>
-
-										<StackPanel Grid.Column="2"
-													Margin="0 8"
-													Orientation="Horizontal">
-											<Image Height="40"
-												   Width="40"
-												   Source="/Assets/Icons/Forge.png"/>
-
-											<StackPanel Margin="10 0 0 0">
-												<TextBlock Text="Forge"
-														   FontSize="16"/>
-												<TextBlock FontSize="12"
-														   TextWrapping="WrapWithOverflow"
-														   Text="经典的模组加载器"/>
-											</StackPanel>											
-										</StackPanel>
-
-										<Grid Grid.Column="3">
-											<ComboBox VerticalAlignment="Center"
-		                                              ItemsSource="{Binding Forges}"
-		                                              AutoScrollToSelectedItem="True"
-													  IsVisible="{Binding IsForgeLoading,Converter={StaticResource BoolReverseConverter}}">
-												<ComboBox.ItemTemplate>
-													<DataTemplate>
-														<TextBlock Text="{Binding Id}"/>
-													</DataTemplate>
-												</ComboBox.ItemTemplate>
-											</ComboBox>
-
-											<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Right"
-														IsHitTestVisible="False"
-														Margin="-70 0">
-												<ProgressBar Classes="circular"
-															 Width="20"
-															 Height="20"															 
-															 IsIndeterminate="{Binding IsForgeLoading}"/>
-											</StackPanel>
-										</Grid>
-									</Grid>
-								</Border>
-
-								<Border CornerRadius="4"
-										BorderThickness="1"
-										BoxShadow="0 1 4 0 #66000000"
-										Background="{DynamicResource DialogContentBackground}"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}">
-									<Grid Margin="10 0"
-										  ColumnDefinitions="Auto,Auto,1*,Auto">
-										<CheckBox/>
-
-										<StackPanel Grid.Column="2"
-													Margin="0 8"
-													Orientation="Horizontal">
-											<Image Height="30"
-												   Width="40"
-												   Source="/Assets/Icons/NeoForge.png"/>
-
-											<StackPanel Margin="10 0 0 0">
-												<TextBlock Text="NeoForge"
-														   FontSize="16"/>
-												<TextBlock FontSize="12"
-														   TextWrapping="WrapWithOverflow"
-														   Text="Forge的新型分支"/>
-											</StackPanel>
-										</StackPanel>
-
-										<Grid Grid.Column="3">
-											<ComboBox VerticalAlignment="Center"
-		                                              ItemsSource="{Binding NeoForges}"
-		                                              AutoScrollToSelectedItem="True"
-													  IsVisible="{Binding IsNeoForgeLoading,Converter={StaticResource BoolReverseConverter}}">
-												<ComboBox.ItemTemplate>
-													<DataTemplate>
-														<TextBlock Text="{Binding Id}"/>
-													</DataTemplate>
-												</ComboBox.ItemTemplate>
-											</ComboBox>
-
-											<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Right"
-														Margin="-70 0"
-														IsHitTestVisible="False">
-												<ProgressBar Classes="circular"
-															 Width="20"
-															 Height="20"
-															 IsIndeterminate="{Binding IsNeoForgeLoading}"/>
-											</StackPanel>
-										</Grid>
-									</Grid>
-								</Border>
-
-								<Border CornerRadius="4"
-										BorderThickness="1"
-										BoxShadow="0 1 4 0 #66000000"
-										Background="{DynamicResource DialogContentBackground}"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}">
-									<Grid Margin="10 0"
-										  ColumnDefinitions="Auto,Auto,1*,Auto">
-										<CheckBox/>
-
-										<StackPanel Grid.Column="2"
-													Margin="0 8"
-													Orientation="Horizontal">
-											<Image Height="30"
-												   Width="40"
-												   Source="/Assets/Icons/OptiFine.png"/>
-
-											<StackPanel Margin="10 0 0 0">
-												<TextBlock Text="Optifine"
-														   FontSize="16"/>
-												<TextBlock FontSize="12"
-														   TextWrapping="WrapWithOverflow"
-														   Text="经典的光影加载器"/>
-											</StackPanel>
-										</StackPanel>
-
-										<Grid Grid.Column="3">
-											<ComboBox VerticalAlignment="Center"
-		                                              AutoScrollToSelectedItem="True"
-		                                              ItemsSource="{Binding Optifines}"
-													  IsVisible="{Binding IsOptifineLoading,Converter={StaticResource BoolReverseConverter}}">
-												<ComboBox.ItemTemplate>
-													<DataTemplate>
-														<TextBlock Text="{Binding Id}"/>
-													</DataTemplate>
-												</ComboBox.ItemTemplate>
-											</ComboBox>
-
-											<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Right"
-														Margin="-70 0"
-														IsHitTestVisible="False">
-												<ProgressBar Classes="circular"
-															 Width="20"
-															 Height="20"
-															 IsIndeterminate="{Binding IsOptifineLoading}"/>
-											</StackPanel>
-										</Grid>
-									</Grid>
-								</Border>
-
-								<Border CornerRadius="4"
-										BorderThickness="1"
-										BoxShadow="0 1 4 0 #66000000"
-										Background="{DynamicResource DialogContentBackground}"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}">
-									<Grid Margin="10 0"
-										  ColumnDefinitions="Auto,Auto,1*,Auto">
-										<CheckBox/>
-
-										<StackPanel Grid.Column="2"
-													Margin="0 8"
-													Orientation="Horizontal">
-											<Image Height="35"
-												   Width="40"
-												   Source="/Assets/Icons/Fabric.png"/>
-
-											<StackPanel Margin="10 0 0 0">
-												<TextBlock Text="Fabric"
-														   FontSize="16"/>
-												<TextBlock FontSize="12"
-														   TextWrapping="WrapWithOverflow"
-														   Text="新型的模组加载器"/>
-											</StackPanel>
-										</StackPanel>
-
-										<Grid Grid.Column="3">
-											<ComboBox VerticalAlignment="Center"
-		                                              ItemsSource="{Binding Fabrics}"
-		                                              AutoScrollToSelectedItem="True"
-													  IsVisible="{Binding IsFabricLoading,Converter={StaticResource BoolReverseConverter}}">
-												<ComboBox.ItemTemplate>
-													<DataTemplate>
-														<TextBlock Text="{Binding Id}"/>
-													</DataTemplate>
-												</ComboBox.ItemTemplate>
-											</ComboBox>
-
-											<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Right"
-														Margin="-70 0"
-														IsHitTestVisible="False">
-												<ProgressBar Classes="circular"
-															 Width="20"
-															 Height="20"
-															 IsIndeterminate="{Binding IsFabricLoading}"/>
-											</StackPanel>
-										</Grid>
-									</Grid>
-								</Border>
-
-								<Border CornerRadius="4"
-										BorderThickness="1"
-										BoxShadow="0 1 4 0 #66000000"
-										Background="{DynamicResource DialogContentBackground}"
-										BorderBrush="{DynamicResource DialogContentBorderBrush}">
-									<Grid Margin="10 0"
-										  ColumnDefinitions="Auto,Auto,1*,Auto">
-										<CheckBox/>
-
-										<StackPanel Grid.Column="2"
-													Margin="0 8"
-													Orientation="Horizontal">
-											<Image Height="30"
-												   Width="40"
-												   Source="/Assets/Icons/Quilt.png"/>
-
-											<StackPanel Margin="10 0 0 0">
-												<TextBlock Text="Quilt"
-														   FontSize="16"/>
-												<TextBlock FontSize="12"
-														   TextWrapping="WrapWithOverflow"
-														   Text="新型的模组加载器"/>
-											</StackPanel>
-										</StackPanel>
-
-										<Grid Grid.Column="3">
-											<ComboBox VerticalAlignment="Center"
-		                                              ItemsSource="{Binding Quilts}"
-		                                              AutoScrollToSelectedItem="True"
-													  IsVisible="{Binding IsQuiltLoading,Converter={StaticResource BoolReverseConverter}}">
-												<ComboBox.ItemTemplate>
-													<DataTemplate>
-														<TextBlock Text="{Binding Id}"/>
-													</DataTemplate>
-												</ComboBox.ItemTemplate>
-											</ComboBox>
-
-											<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Right"
-														Margin="-70 0"
-														IsHitTestVisible="False">
-												<ProgressBar Classes="circular"
-															 Width="20"
-															 Height="20"
-															 IsIndeterminate="{Binding IsQuiltLoading}"/>																						
-											</StackPanel>
-										</Grid>
-									</Grid>
-								</Border>
-							</StackPanel>
-							
-							<!--Bottom-->
-							<Button Grid.Row="4"
-									Width="150"
-									Content="安装"
-									Margin="15 0"
-									HorizontalAlignment="Right"
-									HorizontalContentAlignment="Center"/>
+							<test:InstallerPage Margin="0 0 15 0"/>
 						</Grid>
 					</Border>
 				</Grid>

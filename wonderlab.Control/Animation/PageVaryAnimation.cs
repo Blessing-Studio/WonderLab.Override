@@ -31,7 +31,7 @@ namespace wonderlab.control.Animation {
             var tasks = new List<Task>();
             var parent = GetVisualParent(from, to);
             var distance = parent.Bounds.Width;
-            var translateProperty = TranslateTransform.XProperty;
+            var translateProperty = IsHorizontal ? TranslateTransform.XProperty : TranslateTransform.YProperty;
 
             if (from != null) {
                 double end = forward ? -distance : distance;
@@ -45,23 +45,9 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = 0d
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1.0d
-                            }
                         },
 
                         Cue = new Cue(0d)
-                    },
-                    new KeyFrame {                   
-                        Setters = {                       
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 0d
-                            }
-                        },
-
-                        Cue = new Cue(0.3d)
                     },
                     new KeyFrame {
                         Setters = {                       
@@ -69,10 +55,6 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = end
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 0d
-                            }
                         },
                         Cue = new Cue(1d)
                     }
@@ -84,29 +66,21 @@ namespace wonderlab.control.Animation {
                     FillMode = FillMode.Forward,
                     Children = {                   
                        new KeyFrame {                   
-                        Setters = {                       
-                            new Setter {                           
-                                Property = translateProperty,
-                                Value = 0d
-                            },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1.0d
-                            }
-                        },
-                        Cue = new Cue(0d)
+                           Setters = {                       
+                               new Setter {                           
+                                   Property = translateProperty,
+                                   Value = 0d
+                               },
+                           },
+                           Cue = new Cue(0d)
                     },
                        new KeyFrame {                   
-                        Setters = {                       
-                            new Setter {                           
-                                Property = translateProperty,
-                                Value = end
-                            },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1.0d
-                            }
-                        },
+                          Setters = {                       
+                              new Setter {                           
+                                  Property = translateProperty,
+                                  Value = end
+                              },
+                          },
 
                         Cue = new Cue(1d)
                     }
@@ -130,21 +104,8 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = end
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 0.0d
-                            }
                         },
                         Cue = new Cue(0d)
-                    },
-                    new KeyFrame {                   
-                        Setters = {                       
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1d
-                            }
-                        },
-                        Cue = new Cue(0.3d)
                     },
                     new KeyFrame {                   
                         Setters = {                       
@@ -152,10 +113,6 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = 0d
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1d
-                            }
                         },
                         Cue = new Cue(1d)
                     },
@@ -171,10 +128,6 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = end
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1.0d
-                            }
                         },
 
                         Cue = new Cue(0d)
@@ -185,10 +138,6 @@ namespace wonderlab.control.Animation {
                                 Property = translateProperty,
                                 Value = 0d
                             },
-                            new Setter {                           
-                                Property = Visual.OpacityProperty,
-                                Value = 1.0d
-                            }
                         },
 
                         Cue = new Cue(1d)

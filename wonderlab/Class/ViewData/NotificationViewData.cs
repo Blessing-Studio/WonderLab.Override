@@ -35,12 +35,13 @@ namespace wonderlab.Class.ViewData
         [Reactive]
         public DateTime Time { set; get; }
 
-        public Timer Timer { set; get; } = new(1000);
+        public DispatcherTimer Timer { set; get; } = new(DispatcherPriority.Send);
 
         public NotificationType NotificationType { get; set; } = new();
 
         public void TimerStart() {
-            Timer.Elapsed += TimerElapsed;
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += TimerTick;
             Time = DateTime.Now;
             Timer.Start();
         }
@@ -50,7 +51,7 @@ namespace wonderlab.Class.ViewData
             NotificationCenterPage.ViewModel.Notifications.Remove(this);
         }
 
-        private void TimerElapsed(object? sender, ElapsedEventArgs e) {       
+        private void TimerTick(object? sender, EventArgs e) {       
             RunTime = (DateTime.Now - Time).ToString(@"hh\:mm\:ss");
         }
 

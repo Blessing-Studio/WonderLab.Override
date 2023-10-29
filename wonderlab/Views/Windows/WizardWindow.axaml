@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Width="800" Height="450" CanResize="False"
 		WindowStartupLocation="CenterScreen"
-		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
         x:Class="wonderlab.Views.Windows.WizardWindow"
         Title="WizardWindow">
 	<Grid>

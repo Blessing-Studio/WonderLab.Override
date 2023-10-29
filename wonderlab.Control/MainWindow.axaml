@@ -9,7 +9,9 @@
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="wonderlab.control" Background="White">
 	<Grid>
-		<Button Name="Test" Content="Add"/>
+		<Button Name="Test" Content="Add" Background="Red" Height="90"
+				RenderTransformOrigin="1,0"
+				RenderTransform="rotate(-0deg)"/>
 		<Button Name="Test1"
 				Margin="0 80 0 0"
 				Content="Add and Action"/> 

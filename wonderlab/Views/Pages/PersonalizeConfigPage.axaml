@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.PersonalizeConfigPage">
 	<ScrollViewer Background="{x:Null}">
 		<StackPanel Margin="0 15 0 0" Spacing="15">

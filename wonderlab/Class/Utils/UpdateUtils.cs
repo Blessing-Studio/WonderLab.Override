@@ -9,6 +9,7 @@ using MinecraftLaunch.Modules.Downloaders;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Avalonia.Threading;
 
 namespace wonderlab.Class.Utils {
     public static class UpdateUtils {

@@ -67,7 +67,7 @@ namespace wonderlab.ViewModels.Pages {
             new ActionCenterPage().Navigation();
         }
 
-        public async void RunVaryAnimation(object to) {
+        public void RunVaryAnimation(object to) {
             if (oldIndex == CurrentPageIndex) {
                 return;
             }

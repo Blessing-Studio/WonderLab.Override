@@ -26,6 +26,7 @@ using wonderlab.Class.Enum;
 using Avalonia.Platform.Storage;
 using MinecraftLaunch.Modules.Utils;
 using System.Text.Json;
+using Avalonia.Media;
 
 namespace wonderlab.Class.Utils {
     public static class ExtendUtils {
@@ -344,6 +345,36 @@ namespace wonderlab.Class.Utils {
         public static string ConvertToString(this string value) {
             try { return string.IsNullOrEmpty(value) ? string.Empty : Encoding.UTF8.GetString(Convert.FromBase64String(value)); }
             catch (Exception ex) { return $"{ex.Message}\r\n{ex.StackTrace}"; }
+        }
+
+        public static AppBuilder UseSystemFont(this AppBuilder builder) {
+            var font = new StringBuilder("resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro");
+
+            if (SystemUtils.IsWindows) {
+                font.Append(", Microsoft YaHei UI");
+            } else if (SystemUtils.IsLinux) {
+                font.Append(", dejavu, wqy-zenhei, wqy-microhei");
+            } else {
+                font.Append(", 苹方-简, 萍方-简");
+            }
+
+            return builder.With(new FontManagerOptions() {
+                DefaultFamilyName = font.ToString(),
+            });
+        }
+
+        public static FontFamily UseSystemFont() {
+            var font = new StringBuilder("resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro");
+
+            if (SystemUtils.IsWindows) {
+                font.Append(", Microsoft YaHei UI");
+            } else if (SystemUtils.IsLinux) {
+                font.Append(", dejavu, wqy-zenhei, wqy-microhei");
+            } else {
+                font.Append(", 苹方-简, 萍方-简");
+            }
+
+            return new FontFamily(font.ToString());
         }
     }
 }
