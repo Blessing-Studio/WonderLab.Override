@@ -90,24 +90,19 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             if (string.IsNullOrEmpty(GlobalResources.LaunchInfoData.GameDirectoryPath)) {
                 HasGameCore = 1;
-                if(GlobalResources.LaunchInfoData.GameDirectorys.Any())
-                {
-                    "GameDirectoryError1".GetText().ShowMessage("提示", async () =>
-                    {
-                        OpenLaunchConfigAction();
-                    });
-                }
-                else
-                {
-                    "GameDirectoryError2".GetText().ShowMessage("提示", async () =>
-                    {
-                        OpenLaunchConfigAction();
-                    });
+                if (GlobalResources.LaunchInfoData.GameDirectorys.Any()) {
+                    "GameDirectoryError1".GetText().ShowMessage("提示",
+                        OpenLaunchConfigAction);
+                } else {
+                    "GameDirectoryError2".GetText().ShowMessage("提示",
+                        OpenLaunchConfigAction);
                 }
                 return;
             }
 
-            var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
+            var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData
+                .GameDirectoryPath);
+
             HasGameCore = cores.Any() ? 0 : 1;
             GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
         }
@@ -122,10 +117,10 @@ namespace wonderlab.ViewModels.Pages {
                 } else if (user.Count <= 0) {
                     "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！"
                         .ShowMessage("提示", async () => {
-                        OpenActionCenterAction();
-                        await Task.Delay(1000);
-                        new AccountPage().Navigation();
-                    });
+                            OpenActionCenterAction();
+                            await Task.Delay(1000);
+                            new AccountPage().Navigation();
+                        });
                     return;
                 }
 
@@ -145,7 +140,6 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void LaunchTaskAction() {
             int modCount = 0;
-            bool canLaunch = true;
             JavaInfo javaInfo = null!;
             LaunchConfig config = null!;
             NotificationViewData data = null!;
@@ -181,7 +175,7 @@ namespace wonderlab.ViewModels.Pages {
                         x.Item2.ShowLog();
                     });
                 });
-               
+
                 PostUIProcessingAsync();
             }
             catch (MethodAbortException) {
@@ -191,7 +185,7 @@ namespace wonderlab.ViewModels.Pages {
             IEnumerable<string> GetAdvancedArguments() {
                 if (SystemUtils.IsMacOS) {
                     yield return $"-Xdock:name=Minecraft {gameCore!.Source ?? gameCore.InheritsFrom}";
-                    yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0","f00657542252858a721e715a2e888a9226404e35")}";
+                    yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0", "f00657542252858a721e715a2e888a9226404e35")}";
                 }
 
                 if (!string.IsNullOrEmpty(GlobalResources.LaunchInfoData.JvmArgument)) {
@@ -340,7 +334,7 @@ namespace wonderlab.ViewModels.Pages {
             void ResourcesCheckOutAsync() {
                 try {
                     double progress = 0d;
-                    DispatcherTimer timer = new(DispatcherPriority.Send) { 
+                    DispatcherTimer timer = new(DispatcherPriority.Send) {
                         Interval = TimeSpan.FromMilliseconds(500)
                     };
 
@@ -408,8 +402,7 @@ namespace wonderlab.ViewModels.Pages {
             new ConsoleCenterPage().Navigation();
         }
 
-        public void OpenLaunchConfigAction()
-        {
+        public void OpenLaunchConfigAction() {
             var back = App.CurrentWindow.Back;
             if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
                 OpacityChangeAnimation opacity = new(false) {

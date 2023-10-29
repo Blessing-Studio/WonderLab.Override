@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.InstallerPage"
+			 xmlns:wc="using:wonderlab.control.Controls"
 			 Loaded="OnLoaded">
 	<Grid RowDefinitions="Auto,1*">
 		<Button Content="安装" 
@@ -16,8 +17,10 @@
 		<!--Loader Select-->
 		<Grid Grid.Row="1"
 			  Margin="0 15 0 0">
-			<StackPanel Grid.Row="2" IsVisible="False"
+			<StackPanel Grid.Row="2"
 						Spacing="10"
+						IsHitTestVisible="True"
+						Opacity="1"
 						Name="ModLoaderSelectPanel"
 						Margin="15 0 0 0">
 				<StackPanel.Transitions>
@@ -34,8 +37,9 @@
 						Padding="0"
 						Tag="Forge"
 						Foreground="Black"
-						Click="OnModLoaderSelectClick"
+						Click="OnModLoaderTypeSelectClick"
 						Command="{Binding GotoAction}"
+						IsVisible="{Binding IsForgeLoaded}"
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
@@ -64,8 +68,9 @@
 						Tag="NeoForge"
 						Foreground="Black"
 						HorizontalAlignment="Stretch"
-						Click="OnModLoaderSelectClick"						
-						Command="{Binding GotoAction}"						
+						Click="OnModLoaderTypeSelectClick"						
+						Command="{Binding GotoAction}"		
+						IsVisible="{Binding IsNeoForgeLoaded}"						
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
@@ -75,7 +80,7 @@
 									Orientation="Horizontal">
 							<Image Height="30"
 								   Width="40"
-								   Source="/Assets/Icons/NeoForge.png"/>
+								   Source="/Assets/Icons/NeoForged.png"/>
 
 							<StackPanel Margin="10 0 0 0">
 								<TextBlock Text="NeoForge"
@@ -95,7 +100,8 @@
 						Tag="OptiFine"
 						Foreground="Black"
 						Command="{Binding GotoAction}"	
-						Click="OnModLoaderSelectClick"						
+						Click="OnModLoaderTypeSelectClick"
+						IsVisible="{Binding IsOptifineLoaded}"												
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
@@ -125,7 +131,8 @@
 						Tag="Fabric"
 						Foreground="Black"
 						Command="{Binding GotoAction}"	
-						Click="OnModLoaderSelectClick"						
+						Click="OnModLoaderTypeSelectClick"		
+						IsVisible="{Binding IsFabricLoaded}"																		
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
@@ -155,7 +162,8 @@
 						Padding="0"
 						Tag="Quilt"
 						Command="{Binding GotoAction}"	
-						Click="OnModLoaderSelectClick"						
+						Click="OnModLoaderTypeSelectClick"		
+						IsVisible="{Binding IsQuiltLoaded}"																								
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
@@ -181,8 +189,8 @@
 
 			<Grid Name="ModLoadersSelectPanel"
 				  RowDefinitions="1*,Auto"
-				  Opacity="1"
-				  IsHitTestVisible="True">
+				  Opacity="0"
+				  IsHitTestVisible="False">
 				<Grid.Transitions>
 					<Transitions>
 						<DoubleTransition Duration="0:0:0.85"
@@ -190,92 +198,83 @@
 										  Easing="ExponentialEaseOut"/>
 					</Transitions>
 				</Grid.Transitions>
-				<ScrollViewer Margin="15 0 0 0"
-							  VerticalScrollBarVisibility="Hidden">
-					<ListBox Background="Transparent"
-						     ItemsSource="{Binding CurrentLoaders}"
-						     ScrollViewer.VerticalScrollBarVisibility="Disabled">
-						<ListBox.Styles>
-							<Style Selector="ListBoxItem">
-								<Setter Property="Margin" Value="0 6"/>
-								<Setter Property="ClipToBounds" Value="False"/>
-								<Setter Property="Foreground" Value="Black"/>
-								<Setter Property="Height" Value="45"/>
-								<Setter Property="Template">
-									<ControlTemplate>
-										<Border Background="{DynamicResource DialogContentBackground}"
-												BorderThickness="1"
-												BorderBrush="{DynamicResource DialogContentBorderBrush}"
-												CornerRadius="6"
-												Name="Main">
-											<Border.Transitions>
-												<Transitions>
-													<BoxShadowsTransition Property="BoxShadow"
-																		  Easing="ExponentialEaseOut"
-																		  Duration="0:0:0.35"/>
-												</Transitions>
-											</Border.Transitions>
 
-											<Grid>
-												<Grid.ColumnDefinitions>
-													<ColumnDefinition Width="Auto"/>
-													<ColumnDefinition Width="1*"/>
-													<ColumnDefinition Width="Auto"/>
-												</Grid.ColumnDefinitions>
+				<wc:PageSwitcher Margin="15 0 0 0" Items="{Binding CurrentLoaders}">
+					<wc:PageSwitcher.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Margin" Value="0 6"/>
+							<Setter Property="ClipToBounds" Value="False"/>
+							<Setter Property="Foreground" Value="Black"/>
+							<Setter Property="Height" Value="45"/>
+							<Setter Property="Template">
+								<ControlTemplate>
+									<Border Background="{DynamicResource DialogContentBackground}"
+											BorderThickness="1"
+											BorderBrush="{DynamicResource DialogContentBorderBrush}"
+											CornerRadius="6"
+											Name="Main">
+										<Border.Transitions>
+											<Transitions>
+												<BoxShadowsTransition Property="BoxShadow"
+																	  Easing="ExponentialEaseOut"
+																	  Duration="0:0:0.35"/>
+											</Transitions>
+										</Border.Transitions>
 
-												<Grid Margin="15 5">
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="30"/>
-														<ColumnDefinition Width="15"/>
-														<ColumnDefinition Width="1*"/>
-													</Grid.ColumnDefinitions>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto"/>
+												<ColumnDefinition Width="1*"/>
+												<ColumnDefinition Width="Auto"/>
+											</Grid.ColumnDefinitions>
 
-													<Border Height="35" Width="35"
-														   HorizontalAlignment="Left"
-														   VerticalAlignment="Center">
-														<Border.Background>
-															<ImageBrush Source="{Binding Icon}"/>
-														</Border.Background>
-													</Border>
+											<Grid Margin="15 5">
+												<!--/Assets/Icons/Block.png-->
 
-													<Grid Grid.Column="2" HorizontalAlignment="Left"
-														  VerticalAlignment="Center">
-														<Grid.RowDefinitions>
-															<RowDefinition Height="1*"/>
-															<RowDefinition Height="1*"/>
-														</Grid.RowDefinitions>
-														<TextBlock Text="{Binding Id}"
-																   FontSize="15"/>
+												<!--<Image Height="35"
+													   Width="35"
+													   Source="/Assets/Icons/Block.png"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Center"/>-->
 
-														<TextBlock Text="{Binding Type}"
-																   Grid.Row="1"
-																   FontSize="12"
-																   Opacity="0.65"/>
-													</Grid>
+												<Grid HorizontalAlignment="Left"
+													  VerticalAlignment="Center">
+													<Grid.RowDefinitions>
+														<RowDefinition Height="Auto"/>
+														<RowDefinition Height="Auto"/>
+													</Grid.RowDefinitions>
+													<TextBlock Text="{Binding Id}"
+															   FontSize="15"/>
+
+													<TextBlock Text="{Binding Type}"
+															   Grid.Row="1"
+															   FontSize="10"
+															   Opacity="0.65"/>
 												</Grid>
-
-												<Button Width="80" Content="选择"
-														Grid.Column="2"
-														Classes="wonderaccentbutton"
-														HorizontalContentAlignment="Center"
-														HorizontalAlignment="Right"
-														Margin="15 0"/>
 											</Grid>
-										</Border>
-									</ControlTemplate>
-								</Setter>
-							</Style>
 
-							<Style Selector="ListBoxItem /template/ Border#Main">
-								<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
-							</Style>
+											<Button Width="80" Content="选择"
+													Grid.Column="2"
+													Click="OnModLoaderSelectClick"
+													Classes="wonderaccentbutton"
+													HorizontalContentAlignment="Center"
+													HorizontalAlignment="Right"
+													Margin="15 0"/>
+										</Grid>
+									</Border>
+								</ControlTemplate>
+							</Setter>
+						</Style>
 
-							<Style Selector="ListBoxItem:pointerover /template/ Border#Main">
-								<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
-							</Style>
-						</ListBox.Styles>
-					</ListBox>
-				</ScrollViewer>
+						<Style Selector="ListBoxItem /template/ Border#Main">
+							<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+						</Style>
+
+						<Style Selector="ListBoxItem:pointerover /template/ Border#Main">
+							<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+						</Style>
+					</wc:PageSwitcher.Styles>
+				</wc:PageSwitcher>
 				
 				<Button Grid.Row="1"
 						Content="返回"

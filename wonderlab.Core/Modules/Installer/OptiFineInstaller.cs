@@ -210,7 +210,8 @@ namespace MinecraftLaunch.Modules.Installer {
                 using var responseMessage = await url.GetAsync();
                 responseMessage.ResponseMessage.EnsureSuccessStatusCode();
 
-                var list = JsonSerializer.Deserialize<List<OptiFineInstallEntity>>(await responseMessage.GetStringAsync());
+                var list = JsonSerializer.Deserialize<List<OptiFineInstallEntity>>(await responseMessage
+                    .GetStringAsync());
 
                 var preview = list!.Where(x => x.Patch.StartsWith("pre")).ToList();
                 var release = list!.Where(x => !x.Patch.StartsWith("pre")).ToList();

@@ -1,9 +1,11 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using wonderlab.Class.Models;
+using wonderlab.Class.ViewData;
 using wonderlab.control.Animation;
 
 namespace wonderlab.ViewModels.Pages {
@@ -26,36 +28,55 @@ namespace wonderlab.ViewModels.Pages {
         }
 
         [Reactive]
+        public bool IsForgeLoaded { get; set; }
+
+        [Reactive]
+        public bool IsNeoForgeLoaded { get; set; }
+
+        [Reactive]
+        public bool IsFabricLoaded { get; set; }
+
+        [Reactive]
+        public bool IsOptifineLoaded { get; set; }
+
+        [Reactive]
+        public bool IsQuiltLoaded { get; set; }
+
+        [Reactive]
         public ObservableCollection<ModLoaderModel> CurrentLoaders { get; set; } = new();
 
         public async void GotoAction() {
-            leftContent.Opacity = 0;
-            leftContent.IsHitTestVisible = false;
+            await Dispatcher.InvokeAsync(async () => {
+                leftContent.Opacity = 0;
+                leftContent.IsHitTestVisible = false;
 
-            animationToken.Cancel();
-            animationToken.Dispose();
-            animationToken = new();
+                animationToken.Cancel();
+                animationToken.Dispose();
+                animationToken = new();
 
-            rightContent.Opacity = 1;
-            rightContent.IsHitTestVisible = true;
+                rightContent.Opacity = 1;
+                rightContent.IsHitTestVisible = true;
 
-            await varyAnimation.Start(leftContent, rightContent, true, 
-                animationToken.Token);
+                await varyAnimation.Start(leftContent, rightContent, true,
+                    animationToken.Token);
+            }, DispatcherPriority.Send);
         }
 
         public async void GobackAction() {
-            rightContent.Opacity = 0;
-            rightContent.IsHitTestVisible = false;
+            await Dispatcher.InvokeAsync(async () => {
+                rightContent.Opacity = 0;
+                rightContent.IsHitTestVisible = false;
 
-            animationToken.Cancel();
-            animationToken.Dispose();
-            animationToken = new();
+                animationToken.Cancel();
+                animationToken.Dispose();
+                animationToken = new();
 
-            leftContent.Opacity = 1;
-            leftContent.IsHitTestVisible = true;
+                leftContent.Opacity = 1;
+                leftContent.IsHitTestVisible = true;
 
-            await varyAnimation.Start(rightContent, leftContent, false,
-                animationToken.Token);
+                await varyAnimation.Start(rightContent, leftContent, false,
+                    animationToken.Token);
+            }, DispatcherPriority.Send);
         }
     }
 }

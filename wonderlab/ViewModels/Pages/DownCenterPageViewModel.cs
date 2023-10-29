@@ -49,21 +49,6 @@ namespace wonderlab.ViewModels.Pages {
         public bool IsLoaded { get; set; }
         
         [Reactive]
-        public bool IsForgeLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsOptifineLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsNeoForgeLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsFabricLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsQuiltLoading { get; set; } = true;
-
-        [Reactive]
         public double InstallerWidth { get; set; } = 0;
 
         [Reactive]

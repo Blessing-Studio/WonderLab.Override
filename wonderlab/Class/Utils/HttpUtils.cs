@@ -116,13 +116,14 @@ namespace wonderlab.Class.Utils {
 
         public static async ValueTask<bool> GetModLoadersFromMcVersionAsync(string id) {
             var viewModel = DownCenterPage.ViewModel;
+            var vm = InstallerPage.ViewModel;
 
             try {
-                viewModel.IsQuiltLoading = true;
-                viewModel.IsFabricLoading = true;
-                viewModel.IsForgeLoading = true;
-                viewModel.IsNeoForgeLoading = true;
-                viewModel.IsOptifineLoading = true;
+                vm.IsQuiltLoaded = false;
+                vm.IsFabricLoaded = false;
+                vm.IsForgeLoaded = false;
+                vm.IsNeoForgeLoaded = false;
+                vm.IsQuiltLoaded = false;
 
                 viewModel.Optifines.Clear();
                 viewModel.NeoForges.Clear();
@@ -163,7 +164,7 @@ namespace wonderlab.Class.Utils {
                     }
 
                     "Forge 加载完毕".ShowLog();
-                    viewModel.IsForgeLoading = false;
+                    vm.IsForgeLoaded = true;
                     CacheResources.Forges.AddRange(result);
                     viewModel.Forges.AddRange(result);
                 });
@@ -184,7 +185,7 @@ namespace wonderlab.Class.Utils {
                     }
 
                     "NeoForge 加载完毕".ShowLog();
-                    viewModel.IsNeoForgeLoading = false;
+                    vm.IsNeoForgeLoaded = true;
                     CacheResources.NeoForges.AddRange(result);
                     viewModel.NeoForges.AddRange(result);
                 });
@@ -208,7 +209,7 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Quilt 加载完毕".ShowLog();
-                        viewModel.IsQuiltLoading = false;
+                        vm.IsQuiltLoaded = true;
                         CacheResources.Quilts.AddRange(result);
                         viewModel.Quilts.AddRange(result);
                     }
@@ -233,7 +234,7 @@ namespace wonderlab.Class.Utils {
                         }
 
                         "Fabric 加载完毕".ShowLog();
-                        viewModel.IsFabricLoading = false;
+                        vm.IsFabricLoaded = true;
                         CacheResources.Fabrics.AddRange(result);
                         viewModel.Fabrics.AddRange(result);
                     }
@@ -246,7 +247,7 @@ namespace wonderlab.Class.Utils {
                         ModLoaderType = ModLoaderType.OptiFine,
                         ModLoaderBuild = x,
                         GameCoreVersion = x.McVersion,
-                        Id = x.Type,
+                        Id = $"{x.Type}_{x.Patch}",
                         Time = DateTime.Now
                     });
 
@@ -255,7 +256,7 @@ namespace wonderlab.Class.Utils {
                     }
 
                     "Optifine 加载完毕".ShowLog();
-                    viewModel.IsOptifineLoading = false;
+                    vm.IsOptifineLoaded = true;
                     CacheResources.Optifines.AddRange(result);
                     viewModel.Optifines.AddRange(result);
                 });

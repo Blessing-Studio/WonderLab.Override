@@ -18,7 +18,8 @@ namespace wonderlab.Class.Utils {
 
         public static IImage GetIconBitmap(string uri) {
             using (var s = AssetLoader.Open(new Uri($"avares://wonderlab/Assets/Icons/{uri}"))) {
-                return new Bitmap(s);
+                var bitmap = new Bitmap(s);
+                return bitmap;
             }
 
             throw new Exception("获取 Icon 失败，可能是不存在或类型不是 AvaloniaResource 导致的");

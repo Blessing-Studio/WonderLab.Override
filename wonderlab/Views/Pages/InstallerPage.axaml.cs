@@ -1,8 +1,15 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
+using DynamicData;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Models;
+using wonderlab.Class.Utils;
+using wonderlab.Class.ViewData;
 using wonderlab.control;
 using wonderlab.ViewModels.Pages;
 
@@ -12,11 +19,11 @@ namespace wonderlab.Views.Pages {
 
         public InstallerPage() {
             InitializeComponent();
-            new Button().Click += OnModLoaderSelectClick; ;
         }
 
-        private void OnModLoaderSelectClick(object sender, RoutedEventArgs e) {
-            var currentList = ViewModel.CurrentLoaders;
+        private async void OnModLoaderTypeSelectClick(object sender, RoutedEventArgs e) {
+            ViewModel.CurrentLoaders?.Clear();
+            GC.Collect();
             string tag = (sender as Button).Tag
                 .ToString();
 
@@ -29,8 +36,20 @@ namespace wonderlab.Views.Pages {
                 _ => new(),
             };
 
-            currentList?.Clear();
-            currentList?.Load(cache);
+            IEnumerable<ModLoaderViewData> cachedatas = default;
+            await Task.Factory.StartNew(() => {
+                //cachedatas = cache.Select(x => x
+                //    .CreateViewData<ModLoaderModel, ModLoaderViewData>());
+
+                ViewModel.CurrentLoaders = new(cache
+                    .ToList());
+
+                "Loaded".ShowLog();
+            });
+        }
+
+        private async void OnModLoaderSelectClick(object sender, RoutedEventArgs e) {
+            ViewModel.GobackAction();
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {

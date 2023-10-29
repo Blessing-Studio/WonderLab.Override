@@ -50,38 +50,42 @@ namespace wonderlab.control.Controls {
 
         private void GetTotalPageNumber() {
             List<object> list = new();
-            var enumerator = Items.GetEnumerator();
+            var enumerator = Items?.GetEnumerator();
 
-            while (enumerator.MoveNext()) {
-                list.Add(enumerator.Current);
+            if (enumerator is not null) {
+                while (enumerator.MoveNext()) {
+                    list.Add(enumerator.Current);
+                }
+
+                //此处使用 decimal 类型进行计算，目的是获取小数进行四舍五入运算
+                decimal total = Convert.ToDecimal(list.Count) / Convert.ToDecimal(CurrentMaxItemsCount);
+
+                if (total - (int)total > 0) {
+                    Total = (int)total + 1;
+                }
+
+                Total = (int)total;
             }
-
-            //此处使用 decimal 类型进行计算，目的是获取小数进行四舍五入运算
-            decimal total = Convert.ToDecimal(list.Count) / Convert.ToDecimal(CurrentMaxItemsCount);
-
-            if (total - (int)total > 0) {
-                Total = (int)total + 1;
-            }
-
-            Total = (int)total;
         }
 
         private void SplitListToDictionary() {
             List<object> list = new();
             Dictionary<int, IEnumerable<object>> result = new();
 
-            var enumerator = Items.GetEnumerator();
-            while (enumerator.MoveNext()) {
-                list.Add(enumerator.Current);
-            }
+            var enumerator = Items?.GetEnumerator();
+            if (enumerator is not null) {
+                while (enumerator.MoveNext()) {
+                    list.Add(enumerator.Current);
+                }
 
-            for (int i = 0; i < Total; i++) {
-                var block = list.Skip(i * CurrentMaxItemsCount)
-                                .Take(CurrentMaxItemsCount);
-                result.Add(i + 1, block);
-            }
+                for (int i = 0; i < Total; i++) {
+                    var block = list.Skip(i * CurrentMaxItemsCount)
+                                    .Take(CurrentMaxItemsCount);
+                    result.Add(i + 1, block);
+                }
 
-            Cache = result;
+                Cache = result;
+            }
         }
 
         private void GoNextPage(object? sender, RoutedEventArgs e) {
