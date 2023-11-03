@@ -17,5 +17,26 @@
 				Content="Add and Action"/> 
 		
 		<wcc:TipBarView Name="tbv"/>
+
+		<TextBlock
+            Name="copor"
+            Width="994"
+            Height="37"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="28"
+            FontWeight="ExtraBold"
+            Foreground="#333333"
+            Text="爱学习的小康"
+            TextTrimming="CharacterEllipsis">
+			<TextBlock.Effect>
+				<DropShadowEffect
+                    BlurRadius="5"
+				    OffsetY="1"
+					OffsetX="-1"
+                    Color="Red" />
+			</TextBlock.Effect>
+		</TextBlock>
+
 	</Grid>
 </Window>

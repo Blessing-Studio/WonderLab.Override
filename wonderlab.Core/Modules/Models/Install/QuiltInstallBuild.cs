@@ -15,4 +15,8 @@ public class QuiltInstallBuild
 
 	[JsonPropertyName("hashed")]
 	public QuiltMavenItem Hashed { get; set; }
+
+    public override string ToString() {
+		return Loader?.Version!;
+    }
 }

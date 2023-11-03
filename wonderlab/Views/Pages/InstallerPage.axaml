@@ -10,6 +10,7 @@
 		<Button Content="安装" 
 				Width="120"
 				Background="Red"
+				Command="{Binding InstallAction}"
 				HorizontalAlignment="Right"
 				VerticalContentAlignment="Center"
 				HorizontalContentAlignment="Center"/>
@@ -30,7 +31,8 @@
 										  Easing="ExponentialEaseOut"/>
 					</Transitions>
 				</StackPanel.Transitions>
-				
+
+				<!--IsVisible="{Binding IsForgeLoaded}"-->
 				<Button CornerRadius="4"
 						BorderThickness="1"
 						HorizontalAlignment="Stretch"
@@ -43,8 +45,8 @@
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
-						  ColumnDefinitions="Auto,Auto,1*,Auto">
-						<StackPanel Grid.Column="2"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
 									Margin="0 8"
 									Orientation="Horizontal">
 							<Image Height="40"
@@ -59,6 +61,18 @@
 										   Text="经典的模组加载器"/>
 							</StackPanel>
 						</StackPanel>
+
+						<Button Width="35"
+								Height="30"
+								Grid.Column="2"
+								IsVisible="False"
+								Name="RemoveForgeButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
 					</Grid>
 				</Button>
 
@@ -74,8 +88,8 @@
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
-						  ColumnDefinitions="Auto,Auto,1*,Auto">
-						<StackPanel Grid.Column="2"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
 									Margin="0 8"
 									Orientation="Horizontal">
 							<Image Height="30"
@@ -90,6 +104,18 @@
 										   Text="Forge的新型分支"/>
 							</StackPanel>
 						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+								Grid.Column="2"
+								IsVisible="False"								
+								Name="RemoveNeoForgeButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
 					</Grid>
 				</Button>
 
@@ -105,8 +131,8 @@
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
-						  ColumnDefinitions="Auto,Auto,1*,Auto">
-						<StackPanel Grid.Column="2"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
 									Margin="0 8"
 									Orientation="Horizontal">
 							<Image Height="30"
@@ -121,6 +147,18 @@
 										   Text="经典的光影加载器"/>
 							</StackPanel>
 						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"	
+								Name="RemoveOptiFineButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
 					</Grid>
 				</Button>
 
@@ -136,8 +174,8 @@
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
-						  ColumnDefinitions="Auto,Auto,1*,Auto">
-						<StackPanel Grid.Column="2"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
 									Margin="0 8"
 									Orientation="Horizontal">
 							<Image Height="35"
@@ -152,6 +190,18 @@
 										   Text="新型的模组加载器"/>
 							</StackPanel>
 						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"	
+								Name="RemoveFabricButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
 					</Grid>
 				</Button>
 
@@ -167,8 +217,8 @@
 						Background="{DynamicResource DialogContentBackground}"
 						BorderBrush="{DynamicResource DialogContentBorderBrush}">
 					<Grid Margin="10 0"
-						  ColumnDefinitions="Auto,Auto,1*,Auto">
-						<StackPanel Grid.Column="2"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
 									Margin="0 8"
 									Orientation="Horizontal">
 							<Image Height="30"
@@ -183,6 +233,18 @@
 										   Text="新型的模组加载器"/>
 							</StackPanel>
 						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"								
+								Name="RemoveQuiltButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
 					</Grid>
 				</Button>
 			</StackPanel>

@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using DynamicData;
+using MinecraftLaunch.Modules.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace wonderlab.Views.Pages {
             InitializeComponent();
         }
 
-        private async void OnModLoaderTypeSelectClick(object sender, RoutedEventArgs e) {
+        private void OnModLoaderTypeSelectClick(object sender, RoutedEventArgs e) {
             ViewModel.CurrentLoaders?.Clear();
             GC.Collect();
             string tag = (sender as Button).Tag
@@ -36,20 +37,38 @@ namespace wonderlab.Views.Pages {
                 _ => new(),
             };
 
-            IEnumerable<ModLoaderViewData> cachedatas = default;
-            await Task.Factory.StartNew(() => {
-                //cachedatas = cache.Select(x => x
-                //    .CreateViewData<ModLoaderModel, ModLoaderViewData>());
+            ViewModel.CurrentLoaders = new(cache
+                .ToList());
 
-                ViewModel.CurrentLoaders = new(cache
-                    .ToList());
-
-                "Loaded".ShowLog();
-            });
+            "Loaded".ShowLog();
         }
 
-        private async void OnModLoaderSelectClick(object sender, RoutedEventArgs e) {
+        private void OnModLoaderSelectClick(object sender, RoutedEventArgs e) {
             ViewModel.GobackAction();
+            var data = (sender as Button).DataContext as ModLoaderModel;
+            var button = data.ModLoaderType switch {
+                ModLoaderType.Quilt => RemoveQuiltButton,
+                ModLoaderType.Forge => RemoveForgeButton,
+                ModLoaderType.Fabric => RemoveFabricButton,
+                ModLoaderType.NeoForged => RemoveNeoForgeButton,
+                ModLoaderType.OptiFine => RemoveOptiFineButton,
+                _ => default,
+            };
+
+            if (ViewModel.SelectLoaders.Any(x => x.ModLoaderType == data.ModLoaderType)) {
+                ViewModel.SelectLoaders.Remove(button?.Tag as ModLoaderModel);
+            }
+
+            button.Tag = data;
+            button.IsVisible = true;
+            ViewModel.SelectLoaders?.Add(data);
+        }
+
+        private void OnRemoveLoaderClick(object sender, RoutedEventArgs e) {
+            var button = sender as Button;
+            if (ViewModel.SelectLoaders.Remove(button.Tag as ModLoaderModel)) {
+                button.IsVisible = false;
+            }
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e) {

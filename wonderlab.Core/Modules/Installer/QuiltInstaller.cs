@@ -21,8 +21,6 @@ namespace MinecraftLaunch.Modules.Installer {
 
         public GameCoreUtil GameCoreLocator { get; private set; }
 
-        public string CustomId { get; private set; }
-
         public static void ParseBuild(QuiltInstallBuild QuiltBuild) {
             List<QuiltLibraryJsonEntity> libraries = QuiltBuild.LauncherMeta.Libraries["common"];
             if (QuiltBuild.LauncherMeta.Libraries["common"] != null) {

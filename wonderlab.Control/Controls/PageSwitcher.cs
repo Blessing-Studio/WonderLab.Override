@@ -62,9 +62,10 @@ namespace wonderlab.control.Controls {
 
                 if (total - (int)total > 0) {
                     Total = (int)total + 1;
+                } else {
+                    Total = (int)total;
                 }
 
-                Total = (int)total;
             }
         }
 

@@ -87,21 +87,6 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public GameCoreEmtity SelectGameCore { get; set; }
 
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Forges { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Optifines { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Fabrics { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> NeoForges { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Quilts { get; set; } = new();
-
         public List<string> McVersions { get; } = new() {
             "All",
             "1.19.4",
@@ -357,6 +342,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public override void GoBackAction() {
             new ActionCenterPage().Navigation();
+            CloseInstallerAction();
         }
     }
 }

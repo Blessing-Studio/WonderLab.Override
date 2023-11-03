@@ -10,8 +10,6 @@ using Flurl.Http;
 
 namespace MinecraftLaunch.Modules.Installer {
     public class OptiFineInstaller : InstallerBase<InstallerResponse> {
-        public string CustomId { get; private set; }
-
         public GameCoreUtil GameCoreLocator { get; private set; }
 
         public string JavaPath { get; private set; }
