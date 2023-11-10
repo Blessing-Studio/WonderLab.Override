@@ -184,6 +184,7 @@
 								 Watermark="最大内存"
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Left"
+								 IsEnabled="{Binding IsAutoGetMemory}"
 								 Text="{Binding	MaxMemory,Converter={StaticResource ClassToInt32Converter}}"/>
 
 						<Grid Grid.Row="3"

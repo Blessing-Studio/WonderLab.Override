@@ -10,41 +10,33 @@ using wonderlab.Class.ViewData;
 using wonderlab.ViewModels.Pages;
 
 namespace wonderlab.Views.Pages {
-    public partial class DownCenterPage : UserControl
-    {
+    public partial class DownCenterPage : UserControl {
         public static DownCenterPageViewModel ViewModel { get; set; } = new();
-        public DownCenterPage()
-        {
-            Initialized += Loaded;
+        public DownCenterPage() {
             InitializeComponent();
             DataContext = ViewModel;
-            foreach (var item in BottomBar.Children) {           
-                (item as ToggleButton)!.Click += (x, e) => {
-                    foreach (var button in BottomBar.Children) {                   
-                        (button as ToggleButton)!.IsChecked = false;
-                    }
-                   
-                    (x as ToggleButton)!.IsChecked = true;
-                    ViewModel.ResourceType = (x as ToggleButton)!.Tag!.ToString() switch {
-                        "Minecraft" => ResourceType.Minecraft,
-                        "Curseforge" => ResourceType.Curseforge,
-                        "Modrinth" => ResourceType.Modrinth,
-                        _ => ResourceType.Minecraft,
-                    };
+            //foreach (var item in BottomBar.Children) {           
+            //    (item as ToggleButton)!.Click += (x, e) => {
+            //        foreach (var button in BottomBar.Children) {                   
+            //            (button as ToggleButton)!.IsChecked = false;
+            //        }
 
-                    if(ViewModel.ResourceType == ResourceType.Minecraft) {
-                        ViewModel.IsResource = false;
-                    }
-                    else {     
-                        ViewModel.IsResource = true;
-                    }
-                };
-            }
-        }
+            //        (x as ToggleButton)!.IsChecked = true;
+            //        ViewModel.ResourceType = (x as ToggleButton)!.Tag!.ToString() switch {
+            //            "Minecraft" => ResourceType.Minecraft,
+            //            "Curseforge" => ResourceType.Curseforge,
+            //            "Modrinth" => ResourceType.Modrinth,
+            //            _ => ResourceType.Minecraft,
+            //        };
 
-        private async void Loaded(object? sender, System.EventArgs e) {       
-            await Task.Delay(100);
-            BottomBar.Spacing = 15;
+            //        if(ViewModel.ResourceType == ResourceType.Minecraft) {
+            //            ViewModel.IsResource = false;
+            //        }
+            //        else {     
+            //            ViewModel.IsResource = true;
+            //        }
+            //    };
+            //}
         }
 
         private async void OpenDialogAction(object? sender, RoutedEventArgs args) {

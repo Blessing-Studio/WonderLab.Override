@@ -91,7 +91,6 @@
 		<EmbeddedResource Include="Assets\steve.png" />
 		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
 		<EmbeddedResource Include="Assets\Fonts\MinecraftTen.ttf" />
-		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>

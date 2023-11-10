@@ -7,27 +7,21 @@ namespace wonderlab.Views.Pages
 {
     public partial class ActionCenterPage : UserControl
     {
-        public static ActionCenterPageViewModel ViewModel { get; set; }
+        public static ActionCenterPageViewModel ViewModel { get; set; } = new();
         public ActionCenterPage() {    
             InitializeComponent();
             Loaded += ActionCenterPageLoaded;
-            Bitmap.PointerEntered += (_,_) => {
-                Content.Height = 0;
-            };
-
-            Bitmap.PointerExited += (_,_) => {
-                Content.Height = 50;
-            };
         }
 
-        private void ActionCenterPageLoaded(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
-            if(ViewModel != null) {
-                DataContext = ViewModel;
-            } else {
-                Dispatcher.UIThread.Post(() => {
-                    DataContext = ViewModel = new();
-                }, DispatcherPriority.Background);
-            }
+        private async void ActionCenterPageLoaded(object sender, Avalonia.Interactivity.RoutedEventArgs e) {
+            DataContext = ViewModel;
+
+            await Task.Delay(800);
+            await Task.Run(() => {
+                ViewModel.GetHitokotoAction();
+                ViewModel.GetLatestGameCoreAction();
+                ViewModel.GetMojangNewsAction();
+            });
         }
     }
 }

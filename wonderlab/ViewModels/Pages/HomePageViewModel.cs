@@ -374,7 +374,7 @@ namespace wonderlab.ViewModels.Pages {
             await ModpacksUtils.ModpacksInstallAsync(result.FullName, type);
         }
 
-        public void OpenActionCenterAction() {
+        public async void OpenActionCenterAction() {
             var back = App.CurrentWindow.Back;
             if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
                 OpacityChangeAnimation opacity = new(false) {
@@ -384,7 +384,9 @@ namespace wonderlab.ViewModels.Pages {
                 opacity.RunAnimation(back);
             }
 
+            await Task.Delay(100);
             App.CurrentWindow.CloseTopBar();
+            await Task.Delay(100);
             new ActionCenterPage().Navigation();
         }
 
