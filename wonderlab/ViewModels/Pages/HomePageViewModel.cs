@@ -2,6 +2,7 @@
 using Avalonia.Threading;
 using DialogHostAvalonia;
 using MinecraftLaunch.Launch;
+using MinecraftLaunch.Modules.Downloaders;
 using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Interface;
@@ -21,6 +22,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using wonderlab.Class.AppData;
 using wonderlab.Class.Enum;
+using wonderlab.Class.Exceptions;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
 using wonderlab.control;
@@ -88,24 +90,19 @@ namespace wonderlab.ViewModels.Pages {
             GameCores.Clear();
             if (string.IsNullOrEmpty(GlobalResources.LaunchInfoData.GameDirectoryPath)) {
                 HasGameCore = 1;
-                if(GlobalResources.LaunchInfoData.GameDirectorys.Any())
-                {
-                    "GameDirectoryError1".GetText().ShowMessage("提示", async () =>
-                    {
-                        OpenLaunchConfigAction();
-                    });
-                }
-                else
-                {
-                    "GameDirectoryError2".GetText().ShowMessage("提示", async () =>
-                    {
-                        OpenLaunchConfigAction();
-                    });
+                if (GlobalResources.LaunchInfoData.GameDirectorys.Any()) {
+                    "GameDirectoryError1".GetText().ShowMessage("提示",
+                        OpenLaunchConfigAction);
+                } else {
+                    "GameDirectoryError2".GetText().ShowMessage("提示",
+                        OpenLaunchConfigAction);
                 }
                 return;
             }
 
-            var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData.GameDirectoryPath);
+            var cores = await GameCoreUtils.GetLocalGameCores(GlobalResources.LaunchInfoData
+                .GameDirectoryPath);
+
             HasGameCore = cores.Any() ? 0 : 1;
             GameCores.Load(cores.Select(x => x.CreateViewData<GameCore, GameCoreViewData>()));
         }
@@ -120,10 +117,10 @@ namespace wonderlab.ViewModels.Pages {
                 } else if (user.Count <= 0) {
                     "未添加任何账户，无法继续启动步骤，您可以点击此条以转到账户中心！"
                         .ShowMessage("提示", async () => {
-                        OpenActionCenterAction();
-                        await Task.Delay(1000);
-                        new AccountPage().Navigation();
-                    });
+                            OpenActionCenterAction();
+                            await Task.Delay(1000);
+                            new AccountPage().Navigation();
+                        });
                     return;
                 }
 
@@ -143,51 +140,52 @@ namespace wonderlab.ViewModels.Pages {
 
         public async void LaunchTaskAction() {
             int modCount = 0;
-            bool canLaunch = true;
             JavaInfo javaInfo = null!;
             LaunchConfig config = null!;
             NotificationViewData data = null!;
+            MinecraftLaunchResponse launchResponse = null!;
+            var gameCore = GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData
+                .GameDirectoryPath, SelectGameCoreId);
 
-            if (NotificationCenterPage.ViewModel.Notifications.Where(x => {
-                if (x.NotificationType is NotificationType.Install && x.Title.Contains(SelectGameCoreId)) {
-                    return true;
+            try {
+                if (NotificationCenterPage.ViewModel.Notifications.Any(x => x.NotificationType is NotificationType.Install && x.Title.Contains(SelectGameCoreId))) {
+                    $"检测到游戏核心 \"{SelectGameCoreId}\" 仍有安装任务正在进行，无法进行启动步骤！"
+                        .ShowMessage();
+
+                    return;
                 }
 
-                return false;
-            }).Count() > 0) {
-                $"检测到游戏核心 \"{SelectGameCoreId}\" 仍有安装任务正在进行，无法进行启动步骤！"
-                    .ShowMessage();
+                PreUIProcessingAsync();
 
+                var preTasks = new Task[5] {
+                    Task.Run(PreConfigProcessingAsync),
+                    Task.Run(DownloadAuthlibAsync),
+                    Task.Run(ModpackCheckAsync),
+                    Task.Run(AccountRefreshAsync),
+                    Task.Run(ResourcesCheckOutAsync),
+                };
+
+                foreach (var task in preTasks) {
+                    await task;
+                }
+
+                JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
+                launchResponse = await Task.Run(async () => {
+                    return await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
+                        x.Item2.ShowLog();
+                    });
+                });
+
+                PostUIProcessingAsync();
+            }
+            catch (MethodAbortException) {
                 return;
             }
-
-            await PreUIProcessingAsync();
-
-            var gameCore = GameCoreUtil.GetGameCore(GlobalResources.LaunchInfoData.GameDirectoryPath, SelectGameCoreId);
-            await DownloadAuthlibAsync();
-
-            //Modpack 重复处理
-            await ModpackCheckAsync();
-
-            //异步刷新游戏账户
-            await AccountRefreshAsync();
-
-            //游戏依赖检查
-            await ResourcesCheckOutAsync();
-
-            await PreConfigProcessingAsync();
-
-            JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
-            var gameProcess = await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {
-                x.Item2.ShowLog();
-            });
-
-            await PostUIProcessingAsync();
 
             IEnumerable<string> GetAdvancedArguments() {
                 if (SystemUtils.IsMacOS) {
                     yield return $"-Xdock:name=Minecraft {gameCore!.Source ?? gameCore.InheritsFrom}";
-                    yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0","f00657542252858a721e715a2e888a9226404e35")}";
+                    yield return $"-Xdock:icon={Path.Combine(gameCore.Root.FullName, "assets", "objects", "f0", "f00657542252858a721e715a2e888a9226404e35")}";
                 }
 
                 if (!string.IsNullOrEmpty(GlobalResources.LaunchInfoData.JvmArgument)) {
@@ -209,10 +207,10 @@ namespace wonderlab.ViewModels.Pages {
                 }
             }
 
-            async ValueTask PreConfigProcessingAsync() {
+            void PreConfigProcessingAsync() {
                 data.Progress = "开始启动步骤 - 0%";
                 bool flag = !GlobalResources.LaunchInfoData.IsAutoSelectJava && GlobalResources.LaunchInfoData.JavaRuntimePath.Equals(null);//手动选择 Java 的情况
-                javaInfo = await Task.Run(() => flag ? GlobalResources.LaunchInfoData.JavaRuntimePath! : GetCurrentJava());//当选择手动时没有任何问题就手动选择，其他情况一律使用自动选择
+                javaInfo = flag ? GlobalResources.LaunchInfoData.JavaRuntimePath! : GetCurrentJava();//当选择手动时没有任何问题就手动选择，其他情况一律使用自动选择
                 config = new LaunchConfig() {
                     JvmConfig = new() {
                         MaxMemory = GlobalResources.LaunchInfoData.IsAutoGetMemory
@@ -231,31 +229,27 @@ namespace wonderlab.ViewModels.Pages {
                 };
             }
 
-            async ValueTask PreUIProcessingAsync() {
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
-                    data = new(NotificationType.Launch) {
-                        Title = $"游戏 {SelectGameCoreId} 的启动任务"
-                    };
+            void PreUIProcessingAsync() {
+                $"开始尝试启动游戏 \"{SelectGameCoreId}\"，您可以点击此条进入通知中心以查看启动进度！".ShowMessage(App.CurrentWindow.NotificationCenter.Open);
+                data = new(NotificationType.Launch) {
+                    Title = $"游戏 {SelectGameCoreId} 的启动任务"
+                };
 
-                    data.TimerStart();
-                    NotificationCenterPage.ViewModel.Notifications.Add(data);
-                });
-
-                await Task.Delay(1500);
+                data.TimerStart();
+                NotificationCenterPage.ViewModel.Notifications.Add(data);
             }
 
-            async ValueTask PostUIProcessingAsync() {
+            async void PostUIProcessingAsync() {
                 data.ProgressOfBar = 100;
-                if (gameProcess.State is LaunchState.Succeess) {
+                if (launchResponse.State is LaunchState.Succeess) {
                     data.Progress = $"启动成功 - 100%";
                     $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 已启动成功，总用时 {data.RunTime}".ShowMessage("启动成功");
-                    var viewData = await Task.Run(() => gameProcess.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo));
+                    var viewData = launchResponse.CreateViewData<MinecraftLaunchResponse, MinecraftProcessViewData>(CurrentAccount, javaInfo);
 
                     Dispatcher.UIThread.Post(() => {
                         CacheResources.GameProcesses.Add(viewData);
-                        gameProcess.ProcessOutput += ProcessOutput;
-                        gameProcess.Process.Exited += (sender, e) => {
+                        launchResponse.ProcessOutput += ProcessOutput;
+                        launchResponse.Process.Exited += (sender, e) => {
                             "Game exit".ShowLog();
                             CacheResources.GameProcesses.Remove(viewData);
                         };
@@ -263,77 +257,72 @@ namespace wonderlab.ViewModels.Pages {
                 } else {
                     await Dispatcher.UIThread.InvokeAsync(() => {
                         data.Progress = $"启动失败 - 100%";
-                        $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {gameProcess.Exception}".ShowInfoDialog("程序遭遇了异常");
+                        $"游戏 \"{GlobalResources.LaunchInfoData.SelectGameCore}\" 启动失败，详细信息 {launchResponse.Exception}".ShowInfoDialog("程序遭遇了异常");
                     });
                 }
 
                 data.TimerStop();
             }
 
-            async ValueTask DownloadAuthlibAsync() {
+            async void DownloadAuthlibAsync() {
                 if (!Path.Combine(JsonUtils.DataPath, "authlib-injector.jar").IsFile() && CurrentAccount.Type is AccountType.Yggdrasil) {
                     data!.Progress = "下载 Authlib-Injector 中";
 
-                    var result = await Task.Run(async () => {
-                        return await HttpUtil.HttpDownloadAsync("https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar",
-                            JsonUtils.DataPath, "authlib-injector.jar");
+                    await FileDownloader.DownloadAsync(new() {
+                        FileName = "authlib-injector.jar",
+                        Directory = new(JsonUtils.DataPath),
+                        Url = "https://download.mcbbs.net/mirrors/authlib-injector/artifact/45/authlib-injector-1.1.45.jar"
                     });
                 }
             }
 
-            async ValueTask ModpackCheckAsync() {
+            async void ModpackCheckAsync() {
                 if (gameCore.GetModsPath().IsDirectory()) {
                     data!.Progress = "开始检查 Mod";
 
-                    try {
-                        var result = await Task.Run(async () => {
-                            ModPackUtil toolkit = new(gameCore, true);
-                            var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
-                            modCount = modpacks.Count();
-                            return modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
-                        });
+                    var result = await Task.Run(async () => {
+                        ModPackUtil toolkit = new(gameCore, true);
+                        var modpacks = (await toolkit.LoadAllAsync()).Where(x => x.IsEnabled);
+                        modCount = modpacks.Count();
+                        return modpacks.GroupBy(i => i.Id).Where(g => g.Count() > 1);
+                    });
 
-                        if (result.Count() > 0) {
-                            foreach (var item in result) {
-                                $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！".ShowMessage();
-                                return;
-                            }
+                    if (result.Count() > 0) {
+                        foreach (var item in result) {
+                            $"模组 \"{item.ToList().First().FileName}\" 在此文件夹已有另一版本，可能导致游戏无法正常启动，已中止启动操作！"
+                                .ShowMessage();
+
+                            throw new MethodAbortException("There are multiple identical mods", true);
                         }
-                    }
-                    catch (Exception) {
-
                     }
                 }
             }
 
-            async ValueTask AccountRefreshAsync() {
+            async void AccountRefreshAsync() {
                 try {
                     data.Progress = "开始刷新账户";
+                    if (CurrentAccount.Type == AccountType.Yggdrasil) {
+                        var userData = CacheResources.Accounts.Where(x => x.Data.Uuid == CurrentAccount.Uuid.ToString()).First().Data;
+                        YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl,
+                            userData.Email, userData.Password);
+                        var result = authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!).Result;
 
-                    await Task.Run(async () => {
-                        if (CurrentAccount.Type == AccountType.Yggdrasil) {
-                            var userData = CacheResources.Accounts.Where(x => x.Data.Uuid == CurrentAccount.Uuid.ToString()).First().Data;
-                            YggdrasilAuthenticator authenticator = new YggdrasilAuthenticator((CurrentAccount as YggdrasilAccount)!.YggdrasilServerUrl,
-                                userData.Email, userData.Password);
-                            var result = await authenticator.RefreshAsync((CurrentAccount as YggdrasilAccount)!);
-
-                            if (result.IsNull()) {
-                                "需重新验证".ShowLog();
-                            }
-
-                            CurrentAccount = result;
-                            await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
-                        } else if (CurrentAccount.Type == AccountType.Microsoft) {
-                            MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
-                                ClientId = GlobalResources.ClientId,
-                                RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
-                            };
-
-                            var result = await authenticator.AuthAsync(x => data.Progress = $"当前步骤：{x}");
-                            CurrentAccount = result;
-                            await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                        if (result.IsNull()) {
+                            "需重新验证".ShowLog();
                         }
-                    });
+
+                        CurrentAccount = result;
+                        await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                    } else if (CurrentAccount.Type == AccountType.Microsoft) {
+                        MicrosoftAuthenticator authenticator = new(AuthType.Refresh) {
+                            ClientId = GlobalResources.ClientId,
+                            RefreshToken = (CurrentAccount as MicrosoftAccount)!.RefreshToken!
+                        };
+
+                        var result = authenticator.AuthAsync(x => data.Progress = $"当前步骤：{x}").Result;
+                        CurrentAccount = result;
+                        await AccountUtils.RefreshAsync(CacheResources.Accounts.Where(x => x.Data.Uuid == result.Uuid.ToString()).First().Data, result);
+                    }
                 }
                 catch (Exception ex) {
                     $"账户刷新失败，详细信息：{ex}".ShowInfoDialog("程序遭遇了异常");
@@ -342,23 +331,25 @@ namespace wonderlab.ViewModels.Pages {
                 }
             }
 
-            async ValueTask ResourcesCheckOutAsync() {
+            void ResourcesCheckOutAsync() {
                 try {
-                    await Task.Run(async () => {
-                        ResourceInstaller installer = new(new GameCoreUtil(GlobalResources.LaunchInfoData.GameDirectoryPath)
-                            .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore));
+                    double progress = 0d;
+                    DispatcherTimer timer = new(DispatcherPriority.Send) {
+                        Interval = TimeSpan.FromMilliseconds(500)
+                    };
 
-                        data.Progress = $"开始检查并补全丢失的资源";
-                        var result = await installer.DownloadAsync((s, f) => {
-                            try {
-                                Dispatcher.UIThread.Post(() => {
-                                    var value = Math.Round(f * 100, 2);
-                                    data.ProgressOfBar = value;
-                                }, DispatcherPriority.Background);
-                            }
-                            catch (Exception) {
-                            }
-                        });
+                    timer.Tick += (_, _) => {
+                        var value = Math.Round(progress * 100, 2);
+                        data.ProgressOfBar = value;
+                    };
+
+                    ResourceInstaller installer = new(new GameCoreUtil(GlobalResources.LaunchInfoData.GameDirectoryPath)
+                        .GetGameCore(GlobalResources.LaunchInfoData.SelectGameCore));
+
+                    data.Progress = $"开始检查并补全丢失的资源";
+                    timer.Start();
+                    var result = installer.DownloadAsync((s, f) => {
+                        progress = f;
                     });
                 }
                 catch (Exception) {
@@ -383,7 +374,7 @@ namespace wonderlab.ViewModels.Pages {
             await ModpacksUtils.ModpacksInstallAsync(result.FullName, type);
         }
 
-        public void OpenActionCenterAction() {
+        public async void OpenActionCenterAction() {
             var back = App.CurrentWindow.Back;
             if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
                 OpacityChangeAnimation opacity = new(false) {
@@ -393,7 +384,9 @@ namespace wonderlab.ViewModels.Pages {
                 opacity.RunAnimation(back);
             }
 
+            await Task.Delay(100);
             App.CurrentWindow.CloseTopBar();
+            await Task.Delay(100);
             new ActionCenterPage().Navigation();
         }
 
@@ -411,8 +404,7 @@ namespace wonderlab.ViewModels.Pages {
             new ConsoleCenterPage().Navigation();
         }
 
-        public void OpenLaunchConfigAction()
-        {
+        public void OpenLaunchConfigAction() {
             var back = App.CurrentWindow.Back;
             if (GlobalResources.LauncherData.BakgroundType is not "亚克力背景" or "云母背景（Win11+）") {
                 OpacityChangeAnimation opacity = new(false) {

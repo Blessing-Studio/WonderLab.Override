@@ -26,8 +26,6 @@ namespace wonderlab.Views.Windows {
         public MainWindow() {
             InitializeComponent();
             RxApp.MainThreadScheduler.Schedule(LoadAllDataAsync);
-
-            AddHandler(DragDrop.DropEvent, DropAction);
         }
 
         private void MainWindowLoaded(object sender, RoutedEventArgs e) {
@@ -155,6 +153,9 @@ namespace wonderlab.Views.Windows {
 
                 CacheResources.GetWebModpackInfoData();
             });
+
+            FontFamily = ExtendUtils.UseSystemFont();
+            AddHandler(DragDrop.DropEvent, DropAction);
         }
     }
 }

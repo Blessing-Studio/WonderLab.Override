@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 			 xmlns:ml="using:MinecraftLaunch.Modules.Models.Launch"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
@@ -185,6 +184,7 @@
 								 Watermark="最大内存"
 								 VerticalAlignment="Top"
 								 HorizontalAlignment="Left"
+								 IsEnabled="{Binding IsAutoGetMemory}"
 								 Text="{Binding	MaxMemory,Converter={StaticResource ClassToInt32Converter}}"/>
 
 						<Grid Grid.Row="3"

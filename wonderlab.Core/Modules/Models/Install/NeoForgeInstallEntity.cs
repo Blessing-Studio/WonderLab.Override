@@ -9,5 +9,9 @@ namespace MinecraftLaunch.Modules.Models.Install {
         public string McVersion { get; init; } = string.Empty;
 
         public string NeoForgeVersion { get; init; } = string.Empty;
+
+        public override string ToString() {
+            return NeoForgeVersion;
+        }
     }
 }

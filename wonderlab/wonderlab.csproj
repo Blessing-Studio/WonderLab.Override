@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>1.2.8.1</Version>
+		<Version>1.2.8.2</Version>
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -13,7 +13,7 @@
 	  <None Remove="Assets\downloadcenter.jpg" />
 	  <None Remove="Assets\Fonts\DinPro.ttf" />
 	  <None Remove="Assets\Fonts\MinecraftTen.ttf" />
-	  <None Remove="Assets\Icons\NeoForge.png" />
+	  <None Remove="Assets\Icons\NeoForged.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,7 +38,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\downloadcenter.jpg" />
-		<AvaloniaResource Include="Assets\Icons\NeoForge.png" />
+		<AvaloniaResource Include="Assets\Icons\NeoForged.png" />
 		<AvaloniaResource Include="Assets\y.jpg" />
 		<AvaloniaResource Include="Assets\Icons\Block.png" />
 		<AvaloniaResource Include="Assets\Icons\Forge.png" />
@@ -91,7 +91,6 @@
 		<EmbeddedResource Include="Assets\steve.png" />
 		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
 		<EmbeddedResource Include="Assets\Fonts\MinecraftTen.ttf" />
-		<EmbeddedResource Include="Assets\Fonts\MiSans-Normal.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>

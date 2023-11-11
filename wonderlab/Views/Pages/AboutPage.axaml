@@ -111,7 +111,7 @@
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{DynamicResource UIReference2}"/>
-							<wb:HyperlinkButton Content="LauncherX"/>
+							<wb:HyperlinkButton Margin="-8 0 0 0" Content="LauncherX"/>
 						</StackPanel>
 						
 						<TextBlock Text="{DynamicResource IconReference}"/>

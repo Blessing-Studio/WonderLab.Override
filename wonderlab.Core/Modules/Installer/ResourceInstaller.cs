@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks.Dataflow;
+using MinecraftLaunch.Modules.Downloaders;
 using MinecraftLaunch.Modules.Interface;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Models.Install;
@@ -68,24 +69,34 @@ public class ResourceInstaller {
                 }
 
                 try {
-                    var info = request.Directory.FullName.Substring(request.Directory.FullName.IndexOf(".minecraft"));
+                    var minecraftIndex = request.Directory.FullName.IndexOf(".minecraft");
+                    if (minecraftIndex < 0) return; // 如果没有找到".minecraft"，则直接返回
+
+                    var info = request.Directory.FullName.Substring(minecraftIndex);
                     var text = Path.Combine(root, info, request.FileName);
-                    //先尝试使用缓存，不行就下一遍
-                    if (File.Exists(text) && !resource.ToFileInfo().Exists) {
+                    var fileInfo = resource.ToFileInfo();
+
+                    // 先尝试使用缓存，不行就下一遍
+                    if (File.Exists(text) && !fileInfo.Exists) {
                         File.Copy(text, Path.Combine(request.Directory.FullName, request.FileName), true);
-                    } else if (!resource.ToFileInfo().Exists)//缓存和实际目录都没有此依赖的情况
+                    } else if (!fileInfo.Exists) // 缓存和实际目录都没有此依赖的情况
                       {
-                        var httpDownloadResponse = await HttpUtil.HttpDownloadAsync(request);
+                        var httpDownloadResponse = await FileDownloader.DownloadAsync(new() {
+                            Url = request.Url,
+                            FileName = request.FileName,
+                            Directory = request.Directory,
+                        });
 
                         if (httpDownloadResponse.HttpStatusCode != HttpStatusCode.OK)
                             this.FailedResources.Add(resource);
                         else {
-                            //将缓存没有的资源复制到缓存里，以供下次使用
-                            if (!Directory.Exists(Path.Combine(root, info))) {
-                                Directory.CreateDirectory(Path.Combine(root, info));
+                            // 将缓存没有的资源复制到缓存里，以供下次使用
+                            var directoryPath = Path.Combine(root, info);
+                            if (!Directory.Exists(directoryPath)) {
+                                Directory.CreateDirectory(directoryPath);
                             }
 
-                            httpDownloadResponse.FileInfo.CopyTo(text, true);
+                            httpDownloadResponse.Result.CopyTo(text, true);
                         }
                     }
                 }

@@ -1,10 +1,7 @@
 ﻿using Avalonia.Media.Imaging;
-using DynamicData;
-using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Http;
 using MinecraftLaunch.Modules.Models.Install;
 using MinecraftLaunch.Modules.Utils;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,7 +15,6 @@ using wonderlab.Class.Enum;
 using wonderlab.Class.Models;
 using wonderlab.Class.Utils;
 using wonderlab.Class.ViewData;
-using wonderlab.control;
 using wonderlab.Views.Pages;
 
 namespace wonderlab.ViewModels.Pages {
@@ -52,21 +48,6 @@ namespace wonderlab.ViewModels.Pages {
         [Reactive]
         public bool IsLoaded { get; set; }
         
-        [Reactive]
-        public bool IsForgeLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsOptifineLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsNeoForgeLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsFabricLoading { get; set; } = true;
-
-        [Reactive]
-        public bool IsQuiltLoading { get; set; } = true;
-
         [Reactive]
         public double InstallerWidth { get; set; } = 0;
 
@@ -105,21 +86,6 @@ namespace wonderlab.ViewModels.Pages {
 
         [Reactive]
         public GameCoreEmtity SelectGameCore { get; set; }
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Forges { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Optifines { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Fabrics { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> NeoForges { get; set; } = new();
-
-        [Reactive]
-        public ObservableCollection<ModLoaderModel> Quilts { get; set; } = new();
 
         public List<string> McVersions { get; } = new() {
             "All",
@@ -376,6 +342,7 @@ namespace wonderlab.ViewModels.Pages {
 
         public override void GoBackAction() {
             new ActionCenterPage().Navigation();
+            CloseInstallerAction();
         }
     }
 }

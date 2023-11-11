@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using wonderlab.Class;
 using wonderlab.Class.Models;
+using wonderlab.Class.Utils;
 
 namespace wonderlab;
 
@@ -37,9 +38,7 @@ class Program {
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
-            .With(new FontManagerOptions() {
-                DefaultFamilyName = "resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro"
-            })
+            .UseSystemFont()
             .LogToTrace()
             .UseReactiveUI()
             .UsePlatformDetect();

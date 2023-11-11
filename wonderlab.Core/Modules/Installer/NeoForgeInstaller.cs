@@ -19,8 +19,6 @@ namespace MinecraftLaunch.Modules.Installer {
 
         public static readonly string VersionApi = $"{BaseApi}releases/net/neoforged/forge/maven-metadata.xml";
 
-        public string CustomId { get; private set; }
-
         public string JavaPath { get; private set; }
 
         public string PackageFile { get; private set; }

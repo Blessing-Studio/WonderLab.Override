@@ -12,4 +12,8 @@ public class FabricInstallBuild
 
 	[JsonPropertyName("launcherMeta")]
 	public FabricLauncherMeta LauncherMeta { get; set; }
+
+    public override string ToString() {
+        return Loader?.Version!;
+    }
 }

@@ -123,8 +123,6 @@ namespace MinecraftLaunch.Modules.Installer {
 
         public GameCoreUtil GameCoreLocator { get; private set; }
 
-        public string CustomId { get; private set; }
-
         public FabricInstaller(GameCoreUtil coreLocator, FabricInstallBuild build, string customId = null) {
             FabricBuild = build;
             GameCoreLocator = coreLocator;

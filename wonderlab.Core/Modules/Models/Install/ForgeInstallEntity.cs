@@ -19,4 +19,8 @@ public class ForgeInstallEntity
 
 	[JsonPropertyName("modified")]
 	public DateTime ModifiedTime { get; set; }
+
+    public override string ToString() {
+		return ForgeVersion;
+    }
 }

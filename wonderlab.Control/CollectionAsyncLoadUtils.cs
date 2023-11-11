@@ -45,7 +45,7 @@ namespace wonderlab.control {
             }
 
             if (count < _sourceData.Count) {
-                await Task.Delay(5);
+                await Task.Delay(2);
                 _targetData.Add(_sourceData[count++]);
                 await AddItem();
             } else {

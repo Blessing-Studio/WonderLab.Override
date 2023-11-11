@@ -78,9 +78,12 @@ namespace wonderlab.control.Controls.Bar {
                 layout.Opacity = 0;
                 Margin = new(0, 0, -430, 0);
                 if ((sender as Button)?.Name is "GotoButton") {
-                    await Task.Delay(200);
+                    await Task.Delay(275);
                     HideOfRun?.Invoke();
-                }
+                } else
+                    await Task.Delay(275);
+
+                App.Cache.Remove(this);
             }
         }
 

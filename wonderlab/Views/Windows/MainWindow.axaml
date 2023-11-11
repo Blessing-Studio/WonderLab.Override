@@ -6,8 +6,7 @@
 		MinWidth="800" MinHeight="450"
         x:Class="wonderlab.Views.Windows.MainWindow"
 		xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"		
-		FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
-		xmlns:wp="using:wonderlab.Views.Pages"	    
+		xmlns:wp="using:wonderlab.Views.Pages"	     
 		xmlns:wcb="using:wonderlab.control.Controls.Bar"
 		xmlns:wcc="using:wonderlab.control.Controls"
         Title="WonderLab"
@@ -17,7 +16,9 @@
 		ExtendClientAreaChromeHints="NoChrome"
 		Background="Transparent"
 		Loaded="MainWindowLoaded"
+		FontFamily="resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro, Microsoft YaHei UI"
 		TransparencyBackgroundFallback="{DynamicResource AccentBrushDark1}">
+	<!--FontFamily="resm:wonderlab.Assets.Fonts.DinPro.ttf?assembly=wonderlab#DIN Pro, Microsoft YaHei UI"-->
 	<!--{DynamicResource AccentBrushDark1}-->
 	<Grid>
 		<ExperimentalAcrylicBorder IsHitTestVisible="False"

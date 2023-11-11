@@ -3,6 +3,372 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="wonderlab.Views.Pages.InstallerPage">
-  Welcome to Avalonia!
+             x:Class="wonderlab.Views.Pages.InstallerPage"
+			 xmlns:wc="using:wonderlab.control.Controls"
+			 Loaded="OnLoaded">
+	<Grid RowDefinitions="Auto,1*">
+		<Button Content="安装" 
+				Width="120"
+				Background="Red"
+				Command="{Binding InstallAction}"
+				HorizontalAlignment="Right"
+				VerticalContentAlignment="Center"
+				HorizontalContentAlignment="Center"/>
+		
+		<!--Loader Select-->
+		<Grid Grid.Row="1"
+			  Margin="0 15 0 0">
+			<StackPanel Grid.Row="2"
+						Spacing="10"
+						IsHitTestVisible="True"
+						Opacity="1"
+						Name="ModLoaderSelectPanel"
+						Margin="15 0 0 0">
+				<StackPanel.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.85"
+										  Property="Opacity"
+										  Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</StackPanel.Transitions>
+
+				<!--IsVisible="{Binding IsForgeLoaded}"-->
+				<Button CornerRadius="4"
+						BorderThickness="1"
+						HorizontalAlignment="Stretch"
+						Padding="0"
+						Tag="Forge"
+						Foreground="Black"
+						Click="OnModLoaderTypeSelectClick"
+						Command="{Binding GotoAction}"
+						IsVisible="{Binding IsForgeLoaded}"
+						Background="{DynamicResource DialogContentBackground}"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}">
+					<Grid Margin="10 0"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
+									Margin="0 8"
+									Orientation="Horizontal">
+							<Image Height="40"
+								   Width="40"
+								   Source="/Assets/Icons/Forge.png"/>
+
+							<StackPanel Margin="10 0 0 0">
+								<TextBlock Text="Forge"
+										   FontSize="16"/>
+								<TextBlock FontSize="12"
+										   TextWrapping="WrapWithOverflow"
+										   Text="经典的模组加载器"/>
+							</StackPanel>
+						</StackPanel>
+
+						<Button Width="35"
+								Height="30"
+								Grid.Column="2"
+								IsVisible="False"
+								Name="RemoveForgeButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Button>
+
+				<Button CornerRadius="4"
+						BorderThickness="1"
+						Padding="0"
+						Tag="NeoForge"
+						Foreground="Black"
+						HorizontalAlignment="Stretch"
+						Click="OnModLoaderTypeSelectClick"						
+						Command="{Binding GotoAction}"		
+						IsVisible="{Binding IsNeoForgeLoaded}"						
+						Background="{DynamicResource DialogContentBackground}"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}">
+					<Grid Margin="10 0"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
+									Margin="0 8"
+									Orientation="Horizontal">
+							<Image Height="30"
+								   Width="40"
+								   Source="/Assets/Icons/NeoForged.png"/>
+
+							<StackPanel Margin="10 0 0 0">
+								<TextBlock Text="NeoForge"
+										   FontSize="16"/>
+								<TextBlock FontSize="12"
+										   TextWrapping="WrapWithOverflow"
+										   Text="Forge的新型分支"/>
+							</StackPanel>
+						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+								Grid.Column="2"
+								IsVisible="False"								
+								Name="RemoveNeoForgeButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Button>
+
+				<Button CornerRadius="4"
+						BorderThickness="1"
+						HorizontalAlignment="Stretch"
+						Padding="0"
+						Tag="OptiFine"
+						Foreground="Black"
+						Command="{Binding GotoAction}"	
+						Click="OnModLoaderTypeSelectClick"
+						IsVisible="{Binding IsOptifineLoaded}"												
+						Background="{DynamicResource DialogContentBackground}"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}">
+					<Grid Margin="10 0"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
+									Margin="0 8"
+									Orientation="Horizontal">
+							<Image Height="30"
+								   Width="40"
+								   Source="/Assets/Icons/OptiFine.png"/>
+
+							<StackPanel Margin="10 0 0 0">
+								<TextBlock Text="Optifine"
+										   FontSize="16"/>
+								<TextBlock FontSize="12"
+										   TextWrapping="WrapWithOverflow"
+										   Text="经典的光影加载器"/>
+							</StackPanel>
+						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"	
+								Name="RemoveOptiFineButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Button>
+
+				<Button CornerRadius="4"
+						BorderThickness="1"
+						HorizontalAlignment="Stretch"
+						Padding="0"
+						Tag="Fabric"
+						Foreground="Black"
+						Command="{Binding GotoAction}"	
+						Click="OnModLoaderTypeSelectClick"		
+						IsVisible="{Binding IsFabricLoaded}"																		
+						Background="{DynamicResource DialogContentBackground}"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}">
+					<Grid Margin="10 0"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
+									Margin="0 8"
+									Orientation="Horizontal">
+							<Image Height="35"
+								   Width="40"
+								   Source="/Assets/Icons/Fabric.png"/>
+
+							<StackPanel Margin="10 0 0 0">
+								<TextBlock Text="Fabric"
+										   FontSize="16"/>
+								<TextBlock FontSize="12"
+										   TextWrapping="WrapWithOverflow"
+										   Text="新型的模组加载器"/>
+							</StackPanel>
+						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"	
+								Name="RemoveFabricButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Button>
+
+				<Button CornerRadius="4"
+						BorderThickness="1"
+						HorizontalAlignment="Stretch"
+						Foreground="Black"
+						Padding="0"
+						Tag="Quilt"
+						Command="{Binding GotoAction}"	
+						Click="OnModLoaderTypeSelectClick"		
+						IsVisible="{Binding IsQuiltLoaded}"																								
+						Background="{DynamicResource DialogContentBackground}"
+						BorderBrush="{DynamicResource DialogContentBorderBrush}">
+					<Grid Margin="10 0"
+						  ColumnDefinitions="Auto,1*,Auto">
+						<StackPanel Grid.Column="0"
+									Margin="0 8"
+									Orientation="Horizontal">
+							<Image Height="30"
+								   Width="40"
+								   Source="/Assets/Icons/Quilt.png"/>
+
+							<StackPanel Margin="10 0 0 0">
+								<TextBlock Text="Quilt"
+										   FontSize="16"/>
+								<TextBlock FontSize="12"
+										   TextWrapping="WrapWithOverflow"
+										   Text="新型的模组加载器"/>
+							</StackPanel>
+						</StackPanel>
+
+						<Button Width="35"
+		                        Height="30"
+		                        Grid.Column="2"
+								IsVisible="False"								
+								Name="RemoveQuiltButton"
+								Click="OnRemoveLoaderClick">
+							<Viewbox Width="15">
+								<Path Fill="Black"
+									  Data="{StaticResource Remove}"/>
+							</Viewbox>
+						</Button>
+					</Grid>
+				</Button>
+			</StackPanel>
+
+			<Grid Name="ModLoadersSelectPanel"
+				  RowDefinitions="1*,Auto"
+				  Opacity="0"
+				  IsHitTestVisible="False">
+				<Grid.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.85"
+										  Property="Opacity"
+										  Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</Grid.Transitions>
+
+				<wc:PageSwitcher Margin="15 0 0 0" Items="{Binding CurrentLoaders}">
+					<wc:PageSwitcher.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Margin" Value="0 6"/>
+							<Setter Property="ClipToBounds" Value="False"/>
+							<Setter Property="Foreground" Value="Black"/>
+							<Setter Property="Height" Value="45"/>
+							<Setter Property="Template">
+								<ControlTemplate>
+									<Border Background="{DynamicResource DialogContentBackground}"
+											BorderThickness="1"
+											BorderBrush="{DynamicResource DialogContentBorderBrush}"
+											CornerRadius="6"
+											Name="Main">
+										<Border.Transitions>
+											<Transitions>
+												<BoxShadowsTransition Property="BoxShadow"
+																	  Easing="ExponentialEaseOut"
+																	  Duration="0:0:0.35"/>
+											</Transitions>
+										</Border.Transitions>
+
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto"/>
+												<ColumnDefinition Width="1*"/>
+												<ColumnDefinition Width="Auto"/>
+											</Grid.ColumnDefinitions>
+
+											<Grid Margin="15 5">
+												<!--/Assets/Icons/Block.png-->
+
+												<!--<Image Height="35"
+													   Width="35"
+													   Source="/Assets/Icons/Block.png"
+													   HorizontalAlignment="Left"
+													   VerticalAlignment="Center"/>-->
+
+												<Grid HorizontalAlignment="Left"
+													  VerticalAlignment="Center">
+													<Grid.RowDefinitions>
+														<RowDefinition Height="Auto"/>
+														<RowDefinition Height="Auto"/>
+													</Grid.RowDefinitions>
+													<TextBlock Text="{Binding Id}"
+															   FontSize="15"/>
+
+													<TextBlock Text="{Binding Type}"
+															   Grid.Row="1"
+															   FontSize="10"
+															   Opacity="0.65"/>
+												</Grid>
+											</Grid>
+
+											<Button Width="80" Content="选择"
+													Grid.Column="2"
+													Click="OnModLoaderSelectClick"
+													Classes="wonderaccentbutton"
+													HorizontalContentAlignment="Center"
+													HorizontalAlignment="Right"
+													Margin="15 0"/>
+										</Grid>
+									</Border>
+								</ControlTemplate>
+							</Setter>
+						</Style>
+
+						<Style Selector="ListBoxItem /template/ Border#Main">
+							<Setter Property="BoxShadow" Value="0 1 4 0 #66000000"/>
+						</Style>
+
+						<Style Selector="ListBoxItem:pointerover /template/ Border#Main">
+							<Setter Property="BoxShadow" Value="0 3 12 0 #66000000"/>
+						</Style>
+					</wc:PageSwitcher.Styles>
+				</wc:PageSwitcher>
+				
+				<Button Grid.Row="1"
+						Content="返回"
+						Height="40"
+						Margin="15 6 0 45"
+						Command="{Binding GobackAction}"
+						Classes="shadowbutton"
+						HorizontalAlignment="Stretch"
+						VerticalContentAlignment="Center"
+						HorizontalContentAlignment="Center"/>
+			</Grid>
+
+			<!--HasModLoader-->
+			<StackPanel HorizontalAlignment="Center"
+	                    VerticalAlignment="Center"
+	                    Spacing="5" 
+						IsHitTestVisible="False"
+						Opacity="0">
+				<StackPanel.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.25" Property="Opacity" Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</StackPanel.Transitions>
+
+				<Viewbox Width="50" Margin="0 0 0 10">
+					<PathIcon Opacity="0.45" Data="{StaticResource Empty}"/>
+				</Viewbox>
+
+				<TextBlock FontWeight="Bold" Text="此版本未找到任何加载器"
+						   FontSize="20" TextAlignment="Center"
+						   HorizontalAlignment="Center"/>
+			</StackPanel>
+		</Grid>
+	</Grid>
 </UserControl>

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
              x:Class="wonderlab.Views.Pages.SelectConfigPage">
 	<Grid>
 		<ContentControl Content="{Binding LeftSelectConfigPage}"

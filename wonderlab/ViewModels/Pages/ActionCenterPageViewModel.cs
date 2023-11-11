@@ -24,11 +24,9 @@ namespace wonderlab.ViewModels.Pages {
     public class ActionCenterPageViewModel : ViewModelBase {
         public ActionCenterPageViewModel() {
             PropertyChanged += OnPropertyChanged;
-            Dispatcher.UIThread.Post(() => {
-                Task.Factory.StartNew(GetMojangNewsAction);
-                Task.Factory.StartNew(GetHitokotoAction);
-                Task.Factory.StartNew(GetLatestGameCoreAction);
-            }, DispatcherPriority.Background);
+            //Task.Factory.StartNew(GetMojangNewsAction);
+            //Task.Factory.StartNew(GetHitokotoAction);
+            //Task.Factory.StartNew(GetLatestGameCoreAction);
         }
 
         public void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {

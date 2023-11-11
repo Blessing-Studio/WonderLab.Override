@@ -15,4 +15,8 @@ public class OptiFineInstallEntity
 
 	[JsonPropertyName("filename")]
 	public string FileName { get; set; }
+
+    public override string ToString() {
+        return $"{Type}_{Patch}";
+    }
 }

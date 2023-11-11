@@ -24,5 +24,21 @@ namespace wonderlab.ViewModels {
                 animation.RunAnimation(App.CurrentWindow.Back);
             }
         }
+
+        public void AccessAndInvoke(Action action) {
+            if (Dispatcher.CheckAccess()) {
+                action();
+            } else {
+                Dispatcher.Post(action);
+            }
+        }
+
+        public void AccessAndInvoke(Action action, DispatcherPriority priority) {
+            if (Dispatcher.CheckAccess()) {
+                action();
+            } else {
+                Dispatcher.Post(action, priority);
+            }
+        }
     }
 }

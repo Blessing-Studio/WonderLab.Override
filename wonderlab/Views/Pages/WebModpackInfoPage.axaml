@@ -5,7 +5,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="wonderlab.Views.Pages.WebModpackInfoPage"
 			 xmlns:wcb="using:wonderlab.control.Controls.Bar"
-			 FontFamily="resm:wonderlab.Assets.Fonts.MiSans-Normal.ttf?assembly=wonderlab#MiSans"
 			 xmlns:wc="using:wonderlab.control.Controls">
 	<Grid>
 		<wcb:TitleBar Title="资源详情" TitleWidth="118" GoBackCommand="{Binding GoBackAction}"/>
