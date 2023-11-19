@@ -2,12 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="WonderLab.Views.Pages.Settings.SettingPage"
 			 xmlns:controls="using:WonderLab.Views.Controls">
 	<Grid>
 		<TabControl VerticalAlignment="Top">
-			<TabItem Header="全局游戏设置"/>
+			<TabItem Header="全局游戏">
+				<i:Interaction.Behaviors>
+					<ia:EventTriggerBehavior EventName="PointerPressed" 
+											 SourceObject="MoveLeftButton">
+						<ia:InvokeCommandAction Command="{Binding MoveLeftCommand}" />
+					</ia:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</TabItem>
 			<TabItem Header="个性化"/>
 			<TabItem Header="网络"/>
 			<TabItem Header="关于"/>
