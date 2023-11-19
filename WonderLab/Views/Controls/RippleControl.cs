@@ -99,11 +99,12 @@ namespace WonderLab.Views.Controls {
         }
 
         private void OnReleaseHandler(Ripple r) {
-            Ripple r2 = r;
-            r2.RunSecondStep();
-            Task.Delay(Ripple.Duration).ContinueWith(RemoveRippleTask, TaskScheduler.FromCurrentSynchronizationContext());
+            r.RunSecondStep();
+            Task.Delay(Ripple.Duration).ContinueWith(RemoveRippleTask, TaskScheduler
+                .FromCurrentSynchronizationContext());
+
             void RemoveRippleTask(Task arg1) {
-                PART_RippleCanvasRoot.Children.Remove(r2);
+                PART_RippleCanvasRoot.Children.Remove(r);
             }
         }
 

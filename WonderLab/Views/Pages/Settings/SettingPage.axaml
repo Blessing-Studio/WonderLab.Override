@@ -6,5 +6,11 @@
              x:Class="WonderLab.Views.Pages.Settings.SettingPage"
 			 xmlns:controls="using:WonderLab.Views.Controls">
 	<Grid>
+		<TabControl VerticalAlignment="Top">
+			<TabItem Header="全局游戏设置"/>
+			<TabItem Header="个性化"/>
+			<TabItem Header="网络"/>
+			<TabItem Header="关于"/>
+		</TabControl>
 	</Grid>
 </UserControl>
