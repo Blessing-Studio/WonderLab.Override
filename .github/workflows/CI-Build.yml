@@ -17,7 +17,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Test
-      run: dotnet test Wonderlab/Wonderlab.csproj
+      run: dotnet test WonderLab/WonderLab.csproj
   test_build:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Test
-      run: dotnet build Wonderlab/Wonderlab.csproj
+      run: dotnet build WonderLab/WonderLab.csproj
   build_Windows:
     strategy:
       matrix:
@@ -39,12 +39,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build Wonderlab/Wonderlab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os win ${{ env.compile-flags }}
+      run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os win ${{ env.compile-flags }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: Wonderlab/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
+        path: WonderLab/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
   build_Windows_Installer:
     strategy:
       matrix:
@@ -66,9 +66,9 @@ jobs:
       id: package_version
       uses: Blessing-Studio/get-csproj-version@main
       with:
-        file: Wonderlab/Wonderlab.csproj
+        file: WonderLab/WonderLab.csproj
     - name: Build
-      run: pupnet -r win-${{ matrix.arch }} -k setup -y -o Wonderlab.${{ steps.package_version.outputs.version }}.win-${{ matrix.arch }}.installer.exe
+      run: pupnet -r win-${{ matrix.arch }} -k setup -y -o WonderLab.${{ steps.package_version.outputs.version }}.win-${{ matrix.arch }}.installer.exe
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -86,12 +86,12 @@ jobs:
   #    with:
   #      fetch-depth: 0
   #  - name: Build
-  #    run: dotnet build Wonderlab/Wonderlab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os linux 
+  #    run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os linux 
   #  - name: Upload build artifacts
   #    uses: actions/upload-artifact@v3
   #    with:
   #      name: Linux
-  #      path: Wonderlab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.zip
+  #      path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.zip
   build_Linux_Appimage:
     strategy:
       matrix:
@@ -113,9 +113,9 @@ jobs:
       id: package_version
       uses: Blessing-Studio/get-csproj-version@main
       with:
-        file: Wonderlab/Wonderlab.csproj
+        file: WonderLab/WonderLab.csproj
     - name: Build
-      run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o Wonderlab.${{ steps.package_version.outputs.version }}.linux-${{ matrix.arch }}.AppImage
+      run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o WonderLab.${{ steps.package_version.outputs.version }}.linux-${{ matrix.arch }}.AppImage
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -133,12 +133,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build Wonderlab/Wonderlab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os osx ${{ env.compile-flags }}
+      run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os osx ${{ env.compile-flags }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: Wonderlab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/*.zip
+        path: WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/*.zip
   build_Linux_Deb:
     strategy:
       matrix:
@@ -151,12 +151,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build Wonderlab/Wonderlab.csproj -t:CreateDeb --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
+      run: dotnet build WonderLab/WonderLab.csproj -t:CreateDeb --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Deb
-        path: Wonderlab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.deb
+        path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.deb
   build_Linux_Rpm:
     strategy:
       matrix:
@@ -169,12 +169,12 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build
-      run: dotnet build Wonderlab/Wonderlab.csproj -t:CreateRpm --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
+      run: dotnet build WonderLab/WonderLab.csproj -t:CreateRpm --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Rpm
-        path: Wonderlab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.rpm
+        path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.rpm
   build_MacOS_App:
     strategy:
       matrix:
@@ -190,21 +190,21 @@ jobs:
       id: package_version
       uses: Blessing-Studio/get-csproj-version@main
       with:
-        file: Wonderlab/Wonderlab.csproj
+        file: WonderLab/WonderLab.csproj
     - name: Build
-      run: dotnet publish Wonderlab/Wonderlab.csproj --arch ${{ matrix.arch }} --os osx  -t:BundleApp ${{ env.compile-flags }}
+      run: dotnet publish WonderLab/WonderLab.csproj --arch ${{ matrix.arch }} --os osx  -t:BundleApp ${{ env.compile-flags }}
     - name: Create Windows ZIP
       uses: thedoctor0/zip-release@0.7.1
       with:
-         directory: 'Wonderlab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/'
+         directory: 'WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/'
          type: 'zip'
-         filename: 'Wonderlab.${{ steps.package_version.outputs.version }}.osx.app-${{ matrix.arch }}.zip'
+         filename: 'WonderLab.${{ steps.package_version.outputs.version }}.osx.app-${{ matrix.arch }}.zip'
          path: 'WonderLab.app'
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: 'Wonderlab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
+        path: 'WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
   Release:
     permissions: write-all
     runs-on: ubuntu-latest
