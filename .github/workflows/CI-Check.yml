@@ -9,7 +9,7 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  dotnet¨Cversion: "8.0"
+  dotnet-version: "8.0"
   target-version: "net8.0"
 
 jobs:
