@@ -8,5 +8,9 @@ namespace WonderLab.Views.Pages.Settings {
             InitializeComponent();
             ViewModel = vm;
         }
+
+        public SettingPage() {
+            InitializeComponent();
+        }
     }
 }

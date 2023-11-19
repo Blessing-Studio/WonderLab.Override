@@ -16,10 +16,10 @@ namespace WonderLab.ViewModels.Windows
         }
 
         [Reactive]
-        public UserControl CurrentPage { get; set; }
+        public bool IsFullScreen { get; set; }
 
         [Reactive]
-        public bool IsFullScreen { get; set; }
+        public UserControl CurrentPage { get; set; }
 
         public ICommand NavigationHomePageCommand
             => ReactiveCommand.Create(NavigationHomePage);
@@ -34,11 +34,8 @@ namespace WonderLab.ViewModels.Windows
                 .ContinueWith(x => IsFullScreen = false);
         }
 
-        public async void NavigationHomePage() {
-            IsFullScreen = true;
+        public void NavigationHomePage() {
             CurrentPage = App.ServiceProvider.GetRequiredService<HomePage>();
-            await Task.Delay(1000)
-                .ContinueWith(x => IsFullScreen = false);
         }
     }
 }
