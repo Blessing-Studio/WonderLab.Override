@@ -36,8 +36,4 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Controls\Theme\ControlBasicTheme.axaml" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="WonderLab.csproj" />
-  </ItemGroup>
 </Project>
