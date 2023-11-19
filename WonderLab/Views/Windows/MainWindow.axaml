@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		Width="827"
+	    Height="520"
+		MinWidth="827"
+	    MinHeight="520"
+        mc:Ignorable="d" 
+        Title="WonderLab"
+		d:DesignWidth="800" 
+		d:DesignHeight="450"  
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaToDecorationsHint="True"
+        x:Class="WonderLab.Views.Windows.MainWindow"
+		xmlns:controls="using:WonderLab.Views.Controls">
+	<Grid>
+		<!--Background-->
+		<Panel>
+			<Image Source="resm:WonderLab.Assets.Images.normal.png"
+				   Stretch="UniformToFill"/>
+		</Panel>
+		
+		<controls:TitleBar Margin="10" Foreground="Black"/>
+
+		<controls:NavigationView Margin="10 50 10 10"
+								 IsFullScreen="{Binding IsFullScreen}"
+								 Background="Transparent">
+			<controls:NavigationView.MenuItems>
+				<controls:NavigationViewItem Icon="&#xEA8A;"
+											 Content="主页"
+											 IsSelected="True"
+											 Foreground="#187DF9"
+											 Command="{Binding NavigationHomePageCommand}"/>
+
+				<controls:NavigationViewItem Icon="&#xEDDC;"
+							                 Content="下载"
+											 Foreground="#18C964"/>
+
+				<!--<controls:NavigationViewItem Icon="&#xF0B9;"
+							 Content="联机"
+							 IsSelected="False"/>-->
+
+				<controls:NavigationViewItem Icon="&#xF8B0;"
+							                 Content="设置"
+											 Foreground="#7B61FF"
+											 Command="{Binding NavigationSettingPageCommand}"/>
+			</controls:NavigationView.MenuItems>
+
+			<controls:NavigationView.Content>
+				<ContentControl Content="{Binding CurrentPage}"/>
+			</controls:NavigationView.Content>
+		</controls:NavigationView>
+	</Grid>
+</Window>
+ 

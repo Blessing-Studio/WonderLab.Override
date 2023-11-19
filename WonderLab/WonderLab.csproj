@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+      <TargetFramework>net8.0</TargetFramework>
+      <Nullable>enable</Nullable>
+      <LangVersion>latest</LangVersion>
+      <OutputType>WinExe</OutputType>
+	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\Images\normal.png" />
+    <None Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Images\normal.png" />
+    <EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="MinecraftLaunch" Version="2.0.1" />
+    <PackageReference Include="MinecraftLaunch.Skin" Version="1.0.0" />
+    <PackageReference Include="MinecraftOAuth" Version="2.0.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Languages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Controls\Theme\ControlBasicTheme.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="WonderLab.csproj" />
+  </ItemGroup>
+</Project>

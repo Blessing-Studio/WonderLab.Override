@@ -1,0 +1,20 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!-- Dialog Color -->
+	<SolidColorBrush x:Key="DialogBackground" Color="#4C000000"/>
+	<SolidColorBrush x:Key="DialogContentBackground" Color="#202020"/>
+	<SolidColorBrush x:Key="DialogContentBorderBrush" Color="#64757575"/>
+	<SolidColorBrush x:Key="DialogForeground" Color="#FFFFFF"/>
+
+	<SolidColorBrush x:Key="ControlFillColorDefault" Color="#0FFFFFFF"/>
+
+	<!--Button Color-->
+	<SolidColorBrush x:Key="TransparentBackground" Color="#00FFFFFF"/>
+	<SolidColorBrush x:Key="TransparentForeground" Color="White"/>
+	<SolidColorBrush x:Key="TransparentBorderBrush" Color="Transparent"/>
+
+
+	<!--Font Color-->
+	<SolidColorBrush x:Key="FontColorBrush" Color="white"/>
+
+</ResourceDictionary>

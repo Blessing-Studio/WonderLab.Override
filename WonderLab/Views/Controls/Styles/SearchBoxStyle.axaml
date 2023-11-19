@@ -1,0 +1,192 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="using:WonderLab.Views.Controls">
+    <Design.PreviewWith>
+        <Border Width="800" Margin="10">
+			<StackPanel HorizontalAlignment="Right">
+				<TextBox HorizontalAlignment="Right"  Classes="search"/>
+				<controls:SearchBox HorizontalAlignment="Right"/>
+				<Button Content="222"/>
+			</StackPanel>
+        </Border>
+    </Design.PreviewWith>
+ 
+    <!-- Add Styles Here -->
+	<Style Selector="controls|SearchBox">
+		<Setter Property="VerticalAlignment" Value="Top" />
+		<Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+		<Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+		<Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+		<Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+		<Setter Property="MaxDropDownHeight" Value="{DynamicResource AutoCompleteListMaxHeight}" />
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid Name="PART_LayoutRoot">
+					<TextBox Name="PART_TextBox"
+							 Watermark="{TemplateBinding Watermark}"
+							 Width="{TemplateBinding Width}"
+							 Foreground="{TemplateBinding Foreground}"
+							 Background="{TemplateBinding Background}"
+							 BorderBrush="{TemplateBinding BorderBrush}"
+							 BorderThickness="{TemplateBinding BorderThickness}"
+							 CornerRadius="{TemplateBinding CornerRadius}"
+							 FontSize="{TemplateBinding FontSize}"
+							 FontFamily="{TemplateBinding FontFamily}"
+							 FontWeight="{TemplateBinding FontWeight}"
+							 Padding="{TemplateBinding Padding}"
+							 Margin="0"
+							 Classes="search"
+							 DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}" />
+					
+					<Popup Name="PART_Popup"
+						   WindowManagerAddShadowHint="False"
+						   MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+						   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+						   IsLightDismissEnabled="True"
+						   PlacementTarget="{TemplateBinding}">
+						<Border Name="PART_SuggestionsContainer"
+								Padding="{DynamicResource AutoCompleteListMargin}"
+								BorderThickness="{DynamicResource AutoCompleteListBorderThemeThickness}"
+								BorderBrush="{DynamicResource AutoCompleteBoxSuggestionsListBorderBrush}"
+								Background="{DynamicResource AutoCompleteBoxSuggestionsListBackground}"
+								CornerRadius="{DynamicResource OverlayCornerRadius}">
+							<ListBox Name="PART_SelectingItemsControl"
+									 BorderThickness="0"
+									 Background="Transparent"
+									 ItemTemplate="{TemplateBinding ItemTemplate}"
+									 Margin="{DynamicResource AutoCompleteListPadding}"/>
+						</Border>
+					</Popup>
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+
+	<Style Selector="TextBox.search">
+		<Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+		<Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
+		<Setter Property="CaretBrush" Value="{DynamicResource TextControlForeground}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+		<Setter Property="SelectionBrush" Value="{DynamicResource TextControlSelectionHighlightColor}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
+		<Setter Property="CornerRadius" Value="12" />
+		<Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+		<Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+		<Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+		<Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+		<Setter Property="FocusAdorner" Value="{x:Null}" />
+		<Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+		<Setter Property="ContextFlyout" Value="{OnFormFactor Desktop={StaticResource DefaultTextBoxContextFlyout}, Mobile={StaticResource HorizontalTextBoxContextFlyout}}" />
+		<Setter Property="Transitions">
+			<Transitions>
+				<BrushTransition Duration="0:0:0.35" 
+								 Property="BorderBrush"
+								 Easing="ExponentialEaseOut"/>
+
+				<BrushTransition Duration="0:0:0.35"
+				                 Property="Background"
+				                 Easing="ExponentialEaseOut"/>
+
+				<BrushTransition Duration="0:0:0.35"
+				                 Property="Foreground"
+				                 Easing="ExponentialEaseOut"/>
+				
+				<DoubleTransition Property="Width"
+								  Duration="0:0:0.35"
+								  Easing="ExponentialEaseInOut"/>
+			</Transitions>
+		</Setter>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<DataValidationErrors>
+					<Panel> 
+						<Border Transitions="{TemplateBinding Transitions}" 
+						        Name="PART_BorderElement"
+						        Background="{TemplateBinding Background}" 
+						        BorderBrush="{TemplateBinding BorderBrush}"
+						        BorderThickness="{TemplateBinding BorderThickness}"
+						        CornerRadius="{TemplateBinding CornerRadius}"
+						        MinWidth="{TemplateBinding MinWidth}"
+						        MinHeight="{TemplateBinding MinHeight}"/>
+
+						<Border Margin="{TemplateBinding BorderThickness}"
+								Transitions="{TemplateBinding Transitions}" >
+							<Grid ColumnDefinitions="Auto,*,Auto" >
+								<ContentPresenter Grid.Column="0"
+												  Grid.ColumnSpan="1"
+												  Content="{TemplateBinding InnerLeftContent}"/>
+								
+								<DockPanel x:Name="PART_InnerDockPanel"
+										   Grid.Column="1"
+										   Grid.ColumnSpan="1"
+										   Cursor="IBeam"
+										   Margin="{TemplateBinding Padding}">
+									<TextBlock Name="PART_FloatingWatermark"
+											   Transitions="{TemplateBinding Transitions}"
+											   Foreground="{DynamicResource SystemAccentColor}"
+											   FontSize="{TemplateBinding FontSize}"
+											   IsVisible="False"
+											   Text="{TemplateBinding Watermark}"
+											   DockPanel.Dock="Top"/>
+									
+									<ScrollViewer Name="PART_ScrollViewer"
+												  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+												  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+												  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+												  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+												  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+										<Grid ColumnDefinitions="Auto,Auto">
+											<controls:FontIcon Glyph="&#xE721;"
+															   Margin="0 0 8 0"
+															   VerticalAlignment="Center"/>
+											
+											<TextBlock Name="PART_Watermark"
+													   Opacity="0.5"
+													   Grid.Column="1"
+													   Text="搜索" 
+													   Transitions="{TemplateBinding Transitions}"
+													   TextAlignment="{TemplateBinding TextAlignment}"
+													   TextWrapping="{TemplateBinding TextWrapping}"
+													   IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+													   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+													   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+											<TextPresenter Name="PART_TextPresenter"
+														   Opacity="0.5"
+													       Grid.Column="1"
+			                                               CaretBrush="{TemplateBinding CaretBrush}"
+														   Text="{TemplateBinding Text, Mode=TwoWay}"
+			                                               CaretIndex="{TemplateBinding CaretIndex}"
+			                                               SelectionStart="{TemplateBinding SelectionStart}"
+			                                               SelectionEnd="{TemplateBinding SelectionEnd}"
+			                                               TextAlignment="{TemplateBinding TextAlignment}"
+			                                               TextWrapping="{TemplateBinding TextWrapping}"
+			                                               LineHeight="{TemplateBinding LineHeight}"
+			                                               LetterSpacing="{TemplateBinding LetterSpacing}"
+			                                               PasswordChar="{TemplateBinding PasswordChar}"
+			                                               RevealPassword="{TemplateBinding RevealPassword}"
+			                                               SelectionBrush="{TemplateBinding SelectionBrush}"
+			                                               SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+			                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+			                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+										</Grid>
+									</ScrollViewer>
+								</DockPanel>
+								
+								<ContentPresenter Grid.Column="2" 
+												  Grid.ColumnSpan="1" 
+												  Content="{TemplateBinding InnerRightContent}"/>
+							</Grid>
+						</Border>
+					</Panel>
+				</DataValidationErrors>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+	
+	<Style Selector="TextBox.search:focus /template/ Border#PART_BorderElement">
+		<Setter Property="BorderThickness" Value="1.2"/>
+	</Style>
+</Styles>

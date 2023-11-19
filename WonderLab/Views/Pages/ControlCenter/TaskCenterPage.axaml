@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WonderLab.Views.Pages.ControlCenter.TaskCenterPage"
+			 xmlns:controls="using:WonderLab.Views.Controls">
+	<ListBox Background="Transparent"
+			 ItemsSource="{Binding _taskManager.TaskJobs}">
+		<ListBox.Styles>
+			<Style Selector="ListBoxItem">
+				<Setter Property="Margin" Value="0 0 0 10"/>
+				<Setter Property="Template">
+					<ControlTemplate>
+						<Border Background="Transparent">
+							<Grid RowDefinitions="Auto,Auto">
+								<Grid ColumnDefinitions="Auto,1*">
+									<controls:FontIcon FontSize="24"
+													   Glyph="&#xE7C4;"
+													   Margin="0 0 8 0"
+													   VerticalAlignment="Center"/>
+
+									<Grid Grid.Column="1"
+										  RowDefinitions="Auto,Auto">
+										<TextBlock Text="{Binding JobName}"
+												   FontSize="16"
+												   FontWeight="Bold"/>
+
+										<Grid Grid.Row="1"
+											  ColumnDefinitions="Auto,1*,Auto">
+											<TextBlock Text="{Binding TaskStatus}"
+													   FontSize="12"/>
+											<TextBlock Grid.Column="2" FontSize="12" Text="{Binding ProgressDetail}"/>
+										</Grid>
+									</Grid>
+								</Grid>
+								 
+								<controls:MacOsProgressBar Grid.Row="1"
+														   Margin="0 6 0 0"
+														   Value="{Binding Progress}"
+														   IsIndeterminate="{Binding IsIndeterminate}"/>
+							</Grid>
+						</Border>
+					</ControlTemplate>
+				</Setter>
+			</Style>
+		</ListBox.Styles>
+	</ListBox>
+</UserControl>

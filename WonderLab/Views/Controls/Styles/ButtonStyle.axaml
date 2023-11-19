@@ -1,0 +1,55 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:controls="using:WonderLab.Views.Controls">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+			<Button Content="Click Me!" CornerRadius="12" Classes="ripple" Height="30"/>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<Style Selector="Button.ripple">
+		<Setter Property="CornerRadius" Value="12"/>
+		<Setter Property="Transitions">
+			<Transitions>
+				<BrushTransition Duration="0:0:0.35"
+								 Property="Background"
+								 Easing="ExponentialEaseInOut"/>
+
+				<DoubleTransition Duration="0:0:0.35"
+				                  Property="Opacity"
+				                  Easing="ExponentialEaseOut"/>
+			</Transitions>
+		</Setter>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<controls:RippleControl RippleFill="#26000000"
+										RippleOpacity="0.2"
+										CornerRadius="{TemplateBinding CornerRadius}">
+					<Panel>
+						<ContentPresenter x:Name="PART_ContentPresenter"
+				                          Background="{TemplateBinding Background}"
+				                          BorderBrush="{TemplateBinding BorderBrush}"
+				                          BorderThickness="{TemplateBinding BorderThickness}"
+				                          CornerRadius="{TemplateBinding CornerRadius}"
+				                          Content="{TemplateBinding Content}"
+				                          ContentTemplate="{TemplateBinding ContentTemplate}"
+				                          Padding="{TemplateBinding Padding}"
+										  RecognizesAccessKey="True"
+				                          Transitions="{TemplateBinding Transitions}"
+				                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+				                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+						<Border Name="Layout"
+							    Opacity="0"
+								IsHitTestVisible="False"
+							    CornerRadius="{TemplateBinding CornerRadius}"
+							    Transitions="{TemplateBinding Transitions}"
+							    Background="{DynamicResource ButtonBackgroundPointerOver}"/>
+					</Panel>
+				</controls:RippleControl>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>
