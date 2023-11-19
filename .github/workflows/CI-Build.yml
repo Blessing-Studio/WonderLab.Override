@@ -6,7 +6,8 @@ on:
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  target-version: "net8.0"
+  dotnet–version: "8.0"
+  target-version: "net${{env.dotnet-version}}"
   compile-flags: "--self-contained=true -c Release -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishSingleFile=true"
 jobs:
   test:
@@ -16,6 +17,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Test
       run: dotnet test WonderLab/WonderLab.csproj
   test_build:
@@ -25,6 +30,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Test
       run: dotnet build WonderLab/WonderLab.csproj
   build_Windows:
@@ -38,6 +47,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Build
       run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os win ${{ env.compile-flags }}
     - name: Upload build artifacts
@@ -56,6 +69,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Install InnoSetup
       uses: ConorMacBride/install-package@v1
       with:
@@ -85,6 +102,10 @@ jobs:
   #    uses: actions/checkout@v3
   #    with:
   #      fetch-depth: 0
+  #  - name: "Setup Dotnet"
+  #    uses: "actions/setup-dotnet@v3"
+  #    with:
+  #      dotnet-version: "${{env.dotnet-version}}"
   #  - name: Build
   #    run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os linux 
   #  - name: Upload build artifacts
@@ -103,6 +124,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Install pupnet
       run: dotnet tool install -g KuiperZone.PupNet
     - name: Install Linrary
@@ -132,6 +157,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Build
       run: dotnet build WonderLab/WonderLab.csproj -t:CreateZip --arch ${{ matrix.arch }} --os osx ${{ env.compile-flags }}
     - name: Upload build artifacts
@@ -150,6 +179,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Build
       run: dotnet build WonderLab/WonderLab.csproj -t:CreateDeb --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
     - name: Upload build artifacts
@@ -168,6 +201,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Build
       run: dotnet build WonderLab/WonderLab.csproj -t:CreateRpm --arch ${{ matrix.arch }} --os linux ${{ env.compile-flags }}
     - name: Upload build artifacts
@@ -186,6 +223,10 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: "Setup Dotnet"
+      uses: "actions/setup-dotnet@v3"
+      with:
+        dotnet-version: "${{env.dotnet-version}}"
     - name: Get version
       id: package_version
       uses: Blessing-Studio/get-csproj-version@main
