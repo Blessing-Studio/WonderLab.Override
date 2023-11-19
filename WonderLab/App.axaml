@@ -7,7 +7,9 @@
 
     <Application.Styles>
         <FluentTheme/>
+		<StyleInclude Source="/Views/Controls/Styles/CardStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/ButtonStyle.axaml"/>
+		<StyleInclude Source="/Views/Controls/Styles/CardItemStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/TitleBarStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/FontIconStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/SearchBoxStyle.axaml"/>
