@@ -71,8 +71,4 @@
 		</Content>
 		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="WonderLab.csproj" />
-	</ItemGroup>
 </Project>
