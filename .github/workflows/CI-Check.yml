@@ -15,7 +15,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Test
-      run: dotnet test wonderlab/wonderlab.csproj
+      run: dotnet test Wonderlab/Wonderlab.csproj
   test_build:
     runs-on: ubuntu-latest
     steps:
@@ -24,4 +24,4 @@ jobs:
       with:
         fetch-depth: 0
     - name: Test
-      run: dotnet build wonderlab/wonderlab.csproj
+      run: dotnet build Wonderlab/Wonderlab.csproj
