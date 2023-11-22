@@ -8,11 +8,13 @@
     <Application.Styles>
         <FluentTheme/>
 		<StyleInclude Source="/Views/Controls/Styles/CardStyle.axaml"/>
+		<StyleInclude Source="/Views/Controls/Styles/FrameStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/ButtonStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/CardItemStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/TitleBarStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/FontIconStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/SearchBoxStyle.axaml"/>
+		<StyleInclude Source="/Views/Controls/Styles/NotificationStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/RippleControlStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/NavigationViewStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/NavigationViewItemStyle.axaml"/>
@@ -24,7 +26,9 @@
 				<ResourceInclude Source="/Views/Controls/Theme/ControlBasicTheme.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 
+			<converter:Int32ToBoolConverter x:Key="Int32ToBoolConverter"/>
 			<converter:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter"/>
+			<converter:GameCoreSubTitleConverter x:Key="GameCoreSubTitleConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

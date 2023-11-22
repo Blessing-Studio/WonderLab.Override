@@ -10,11 +10,11 @@ namespace WonderLab.Classes.Utilities {
     public static class ServiceUtil {
         public static void AddWindowFactory<T>(this IServiceCollection services) where T : class {
             services.AddTransient<T>();
-            services.AddSingleton((Func<IServiceProvider, Func<T>>)delegate (IServiceProvider s)
-            {
+            services.AddSingleton((Func<IServiceProvider, Func<T>>) delegate (IServiceProvider s) {
                 IServiceProvider s2 = s;
                 return () => s2.GetService<T>()!;
             });
+
             services.AddSingleton<IAbstractFactory<T>, AbstractFactory<T>>();
         }
     }

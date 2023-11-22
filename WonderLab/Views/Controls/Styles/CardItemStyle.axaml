@@ -25,8 +25,7 @@
 				<Border>
 					<Grid RowDefinitions="Auto, Auto">
 						<Grid Margin="20 8 20 8" ColumnDefinitions="Auto, 1*, Auto">
-							<TextBlock FontSize="14"
-									   FontWeight="Bold"
+							<TextBlock FontSize="13"
 									   Foreground="#6E6867"
 									   VerticalAlignment="Center"
 									   Text="{TemplateBinding Header}"/>
@@ -39,7 +38,8 @@
 						<Border Height="1"
 								Grid.Row="1"
 								Background="#E5E7EB"
-								HorizontalAlignment="Stretch"/>
+								HorizontalAlignment="Stretch"
+								IsVisible="{TemplateBinding IsLineVisible}"/>
 					</Grid>
 				</Border>
 			</ControlTemplate>

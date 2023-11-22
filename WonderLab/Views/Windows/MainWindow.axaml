@@ -24,8 +24,9 @@
 		<controls:TitleBar Margin="10" Foreground="Black"/>
 
 		<controls:NavigationView Margin="10 50 10 10"
-								 IsFullScreen="{Binding IsFullScreen}"
-								 Background="Transparent">
+								 Background="Transparent"
+								 Content="{Binding CurrentPage}"
+								 IsFullScreen="{Binding IsFullScreen}">
 			<controls:NavigationView.MenuItems>
 				<controls:NavigationViewItem Icon="&#xEA8A;"
 											 Content="主页"
@@ -46,11 +47,15 @@
 											 Foreground="#7B61FF"
 											 Command="{Binding NavigationSettingPageCommand}"/>
 			</controls:NavigationView.MenuItems>
-
-			<controls:NavigationView.Content>
-				<ContentControl Content="{Binding CurrentPage}"/>
-			</controls:NavigationView.Content>
 		</controls:NavigationView>
+
+		<ListBox Margin="0 50 0 10"
+				 Background="{x:Null}"
+				 VerticalAlignment="Top"
+				 HorizontalAlignment="Right"
+				 ItemsSource="{Binding Notifications}"
+				 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+				 ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
 	</Grid>
 </Window>
  

@@ -28,22 +28,27 @@ namespace WonderLab.Classes.Models.Tasks {
 
         public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
             base.CanBeCancelled = false;
+            base.IsIndeterminate = true;
 
-            await Task.Delay(2000);
-            base.IsIndeterminate = false;
+            try {
+                await Task.Delay(2500);
+                base.IsIndeterminate = false;
 
-            GameCoreUtil.GetGameCore("C:\\Users\\w\\Desktop\\temp\\.minecraft", "1.12.2");
+                GameCoreUtil.GetGameCore("C:\\Users\\w\\Desktop\\temp\\.minecraft", "1.12.2");
 
-            var installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", "1.20.2"));
-            installer.ProgressChanged += (_, args) => {
-                ReportProgress(args.Progress * 100, $"{args.Progress * 100:0.00}%");
-            };
+                var installer = await Task.Run(() => new GameCoreInstaller("C:\\Users\\w\\Desktop\\temp\\.minecraft", "1.20.2"));
+                installer.ProgressChanged += (_, args) => {
+                    ReportProgress(args.Progress * 100, $"{args.Progress * 100:0.00}%");
+                };
 
-            var result = await installer.InstallAsync();
+                var result = await installer.InstallAsync();
 
-            if (result.Success) {
-                Progress = 100;
-                ProgressDetail = "100%";
+                if (result.Success) {
+                    Progress = 100;
+                    ProgressDetail = "100%";
+                }
+            }
+            catch (Exception) {
             }
             //using var downloader = FileDownloader.Build(_downloadRequest);
             //downloader.DownloadFailed += (_, args) => {

@@ -30,7 +30,7 @@
 		            VerticalAlignment="Bottom"
 		            VerticalContentAlignment="Center"
 		            HorizontalContentAlignment="Center"
-					Command="{Binding test}"
+					Command="{Binding LaunchGameCommand}"
 		            Foreground="{DynamicResource AccentButtonForeground}"
 		            Background="#006FEE">
 				启动游戏
@@ -68,12 +68,15 @@
 				<Grid Margin="5">
 					<Grid RowDefinitions="Auto,Auto"
 						  IsVisible="{Binding IsOpenGameCoreBar,Converter={StaticResource ReverseBoolValueConverter}}">
-						<TextBlock Text="StoneBlock"
+						<TextBlock Text="{Binding SelectedGameCoreInfo.Id}"
 								   FontWeight="Bold"
-								   FontSize="16"/>
+								   FontSize="16"
+								   TextTrimming="CharacterEllipsis"/>
+						
 						<TextBlock Grid.Row="1"
-								   Text="正式版 1.12.2"
-								   FontSize="12"/>
+								   Text="{Binding SelectedGameCoreInfo,Converter={StaticResource GameCoreSubTitleConverter}}"
+								   FontSize="12"
+								   TextTrimming="CharacterEllipsis"/>
 					</Grid>
 
 					<Grid Margin="12 8 12 0"
@@ -94,7 +97,9 @@
 						</Grid>
 
 						<ListBox Margin="-12 40 -16 35"
-								 Background="Transparent">
+								 Background="Transparent"
+								 ItemsSource="{Binding GameCores}"
+								 SelectedItem="{Binding SelectedGameCore}">
 							<ListBox.Styles>
 								<Style Selector="ListBoxItem">
 									<Setter Property="Margin" Value="12 5 20 10"/>
@@ -105,7 +110,8 @@
 											<Border Name="Layout"
 													CornerRadius="12"
 													Background="Transparent"
-													BoxShadow="0 1 12 0 #36000000">
+													BoxShadow="0 1 12 0 #36000000"
+													PointerPressed="OnPointerPressed">
 												<Border.Transitions>
 													<Transitions>
 														<BoxShadowsTransition Property="BoxShadow"
@@ -125,12 +131,12 @@
 
 													<Grid Grid.Column="2"
 														  RowDefinitions="Auto,Auto">
-														<TextBlock Text="Header"
+														<TextBlock Text="{Binding Id}"
 																   FontSize="16"/>
 														<TextBlock Grid.Row="1"
 																   FontSize="12"
 																   Foreground="#6E6867"
-																   Text="This is subtitle"/>
+																   Text="{Binding,Converter={StaticResource GameCoreSubTitleConverter}}"/>
 													</Grid>
 
 													<StackPanel Orientation="Horizontal"
@@ -164,20 +170,6 @@
 									<Setter Property="BoxShadow" Value="0 2 12 0 #36000000"/>
 								</Style>
 							</ListBox.Styles>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
-							<ListBoxItem/>
 						</ListBox>
 
 						<Button Classes="ripple"
@@ -228,6 +220,7 @@
 		<!--RenderTransform="translate(800px)"-->
 		<Grid Margin="0 0 0 45"
 			  ColumnDefinitions="1*,14,1*,14,1*"
+			  IsHitTestVisible="{Binding OtherControlOpacity, Converter={StaticResource Int32ToBoolConverter}}"
 			  Opacity="{Binding OtherControlOpacity, Converter={StaticResource ControlCenterOpacityConverter}}"
 			  RenderTransform="{Binding OtherControlOpacity, Converter={StaticResource ControlCenterTransformConverter}}">
 			<Grid.Transitions>
@@ -235,6 +228,7 @@
 					<TransformOperationsTransition Duration="0:0:0.35"
 												   Property="RenderTransform"
 												   Easing="ExponentialEaseOut"/>
+					
 					<DoubleTransition Duration="0:0:0.7"
 				                      Property="Opacity"
 				                      Easing="ExponentialEaseOut"/>
@@ -243,11 +237,15 @@
 			<Border Background="White"
 					CornerRadius="12"
 					BoxShadow="0 1 12 0 #36000000">
-				<Grid Margin="12">
-					<TextBlock Text="通知中心"
+				<Grid>
+					<TextBlock Text="消息通知"
 							   FontWeight="Bold"
 							   FontSize="16"
+							   Margin="12"
 							   Foreground="#302D2D"/>
+					
+					<ContentControl Margin="0 30 0 0"
+									Content="{Binding NotificationCenterCardContent}"/>
 				</Grid>
 			</Border>
 
@@ -256,7 +254,7 @@
 					Background="White"
 		            BoxShadow="0 1 12 0 #36000000">
 				<Grid Margin="12">
-					<TextBlock Text="任务中心"
+					<TextBlock Text="任务队列"
 							   FontWeight="Bold"
 							   FontSize="16"
 							   Foreground="#302D2D"/>
@@ -271,7 +269,7 @@
 					Background="White"
 		            BoxShadow="0 1 12 0 #36000000">
 				<Grid Margin="12">
-					<TextBlock Text="账户中心"
+					<TextBlock Text="当前账户"
 							   FontWeight="Bold"
 							   FontSize="16"
 							   Foreground="#302D2D"/>

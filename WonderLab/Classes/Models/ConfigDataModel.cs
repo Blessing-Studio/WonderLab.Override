@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using MinecraftLaunch.Modules.Models.Launch;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WonderLab.Classes.Models {
     public class ConfigDataModel {
@@ -14,9 +15,6 @@ namespace WonderLab.Classes.Models {
         [JsonPropertyName("javaPath")]
         public JavaInfo JavaPath { get; set; }
 
-        [JsonPropertyName("javaPaths")]
-        public List<JavaInfo> JavaPaths { get; set; }
-
         [JsonPropertyName("isAutoSelectJava")]
         public bool IsAutoSelectJava { get; set; }
 
@@ -24,18 +22,27 @@ namespace WonderLab.Classes.Models {
         public bool IsAutoMemory { get; set; }
 
         [JsonPropertyName("maxMemory")]
-        public int MaxMemory { get; set; }
+        public int MaxMemory { get; set; } = 1024;
 
         [JsonPropertyName("width")]
-        public int Width { get; set; }
+        public int Width { get; set; } = 854;
 
         [JsonPropertyName("height")]
-        public int Height { get; set; }
+        public int Height { get; set; } = 480;
 
         [JsonPropertyName("gameFolder")]
         public string GameFolder { get; set; }
 
+        [JsonPropertyName("currentGameCoreId")]
+        public string CurrentGameCoreId { get; set; }
+
+        [JsonPropertyName("isEnableIndependencyCore")]
+        public bool IsEnableIndependencyCore { get; set; }
+
+        [JsonPropertyName("javaPaths")]
+        public ObservableCollection<JavaInfo> JavaPaths { get; set; } = new();
+
         [JsonPropertyName("gameFolders")]
-        public List<string> GameFolders { get; set; }
+        public ObservableCollection<string> GameFolders { get; set; } = new();
     }
 }

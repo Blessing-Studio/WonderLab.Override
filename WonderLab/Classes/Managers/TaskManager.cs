@@ -32,8 +32,10 @@ namespace WonderLab.Classes.Managers {
             Task.Run(async () => {
                 await _taskQueue.QueueBackgroundWorkItemAsync(job);
                 job.TaskFinished += (_, args) => {
-                    Interlocked.Decrement(ref _currentRunningJobs);
-                    TaskJobs.Remove(job);
+                    using (job) {
+                        Interlocked.Decrement(ref _currentRunningJobs);
+                        TaskJobs.Remove(job);
+                    }
                 };
 
                 await Dispatcher.UIThread.InvokeAsync(() => {

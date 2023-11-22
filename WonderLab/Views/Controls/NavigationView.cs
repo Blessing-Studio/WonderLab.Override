@@ -1,22 +1,24 @@
-﻿using Avalonia.Controls;
-using Avalonia;
-using Avalonia.Controls.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Media;
-using System.Reflection.Metadata;
-using Avalonia.Controls.Metadata;
-using Avalonia.Layout;
-using System.Windows.Input;
+﻿using Avalonia;
+using Avalonia.Controls;
 using System.Collections;
+using System.Windows.Input;
 using Avalonia.Collections;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Primitives;
+using Avalonia.Threading;
+using Avalonia.Controls.Presenters;
+using System.Threading;
+using Avalonia.Interactivity;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace WonderLab.Views.Controls {
     [PseudoClasses(":fullscreen")]
     public class NavigationView : TemplatedControl {
+        private ContentPresenter? _contentPresenter;
+
+        private CancellationTokenSource _token = new();
+
         public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
             AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
 
@@ -71,12 +73,44 @@ namespace WonderLab.Views.Controls {
                 PseudoClasses.Set(":fullscreen", isFullScreen.Value);
             }
         }
+        
+        private async void RunPageTransitionAnimation() {
+            if (_contentPresenter == null) {
+                return;
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(async () => {
+                _contentPresenter!.Opacity = 0;
+                await Task.Delay(350);
+            }).ContinueWith(async task => {
+                await Dispatcher.UIThread.InvokeAsync(() => {
+                    _contentPresenter.Content = Content;
+                    _contentPresenter!.Opacity = 1;
+                }, DispatcherPriority.Render);
+            });
+        }
+
+        protected override void OnLoaded(RoutedEventArgs e) {
+            base.OnLoaded(e);
+            RunPageTransitionAnimation();
+        }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+            base.OnApplyTemplate(e);
+
+            _contentPresenter = e.NameScope
+                .Find<ContentPresenter>("Content");
+        }
 
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
             base.OnPropertyChanged(change);
             
             if (change.Property == IsFullScreenProperty) {
                 UpdatePseudoClasses((bool)change.NewValue!);
+            }
+
+            if (change.Property == ContentProperty) {
+                RunPageTransitionAnimation();
             }
         }
     }

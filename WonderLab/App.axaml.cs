@@ -19,6 +19,7 @@ using WonderLab.Views.Pages.ControlCenter;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Platform.Storage;
 
 namespace WonderLab;
 
@@ -26,6 +27,9 @@ public partial class App : Application {
     private static IHost _host = default!;    
 
     public static IServiceProvider ServiceProvider => _host.Services;
+
+    public static IStorageProvider StorageProvider 
+        => (Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)!.MainWindow!.StorageProvider;
 
     public override async void Initialize() {
         base.Initialize();
@@ -77,6 +81,8 @@ public partial class App : Application {
         services.AddScoped<SettingPage>();
         services.AddScoped<TaskCenterPage>();
         services.AddWindowFactory<MainWindow>();
+        services.AddScoped<LaunchSettingPage>();
+        services.AddScoped<NotificationCenterPage>();
 
         ConfigureManagers(services);
     }
@@ -91,11 +97,14 @@ public partial class App : Application {
         services.AddScoped<MainWindowViewModel>();
         services.AddScoped<SettingPageViewModel>();
         services.AddScoped<TaskCenterPageViewModel>();
+        services.AddScoped<LaunchSettingPageViewModel>();
+        services.AddScoped<NotificationCenterPageViewModel>();
     }
 
     private static void ConfigureManagers(IServiceCollection services) {
+        services.AddScoped<DataManager>();
         services.AddScoped<ThemeManager>();
         services.AddSingleton<TaskManager>();
-        services.AddScoped<ConfigDataManager>();
+        services.AddScoped<NotificationManager>();
     }
 }

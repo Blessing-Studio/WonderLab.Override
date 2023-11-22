@@ -27,13 +27,13 @@
 									   HorizontalAlignment="Left"
 									   Margin="10 0"
 									   FontWeight="Bold">
-								<TextBlock.Effect>
+								<!--<TextBlock.Effect>
 									<DropShadowEffect BlurRadius="5"
 				                                      Opacity="1"
 				                                      OffsetX="0"
 				                                      OffsetY="0"
 				                                      Color="#36000000"/>
-								</TextBlock.Effect>
+								</TextBlock.Effect>-->
 							</TextBlock>
 						</Grid>
 					</Border>
@@ -72,7 +72,8 @@
 				<Border ClipToBounds="False"> 
 					<controls:RippleControl RippleOpacity="0.2"
 											ClipToBounds="False"
-											RippleFill="#56000000">
+											RippleFill="#56000000"
+											CornerRadius="4">
 						<Border Name="Layout"
 								CornerRadius="4"
 								Background="{TemplateBinding Background}">
@@ -88,13 +89,13 @@
 											   Glyph="{TemplateBinding Content}"
 											   HorizontalAlignment="Center"
 											   VerticalAlignment="Center">
-								<controls:FontIcon.Effect>
+								<!--<controls:FontIcon.Effect>
 									<DropShadowEffect BlurRadius="5"
 	                                                  Opacity="1"
 													  OffsetX="0"
 													  OffsetY="0"
 	                                                  Color="#86000000"/>
-								</controls:FontIcon.Effect>
+								</controls:FontIcon.Effect>-->
 							</controls:FontIcon>
 						</Border>
 					</controls:RippleControl>

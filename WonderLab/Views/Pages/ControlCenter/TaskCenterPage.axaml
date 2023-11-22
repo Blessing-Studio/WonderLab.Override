@@ -6,7 +6,7 @@
              x:Class="WonderLab.Views.Pages.ControlCenter.TaskCenterPage"
 			 xmlns:controls="using:WonderLab.Views.Controls">
 	<ListBox Background="Transparent"
-			 ItemsSource="{Binding _taskManager.TaskJobs}">
+			 ItemsSource="{Binding TaskJobs}">
 		<ListBox.Styles>
 			<Style Selector="ListBoxItem">
 				<Setter Property="Margin" Value="0 0 0 10"/>

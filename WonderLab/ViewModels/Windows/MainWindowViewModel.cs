@@ -1,18 +1,22 @@
-﻿using Avalonia.Controls;
-using Microsoft.Extensions.DependencyInjection;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System.Threading.Tasks;
+﻿using ReactiveUI;
+using Avalonia.Controls;
 using System.Windows.Input;
-using WonderLab.Classes.Managers;
 using WonderLab.Views.Pages;
+using ReactiveUI.Fody.Helpers;
+using WonderLab.Classes.Managers;
+using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Settings;
+using System.Collections.ObjectModel;
+using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Threading;
 
-namespace WonderLab.ViewModels.Windows
-{
+namespace WonderLab.ViewModels.Windows {
     public class MainWindowViewModel : ViewModelBase {
-        public MainWindowViewModel(TaskManager manager, HomePage page) {
+        private NotificationManager _notificationManager;
+
+        public MainWindowViewModel(HomePage page, NotificationManager manager) {
             CurrentPage = page;
+            _notificationManager = manager;
         }
 
         [Reactive]
@@ -21,6 +25,9 @@ namespace WonderLab.ViewModels.Windows
         [Reactive]
         public UserControl CurrentPage { get; set; }
 
+        public ObservableCollection<INotification> Notifications
+            => _notificationManager.Notifications;
+
         public ICommand NavigationHomePageCommand
             => ReactiveCommand.Create(NavigationHomePage);
 
@@ -28,14 +35,13 @@ namespace WonderLab.ViewModels.Windows
             => ReactiveCommand.Create(NavigationSettingPage);
 
         public async void NavigationSettingPage() {
-            IsFullScreen = true;
-            CurrentPage = App.ServiceProvider.GetRequiredService<SettingPage>();
-            await Task.Delay(1000)
-                .ContinueWith(x => IsFullScreen = false);
+            CurrentPage = App.ServiceProvider
+                .GetRequiredService<SettingPage>();
         }
 
-        public void NavigationHomePage() {
-            CurrentPage = App.ServiceProvider.GetRequiredService<HomePage>();
+        public async void NavigationHomePage() {
+            CurrentPage = App.ServiceProvider
+                .GetRequiredService<HomePage>();
         }
     }
 }
