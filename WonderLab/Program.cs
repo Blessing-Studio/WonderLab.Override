@@ -14,6 +14,5 @@ class Program {
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .LogToTrace()
-            .UseReactiveUI()
-            .UseSystemFont();
+            .UseReactiveUI();
 }
