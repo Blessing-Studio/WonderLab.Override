@@ -5,7 +5,7 @@
 					xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
 		<Border Padding="20">
-			<StackPanel Orientation="Horizontal">
+			<StackPanel Orientation="Vertical">
 				<TabControl>
 					<TabItem Header="基础设置"/>
 					<TabItem Header="游戏设置"/>

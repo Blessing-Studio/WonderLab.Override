@@ -92,7 +92,7 @@ namespace WonderLab.Views.Controls {
 
         protected override void OnLoaded(RoutedEventArgs e) {
             base.OnLoaded(e);
-            RunPageTransitionAnimation();
+            _contentPresenter.Content = Content;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {

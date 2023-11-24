@@ -19,6 +19,8 @@ using MinecraftLaunch.Modules.Models.Launch;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Attributes;
 using System.Threading;
+using Avalonia.Controls.Converters;
+using System.IO;
 
 namespace WonderLab.ViewModels.Pages {
     public class HomePageViewModel : ViewModelBase {
@@ -163,15 +165,26 @@ namespace WonderLab.ViewModels.Pages {
             _taskManager.QueueJob(task);
         }
 
-        private void Init() {
-            var cores = GameCoreUtil.GetGameCores(_configData.GameFolder)
-                .ToList();
+        private async void Init() {
+            if (!Directory.Exists(_configData.GameFolder)) {
+                return;
+            }
 
-            SelectedGameCoreInfo = cores
-                .FirstOrDefault(x => x.Id == CurrentGameCoreId);
+            await Task.Run(() => {
+                return GameCoreUtil.GetGameCores(_configData.GameFolder)
+                .ToList();
+            }).ContinueWith(async task => {
+                var cores = await task;
+                SelectedGameCoreInfo = cores
+                    .FirstOrDefault(x => x.Id == CurrentGameCoreId);
+            });
         }
 
         private async Task GetGameCore() {
+            if (!Directory.Exists(_configData.GameFolder)) {
+                return;
+            }
+
             GameCores.Clear();
             await Task.Run(() => {
                 return GameCoreUtil.GetGameCores(_configData.GameFolder).ToList();

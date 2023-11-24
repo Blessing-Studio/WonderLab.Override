@@ -7,6 +7,7 @@ namespace WonderLab.Views.Pages.Settings {
         public LaunchSettingPage(LaunchSettingPageViewModel vm) {
             InitializeComponent();
             ViewModel = vm;
+            
         }
 
         public LaunchSettingPage() {

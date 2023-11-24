@@ -11,6 +11,12 @@
 			ClipToBounds="False"
 			BoxShadow="0 2 4 0 #26000000">
 		<ScrollViewer>
+			<!--<ScrollViewer.Transitions>
+				<Transitions>
+					<VectorTransition Property="Offset"
+									  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</ScrollViewer.Transitions>-->
 			<Grid Margin="8 15"
 				  RowDefinitions="Auto,15,Auto,15,Auto">
 				<controls:Card Grid.Row="0"
@@ -28,7 +34,7 @@
 											   Header="添加游戏路径">
 								<Button Content="浏览"
 										Width="60"
-										Classes="ripple" 
+										Classes="ripple"
 										CornerRadius="10"
 										Foreground="White"
 										Background="#7B61FF"

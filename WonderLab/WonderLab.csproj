@@ -23,10 +23,10 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="MinecraftLaunch.Skin" Version="1.0.0" />
-    <PackageReference Include="MinecraftOAuth" Version="2.0.1" />
 	<PackageReference Include="MinecraftOAuth" Version="2.0.1" />
 	<PackageReference Include="MinecraftLaunch" Version="2.0.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
