@@ -308,7 +308,7 @@
 						   FontWeight="Bold"
 						   Margin="10 0 0 0"/>
 
-				<TextBlock Text="11:45 PM"
+				<TextBlock Text="{Binding NowTime, Mode=OneWay}"
 						   Grid.Column="3"
 						   FontWeight="Bold"
 						   Margin="10 0 0 0"/>

@@ -31,6 +31,9 @@ namespace WonderLab.ViewModels.Pages {
         private NotificationManager _notificationManager;
 
         [Reactive]
+        public string NowTime { get; set; } = System.DateTime.Now.ToString("tt hh:mm");
+
+        [Reactive]
         public bool IsOpenGameCoreBar { get; set; } = false;
 
         [Reactive]
@@ -169,6 +172,13 @@ namespace WonderLab.ViewModels.Pages {
             if (!Directory.Exists(_configData.GameFolder)) {
                 return;
             }
+
+            Task timetask = Task.Factory.StartNew(()=>{
+                while(true){
+                    NowTime = DateTime.Now.ToString("tt hh:mm");
+                    Thread.Sleep(300);
+                }
+            },TaskCreationOptions.LongRunning);
 
             await Task.Run(() => {
                 return GameCoreUtil.GetGameCores(_configData.GameFolder)
