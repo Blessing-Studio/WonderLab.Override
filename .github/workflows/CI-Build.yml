@@ -39,7 +39,7 @@ jobs:
   build_Windows:
     strategy:
       matrix:
-        arch: ["x64", "x86", "arm64"]
+        arch: ["x64", "arm64"] #We won't support x86 anymore
     runs-on: windows-latest
     needs: [test, test_build]
     steps:
@@ -61,7 +61,7 @@ jobs:
   build_Windows_Installer:
     strategy:
       matrix:
-        arch: ["x64", "x86", "arm64"]
+        arch: ["x64", "arm64"]#We won't support x86 anymore
     runs-on: windows-latest
     needs: [test, test_build, build_Windows]
     steps:
