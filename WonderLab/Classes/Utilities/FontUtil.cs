@@ -11,7 +11,7 @@ namespace WonderLab.Classes.Utilities {
             if (EnvironmentUtil.IsWindow) {
                 font.Append("Microsoft YaHei UI");
             } else if (EnvironmentUtil.IsLinux) {
-                font.Append("dejavu, wqy-zenhei, wqy-microhei");
+                font.Append("DejaVu Sans, WenQuanYi Micro Hei, WenQuanYi Zen Hei");
             } else {
                 font.Append("苹方-简, 萍方-简");
             }
