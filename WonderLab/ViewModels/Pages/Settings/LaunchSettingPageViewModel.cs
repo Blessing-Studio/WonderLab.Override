@@ -82,12 +82,17 @@ namespace WonderLab.ViewModels.Pages.Settings {
         }
 
         private async void AddGameFolder() {
-            var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
+            try {
+                var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
 
-            if(result != null) {
-                GameFolders.Add(result.FullName);
-                GameFolder = GameFolders.Last();
+                if (result != null) {
+                    GameFolders.Add(result.FullName);
+                    GameFolder = GameFolders.Last();
+                }
             }
+            catch (System.Exception) {
+
+             }
         }
 
         private void RemoveGameFolder() {
