@@ -28,8 +28,7 @@ public partial class App : Application {
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
-    public static IStorageProvider StorageProvider 
-        => (Current!.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)!.MainWindow!.StorageProvider;
+    public static IStorageProvider StorageProvider { get; private set; }
 
     public override async void Initialize() {
         base.Initialize();
@@ -43,7 +42,9 @@ public partial class App : Application {
             RxApp.MainThreadScheduler.Schedule(dataHandler
                 .Load);
 
-            desktop.MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            StorageProvider = mainWindow.StorageProvider;
+            desktop.MainWindow = mainWindow;
             desktop.Exit += async (sender, args) => {
                 await dataHandler.SaveAsync();
             };

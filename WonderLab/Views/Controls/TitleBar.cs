@@ -19,7 +19,7 @@ namespace WonderLab.Views.Controls {
         public async void Close() {
             await App.StopHostAsync();
             if (Application.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-                desktop.MainWindow.Close();
+                desktop.MainWindow!.Close();
             }
         }
 
