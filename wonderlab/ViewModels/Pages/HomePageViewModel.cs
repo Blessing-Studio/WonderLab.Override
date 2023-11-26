@@ -168,7 +168,7 @@ namespace wonderlab.ViewModels.Pages {
                 foreach (var task in preTasks) {
                     await task;
                 }
-
+ 
                 JavaMinecraftLauncher launcher = new(config, GlobalResources.LaunchInfoData.GameDirectoryPath);
                 launchResponse = await Task.Run(async () => {
                     return await launcher.LaunchTaskAsync(GlobalResources.LaunchInfoData.SelectGameCore, x => {

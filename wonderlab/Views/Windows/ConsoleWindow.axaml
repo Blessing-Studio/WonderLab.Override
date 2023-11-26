@@ -11,7 +11,7 @@
 			<ColumnDefinition Width="0.4*"/>
 			<ColumnDefinition Width="1.0*"/>
 		</Grid.ColumnDefinitions>
-
+ 
 		<Border Background="White">
 			<Grid>
 				<Grid.RowDefinitions>
@@ -20,7 +20,7 @@
 					<RowDefinition Height="25"/>
 					<RowDefinition Height="0.6*"/>
 				</Grid.RowDefinitions>
-
+ 
 				<TextBlock HorizontalAlignment="Left"
 		                   VerticalAlignment="Center"
 		                   Margin="15 5 0 0"
