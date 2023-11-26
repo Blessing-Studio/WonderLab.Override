@@ -30,8 +30,7 @@ namespace WonderLab.ViewModels.Pages {
 
         private NotificationManager _notificationManager;
 
-        [Reactive]
-        public string NowTime { get; set; } = System.DateTime.Now.ToString("tt hh:mm");
+        private DispatcherTimer _timer = new();
 
         [Reactive]
         public bool IsOpenGameCoreBar { get; set; } = false;
@@ -49,7 +48,7 @@ namespace WonderLab.ViewModels.Pages {
         public double OtherControlOpacity { get; set; } = 1;
 
         [Reactive]
-        public double ControlCenterBarWidth { get; set; } = 175;
+        public double ControlCenterBarWidth { get; set; } = 180;
 
         [Reactive]
         public GameCore? SelectedGameCore { get; set; }
@@ -59,6 +58,9 @@ namespace WonderLab.ViewModels.Pages {
 
         [Reactive]
         public ObservableCollection<GameCore> GameCores { get; set; } = new();
+
+        [Reactive]
+        public string NowTime { get; set; } = DateTime.Now.ToString("tt hh:mm");
 
         [Reactive]
         [BindToConfig("CurrentGameCoreId")]
@@ -87,7 +89,6 @@ namespace WonderLab.ViewModels.Pages {
             _taskManager = taskManager;
             _configData = dataManager.Config;
             _notificationManager = notificationManager;
-            Init();
 
             this.WhenAnyValue(p1 => p1.SelectedGameCore)
                 .Subscribe(core => {
@@ -144,7 +145,7 @@ namespace WonderLab.ViewModels.Pages {
 
                 if (OtherControlOpacity is 0) {
                     vm.IsFullScreen = false;
-                    ControlCenterBarWidth = 175;
+                    ControlCenterBarWidth = 180;
                     OtherControlOpacity = 1;
                 } else {
                     OpenControlCenter(homePage);
@@ -168,17 +169,16 @@ namespace WonderLab.ViewModels.Pages {
             _taskManager.QueueJob(task);
         }
 
-        private async void Init() {
+        public async void Init() {
+            _timer.Interval = TimeSpan.FromMinutes(1);
+            _timer.Tick += (sender, args) => {
+                NowTime = DateTime.Now.ToString("tt hh:mm");
+            };
+            _timer.Start();
+
             if (!Directory.Exists(_configData.GameFolder)) {
                 return;
             }
-
-            Task timetask = Task.Factory.StartNew(()=>{
-                while(true){
-                    NowTime = DateTime.Now.ToString("tt hh:mm");
-                    Thread.Sleep(300);
-                }
-            },TaskCreationOptions.LongRunning);
 
             await Task.Run(() => {
                 return GameCoreUtil.GetGameCores(_configData.GameFolder)

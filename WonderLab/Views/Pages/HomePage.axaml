@@ -299,7 +299,8 @@
 				                  OffsetY="0"
 				                  Color="#36000000"/>
 			</Button.Effect>
-			<Grid ColumnDefinitions="Auto, Auto, 1*, Auto">
+			<Grid Name="Layout"
+				  ColumnDefinitions="Auto, Auto, 1*, Auto">
 				<controls:FontIcon Glyph="&#xED0C;"
 						           Grid.Column="0"								   
 								   VerticalAlignment="Center"/>
@@ -308,7 +309,7 @@
 						   FontWeight="Bold"
 						   Margin="10 0 0 0"/>
 
-				<TextBlock Text="{Binding NowTime, Mode=OneWay}"
+				<TextBlock Text="{Binding NowTime}"
 						   Grid.Column="3"
 						   FontWeight="Bold"
 						   Margin="10 0 0 0"/>
