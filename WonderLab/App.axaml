@@ -17,6 +17,9 @@
 		<StyleInclude Source="/Views/Controls/Styles/RippleControlStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/NavigationViewStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/NavigationViewItemStyle.axaml"/>
+		
+		<!--Other-->
+		<StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
     </Application.Styles>
 
 	<Application.Resources>
@@ -26,6 +29,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converter:Int32ToBoolConverter x:Key="Int32ToBoolConverter"/>
+			<converter:DownloadProgressConverter x:Key="DownloadProgressConverter"/>
 			<converter:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter"/>
 			<converter:GameCoreSubTitleConverter x:Key="GameCoreSubTitleConverter"/>
 		</ResourceDictionary>

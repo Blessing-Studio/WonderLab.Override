@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
 using WonderLab.Views.Windows;
+using WonderLab.Views.Dialogs;
 using Avalonia.Platform.Storage;
 using WonderLab.Classes.Handlers;
 using WonderLab.Classes.Managers;
@@ -14,14 +15,15 @@ using WonderLab.Classes.Utilities;
 using Microsoft.Extensions.Hosting;
 using WonderLab.Classes.Interfaces;
 using WonderLab.ViewModels.Windows;
+using WonderLab.ViewModels.Dialogs;
 using WonderLab.Views.Pages.Setting;
+using WonderLab.Views.Pages.Download;
 using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.Views.Pages.ControlCenter;
+using WonderLab.ViewModels.Pages.Download;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Views.Pages.Download;
-using WonderLab.ViewModels.Pages.Download;
 
 namespace WonderLab;
 
@@ -41,8 +43,7 @@ public partial class App : Application {
     public override void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             var dataHandler = ServiceProvider.GetRequiredService<ConfigDataHandler>();
-            RxApp.MainThreadScheduler.Schedule(dataHandler
-                .Load);
+            RxApp.MainThreadScheduler.Schedule(dataHandler.Load);
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;
@@ -54,6 +55,7 @@ public partial class App : Application {
 
         base.OnFrameworkInitializationCompleted();
     }
+
 
     public static async ValueTask StopHostAsync() {
         using (_host) {
@@ -74,6 +76,7 @@ public partial class App : Application {
         services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _) 
             => new BackgroundTaskQueue(100)));
 
+        //Pages
         services.AddScoped<HomePage>();
         services.AddScoped<SettingPage>();
         services.AddScoped<DownloadPage>();
@@ -81,25 +84,37 @@ public partial class App : Application {
         services.AddScoped<GameDownloadPage>();
         services.AddTransient<LaunchSettingPage>();
         services.AddScoped<NotificationCenterPage>();
+
+        //Windows
         services.AddWindowFactory<MainWindow>();
+
+        //DialogContent
+        services.AddTransient<UpdateDialogContent>();
 
         ConfigureManagers(services);
     }
 
     private static void ConfigureHandlers(IServiceCollection services) {
+        services.AddScoped<UpdateHandler>();
         services.AddScoped<ConfigDataHandler>();
         services.AddHostedService<QueuedHostedHandler>();
     }
 
     private static void ConfigureViewModels(IServiceCollection services) {
+        //Pages
         services.AddScoped<HomePageViewModel>();
-        services.AddScoped<MainWindowViewModel>();
         services.AddScoped<SettingPageViewModel>();
         services.AddScoped<DownloadPageViewModel>();
         services.AddScoped<TaskCenterPageViewModel>();
         services.AddScoped<GameDownloadPageViewModel>();
         services.AddScoped<LaunchSettingPageViewModel>();
         services.AddScoped<NotificationCenterPageViewModel>();
+
+        //Windows
+        services.AddScoped<MainWindowViewModel>();
+
+        //Dialog
+        services.AddTransient<UpdateDialogContentViewModel>();
     }
 
     private static void ConfigureManagers(IServiceCollection services) {

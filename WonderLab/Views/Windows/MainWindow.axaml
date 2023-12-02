@@ -13,7 +13,8 @@
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaToDecorationsHint="True"
         x:Class="WonderLab.Views.Windows.MainWindow"
-		xmlns:controls="using:WonderLab.Views.Controls">
+		xmlns:controls="using:WonderLab.Views.Controls"
+		xmlns:dialog="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"	>
 	<Grid>
 		<!--Background-->
 		<Panel>
@@ -57,6 +58,11 @@
 				 ItemsSource="{Binding Notifications}"
 				 ScrollViewer.VerticalScrollBarVisibility="Hidden"
 				 ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+
+		<dialog:DialogHost Identifier="dialogHost"
+						   CloseOnClickAway="False"
+						   DisableOpeningAnimation="True"
+						   dialog:DialogHostStyle.CornerRadius="12"/>
 	</Grid>
 </Window>
  

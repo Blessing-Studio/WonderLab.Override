@@ -5,16 +5,37 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WonderLab", "WonderLab\WonderLab.csproj", "{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{61D1A260-05C3-487B-BB75-27D345B66560}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GBCLV3", "..\..\..\Code\GBCLV3-master\GBCLV3\GBCLV3.csproj", "{56A76B9B-EB26-412A-AECD-156244A604DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Debug|x64.Build.0 = Debug|Any CPU
 		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Release|x64.ActiveCfg = Release|Any CPU
+		{CDF92DB8-E9B7-4202-8E74-58E72AAC08EF}.Release|x64.Build.0 = Release|Any CPU
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Debug|Any CPU.Build.0 = Debug|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Debug|x64.ActiveCfg = Debug|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Debug|x64.Build.0 = Debug|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Release|Any CPU.ActiveCfg = Release|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Release|Any CPU.Build.0 = Release|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Release|x64.ActiveCfg = Release|x64
+		{56A76B9B-EB26-412A-AECD-156244A604DC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

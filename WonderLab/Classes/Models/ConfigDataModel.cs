@@ -39,6 +39,9 @@ namespace WonderLab.Classes.Models {
         [JsonPropertyName("isEnableIndependencyCore")]
         public bool IsEnableIndependencyCore { get; set; }
 
+        [JsonPropertyName("branch")]
+        public BranchType Branch { get; set; } = BranchType.Lsaac;
+
         [JsonPropertyName("javaPaths")]
         public ObservableCollection<JavaInfo> JavaPaths { get; set; } = new();
 
