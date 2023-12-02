@@ -4,5 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="WonderLab.Views.Pages.Download.GameDownloadPage">
-  Welcome to Avalonia!
+	<Border CornerRadius="10"
+		Background="White"
+		ClipToBounds="False"
+		BoxShadow="0 2 4 0 #26000000">
+		
+	</Border>
 </UserControl>

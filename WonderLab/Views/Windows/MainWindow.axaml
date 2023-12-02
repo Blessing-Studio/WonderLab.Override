@@ -36,7 +36,8 @@
 
 				<controls:NavigationViewItem Icon="&#xEDDC;"
 							                 Content="下载"
-											 Foreground="#18C964"/>
+											 Foreground="#18C964"
+											 Command="{Binding NavigationDownloadPageCommand}"/>
 
 				<!--<controls:NavigationViewItem Icon="&#xF0B9;"
 							 Content="联机"

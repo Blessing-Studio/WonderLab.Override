@@ -81,9 +81,9 @@ public partial class App : Application {
         services.AddScoped<HomePage>();
         services.AddScoped<SettingPage>();
         services.AddScoped<TaskCenterPage>();
-        services.AddWindowFactory<MainWindow>();
         services.AddScoped<LaunchSettingPage>();
         services.AddScoped<NotificationCenterPage>();
+        services.AddWindowFactory<MainWindow>();
 
         ConfigureManagers(services);
     }
@@ -103,9 +103,9 @@ public partial class App : Application {
     }
 
     private static void ConfigureManagers(IServiceCollection services) {
+        services.AddScoped<TaskManager>();
         services.AddScoped<DataManager>();
         services.AddScoped<ThemeManager>();
-        services.AddSingleton<TaskManager>();
         services.AddScoped<NotificationManager>();
     }
 }

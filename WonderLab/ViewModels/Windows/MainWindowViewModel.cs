@@ -9,6 +9,7 @@ using WonderLab.Views.Pages.Setting;
 using System.Collections.ObjectModel;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Threading;
+using WonderLab.Views.Pages.Download;
 
 namespace WonderLab.ViewModels.Windows {
     public class MainWindowViewModel : ViewModelBase {
@@ -34,14 +35,19 @@ namespace WonderLab.ViewModels.Windows {
         public ICommand NavigationSettingPageCommand
             => ReactiveCommand.Create(NavigationSettingPage);
 
-        public async void NavigationSettingPage() {
+        public void NavigationSettingPage() {
             CurrentPage = App.ServiceProvider
                 .GetRequiredService<SettingPage>();
         }
 
-        public async void NavigationHomePage() {
+        public void NavigationHomePage() {
             CurrentPage = App.ServiceProvider
                 .GetRequiredService<HomePage>();
+        }
+
+        public void NavigationDownloadPageCommand() {
+            CurrentPage = App.ServiceProvider
+                .GetRequiredService<DownloadPage>();
         }
     }
 }

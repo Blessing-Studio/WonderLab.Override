@@ -89,6 +89,7 @@ namespace WonderLab.ViewModels.Pages {
             _taskManager = taskManager;
             _configData = dataManager.Config;
             _notificationManager = notificationManager;
+            Init();
 
             this.WhenAnyValue(p1 => p1.SelectedGameCore)
                 .Subscribe(core => {
@@ -181,12 +182,8 @@ namespace WonderLab.ViewModels.Pages {
             }
 
             await Task.Run(() => {
-                return GameCoreUtil.GetGameCores(_configData.GameFolder)
-                .ToList();
-            }).ContinueWith(async task => {
-                var cores = await task;
-                SelectedGameCoreInfo = cores
-                    .FirstOrDefault(x => x.Id == CurrentGameCoreId);
+                SelectedGameCoreInfo = GameCoreUtil.GetGameCore(_configData.GameFolder,
+                    _configData.CurrentGameCoreId);
             });
         }
 
