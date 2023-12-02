@@ -52,13 +52,12 @@ namespace WonderLab.Classes.Handlers {
 
             int remoteVersion = UpdateInfoJsonNode["version"]!
                 .GetValue<string>()
-                .Split('.')
-                .ElementAtOrDefault(1)!
+                .Replace(".", "")
                 .ToInt();
 
             int localVersion = _dataManager.Version
-                .Split(".")
-                .ElementAtOrDefault(1)!
+                .Replace(".", "")
+                .Substring(0, 3)
                 .ToInt();
 
             return remoteVersion > localVersion;
