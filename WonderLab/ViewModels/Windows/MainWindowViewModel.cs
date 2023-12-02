@@ -44,7 +44,7 @@ namespace WonderLab.ViewModels.Windows {
 
         public async void Init() {
             var result = await _updateHandler.CheckAsync();
-            if (!result) {
+            if (result) {
                 await Dispatcher.UIThread.InvokeAsync(async () => {
                     var content = App.ServiceProvider.GetRequiredService<UpdateDialogContent>();
                     await DialogHost.Show(content, "dialogHost");

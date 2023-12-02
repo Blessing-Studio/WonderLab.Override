@@ -36,6 +36,7 @@
 				<Button Content="暂不更新"
 						CornerRadius="10"
 						HorizontalAlignment="Stretch"
+						Command="{Binding CloseCommand}"
 						HorizontalContentAlignment="Center"/>
 
 				<Button Grid.Column="2"

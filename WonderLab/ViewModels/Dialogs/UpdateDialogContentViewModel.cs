@@ -1,4 +1,5 @@
 ﻿using Avalonia.ReactiveUI;
+using DialogHostAvalonia;
 using DynamicData;
 using MinecraftLaunch.Modules.Downloaders;
 using MinecraftLaunch.Modules.Models.Download;
@@ -65,8 +66,15 @@ namespace WonderLab.ViewModels.Dialogs {
         [Reactive]
         public bool IsDownloading { get; set; }
 
+        public ICommand CloseCommand =>
+            ReactiveCommand.Create(Close);
+
         public ICommand UpdateCommand =>
             ReactiveCommand.Create(Update);
+        
+        private void Close() {
+            DialogHost.Close("dialogHost");
+        }
 
         private async void Update() {
             IsDownloading = true;
