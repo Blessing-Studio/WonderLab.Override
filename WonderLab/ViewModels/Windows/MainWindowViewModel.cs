@@ -5,7 +5,7 @@ using WonderLab.Views.Pages;
 using ReactiveUI.Fody.Helpers;
 using WonderLab.Classes.Managers;
 using WonderLab.Classes.Interfaces;
-using WonderLab.Views.Pages.Settings;
+using WonderLab.Views.Pages.Setting;
 using System.Collections.ObjectModel;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Threading;

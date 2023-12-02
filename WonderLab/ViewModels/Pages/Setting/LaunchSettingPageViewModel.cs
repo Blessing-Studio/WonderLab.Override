@@ -13,7 +13,7 @@ using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
 using DynamicData;
 
-namespace WonderLab.ViewModels.Pages.Settings {
+namespace WonderLab.ViewModels.Pages.Setting {
     public class LaunchSettingPageViewModel : ViewModelBase {
         private DataManager _configDataManager;
 

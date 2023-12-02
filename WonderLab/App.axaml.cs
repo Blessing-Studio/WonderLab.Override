@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
 using WonderLab.Views.Windows;
+using Avalonia.Platform.Storage;
 using WonderLab.Classes.Handlers;
 using WonderLab.Classes.Managers;
 using WonderLab.ViewModels.Pages;
@@ -13,13 +14,12 @@ using WonderLab.Classes.Utilities;
 using Microsoft.Extensions.Hosting;
 using WonderLab.Classes.Interfaces;
 using WonderLab.ViewModels.Windows;
-using WonderLab.Views.Pages.Settings;
-using WonderLab.ViewModels.Pages.Settings;
+using WonderLab.Views.Pages.Setting;
+using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.Views.Pages.ControlCenter;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
-using Avalonia.Platform.Storage;
 
 namespace WonderLab;
 
