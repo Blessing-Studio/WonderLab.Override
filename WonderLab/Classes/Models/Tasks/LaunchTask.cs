@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -8,9 +7,7 @@ using MinecraftLaunch.Modules.Enum;
 using MinecraftLaunch.Modules.Utilities;
 using MinecraftLaunch.Modules.Models.Auth;
 using MinecraftLaunch.Modules.Models.Launch;
-using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Managers;
-using Avalonia.Controls.Notifications;
 
 namespace WonderLab.Classes.Models.Tasks {
     public class LaunchTask : TaskBase {
@@ -28,20 +25,18 @@ namespace WonderLab.Classes.Models.Tasks {
         }
 
         public async override ValueTask BuildWorkItemAsync(CancellationToken token) {
-            base.CanBeCancelled = false;
-            base.IsIndeterminate = true;
+            CanBeCancelled = false;
 
             try {
-                await Task.Delay(1000);
                 JavaMinecraftLauncher launcher = new(BuildLaunchConfig(),
                     _config.GameFolder);
 
-                base.IsIndeterminate = false;
                 var result = await launcher.LaunchTaskAsync(_gameCore.Id!, args => {
                     ReportProgress(args.Item1 * 100, args.Item2);
                 });
 
                 if (result.State == LaunchState.Succeess) {
+                    IsIndeterminate = true;
                     await Task.Run(result.Process.WaitForInputIdle);
                     _notificationManager.Info($"游戏 [{_gameCore.Id}] 启动成功");
                 } else {

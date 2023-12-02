@@ -764,6 +764,7 @@
 		<Setter Property="FontSize" Value="13" />
 		<Setter Property="FontWeight" Value="Normal" />
 		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="BorderBrush" Value="#7B61FF"/>
 		<Setter Property="Background" Value="{DynamicResource TabItemHeaderBackgroundUnselected}" />
 		<Setter Property="Foreground" Value="{DynamicResource TabItemHeaderForegroundUnselected}" />
 		<Setter Property="Margin" Value="0" />
@@ -787,7 +788,7 @@
 							       FontSize="{TemplateBinding FontSize}"
 								   Margin="12 0"/>
 						<Border Name="PART_SelectedPipe"
-								Background="#7B61FF"
+								Background="{TemplateBinding BorderBrush}"
 								CornerRadius="7"
 								IsVisible="False" Margin="3"/>
 					</Panel>

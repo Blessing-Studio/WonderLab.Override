@@ -3,13 +3,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Media;
 using Avalonia.Animation.Easings;
-using Avalonia.Styling;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Layout;
@@ -129,7 +125,7 @@ namespace WonderLab.Views.Controls {
     }
 
     public sealed class Ripple : Ellipse {
-        public static readonly TimeSpan Duration = new TimeSpan(0, 0, 0, 0, 500);
+        public static readonly TimeSpan Duration = new(0, 0, 0, 0, 500);
 
         private readonly double _endX;
 
@@ -139,38 +135,13 @@ namespace WonderLab.Views.Controls {
 
         public static Easing Easing { get; set; } = new CubicEaseOut();
 
-
         public Ripple(double outerWidth, double outerHeight) {
-            base.Transitions = new Transitions
-            {
-            new DoubleTransition
-            {
-                Duration = Duration,
-                Easing = Easing,
-                Property = Layoutable.WidthProperty
-            },
-            new DoubleTransition
-            {
-                Duration = Duration,
-                Easing = Easing,
-                Property = Layoutable.HeightProperty
-            },
-            new DoubleTransition
-            {
-                Duration = Duration,
-                Easing = Easing,
-                Property = Visual.OpacityProperty
-            },
-            new ThicknessTransition
-            {
-                Duration = Duration,
-                Easing = Easing,
-                Property = Layoutable.MarginProperty
-            }
-        };
+            InitializeTransitions();
             base.Width = 0.0;
             base.Height = 0.0;
+            // Calculate the maximum diameter using Pythagorean theorem
             _maxDiam = Math.Sqrt(Math.Pow(outerWidth, 2.0) + Math.Pow(outerHeight, 2.0));
+            // Calculate the ending positions for x and y
             _endY = _maxDiam - outerHeight;
             _endX = _maxDiam - outerWidth;
             base.HorizontalAlignment = HorizontalAlignment.Left;
@@ -191,6 +162,36 @@ namespace WonderLab.Views.Controls {
 
         public void RunSecondStep() {
             base.Opacity = 0.0;
+        }
+
+        private void InitializeTransitions() {
+            Transitions = new Transitions
+            {
+                new DoubleTransition
+                {
+                    Duration = Duration,
+                    Easing = Easing,
+                    Property = WidthProperty
+                },
+                new DoubleTransition
+                {
+                    Duration = Duration,
+                    Easing = Easing,
+                    Property = HeightProperty
+                },
+                new DoubleTransition
+                {
+                    Duration = Duration,
+                    Easing = Easing,
+                    Property = OpacityProperty
+                },
+                new ThicknessTransition
+                {
+                    Duration = Duration,
+                    Easing = Easing,
+                    Property = MarginProperty
+                }
+            };
         }
     }
 }

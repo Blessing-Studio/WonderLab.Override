@@ -20,6 +20,8 @@ using WonderLab.Views.Pages.ControlCenter;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Views.Pages.Download;
+using WonderLab.ViewModels.Pages.Download;
 
 namespace WonderLab;
 
@@ -63,14 +65,8 @@ public partial class App : Application {
         return Host.CreateDefaultBuilder().ConfigureServices((_, services) => {
             ConfigureHandlers(services);
         }).ConfigureServices((_, services) => {
-            ConfigureLogging(services);
-        }).ConfigureServices((_, services) => {
             ConfigureView(services);
         });
-    }
-
-    private static void ConfigureLogging(IServiceCollection services) {
-
     }
 
     private static void ConfigureView(IServiceCollection services) {
@@ -80,8 +76,10 @@ public partial class App : Application {
 
         services.AddScoped<HomePage>();
         services.AddScoped<SettingPage>();
+        services.AddScoped<DownloadPage>();
         services.AddScoped<TaskCenterPage>();
-        services.AddScoped<LaunchSettingPage>();
+        services.AddScoped<GameDownloadPage>();
+        services.AddTransient<LaunchSettingPage>();
         services.AddScoped<NotificationCenterPage>();
         services.AddWindowFactory<MainWindow>();
 
@@ -97,7 +95,9 @@ public partial class App : Application {
         services.AddScoped<HomePageViewModel>();
         services.AddScoped<MainWindowViewModel>();
         services.AddScoped<SettingPageViewModel>();
+        services.AddScoped<DownloadPageViewModel>();
         services.AddScoped<TaskCenterPageViewModel>();
+        services.AddScoped<GameDownloadPageViewModel>();
         services.AddScoped<LaunchSettingPageViewModel>();
         services.AddScoped<NotificationCenterPageViewModel>();
     }

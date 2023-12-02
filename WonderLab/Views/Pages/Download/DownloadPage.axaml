@@ -8,9 +8,14 @@
              x:Class="WonderLab.Views.Pages.Download.DownloadPage">
 	<Grid>
 		<TabControl VerticalAlignment="Top">
-			<TabItem Header="游戏本体"/>
-			<TabItem Header="Curseforge 资源"/>
-			<TabItem Header="Modrinth 资源"/>
+			<TabItem Header="游戏本体"
+					 BorderBrush="#18C964"/>
+			
+			<TabItem Header="Curseforge 资源"
+					 BorderBrush="#18C964"/>
+			
+			<TabItem Header="Modrinth 资源"
+					 BorderBrush="#18C964"/>
 		</TabControl>
 
 		<ContentControl Margin="0 40 0 0"
