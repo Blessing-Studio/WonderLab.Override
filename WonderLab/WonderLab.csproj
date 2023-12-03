@@ -6,6 +6,7 @@
 		<LangVersion>latest</LangVersion>
 		<OutputType>WinExe</OutputType>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<Platform></Platform>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Assets\Images\normal.png" />
@@ -66,13 +67,10 @@
 		<EmbeddedResource Include="Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
+		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'linux'">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
-		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" />
+		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'Linux'"/>
 	</ItemGroup>
 
 	<ItemGroup>
