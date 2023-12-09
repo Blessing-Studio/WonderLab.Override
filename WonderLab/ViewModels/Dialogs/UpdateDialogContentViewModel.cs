@@ -77,25 +77,27 @@ namespace WonderLab.ViewModels.Dialogs {
         }
 
         private async void Update() {
-            IsDownloading = true;
-            using var downloader = FileDownloader.Build(new DownloadRequest {
-                Url = _downloadUrl,
-                FileName = "updateTemp.zip",
-                Directory = new(Environment.CurrentDirectory)
-            });
+            if (EnvironmentUtil.IsWindow) {
+                IsDownloading = true;
+                using var downloader = FileDownloader.Build(new DownloadRequest {
+                    Url = _downloadUrl,
+                    FileName = "updateTemp.zip",
+                    Directory = new(Environment.CurrentDirectory)
+                });
 
-            downloader.DownloadProgressChanged += OnDownloadProgressChanged;
-            downloader.BeginDownload();
-            var result = await downloader.CompleteAsync();
-            if (result.Success) {
-                using var zip = ZipFile.OpenRead(result.Result.FullName);
-                var launcherEntry = zip.Entries
-                    .FirstOrDefault(x => x.Name.ToLower() == "wonderlab.exe");
-                if (launcherEntry is not null) {
-                    launcherEntry.ExtractToFile(Path.Combine(result.Result.Directory.FullName,
-                        "launcher.temp"));
+                downloader.DownloadProgressChanged += OnDownloadProgressChanged;
+                downloader.BeginDownload();
+                var result = await downloader.CompleteAsync();
+                if (result.Success) {
+                    using var zip = ZipFile.OpenRead(result.Result.FullName);
+                    var launcherEntry = zip.Entries
+                        .FirstOrDefault(x => x.Name.ToLower() == "wonderlab.exe");
+                    if (launcherEntry is not null) {
+                        launcherEntry.ExtractToFile(Path.Combine(result.Result.Directory!.FullName,
+                            "launcher.temp"));
 
-                    _updateHandler.Update();
+                        _updateHandler.Update();
+                    }
                 }
             }
         }

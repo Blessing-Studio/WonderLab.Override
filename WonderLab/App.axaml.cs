@@ -24,6 +24,9 @@ using WonderLab.ViewModels.Pages.Download;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
+using MinecraftLaunch.Modules.Utilities;
+using System.Diagnostics;
+using System.Linq;
 
 namespace WonderLab;
 
@@ -117,7 +120,7 @@ public partial class App : Application {
         services.AddTransient<UpdateDialogContentViewModel>();
     }
 
-    private static void ConfigureManagers(IServiceCollection services) {
+    private static async void ConfigureManagers(IServiceCollection services) {
         services.AddScoped<TaskManager>();
         services.AddScoped<DataManager>();
         services.AddScoped<ThemeManager>();
