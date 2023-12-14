@@ -1,7 +1,5 @@
-﻿using ReactiveUI;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Input;
-using ReactiveUI.Fody.Helpers;
 using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using WonderLab.Classes.Managers;
@@ -11,77 +9,64 @@ using System.Collections.ObjectModel;
 using MinecraftLaunch.Modules.Utilities;
 using MinecraftLaunch.Modules.Models.Launch;
 using System.Threading.Tasks;
-using DynamicData;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.ViewModels.Pages.Setting {
-    public class LaunchSettingPageViewModel : ViewModelBase {
+    public partial class LaunchSettingPageViewModel : ViewModelBase {
         private DataManager _configDataManager;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("GameFolder")]
-        public string GameFolder { get; set; }
+        public string gameFolder;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("GameFolders")]
-        public ObservableCollection<string> GameFolders { get; set; }
-        
-        [Reactive]
+        public ObservableCollection<string> gameFolders;
+
+        [ObservableProperty]
         [BindToConfig("JavaPath")]
-        public JavaInfo JavaPath { get; set; }
+        public JavaInfo javaPath;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("JavaPaths")]
-        public ObservableCollection<JavaInfo> JavaPaths { get; set; }
-        
-        [Reactive]
+        public ObservableCollection<JavaInfo> javaPaths;
+
+        [ObservableProperty]
         [BindToConfig("IsAutoSelectJava")]
-        public bool IsAutoSelectJava { get; set; }
+        public bool isAutoSelectJava;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("MaxMemory")]
-        public int MaxMemory { get; set; }
+        public int maxMemory;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("Width")]
-        public int Width { get; set; }
+        public int width;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("Height")]
-        public int Height { get; set; }
+        public int height;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("IsAutoMemory")]
-        public bool IsAutoMemory { get; set; }
+        public bool isAutoMemory;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("IsFullscreen")]
-        public bool IsFullscreen { get; set; }
+        public bool isFullscreen;
 
-        [Reactive]
+        [ObservableProperty]
         [BindToConfig("IsEnableIndependencyCore")]
-        public bool IsEnableIndependencyCore { get; set; }
-
-        public ICommand AddGameFolderCommand =>
-            ReactiveCommand.Create(AddGameFolder);
-
-        public ICommand RemoveGameFolderCommand =>
-            ReactiveCommand.Create(RemoveGameFolder);
-
-        public ICommand AddJavaPathCommand =>
-            ReactiveCommand.Create(AddJavaPath);
-
-        public ICommand AddJavaPathsCommand =>
-            ReactiveCommand.Create(AddJavaPaths);
-
-        public ICommand RemoveJavaPathCommand =>
-            ReactiveCommand.Create(RemoveJavaPath);
+        public bool isEnableIndependencyCore;
 
         public LaunchSettingPageViewModel(DataManager manager) : base(manager) {
             _configDataManager = manager;
             JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
         }
 
-        private async void AddGameFolder() {
+        [RelayCommand]
+        private async Task AddGameFolder() {
             try {
                 var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
 
@@ -95,12 +80,14 @@ namespace WonderLab.ViewModels.Pages.Setting {
              }
         }
 
+        [RelayCommand]
         private void RemoveGameFolder() {
             GameFolders.Remove(GameFolder);
             GameFolder = GameFolders.Any() ? GameFolders.Last() : null!;
         }
 
-        private async void AddJavaPath() {
+        [RelayCommand]
+        private async Task AddJavaPath() {
             var result = await DialogUtil.OpenFilePickerAsync(new List<FilePickerFileType>() {
                 new("Java文件") { Patterns = new List<string>() { EnvironmentUtil.IsWindow ? "javaw.exe" : "java" } }
             }, "请选择您的 Java 文件");
@@ -111,16 +98,14 @@ namespace WonderLab.ViewModels.Pages.Setting {
             }
         }
 
-        private async void AddJavaPaths() {
-            await Task.Run(JavaUtil.GetJavas)
-                .ContinueWith(async javasTask => {
-                    var javas = await javasTask;
-
-                    JavaPaths.AddRange(javas);
-                    JavaPath = JavaPaths.Last();
-                });
+        [RelayCommand]
+        private async Task AddJavaPaths() {
+            var result = await Task.Run(JavaUtil.GetJavas);
+            JavaPaths.Load(result);
+            JavaPath = JavaPaths.Last();
         }
 
+        [RelayCommand]
         private void RemoveJavaPath() {
             JavaPaths.Remove(JavaPath);
             JavaPath = JavaPaths.Any() ? JavaPaths.Last() : null!;

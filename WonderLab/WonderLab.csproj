@@ -18,19 +18,18 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.5" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
+    <PackageReference Include="Avalonia" Version="11.0.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.5" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="MinecraftLaunch.Skin" Version="1.0.0" />
 	<PackageReference Include="MinecraftOAuth" Version="2.0.1" />
 	<PackageReference Include="MinecraftLaunch" Version="2.0.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="19.5.1" />
 	<PackageReference Include="Dotnet.Bundle" Version="*" />
   </ItemGroup>
 
@@ -70,10 +69,6 @@
 		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'linux'">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
-		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'Linux'"/>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..\.editorconfig" Link=".editorconfig" />
+		<Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" Condition="'$(Platform)' == 'Linux'" />
 	</ItemGroup>
 </Project>

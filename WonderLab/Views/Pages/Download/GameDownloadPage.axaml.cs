@@ -1,11 +1,13 @@
-using Avalonia.ReactiveUI;
+using Avalonia.Controls;
 using WonderLab.ViewModels.Pages.Download;
 
 namespace WonderLab.Views.Pages.Download {
-    public partial class GameDownloadPage : ReactiveUserControl<GameDownloadPageViewModel> {
+    public partial class GameDownloadPage : UserControl {
+        public GameDownloadPageViewModel ViewModel { get; set; }
+
         public GameDownloadPage(GameDownloadPageViewModel vm) {
             InitializeComponent();
-            ViewModel = vm;
+            DataContext = ViewModel = vm;
         }
 
         public GameDownloadPage() {

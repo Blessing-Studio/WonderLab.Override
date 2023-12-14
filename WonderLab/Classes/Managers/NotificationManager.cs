@@ -1,21 +1,15 @@
-﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using WonderLab.Views.Controls;
+﻿using WonderLab.Views.Controls;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.Classes.Managers {
-    public class NotificationManager : ReactiveObject {
-        [Reactive]
-        public ObservableCollection<INotification> Histoys { get; set; }
+    public partial class NotificationManager : ObservableObject {
+        [ObservableProperty]
+        public ObservableCollection<INotification> histoys = new();
 
-        [Reactive]
-        public ObservableCollection<INotification> Notifications { get; set; }
-
-        public NotificationManager() {
-            Histoys = new();
-            Notifications = new();
-        }
+        [ObservableProperty]
+        public ObservableCollection<INotification> notifications = new();
 
         public void Info(string message,bool canCancelled = true) {
             var result = Notification.GetNotification("提示", message,

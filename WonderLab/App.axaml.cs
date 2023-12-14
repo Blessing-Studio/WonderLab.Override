@@ -1,6 +1,7 @@
 ﻿using System;
 using Avalonia;
-using ReactiveUI;
+using System.Linq;
+using System.Diagnostics;
 using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
@@ -18,15 +19,13 @@ using WonderLab.ViewModels.Windows;
 using WonderLab.ViewModels.Dialogs;
 using WonderLab.Views.Pages.Setting;
 using WonderLab.Views.Pages.Download;
+using MinecraftLaunch.Modules.Utilities;
 using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.Views.Pages.ControlCenter;
 using WonderLab.ViewModels.Pages.Download;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
-using MinecraftLaunch.Modules.Utilities;
-using System.Diagnostics;
-using System.Linq;
 
 namespace WonderLab;
 
@@ -46,7 +45,7 @@ public partial class App : Application {
     public override void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             var dataHandler = ServiceProvider.GetRequiredService<ConfigDataHandler>();
-            RxApp.MainThreadScheduler.Schedule(dataHandler.Load);
+            dataHandler.Load();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;

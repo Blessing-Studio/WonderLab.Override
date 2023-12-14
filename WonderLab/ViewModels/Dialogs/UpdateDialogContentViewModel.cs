@@ -1,11 +1,9 @@
-﻿using Avalonia.ReactiveUI;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DialogHostAvalonia;
-using DynamicData;
 using MinecraftLaunch.Modules.Downloaders;
 using MinecraftLaunch.Modules.Models.Download;
 using MinecraftLaunch.Modules.Utilities;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +17,7 @@ using System.Windows.Input;
 using WonderLab.Classes.Handlers;
 
 namespace WonderLab.ViewModels.Dialogs {
-    public class UpdateDialogContentViewModel : ViewModelBase {
+    public partial class UpdateDialogContentViewModel : ViewModelBase {
         private string _downloadUrl;
 
         private UpdateHandler _updateHandler;
@@ -60,22 +58,18 @@ namespace WonderLab.ViewModels.Dialogs {
 
         public string Messages { get; }
 
-        [Reactive]
-        public double Progress { get; set; }
+        [ObservableProperty]
+        public double progress;
 
-        [Reactive]
-        public bool IsDownloading { get; set; }
+        [ObservableProperty]
+        public bool isDownloading;
 
-        public ICommand CloseCommand =>
-            ReactiveCommand.Create(Close);
-
-        public ICommand UpdateCommand =>
-            ReactiveCommand.Create(Update);
-        
+        [RelayCommand]
         private void Close() {
             DialogHost.Close("dialogHost");
         }
 
+        [RelayCommand]
         private async void Update() {
             if (EnvironmentUtil.IsWindow) {
                 IsDownloading = true;

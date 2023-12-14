@@ -1,12 +1,13 @@
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
 using WonderLab.ViewModels.Pages.ControlCenter;
 
 namespace WonderLab.Views.Pages.ControlCenter {
-    public partial class TaskCenterPage : ReactiveUserControl<TaskCenterPageViewModel> {
-        public TaskCenterPage(TaskCenterPageViewModel viewModel) {
+    public partial class TaskCenterPage : UserControl {
+        public TaskCenterPageViewModel ViewModel { get; set; }
+
+        public TaskCenterPage(TaskCenterPageViewModel vm) {
             InitializeComponent();
-            ViewModel = viewModel;
+            DataContext = ViewModel = vm;
         }
 
         public TaskCenterPage() {

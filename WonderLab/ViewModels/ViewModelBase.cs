@@ -1,24 +1,23 @@
-﻿using System;
-using ReactiveUI;
-using System.ComponentModel;
+﻿using System.Linq;
 using System.Reflection;
-using WonderLab.Classes.Attributes;
-using System.Linq;
+using System.ComponentModel;
 using WonderLab.Classes.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
+using WonderLab.Classes.Attributes;
+using CommunityToolkit.Mvvm.ComponentModel;
+using SixLabors.ImageSharp.ColorSpaces;
 
 namespace WonderLab.ViewModels;
 
-public class ViewModelBase : ReactiveObject {
-    private Dictionary<string, PropertyInfo> _configPropertys;
+public class ViewModelBase : ObservableObject {
     private DataManager _configDataManager;
+    private Dictionary<string, FieldInfo> _configFields;
 
     public ViewModelBase() { }
 
     public ViewModelBase(DataManager manager) {
         var properties = GetType()
-            .GetProperties()
+            .GetFields()
             .Where(x => x.GetCustomAttribute<BindToConfigAttribute>() is not null)
             .ToDictionary(x => x.Name, x => x);
 
@@ -27,34 +26,34 @@ public class ViewModelBase : ReactiveObject {
             PropertyChanged += OnPropertyChanged;
         }
 
+        _configFields = properties;
         _configDataManager = manager;
-        _configPropertys = properties;
         InitDataToView();
     }
 
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {
-        if (_configPropertys.TryGetValue(e.PropertyName, out var propertyA)) {
-            var propertyB = GetPropertyB(propertyA);
+        if (_configFields.TryGetValue(e.PropertyName, out var fieldA)) {
+            var propertyB = GetPropertyB(fieldA);
 
-            propertyB!.SetValue(_configDataManager.Config, 
-                propertyA.GetValue(this));
+            propertyB!.SetValue(_configDataManager.Config,
+                fieldA.GetValue(this));
         }
     }
 
     private void InitDataToView() {
-        foreach (var item in _configPropertys) {
-            var propertyA = item.Value;
-            var propertyB = GetPropertyB(propertyA);
+        foreach (var item in _configFields) {
+            var fieldA = item.Value;
+            var propertyB = GetPropertyB(fieldA);
 
-            propertyA.SetValue(this, propertyB!
+            fieldA.SetValue(this, propertyB!
                 .GetValue(_configDataManager.Config));
         }
     }
 
-    private PropertyInfo GetPropertyB(PropertyInfo propertyA) => _configDataManager
+    private PropertyInfo GetPropertyB(FieldInfo fieldA) => _configDataManager
         .Config
         .GetType()
-        .GetProperty(propertyA
+        .GetProperty(fieldA
         .GetCustomAttribute<BindToConfigAttribute>()!
         .ConfigName)!;
 }

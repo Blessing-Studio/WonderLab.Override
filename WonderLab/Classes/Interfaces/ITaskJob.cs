@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Threading;
-using ReactiveUI;
+using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.Classes.Interfaces {
     /// <summary>
@@ -25,9 +25,9 @@ namespace WonderLab.Classes.Interfaces {
 
         ValueTask? WorkingTask { get; set; }
 
-        IReactiveCommand CancelTaskCommand { get; }
+        IRelayCommand CancelTaskCommand { get; }
 
-        IReactiveCommand RequestDeleteCommand { get; }
+        IRelayCommand RequestDeleteCommand { get; }
 
         CancellationTokenSource CancellationTokenSource { get; }
 

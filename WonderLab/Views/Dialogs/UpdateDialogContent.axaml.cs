@@ -1,16 +1,17 @@
 using Avalonia.Controls;
-using Avalonia.ReactiveUI;
 using WonderLab.ViewModels.Dialogs;
 
 namespace WonderLab.Views.Dialogs {
-    public partial class UpdateDialogContent : ReactiveUserControl<UpdateDialogContentViewModel> {
+    public partial class UpdateDialogContent : UserControl {
+        public UpdateDialogContentViewModel ViewModel { get; set; }
+
         public UpdateDialogContent() {
             InitializeComponent();
         }
 
         public UpdateDialogContent(UpdateDialogContentViewModel vm) {
             InitializeComponent();
-            ViewModel = vm;
+            DataContext = ViewModel = vm;
         }
     }
 }

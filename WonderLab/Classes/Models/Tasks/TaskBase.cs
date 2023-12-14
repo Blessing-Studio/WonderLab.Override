@@ -1,18 +1,13 @@
-﻿using Avalonia.Threading;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading;
+using Avalonia.Threading;
 using System.Threading.Tasks;
 using WonderLab.Classes.Interfaces;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.Classes.Models.Tasks {
-    public abstract class TaskBase : ReactiveObject, ITaskJob {
+    public abstract partial class TaskBase : ObservableObject, ITaskJob {
         private bool disposed;
 
         private bool _isTaskFinishedEventFired;
@@ -20,34 +15,30 @@ namespace WonderLab.Classes.Models.Tasks {
         private double _pendingProgress;
 
         private string _pendingDetail;
-        
-        [Reactive]
-        public string JobName { get; set; }
 
-        [Reactive]
-        public bool IsDeletedRequested { get; set; }
+        [ObservableProperty]
+        public string jobName;
 
-        [Reactive]
-        public bool CanBeCancelled { get; set; }
+        [ObservableProperty]
+        public bool isDeletedRequested;
 
-        [Reactive]
-        public TaskStatus TaskStatus { get; set; }
+        [ObservableProperty]
+        public bool canBeCancelled;
 
-        [Reactive]
-        public string ProgressDetail { get; set; }
+        [ObservableProperty]
+        public TaskStatus taskStatus;
 
-        [Reactive]
-        public bool IsIndeterminate { get; set; }
+        [ObservableProperty]
+        public string progressDetail;
 
-        [Reactive]
-        public double Progress { get; set; }
+        [ObservableProperty]
+        public bool isIndeterminate;
 
-        [Reactive]
-        public ValueTask? WorkingTask { get; set; }
+        [ObservableProperty]
+        public double progress;
 
-        public IReactiveCommand CancelTaskCommand => ReactiveCommand.Create(CancelTask);
-
-        public IReactiveCommand RequestDeleteCommand => ReactiveCommand.Create(RequestDelete);
+        [ObservableProperty]
+        public ValueTask? workingTask;
 
         public CancellationTokenSource CancellationTokenSource => new CancellationTokenSource();
 
@@ -94,15 +85,25 @@ namespace WonderLab.Classes.Models.Tasks {
             return TaskStatus;
         }
 
+        [RelayCommand(CanExecute = nameof(CanCancelTask))]
         private void CancelTask() {
             CanBeCancelled = false;
             TaskStatus = TaskStatus.Canceled;
             CancellationTokenSource?.Cancel();
         }
 
+        [RelayCommand(CanExecute = nameof(CanDeleteTask))]
         private void RequestDelete() {
             IsDeletedRequested = true;
             CanBeCancelled = false;
+        }
+
+        private bool CanCancelTask() {
+            return CanBeCancelled;
+        }
+
+        private bool CanDeleteTask() {
+            return !IsDeletedRequested;
         }
 
         protected virtual void Dispose(bool disposing) {

@@ -1,19 +1,20 @@
 ﻿using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MinecraftLaunch.Modules.Installer;
 using MinecraftLaunch.Modules.Models.Install;
-using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WonderLab.Classes.Utilities;
 
 namespace WonderLab.ViewModels.Pages.Download {
-    public class GameDownloadPageViewModel : ViewModelBase {
+    public partial class GameDownloadPageViewModel : ViewModelBase {
         public GameDownloadPageViewModel() { 
             Init();
         }
 
-        [Reactive]
-        public ObservableCollection<GameCoreEmtity> GameCores { get; set; } = new();
+        [ObservableProperty]
+        public ObservableCollection<GameCoreEmtity> gameCores = new();
 
         private async void Init() {
             await Task.Delay(1000);

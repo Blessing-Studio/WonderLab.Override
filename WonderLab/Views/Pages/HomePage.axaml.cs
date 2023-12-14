@@ -1,12 +1,14 @@
+using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.ReactiveUI;
 using WonderLab.ViewModels.Pages;
 
 namespace WonderLab.Views.Pages {
-    public partial class HomePage : ReactiveUserControl<HomePageViewModel> {
+    public partial class HomePage : UserControl {
+        public HomePageViewModel ViewModel { get; set; }
+
         public HomePage(HomePageViewModel vm) {
             InitializeComponent();
-            ViewModel = vm;
+            DataContext = ViewModel = vm;
         }
 
         public HomePage() {

@@ -1,8 +1,6 @@
-﻿using ReactiveUI;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using System.Windows.Input;
 using WonderLab.Views.Pages;
-using ReactiveUI.Fody.Helpers;
 using WonderLab.Classes.Managers;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Setting;
@@ -13,9 +11,11 @@ using WonderLab.Views.Pages.Download;
 using WonderLab.Classes.Handlers;
 using DialogHostAvalonia;
 using WonderLab.Views.Dialogs;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.ViewModels.Windows {
-    public class MainWindowViewModel : ViewModelBase {
+    public partial class MainWindowViewModel : ViewModelBase {
         private UpdateHandler _updateHandler;
 
         private NotificationManager _notificationManager;
@@ -27,20 +27,14 @@ namespace WonderLab.ViewModels.Windows {
             _notificationManager = manager;
         }
 
-        [Reactive]
-        public bool IsFullScreen { get; set; }
+        [ObservableProperty]
+        public bool isFullScreen;
 
-        [Reactive]
-        public UserControl CurrentPage { get; set; }
+        [ObservableProperty]
+        public UserControl currentPage;
 
         public ObservableCollection<INotification> Notifications
             => _notificationManager.Notifications;
-
-        public ICommand NavigationHomePageCommand
-            => ReactiveCommand.Create(NavigationHomePage);
-
-        public ICommand NavigationSettingPageCommand
-            => ReactiveCommand.Create(NavigationSettingPage);
 
         public async void Init() {
             var result = await _updateHandler.CheckAsync();
@@ -52,17 +46,20 @@ namespace WonderLab.ViewModels.Windows {
             }
         }
 
+        [RelayCommand]
         public void NavigationSettingPage() {
             CurrentPage = App.ServiceProvider
                 .GetRequiredService<SettingPage>();
         }
 
+        [RelayCommand]
         public void NavigationHomePage() {
             CurrentPage = App.ServiceProvider
                 .GetRequiredService<HomePage>();
         }
 
-        public void NavigationDownloadPageCommand() {
+        [RelayCommand]
+        public void NavigationDownloadPage() {
             CurrentPage = App.ServiceProvider
                 .GetRequiredService<DownloadPage>();
         }

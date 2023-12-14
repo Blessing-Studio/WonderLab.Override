@@ -1,24 +1,23 @@
 ﻿using System;
-using ReactiveUI;
 using System.Threading;
 using Avalonia.Threading;
 using System.Threading.Tasks;
-using ReactiveUI.Fody.Helpers;
 using System.Threading.Channels;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.Classes.Managers {
     /// <summary>
     /// 调度任务管理器
     /// </summary>
-    public class TaskManager : ReactiveObject {
-        private IBackgroundTaskQueue _taskQueue = null!;
-
+    public partial class TaskManager : ObservableObject {
         private int _currentRunningJobs;
 
-        [Reactive]
-        public ObservableCollection<ITaskJob> TaskJobs { get; set; } = new();
+        private IBackgroundTaskQueue _taskQueue = null!;
+
+        [ObservableProperty]
+        public ObservableCollection<ITaskJob> taskJobs = [];
 
         public TaskManager(IBackgroundTaskQueue queue) {
             _taskQueue = queue;

@@ -1,11 +1,13 @@
-using Avalonia.ReactiveUI;
+using Avalonia.Controls;
 using WonderLab.ViewModels.Pages.Setting;
 
 namespace WonderLab.Views.Pages.Setting {
-    public partial class SettingPage : ReactiveUserControl<SettingPageViewModel> {
+    public partial class SettingPage : UserControl {
+        public SettingPageViewModel ViewModel { get; set; }
+
         public SettingPage(SettingPageViewModel vm) {
             InitializeComponent();
-            ViewModel = vm;
+            DataContext = ViewModel = vm;
         }
 
         public SettingPage() {

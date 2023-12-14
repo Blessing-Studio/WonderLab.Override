@@ -1,13 +1,14 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WonderLab.Views.Pages.Setting;
 
 namespace WonderLab.ViewModels.Pages.Setting {
-    public class SettingPageViewModel : ViewModelBase {
+    public partial class SettingPageViewModel : ViewModelBase {
         public SettingPageViewModel(LaunchSettingPage page) {
             Current = page;
         }
 
-        [Reactive]
-        public object Current {  get; set; }
+        [ObservableProperty]
+        public object current;
     }
 }
