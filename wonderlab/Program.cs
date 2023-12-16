@@ -16,7 +16,7 @@ class Program {
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
-    public static int Main(string[] args) {
+    public static void Main(string[] args) {
         try {
             var builder = BuildAvaloniaApp();
             builder.StartWithClassicDesktopLifetime(args);
@@ -30,8 +30,6 @@ class Program {
                 Exception = ex.GetType().Name,
             };
         }
-
-        return 114514;
     }
 
 
