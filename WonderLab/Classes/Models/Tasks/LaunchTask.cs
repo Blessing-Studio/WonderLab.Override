@@ -2,25 +2,25 @@
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using WonderLab.Classes.Managers;
 using MinecraftLaunch.Classes.Models.Game;
 using MinecraftLaunch.Classes.Models.Launch;
 using MinecraftLaunch.Components.Authenticator;
 using MinecraftLaunch.Components.Launcher;
 using MinecraftLaunch.Components.Resolver;
 using MinecraftLaunch.Utilities;
+using WonderLab.Services;
 
 namespace WonderLab.Classes.Models.Tasks {
     public class LaunchTask : TaskBase {
         private GameEntry _gameCore;
         private ConfigDataModel _config;
-        private DataManager _dataManager;
-        private NotificationManager _notificationManager;
+        private DataService _dataManager;
+        private NotificationService _notificationManager;
 
-        public LaunchTask(GameEntry core, DataManager dataManager, NotificationManager notificationManager) {
+        public LaunchTask(GameEntry core, DataService dataManager, NotificationService notificationManager) {
             _gameCore = core;
             _dataManager = dataManager;
-            _config = dataManager.Config;
+            _config = dataManager.ConfigData;
             _notificationManager = notificationManager;
             JobName = $"游戏 {core.Id} 的启动任务";
         }

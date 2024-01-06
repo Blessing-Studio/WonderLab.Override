@@ -1,15 +1,15 @@
-﻿using WonderLab.Classes.Managers;
+﻿using WonderLab.Services;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace WonderLab.ViewModels.Pages.ControlCenter {
     public class TaskCenterPageViewModel : ViewModelBase {
-        private TaskManager _taskManager {  get; set; }
+        private TaskService _taskService;
 
-        public ObservableCollection<ITaskJob> TaskJobs => _taskManager.TaskJobs;
+        public ObservableCollection<ITaskJob> TaskJobs => _taskService.TaskJobs;
 
-        public TaskCenterPageViewModel(TaskManager manager) {
-            _taskManager = manager;
+        public TaskCenterPageViewModel(TaskService taskService) {
+            _taskService = taskService;
         }
     }
 }

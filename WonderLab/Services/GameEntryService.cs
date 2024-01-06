@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using MinecraftLaunch.Classes.Models.Game;
 using MinecraftLaunch.Components.Resolver;
 
-namespace WonderLab.Classes.Managers;
+namespace WonderLab.Services;
 
-public class GameCoreManager {
+public class GameEntryService {
     private readonly GameResolver _gameResolver = new();
     
     public IEnumerable<GameEntry> GetGameEntries(string path) {

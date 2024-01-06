@@ -9,6 +9,6 @@ namespace WonderLab.ViewModels.Pages.Setting {
         }
 
         [ObservableProperty]
-        public object current;
+        private object current;
     }
 }

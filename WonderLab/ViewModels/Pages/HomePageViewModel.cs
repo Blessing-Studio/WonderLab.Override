@@ -1,54 +1,38 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using Avalonia.Threading;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
 using WonderLab.Classes.Models;
-using WonderLab.Classes.Managers;
 using WonderLab.Classes.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Classes.Attributes;
 using WonderLab.Classes.Models.Tasks;
 using System.Collections.ObjectModel;
-using WonderLab.Views.Pages.ControlCenter;
+using System.Linq;
 using MinecraftLaunch.Classes.Models.Game;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Models.ViewData;
-using WonderLab.Extensions;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Reflection.Metadata;
-using Avalonia;
 using WonderLab.Views.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Classes.Extensions;
+using WonderLab.Services;
 
 namespace WonderLab.ViewModels.Pages {
     public partial class HomePageViewModel : ViewModelBase {
-        private readonly DataManager _dataManager;
-        private readonly TaskManager _taskManager;
+        private readonly DataService _dataService;
+        private readonly TaskService _taskService;
         private readonly ConfigDataModel _configData;
-        private readonly GameCoreManager _gameCoreManager;
-        private readonly NotificationManager _notificationManager;
-        
-        private const int MAX_GAMEBAR_WIDTH = 645;
-        private const int MAX_GAMEBAR_HEIGHT = 370;
+        private readonly GameEntryService _gameEntryService;
+        private readonly NotificationService _notificationService;
         private readonly DispatcherTimer _timer = new();
-        private CancellationTokenSource _cancellationTokenSource = new();
         
         [ObservableProperty]
-        private bool isOpenGameCoreBar = false;
-      
-        [ObservableProperty]
-        private double gameCoreBarHeight = 85;
-
-        [ObservableProperty]
-        private double gameCoreBarWidth = 155;
-
-        [ObservableProperty]
-        private double gameCoreListOpacity = 0;
-
+        private bool isOpenGameCoreBar;
+        
         [ObservableProperty]
         private double otherControlOpacity = 1;
 
@@ -73,58 +57,18 @@ namespace WonderLab.ViewModels.Pages {
         private string? currentGameCoreId;
 
         public HomePageViewModel(
-            DataManager dataManager,
-            TaskManager taskManager,
-            NotificationManager notificationManager,
-            GameCoreManager gameCoreManager) : base(dataManager) {
-            _taskManager = taskManager;
-            _dataManager = dataManager;
-            _configData = dataManager.Config;
-            _gameCoreManager = gameCoreManager;
-            _notificationManager = notificationManager;
+            DataService dataService,
+            TaskService taskService,
+            NotificationService notificationService,
+            GameEntryService gameEntryService) {
+            _taskService = taskService;
+            _dataService = dataService;
+            _configData = dataService.ConfigData;
+            _gameEntryService = gameEntryService;
+            _notificationService = notificationService;
             
             Init();
             WeakReferenceMessenger.Default.Register<GameViewData>(this, HandleMessage);
-        }
-
-        [RelayCommand]
-        private async Task OpenGameCoreBar() {
-            try {
-                using (_cancellationTokenSource) {
-                    _cancellationTokenSource?.Cancel();
-                    _cancellationTokenSource = new();
-                }
-
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    GameCoreBarWidth = MAX_GAMEBAR_WIDTH;
-                    GameCoreBarHeight = MAX_GAMEBAR_HEIGHT;
-                    IsOpenGameCoreBar = !IsOpenGameCoreBar;
-                }, DispatcherPriority.Render, _cancellationTokenSource.Token);
-
-                await Task.Delay(300).ContinueWith(async x => {
-                    GameCoreListOpacity = 1;
-                    await GetGameCore();
-                }, _cancellationTokenSource.Token);
-            }
-            catch (TaskCanceledException) { }
-        }
-
-        [RelayCommand]
-        private async Task CloseGameCoreBar() {
-            try {
-                using (_cancellationTokenSource) {
-                    _cancellationTokenSource?.Cancel();
-                    _cancellationTokenSource = new();
-                }
-
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    GameCoreListOpacity = 0;
-                    GameCoreBarHeight = 85;
-                    GameCoreBarWidth = 155;
-                    IsOpenGameCoreBar = !IsOpenGameCoreBar;
-                }, DispatcherPriority.Render, _cancellationTokenSource.Token);
-            }
-            catch (TaskCanceledException) { }
         }
 
         [RelayCommand]
@@ -150,11 +94,11 @@ namespace WonderLab.ViewModels.Pages {
         [RelayCommand(CanExecute = nameof(CanLaunchGame))]
         private async Task LaunchGame() {
             await Dispatcher.UIThread.InvokeAsync(() => {
-                _notificationManager.Info($"尝试启动游戏 [{SelectedGameCoreInfo?.Data.Id}] 可在控制中心里的任务列表查看实时进度");
+                _notificationService.Info($"尝试启动游戏 [{SelectedGameCoreInfo?.Data.Id}] 可在控制中心里的任务列表查看实时进度");
             });
 
-            LaunchTask task = new(SelectedGameCoreInfo!.Data!, _dataManager, _notificationManager);
-            _taskManager.QueueJob(task);
+            LaunchTask task = new(SelectedGameCoreInfo!.Data!, _dataService, _notificationService);
+            _taskService.QueueJob(task);
         }
 
         [RelayCommand]
@@ -165,7 +109,7 @@ namespace WonderLab.ViewModels.Pages {
             
             GameCores.Clear();
             await Task.Run(() => {
-                return _gameCoreManager.GetGameEntries(_configData.GameFolder)
+                return _gameEntryService.GetGameEntries(_configData.GameFolder)
                     .ToList()
                     .CreateEnumerable<GameEntry, GameViewData>();
             }).ContinueWith(async task => {
@@ -187,7 +131,7 @@ namespace WonderLab.ViewModels.Pages {
             }
 
             await Task.Run(() => {
-                SelectedGameCoreInfo = _gameCoreManager.GetGameEntry(_configData.GameFolder,
+                SelectedGameCoreInfo = _gameEntryService.GetGameEntry(_configData.GameFolder,
                     _configData.CurrentGameCoreId).CreateViewData<GameEntry, GameViewData>();
             });
         }

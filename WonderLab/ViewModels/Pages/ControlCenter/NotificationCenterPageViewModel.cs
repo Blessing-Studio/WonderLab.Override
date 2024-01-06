@@ -1,16 +1,16 @@
-﻿using WonderLab.Classes.Managers;
-using WonderLab.Classes.Interfaces;
+﻿using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
+using WonderLab.Services;
 
 namespace WonderLab.ViewModels.Pages.ControlCenter {
     public class NotificationCenterPageViewModel : ViewModelBase {
-        private NotificationManager _notificationManager;
+        private NotificationService _notificationService;
 
         public ObservableCollection<INotification> Notifications =>
-            _notificationManager.Histoys;
+            _notificationService.Histoys;
 
-        public NotificationCenterPageViewModel(NotificationManager manager) {
-            _notificationManager = manager;
+        public NotificationCenterPageViewModel(NotificationService notificationService) {
+            _notificationService = notificationService;
         }
     }
 }

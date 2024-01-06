@@ -1,12 +1,11 @@
 ﻿using System;
 using Avalonia;
+using WonderLab.Services;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
 using WonderLab.Views.Windows;
 using WonderLab.Views.Dialogs;
 using Avalonia.Platform.Storage;
-using WonderLab.Classes.Handlers;
-using WonderLab.Classes.Managers;
 using WonderLab.ViewModels.Pages;
 using WonderLab.Classes.Utilities;
 using Microsoft.Extensions.Hosting;
@@ -39,14 +38,14 @@ public partial class App : Application {
 
     public override void OnFrameworkInitializationCompleted() {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var dataHandler = ServiceProvider.GetRequiredService<ConfigDataHandler>();
-            dataHandler.Load();
+            var dataService = ServiceProvider.GetRequiredService<DataService>();
+            dataService.Load();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;
             desktop.MainWindow = mainWindow;
             desktop.Exit += async (sender, args) => {
-                await dataHandler.SaveAsync();
+                await dataService.SaveAsync();
             };
         }
 
@@ -62,7 +61,7 @@ public partial class App : Application {
 
     private static IHostBuilder HostBuilder() {
         return Host.CreateDefaultBuilder().ConfigureServices((_, services) => {
-            ConfigureHandlers(services);
+            ConfigureServices(services);
         }).ConfigureServices((_, services) => {
             ConfigureView(services);
         });
@@ -87,15 +86,17 @@ public partial class App : Application {
 
         //DialogContent
         services.AddTransient<UpdateDialogContent>();
-
-        ConfigureManagers(services);
     }
 
-    private static void ConfigureHandlers(IServiceCollection services) {
-        services.AddScoped<UpdateHandler>();
-        services.AddScoped<DownloadHandler>();
-        services.AddScoped<ConfigDataHandler>();
-        services.AddHostedService<QueuedHostedHandler>();
+    private static void ConfigureServices(IServiceCollection services) {
+        services.AddScoped<DataService>();
+        services.AddScoped<TaskService>();
+        services.AddScoped<UpdateService>();
+        services.AddScoped<DownloadService>();
+        services.AddScoped<TelemetryService>();
+        services.AddScoped<GameEntryService>();
+        services.AddScoped<NotificationService>();
+        services.AddHostedService<QueuedHostedService>();
     }
 
     private static void ConfigureViewModels(IServiceCollection services) {
@@ -113,13 +114,5 @@ public partial class App : Application {
 
         //Dialog
         services.AddTransient<UpdateDialogContentViewModel>();
-    }
-
-    private static async void ConfigureManagers(IServiceCollection services) {
-        services.AddScoped<TaskManager>();
-        services.AddScoped<DataManager>();
-        services.AddScoped<ThemeManager>();
-        services.AddScoped<GameCoreManager>();
-        services.AddScoped<NotificationManager>();
     }
 }

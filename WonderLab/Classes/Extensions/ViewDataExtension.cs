@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using WonderLab.Classes.Models.ViewData;
 
-namespace WonderLab.Extensions {
+namespace WonderLab.Classes.Extensions {
     public static class ViewDataExtension {
         public static TResult CreateViewData<TData, TResult>(this TData data) where TResult : ViewDataBase<TData>
             => (Activator.CreateInstance(typeof(TResult), data!)! as TResult)!;

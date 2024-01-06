@@ -1,67 +1,66 @@
 ﻿using System.Linq;
+using WonderLab.Services;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
+using MinecraftLaunch.Utilities;
 using System.Collections.Generic;
-using WonderLab.Classes.Managers;
 using WonderLab.Classes.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Attributes;
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using MinecraftLaunch.Classes.Models.Game;
-using MinecraftLaunch.Components.Fetcher;
-using MinecraftLaunch.Utilities;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.ViewModels.Pages.Setting {
     public partial class LaunchSettingPageViewModel : ViewModelBase {
-        private DataManager _configDataManager;
+        private readonly DataService _dataService;
 
         [ObservableProperty]
         [BindToConfig("GameFolder")]
-        public string gameFolder;
+        private string gameFolder;
 
         [ObservableProperty]
         [BindToConfig("GameFolders")]
-        public ObservableCollection<string> gameFolders;
+        private ObservableCollection<string> gameFolders;
 
         [ObservableProperty]
         [BindToConfig("JavaPath")]
-        public JavaEntry javaPath;
+        private JavaEntry javaPath;
 
         [ObservableProperty]
         [BindToConfig("JavaPaths")]
-        public ObservableCollection<JavaEntry> javaPaths;
+        private ObservableCollection<JavaEntry> javaPaths;
 
         [ObservableProperty]
         [BindToConfig("IsAutoSelectJava")]
-        public bool isAutoSelectJava;
+        private bool isAutoSelectJava;
 
         [ObservableProperty]
         [BindToConfig("MaxMemory")]
-        public int maxMemory;
+        private int maxMemory;
 
         [ObservableProperty]
         [BindToConfig("Width")]
-        public int width;
+        private int width;
 
         [ObservableProperty]
         [BindToConfig("Height")]
-        public int height;
+        private int height;
 
         [ObservableProperty]
         [BindToConfig("IsAutoMemory")]
-        public bool isAutoMemory;
+        private bool isAutoMemory;
 
         [ObservableProperty]
         [BindToConfig("IsFullscreen")]
-        public bool isFullscreen;
+        private bool isFullscreen;
 
         [ObservableProperty]
         [BindToConfig("IsEnableIndependencyCore")]
-        public bool isEnableIndependencyCore;
+        private bool isEnableIndependencyCore;
 
-        public LaunchSettingPageViewModel(DataManager manager) : base(manager) {
-            _configDataManager = manager;
+        public LaunchSettingPageViewModel(DataService dataService) {
+            _dataService = dataService;
             JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
         }
 
@@ -76,8 +75,8 @@ namespace WonderLab.ViewModels.Pages.Setting {
                 }
             }
             catch (System.Exception) {
-
-             }
+                // ignored
+            }
         }
 
         [RelayCommand]
@@ -101,7 +100,7 @@ namespace WonderLab.ViewModels.Pages.Setting {
         [RelayCommand]
         private async Task AddJavaPaths() {
             var result = await Task.Run(async () 
-                => await _configDataManager.JavaFetcher.FetchAsync());
+                => await _dataService.JavaFetcher.FetchAsync());
 
             foreach (var item in result) {
                 JavaPaths.Add(item);

@@ -1,30 +1,28 @@
 ﻿using Avalonia.Controls;
-using System.Windows.Input;
+using Avalonia.Threading;
+using DialogHostAvalonia;
+using WonderLab.Services;
 using WonderLab.Views.Pages;
-using WonderLab.Classes.Managers;
+using WonderLab.Views.Dialogs;
+using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Setting;
 using System.Collections.ObjectModel;
-using Microsoft.Extensions.DependencyInjection;
-using Avalonia.Threading;
 using WonderLab.Views.Pages.Download;
-using WonderLab.Classes.Handlers;
-using DialogHostAvalonia;
-using WonderLab.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.ViewModels.Windows {
     public partial class MainWindowViewModel : ViewModelBase {
-        private UpdateHandler _updateHandler;
+        private UpdateService _updateService;
+        private NotificationService _notificationService;
 
-        private NotificationManager _notificationManager;
-
-        public MainWindowViewModel(HomePage page, UpdateHandler updateHandler,
-            NotificationManager manager) {
+        public MainWindowViewModel(HomePage page,
+            UpdateService updateService,
+            NotificationService notificationService) {
             CurrentPage = page;
-            _updateHandler = updateHandler;
-            _notificationManager = manager;
+            _updateService = updateService;
+            _notificationService = notificationService;
         }
 
         [ObservableProperty]
@@ -34,10 +32,10 @@ namespace WonderLab.ViewModels.Windows {
         public UserControl currentPage;
 
         public ObservableCollection<INotification> Notifications
-            => _notificationManager.Notifications;
+            => _notificationService.Notifications;
 
         public async void Init() {
-            var result = await _updateHandler.CheckAsync();
+            var result = await _updateService.CheckAsync();
             if (result) {
                 await Dispatcher.UIThread.InvokeAsync(async () => {
                     var content = App.ServiceProvider.GetRequiredService<UpdateDialogContent>();

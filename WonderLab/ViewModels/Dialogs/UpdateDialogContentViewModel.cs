@@ -1,31 +1,31 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DialogHostAvalonia;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Text.RegularExpressions;
-using MinecraftLaunch.Classes.Models.Download;
-using MinecraftLaunch.Classes.Models.Event;
-using MinecraftLaunch.Extensions;
+using WonderLab.Services;
+using DialogHostAvalonia;
+using System.IO.Compression;
 using MinecraftLaunch.Utilities;
-using WonderLab.Classes.Handlers;
+using MinecraftLaunch.Extensions;
+using System.Collections.Generic;
+using CommunityToolkit.Mvvm.Input;
+using System.Text.RegularExpressions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using MinecraftLaunch.Classes.Models.Event;
+using MinecraftLaunch.Classes.Models.Download;
 
 namespace WonderLab.ViewModels.Dialogs {
     public partial class UpdateDialogContentViewModel : ViewModelBase {
         private readonly string _downloadUrl;
-        private readonly UpdateHandler _updateHandler;
-        private readonly DownloadHandler _downloadHandler;
+        private readonly UpdateService _updateService;
+        private readonly DownloadService _downloadService;
         
-        public UpdateDialogContentViewModel(UpdateHandler updateHandler, DownloadHandler downloadHandler) { 
+        public UpdateDialogContentViewModel(UpdateService updateService, DownloadService downloadService) { 
             List<string> authors = new();
-            _updateHandler = updateHandler;
-            _downloadHandler = downloadHandler;
+            _updateService = updateService;
+            _downloadService = downloadService;
             
-            var messages = updateHandler.UpdateInfoJsonNode["messages"]!
-                .AsArray()
+            var messages = _updateService.UpdateInfoJsonNode
+                .GetEnumerable("messages")
                 .Select(x => {
                     var msg = x!.GetValue<string>();
                     var authorMatch = Regex.Match(msg, @"\((.*?)\)");
@@ -37,14 +37,14 @@ namespace WonderLab.ViewModels.Dialogs {
                         "- $2 ($1)");
                 }).ToList();
 
-            Time = updateHandler.UpdateInfoJsonNode["time"]!
+            Time = _updateService.UpdateInfoJsonNode["time"]!
                 .GetValue<DateTime>()
                 .ToString("F");
 
             Messages = string.Join("\n", messages);
             Author = string.Join(", ", authors.Distinct());
 
-            string baseUrl = updateHandler.UpdateInfoJsonNode
+            string baseUrl = _updateService.UpdateInfoJsonNode
                 .GetString("windows_file_url");
 
             _downloadUrl = $"https://github.moeyy.xyz/{baseUrl}";
@@ -56,11 +56,11 @@ namespace WonderLab.ViewModels.Dialogs {
 
         public string Messages { get; }
 
-        [ObservableProperty]
-        public double progress;
+        [ObservableProperty] 
+        private double progress;
 
-        [ObservableProperty]
-        public bool isDownloading;
+        [ObservableProperty] 
+        private bool isDownloading;
 
         [RelayCommand]
         private void Close() {
@@ -77,7 +77,7 @@ namespace WonderLab.ViewModels.Dialogs {
                     Path = Environment.CurrentDirectory
                 };
                 
-                using var downloader = await _downloadHandler.DownloadAsync(downloadRequest);
+                using var downloader = await _downloadService.DownloadAsync(downloadRequest);
 
                 downloader.ProgressChanged += OnDownloadProgressChanged;
                 using var zip = ZipFile.OpenRead(Path.Combine(downloadRequest.Path, 
@@ -89,7 +89,7 @@ namespace WonderLab.ViewModels.Dialogs {
                     launcherEntry.ExtractToFile(Path.Combine(downloadRequest.Path,
                         "launcher.temp"));
 
-                    _updateHandler.Update();
+                    _updateService.Update();
                 }
             }
         }
