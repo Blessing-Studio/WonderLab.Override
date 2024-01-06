@@ -16,19 +16,24 @@ public class ViewModelBase : ObservableObject {
     public ViewModelBase() { }
 
     public ViewModelBase(DataManager manager) {
-        var properties = GetType()
-            .GetFields()
-            .Where(x => x.GetCustomAttribute<BindToConfigAttribute>() is not null)
-            .ToDictionary(x => x.Name, x => x);
+        BackgroundWorker worker = new();
+        worker.DoWork += (sender, args) => {
+            var properties = GetType()
+                .GetFields()
+                .Where(x => x.GetCustomAttribute<BindToConfigAttribute>() is not null)
+                .ToDictionary(x => x.Name, x => x);
 
-        var config = manager.Config;
-        if (properties.Any()) {
-            PropertyChanged += OnPropertyChanged;
-        }
+            var config = manager.Config;
+            if (properties.Any()) {
+                PropertyChanged += OnPropertyChanged;
+            }
 
-        _configFields = properties;
-        _configDataManager = manager;
-        InitDataToView();
+            _configFields = properties;
+            _configDataManager = manager;
+            InitDataToView();
+        };
+        
+        worker.RunWorkerAsync();
     }
 
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e) {

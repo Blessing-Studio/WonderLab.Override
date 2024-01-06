@@ -21,7 +21,7 @@
 			<TabItem Header="网络"/>
 			<TabItem Header="关于"/>
 		</TabControl>
-
+		
 		<ContentControl Margin="0 40 0 0"
 						ClipToBounds="False"
 						Content="{Binding Current}"/>

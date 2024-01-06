@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using System.Collections;
 using System.Windows.Input;
@@ -11,14 +12,22 @@ using System.Threading;
 using Avalonia.Interactivity;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Avalonia.Animation;
+using WonderLab.Classes.Media.Animations;
 
 namespace WonderLab.Views.Controls {
     [PseudoClasses(":fullscreen")]
     public class NavigationView : TemplatedControl {
-        private ContentPresenter? _contentPresenter;
+        private bool _isSwitched;
+        private ContentPresenter? _leftContentPresenter;
+        private ContentPresenter? _rightContentPresenter;
 
         private CancellationTokenSource _token = new();
-
+        
+        private PageSlideFade _pageSlideFade = new(TimeSpan.FromMilliseconds(500)) {
+            Fade = true
+        };
+        
         public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
             AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
 
@@ -75,31 +84,46 @@ namespace WonderLab.Views.Controls {
         }
         
         private async void RunPageTransitionAnimation() {
-            if (_contentPresenter == null) {
+            if (_leftContentPresenter is null || _rightContentPresenter is null) {
                 return;
             }
 
-            await Dispatcher.UIThread.InvokeAsync(async () => {
-                _contentPresenter!.Opacity = 0;
-                await Task.Delay(350);
-            }).ContinueWith(async task => {
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    _contentPresenter.Content = Content;
-                    _contentPresenter!.Opacity = 1;
-                }, DispatcherPriority.Render);
-            });
+            using (_token) {
+                _token.Cancel();
+                _token = new();
+            }
+
+            if (_isSwitched) {
+                _rightContentPresenter.Content = Content;
+                await _pageSlideFade.Start(_leftContentPresenter,
+                    _rightContentPresenter,
+                    false,
+                    _token.Token);
+            }
+            else {
+                _leftContentPresenter.Content = Content;
+                await _pageSlideFade.Start(_rightContentPresenter,
+                    _leftContentPresenter,
+                    true,
+                    _token.Token);
+            }
+
+            _isSwitched = !_isSwitched;
         }
 
         protected override void OnLoaded(RoutedEventArgs e) {
             base.OnLoaded(e);
-            _contentPresenter.Content = Content;
+            _leftContentPresenter.Content = Content;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
 
-            _contentPresenter = e.NameScope
-                .Find<ContentPresenter>("Content");
+            _leftContentPresenter = e.NameScope
+                .Find<ContentPresenter>("LeftContent");
+            
+            _rightContentPresenter = e.NameScope
+                .Find<ContentPresenter>("RightContent");
         }
 
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
@@ -124,30 +148,14 @@ namespace WonderLab.Views.Controls {
 
         public string Icon
         {
-            get
-            {
-                return GetValue(IconProperty);
-            }
-            set
-            {
-                SetValue(IconProperty, value);
-            }
+            get => GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
 
         public ICommand Command
         {
-            get
-            {
-                return GetValue(CommandProperty);
-            }
-            set
-            {
-                SetValue(CommandProperty, value);
-            }
-        }
-
-        public NavigationViewItem() {
-            //UpdatePseudoClasses(IsSelected);
+            get => GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {

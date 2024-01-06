@@ -21,6 +21,7 @@ using WonderLab.Classes.Models.ViewData;
 using WonderLab.Extensions;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Reflection.Metadata;
+using Avalonia;
 using WonderLab.Views.Controls;
 
 namespace WonderLab.ViewModels.Pages {
@@ -161,7 +162,7 @@ namespace WonderLab.ViewModels.Pages {
             if (!Directory.Exists(_configData.GameFolder)) {
                 return;
             }
-
+            
             GameCores.Clear();
             await Task.Run(() => {
                 return _gameCoreManager.GetGameEntries(_configData.GameFolder)
