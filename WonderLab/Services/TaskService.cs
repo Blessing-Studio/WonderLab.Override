@@ -15,7 +15,7 @@ namespace WonderLab.Services;
 public partial class TaskService : ObservableObject {
     private int _currentRunningJobs;
 
-    private IBackgroundTaskQueue _taskQueue = null!;
+    private readonly IBackgroundTaskQueue _taskQueue = default!;
 
     [ObservableProperty]
     public ObservableCollection<ITaskJob> taskJobs = [];
@@ -55,6 +55,7 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue {
         BoundedChannelOptions boundedChannelOptions = new(queueLength) {
             FullMode = BoundedChannelFullMode.Wait
         };
+        
         _queue = Channel.CreateBounded<ITaskJob>(boundedChannelOptions);
     }
 

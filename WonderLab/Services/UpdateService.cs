@@ -14,17 +14,17 @@ namespace WonderLab.Services;
 /// 自动更新服务类
 /// </summary>
 public class UpdateService {
-    private DataService _dataManager;
+    private readonly DataService _dataService;
     private readonly string _baseUrl = "http://s2.fxidc.net:2999/api/update/";
 
     public JsonNode UpdateInfoJsonNode { get; set; }
 
     public UpdateService(DataService dataService) {
-        _dataManager = dataService;
+        _dataService = dataService;
     }
 
     public async Task InitAsync() {
-        string branch = _dataManager.ConfigData.Branch switch {
+        string branch = _dataService.ConfigData.Branch switch {
             BranchType.Lsaac => "lsaac",
             BranchType.Albert => "albert",
             _ => "lsaac"
@@ -55,7 +55,7 @@ public class UpdateService {
             .Replace(".", "")
             .ToInt();
 
-        int localVersion = _dataManager.Version
+        int localVersion = _dataService.Version
             .Replace(".", "")
             .Substring(0, 3)
             .ToInt();

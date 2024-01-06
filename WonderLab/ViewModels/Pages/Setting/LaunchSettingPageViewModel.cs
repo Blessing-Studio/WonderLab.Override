@@ -11,107 +11,107 @@ using System.Collections.ObjectModel;
 using MinecraftLaunch.Classes.Models.Game;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WonderLab.ViewModels.Pages.Setting {
-    public partial class LaunchSettingPageViewModel : ViewModelBase {
-        private readonly DataService _dataService;
+namespace WonderLab.ViewModels.Pages.Setting;
 
-        [ObservableProperty]
-        [BindToConfig("GameFolder")]
-        private string gameFolder;
+public partial class LaunchSettingPageViewModel : ViewModelBase {
+    private readonly DataService _dataService;
 
-        [ObservableProperty]
-        [BindToConfig("GameFolders")]
-        private ObservableCollection<string> gameFolders;
+    [ObservableProperty]
+    [BindToConfig("GameFolder")]
+    private string gameFolder;
 
-        [ObservableProperty]
-        [BindToConfig("JavaPath")]
-        private JavaEntry javaPath;
+    [ObservableProperty]
+    [BindToConfig("GameFolders")]
+    private ObservableCollection<string> gameFolders;
 
-        [ObservableProperty]
-        [BindToConfig("JavaPaths")]
-        private ObservableCollection<JavaEntry> javaPaths;
+    [ObservableProperty]
+    [BindToConfig("JavaPath")]
+    private JavaEntry javaPath;
 
-        [ObservableProperty]
-        [BindToConfig("IsAutoSelectJava")]
-        private bool isAutoSelectJava;
+    [ObservableProperty]
+    [BindToConfig("JavaPaths")]
+    private ObservableCollection<JavaEntry> javaPaths;
 
-        [ObservableProperty]
-        [BindToConfig("MaxMemory")]
-        private int maxMemory;
+    [ObservableProperty]
+    [BindToConfig("IsAutoSelectJava")]
+    private bool isAutoSelectJava;
 
-        [ObservableProperty]
-        [BindToConfig("Width")]
-        private int width;
+    [ObservableProperty]
+    [BindToConfig("MaxMemory")]
+    private int maxMemory;
 
-        [ObservableProperty]
-        [BindToConfig("Height")]
-        private int height;
+    [ObservableProperty]
+    [BindToConfig("Width")]
+    private int width;
 
-        [ObservableProperty]
-        [BindToConfig("IsAutoMemory")]
-        private bool isAutoMemory;
+    [ObservableProperty]
+    [BindToConfig("Height")]
+    private int height;
 
-        [ObservableProperty]
-        [BindToConfig("IsFullscreen")]
-        private bool isFullscreen;
+    [ObservableProperty]
+    [BindToConfig("IsAutoMemory")]
+    private bool isAutoMemory;
 
-        [ObservableProperty]
-        [BindToConfig("IsEnableIndependencyCore")]
-        private bool isEnableIndependencyCore;
+    [ObservableProperty]
+    [BindToConfig("IsFullscreen")]
+    private bool isFullscreen;
 
-        public LaunchSettingPageViewModel(DataService dataService) {
-            _dataService = dataService;
-            JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
-        }
+    [ObservableProperty]
+    [BindToConfig("IsEnableIndependencyCore")]
+    private bool isEnableIndependencyCore;
 
-        [RelayCommand]
-        private async Task AddGameFolder() {
-            try {
-                var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
+    public LaunchSettingPageViewModel(DataService dataService) {
+        _dataService = dataService;
+        JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
+    }
 
-                if (result != null) {
-                    GameFolders.Add(result.FullName);
-                    GameFolder = GameFolders.Last();
-                }
-            }
-            catch (System.Exception) {
-                // ignored
-            }
-        }
-
-        [RelayCommand]
-        private void RemoveGameFolder() {
-            GameFolders.Remove(GameFolder);
-            GameFolder = GameFolders.Any() ? GameFolders.Last() : null!;
-        }
-
-        [RelayCommand]
-        private async Task AddJavaPath() {
-            var result = await DialogUtil.OpenFilePickerAsync(new List<FilePickerFileType>() {
-                new("Java文件") { Patterns = new List<string>() { EnvironmentUtil.IsWindow ? "javaw.exe" : "java" } }
-            }, "请选择您的 Java 文件");
+    [RelayCommand]
+    private async Task AddGameFolder() {
+        try {
+            var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
 
             if (result != null) {
-                JavaPaths.Add(JavaUtil.GetJavaInfo(result.FullName));
-                JavaPath = JavaPaths.Last();
+                GameFolders.Add(result.FullName);
+                GameFolder = GameFolders.Last();
             }
         }
+        catch (System.Exception) {
+            // ignored
+        }
+    }
 
-        [RelayCommand]
-        private async Task AddJavaPaths() {
-            var result = await Task.Run(async () 
-                => await _dataService.JavaFetcher.FetchAsync());
+    [RelayCommand]
+    private void RemoveGameFolder() {
+        GameFolders.Remove(GameFolder);
+        GameFolder = GameFolders.Any() ? GameFolders.Last() : null!;
+    }
 
-            foreach (var item in result) {
-                JavaPaths.Add(item);
-            }
+    [RelayCommand]
+    private async Task AddJavaPath() {
+        var result = await DialogUtil.OpenFilePickerAsync(new List<FilePickerFileType>() {
+            new("Java文件") { Patterns = new List<string>() { EnvironmentUtil.IsWindow ? "javaw.exe" : "java" } }
+        }, "请选择您的 Java 文件");
+
+        if (result != null) {
+            JavaPaths.Add(JavaUtil.GetJavaInfo(result.FullName));
             JavaPath = JavaPaths.Last();
         }
+    }
 
-        [RelayCommand]
-        private void RemoveJavaPath() {
-            JavaPaths.Remove(JavaPath);
-            JavaPath = JavaPaths.Any() ? JavaPaths.Last() : null!;
+    [RelayCommand]
+    private async Task AddJavaPaths() {
+        var result = await Task.Run(async () 
+            => await _dataService.javaFetcher.FetchAsync());
+
+        foreach (var item in result) {
+            JavaPaths.Add(item);
         }
+        JavaPath = JavaPaths.Last();
+    }
+
+    [RelayCommand]
+    private void RemoveJavaPath() {
+        JavaPaths.Remove(JavaPath);
+        JavaPath = JavaPaths.Any() ? JavaPaths.Last() : null!;
     }
 }

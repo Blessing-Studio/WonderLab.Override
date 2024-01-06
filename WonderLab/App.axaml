@@ -3,8 +3,6 @@
              x:Class="WonderLab.App"
              RequestedThemeVariant="Light"
 			 xmlns:converter="using:WonderLab.Views.Converters">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
     <Application.Styles>
         <FluentTheme/>
 		<StyleInclude Source="/Views/Controls/Styles/CardStyle.axaml"/>

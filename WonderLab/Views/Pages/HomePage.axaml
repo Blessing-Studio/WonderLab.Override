@@ -1,14 +1,18 @@
 <UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:controls="using:WonderLab.Views.Controls"
+			 xmlns:converter="using:WonderLab.Views.Converters"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:WonderLab.ViewModels.Pages"
+			 xmlns:ge="clr-namespace:WonderLab.Classes.Models.ViewData"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 ClipToBounds="False"
              x:Class="WonderLab.Views.Pages.HomePage"
-			 xmlns:controls="using:WonderLab.Views.Controls"
-			 xmlns:converter="using:WonderLab.Views.Converters"
-			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions">
+             x:CompileBindings="True"
+			 x:DataType="vm:HomePageViewModel">
 	<!--resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten-->
 	<UserControl.Resources>
 		<converter:ControlCenterOpacityConverter x:Key="ControlCenterOpacityConverter"/>
@@ -34,7 +38,6 @@
 		            VerticalAlignment="Bottom"
 		            VerticalContentAlignment="Center"
 		            HorizontalContentAlignment="Center"
-					IsEnabled="{Binding CanLaunchGame}"
 					Command="{Binding LaunchGameCommand}"
 		            Foreground="{DynamicResource AccentButtonForeground}"
 		            Background="{DynamicResource PrimaryBrush500}">
@@ -69,13 +72,12 @@
 								 ItemsSource="{Binding GameCores}"
 								 SelectedItem="{Binding SelectedGameCore}">
 							<ListBox.Styles>
-								<Style Selector="ListBoxItem">
+								<Style Selector="ListBoxItem" x:DataType="ge:GameViewData">
 									<Setter Property="Margin" Value="12 5 20 10"/>
 									<Setter Property="ClipToBounds" Value="False"/>
 									<Setter Property="Background" Value="Transparent"/>
-									<Setter Property="Opacity" Value="{Binding Opacity1}"/>
 									<Setter Property="Template">
-										<ControlTemplate>
+										<ControlTemplate> 
 											<Border Name="Layout"
 													CornerRadius="12"
 													Background="Transparent"
@@ -112,7 +114,7 @@
 														<TextBlock Grid.Row="1"
 																   FontSize="12"
 																   Foreground="#6E6867"
-																   Text="{Binding ,Converter={StaticResource GameCoreSubTitleConverter}}"/>
+																   Text="{Binding Data,Converter={StaticResource GameCoreSubTitleConverter}}"/>
 													</Grid>
 
 													<StackPanel Orientation="Horizontal"
@@ -169,132 +171,6 @@
 					</Grid>
 				</controls:GameOperationBar.Content>
 			</controls:GameOperationBar>
-			
-			<Border Margin="0 55" IsVisible="False"
-					CornerRadius="12"
-					Background="{DynamicResource LayoutBackground}"
-					BorderThickness="2"
-					BorderBrush="{DynamicResource PrimaryBrush500}"
-					VerticalAlignment="Bottom"
-					HorizontalAlignment="Left"
-					Width="{Binding GameCoreBarWidth}"
-					Height="{Binding GameCoreBarHeight}">
-				<Border.Transitions>
-					<Transitions>
-						<DoubleTransition Duration="0:0:0.35"
-										  Property="Width"
-										  Easing="ExponentialEaseOut"/>
-
-						<DoubleTransition Duration="0:0:0.35"
-										  Property="Height"
-										  Easing="ExponentialEaseOut"/>
-					</Transitions>
-				</Border.Transitions>
-				<Border.Effect>
-					<DropShadowEffect BlurRadius="5"
-									  Opacity="1"
-									  OffsetX="0"
-									  OffsetY="0"
-									  Color="#46000000"/>
-				</Border.Effect>
-				<Grid Margin="5">
-					<Grid RowDefinitions="Auto,Auto"
-						  IsVisible="{Binding IsOpenGameCoreBar,Converter={StaticResource ReverseBoolValueConverter}}">
-						<TextBlock Text="{Binding SelectedGameCoreInfo.Data.Id}"
-								   FontWeight="Bold"
-								   FontSize="16"
-								   TextTrimming="CharacterEllipsis"/>
-						
-						<TextBlock Grid.Row="1"
-								   Text="{Binding SelectedGameCoreInfo,Converter={StaticResource GameCoreSubTitleConverter}}"
-								   FontSize="12"
-								   TextTrimming="CharacterEllipsis"/>
-					</Grid>
-
-					
-
-					<Button Classes="ripple"
-							Content="选择游戏"
-							Padding="0 3 3 3"
-							FontWeight="Bold"
-							Foreground="{DynamicResource PrimaryBrush500}"
-							Background="Transparent"
-							VerticalAlignment="Bottom"
-							Command="{Binding OpenGameCoreBarCommand}"
-							IsVisible="{Binding IsOpenGameCoreBar,Converter={StaticResource ReverseBoolValueConverter}}"/>
-
-
-					<Button Classes="ripple"
-							Content="收起界面"
-							Padding="0 3 3 3"
-							FontWeight="Bold"
-							Foreground="{DynamicResource PrimaryBrush500}"
-							Background="Transparent"
-							VerticalAlignment="Bottom"
-							IsVisible="{Binding IsOpenGameCoreBar}"
-							Command="{Binding CloseGameCoreBarCommand}"
-							IsHitTestVisible="{Binding IsOpenGameCoreBar}"/>
-				</Grid>
-			</Border>
-		</Grid>
-
-		<Grid Margin="0 0 0 45"
-			  ColumnDefinitions="1*,14,1*,14,1*"
-			  IsHitTestVisible="{Binding OtherControlOpacity, Converter={StaticResource Int32ToBoolConverter}}"
-			  Opacity="{Binding OtherControlOpacity, Converter={StaticResource ControlCenterOpacityConverter}}"
-			  RenderTransform="{Binding OtherControlOpacity, Converter={StaticResource ControlCenterTransformConverter}}">
-			<Grid.Transitions>
-				<Transitions>
-					<TransformOperationsTransition Duration="0:0:0.35"
-												   Property="RenderTransform"
-												   Easing="ExponentialEaseOut"/>
-					
-					<DoubleTransition Duration="0:0:0.7"
-				                      Property="Opacity"
-				                      Easing="ExponentialEaseOut"/>
-				</Transitions>
-			</Grid.Transitions>
-			<Border Background="{DynamicResource LayoutBackground}"
-					CornerRadius="12"
-					BoxShadow="0 1 12 0 #36000000">
-				<Grid>
-					<TextBlock Text="消息通知"
-							   FontWeight="Bold"
-							   FontSize="16"
-							   Margin="12"
-							   Foreground="#302D2D"/>
-					
-					<ContentControl Margin="0 30 0 0"
-									Content="{Binding NotificationCenterCardContent}"/>
-				</Grid>
-			</Border>
-
-			<Border Grid.Column="2" 
-					CornerRadius="12"
-					Background="{DynamicResource LayoutBackground}"
-		            BoxShadow="0 1 12 0 #36000000">
-				<Grid Margin="12">
-					<TextBlock Text="任务队列"
-							   FontWeight="Bold"
-							   FontSize="16"
-							   Foreground="#302D2D"/>
-					
-					<ContentControl Margin="0 30 0 0"
-									Content="{Binding TaskCenterCardContent}"/>
-				</Grid>
-			</Border>
-
-			<Border Grid.Column="4"
-					CornerRadius="12"
-					Background="{DynamicResource LayoutBackground}"
-		            BoxShadow="0 1 12 0 #36000000">
-				<Grid Margin="12">
-					<TextBlock Text="当前账户"
-							   FontWeight="Bold"
-							   FontSize="16"
-							   Foreground="#302D2D"/>
-				</Grid>
-			</Border>
 		</Grid>
 	</Grid>
 </UserControl>

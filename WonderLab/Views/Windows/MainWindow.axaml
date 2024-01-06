@@ -1,7 +1,10 @@
 <Window xmlns="https://github.com/avaloniaui"
+		xmlns:controls="using:WonderLab.Views.Controls"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:dialog="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"	
+		xmlns:vm="clr-namespace:WonderLab.ViewModels.Windows"
 		Width="827"
 	    Height="520"
 		MinWidth="827"
@@ -10,11 +13,11 @@
         Title="WonderLab"
 		d:DesignWidth="800" 
 		d:DesignHeight="450"  
+		x:CompileBindings="True"
+		x:DataType="vm:MainWindowViewModel"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaToDecorationsHint="True"
-        x:Class="WonderLab.Views.Windows.MainWindow"
-		xmlns:controls="using:WonderLab.Views.Controls"
-		xmlns:dialog="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"	>
+        x:Class="WonderLab.Views.Windows.MainWindow">
 	<Grid>
 		<!--Background-->
 		<Panel>

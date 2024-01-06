@@ -12,54 +12,54 @@ using WonderLab.Views.Pages.Download;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WonderLab.ViewModels.Windows {
-    public partial class MainWindowViewModel : ViewModelBase {
-        private UpdateService _updateService;
-        private NotificationService _notificationService;
+namespace WonderLab.ViewModels.Windows;
 
-        public MainWindowViewModel(HomePage page,
-            UpdateService updateService,
-            NotificationService notificationService) {
-            CurrentPage = page;
-            _updateService = updateService;
-            _notificationService = notificationService;
+public partial class MainWindowViewModel : ViewModelBase {
+    private readonly UpdateService _updateService;
+    private readonly NotificationService _notificationService;
+
+    public MainWindowViewModel(HomePage page,
+        UpdateService updateService,
+        NotificationService notificationService) {
+        CurrentPage = page;
+        _updateService = updateService;
+        _notificationService = notificationService;
+    }
+
+    [ObservableProperty]
+    private bool isFullScreen;
+
+    [ObservableProperty]
+    private UserControl currentPage;
+
+    public ObservableCollection<INotification> Notifications
+        => _notificationService.Notifications;
+
+    public async void Init() {
+        var result = await _updateService.CheckAsync();
+        if (result) {
+            await Dispatcher.UIThread.InvokeAsync(async () => {
+                var content = App.ServiceProvider.GetRequiredService<UpdateDialogContent>();
+                await DialogHost.Show(content, "dialogHost");
+            });
         }
+    }
 
-        [ObservableProperty]
-        public bool isFullScreen;
+    [RelayCommand]
+    private void NavigationSettingPage() {
+        CurrentPage = App.ServiceProvider
+            .GetRequiredService<SettingPage>();
+    }
 
-        [ObservableProperty]
-        public UserControl currentPage;
+    [RelayCommand]
+    private void NavigationHomePage() {
+        CurrentPage = App.ServiceProvider
+            .GetRequiredService<HomePage>();
+    }
 
-        public ObservableCollection<INotification> Notifications
-            => _notificationService.Notifications;
-
-        public async void Init() {
-            var result = await _updateService.CheckAsync();
-            if (result) {
-                await Dispatcher.UIThread.InvokeAsync(async () => {
-                    var content = App.ServiceProvider.GetRequiredService<UpdateDialogContent>();
-                    await DialogHost.Show(content, "dialogHost");
-                });
-            }
-        }
-
-        [RelayCommand]
-        public void NavigationSettingPage() {
-            CurrentPage = App.ServiceProvider
-                .GetRequiredService<SettingPage>();
-        }
-
-        [RelayCommand]
-        public void NavigationHomePage() {
-            CurrentPage = App.ServiceProvider
-                .GetRequiredService<HomePage>();
-        }
-
-        [RelayCommand]
-        public void NavigationDownloadPage() {
-            CurrentPage = App.ServiceProvider
-                .GetRequiredService<DownloadPage>();
-        }
+    [RelayCommand]
+    private void NavigationDownloadPage() {
+        CurrentPage = App.ServiceProvider
+            .GetRequiredService<DownloadPage>();
     }
 }

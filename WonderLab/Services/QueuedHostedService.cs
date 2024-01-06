@@ -1,6 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Threading;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using WonderLab.Classes.Interfaces;
@@ -17,8 +17,7 @@ public class QueuedHostedService(IBackgroundTaskQueue taskQueue) : BackgroundSer
                 await Task.Delay(10, stoppingToken);
                 continue;
             }
-
-            ITaskJob workItem = null;
+            ITaskJob workItem = default!;
 
             try {
                 workItem = await taskQueue.DequeueAsync(stoppingToken);

@@ -1,14 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using WonderLab.Views.Pages.Setting;
+﻿using WonderLab.Views.Pages.Setting;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WonderLab.ViewModels.Pages.Setting {
-    public partial class SettingPageViewModel : ViewModelBase {
-        public SettingPageViewModel(LaunchSettingPage page) {
-            Current = page;
-        }
+namespace WonderLab.ViewModels.Pages.Setting;
 
-        [ObservableProperty]
-        private object current;
+public partial class SettingPageViewModel : ViewModelBase {
+    public SettingPageViewModel(LaunchSettingPage page) {
+        Current = page;
     }
+
+    [ObservableProperty]
+    private object current;
 }

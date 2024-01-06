@@ -2,14 +2,8 @@
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 
-namespace WonderLab.ViewModels.Pages.ControlCenter {
-    public class TaskCenterPageViewModel : ViewModelBase {
-        private TaskService _taskService;
+namespace WonderLab.ViewModels.Pages.ControlCenter;
 
-        public ObservableCollection<ITaskJob> TaskJobs => _taskService.TaskJobs;
-
-        public TaskCenterPageViewModel(TaskService taskService) {
-            _taskService = taskService;
-        }
-    }
+public class TaskCenterPageViewModel(TaskService taskService) : ViewModelBase {
+    public ObservableCollection<ITaskJob> TaskJobs => taskService.TaskJobs;
 }

@@ -22,16 +22,31 @@ public class GameOperationBar : TemplatedControl {
     private CancellationTokenSource _cancellationTokenSource = new();
 
     public static GameOperationBar Scope { get; set; }
-    
-    public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
 
-    public ICommand OpenCommand { get => GetValue(OpenCommandProperty); set => SetValue(OpenCommandProperty, value); }
-    
-    public object Content { get => GetValue(ContentProperty); set => SetValue(ContentProperty, value); }
-    
-    public string Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
-    
-    public string SubTitle { get => GetValue(SubTitleProperty); set => SetValue(SubTitleProperty, value); }
+    public bool IsOpen {
+        get => GetValue(IsOpenProperty); 
+        set => SetValue(IsOpenProperty, value);
+    }
+
+    public ICommand OpenCommand { 
+        get => GetValue(OpenCommandProperty);
+        set => SetValue(OpenCommandProperty, value);
+    }
+
+    public object Content {
+        get => GetValue(ContentProperty); 
+        set => SetValue(ContentProperty, value);
+    }
+
+    public string Title {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public string SubTitle {
+        get => GetValue(SubTitleProperty); 
+        set => SetValue(SubTitleProperty, value);
+    }
     
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<GameOperationBar, string>(nameof(Title), "Test title");
@@ -62,7 +77,7 @@ public class GameOperationBar : TemplatedControl {
         }, DispatcherPriority.Render, _cancellationTokenSource.Token);
     }
 
-    public async Task ExpandInterface() {
+    private async Task ExpandInterface() {
         await Dispatcher.UIThread.InvokeAsync(() => {
             Width = MAX_GAMEBAR_WIDTH;
             Height = MAX_GAMEBAR_HEIGHT;

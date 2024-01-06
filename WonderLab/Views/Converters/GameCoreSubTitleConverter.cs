@@ -1,30 +1,29 @@
-﻿using Avalonia.Data.Converters;
-using System;
-using System.Globalization;
+﻿using System;
 using System.Text;
+using System.Globalization;
+using Avalonia.Data.Converters;
 using MinecraftLaunch.Classes.Models.Game;
-using WonderLab.Classes.Models.ViewData;
 
-namespace WonderLab.Views.Converters {
-    public class GameCoreSubTitleConverter : IValueConverter {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            var core = ((GameViewData)value)!.Data;
+namespace WonderLab.Views.Converters;
 
-            if(core == null) 
-                return "Unknown";
+public class GameCoreSubTitleConverter : IValueConverter {
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
+        var core = value as GameEntry;
 
-            StringBuilder sb = new();
-            if (!core.IsVanilla) {
-                sb.Append($"{core.InheritsFrom?.Id} 依赖的加载器：").Append(core.MainLoaderType);
-                return sb.ToString();
-            }
+        if(core == null) 
+            return "Unknown";
 
-            sb.Append($"原版 {core.Id}");
+        StringBuilder sb = new();
+        if (!core.IsVanilla) {
+            sb.Append($"{core.InheritsFrom?.Id} 依赖的加载器：").Append(core.MainLoaderType);
             return sb.ToString();
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            throw new NotImplementedException();
-        }
+        sb.Append($"原版 {core.Id}");
+        return sb.ToString();
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
+        throw new NotImplementedException();
     }
 }

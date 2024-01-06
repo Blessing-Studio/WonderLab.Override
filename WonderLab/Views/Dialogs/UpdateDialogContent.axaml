@@ -2,27 +2,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:controls="using:WonderLab.Views.Controls"
+             xmlns:vm="clr-namespace:WonderLab.ViewModels.Dialogs"
+             x:Class="WonderLab.Views.Dialogs.UpdateDialogContent"
+             x:CompileBindings="True"
+             d:DesignWidth="800" 
+             d:DesignHeight="450"
+             mc:Ignorable="d" 
 			 MinWidth="400"
 			 MinHeight="100"
-			 xmlns:controls="using:WonderLab.Views.Controls"
-             x:Class="WonderLab.Views.Dialogs.UpdateDialogContent">
+             x:DataType="vm:UpdateDialogContentViewModel">
 	<Grid Margin="5"
 		  RowDefinitions="Auto,Auto,Auto">
 		<TextBlock FontSize="16"
 				   FontWeight="Bold"
 				   Text="启动器有更新"/>
-
-
-		<SelectableTextBlock Margin="0 8 0 2"
-							 Grid.Row="1"
-							 Text="{Binding Messages}"/>
-
+		
+		<SelectableTextBlock Grid.Row="1"
+		                     Margin="0 8 0 2"
+		                     Text="{Binding Messages}"/>
 		<Grid Grid.Row="2"
 			  RowDefinitions="Auto,Auto">
 			<TextBlock FontSize="12"
-					   Margin="0 2 0 3"
-					   Opacity="0.65">
+					   Opacity="0.65"
+					   Margin="0 2 0 3">
 				<Run>于 </Run>
 				<Run Text="{Binding Time}"/>
 				<Run> 由 </Run>
@@ -32,13 +35,13 @@
 			
 			<Grid Grid.Row="1"
 				  ColumnDefinitions="1*,10,1*"
-				  IsVisible="{Binding IsDownloading,Converter={StaticResource ReverseBoolValueConverter}}">
+				  IsVisible="{Binding IsDownloading, Converter={StaticResource ReverseBoolValueConverter}}">
 				<Button Content="暂不更新"
 						CornerRadius="10"
 						HorizontalAlignment="Stretch"
 						Command="{Binding CloseCommand}"
 						HorizontalContentAlignment="Center"/>
-
+				
 				<Button Grid.Column="2"
 						Classes="accent"
 						CornerRadius="10"
@@ -49,17 +52,18 @@
 							   HorizontalAlignment="Center"/>
 				</Button>
 			</Grid>
-
+			
 			<Grid Grid.Row="1"
 				  IsHitTestVisible="False"
 				  RowDefinitions="Auto,Auto"
 				  IsVisible="{Binding IsDownloading}">
-				<TextBlock Text="{Binding Progress,Converter={StaticResource DownloadProgressConverter}}"
-						   FontSize="13"
-						   HorizontalAlignment="Right"/>
-				
 				<TextBlock FontSize="13"
-						   Text="下载新版本中，要不了多久的，坐和放宽"/>
+						   HorizontalAlignment="Right"
+						   Text="{Binding Progress,Converter={StaticResource DownloadProgressConverter}}"/>
+				
+				<TextBlock Grid.Row="0"
+				           FontSize="13"
+				           Text="下载新版本中，要不了多久的，坐和放宽"/>
 				
 				<controls:MacOsProgressBar Grid.Row="1"
 										   Margin="0 4 0 0"

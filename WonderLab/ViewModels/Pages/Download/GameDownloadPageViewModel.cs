@@ -6,26 +6,25 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using MinecraftLaunch.Components.Installer;
 using MinecraftLaunch.Classes.Models.Install;
 
-namespace WonderLab.ViewModels.Pages.Download {
-    public partial class GameDownloadPageViewModel : ViewModelBase {
-        public GameDownloadPageViewModel() { 
-            Init();
-        }
+namespace WonderLab.ViewModels.Pages.Download;
 
-        [ObservableProperty]
-        public ObservableCollection<VersionManifestEntry> gameCores = new();
+public partial class GameDownloadPageViewModel : ViewModelBase {
+    public GameDownloadPageViewModel() { 
+        Init();
+    }
 
-        private async void Init() {
-            await Task.Delay(1000);
-            await Task.Run(async () => {
-                return await VanlliaInstaller.EnumerableGameCoreAsync();
-            }).ContinueWith(async task => {
-                var cores = (await task);
+    [ObservableProperty]
+    public ObservableCollection<VersionManifestEntry> gameCores = new();
 
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    GameCores.Load(cores);
-                },DispatcherPriority.Render);
+    private async void Init() {
+        await Task.Delay(1000);
+        await Task.Run(async () => {
+            return await VanlliaInstaller.EnumerableGameCoreAsync();
+        }).ContinueWith(async task => {
+            var cores = (await task);
+            await Dispatcher.UIThread.InvokeAsync(() => {
+                GameCores.Load(cores);
             });
-        }
+        });
     }
 }

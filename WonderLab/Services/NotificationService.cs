@@ -7,10 +7,10 @@ namespace WonderLab.Services;
 
 public partial class NotificationService : ObservableObject {
     [ObservableProperty]
-    public ObservableCollection<INotification> histoys = new();
+    private ObservableCollection<INotification> histoys = new();
 
     [ObservableProperty]
-    public ObservableCollection<INotification> notifications = new();
+    private ObservableCollection<INotification> notifications = new();
 
     public void Info(string message,bool canCancelled = true) {
         var result = Notification.GetNotification("提示", message,

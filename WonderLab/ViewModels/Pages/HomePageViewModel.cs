@@ -21,133 +21,129 @@ using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Extensions;
 using WonderLab.Services;
 
-namespace WonderLab.ViewModels.Pages {
-    public partial class HomePageViewModel : ViewModelBase {
-        private readonly DataService _dataService;
-        private readonly TaskService _taskService;
-        private readonly ConfigDataModel _configData;
-        private readonly GameEntryService _gameEntryService;
-        private readonly NotificationService _notificationService;
-        private readonly DispatcherTimer _timer = new();
+namespace WonderLab.ViewModels.Pages;
+
+public partial class HomePageViewModel : ViewModelBase {
+    private readonly DataService _dataService;
+    private readonly TaskService _taskService;
+    private readonly ConfigDataModel _configData;
+    private readonly GameEntryService _gameEntryService;
+    private readonly NotificationService _notificationService;
+    private readonly DispatcherTimer _timer = new();
         
-        [ObservableProperty]
-        private bool isOpenGameCoreBar;
+    [ObservableProperty]
+    private bool isOpenGameCoreBar;
         
-        [ObservableProperty]
-        private double otherControlOpacity = 1;
+    [ObservableProperty]
+    private double otherControlOpacity = 1;
 
-        [ObservableProperty]
-        private double controlCenterBarWidth = 180;
+    [ObservableProperty]
+    private double controlCenterBarWidth = 180;
 
-        [ObservableProperty]
-        private GameViewData? selectedGameCore;
+    [ObservableProperty]
+    private GameViewData? selectedGameCore;
 
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(LaunchGameCommand))]
-        private GameViewData? selectedGameCoreInfo;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(LaunchGameCommand))]
+    private GameViewData? selectedGameCoreInfo;
 
-        [ObservableProperty]
-        private ObservableCollection<GameViewData> gameCores = new();
+    [ObservableProperty]
+    private ObservableCollection<GameViewData> gameCores = new();
 
-        [ObservableProperty]
-        private string nowTime = DateTime.Now.ToString("tt hh:mm");
+    [ObservableProperty]
+    private string nowTime = DateTime.Now.ToString("tt hh:mm");
 
-        [ObservableProperty]
-        [BindToConfig("CurrentGameCoreId")]
-        private string? currentGameCoreId;
+    [ObservableProperty]
+    [BindToConfig("CurrentGameCoreId")]
+    private string? currentGameCoreId;
 
-        public HomePageViewModel(
-            DataService dataService,
-            TaskService taskService,
-            NotificationService notificationService,
-            GameEntryService gameEntryService) {
-            _taskService = taskService;
-            _dataService = dataService;
-            _configData = dataService.ConfigData;
-            _gameEntryService = gameEntryService;
-            _notificationService = notificationService;
+    public HomePageViewModel(
+        DataService dataService,
+        TaskService taskService,
+        NotificationService notificationService,
+        GameEntryService gameEntryService) {
+        _taskService = taskService;
+        _dataService = dataService;
+        _configData = dataService.ConfigData;
+        _gameEntryService = gameEntryService;
+        _notificationService = notificationService;
             
-            Init();
-            WeakReferenceMessenger.Default.Register<GameViewData>(this, HandleMessage);
-        }
+        Init();
+        WeakReferenceMessenger.Default.Register<GameViewData>(this, HandleMessage);
+    }
 
-        [RelayCommand]
-        private async Task ControlControlCenterBar() {
-            await Dispatcher.UIThread.InvokeAsync(() => {
-                var homePage = App.ServiceProvider
-                    .GetRequiredService<HomePage>();
+    [RelayCommand]
+    private async Task ControlControlCenterBar() {
+        await Dispatcher.UIThread.InvokeAsync(() => {
+            var homePage = App.ServiceProvider
+                .GetRequiredService<HomePage>();
 
-                var vm = App.ServiceProvider
-                    .GetRequiredService<MainWindowViewModel>();
+            var vm = App.ServiceProvider
+                .GetRequiredService<MainWindowViewModel>();
 
-                if (OtherControlOpacity is 0) {
-                    vm.IsFullScreen = false;
-                    ControlCenterBarWidth = 180;
-                    OtherControlOpacity = 1;
-                } else {
-                    //OpenControlCenter(homePage);
-                }
+            if (OtherControlOpacity is 0) {
+                vm.IsFullScreen = false;
+                ControlCenterBarWidth = 180;
+                OtherControlOpacity = 1;
+            } else {
+                //OpenControlCenter(homePage);
+            }
                 
-            });
+        });
+    }
+
+    [RelayCommand(CanExecute = nameof(CanLaunchGame))]
+    private async Task LaunchGame() {
+        await Dispatcher.UIThread.InvokeAsync(() => {
+            _notificationService.Info($"尝试启动游戏 [{SelectedGameCoreInfo?.Data.Id}] 可在控制中心里的任务列表查看实时进度");
+        });
+
+        LaunchTask task = new(SelectedGameCoreInfo!.Data!, _dataService, _notificationService);
+        _taskService.QueueJob(task);
+    }
+
+    [RelayCommand]
+    private async Task GetGameCore() {
+        if (!Directory.Exists(_configData.GameFolder)) {
+            return;
         }
-
-        [RelayCommand(CanExecute = nameof(CanLaunchGame))]
-        private async Task LaunchGame() {
-            await Dispatcher.UIThread.InvokeAsync(() => {
-                _notificationService.Info($"尝试启动游戏 [{SelectedGameCoreInfo?.Data.Id}] 可在控制中心里的任务列表查看实时进度");
-            });
-
-            LaunchTask task = new(SelectedGameCoreInfo!.Data!, _dataService, _notificationService);
-            _taskService.QueueJob(task);
-        }
-
-        [RelayCommand]
-        private async Task GetGameCore() {
-            if (!Directory.Exists(_configData.GameFolder)) {
-                return;
-            }
             
-            GameCores.Clear();
-            await Task.Run(() => {
-                return _gameEntryService.GetGameEntries(_configData.GameFolder)
-                    .ToList()
-                    .CreateEnumerable<GameEntry, GameViewData>();
-            }).ContinueWith(async task => {
-                await Dispatcher.UIThread.InvokeAsync(async () => {
-                    GameCores.Load(await task);
-                });
+        GameCores.Clear();
+        await Task.Run(() => _gameEntryService
+            .GetGameEntries(_configData.GameFolder)
+            .ToList()
+            .CreateEnumerable<GameEntry, GameViewData>())
+            .ContinueWith(async task => {
+            await Dispatcher.UIThread.InvokeAsync(async () => {
+                GameCores.Load(await task);
             });
+        });
+    }
+
+    private async void Init() {
+        _timer.Interval = TimeSpan.FromMinutes(1);
+        _timer.Tick += (sender, args) => {
+            NowTime = DateTime.Now.ToString("tt hh:mm");
+        };
+        _timer.Start();
+
+        if (!Directory.Exists(_configData.GameFolder)) {
+            return;
         }
 
-        private async void Init() {
-            _timer.Interval = TimeSpan.FromMinutes(1);
-            _timer.Tick += (sender, args) => {
-                NowTime = DateTime.Now.ToString("tt hh:mm");
-            };
-            _timer.Start();
-
-            if (!Directory.Exists(_configData.GameFolder)) {
-                return;
-            }
-
-            await Task.Run(() => {
-                SelectedGameCoreInfo = _gameEntryService.GetGameEntry(_configData.GameFolder,
-                    _configData.CurrentGameCoreId).CreateViewData<GameEntry, GameViewData>();
-            });
-        }
+        await Task.Run(() => {
+            SelectedGameCoreInfo = _gameEntryService.GetGameEntry(_configData.GameFolder,
+                _configData.CurrentGameCoreId).CreateViewData<GameEntry, GameViewData>();
+        });
+    }
         
-        private bool CanLaunchGame() {
-            return SelectedGameCoreInfo is not null;
-        }
+    private bool CanLaunchGame() {
+        return SelectedGameCoreInfo is not null;
+    }
         
-        private async void HandleMessage(object obj, GameViewData message) {
-            if (message is null) {
-                return;
-            }
-
-            await GameOperationBar.Scope.CollapseInterface();
-            SelectedGameCore = message;
-            SelectedGameCoreInfo = message;
-        }
+    private async void HandleMessage(object obj, GameViewData message) {
+        await GameOperationBar.Scope.CollapseInterface();
+        SelectedGameCore = message;
+        SelectedGameCoreInfo = message;
     }
 }

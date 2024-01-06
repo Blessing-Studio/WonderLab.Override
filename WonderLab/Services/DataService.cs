@@ -12,19 +12,18 @@ namespace WonderLab.Services;
 /// 数据服务类
 /// </summary>
 public class DataService {
-    private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+    private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
     public string Version =>
         (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyFileVersionAttribute), false)
             as AssemblyFileVersionAttribute)!.Version;
-    
+
     public string FolderPath => Path.Combine(Environment.GetFolderPath(
         Environment.SpecialFolder.ApplicationData), "wonderlab");
 
-    public string DataFilePath => Path.Combine(Environment.GetFolderPath(
-        Environment.SpecialFolder.ApplicationData), "wonderlab", "data.json");
+    public string DataFilePath => Path.Combine(FolderPath, "data.json");
 
-    public readonly JavaFetcher JavaFetcher = new();
+    public readonly JavaFetcher javaFetcher = new();
     
     public ConfigDataModel ConfigData { get; set; }
 

@@ -11,14 +11,14 @@ using Avalonia.VisualTree;
 
 namespace WonderLab.Classes.Media.Animations;
 
-public class PageSlideFade(TimeSpan duration) : IPageTransition {
+public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
     public TimeSpan Duration { get; set; } = duration;
     
     public Easing SlideEasing { get; set; } = new CircularEaseInOut();
 
     public bool Fade { get; set; }
     
-    public virtual async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
+    public async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested) {
             return;
@@ -197,8 +197,8 @@ public class PageSlideFade(TimeSpan duration) : IPageTransition {
             from.IsVisible = false;
         }
     }
-    
-    protected static Visual GetVisualParent(Visual? from, Visual? to)
+
+    private static Visual GetVisualParent(Visual? from, Visual? to)
     {
         var vp1 = (from ?? to)!.GetVisualParent();
         var vp2 = (to ?? from)!.GetVisualParent();

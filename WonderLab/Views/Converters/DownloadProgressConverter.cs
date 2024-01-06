@@ -2,22 +2,22 @@
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace WonderLab.Views.Converters {
-    public class DownloadProgressConverter : IValueConverter {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            double progress = (double)value!;
+namespace WonderLab.Views.Converters;
 
-            try {
-                return $"{progress:0.00}%";
-            }
-            catch (Exception) {
-            }
+public class DownloadProgressConverter : IValueConverter {
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
+        double progress = (double)value!;
 
-            return "0.00%";
+        try {
+            return $"{progress:0.00}%";
+        }
+        catch (Exception) {
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
-            throw new NotImplementedException();
-        }
+        return "0.00%";
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
+        throw new NotImplementedException();
     }
 }
