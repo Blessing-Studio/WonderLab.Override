@@ -1,31 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DialogHostAvalonia;
-using MinecraftLaunch.Modules.Downloaders;
-using MinecraftLaunch.Modules.Models.Download;
-using MinecraftLaunch.Modules.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using MinecraftLaunch.Classes.Models.Download;
+using MinecraftLaunch.Classes.Models.Event;
+using MinecraftLaunch.Extensions;
+using MinecraftLaunch.Utilities;
 using WonderLab.Classes.Handlers;
 
 namespace WonderLab.ViewModels.Dialogs {
     public partial class UpdateDialogContentViewModel : ViewModelBase {
-        private string _downloadUrl;
-
-        private UpdateHandler _updateHandler;
-
-        public UpdateDialogContentViewModel(UpdateHandler updateHandler) { 
+        private readonly string _downloadUrl;
+        private readonly UpdateHandler _updateHandler;
+        private readonly DownloadHandler _downloadHandler;
+        
+        public UpdateDialogContentViewModel(UpdateHandler updateHandler, DownloadHandler downloadHandler) { 
             List<string> authors = new();
             _updateHandler = updateHandler;
-
+            _downloadHandler = downloadHandler;
+            
             var messages = updateHandler.UpdateInfoJsonNode["messages"]!
                 .AsArray()
                 .Select(x => {
@@ -46,8 +44,8 @@ namespace WonderLab.ViewModels.Dialogs {
             Messages = string.Join("\n", messages);
             Author = string.Join(", ", authors.Distinct());
 
-            string baseUrl = updateHandler.UpdateInfoJsonNode["windows_file_url"]!
-                .GetValue<string>();
+            string baseUrl = updateHandler.UpdateInfoJsonNode
+                .GetString("windows_file_url");
 
             _downloadUrl = $"https://github.moeyy.xyz/{baseUrl}";
         }
@@ -73,31 +71,31 @@ namespace WonderLab.ViewModels.Dialogs {
         private async void Update() {
             if (EnvironmentUtil.IsWindow) {
                 IsDownloading = true;
-                using var downloader = FileDownloader.Build(new DownloadRequest {
+                var downloadRequest = new DownloadRequest {
                     Url = _downloadUrl,
-                    FileName = "updateTemp.zip",
-                    Directory = new(Environment.CurrentDirectory)
-                });
+                    Name = "updateTemp.zip",
+                    Path = Environment.CurrentDirectory
+                };
+                
+                using var downloader = await _downloadHandler.DownloadAsync(downloadRequest);
 
-                downloader.DownloadProgressChanged += OnDownloadProgressChanged;
-                downloader.BeginDownload();
-                var result = await downloader.CompleteAsync();
-                if (result.Success) {
-                    using var zip = ZipFile.OpenRead(result.Result.FullName);
-                    var launcherEntry = zip.Entries
-                        .FirstOrDefault(x => x.Name.ToLower() == "wonderlab.exe");
-                    if (launcherEntry is not null) {
-                        launcherEntry.ExtractToFile(Path.Combine(result.Result.Directory!.FullName,
-                            "launcher.temp"));
+                downloader.ProgressChanged += OnDownloadProgressChanged;
+                using var zip = ZipFile.OpenRead(Path.Combine(downloadRequest.Path, 
+                    downloadRequest.Name));
+                
+                var launcherEntry = zip.Entries
+                    .FirstOrDefault(x => x.Name.ToLower() == "wonderlab.exe");
+                if (launcherEntry is not null) {
+                    launcherEntry.ExtractToFile(Path.Combine(downloadRequest.Path,
+                        "launcher.temp"));
 
-                        _updateHandler.Update();
-                    }
+                    _updateHandler.Update();
                 }
             }
         }
 
-        private void OnDownloadProgressChanged(object? sender, FileDownloaderProgressChangedEventArgs e) {
-            Progress = e.Progress * 100;
+        private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e) {
+            Progress = e.ToPercentage() * 100;
         }
     }
 }

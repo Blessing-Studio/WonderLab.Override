@@ -3,131 +3,131 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Avalonia.Threading;
-using System.Windows.Input;
 using WonderLab.Views.Pages;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using WonderLab.Classes.Models;
 using WonderLab.Classes.Managers;
 using WonderLab.Classes.Utilities;
+using CommunityToolkit.Mvvm.Input;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Classes.Attributes;
-using Avalonia.Controls.Converters;
 using WonderLab.Classes.Models.Tasks;
 using System.Collections.ObjectModel;
-using MinecraftLaunch.Modules.Utilities;
 using WonderLab.Views.Pages.ControlCenter;
-using MinecraftLaunch.Modules.Models.Launch;
-using Microsoft.Extensions.DependencyInjection;
+using MinecraftLaunch.Classes.Models.Game;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Classes.Models.ViewData;
+using WonderLab.Extensions;
+using CommunityToolkit.Mvvm.Messaging;
+using System.Reflection.Metadata;
 
 namespace WonderLab.ViewModels.Pages {
     public partial class HomePageViewModel : ViewModelBase {
-        private TaskManager _taskManager;
-
-        private ConfigDataModel _configData;
-
-        private NotificationManager _notificationManager;
-
-        private DispatcherTimer _timer = new();
+        private readonly DataManager _dataManager;
+        private readonly TaskManager _taskManager;
+        private readonly ConfigDataModel _configData;
+        private readonly GameCoreManager _gameCoreManager;
+        private readonly NotificationManager _notificationManager;
+        
+        private const int MAX_GAMEBAR_WIDTH = 645;
+        private const int MAX_GAMEBAR_HEIGHT = 370;
+        private readonly DispatcherTimer _timer = new();
+        private CancellationTokenSource _cancellationTokenSource = new();
+        
+        [ObservableProperty]
+        private bool isOpenGameCoreBar = false;
+      
+        [ObservableProperty]
+        private double gameCoreBarHeight = 85;
 
         [ObservableProperty]
-        public bool isOpenGameCoreBar = false;
+        private double gameCoreBarWidth = 155;
 
         [ObservableProperty]
-        public double gameCoreBarHeight = 85;
+        private double gameCoreListOpacity = 0;
 
         [ObservableProperty]
-        public double gameCoreBarWidth = 155;
+        private double otherControlOpacity = 1;
 
         [ObservableProperty]
-        public double gameCoreListOpacity = 0;
+        private double controlCenterBarWidth = 180;
 
         [ObservableProperty]
-        public double otherControlOpacity = 1;
+        private GameViewData? selectedGameCore;
 
         [ObservableProperty]
-        public double controlCenterBarWidth = 180;
+        [NotifyCanExecuteChangedFor(nameof(LaunchGameCommand))]
+        private GameViewData? selectedGameCoreInfo;
 
         [ObservableProperty]
-        public GameCore? selectedGameCore;
+        private ObservableCollection<GameViewData> gameCores = new();
 
         [ObservableProperty]
-        public GameCore? selectedGameCoreInfo;
-
-        [ObservableProperty]
-        public ObservableCollection<GameCore> gameCores = new();
-
-        [ObservableProperty]
-        public string nowTime = DateTime.Now.ToString("tt hh:mm");
+        private string nowTime = DateTime.Now.ToString("tt hh:mm");
 
         [ObservableProperty]
         [BindToConfig("CurrentGameCoreId")]
-        public string? currentGameCoreId;
+        private string? currentGameCoreId;
 
-        public object TaskCenterCardContent => App.ServiceProvider
-            .GetRequiredService<TaskCenterPage>();
-
-        public object NotificationCenterCardContent => App.ServiceProvider
-            .GetRequiredService<NotificationCenterPage>();
-
-        public HomePageViewModel(DataManager dataManager, TaskManager taskManager,
-            NotificationManager notificationManager) : base(dataManager) {
+        public HomePageViewModel(
+            DataManager dataManager,
+            TaskManager taskManager,
+            NotificationManager notificationManager,
+            GameCoreManager gameCoreManager) : base(dataManager) {
             _taskManager = taskManager;
+            _dataManager = dataManager;
             _configData = dataManager.Config;
+            _gameCoreManager = gameCoreManager;
             _notificationManager = notificationManager;
+            
             Init();
 
-            //this.WhenAnyValue(p1 => p1.SelectedGameCore)
-            //    .Subscribe(core => {
-            //        if(core != null) {
-            //            SelectedGameCoreInfo = core;
-            //            CurrentGameCoreId = core.Id!;
-            //        }
-            //    });
+            WeakReferenceMessenger.Default.Register<GameViewData>(this, HandleMessage);
         }
 
         [RelayCommand]
-        public async Task OpenGameCoreBar() {
+        private async Task OpenGameCoreBar() {
             try {
-                var homePage = App.ServiceProvider
-                    .GetRequiredService<HomePage>();
+                using (_cancellationTokenSource) {
+                    _cancellationTokenSource?.Cancel();
+                    _cancellationTokenSource = new();
+                }
 
-                double height = homePage.Bounds.Height - 56,
-                    width = homePage.Bounds.Width;
+                await Dispatcher.UIThread.InvokeAsync(() => {
+                    GameCoreBarWidth = MAX_GAMEBAR_WIDTH;
+                    GameCoreBarHeight = MAX_GAMEBAR_HEIGHT;
+                    IsOpenGameCoreBar = !IsOpenGameCoreBar;
+                }, DispatcherPriority.Render, _cancellationTokenSource.Token);
 
-                GameCoreBarWidth = width;
-                GameCoreBarHeight = height;
-                IsOpenGameCoreBar = !IsOpenGameCoreBar;
                 await Task.Delay(300).ContinueWith(async x => {
                     GameCoreListOpacity = 1;
                     await GetGameCore();
-                });
-
-                //homePage.WhenAnyValue(x => x.Bounds.Height, x => x.Bounds.Width)
-                //.Subscribe(x => {
-                //    if (IsOpenGameCoreBar) {
-                //        GameCoreBarWidth = homePage.Bounds.Width;
-                //        GameCoreBarHeight = homePage.Bounds.Height - 56;
-                //    }
-                //});
+                }, _cancellationTokenSource.Token);
             }
-            catch (Exception) {
-
-            }
+            catch (TaskCanceledException) { }
         }
 
         [RelayCommand]
-        public void CloseGameCoreBar() {
-            GameCoreListOpacity = 0;
-            GameCoreBarHeight = 85;
-            GameCoreBarWidth = 155;
-            IsOpenGameCoreBar = !IsOpenGameCoreBar;
+        private async Task CloseGameCoreBar() {
+            try {
+                using (_cancellationTokenSource) {
+                    _cancellationTokenSource?.Cancel();
+                    _cancellationTokenSource = new();
+                }
+
+                await Dispatcher.UIThread.InvokeAsync(() => {
+                    GameCoreListOpacity = 0;
+                    GameCoreBarHeight = 85;
+                    GameCoreBarWidth = 155;
+                    IsOpenGameCoreBar = !IsOpenGameCoreBar;
+                }, DispatcherPriority.Render, _cancellationTokenSource.Token);
+            }
+            catch (TaskCanceledException) { }
         }
 
         [RelayCommand]
-        public async Task ControlControlCenterBar() {
+        private async Task ControlControlCenterBar() {
             await Dispatcher.UIThread.InvokeAsync(() => {
                 var homePage = App.ServiceProvider
                     .GetRequiredService<HomePage>();
@@ -140,29 +140,41 @@ namespace WonderLab.ViewModels.Pages {
                     ControlCenterBarWidth = 180;
                     OtherControlOpacity = 1;
                 } else {
-                    OpenControlCenter(homePage);
+                    //OpenControlCenter(homePage);
                 }
-
-                //homePage.WhenAnyValue(x => x.Bounds.Height, x => x.Bounds.Width)
-                //.Subscribe(x => {
-                //    if (OtherControlOpacity == 0) {
-                //        ControlCenterBarWidth = homePage.Bounds.Width;
-                //    }
-                //});
+                
             });
         }
 
-        [RelayCommand]
-        public async Task LaunchGame() {
+        [RelayCommand(CanExecute = nameof(CanLaunchGame))]
+        private async Task LaunchGame() {
             await Dispatcher.UIThread.InvokeAsync(() => {
-                _notificationManager.Info($"尝试启动游戏 [{SelectedGameCore?.Id}] 可在控制中心里的任务列表查看实时进度");
+                _notificationManager.Info($"尝试启动游戏 [{SelectedGameCoreInfo?.Data.Id}] 可在控制中心里的任务列表查看实时进度");
             });
 
-            LaunchTask task = new(SelectedGameCoreInfo!, _configData, _notificationManager);
+            LaunchTask task = new(SelectedGameCoreInfo!.Data!, _dataManager, _notificationManager);
             _taskManager.QueueJob(task);
         }
 
-        public async void Init() {
+        [RelayCommand]
+        private async Task GetGameCore() {
+            if (!Directory.Exists(_configData.GameFolder)) {
+                return;
+            }
+
+            GameCores.Clear();
+            await Task.Run(() => {
+                return _gameCoreManager.GetGameEntries(_configData.GameFolder)
+                    .ToList()
+                    .CreateEnumerable<GameEntry, GameViewData>();
+            }).ContinueWith(async task => {
+                await Dispatcher.UIThread.InvokeAsync(async () => {
+                    GameCores.Load(await task);
+                });
+            });
+        }
+
+        private async void Init() {
             _timer.Interval = TimeSpan.FromMinutes(1);
             _timer.Tick += (sender, args) => {
                 NowTime = DateTime.Now.ToString("tt hh:mm");
@@ -174,33 +186,23 @@ namespace WonderLab.ViewModels.Pages {
             }
 
             await Task.Run(() => {
-                SelectedGameCoreInfo = GameCoreUtil.GetGameCore(_configData.GameFolder,
-                    _configData.CurrentGameCoreId);
+                SelectedGameCoreInfo = _gameCoreManager.GetGameEntry(_configData.GameFolder,
+                    _configData.CurrentGameCoreId).CreateViewData<GameEntry, GameViewData>();
             });
         }
-
-        private async Task GetGameCore() {
-            if (!Directory.Exists(_configData.GameFolder)) {
+        
+        private bool CanLaunchGame() {
+            return SelectedGameCoreInfo is not null;
+        }
+        
+        private async void HandleMessage(object obj, GameViewData message) {
+            if (message is null) {
                 return;
             }
 
-            GameCores.Clear();
-            await Task.Run(() => {
-                return GameCoreUtil.GetGameCores(_configData.GameFolder).ToList();
-            }).ContinueWith(async task => {
-                await Dispatcher.UIThread.InvokeAsync(async () => {
-                    GameCores.Load(await task);
-                }, DispatcherPriority.Render);
-            });
-        }
-
-        private void OpenControlCenter(HomePage homePage) {
-            var vm = App.ServiceProvider
-                .GetRequiredService<MainWindowViewModel>();
-
-            vm.IsFullScreen = true;
-            OtherControlOpacity = 0;
-            ControlCenterBarWidth = homePage.Bounds.Width;
+            await CloseGameCoreBar();
+            SelectedGameCore = message;
+            SelectedGameCoreInfo = message;
         }
     }
 }

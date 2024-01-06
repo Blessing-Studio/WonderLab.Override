@@ -5,14 +5,14 @@
 					xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
 		<Border Padding="20">
-			<StackPanel Orientation="Vertical">
-				<TabControl>
-					<TabItem Header="基础设置"/>
-					<TabItem Header="游戏设置"/>
-					<TabItem Header="启动器设置"/>
-					<TabItem Header="关于"/>
-				</TabControl>
-			</StackPanel>
+			<ProgressBar Value="11">
+				<ProgressBar.Transitions>
+					<Transitions>
+						<DoubleTransition Property="Width" Duration="0:0:0.25" Easing="CubicEaseOut" />
+						<DoubleTransition Property="Height" Duration="0:0:0.25" Easing="CubicEaseOut" />
+					</Transitions>
+				</ProgressBar.Transitions>
+			</ProgressBar>
 		</Border>
 	</Design.PreviewWith>
 

@@ -3,102 +3,80 @@
 		xmlns:controls="using:WonderLab.Views.Controls"
 		xmlns:converters="using:WonderLab.Views.Converters">
     <Design.PreviewWith>
-		<Border Width="788"
-				Height="482">
-			<Border.Background>
-				<ImageBrush Stretch="UniformToFill" Source="C:\Users\w\Desktop\总整包\素材库\图片素材\桌面背景\eac5086cbaf64cdb45ddd2bb6fa13d17.png"/>
-			</Border.Background>
-			<Border Width="97"
-					HorizontalAlignment="Left"
-					Margin="16 0 0 0"
-					CornerRadius="14"
-					BorderThickness="1"
-					BorderBrush="#E5E5E5"
-					Background="#B2E5E5E5">
-				<!-- Add Controls for Previewer Here -->
-				<StackPanel>
-					<controls:NavigationViewItem Icon="&#xEDDC;"
-								 Content="下载"
-								 IsSelected="False"/>
-
-					<controls:NavigationViewItem Icon="&#xF0B9;"
-							 Content="联机"
-							 IsSelected="False"/>
-
-					<controls:NavigationViewItem Icon="&#xF8B0;"
-								 Content="设置"
-								 IsSelected="False"/>
-				</StackPanel>
-				
-				
-			</Border>
+		<Border Height="100" Width="100" ClipToBounds="False">
+			<controls:NavigationViewItem Icon="&#xEA8A;"
+							 Content="111" Foreground="Red"
+							 IsSelected="True"/>
 		</Border>
-    </Design.PreviewWith>
+	</Design.PreviewWith>
 
 	<Styles.Resources>
 		<converters:NavigationColorConverter x:Key="NavigationColorConverter"/>
 	</Styles.Resources>
+	
     <!-- Add Styles Here -->
 	<Style Selector="controls|NavigationViewItem">
-		<Setter Property="Background" Value="White"/>
-		<Setter Property="ClipToBounds" Value="False"/>
-		<Setter Property="Margin" Value="0 10 0 0"/>
+		<Setter Property="Margin" Value="4 0"/>
+		<Setter Property="ClipToBounds" Value="False"/> 
+		<Setter Property="Foreground" Value="{DynamicResource ContentBrush4}"/>
 		<Setter Property="Transitions">
 			<Transitions>
-				<BrushTransition Duration="0:0:0.35"
+				<BrushTransition Duration="0:0:0.25"
 				                 Property="Foreground"
-				                 Easing="ExponentialEaseInOut"/>
+				                 Easing="ExponentialEaseOut"/>
+
+				<BrushTransition Duration="0:0:0.25"
+				                 Property="Background"
+				                 Easing="ExponentialEaseOut"/>
+				
+				<EffectTransition Duration="0:0:0.25"
+								  Property="Effect"
+								  Easing="ExponentialEaseOut"/>
 			</Transitions>
 		</Setter>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<!--<controls:RippleControl Width="65"
-										Height="65"
-										CornerRadius="12"
-										RippleFill="#16000000"
-									    RippleOpacity="0.2">
-
-				</controls:RippleControl>-->
-				<Button Width="65"
-						Height="65"
-						Padding="0"
-						Classes="ripple"
-						Name="MainLayout"
-						CornerRadius="12"
+				<Button Height="25.5"
+						Padding="0"		
+						MinWidth="78"
+						CornerRadius="20"
 						BorderThickness="0"
+						Name="ButtonLayout"
+						ClipToBounds="False"
 					    Background="Transparent"
 						BorderBrush="Transparent"
+						VerticalAlignment="Stretch"
+						HorizontalAlignment="Stretch"
 						VerticalContentAlignment="Stretch"
 					    Command="{TemplateBinding Command}"
 						HorizontalContentAlignment="Stretch">
 					<Border Name="Layout"
-		                    Background="{TemplateBinding Background}"
-		                    BorderBrush="AliceBlue"
-		                    CornerRadius="12">
+							CornerRadius="18"
+							Background="Transparent"
+							Transitions="{TemplateBinding Transitions}">
 						<Border.Effect>
-							<DropShadowEffect BlurRadius="1"
+							<DropShadowEffect BlurRadius="0.1"
 											  OffsetX="0"
 											  OffsetY="0"
-											  Color="#36000000"/>
+											  Color="#16000000"/>
 						</Border.Effect>
-						<Grid RowDefinitions="Auto,Auto"
-							  HorizontalAlignment="Center"
-							  VerticalAlignment="Center">
-							<controls:FontIcon Glyph="{TemplateBinding Icon}"
-											   FontSize="18"
-											   Foreground="#CBCACA"
-											   Name="Icon"
+						<Grid Margin="12 1" 
+							  ColumnDefinitions="Auto, Auto">
+							<controls:FontIcon Name="Icon"
+											   FontSize="14"
+											   VerticalAlignment="Center"
+											   Glyph="{TemplateBinding Icon}"
 											   Transitions="{TemplateBinding Transitions}"
-											   HorizontalAlignment="Center"/>
+											   Foreground="{Binding ElementName=Content, Path=Foreground}"/>
 
-							<TextBlock Text="{TemplateBinding Content}"
-									   Grid.Row="1"
-									   Margin="0 4 0 0"
-									   Foreground="#CBCACA"
-									   FontWeight="Bold"
-									   Name="Content"
+
+							<TextBlock Name="Content"
+									   Grid.Column="1"
+									   Margin="8 0 0 0"
+									   VerticalAlignment="Center"
+									   Text="{TemplateBinding Content}"
 									   Transitions="{TemplateBinding Transitions}"
-									   HorizontalAlignment="Center"/>
+									   Foreground="{DynamicResource ContentBrush4}"/>
 						</Grid>
 					</Border>
 				</Button>
@@ -106,11 +84,18 @@
 		</Setter>
 	</Style>
 
-	<Style Selector="controls|NavigationViewItem:selected /template/ controls|FontIcon#Icon"> 
-		<Setter Property="Foreground" Value="{TemplateBinding Foreground}"/>
-	</Style>
-
-	<Style Selector="controls|NavigationViewItem:selected /template/ TextBlock#Content">
-		<Setter Property="Foreground" Value="{TemplateBinding Foreground}"/>
+    <Style Selector="controls|NavigationViewItem:selected /template/ TextBlock#Content">
+	    <Setter Property="Foreground" Value="{TemplateBinding Foreground}"/>
+    </Style>
+    
+	<Style Selector="controls|NavigationViewItem:selected /template/ Border#Layout">
+		<Setter Property="Background" Value="{DynamicResource LayoutBackground}"/>
+		<Setter Property="Effect">
+			<DropShadowEffect BlurRadius="5"
+							  OffsetX="0"
+							  OffsetY="0"
+							  Color="{DynamicResource DefaultColor400}"/>
+		</Setter>
 	</Style>
 </Styles>
+<!--#FFFFFFB3-->

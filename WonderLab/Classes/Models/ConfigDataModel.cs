@@ -1,8 +1,7 @@
 ﻿using WonderLab.Classes.Enums;
 using System.Text.Json.Serialization;
-using MinecraftLaunch.Modules.Models.Launch;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using MinecraftLaunch.Classes.Models.Game;
 
 namespace WonderLab.Classes.Models {
     public class ConfigDataModel {
@@ -13,7 +12,7 @@ namespace WonderLab.Classes.Models {
         public BackgroundType BackgroundType { get; set; }
 
         [JsonPropertyName("javaPath")]
-        public JavaInfo JavaPath { get; set; }
+        public JavaEntry JavaPath { get; set; }
 
         [JsonPropertyName("isAutoSelectJava")]
         public bool IsAutoSelectJava { get; set; }
@@ -43,7 +42,7 @@ namespace WonderLab.Classes.Models {
         public BranchType Branch { get; set; } = BranchType.Lsaac;
 
         [JsonPropertyName("javaPaths")]
-        public ObservableCollection<JavaInfo> JavaPaths { get; set; } = new();
+        public ObservableCollection<JavaEntry> JavaPaths { get; set; } = new();
 
         [JsonPropertyName("gameFolders")]
         public ObservableCollection<string> GameFolders { get; set; } = new();

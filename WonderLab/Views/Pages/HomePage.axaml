@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Pages.HomePage"
 			 ClipToBounds="False"
+             x:Class="WonderLab.Views.Pages.HomePage"
+			 xmlns:controls="using:WonderLab.Views.Controls"
 			 xmlns:converter="using:WonderLab.Views.Converters"
-			 xmlns:controls="using:WonderLab.Views.Controls">
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions">
 	<!--resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten-->
 	<UserControl.Resources>
 		<converter:ControlCenterOpacityConverter x:Key="ControlCenterOpacityConverter"/>
@@ -21,66 +23,30 @@
 									  Easing="ExponentialEaseOut"/>
 				</Transitions>
 			</Grid.Transitions>
+			
 			<Button Height="45"
 		            Width="155"
 		            FontSize="16"
 		            Classes="ripple"
 		            FontWeight="Bold"
+		            CornerRadius="16"
 		            HorizontalAlignment="Left"
 		            VerticalAlignment="Bottom"
 		            VerticalContentAlignment="Center"
 		            HorizontalContentAlignment="Center"
+					IsEnabled="{Binding CanLaunchGame}"
 					Command="{Binding LaunchGameCommand}"
 		            Foreground="{DynamicResource AccentButtonForeground}"
-		            Background="#006FEE">
+		            Background="{DynamicResource PrimaryBrush500}">
 				启动游戏
 			</Button>
 
-			<!--Width="{Binding GameCoreBarWidth}"
-		    Height="{Binding GameCoreBarHeight}"-->
-			<Border Margin="0 55"
-					CornerRadius="12"
-					Background="White"
-					BorderThickness="2"
-					BorderBrush="#006FEE"
-					VerticalAlignment="Bottom"
-					HorizontalAlignment="Left"
-					Width="{Binding GameCoreBarWidth}"
-					Height="{Binding GameCoreBarHeight}">
-				<Border.Transitions>
-					<Transitions>
-						<DoubleTransition Duration="0:0:0.35"
-										  Property="Width"
-										  Easing="ExponentialEaseOut"/>
-
-						<DoubleTransition Duration="0:0:0.35"
-										  Property="Height"
-										  Easing="ExponentialEaseOut"/>
-					</Transitions>
-				</Border.Transitions>
-				<Border.Effect>
-					<DropShadowEffect BlurRadius="5"
-									  Opacity="1"
-									  OffsetX="0"
-									  OffsetY="0"
-									  Color="#46000000"/>
-				</Border.Effect>
-				<Grid Margin="5">
-					<Grid RowDefinitions="Auto,Auto"
-						  IsVisible="{Binding IsOpenGameCoreBar,Converter={StaticResource ReverseBoolValueConverter}}">
-						<TextBlock Text="{Binding SelectedGameCoreInfo.Id}"
-								   FontWeight="Bold"
-								   FontSize="16"
-								   TextTrimming="CharacterEllipsis"/>
-						
-						<TextBlock Grid.Row="1"
-								   Text="{Binding SelectedGameCoreInfo,Converter={StaticResource GameCoreSubTitleConverter}}"
-								   FontSize="12"
-								   TextTrimming="CharacterEllipsis"/>
-					</Grid>
-
-					<Grid Margin="12 8 12 0"
-						  Opacity="{Binding GameCoreListOpacity}">
+			<controls:GameOperationBar Margin="0 55"
+			                           VerticalAlignment="Bottom"
+			                           HorizontalAlignment="Left"
+			                           OpenCommand="{Binding GetGameCoreCommand}">
+				<controls:GameOperationBar.Content>
+					<Grid Margin="12 8 12 0">
 						<Grid.Transitions>
 							<Transitions>
 								<DoubleTransition Duration="0:0:0.35"
@@ -110,8 +76,7 @@
 											<Border Name="Layout"
 													CornerRadius="12"
 													Background="Transparent"
-													BoxShadow="0 1 12 0 #36000000"
-													PointerPressed="OnPointerPressed">
+													BoxShadow="0 1 12 0 #36000000">
 												<Border.Transitions>
 													<Transitions>
 														<BoxShadowsTransition Property="BoxShadow"
@@ -119,6 +84,14 @@
 																			  Easing="ExponentialEaseOut"/>
 													</Transitions>
 												</Border.Transitions>
+
+												<i:Interaction.Behaviors>
+													<ia:EventTriggerBehavior EventName="PointerPressed"
+																			 SourceObject="MoveLeftButton">
+														<ia:InvokeCommandAction Command="{Binding SelectCommand}" />
+													</ia:EventTriggerBehavior>
+												</i:Interaction.Behaviors>
+
 												<Grid Margin="12 10" ColumnDefinitions="Auto,Auto,1*,Auto">
 													<RadioButton IsVisible="False"
 																 IsChecked="{Binding $parent[ListBoxItem].IsSelected, Mode=TwoWay}"/>
@@ -131,12 +104,12 @@
 
 													<Grid Grid.Column="2"
 														  RowDefinitions="Auto,Auto">
-														<TextBlock Text="{Binding Id}"
+														<TextBlock Text="{Binding Data.Id}"
 																   FontSize="16"/>
 														<TextBlock Grid.Row="1"
 																   FontSize="12"
 																   Foreground="#6E6867"
-																   Text="{Binding,Converter={StaticResource GameCoreSubTitleConverter}}"/>
+																   Text="{Binding ,Converter={StaticResource GameCoreSubTitleConverter}}"/>
 													</Grid>
 
 													<StackPanel Orientation="Horizontal"
@@ -176,9 +149,9 @@
 								Padding="8 3"
 								IsVisible="False"
 								FontWeight="Bold"
-								Foreground="White"
+								Foreground="{DynamicResource LayoutBackground}"
 								Margin="-12 0 0 0"
-								Background="#006FEE"
+								Background="{DynamicResource PrimaryBrush500}"
 								VerticalAlignment="Bottom"
 								HorizontalAlignment="Right">
 							<StackPanel Spacing="5"
@@ -191,12 +164,57 @@
 							</StackPanel>
 						</Button>
 					</Grid>
+				</controls:GameOperationBar.Content>
+			</controls:GameOperationBar>
+			
+			<Border Margin="0 55" IsVisible="False"
+					CornerRadius="12"
+					Background="{DynamicResource LayoutBackground}"
+					BorderThickness="2"
+					BorderBrush="{DynamicResource PrimaryBrush500}"
+					VerticalAlignment="Bottom"
+					HorizontalAlignment="Left"
+					Width="{Binding GameCoreBarWidth}"
+					Height="{Binding GameCoreBarHeight}">
+				<Border.Transitions>
+					<Transitions>
+						<DoubleTransition Duration="0:0:0.35"
+										  Property="Width"
+										  Easing="ExponentialEaseOut"/>
+
+						<DoubleTransition Duration="0:0:0.35"
+										  Property="Height"
+										  Easing="ExponentialEaseOut"/>
+					</Transitions>
+				</Border.Transitions>
+				<Border.Effect>
+					<DropShadowEffect BlurRadius="5"
+									  Opacity="1"
+									  OffsetX="0"
+									  OffsetY="0"
+									  Color="#46000000"/>
+				</Border.Effect>
+				<Grid Margin="5">
+					<Grid RowDefinitions="Auto,Auto"
+						  IsVisible="{Binding IsOpenGameCoreBar,Converter={StaticResource ReverseBoolValueConverter}}">
+						<TextBlock Text="{Binding SelectedGameCoreInfo.Data.Id}"
+								   FontWeight="Bold"
+								   FontSize="16"
+								   TextTrimming="CharacterEllipsis"/>
+						
+						<TextBlock Grid.Row="1"
+								   Text="{Binding SelectedGameCoreInfo,Converter={StaticResource GameCoreSubTitleConverter}}"
+								   FontSize="12"
+								   TextTrimming="CharacterEllipsis"/>
+					</Grid>
+
+					
 
 					<Button Classes="ripple"
 							Content="选择游戏"
 							Padding="0 3 3 3"
 							FontWeight="Bold"
-							Foreground="#006FEE"
+							Foreground="{DynamicResource PrimaryBrush500}"
 							Background="Transparent"
 							VerticalAlignment="Bottom"
 							Command="{Binding OpenGameCoreBarCommand}"
@@ -207,7 +225,7 @@
 							Content="收起界面"
 							Padding="0 3 3 3"
 							FontWeight="Bold"
-							Foreground="#006FEE"
+							Foreground="{DynamicResource PrimaryBrush500}"
 							Background="Transparent"
 							VerticalAlignment="Bottom"
 							IsVisible="{Binding IsOpenGameCoreBar}"
@@ -217,7 +235,6 @@
 			</Border>
 		</Grid>
 
-		<!--RenderTransform="translate(800px)"-->
 		<Grid Margin="0 0 0 45"
 			  ColumnDefinitions="1*,14,1*,14,1*"
 			  IsHitTestVisible="{Binding OtherControlOpacity, Converter={StaticResource Int32ToBoolConverter}}"
@@ -234,7 +251,7 @@
 				                      Easing="ExponentialEaseOut"/>
 				</Transitions>
 			</Grid.Transitions>
-			<Border Background="White"
+			<Border Background="{DynamicResource LayoutBackground}"
 					CornerRadius="12"
 					BoxShadow="0 1 12 0 #36000000">
 				<Grid>
@@ -251,7 +268,7 @@
 
 			<Border Grid.Column="2" 
 					CornerRadius="12"
-					Background="White"
+					Background="{DynamicResource LayoutBackground}"
 		            BoxShadow="0 1 12 0 #36000000">
 				<Grid Margin="12">
 					<TextBlock Text="任务队列"
@@ -266,7 +283,7 @@
 
 			<Border Grid.Column="4"
 					CornerRadius="12"
-					Background="White"
+					Background="{DynamicResource LayoutBackground}"
 		            BoxShadow="0 1 12 0 #36000000">
 				<Grid Margin="12">
 					<TextBlock Text="当前账户"
@@ -276,44 +293,5 @@
 				</Grid>
 			</Border>
 		</Grid>
-		
-		<Button Classes="ripple"
-				Background="White"
-				VerticalAlignment="Bottom"
-			    HorizontalAlignment="Right"
-				VerticalContentAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				Width="{Binding ControlCenterBarWidth}"
-				Command="{Binding OpenControlCenterCommand}">
-			<Button.Transitions>
-				<Transitions>
-					<DoubleTransition Property="Width"
-									  Duration="0:0:0.35"
-									  Easing="ExponentialEaseOut"/>
-				</Transitions>
-			</Button.Transitions>
-			<Button.Effect>
-				<DropShadowEffect BlurRadius="5"
-				                  Opacity="1"
-				                  OffsetX="0"
-				                  OffsetY="0"
-				                  Color="#36000000"/>
-			</Button.Effect>
-			<Grid Name="Layout"
-				  ColumnDefinitions="Auto, Auto, 1*, Auto">
-				<controls:FontIcon Glyph="&#xED0C;"
-						           Grid.Column="0"								   
-								   VerticalAlignment="Center"/>
-				<TextBlock Text="控制中心"
-						   Grid.Column="1"
-						   FontWeight="Bold"
-						   Margin="10 0 0 0"/>
-
-				<TextBlock Text="{Binding NowTime}"
-						   Grid.Column="3"
-						   FontWeight="Bold"
-						   Margin="10 0 0 0"/>
-			</Grid>
-		</Button>
 	</Grid>
 </UserControl>

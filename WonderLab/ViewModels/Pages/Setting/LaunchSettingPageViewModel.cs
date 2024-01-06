@@ -1,16 +1,16 @@
 ﻿using System.Linq;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using WonderLab.Classes.Managers;
 using WonderLab.Classes.Utilities;
+using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Attributes;
 using System.Collections.ObjectModel;
-using MinecraftLaunch.Modules.Utilities;
-using MinecraftLaunch.Modules.Models.Launch;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using MinecraftLaunch.Classes.Models.Game;
+using MinecraftLaunch.Components.Fetcher;
+using MinecraftLaunch.Utilities;
 
 namespace WonderLab.ViewModels.Pages.Setting {
     public partial class LaunchSettingPageViewModel : ViewModelBase {
@@ -26,11 +26,11 @@ namespace WonderLab.ViewModels.Pages.Setting {
 
         [ObservableProperty]
         [BindToConfig("JavaPath")]
-        public JavaInfo javaPath;
+        public JavaEntry javaPath;
 
         [ObservableProperty]
         [BindToConfig("JavaPaths")]
-        public ObservableCollection<JavaInfo> javaPaths;
+        public ObservableCollection<JavaEntry> javaPaths;
 
         [ObservableProperty]
         [BindToConfig("IsAutoSelectJava")]
@@ -100,8 +100,12 @@ namespace WonderLab.ViewModels.Pages.Setting {
 
         [RelayCommand]
         private async Task AddJavaPaths() {
-            var result = await Task.Run(JavaUtil.GetJavas);
-            JavaPaths.Load(result);
+            var result = await Task.Run(async () 
+                => await _configDataManager.JavaFetcher.FetchAsync());
+
+            foreach (var item in result) {
+                JavaPaths.Add(item);
+            }
             JavaPath = JavaPaths.Last();
         }
 

@@ -9,6 +9,7 @@
         <FluentTheme/>
 		<StyleInclude Source="/Views/Controls/Styles/CardStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/ButtonStyle.axaml"/>
+		<StyleInclude Source="/Views/Controls/Styles/SmoothBorder.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/CardItemStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/TitleBarStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/FontIconStyle.axaml"/>
@@ -16,7 +17,8 @@
 		<StyleInclude Source="/Views/Controls/Styles/NotificationStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/RippleControlStyle.axaml"/>
 		<StyleInclude Source="/Views/Controls/Styles/NavigationViewStyle.axaml"/>
-		<StyleInclude Source="/Views/Controls/Styles/NavigationViewItemStyle.axaml"/>
+        <StyleInclude Source="/Views/Controls/Styles/GameOperationBarStyle.axaml"/>
+        <StyleInclude Source="/Views/Controls/Styles/NavigationViewItemStyle.axaml"/>
 		
 		<!--Other-->
 		<StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
@@ -25,6 +27,7 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+				<ResourceInclude Source="/Views/Controls/Theme/LightResource.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Theme/ControlBasicTheme.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 

@@ -1,9 +1,8 @@
 ﻿using WonderLab.Classes.Models;
 using WonderLab.Classes.Handlers;
-using MinecraftLaunch.Modules.Models.Launch;
-using System.Linq;
 using System.Reflection;
 using System;
+using MinecraftLaunch.Components.Fetcher;
 
 namespace WonderLab.Classes.Managers {
     /// <summary>
@@ -11,15 +10,15 @@ namespace WonderLab.Classes.Managers {
     /// </summary>
     public class DataManager {
         private ConfigDataHandler _handler;
-
-        private static readonly Assembly _assembly 
-            = Assembly.GetExecutingAssembly();
+        private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
         public DataManager(ConfigDataHandler handler) {
             _handler = handler;
             Init();
         }
 
+        public readonly JavaFetcher JavaFetcher = new();
+        
         public void Init() {
             Config = _handler.ConfigDataModel ?? new();            
         }

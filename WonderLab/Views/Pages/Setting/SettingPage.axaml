@@ -11,7 +11,7 @@
 		<TabControl VerticalAlignment="Top">
 			<TabItem Header="全局游戏">
 				<i:Interaction.Behaviors>
-					<ia:EventTriggerBehavior EventName="PointerPressed" 
+					<ia:EventTriggerBehavior EventName="PointerPressed"
 											 SourceObject="MoveLeftButton">
 						<ia:InvokeCommandAction Command="{Binding MoveLeftCommand}" />
 					</ia:EventTriggerBehavior>

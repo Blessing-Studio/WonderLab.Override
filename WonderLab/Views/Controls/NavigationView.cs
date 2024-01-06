@@ -153,8 +153,8 @@ namespace WonderLab.Views.Controls {
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
             base.OnApplyTemplate(e);
 
-            e.NameScope.Find<Button>("MainLayout")!.Click += (sender, args) => {
-                IsSelected = !IsSelected;
+            e.NameScope.Find<Button>("ButtonLayout")!.Click += (sender, args) => {
+                IsSelected = IsSelected ? IsSelected : !IsSelected;
             };
         }
     }

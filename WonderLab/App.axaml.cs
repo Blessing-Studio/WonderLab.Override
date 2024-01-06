@@ -1,8 +1,5 @@
 ﻿using System;
 using Avalonia;
-using System.Linq;
-using System.Diagnostics;
-using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
 using System.Threading.Tasks;
 using WonderLab.Views.Windows;
@@ -11,7 +8,6 @@ using Avalonia.Platform.Storage;
 using WonderLab.Classes.Handlers;
 using WonderLab.Classes.Managers;
 using WonderLab.ViewModels.Pages;
-using System.Reactive.Concurrency;
 using WonderLab.Classes.Utilities;
 using Microsoft.Extensions.Hosting;
 using WonderLab.Classes.Interfaces;
@@ -19,7 +15,6 @@ using WonderLab.ViewModels.Windows;
 using WonderLab.ViewModels.Dialogs;
 using WonderLab.Views.Pages.Setting;
 using WonderLab.Views.Pages.Download;
-using MinecraftLaunch.Modules.Utilities;
 using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.Views.Pages.ControlCenter;
 using WonderLab.ViewModels.Pages.Download;
@@ -98,6 +93,7 @@ public partial class App : Application {
 
     private static void ConfigureHandlers(IServiceCollection services) {
         services.AddScoped<UpdateHandler>();
+        services.AddScoped<DownloadHandler>();
         services.AddScoped<ConfigDataHandler>();
         services.AddHostedService<QueuedHostedHandler>();
     }
@@ -123,6 +119,7 @@ public partial class App : Application {
         services.AddScoped<TaskManager>();
         services.AddScoped<DataManager>();
         services.AddScoped<ThemeManager>();
+        services.AddScoped<GameCoreManager>();
         services.AddScoped<NotificationManager>();
     }
 }

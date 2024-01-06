@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Avalonia;
 using Avalonia.Media;
-using MinecraftLaunch.Modules.Utilities;
+using MinecraftLaunch.Utilities;
 
 namespace WonderLab.Classes.Utilities {
     public static class FontUtil {
