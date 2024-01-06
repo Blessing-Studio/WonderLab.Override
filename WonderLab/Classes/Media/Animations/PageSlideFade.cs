@@ -27,7 +27,7 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
         var tasks = new List<Task>();
         var parent = GetVisualParent(from, to);
         var distance = parent.Bounds.Height;
-        var translateProperty = TranslateTransform.YProperty;
+        var translateProperty = TranslateTransform.XProperty;
 
         if (from != null) {
             double end = forward ? -distance : distance;
