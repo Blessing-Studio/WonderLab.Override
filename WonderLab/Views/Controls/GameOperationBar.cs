@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using Avalonia;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using Avalonia.Controls.Primitives;
 
 namespace WonderLab.Views.Controls;
 
@@ -25,6 +21,8 @@ public class GameOperationBar : TemplatedControl {
     private const int MAX_GAMEBAR_HEIGHT = 370;
     private CancellationTokenSource _cancellationTokenSource = new();
 
+    public static GameOperationBar Scope { get; set; }
+    
     public bool IsOpen { get => GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
 
     public ICommand OpenCommand { get => GetValue(OpenCommandProperty); set => SetValue(OpenCommandProperty, value); }
@@ -50,7 +48,11 @@ public class GameOperationBar : TemplatedControl {
     public static readonly StyledProperty<ICommand> OpenCommandProperty =
         AvaloniaProperty.Register<GameOperationBar, ICommand>(nameof(OpenCommand));
 
-    private async Task CollapseInterface() {
+    public GameOperationBar() {
+        Scope = this;
+    }
+    
+    public async Task CollapseInterface() {
         await Dispatcher.UIThread.InvokeAsync(() => {
             Height = 85;
             Width = _oldWidthValue;
@@ -60,7 +62,7 @@ public class GameOperationBar : TemplatedControl {
         }, DispatcherPriority.Render, _cancellationTokenSource.Token);
     }
 
-    private async Task ExpandInterface() {
+    public async Task ExpandInterface() {
         await Dispatcher.UIThread.InvokeAsync(() => {
             Width = MAX_GAMEBAR_WIDTH;
             Height = MAX_GAMEBAR_HEIGHT;
@@ -73,7 +75,8 @@ public class GameOperationBar : TemplatedControl {
                 await Dispatcher.UIThread.InvokeAsync(() => {
                     _contentControl.Opacity = 1;
                     OpenCommand.Execute(this);
-                });
+                }, DispatcherPriority.Normal);
+                
             }
         });
     }
@@ -100,7 +103,7 @@ public class GameOperationBar : TemplatedControl {
         _button.Click += OnClick;
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
         if (change.Property == TitleProperty) {

@@ -15,6 +15,7 @@ namespace WonderLab.Classes.Utilities {
 
         public event Action Loaded;
 
+        public int Delay = 2;
         public void Pause() {
             bPause = true;
         }
@@ -45,7 +46,7 @@ namespace WonderLab.Classes.Utilities {
             }
 
             if (count < _sourceData.Count) {
-                await Task.Delay(2);
+                await Task.Delay(Delay);
                 _targetData.Add(_sourceData[count++]);
                 await AddItem();
             } else {
@@ -58,6 +59,15 @@ namespace WonderLab.Classes.Utilities {
     public static class ObservableCollectionExtensions {
         public static CollectionAsyncLoadUtil<T> Load<T>(this ObservableCollection<T> targetData, IEnumerable<T> sourceData) {
             var helper = new CollectionAsyncLoadUtil<T>();
+            helper.Load(targetData, sourceData);
+            return helper;
+        }
+        
+        public static CollectionAsyncLoadUtil<T> Load<T>(this ObservableCollection<T> targetData, IEnumerable<T> sourceData, int delay) {
+            var helper = new CollectionAsyncLoadUtil<T> {
+                Delay = delay
+            };
+            
             helper.Load(targetData, sourceData);
             return helper;
         }

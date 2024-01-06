@@ -4,7 +4,9 @@ using MinecraftLaunch.Classes.Models.Game;
 
 namespace WonderLab.Classes.Models.ViewData {
     public partial class GameViewData : ViewDataBase<GameEntry> {
-        public GameViewData(GameEntry data) : base(data) {}
+        public GameViewData(GameEntry data) : base(data) {
+            
+        }
 
         [RelayCommand]
         private void Select() {

@@ -34,11 +34,11 @@
                     
                     <Border.Transitions>
                         <Transitions>
-                            <DoubleTransition Duration="0:0:0.35"
+                            <DoubleTransition Duration="0:0:0.65"
                                               Property="Width"
                                               Easing="ExponentialEaseOut"/>
 
-                            <DoubleTransition Duration="0:0:0.35"
+                            <DoubleTransition Duration="0:0:0.85"
                                               Property="Height"
                                               Easing="ExponentialEaseOut"/>
                         </Transitions>

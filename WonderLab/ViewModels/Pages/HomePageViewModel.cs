@@ -21,6 +21,7 @@ using WonderLab.Classes.Models.ViewData;
 using WonderLab.Extensions;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Reflection.Metadata;
+using WonderLab.Views.Controls;
 
 namespace WonderLab.ViewModels.Pages {
     public partial class HomePageViewModel : ViewModelBase {
@@ -82,7 +83,6 @@ namespace WonderLab.ViewModels.Pages {
             _notificationManager = notificationManager;
             
             Init();
-
             WeakReferenceMessenger.Default.Register<GameViewData>(this, HandleMessage);
         }
 
@@ -200,7 +200,7 @@ namespace WonderLab.ViewModels.Pages {
                 return;
             }
 
-            await CloseGameCoreBar();
+            await GameOperationBar.Scope.CollapseInterface();
             SelectedGameCore = message;
             SelectedGameCoreInfo = message;
         }
