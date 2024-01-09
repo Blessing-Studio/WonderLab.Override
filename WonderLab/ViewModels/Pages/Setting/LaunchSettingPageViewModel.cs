@@ -16,55 +16,66 @@ namespace WonderLab.ViewModels.Pages.Setting;
 public partial class LaunchSettingPageViewModel : ViewModelBase {
     private readonly DataService _dataService;
 
-    [ObservableProperty]
-    [BindToConfig("GameFolder")]
-    private string gameFolder;
+    public int MaxMemory {
+        get => _dataService.ConfigData.MaxMemory;
+        set => _dataService.ConfigData.MaxMemory = value;
+    }
 
-    [ObservableProperty]
-    [BindToConfig("GameFolders")]
-    private ObservableCollection<string> gameFolders;
+    public int Width {
+        get => _dataService.ConfigData.Width;
+        set => _dataService.ConfigData.Width = value;
+    }
 
-    [ObservableProperty]
-    [BindToConfig("JavaPath")]
-    private JavaEntry javaPath;
+    public int Height {
+        get => _dataService.ConfigData.Height;
+        set => _dataService.ConfigData.Height = value;
+    }
+    
+    public bool IsAutoMemory {
+        get => _dataService.ConfigData.IsAutoMemory;
+        set => _dataService.ConfigData.IsAutoMemory = value;
+    }
+    
+    public bool IsFullscreen {
+        get => _dataService.ConfigData.IsFullscreen;
+        set => _dataService.ConfigData.IsFullscreen = value;
+    }
 
-    [ObservableProperty]
-    [BindToConfig("JavaPaths")]
-    private ObservableCollection<JavaEntry> javaPaths;
+    public bool IsAutoSelectJava {
+        get => _dataService.ConfigData.IsAutoSelectJava;
+        set => _dataService.ConfigData.IsAutoSelectJava = value;
+    }
 
-    [ObservableProperty]
-    [BindToConfig("IsAutoSelectJava")]
-    private bool isAutoSelectJava;
-
-    [ObservableProperty]
-    [BindToConfig("MaxMemory")]
-    private int maxMemory;
-
-    [ObservableProperty]
-    [BindToConfig("Width")]
-    private int width;
-
-    [ObservableProperty]
-    [BindToConfig("Height")]
-    private int height;
-
-    [ObservableProperty]
-    [BindToConfig("IsAutoMemory")]
-    private bool isAutoMemory;
-
-    [ObservableProperty]
-    [BindToConfig("IsFullscreen")]
-    private bool isFullscreen;
-
-    [ObservableProperty]
-    [BindToConfig("IsEnableIndependencyCore")]
-    private bool isEnableIndependencyCore;
+    public bool IsEnableIndependencyCore {
+        get => _dataService.ConfigData.IsEnableIndependencyCore;
+        set => _dataService.ConfigData.IsEnableIndependencyCore = value;
+    }
+    
+    public string GameFolder {
+        get => _dataService.ConfigData.GameFolder;
+        set => _dataService.ConfigData.GameFolder = value;
+    }
+    
+    public JavaEntry JavaPath {
+        get => _dataService.ConfigData.JavaPath;
+        set => _dataService.ConfigData.JavaPath = value;
+    }
+    
+    public ObservableCollection<string> GameFolders {
+        get => _dataService.ConfigData.GameFolders;
+        set => _dataService.ConfigData.GameFolders = value;
+    }
+    
+    public ObservableCollection<JavaEntry> JavaPaths {
+        get => _dataService.ConfigData.JavaPaths;
+        set => _dataService.ConfigData.JavaPaths = value;
+    }
 
     public LaunchSettingPageViewModel(DataService dataService) {
         _dataService = dataService;
         JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
     }
-
+                    
     [RelayCommand]
     private async Task AddGameFolder() {
         try {

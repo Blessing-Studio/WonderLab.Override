@@ -9,6 +9,7 @@ using MinecraftLaunch.Components.Launcher;
 using MinecraftLaunch.Components.Resolver;
 using MinecraftLaunch.Utilities;
 using WonderLab.Services;
+using NotificationService = WonderLab.Services.UI.NotificationService;
 
 namespace WonderLab.Classes.Models.Tasks {
     public class LaunchTask : TaskBase {
@@ -40,9 +41,7 @@ namespace WonderLab.Classes.Models.Tasks {
                     Debug.WriteLine($"游戏 [{_gameCore.Id}] 已退出");
                 }
             }
-            catch (Exception) {
-
-            }
+            catch (Exception) { }
         }
 
         public LaunchConfig BuildLaunchConfig() {

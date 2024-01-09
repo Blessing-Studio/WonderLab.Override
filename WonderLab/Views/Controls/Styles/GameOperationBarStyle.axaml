@@ -38,7 +38,7 @@
                                               Property="Width"
                                               Easing="ExponentialEaseOut"/>
 
-                            <DoubleTransition Duration="0:0:0.55"
+                            <DoubleTransition Duration="0:0:0.6"
                                               Property="Height"
                                               Easing="ExponentialEaseOut"/>
                         </Transitions>

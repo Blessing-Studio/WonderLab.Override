@@ -3,7 +3,7 @@ using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace WonderLab.Services;
+namespace WonderLab.Services.UI;
 
 public partial class NotificationService : ObservableObject {
     [ObservableProperty]

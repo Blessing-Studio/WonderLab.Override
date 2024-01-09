@@ -9,16 +9,22 @@ using Avalonia.Interactivity;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Presenters;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Media.Animations;
+using WonderLab.Classes.Models.Messaging;
+using WonderLab.Services.UI;
 
 namespace WonderLab.Views.Controls;
 
 [PseudoClasses(":fullscreen")]
 public class NavigationView : TemplatedControl {
+    private int _oldIndex;
     private bool _isSwitched;
     private ContentPresenter? _leftContentPresenter;
     private ContentPresenter? _rightContentPresenter;
-
+    private NavigationService _navigationService;
+    
     private CancellationTokenSource _token = new();
         
     private readonly PageSlideFade _pageSlideFade = new(TimeSpan.FromMilliseconds(500)) {
@@ -51,6 +57,12 @@ public class NavigationView : TemplatedControl {
 
     public NavigationView() {
         UpdatePseudoClasses(false);
+        _navigationService = App.ServiceProvider.GetService<NavigationService>()!;
+        WeakReferenceMessenger.Default.Register<PageMessage>(this, (x, x1) => {
+            if (!x1.IsChildrenPage) {
+                Content = x1.Page;
+            }
+        });
     }
 
     private void UpdatePseudoClasses(bool? isFullScreen) {
@@ -89,7 +101,7 @@ public class NavigationView : TemplatedControl {
 
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
-        _leftContentPresenter.Content = Content;
+        _leftContentPresenter!.Content = Content;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {

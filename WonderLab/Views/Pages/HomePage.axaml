@@ -92,7 +92,7 @@
 
 												<i:Interaction.Behaviors>
 													<ia:EventTriggerBehavior EventName="PointerPressed"
-																			 SourceObject="MoveLeftButton">
+													                         SourceObject="MoveLeftButton">
 														<ia:InvokeCommandAction Command="{Binding SelectCommand}" />
 													</ia:EventTriggerBehavior>
 												</i:Interaction.Behaviors>

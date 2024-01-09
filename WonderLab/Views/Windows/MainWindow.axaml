@@ -29,7 +29,6 @@
 
 		<controls:NavigationView Margin="0 50 0 0"
 								 Background="Transparent" 
-								 Content="{Binding CurrentPage}"
 								 IsFullScreen="{Binding IsFullScreen}">
 			<controls:NavigationView.MenuItems>
 				<controls:NavigationViewItem Icon="&#xEA8A;"

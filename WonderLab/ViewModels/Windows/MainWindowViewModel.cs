@@ -11,26 +11,29 @@ using System.Collections.ObjectModel;
 using WonderLab.Views.Pages.Download;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using NotificationService = WonderLab.Services.UI.NotificationService;
+using WonderLab.Services.UI;
 
 namespace WonderLab.ViewModels.Windows;
 
 public partial class MainWindowViewModel : ViewModelBase {
     private readonly UpdateService _updateService;
+    private readonly NavigationService _navigationService;
     private readonly NotificationService _notificationService;
 
-    public MainWindowViewModel(HomePage page,
+    public MainWindowViewModel(
         UpdateService updateService,
+        NavigationService navigationService,
         NotificationService notificationService) {
-        CurrentPage = page;
         _updateService = updateService;
+        _navigationService = navigationService;
         _notificationService = notificationService;
+
+        _navigationService.Navigation("HomePage");
     }
 
     [ObservableProperty]
     private bool isFullScreen;
-
-    [ObservableProperty]
-    private UserControl currentPage;
 
     public ObservableCollection<INotification> Notifications
         => _notificationService.Notifications;
@@ -47,19 +50,16 @@ public partial class MainWindowViewModel : ViewModelBase {
 
     [RelayCommand]
     private void NavigationSettingPage() {
-        CurrentPage = App.ServiceProvider
-            .GetRequiredService<SettingPage>();
+        _navigationService.Navigation("Setting.SettingPage");
     }
 
     [RelayCommand]
     private void NavigationHomePage() {
-        CurrentPage = App.ServiceProvider
-            .GetRequiredService<HomePage>();
+        _navigationService.Navigation("HomePage");
     }
 
     [RelayCommand]
     private void NavigationDownloadPage() {
-        CurrentPage = App.ServiceProvider
-            .GetRequiredService<DownloadPage>();
+        _navigationService.Navigation("Download.DownloadPage");
     }
 }

@@ -20,6 +20,7 @@ using WonderLab.Views.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Extensions;
 using WonderLab.Services;
+using NotificationService = WonderLab.Services.UI.NotificationService;
 
 namespace WonderLab.ViewModels.Pages;
 

@@ -20,6 +20,8 @@ using WonderLab.ViewModels.Pages.Download;
 using Avalonia.Controls.ApplicationLifetimes;
 using WonderLab.ViewModels.Pages.ControlCenter;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Services.UI;
+using NotificationService = WonderLab.Services.UI.NotificationService;
 
 namespace WonderLab;
 
@@ -95,6 +97,7 @@ public partial class App : Application {
         services.AddScoped<DownloadService>();
         services.AddScoped<TelemetryService>();
         services.AddScoped<GameEntryService>();
+        services.AddScoped<NavigationService>();
         services.AddScoped<NotificationService>();
         services.AddHostedService<QueuedHostedService>();
     }
