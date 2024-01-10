@@ -6,14 +6,12 @@ using MinecraftLaunch.Utilities;
 using System.Collections.Generic;
 using WonderLab.Classes.Utilities;
 using CommunityToolkit.Mvvm.Input;
-using WonderLab.Classes.Attributes;
 using System.Collections.ObjectModel;
 using MinecraftLaunch.Classes.Models.Game;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
-public partial class LaunchSettingPageViewModel : ViewModelBase {
+public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     private readonly DataService _dataService;
 
     public int MaxMemory {

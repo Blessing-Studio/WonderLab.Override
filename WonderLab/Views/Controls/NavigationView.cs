@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Presenters;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Media.Animations;
@@ -60,7 +61,9 @@ public class NavigationView : TemplatedControl {
         _navigationService = App.ServiceProvider.GetService<NavigationService>()!;
         WeakReferenceMessenger.Default.Register<PageMessage>(this, (x, x1) => {
             if (!x1.IsChildrenPage) {
-                Content = x1.Page;
+                Dispatcher.UIThread.InvokeAsync(() => {
+                    Content = x1.Page;
+                }, DispatcherPriority.ApplicationIdle);
             }
         });
     }
@@ -114,15 +117,16 @@ public class NavigationView : TemplatedControl {
             .Find<ContentPresenter>("RightContent");
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
             
         if (change.Property == IsFullScreenProperty) {
             UpdatePseudoClasses((bool)change.NewValue!);
         }
 
-        if (change.Property == ContentProperty) {
-            RunPageTransitionAnimation();
+        if (change.Property == ContentProperty) { 
+            Dispatcher.UIThread.InvokeAsync(RunPageTransitionAnimation, 
+                DispatcherPriority.SystemIdle);
         }
     }
 }

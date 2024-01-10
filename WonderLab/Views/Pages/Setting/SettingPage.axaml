@@ -24,8 +24,13 @@
 			<TabItem Header="关于"/>
 		</TabControl>
 		
-		<ContentControl Margin="0 40 0 0"
-						ClipToBounds="False"
-						Content="{Binding Current}"/>
+		<Border CornerRadius="10"
+		        Margin="0 40 0 0"
+		        Background="White"
+		        ClipToBounds="True"
+		        BoxShadow="0 2 4 0 #26000000">
+			<ContentControl ClipToBounds="False"
+			                Content="{Binding Current}"/>
+		</Border>
 	</Grid>
 </UserControl>

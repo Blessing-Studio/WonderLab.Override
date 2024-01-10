@@ -22,26 +22,24 @@
 	<Style Selector="controls|CardItem">
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Border>
-					<Grid RowDefinitions="Auto, Auto">
-						<Grid Margin="20 8 20 8" ColumnDefinitions="Auto, 1*, Auto">
-							<TextBlock FontSize="13"
-									   Foreground="#6E6867"
-									   VerticalAlignment="Center"
-									   Text="{TemplateBinding Header}"/>
+				<Grid RowDefinitions="Auto, Auto">
+					<Grid Margin="20 8 20 8" ColumnDefinitions="Auto, 1*, Auto">
+						<TextBlock FontSize="13"
+						           Foreground="#6E6867"
+						           VerticalAlignment="Center"
+						           Text="{TemplateBinding Header}"/>
 
-							<ContentControl Grid.Column="2"
-									        VerticalAlignment="Center"
-											Content="{TemplateBinding Content}"/>
-						</Grid>
-						
-						<Border Height="1"
-								Grid.Row="1"
-								Background="#E5E7EB"
-								HorizontalAlignment="Stretch"
-								IsVisible="{TemplateBinding IsLineVisible}"/>
+						<ContentControl Grid.Column="2"
+						                VerticalAlignment="Center"
+						                Content="{TemplateBinding Content}"/>
 					</Grid>
-				</Border>
+						
+					<Border Height="1"
+					        Grid.Row="1"
+					        Background="#E5E7EB"
+					        HorizontalAlignment="Stretch"
+					        IsVisible="{TemplateBinding IsLineVisible}"/>
+				</Grid>
 			</ControlTemplate>
 		</Setter>
 	</Style>

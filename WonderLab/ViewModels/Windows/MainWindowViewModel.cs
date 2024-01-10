@@ -16,7 +16,7 @@ using WonderLab.Services.UI;
 
 namespace WonderLab.ViewModels.Windows;
 
-public partial class MainWindowViewModel : ViewModelBase {
+public sealed partial class MainWindowViewModel : ViewModelBase {
     private readonly UpdateService _updateService;
     private readonly NavigationService _navigationService;
     private readonly NotificationService _notificationService;

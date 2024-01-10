@@ -8,7 +8,7 @@ using MinecraftLaunch.Classes.Models.Install;
 
 namespace WonderLab.ViewModels.Pages.Download;
 
-public partial class GameDownloadPageViewModel : ViewModelBase {
+public sealed partial class GameDownloadPageViewModel : ViewModelBase {
     public GameDownloadPageViewModel() { 
         Init();
     }

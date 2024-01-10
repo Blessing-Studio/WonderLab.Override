@@ -13,13 +13,12 @@
              x:Class="WonderLab.Views.Pages.HomePage"
              x:CompileBindings="True"
 			 x:DataType="vm:HomePageViewModel">
-	<!--resm:wonderlab.Assets.Fonts.MinecraftTen.ttf?assembly=wonderlab#Minecraft Ten-->
 	<UserControl.Resources>
 		<converter:ControlCenterOpacityConverter x:Key="ControlCenterOpacityConverter"/>
 		<converter:ControlCenterTransformConverter x:Key="ControlCenterTransformConverter"/>
 	</UserControl.Resources>
-	<Grid>
-		<Grid Opacity="{Binding OtherControlOpacity}">
+
+	<Grid Opacity="{Binding OtherControlOpacity}">
 			<Grid.Transitions>
 				<Transitions>
 					<DoubleTransition Duration="0:0:0.25"
@@ -39,8 +38,8 @@
 		            VerticalContentAlignment="Center"
 		            HorizontalContentAlignment="Center"
 					Command="{Binding LaunchGameCommand}"
-		            Foreground="{DynamicResource AccentButtonForeground}"
-		            Background="{DynamicResource PrimaryBrush500}">
+		            Background="{DynamicResource PrimaryBrush500}"
+		            Foreground="{DynamicResource AccentButtonForeground}">
 				启动游戏
 			</Button>
 
@@ -59,13 +58,8 @@
 												  Easing="ExponentialEaseOut"/>
 							</Transitions>
 						</Grid.Transitions>
-						<Grid ColumnDefinitions="1*, Auto">
-							<controls:SearchBox/>
-
-							<ComboBox Grid.Column="1"
-									  Margin="12 0 0 0"
-									  CornerRadius="12"/>
-						</Grid>
+						
+						<controls:SearchBox/>
 
 						<ListBox Margin="-12 40 -16 35"
 								 Background="Transparent"
@@ -98,8 +92,8 @@
 												</i:Interaction.Behaviors>
 
 												<Grid Margin="12 10" ColumnDefinitions="Auto,Auto,1*,Auto">
-													<RadioButton IsVisible="False"
-																 IsChecked="{Binding $parent[ListBoxItem].IsSelected, Mode=TwoWay}"/>
+													<!-- <RadioButton IsVisible="False" -->
+													<!-- 			 IsChecked="{Binding $parent[ListBoxItem].IsSelected, Mode=TwoWay}"/> -->
 
 													<controls:FontIcon Grid.Column="1"
 																	   Glyph="&#xE7FC;"
@@ -150,27 +144,26 @@
 							</ListBox.Styles>
 						</ListBox>
 
-						<Button Classes="ripple"
-								Padding="8 3"
-								IsVisible="False"
-								FontWeight="Bold"
-								Foreground="{DynamicResource LayoutBackground}"
-								Margin="-12 0 0 0"
-								Background="{DynamicResource PrimaryBrush500}"
-								VerticalAlignment="Bottom"
-								HorizontalAlignment="Right">
-							<StackPanel Spacing="5"
-										Orientation="Horizontal">
-								<controls:FontIcon Glyph="&#xE896;"
-												   VerticalAlignment="Center"/>
-
-								<TextBlock Text="下载更多游戏"
-										   VerticalAlignment="Center"/>
-							</StackPanel>
-						</Button>
+						<!-- <Button Classes="ripple" -->
+						<!-- 		Padding="8 3" -->
+						<!-- 		IsVisible="False" -->
+						<!-- 		FontWeight="Bold" -->
+						<!-- 		Foreground="{DynamicResource LayoutBackground}" -->
+						<!-- 		Margin="-12 0 0 0" -->
+						<!-- 		Background="{DynamicResource PrimaryBrush500}" -->
+						<!-- 		VerticalAlignment="Bottom" -->
+						<!-- 		HorizontalAlignment="Right"> -->
+						<!-- 	<StackPanel Spacing="5" -->
+						<!-- 				Orientation="Horizontal"> -->
+						<!-- 		<controls:FontIcon Glyph="&#xE896;" -->
+						<!-- 						   VerticalAlignment="Center"/> -->
+						<!-- -->
+						<!-- 		<TextBlock Text="下载更多游戏" -->
+						<!-- 				   VerticalAlignment="Center"/> -->
+						<!-- 	</StackPanel> -->
+						<!-- </Button> -->
 					</Grid>
 				</controls:GameOperationBar.Content>
 			</controls:GameOperationBar>
 		</Grid>
-	</Grid>
 </UserControl>

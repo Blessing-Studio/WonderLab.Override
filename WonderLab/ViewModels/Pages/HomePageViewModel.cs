@@ -24,7 +24,7 @@ using NotificationService = WonderLab.Services.UI.NotificationService;
 
 namespace WonderLab.ViewModels.Pages;
 
-public partial class HomePageViewModel : ViewModelBase {
+public sealed partial class HomePageViewModel : ViewModelBase {
     private readonly DataService _dataService;
     private readonly TaskService _taskService;
     private readonly ConfigDataModel _configData;

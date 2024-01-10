@@ -3,7 +3,7 @@ using WonderLab.Views.Pages.Download;
 
 namespace WonderLab.ViewModels.Pages.Download;
 
-public partial class DownloadPageViewModel : ViewModelBase {
+public sealed partial class DownloadPageViewModel : ViewModelBase {
     public DownloadPageViewModel(GameDownloadPage page) {
         Current = page;
     }

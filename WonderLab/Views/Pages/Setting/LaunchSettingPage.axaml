@@ -9,17 +9,13 @@
              x:CompileBindings="True"
              x:DataType="vm:LaunchSettingPageViewModel"
              x:Class="WonderLab.Views.Pages.Setting.LaunchSettingPage">
-	<Border CornerRadius="10"
-			Background="White"
-			ClipToBounds="False"
-			BoxShadow="0 2 4 0 #26000000">
-		<ScrollViewer>
-			<Grid Margin="8 15"
-				  RowDefinitions="Auto,15,Auto,15,Auto">
-				<controls:Card Grid.Row="0"
-							   Header="路径设置">
-					<controls:Card.Content>
-						<Grid RowDefinitions="Auto, Auto, Auto">
+	<ScrollViewer>
+		<Grid Margin="8 15"
+		      RowDefinitions="Auto,15,Auto,15,Auto">
+			<controls:Card Grid.Row="0"
+			               Header="路径设置">
+				<controls:Card.Content>
+					<Grid RowDefinitions="Auto, Auto, Auto">
 							<controls:CardItem Header="当前游戏路径">
 								<ComboBox MinWidth="150"
 										  CornerRadius="10"
@@ -131,7 +127,7 @@
 					</controls:Card.Content>
 				</controls:Card>
 
-				<controls:Card Grid.Row="4"
+			<controls:Card Grid.Row="4"
 							   Header="游戏设置">
 					<controls:Card.Content>
 						<Grid RowDefinitions="Auto, Auto, Auto">
@@ -166,12 +162,11 @@
 									<TextBox Width="90"
 											 CornerRadius="10"
 											 Text="{Binding Height}"/>
-								</StackPanel>
-							</controls:CardItem>
-						</Grid>
-					</controls:Card.Content>
-				</controls:Card>
-			</Grid>
-		</ScrollViewer>
-	</Border>
+							</StackPanel>
+						</controls:CardItem>
+					</Grid>
+				</controls:Card.Content>
+			</controls:Card>
+		</Grid>
+	</ScrollViewer>
 </UserControl>
