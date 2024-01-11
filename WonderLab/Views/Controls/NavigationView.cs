@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Media.Animations;
 using WonderLab.Classes.Models.Messaging;
 using WonderLab.Services.UI;
-using WonderLab.Views.Pages.Setting;
 
 namespace WonderLab.Views.Controls;
 
@@ -86,14 +85,14 @@ public class NavigationView : TemplatedControl {
         }
 
         if (_isSwitched) {
-            SetContent();
+            _rightContentPresenter.Content = Content;
             await _pageSlideFade.Start(_leftContentPresenter,
                 _rightContentPresenter,
                 false,
                 _token.Token);
         }
         else {
-            SetContent(false);
+            _leftContentPresenter.Content = Content;
             await _pageSlideFade.Start(_rightContentPresenter,
                 _leftContentPresenter,
                 true,
@@ -101,23 +100,11 @@ public class NavigationView : TemplatedControl {
         }
 
         _isSwitched = !_isSwitched;
-
-        void SetContent(bool isRight = true) { 
-            Dispatcher.UIThread.Post(() => {
-                if (isRight) {
-                    _rightContentPresenter!.Content = Content;
-                } else {
-                    _leftContentPresenter!.Content = Content;
-                }
-            });
-        }
     }
 
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
-        Dispatcher.UIThread.Post(() => {
-            _leftContentPresenter!.Content = Content;
-        }, DispatcherPriority.Loaded);
+        _leftContentPresenter!.Content = Content;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -130,17 +117,16 @@ public class NavigationView : TemplatedControl {
             .Find<ContentPresenter>("RightContent");
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
             
         if (change.Property == IsFullScreenProperty) {
             UpdatePseudoClasses((bool)change.NewValue!);
         }
 
-        if (change.Property == ContentProperty) {
-            Dispatcher.UIThread.Post(() => {
-                RunPageTransitionAnimation();
-            }, DispatcherPriority.Send);
+        if (change.Property == ContentProperty) { 
+            Dispatcher.UIThread.InvokeAsync(RunPageTransitionAnimation, 
+                DispatcherPriority.SystemIdle);
         }
     }
 }

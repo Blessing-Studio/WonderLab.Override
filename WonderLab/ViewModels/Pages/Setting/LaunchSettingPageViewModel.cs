@@ -44,6 +44,11 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
         set => _dataService.ConfigData.IsAutoSelectJava = value;
     }
 
+    public bool IsEnableIndependencyCore {
+        get => _dataService.ConfigData.IsEnableIndependencyCore;
+        set => _dataService.ConfigData.IsEnableIndependencyCore = value;
+    }
+    
     public string GameFolder {
         get => _dataService.ConfigData.GameFolder;
         set => _dataService.ConfigData.GameFolder = value;
@@ -52,11 +57,6 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     public JavaEntry JavaPath {
         get => _dataService.ConfigData.JavaPath;
         set => _dataService.ConfigData.JavaPath = value;
-    }
-    
-    public bool IsEnableIndependencyCore {
-        get => _dataService.ConfigData.IsEnableIndependencyCore;
-        set => _dataService.ConfigData.IsEnableIndependencyCore = value;
     }
     
     public ObservableCollection<string> GameFolders {
@@ -71,6 +71,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
 
     public LaunchSettingPageViewModel(DataService dataService) {
         _dataService = dataService;
+        JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
     }
                     
     [RelayCommand]
