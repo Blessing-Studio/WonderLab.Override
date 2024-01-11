@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="4.0.0" />
+    <PackageReference Include="Flurl.Http" Version="4.0.1" />
     <PackageReference Include="MinecraftLaunch.NPinyin" Version="1.0.0" />
     <PackageReference Include="MinecraftLaunch.PinyinConverter" Version="1.0.0" />
     <PackageReference Include="NbtLib" Version="1.0.1" />
