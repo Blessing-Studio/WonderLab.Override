@@ -39,7 +39,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         => _notificationService.Notifications;
 
     public async void Init() {
+        _notificationService.Info("开始初始化基本服务项，可能会有些许卡顿，不必担心一切正常！");
         var result = await _updateService.CheckAsync();
+        var d = App.ServiceProvider.GetRequiredService<DownloadPage>();
         if (result) {
             await Dispatcher.UIThread.InvokeAsync(async () => {
                 var content = App.ServiceProvider.GetRequiredService<UpdateDialogContent>();

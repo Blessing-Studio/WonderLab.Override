@@ -5,16 +5,23 @@
         <Border Width="500" Padding="20">
             <!-- Add Controls for Previewer Here -->
 			<controls:Card HorizontalAlignment="Stretch">
+				<controls:Card.CardItems>
+					<controls:CardItem Header="444"></controls:CardItem>
+					<controls:CardItem Header="444"></controls:CardItem>
+					<controls:CardItem Header="444"></controls:CardItem>
+					<controls:CardItem Header="444"></controls:CardItem>
+				</controls:Card.CardItems>
 			</controls:Card>
         </Border>
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
 	<Style Selector="controls|Card">
-		<Setter Property="ClipToBounds" Value="False"/>
-		<Setter Property="Margin" Value="15 0 15 0"/>
-		<Setter Property="MinHeight" Value="60"/>
 		<Setter Property="MinWidth" Value="160"/>
+		<Setter Property="MinHeight" Value="60"/>
+		<Setter Property="Margin" Value="15 0 15 0"/>
+		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="Background" Value="Transparent"/>
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="Template">
 			<ControlTemplate>
@@ -51,8 +58,31 @@
 														 Easing="ExponentialEaseOut"/>
 								</Transitions>
 							</Border.Transitions>
-							
-							<ContentPresenter Content="{TemplateBinding Content}"/>
+
+							<ListBox Background="Transparent"
+							         ClipToBounds="False"
+							         ItemsSource="{TemplateBinding CardItems}">
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="ClipToBounds" Value="False"/>
+										<Setter Property="Template">
+											<ControlTemplate>
+												<ContentPresenter Background="Transparent"
+												                  ClipToBounds="False"
+												                  BorderThickness="{TemplateBinding BorderThickness}"
+												                  CornerRadius="{TemplateBinding CornerRadius}"
+												                  ContentTemplate="{TemplateBinding ContentTemplate}"
+												                  Content="{TemplateBinding Content}"
+												                  FontWeight="{TemplateBinding FontWeight}"
+												                  FontSize="{TemplateBinding FontSize}"
+												                  Padding="{TemplateBinding Padding}"
+												                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+												                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+											</ControlTemplate>
+										</Setter>
+									</Style>
+								</ListBox.Styles>
+							</ListBox>					
 						</Border>
 					</Grid>
 				</Border>

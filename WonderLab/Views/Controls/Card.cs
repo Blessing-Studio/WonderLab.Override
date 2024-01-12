@@ -1,6 +1,9 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Collections;
+using System.Collections.Generic;
 using Avalonia.Controls.Primitives;
+using System.Collections;
 
 namespace WonderLab.Views.Controls;
 
@@ -11,6 +14,9 @@ public class Card : TemplatedControl {
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<Card, object>(nameof(Content));
 
+    public static readonly StyledProperty<IEnumerable> CardItemsProperty =
+        AvaloniaProperty.Register<Card, IEnumerable>(nameof(CardItems), new AvaloniaList<CardItem>());
+    
     public string Header { 
         get => GetValue(HeaderProperty); 
         set => SetValue(HeaderProperty, value);
@@ -19,6 +25,11 @@ public class Card : TemplatedControl {
     public object Content {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
+    }
+
+    public IEnumerable CardItems {
+        get => GetValue(CardItemsProperty);
+        set => SetValue(CardItemsProperty, value);
     }
 }
 

@@ -21,7 +21,6 @@ public partial class NotificationService : ObservableObject {
         };
 
         Notifications.Add(result);
-        Histoys.Add(Notification
-            .GetNotificationData(result));
+        Histoys.Add(Notification.GetNotificationData(result));
     }
 }

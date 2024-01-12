@@ -50,7 +50,6 @@
 		<CFBundleSignature>????</CFBundleSignature>
 		<CFBundleExecutable>wonderlab</CFBundleExecutable>
 		<CFBundleIconFile>wonderlab.icns</CFBundleIconFile>
-		<!-- Will be copied from output directory -->
 		<NSPrincipalClass>NSApplication</NSPrincipalClass>
 		<NSHighResolutionCapable>true</NSHighResolutionCapable>
 		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>

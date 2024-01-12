@@ -48,7 +48,7 @@ public class Notification : ListBoxItem, INotification {
     public event EventHandler Exited;
 
     public static Notification GetNotification(string header, string message, bool canCancelled) {
-        return new Notification() {
+        return new Notification {
             Header = header,
             Message = message,
             CanCancelled = canCancelled

@@ -14,158 +14,138 @@
 		      RowDefinitions="Auto,15,Auto,15,Auto">
 			<controls:Card Grid.Row="0"
 			               Header="路径设置">
-				<controls:Card.Content>
-					<Grid RowDefinitions="Auto, Auto, Auto">
-							<controls:CardItem Header="当前游戏路径">
-								<ComboBox MinWidth="150"
-										  CornerRadius="10"
-										  SelectedItem="{Binding GameFolder}"
-										  ItemsSource="{Binding GameFolders}"/>
-							</controls:CardItem>
+				<controls:Card.CardItems>
+					<controls:CardItem Header="当前游戏路径">
+						<ComboBox MinWidth="150"
+						          CornerRadius="10"
+						          SelectedItem="{Binding GameFolder}"
+						          ItemsSource="{Binding GameFolders}"/>
+					</controls:CardItem>
 
-							<controls:CardItem Grid.Row="1"
-											   Header="添加游戏路径">
-								<Button Content="浏览"
-										Width="60"
-										Classes="ripple"
-										CornerRadius="10"
-										Foreground="White"
-										Background="#7B61FF"
-										HorizontalContentAlignment="Center"
-										Command="{Binding AddGameFolderCommand}"/>
-							</controls:CardItem>
+					<controls:CardItem Header="添加游戏路径">
+						<Button Content="浏览"
+						        Width="60"
+						        Classes="ripple"
+						        CornerRadius="10"
+						        Foreground="White"
+						        Background="#7B61FF"
+						        HorizontalContentAlignment="Center"
+						        Command="{Binding AddGameFolderCommand}"/>
+					</controls:CardItem>
 
-							<controls:CardItem Grid.Row="2"
-											   IsLineVisible="False"
-											   Header="删除选择的游戏路径">
-								<Button Width="60"
-										Content="删除"
-										Classes="ripple"
-										CornerRadius="10"
-										Foreground="White"
-										Background="Red"
-										HorizontalContentAlignment="Center"
-										Command="{Binding RemoveGameFolderCommand}"/>
-							</controls:CardItem>
+					<controls:CardItem Header="删除选择的游戏路径">
+						<Button Width="60"
+						        Content="删除"
+						        Classes="ripple"
+						        CornerRadius="10"
+						        Foreground="White"
+						        Background="Red"
+						        HorizontalContentAlignment="Center"
+						        Command="{Binding RemoveGameFolderCommand}"/>
+					</controls:CardItem>
+				</controls:Card.CardItems>
+			</controls:Card>
+
+			<controls:Card Grid.Row="2"
+			               Header="Jvm 设置">
+				<controls:Card.CardItems>
+					<controls:CardItem Header="当前 Java 路径">
+						<ComboBox MinWidth="150"
+				                  CornerRadius="10"
+				                  MaxWidth="500"
+				                  SelectedItem="{Binding JavaPath}"
+				                  ItemsSource="{Binding JavaPaths}"/>
+					</controls:CardItem>
+
+					<controls:CardItem Header="添加 Java 路径">
+						<Grid ColumnDefinitions="Auto,Auto">
+							<Button Content="搜索"
+							        Width="60"
+							        Classes="ripple"
+							        CornerRadius="10"
+							        Foreground="White"
+							        Background="#7B61FF"
+							        HorizontalContentAlignment="Center"
+							        Command="{Binding AddJavaPathsCommand}"/>
+
+							<Button Content="浏览"
+									Width="60"
+									Margin="10 0 0 0"
+									Grid.Column="1"
+									Classes="ripple"
+									CornerRadius="10"
+									Foreground="White"
+									Background="#7B61FF"
+									HorizontalContentAlignment="Center"
+									Command="{Binding AddJavaPathCommand}"/>
 						</Grid>
-					</controls:Card.Content>
-				</controls:Card>
+					</controls:CardItem>
 
-				<controls:Card Grid.Row="2"
-							   Header="Jvm 设置">
-					<controls:Card.Content>
-						<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-							<controls:CardItem Header="当前 Java 路径">
-								<ComboBox MinWidth="150"
-										  CornerRadius="10"
-										  MaxWidth="500"
-										  SelectedItem="{Binding JavaPath}"
-										  ItemsSource="{Binding JavaPaths}"/>
-							</controls:CardItem>
+					<controls:CardItem Header="删除选择的 Java 路径">
+						<Button Width="60"
+								Content="删除"
+								Classes="ripple"
+								CornerRadius="10"
+								Foreground="White"
+								Background="Red"
+								HorizontalContentAlignment="Center"
+								Command="{Binding RemoveJavaPathCommand}"/>
+					</controls:CardItem>
 
-							<controls:CardItem Grid.Row="1"
-											   Header="添加 Java 路径">
-								<Grid ColumnDefinitions="Auto,Auto">
-									<Button Content="搜索"
-											Width="60"
-											Classes="ripple"
-											CornerRadius="10"
-											Foreground="White"
-											Background="#7B61FF"
-											HorizontalContentAlignment="Center"
-											Command="{Binding AddJavaPathsCommand}"/>
+					<controls:CardItem Header="自动选择合适的 Java 路径">
+						<ToggleSwitch Margin="0 -1 -12 -1"
+									  OffContent=""
+									  OnContent=""
+									  IsChecked="{Binding IsAutoSelectJava}"/>
+					</controls:CardItem>
+					
+					<controls:CardItem Header="手动分配 Jvm 内存">
+						<TextBox Width="120"
+								 CornerRadius="10"
+								 Text="{Binding MaxMemory}"/>
+					</controls:CardItem>
 
-									<Button Content="浏览"
-											Width="60"
-											Margin="10 0 0 0"
-											Grid.Column="1"
-											Classes="ripple"
-											CornerRadius="10"
-											Foreground="White"
-											Background="#7B61FF"
-											HorizontalContentAlignment="Center"
-											Command="{Binding AddJavaPathCommand}"/>
-								</Grid>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="2"
-											   Header="删除选择的 Java 路径">
-								<Button Width="60"
-										Content="删除"
-										Classes="ripple"
-										CornerRadius="10"
-										Foreground="White"
-										Background="Red"
-										HorizontalContentAlignment="Center"
-										Command="{Binding RemoveJavaPathCommand}"/>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="3"
-											   Header="自动选择合适的 Java 路径">
-								<ToggleSwitch Margin="0 -1 -12 -1"
-											  OffContent=""
-											  OnContent=""
-											  IsChecked="{Binding IsAutoSelectJava}"/>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="4"
-											   Header="手动分配 Jvm 内存">
-								<TextBox Width="120"
-										 CornerRadius="10"
-										 Text="{Binding MaxMemory}"/>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="5"
-											   IsLineVisible="False"
-											   Header="自动分配合适的 Jvm 内存">
-								<ToggleSwitch Margin="0 -1 -12 -1"
-											  OffContent=""
-											  OnContent=""
-											  IsChecked="{Binding IsAutoMemory}"/>
-							</controls:CardItem>
-						</Grid>
-					</controls:Card.Content>
-				</controls:Card>
+					<controls:CardItem Header="自动分配合适的 Jvm 内存">
+						<ToggleSwitch Margin="0 -1 -12 -1"
+									  OffContent=""
+									  OnContent=""
+									  IsChecked="{Binding IsAutoMemory}"/>
+					</controls:CardItem>
+				</controls:Card.CardItems>
+			</controls:Card>
 
 			<controls:Card Grid.Row="4"
-							   Header="游戏设置">
-					<controls:Card.Content>
-						<Grid RowDefinitions="Auto, Auto, Auto">
-							<controls:CardItem Header="版本隔离">
-								<ToggleSwitch Margin="0 -1 -12 -1"
-											  OffContent=""
-											  OnContent=""
-											  IsChecked="{Binding IsEnableIndependencyCore}"/>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="1"
-											   Header="全屏模式">
-								<ToggleSwitch Margin="0 -1 -12 -1"
-											  OffContent=""
-											  OnContent=""
-											  IsChecked="{Binding IsFullscreen}"/>
-							</controls:CardItem>
-
-							<controls:CardItem Grid.Row="2"
-											   Header="游戏窗口分辨率"
-											   IsLineVisible="False">
-								<StackPanel Spacing="8"
-											Orientation="Horizontal">
-									<TextBox Width="90"
-											 CornerRadius="10"
-											 Text="{Binding Width}"/>
-
-									<controls:FontIcon Glyph="&#xE894;"
-													   FontSize="18"
-													   VerticalAlignment="Center"/>
-
-									<TextBox Width="90"
-											 CornerRadius="10"
-											 Text="{Binding Height}"/>
-							</StackPanel>
-						</controls:CardItem>
-					</Grid>
-				</controls:Card.Content>
+			               Header="游戏设置">
+				<controls:Card.CardItems>
+					<controls:CardItem Header="版本隔离">
+						<ToggleSwitch OffContent=""
+						              OnContent=""
+						              Margin="0 -1 -12 -1"
+						              IsChecked="{Binding IsEnableIndependencyCore}"/>
+					</controls:CardItem>
+					
+					<controls:CardItem Header="全屏模式">
+						<ToggleSwitch Margin="0 -1 -12 -1"
+						              OffContent=""
+						              OnContent=""
+						              IsChecked="{Binding IsFullscreen}"/>
+					</controls:CardItem>
+					
+					<controls:CardItem Header="游戏窗口分辨率">
+						<StackPanel Spacing="8"
+						            Orientation="Horizontal">
+							<TextBox Width="90"
+							         CornerRadius="10"
+							         Text="{Binding Width}"/>
+							<controls:FontIcon Glyph="&#xE894;"
+							                   FontSize="18"
+							                   VerticalAlignment="Center"/>
+							<TextBox Width="90"
+							         CornerRadius="10"
+							         Text="{Binding Height}"/>
+						</StackPanel>
+					</controls:CardItem>
+				</controls:Card.CardItems>
 			</controls:Card>
 		</Grid>
 	</ScrollViewer>
