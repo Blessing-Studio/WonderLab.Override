@@ -12,19 +12,14 @@ namespace WonderLab.Services;
 /// <summary>
 /// 调度任务管理类
 /// </summary>
-public partial class TaskService : ObservableObject
+public partial class TaskService(IBackgroundTaskQueue queue) : ObservableObject
 {
     private int _currentRunningJobs;
 
-    private readonly IBackgroundTaskQueue _taskQueue = default!;
+    private readonly IBackgroundTaskQueue _taskQueue = queue;
 
     [ObservableProperty]
     public ObservableCollection<ITaskJob> taskJobs = [];
-
-    public TaskService(IBackgroundTaskQueue queue)
-    {
-        _taskQueue = queue;
-    }
 
     public void QueueJob(ITaskJob job)
     {

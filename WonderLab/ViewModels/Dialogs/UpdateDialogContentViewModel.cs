@@ -24,7 +24,7 @@ public partial class UpdateDialogContentViewModel : ViewModelBase
 
     public UpdateDialogContentViewModel(UpdateService updateService, DownloadService downloadService)
     {
-        List<string> authors = new();
+        List<string> authors = [];
         _updateService = updateService;
         _downloadService = downloadService;
 

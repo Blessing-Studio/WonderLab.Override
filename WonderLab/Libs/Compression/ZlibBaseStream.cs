@@ -50,7 +50,7 @@ internal class ZlibBaseStream : Stream
     protected internal CompressionStrategy Strategy = CompressionStrategy.Default;
 
     // workitem 7159
-    CRC32 crc;
+    readonly CRC32 crc;
     protected internal string _GzipFileName;
     protected internal string _GzipComment;
     protected internal DateTime _GzipMtime;
@@ -128,8 +128,7 @@ internal class ZlibBaseStream : Stream
     {
         // workitem 7159
         // calculate the CRC on the unccompressed data  (before writing)
-        if (crc != null)
-            crc.SlurpBlock(buffer, offset, count);
+        crc?.SlurpBlock(buffer, offset, count);
 
         if (_streamMode == StreamMode.Undefined)
             _streamMode = StreamMode.Writer;
@@ -520,8 +519,7 @@ internal class ZlibBaseStream : Stream
         rc = count - _z.AvailableBytesOut;
 
         // calculate CRC after reading
-        if (crc != null)
-            crc.SlurpBlock(buffer, offset, rc);
+        crc?.SlurpBlock(buffer, offset, rc);
 
         return rc;
     }
@@ -585,40 +583,36 @@ internal class ZlibBaseStream : Stream
         // workitem 8460
         byte[] working = new byte[1024];
         var encoding = System.Text.Encoding.UTF8;
-        using (var output = new MemoryStream())
+        using var output = new MemoryStream();
+        using (decompressor)
         {
-            using (decompressor)
+            int n;
+            while ((n = decompressor.Read(working, 0, working.Length)) != 0)
             {
-                int n;
-                while ((n = decompressor.Read(working, 0, working.Length)) != 0)
-                {
-                    output.Write(working, 0, n);
-                }
+                output.Write(working, 0, n);
             }
-
-            // reset to allow read from start
-            output.Seek(0, SeekOrigin.Begin);
-            var sr = new StreamReader(output, encoding);
-            return sr.ReadToEnd();
         }
+
+        // reset to allow read from start
+        output.Seek(0, SeekOrigin.Begin);
+        var sr = new StreamReader(output, encoding);
+        return sr.ReadToEnd();
     }
 
     public static byte[] UncompressBuffer(byte[] compressed, Stream decompressor)
     {
         // workitem 8460
         byte[] working = new byte[1024];
-        using (var output = new MemoryStream())
+        using var output = new MemoryStream();
+        using (decompressor)
         {
-            using (decompressor)
+            int n;
+            while ((n = decompressor.Read(working, 0, working.Length)) != 0)
             {
-                int n;
-                while ((n = decompressor.Read(working, 0, working.Length)) != 0)
-                {
-                    output.Write(working, 0, n);
-                }
+                output.Write(working, 0, n);
             }
-            return output.ToArray();
         }
+        return output.ToArray();
     }
 
 }

@@ -19,14 +19,9 @@ public static class ServiceUtil
     }
 }
 
-public class AbstractFactory<T> : IFactory<T> where T : class
+public class AbstractFactory<T>(Func<T> factory) : IFactory<T> where T : class
 {
-    private readonly Func<T> _factory;
-
-    public AbstractFactory(Func<T> factory)
-    {
-        _factory = factory;
-    }
+    private readonly Func<T> _factory = factory;
 
     public T Create()
     {

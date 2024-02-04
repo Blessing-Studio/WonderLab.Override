@@ -49,7 +49,7 @@ public sealed partial class HomePageViewModel : ViewModelBase
     private GameViewData? selectedGameCoreInfo;
 
     [ObservableProperty]
-    private ObservableCollection<GameViewData> gameCores = new();
+    private ObservableCollection<GameViewData> gameCores = [];
 
     [ObservableProperty]
     private string nowTime = DateTime.Now.ToString("tt hh:mm");

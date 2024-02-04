@@ -13,15 +13,12 @@ namespace WonderLab.Services;
 /// <summary>
 /// 自动更新服务类
 /// </summary>
-public class UpdateService {
-    private readonly DataService _dataService;
+public class UpdateService(DataService dataService)
+{
+    private readonly DataService _dataService = dataService;
     private readonly string _baseUrl = "http://s2.fxidc.net:2999/api/update/";
 
     public JsonNode UpdateInfoJsonNode { get; set; }
-
-    public UpdateService(DataService dataService) {
-        _dataService = dataService;
-    }
 
     public async Task InitAsync() {
         string branch = _dataService.ConfigData.Branch switch {

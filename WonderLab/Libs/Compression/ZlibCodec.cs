@@ -507,8 +507,10 @@ sealed public class ZlibCodec
     private int _InternalInitializeDeflate(bool wantRfc1950Header)
     {
         if (istate != null) throw new ZlibException("You may not call InitializeDeflate() after calling InitializeInflate().");
-        dstate = new DeflateManager();
-        dstate.WantRfc1950HeaderBytes = wantRfc1950Header;
+        dstate = new DeflateManager
+        {
+            WantRfc1950HeaderBytes = wantRfc1950Header
+        };
 
         return dstate.Initialize(this, CompressLevel, WindowBits, Strategy);
     }

@@ -100,13 +100,13 @@ public class CRC32
 
             _TotalBytesRead = 0;
             int count = input.Read(buffer, 0, readSize);
-            if (output != null) output.Write(buffer, 0, count);
+            output?.Write(buffer, 0, count);
             _TotalBytesRead += count;
             while (count > 0)
             {
                 SlurpBlock(buffer, 0, count);
                 count = input.Read(buffer, 0, readSize);
-                if (output != null) output.Write(buffer, 0, count);
+                output?.Write(buffer, 0, count);
                 _TotalBytesRead += count;
             }
 
@@ -124,10 +124,10 @@ public class CRC32
     /// <returns>The CRC-ized result.</returns>
     public int ComputeCrc32(int W, byte B)
     {
-        return _InternalComputeCrc32((uint)W, B);
+        return InternalComputeCrc32((uint)W, B);
     }
 
-    internal int _InternalComputeCrc32(uint W, byte B)
+    internal int InternalComputeCrc32(uint W, byte B)
     {
         return (int)(crc32Table[(W ^ B) & 0xFF] ^ W >> 8);
     }
@@ -299,7 +299,7 @@ public class CRC32
     }
 
 
-    private uint gf2_matrix_times(uint[] matrix, uint vec)
+    private static uint Gf2_matrix_times(uint[] matrix, uint vec)
     {
         uint sum = 0;
         int i = 0;
@@ -313,10 +313,10 @@ public class CRC32
         return sum;
     }
 
-    private void gf2_matrix_square(uint[] square, uint[] mat)
+    private static void Gf2_matrix_square(uint[] square, uint[] mat)
     {
         for (int i = 0; i < 32; i++)
-            square[i] = gf2_matrix_times(mat, mat[i]);
+            square[i] = Gf2_matrix_times(mat, mat[i]);
     }
 
 
@@ -353,10 +353,10 @@ public class CRC32
         }
 
         // put operator for two zero bits in even
-        gf2_matrix_square(even, odd);
+        Gf2_matrix_square(even, odd);
 
         // put operator for four zero bits in odd
-        gf2_matrix_square(odd, even);
+        Gf2_matrix_square(odd, even);
 
         uint len2 = (uint)length;
 
@@ -365,19 +365,19 @@ public class CRC32
         do
         {
             // apply zeros operator for this bit of len2
-            gf2_matrix_square(even, odd);
+            Gf2_matrix_square(even, odd);
 
             if ((len2 & 1) == 1)
-                crc1 = gf2_matrix_times(even, crc1);
+                crc1 = Gf2_matrix_times(even, crc1);
             len2 >>= 1;
 
             if (len2 == 0)
                 break;
 
             // another iteration of the loop with odd and even swapped
-            gf2_matrix_square(odd, even);
+            Gf2_matrix_square(odd, even);
             if ((len2 & 1) == 1)
-                crc1 = gf2_matrix_times(odd, crc1);
+                crc1 = Gf2_matrix_times(odd, crc1);
             len2 >>= 1;
 
 
@@ -469,9 +469,9 @@ public class CRC32
     }
 
     // private member vars
-    private uint dwPolynomial;
+    private readonly uint dwPolynomial;
     private long _TotalBytesRead;
-    private bool reverseBits;
+    private readonly bool reverseBits;
     private uint[] crc32Table;
     private const int BUFFER_SIZE = 8192;
     private uint _register = 0xFFFFFFFFU;
@@ -502,8 +502,8 @@ public class CrcCalculatorStream : System.IO.Stream, IDisposable
     private static readonly long UnsetLengthLimit = -99;
 
     internal System.IO.Stream _innerStream;
-    private CRC32 _Crc32;
-    private long _lengthLimit = -99;
+    private readonly CRC32 _Crc32;
+    private readonly long _lengthLimit = -99;
     private bool _leaveOpen;
 
     /// <summary>

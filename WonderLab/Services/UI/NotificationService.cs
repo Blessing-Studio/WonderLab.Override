@@ -8,10 +8,10 @@ namespace WonderLab.Services.UI;
 public partial class NotificationService : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<INotification> histoys = new();
+    private ObservableCollection<INotification> histoys = [];
 
     [ObservableProperty]
-    private ObservableCollection<INotification> notifications = new();
+    private ObservableCollection<INotification> notifications = [];
 
     public void Info(string message, bool canCancelled = true)
     {

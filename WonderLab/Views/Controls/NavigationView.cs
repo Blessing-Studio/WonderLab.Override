@@ -21,11 +21,11 @@ namespace WonderLab.Views.Controls;
 [PseudoClasses(":fullscreen")]
 public class NavigationView : TemplatedControl
 {
-    private int _oldIndex;
+    private readonly int _oldIndex;
     private bool _isSwitched;
     private ContentPresenter? _leftContentPresenter;
     private ContentPresenter? _rightContentPresenter;
-    private NavigationService _navigationService;
+    private readonly NavigationService _navigationService;
 
     private CancellationTokenSource _token = new();
 

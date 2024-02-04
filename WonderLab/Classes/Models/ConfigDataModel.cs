@@ -44,8 +44,8 @@ public class ConfigDataModel
     public BranchType Branch { get; set; } = BranchType.Lsaac;
 
     [JsonPropertyName("javaPaths")]
-    public ObservableCollection<JavaEntry> JavaPaths { get; set; } = new();
+    public ObservableCollection<JavaEntry> JavaPaths { get; set; } = [];
 
     [JsonPropertyName("gameFolders")]
-    public ObservableCollection<string> GameFolders { get; set; } = new();
+    public ObservableCollection<string> GameFolders { get; set; } = [];
 }

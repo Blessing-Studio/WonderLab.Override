@@ -107,7 +107,7 @@ public sealed class RippleControl : ContentControl
     {
         double width = base.Bounds.Width;
         double height = base.Bounds.Height;
-        Ripple ripple = new Ripple(width, height)
+        Ripple ripple = new(width, height)
         {
             Fill = RippleFill
         };
@@ -170,8 +170,8 @@ public sealed class Ripple : Ellipse
 
     private void InitializeTransitions()
     {
-        Transitions = new Transitions
-        {
+        Transitions =
+        [
             new DoubleTransition
             {
                 Duration = Duration,
@@ -196,6 +196,6 @@ public sealed class Ripple : Ellipse
                 Easing = Easing,
                 Property = MarginProperty
             }
-        };
+        ];
     }
 }

@@ -42,7 +42,7 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob
     [ObservableProperty]
     public ValueTask? workingTask;
 
-    public CancellationTokenSource CancellationTokenSource => new CancellationTokenSource();
+    public CancellationTokenSource CancellationTokenSource => new();
 
     public event EventHandler<EventArgs>? TaskFinished;
 

@@ -202,19 +202,19 @@ internal sealed class DeflateManager
 
         static Config()
         {
-            Table = new Config[] {
-                new Config(0, 0, 0, 0, DeflateFlavor.Store),
-                new Config(4, 4, 8, 4, DeflateFlavor.Fast),
-                new Config(4, 5, 16, 8, DeflateFlavor.Fast),
-                new Config(4, 6, 32, 32, DeflateFlavor.Fast),
+            Table = [
+                new(0, 0, 0, 0, DeflateFlavor.Store),
+                new(4, 4, 8, 4, DeflateFlavor.Fast),
+                new(4, 5, 16, 8, DeflateFlavor.Fast),
+                new(4, 6, 32, 32, DeflateFlavor.Fast),
 
-                new Config(4, 4, 16, 16, DeflateFlavor.Slow),
-                new Config(8, 16, 32, 32, DeflateFlavor.Slow),
-                new Config(8, 16, 128, 128, DeflateFlavor.Slow),
-                new Config(8, 32, 128, 256, DeflateFlavor.Slow),
-                new Config(32, 128, 258, 1024, DeflateFlavor.Slow),
-                new Config(32, 258, 258, 4096, DeflateFlavor.Slow),
-            };
+                new(4, 4, 16, 16, DeflateFlavor.Slow),
+                new(8, 16, 32, 32, DeflateFlavor.Slow),
+                new(8, 16, 128, 128, DeflateFlavor.Slow),
+                new(8, 32, 128, 256, DeflateFlavor.Slow),
+                new(32, 128, 258, 1024, DeflateFlavor.Slow),
+                new(32, 258, 258, 4096, DeflateFlavor.Slow),
+            ];
         }
 
         private static readonly Config[] Table;
@@ -223,8 +223,8 @@ internal sealed class DeflateManager
 
     private CompressFunc DeflateFunction;
 
-    private static readonly string[] _ErrorMessage = new string[]
-    {
+    private static readonly string[] _ErrorMessage =
+    [
         "need dictionary",
         "stream end",
         "",
@@ -235,7 +235,7 @@ internal sealed class DeflateManager
         "buffer error",
         "incompatible version",
         ""
-    };
+    ];
 
     // preset dictionary flag in zlib header
     private static readonly int PRESET_DICT = 0x20;
@@ -342,9 +342,9 @@ internal sealed class DeflateManager
     internal short[] dyn_dtree;         // distance tree
     internal short[] bl_tree;           // Huffman tree for bit lengths
 
-    internal Tree treeLiterals = new Tree();  // desc for literal tree
-    internal Tree treeDistances = new Tree();  // desc for distance tree
-    internal Tree treeBitLengths = new Tree(); // desc for bit length tree
+    internal Tree treeLiterals = new();  // desc for literal tree
+    internal Tree treeDistances = new();  // desc for distance tree
+    internal Tree treeBitLengths = new(); // desc for bit length tree
 
     // number of codes at each bit length for an optimal tree
     internal short[] bl_count = new short[InternalConstants.MAX_BITS + 1];
@@ -414,7 +414,7 @@ internal sealed class DeflateManager
 
 
     // lm_init
-    private void _InitializeLazyMatch()
+    private void InitializeLazyMatch()
     {
         window_size = 2 * w_size;
 
@@ -505,7 +505,7 @@ internal sealed class DeflateManager
 
     // Scan a literal or distance tree to determine the frequencies of the codes
     // in the bit length tree.
-    internal void scan_tree(short[] tree, int max_code)
+    internal void Scan_tree(short[] tree, int max_code)
     {
         int n; // iterates over all tree elements
         int prevlen = -1; // last emitted length
@@ -569,8 +569,8 @@ internal sealed class DeflateManager
         int max_blindex; // index of last bit length code of non zero freq
 
         // Determine the bit length frequencies for literal and distance trees
-        scan_tree(dyn_ltree, treeLiterals.max_code);
-        scan_tree(dyn_dtree, treeDistances.max_code);
+        Scan_tree(dyn_ltree, treeLiterals.max_code);
+        Scan_tree(dyn_dtree, treeDistances.max_code);
 
         // Build the bit length tree:
         treeBitLengths.build_tree(this);
@@ -1670,7 +1670,7 @@ internal sealed class DeflateManager
         last_flush = (int)FlushType.None;
 
         _InitializeTreeData();
-        _InitializeLazyMatch();
+        InitializeLazyMatch();
     }
 
 

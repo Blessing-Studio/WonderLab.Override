@@ -15,10 +15,10 @@ namespace WonderLab.Classes.Models.Tasks;
 
 public class LaunchTask : TaskBase
 {
-    private GameEntry _gameCore;
-    private ConfigDataModel _config;
-    private DataService _dataManager;
-    private NotificationService _notificationManager;
+    private readonly GameEntry _gameCore;
+    private readonly ConfigDataModel _config;
+    private readonly DataService _dataManager;
+    private readonly NotificationService _notificationManager;
 
     public LaunchTask(GameEntry core, DataService dataManager, NotificationService notificationManager)
     {

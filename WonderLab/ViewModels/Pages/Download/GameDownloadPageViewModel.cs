@@ -16,7 +16,7 @@ public sealed partial class GameDownloadPageViewModel : ViewModelBase
     }
 
     [ObservableProperty]
-    public ObservableCollection<VersionManifestEntry> gameCores = new();
+    public ObservableCollection<VersionManifestEntry> gameCores = [];
 
     private async void Init()
     {

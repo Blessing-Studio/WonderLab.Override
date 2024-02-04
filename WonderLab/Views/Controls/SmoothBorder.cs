@@ -23,7 +23,7 @@ public class SmoothBorder : TemplatedControl
     {
         var width = rect.Width;
         var height = rect.Height;
-        StreamGeometry geometry = new StreamGeometry();
+        StreamGeometry geometry = new();
 
         using var context = geometry.Open();
         context.BeginFigure(new Point(cornerRadius.TopLeft + rect.Left, rect.Top), true);

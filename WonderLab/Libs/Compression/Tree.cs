@@ -70,23 +70,23 @@ sealed class Tree
     private static readonly int HEAP_SIZE = 2 * InternalConstants.L_CODES + 1;
 
     // extra bits for each length code
-    internal static readonly int[] ExtraLengthBits = new int[]
-    {
+    internal static readonly int[] ExtraLengthBits =
+    [
         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
         3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0
-    };
+    ];
 
     // extra bits for each distance code
-    internal static readonly int[] ExtraDistanceBits = new int[]
-    {
+    internal static readonly int[] ExtraDistanceBits =
+    [
         0, 0, 0, 0, 1, 1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,
         7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13
-    };
+    ];
 
     // extra bits for each bit length code
-    internal static readonly int[] extra_blbits = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7 };
+    internal static readonly int[] extra_blbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7];
 
-    internal static readonly sbyte[] bl_order = new sbyte[] { 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 };
+    internal static readonly sbyte[] bl_order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
 
 
     // The lengths of the bit length codes are sent in order of decreasing
@@ -98,8 +98,8 @@ sealed class Tree
     // see definition of array dist_code below
     //internal const int DIST_CODE_LEN = 512;
 
-    private static readonly sbyte[] _dist_code = new sbyte[]
-    {
+    private static readonly sbyte[] _dist_code =
+    [
         0,  1,  2,  3,  4,  4,  5,  5,  6,  6,  6,  6,  7,  7,  7,  7,
         8,  8,  8,  8,  8,  8,  8,  8,  9,  9,  9,  9,  9,  9,  9,  9,
         10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
@@ -132,10 +132,10 @@ sealed class Tree
         29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
         29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
         29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29
-    };
+    ];
 
-    internal static readonly sbyte[] LengthCode = new sbyte[]
-    {
+    internal static readonly sbyte[] LengthCode =
+    [
         0,   1,  2,  3,  4,  5,  6,  7,  8,  8,  9,  9, 10, 10, 11, 11,
         12, 12, 12, 12, 13, 13, 13, 13, 14, 14, 14, 14, 15, 15, 15, 15,
         16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 17,
@@ -152,21 +152,21 @@ sealed class Tree
         26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
         27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
         27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 28
-    };
+    ];
 
 
-    internal static readonly int[] LengthBase = new int[]
-    {
+    internal static readonly int[] LengthBase =
+    [
         0,   1,  2,  3,  4,  5,  6,   7,   8,  10,  12,  14, 16, 20, 24, 28,
         32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 0
-    };
+    ];
 
 
-    internal static readonly int[] DistanceBase = new int[]
-    {
+    internal static readonly int[] DistanceBase =
+    [
         0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192,
         256, 384, 512, 768, 1024, 1536, 2048, 3072, 4096, 6144, 8192, 12288, 16384, 24576
-    };
+    ];
 
 
     /// <summary>
