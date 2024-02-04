@@ -5,21 +5,27 @@ using System.Globalization;
 
 namespace WonderLab.Views.Converters;
 
-public class NavigationColorConverter : IValueConverter {
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
+public class NavigationColorConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
         string tag = value?.ToString()!;
-        if(string.IsNullOrEmpty(tag)) return null;
+        if (string.IsNullOrEmpty(tag)) return null;
 
-        if (tag is "Home") {
+        if (tag is "Home")
+        {
             return Color.Parse("#187DF9");
-        } else if(tag is "Download") {
+        }
+        else if (tag is "Download")
+        {
             return Color.Parse("#187DF9");
         }
 
         return null;
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
         throw new NotImplementedException();
     }
 }

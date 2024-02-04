@@ -1,26 +1,28 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.VisualTree;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WonderLab.Classes.Media.Animations;
 
-public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
+public sealed class PageSlideFade(TimeSpan duration) : IPageTransition
+{
     public TimeSpan Duration { get; set; } = duration;
-    
+
     public Easing SlideEasing { get; set; } = new CircularEaseInOut();
 
     public bool Fade { get; set; }
-    
+
     public async Task Start(Visual? from, Visual? to, bool forward, CancellationToken cancellationToken)
     {
-        if (cancellationToken.IsCancellationRequested) {
+        if (cancellationToken.IsCancellationRequested)
+        {
             return;
         }
 
@@ -29,9 +31,11 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
         var distance = parent.Bounds.Height;
         var translateProperty = TranslateTransform.XProperty;
 
-        if (from != null) {
+        if (from != null)
+        {
             double end = forward ? -distance : distance;
-            var animation = Fade ? new Animation {
+            var animation = Fade ? new Animation
+            {
                 Easing = SlideEasing,
                 FillMode = FillMode.Forward,
                 Children = {
@@ -72,7 +76,8 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
                     }
                 },
                 Duration = Duration
-            } : new Animation {
+            } : new Animation
+            {
                 Easing = SlideEasing,
                 FillMode = FillMode.Forward,
                 Children = {
@@ -105,7 +110,7 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
                 },
                 Duration = Duration
             };
-            
+
             tasks.Add(animation.RunAsync(from, cancellationToken));
         }
 
@@ -113,7 +118,8 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
         {
             to.IsVisible = true;
             double end = forward ? distance : -distance;
-            var animation = Fade ? new Animation {
+            var animation = Fade ? new Animation
+            {
                 FillMode = FillMode.Forward,
                 Easing = SlideEasing,
                 Children = {
@@ -154,7 +160,8 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
                     },
                 },
                 Duration = Duration
-            } : new Animation {
+            } : new Animation
+            {
                 FillMode = FillMode.Forward,
                 Easing = SlideEasing,
                 Children = {
@@ -187,13 +194,14 @@ public sealed class PageSlideFade(TimeSpan duration) : IPageTransition {
                 },
                 Duration = Duration
             };
-            
+
             tasks.Add(animation.RunAsync(to, cancellationToken));
         }
 
         await Task.WhenAll(tasks);
 
-        if (from != null && !cancellationToken.IsCancellationRequested) {
+        if (from != null && !cancellationToken.IsCancellationRequested)
+        {
             from.IsVisible = false;
         }
     }

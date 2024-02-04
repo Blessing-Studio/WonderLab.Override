@@ -9,6 +9,12 @@
 		<Platform></Platform>
 	</PropertyGroup>
 	<ItemGroup>
+	  <AvaloniaXaml Remove="Assets\Languages\**" />
+	  <Compile Remove="Assets\Languages\**" />
+	  <EmbeddedResource Remove="Assets\Languages\**" />
+	  <None Remove="Assets\Languages\**" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Remove="Assets\Images\normal.png" />
 		<None Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
 	</ItemGroup>
@@ -31,10 +37,6 @@
 	<PackageReference Include="MinecraftLaunch" Version="3.0.0-preview8" />
 	<PackageReference Include="Dotnet.Bundle" Version="*" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Assets\Languages\" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<UpToDateCheckInput Remove="Views\Controls\Theme\ControlBasicTheme.axaml" />

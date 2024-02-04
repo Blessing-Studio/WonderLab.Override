@@ -3,9 +3,11 @@ using Avalonia.Controls.Primitives;
 
 namespace WonderLab.Views.Controls;
 
-public class FontIcon : TemplatedControl {
-    public string Glyph {
-        get => GetValue(GlyphProperty); 
+public class FontIcon : TemplatedControl
+{
+    public string Glyph
+    {
+        get => GetValue(GlyphProperty);
         set => SetValue(GlyphProperty, value);
     }
 

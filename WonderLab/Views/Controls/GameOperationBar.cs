@@ -1,17 +1,18 @@
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using Avalonia.Threading;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using Avalonia.Threading;
-using Avalonia.Controls.Primitives;
 
 namespace WonderLab.Views.Controls;
 
-public class GameOperationBar : TemplatedControl {
+public class GameOperationBar : TemplatedControl
+{
     private Button _button;
     private TextBlock _title;
     private ContentControl _contentControl;
@@ -23,52 +24,60 @@ public class GameOperationBar : TemplatedControl {
 
     public static GameOperationBar Scope { get; set; }
 
-    public bool IsOpen {
-        get => GetValue(IsOpenProperty); 
+    public bool IsOpen
+    {
+        get => GetValue(IsOpenProperty);
         set => SetValue(IsOpenProperty, value);
     }
 
-    public ICommand OpenCommand { 
+    public ICommand OpenCommand
+    {
         get => GetValue(OpenCommandProperty);
         set => SetValue(OpenCommandProperty, value);
     }
 
-    public object Content {
-        get => GetValue(ContentProperty); 
+    public object Content
+    {
+        get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 
-    public string Title {
+    public string Title
+    {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
-    public string SubTitle {
-        get => GetValue(SubTitleProperty); 
+    public string SubTitle
+    {
+        get => GetValue(SubTitleProperty);
         set => SetValue(SubTitleProperty, value);
     }
-    
+
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<GameOperationBar, string>(nameof(Title), "Test title");
-        
+
     public static readonly StyledProperty<string> SubTitleProperty =
         AvaloniaProperty.Register<GameOperationBar, string>(nameof(SubTitle), "Some message");
-    
+
     public static readonly StyledProperty<bool> IsOpenProperty =
         AvaloniaProperty.Register<GameOperationBar, bool>(nameof(IsOpen), false);
-    
+
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<GameOperationBar, object>(nameof(Content));
-    
+
     public static readonly StyledProperty<ICommand> OpenCommandProperty =
         AvaloniaProperty.Register<GameOperationBar, ICommand>(nameof(OpenCommand));
 
-    public GameOperationBar() {
+    public GameOperationBar()
+    {
         Scope = this;
     }
-    
-    public async Task CollapseInterface() {
-        await Dispatcher.UIThread.InvokeAsync(() => {
+
+    public async Task CollapseInterface()
+    {
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
             Height = 85;
             Width = _oldWidthValue;
             _button.Content = "展开界面";
@@ -77,40 +86,51 @@ public class GameOperationBar : TemplatedControl {
         }, DispatcherPriority.Render, _cancellationTokenSource.Token);
     }
 
-    private async Task ExpandInterface() {
-        await Dispatcher.UIThread.InvokeAsync(() => {
+    private async Task ExpandInterface()
+    {
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
             Width = MAX_GAMEBAR_WIDTH;
             Height = MAX_GAMEBAR_HEIGHT;
             _button.Content = "收起界面";
             IsOpen = true;
         }, DispatcherPriority.Render, _cancellationTokenSource.Token);
 
-        await Task.Delay(300, _cancellationTokenSource.Token).ContinueWith(async x => {
-            if (x.IsCompletedSuccessfully) {
-                await Dispatcher.UIThread.InvokeAsync(() => {
+        await Task.Delay(300, _cancellationTokenSource.Token).ContinueWith(async x =>
+        {
+            if (x.IsCompletedSuccessfully)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
                     _contentControl.Opacity = 1;
                     OpenCommand.Execute(this);
                 }, DispatcherPriority.Normal);
-                
+
             }
         });
     }
-    
-    private async void OnClick(object? sender, RoutedEventArgs e) {
+
+    private async void OnClick(object? sender, RoutedEventArgs e)
+    {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource = new CancellationTokenSource();
 
-        try {
-            if (IsOpen) {
+        try
+        {
+            if (IsOpen)
+            {
                 await CollapseInterface();
-            } else {
+            }
+            else
+            {
                 await ExpandInterface();
             }
         }
         catch (TaskCanceledException) { }
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
         base.OnApplyTemplate(e);
         _title = e.NameScope.Find<TextBlock>("Title")!;
         _button = e.NameScope.Find<Button>("ControlButton")!;
@@ -118,10 +138,12 @@ public class GameOperationBar : TemplatedControl {
         _button.Click += OnClick;
     }
 
-    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
         base.OnPropertyChanged(change);
 
-        if (change.Property == TitleProperty) {
+        if (change.Property == TitleProperty)
+        {
             var formattedText = new FormattedText(
                 change.GetNewValue<string>(),
                 CultureInfo.CurrentCulture,
@@ -132,8 +154,8 @@ public class GameOperationBar : TemplatedControl {
             );
 
             var textWidth = formattedText.Width;
-            _oldWidthValue = Width = textWidth > 140 
-                ? 15 + textWidth 
+            _oldWidthValue = Width = textWidth > 140
+                ? 15 + textWidth
                 : 155;
         }
     }

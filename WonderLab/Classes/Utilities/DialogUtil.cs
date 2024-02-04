@@ -1,56 +1,62 @@
-﻿using System;
+﻿using Avalonia.Platform.Storage;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using WonderLab.Views.Windows;
-using Avalonia.Platform.Storage;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace WonderLab.Classes.Utilities {
-    public class DialogUtil {
-        private readonly static IStorageProvider StorageProvider =
-            App.StorageProvider;
+namespace WonderLab.Classes.Utilities;
 
-        public static async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title) {
-            var result = await StorageProvider.OpenFilePickerAsync(new() {
-                AllowMultiple = false,
-                FileTypeFilter = filters.ToList(),
-                Title = title
-            });
+public class DialogUtil
+{
+    private readonly static IStorageProvider StorageProvider =
+        App.StorageProvider;
 
-            if (result is null || !result.Any()) {
-                return null!;
-            }
+    public static async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title)
+    {
+        var result = await StorageProvider.OpenFilePickerAsync(new()
+        {
+            AllowMultiple = false,
+            FileTypeFilter = filters.ToList(),
+            Title = title
+        });
 
-            return new(result.First().Path.LocalPath);
+        if (result is null || !result.Any())
+        {
+            return null!;
         }
 
-        public static async ValueTask<DirectoryInfo> OpenFolderPickerAsync(string title) {
-            var result = await StorageProvider.OpenFolderPickerAsync(new() {
-                AllowMultiple = false,
-                Title = title
-            });
+        return new(result.First().Path.LocalPath);
+    }
 
-            if (result is null || !result.Any()) {
-                return null!;
-            }
+    public static async ValueTask<DirectoryInfo> OpenFolderPickerAsync(string title)
+    {
+        var result = await StorageProvider.OpenFolderPickerAsync(new()
+        {
+            AllowMultiple = false,
+            Title = title
+        });
 
-            return new(result.First().Path.LocalPath);
+        if (result is null || !result.Any())
+        {
+            return null!;
         }
 
-        public static async ValueTask<FileInfo> SaveFilePickerAsync(string title, string fileName) {
-            var result = await StorageProvider.SaveFilePickerAsync(new() {
-                Title = title,
-                SuggestedFileName = fileName,
-            });
+        return new(result.First().Path.LocalPath);
+    }
 
-            if (result is null) {
-                return null!;
-            }
+    public static async ValueTask<FileInfo> SaveFilePickerAsync(string title, string fileName)
+    {
+        var result = await StorageProvider.SaveFilePickerAsync(new()
+        {
+            Title = title,
+            SuggestedFileName = fileName,
+        });
 
-            return new(result.Path.LocalPath);
+        if (result is null)
+        {
+            return null!;
         }
+
+        return new(result.Path.LocalPath);
     }
 }

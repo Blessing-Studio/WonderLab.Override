@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using WonderLab.Classes.Enums;
-using WonderLab.Classes.Extension;
+using WonderLab.Classes.Extensions;
 
 namespace WonderLab.Services;
 

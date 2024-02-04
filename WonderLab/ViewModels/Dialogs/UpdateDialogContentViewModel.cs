@@ -1,37 +1,41 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using WonderLab.Services;
-using DialogHostAvalonia;
-using System.IO.Compression;
-using System.Threading.Tasks;
-using MinecraftLaunch.Utilities;
-using MinecraftLaunch.Extensions;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Text.RegularExpressions;
-using CommunityToolkit.Mvvm.ComponentModel;
-using MinecraftLaunch.Classes.Models.Event;
+using DialogHostAvalonia;
 using MinecraftLaunch.Classes.Models.Download;
+using MinecraftLaunch.Classes.Models.Event;
+using MinecraftLaunch.Extensions;
+using MinecraftLaunch.Utilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using WonderLab.Services;
 
 namespace WonderLab.ViewModels.Dialogs;
 
-public partial class UpdateDialogContentViewModel : ViewModelBase {
+public partial class UpdateDialogContentViewModel : ViewModelBase
+{
     private readonly string _downloadUrl;
     private readonly UpdateService _updateService;
     private readonly DownloadService _downloadService;
-        
-    public UpdateDialogContentViewModel(UpdateService updateService, DownloadService downloadService) { 
+
+    public UpdateDialogContentViewModel(UpdateService updateService, DownloadService downloadService)
+    {
         List<string> authors = new();
         _updateService = updateService;
         _downloadService = downloadService;
-            
+
         var messages = _updateService.UpdateInfoJsonNode
             .GetEnumerable("messages")
-            .Select(x => {
+            .Select(x =>
+            {
                 var msg = x!.GetValue<string>();
                 var authorMatch = Regex.Match(msg, @"\((.*?)\)");
-                if (authorMatch.Success) {
+                if (authorMatch.Success)
+                {
                     authors.Add(authorMatch.Groups[1].Value);
                 }
 
@@ -58,36 +62,41 @@ public partial class UpdateDialogContentViewModel : ViewModelBase {
 
     public string Messages { get; }
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private double progress;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private bool isDownloading;
 
     [RelayCommand]
-    private void Close() {
+    private void Close()
+    {
         DialogHost.Close("dialogHost");
     }
 
     [RelayCommand]
-    private async Task Update() {
-        if (EnvironmentUtil.IsWindow) {
+    private async Task Update()
+    {
+        if (EnvironmentUtil.IsWindow)
+        {
             IsDownloading = true;
-            var downloadRequest = new DownloadRequest {
+            var downloadRequest = new DownloadRequest
+            {
                 Url = _downloadUrl,
                 Name = "updateTemp.zip",
                 Path = Environment.CurrentDirectory
             };
-                
+
             using var downloader = await _downloadService.DownloadAsync(downloadRequest);
 
             downloader.ProgressChanged += OnDownloadProgressChanged;
-            using var zip = ZipFile.OpenRead(Path.Combine(downloadRequest.Path, 
+            using var zip = ZipFile.OpenRead(Path.Combine(downloadRequest.Path,
                 downloadRequest.Name));
-                
+
             var launcherEntry = zip.Entries
                 .FirstOrDefault(x => x.Name.ToLower() == "wonderlab.exe");
-            if (launcherEntry is not null) {
+            if (launcherEntry is not null)
+            {
                 launcherEntry.ExtractToFile(Path.Combine(downloadRequest.Path,
                     "launcher.temp"));
 
@@ -96,7 +105,8 @@ public partial class UpdateDialogContentViewModel : ViewModelBase {
         }
     }
 
-    private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e) {
+    private void OnDownloadProgressChanged(object? sender, DownloadProgressChangedEventArgs e)
+    {
         Progress = e.ToPercentage() * 100;
     }
 }

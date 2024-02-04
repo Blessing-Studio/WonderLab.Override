@@ -1,23 +1,26 @@
 ﻿using Avalonia;
-using Avalonia.Media;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 
 namespace WonderLab.Views.Controls;
 
-public class SmoothBorder : TemplatedControl {
+public class SmoothBorder : TemplatedControl
+{
     private Path _path = default!;
 
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<SmoothBorder, object>(nameof(Content));
 
-    public object Content {
+    public object Content
+    {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 
-    private StreamGeometry HandleSmoothRoundedGeometry(Rect rect, CornerRadius cornerRadius) {
+    private StreamGeometry HandleSmoothRoundedGeometry(Rect rect, CornerRadius cornerRadius)
+    {
         var width = rect.Width;
         var height = rect.Height;
         StreamGeometry geometry = new StreamGeometry();
@@ -52,16 +55,19 @@ public class SmoothBorder : TemplatedControl {
         return geometry;
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
         base.OnApplyTemplate(e);
-            
+
         _path = e.NameScope.Find<Path>("backgroundPath")!;
         _path!.Data = HandleSmoothRoundedGeometry(Bounds, CornerRadius);
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
         base.OnPropertyChanged(change);
-        if ((change.Property == CornerRadiusProperty || change.Property == BoundsProperty) && _path is not null) {
+        if ((change.Property == CornerRadiusProperty || change.Property == BoundsProperty) && _path is not null)
+        {
             _path!.Data = HandleSmoothRoundedGeometry(Bounds, CornerRadius);
         }
     }

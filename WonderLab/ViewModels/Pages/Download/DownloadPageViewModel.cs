@@ -3,8 +3,10 @@ using WonderLab.Views.Pages.Download;
 
 namespace WonderLab.ViewModels.Pages.Download;
 
-public sealed partial class DownloadPageViewModel : ViewModelBase {
-    public DownloadPageViewModel(GameDownloadPage page) {
+public sealed partial class DownloadPageViewModel : ViewModelBase
+{
+    public DownloadPageViewModel(GameDownloadPage page)
+    {
         Current = page;
     }
 

@@ -1,125 +1,148 @@
-﻿using System.Linq;
-using WonderLab.Services;
-using System.Threading.Tasks;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.Input;
+using MinecraftLaunch.Classes.Models.Game;
 using MinecraftLaunch.Utilities;
 using System.Collections.Generic;
-using WonderLab.Classes.Utilities;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using MinecraftLaunch.Classes.Models.Game;
+using System.Linq;
+using System.Threading.Tasks;
+using WonderLab.Classes.Utilities;
+using WonderLab.Services;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
-public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
+public sealed partial class LaunchSettingPageViewModel : ViewModelBase
+{
     private readonly DataService _dataService;
 
-    public int MaxMemory {
+    public int MaxMemory
+    {
         get => _dataService.ConfigData.MaxMemory;
         set => _dataService.ConfigData.MaxMemory = value;
     }
 
-    public int Width {
+    public int Width
+    {
         get => _dataService.ConfigData.Width;
         set => _dataService.ConfigData.Width = value;
     }
 
-    public int Height {
+    public int Height
+    {
         get => _dataService.ConfigData.Height;
         set => _dataService.ConfigData.Height = value;
     }
-    
-    public bool IsAutoMemory {
+
+    public bool IsAutoMemory
+    {
         get => _dataService.ConfigData.IsAutoMemory;
         set => _dataService.ConfigData.IsAutoMemory = value;
     }
-    
-    public bool IsFullscreen {
+
+    public bool IsFullscreen
+    {
         get => _dataService.ConfigData.IsFullscreen;
         set => _dataService.ConfigData.IsFullscreen = value;
     }
 
-    public bool IsAutoSelectJava {
+    public bool IsAutoSelectJava
+    {
         get => _dataService.ConfigData.IsAutoSelectJava;
         set => _dataService.ConfigData.IsAutoSelectJava = value;
     }
 
-    public bool IsEnableIndependencyCore {
+    public bool IsEnableIndependencyCore
+    {
         get => _dataService.ConfigData.IsEnableIndependencyCore;
         set => _dataService.ConfigData.IsEnableIndependencyCore = value;
     }
-    
-    public string GameFolder {
+
+    public string GameFolder
+    {
         get => _dataService.ConfigData.GameFolder;
         set => _dataService.ConfigData.GameFolder = value;
     }
-    
-    public JavaEntry JavaPath {
+
+    public JavaEntry JavaPath
+    {
         get => _dataService.ConfigData.JavaPath;
         set => _dataService.ConfigData.JavaPath = value;
     }
-    
-    public ObservableCollection<string> GameFolders {
+
+    public ObservableCollection<string> GameFolders
+    {
         get => _dataService.ConfigData.GameFolders;
         set => _dataService.ConfigData.GameFolders = value;
     }
-    
-    public ObservableCollection<JavaEntry> JavaPaths {
+
+    public ObservableCollection<JavaEntry> JavaPaths
+    {
         get => _dataService.ConfigData.JavaPaths;
         set => _dataService.ConfigData.JavaPaths = value;
     }
 
-    public LaunchSettingPageViewModel(DataService dataService) {
+    public LaunchSettingPageViewModel(DataService dataService)
+    {
         _dataService = dataService;
         JavaPath = JavaPaths?.FirstOrDefault(x => x.JavaPath == JavaPath?.JavaPath)!;
     }
-                    
+
     [RelayCommand]
-    private async Task AddGameFolder() {
-        try {
+    private async Task AddGameFolder()
+    {
+        try
+        {
             var result = await DialogUtil.OpenFolderPickerAsync("选择 .minecraft 文件夹");
 
-            if (result != null) {
+            if (result != null)
+            {
                 GameFolders.Add(result.FullName);
                 GameFolder = GameFolders.Last();
             }
         }
-        catch (System.Exception) {
+        catch (System.Exception)
+        {
             // ignored
         }
     }
 
     [RelayCommand]
-    private void RemoveGameFolder() {
+    private void RemoveGameFolder()
+    {
         GameFolders.Remove(GameFolder);
         GameFolder = GameFolders.Any() ? GameFolders.Last() : null!;
     }
 
     [RelayCommand]
-    private async Task AddJavaPath() {
+    private async Task AddJavaPath()
+    {
         var result = await DialogUtil.OpenFilePickerAsync(new List<FilePickerFileType>() {
             new("Java文件") { Patterns = new List<string>() { EnvironmentUtil.IsWindow ? "javaw.exe" : "java" } }
         }, "请选择您的 Java 文件");
 
-        if (result != null) {
+        if (result != null)
+        {
             JavaPaths.Add(JavaUtil.GetJavaInfo(result.FullName));
             JavaPath = JavaPaths.Last();
         }
     }
 
     [RelayCommand]
-    private async Task AddJavaPaths() {
-        var result = await Task.Run(async () 
+    private async Task AddJavaPaths()
+    {
+        var result = await Task.Run(async ()
             => await _dataService.javaFetcher.FetchAsync());
 
-        foreach (var item in result) {
+        foreach (var item in result)
+        {
             JavaPaths.Add(item);
         }
         JavaPath = JavaPaths.Last();
     }
 
     [RelayCommand]
-    private void RemoveJavaPath() {
+    private void RemoveJavaPath()
+    {
         JavaPaths.Remove(JavaPath);
         JavaPath = JavaPaths.Any() ? JavaPaths.Last() : null!;
     }

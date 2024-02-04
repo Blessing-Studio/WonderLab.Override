@@ -1,138 +1,162 @@
-﻿using System;
-using System.Threading;
-using Avalonia.Threading;
-using System.Threading.Tasks;
-using WonderLab.Classes.Interfaces;
+﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using WonderLab.Classes.Interfaces;
 
-namespace WonderLab.Classes.Models.Tasks {
-    public abstract partial class TaskBase : ObservableObject, ITaskJob {
-        private bool disposed;
+namespace WonderLab.Classes.Models.Tasks;
 
-        private bool _isTaskFinishedEventFired;
+public abstract partial class TaskBase : ObservableObject, ITaskJob
+{
+    private bool disposed;
 
-        private double _pendingProgress;
+    private bool _isTaskFinishedEventFired;
 
-        private string _pendingDetail;
+    private double _pendingProgress;
 
-        [ObservableProperty]
-        public string jobName;
+    private string _pendingDetail;
 
-        [ObservableProperty]
-        public bool isDeletedRequested;
+    [ObservableProperty]
+    public string jobName;
 
-        [ObservableProperty]
-        public bool canBeCancelled;
+    [ObservableProperty]
+    public bool isDeletedRequested;
 
-        [ObservableProperty]
-        public TaskStatus taskStatus;
+    [ObservableProperty]
+    public bool canBeCancelled;
 
-        [ObservableProperty]
-        public string progressDetail;
+    [ObservableProperty]
+    public TaskStatus taskStatus;
 
-        [ObservableProperty]
-        public bool isIndeterminate;
+    [ObservableProperty]
+    public string progressDetail;
 
-        [ObservableProperty]
-        public double progress;
+    [ObservableProperty]
+    public bool isIndeterminate;
 
-        [ObservableProperty]
-        public ValueTask? workingTask;
+    [ObservableProperty]
+    public double progress;
 
-        public CancellationTokenSource CancellationTokenSource => new CancellationTokenSource();
+    [ObservableProperty]
+    public ValueTask? workingTask;
 
-        public event EventHandler<EventArgs>? TaskFinished;
+    public CancellationTokenSource CancellationTokenSource => new CancellationTokenSource();
 
-        public static readonly DispatcherTimer RenderRefreshTimer = new(DispatcherPriority.Normal) {
-            Interval = TimeSpan.FromSeconds(0.25),
-            IsEnabled = true
-        };
+    public event EventHandler<EventArgs>? TaskFinished;
 
-        public TaskBase() {
-            RenderRefreshTimer.Tick += RefreshProgressOnTick;
+    public static readonly DispatcherTimer RenderRefreshTimer = new(DispatcherPriority.Normal)
+    {
+        Interval = TimeSpan.FromSeconds(0.25),
+        IsEnabled = true
+    };
+
+    public TaskBase()
+    {
+        RenderRefreshTimer.Tick += RefreshProgressOnTick;
+    }
+
+    public abstract ValueTask BuildWorkItemAsync(CancellationToken token);
+
+    public void Cleanup()
+    {
+        RenderRefreshTimer.Tick -= RefreshProgressOnTick;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public void InvokeTaskFinished()
+    {
+        if (!_isTaskFinishedEventFired)
+        {
+            this.TaskFinished?.Invoke(this, EventArgs.Empty);
+            _isTaskFinishedEventFired = true;
+        }
+    }
+
+    public async ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token)
+    {
+        await Task.Delay(200, token);
+        while (!token.IsCancellationRequested)
+        {
+            var taskStatus = TaskStatus;
+            if ((uint)(taskStatus - 5) <= 2u)
+            {
+                break;
+            }
+
+            await Task.Delay(250, token);
         }
 
-        public abstract ValueTask BuildWorkItemAsync(CancellationToken token);
+        return TaskStatus;
+    }
 
-        public void Cleanup() {
-            RenderRefreshTimer.Tick -= RefreshProgressOnTick;
+    [RelayCommand(CanExecute = nameof(CanCancelTask))]
+    private void CancelTask()
+    {
+        CanBeCancelled = false;
+        TaskStatus = TaskStatus.Canceled;
+        CancellationTokenSource?.Cancel();
+    }
+
+    [RelayCommand(CanExecute = nameof(CanDeleteTask))]
+    private void RequestDelete()
+    {
+        IsDeletedRequested = true;
+        CanBeCancelled = false;
+    }
+
+    private bool CanCancelTask()
+    {
+        return CanBeCancelled;
+    }
+
+    private bool CanDeleteTask()
+    {
+        return !IsDeletedRequested;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                CancellationTokenSource.Dispose();
+                Cleanup();
+            }
+
+            disposed = true;
         }
+    }
 
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    protected void ReportProgress(double progress, string? detail = null)
+    {
+        _pendingProgress = progress;
+        _pendingDetail = detail!;
+    }
 
-        public void InvokeTaskFinished() {
-            if (!_isTaskFinishedEventFired) {
-                this.TaskFinished?.Invoke(this, EventArgs.Empty);
-                _isTaskFinishedEventFired = true;
+    protected virtual void RefreshProgressOnTick(object? sender, EventArgs e)
+    {
+        if (!Equals(Progress, _pendingProgress))
+        {
+            if (double.IsNegative(_pendingProgress) && !IsIndeterminate)
+            {
+                IsIndeterminate = true;
+            }
+            else if (_pendingProgress != 0.0)
+            {
+                Progress = _pendingProgress;
             }
         }
-
-        public async ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token) {
-            await Task.Delay(200, token);
-            while (!token.IsCancellationRequested) {
-                var taskStatus = TaskStatus;
-                if ((uint)(taskStatus - 5) <= 2u) {
-                    break;
-                }
-
-                await Task.Delay(250, token);
-            }
-
-            return TaskStatus;
-        }
-
-        [RelayCommand(CanExecute = nameof(CanCancelTask))]
-        private void CancelTask() {
-            CanBeCancelled = false;
-            TaskStatus = TaskStatus.Canceled;
-            CancellationTokenSource?.Cancel();
-        }
-
-        [RelayCommand(CanExecute = nameof(CanDeleteTask))]
-        private void RequestDelete() {
-            IsDeletedRequested = true;
-            CanBeCancelled = false;
-        }
-
-        private bool CanCancelTask() {
-            return CanBeCancelled;
-        }
-
-        private bool CanDeleteTask() {
-            return !IsDeletedRequested;
-        }
-
-        protected virtual void Dispose(bool disposing) {
-            if (!disposed) {
-                if (disposing) {
-                    CancellationTokenSource.Dispose();
-                    Cleanup();
-                }
-
-                disposed = true;
-            }
-        }
-
-        protected void ReportProgress(double progress, string? detail = null) {
-            _pendingProgress = progress;
-            _pendingDetail = detail!;
-        }
-        
-        protected virtual void RefreshProgressOnTick(object? sender, EventArgs e) {
-            if (!Equals(Progress, _pendingProgress)) {
-                if (double.IsNegative(_pendingProgress) && !IsIndeterminate) {
-                    IsIndeterminate = true;
-                } else if (_pendingProgress != 0.0) {
-                    Progress = _pendingProgress;
-                }
-            }
-            if (!string.IsNullOrEmpty(_pendingDetail)) {
-                ProgressDetail = _pendingDetail;
-            }
+        if (!string.IsNullOrEmpty(_pendingDetail))
+        {
+            ProgressDetail = _pendingDetail;
         }
     }
 }

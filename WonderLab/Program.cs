@@ -1,10 +1,11 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
+using System;
 using WonderLab.Classes.Utilities;
 
 namespace WonderLab;
 
-class Program {
+class Program
+{
     [STAThread]
     public static void Main(string[] args) => BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);

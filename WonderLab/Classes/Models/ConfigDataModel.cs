@@ -1,50 +1,51 @@
-﻿using WonderLab.Classes.Enums;
-using System.Text.Json.Serialization;
+﻿using MinecraftLaunch.Classes.Models.Game;
 using System.Collections.ObjectModel;
-using MinecraftLaunch.Classes.Models.Game;
+using System.Text.Json.Serialization;
+using WonderLab.Classes.Enums;
 
-namespace WonderLab.Classes.Models {
-    public class ConfigDataModel {
-        [JsonPropertyName("isFullscreen")]
-        public bool IsFullscreen { get; set; }
+namespace WonderLab.Classes.Models;
 
-        [JsonPropertyName("backgroundType")]
-        public BackgroundType BackgroundType { get; set; }
+public class ConfigDataModel
+{
+    [JsonPropertyName("isFullscreen")]
+    public bool IsFullscreen { get; set; }
 
-        [JsonPropertyName("javaPath")]
-        public JavaEntry JavaPath { get; set; }
+    [JsonPropertyName("backgroundType")]
+    public BackgroundType BackgroundType { get; set; }
 
-        [JsonPropertyName("isAutoSelectJava")]
-        public bool IsAutoSelectJava { get; set; }
+    [JsonPropertyName("javaPath")]
+    public JavaEntry JavaPath { get; set; }
 
-        [JsonPropertyName("isAutoMemory")]
-        public bool IsAutoMemory { get; set; }
+    [JsonPropertyName("isAutoSelectJava")]
+    public bool IsAutoSelectJava { get; set; }
 
-        [JsonPropertyName("maxMemory")]
-        public int MaxMemory { get; set; } = 1024;
+    [JsonPropertyName("isAutoMemory")]
+    public bool IsAutoMemory { get; set; }
 
-        [JsonPropertyName("width")]
-        public int Width { get; set; } = 854;
+    [JsonPropertyName("maxMemory")]
+    public int MaxMemory { get; set; } = 1024;
 
-        [JsonPropertyName("height")]
-        public int Height { get; set; } = 480;
+    [JsonPropertyName("width")]
+    public int Width { get; set; } = 854;
 
-        [JsonPropertyName("gameFolder")]
-        public string GameFolder { get; set; }
+    [JsonPropertyName("height")]
+    public int Height { get; set; } = 480;
 
-        [JsonPropertyName("currentGameCoreId")]
-        public string CurrentGameCoreId { get; set; }
+    [JsonPropertyName("gameFolder")]
+    public string GameFolder { get; set; }
 
-        [JsonPropertyName("isEnableIndependencyCore")]
-        public bool IsEnableIndependencyCore { get; set; }
+    [JsonPropertyName("currentGameCoreId")]
+    public string CurrentGameCoreId { get; set; }
 
-        [JsonPropertyName("branch")]
-        public BranchType Branch { get; set; } = BranchType.Lsaac;
+    [JsonPropertyName("isEnableIndependencyCore")]
+    public bool IsEnableIndependencyCore { get; set; }
 
-        [JsonPropertyName("javaPaths")]
-        public ObservableCollection<JavaEntry> JavaPaths { get; set; } = new();
+    [JsonPropertyName("branch")]
+    public BranchType Branch { get; set; } = BranchType.Lsaac;
 
-        [JsonPropertyName("gameFolders")]
-        public ObservableCollection<string> GameFolders { get; set; } = new();
-    }
+    [JsonPropertyName("javaPaths")]
+    public ObservableCollection<JavaEntry> JavaPaths { get; set; } = new();
+
+    [JsonPropertyName("gameFolders")]
+    public ObservableCollection<string> GameFolders { get; set; } = new();
 }

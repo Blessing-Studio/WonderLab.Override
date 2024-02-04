@@ -1,10 +1,12 @@
-﻿using WonderLab.Views.Pages.Setting;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using WonderLab.Views.Pages.Setting;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
-public sealed partial class SettingPageViewModel : ViewModelBase {
-    public SettingPageViewModel(LaunchSettingPage page) {
+public sealed partial class SettingPageViewModel : ViewModelBase
+{
+    public SettingPageViewModel(LaunchSettingPage page)
+    {
         Current = page;
     }
 

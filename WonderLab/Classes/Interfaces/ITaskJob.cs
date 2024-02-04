@@ -1,44 +1,45 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Threading;
-using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
-namespace WonderLab.Classes.Interfaces {
-    /// <summary>
-    /// 调度任务统一接口
-    /// </summary>
-    public interface ITaskJob : INotifyPropertyChanged, IDisposable {
-        string JobName { get; set; }
+namespace WonderLab.Classes.Interfaces;
 
-        bool IsDeletedRequested { get; }
+/// <summary>
+/// 调度任务统一接口
+/// </summary>
+public interface ITaskJob : INotifyPropertyChanged, IDisposable
+{
+    string JobName { get; set; }
 
-        bool CanBeCancelled { get; set; }
+    bool IsDeletedRequested { get; }
 
-        TaskStatus TaskStatus { get; set; }
+    bool CanBeCancelled { get; set; }
 
-        string ProgressDetail { get; set; }
+    TaskStatus TaskStatus { get; set; }
 
-        bool IsIndeterminate { get; set; }
+    string ProgressDetail { get; set; }
 
-        double Progress { get; set; }
+    bool IsIndeterminate { get; set; }
 
-        ValueTask? WorkingTask { get; set; }
+    double Progress { get; set; }
 
-        IRelayCommand CancelTaskCommand { get; }
+    ValueTask? WorkingTask { get; set; }
 
-        IRelayCommand RequestDeleteCommand { get; }
+    IRelayCommand CancelTaskCommand { get; }
 
-        CancellationTokenSource CancellationTokenSource { get; }
+    IRelayCommand RequestDeleteCommand { get; }
 
-        event EventHandler<EventArgs> TaskFinished;
+    CancellationTokenSource CancellationTokenSource { get; }
 
-        ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token);
+    event EventHandler<EventArgs> TaskFinished;
 
-        ValueTask BuildWorkItemAsync(CancellationToken token);
+    ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token);
 
-        void Cleanup();
+    ValueTask BuildWorkItemAsync(CancellationToken token);
 
-        void InvokeTaskFinished();
-    }
+    void Cleanup();
+
+    void InvokeTaskFinished();
 }

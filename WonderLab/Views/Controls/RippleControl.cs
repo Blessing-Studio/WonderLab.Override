@@ -1,56 +1,63 @@
-﻿using Avalonia.Animation;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using System;
-using System.Threading.Tasks;
-using Avalonia.Media;
+﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Animation.Easings;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Layout;
+using Avalonia.Media;
+using System;
+using System.Threading.Tasks;
 
 namespace WonderLab.Views.Controls;
 
-public sealed class RippleControl : ContentControl {
+public sealed class RippleControl : ContentControl
+{
     private Ripple? _last;
 
     private byte _pointers;
 
     private Canvas PART_RippleCanvasRoot;
 
-    public static readonly StyledProperty<IBrush> RippleFillProperty = 
+    public static readonly StyledProperty<IBrush> RippleFillProperty =
         AvaloniaProperty.Register<RippleControl, IBrush>("RippleFill", SolidColorBrush.Parse("#FFF"));
 
-    public static readonly StyledProperty<double> RippleOpacityProperty = 
+    public static readonly StyledProperty<double> RippleOpacityProperty =
         AvaloniaProperty.Register<RippleControl, double>("RippleOpacity", 0.6);
 
-    public static readonly StyledProperty<bool> RaiseRippleCenterProperty = 
+    public static readonly StyledProperty<bool> RaiseRippleCenterProperty =
         AvaloniaProperty.Register<RippleControl, bool>("RaiseRippleCenter", false);
 
-    public IBrush RippleFill {
+    public IBrush RippleFill
+    {
         get => GetValue(RippleFillProperty);
         set => SetValue(RippleFillProperty, value);
     }
 
-    public double RippleOpacity {
+    public double RippleOpacity
+    {
         get => GetValue(RippleOpacityProperty);
         set => SetValue(RippleOpacityProperty, value);
     }
 
-    public bool RaiseRippleCenter {
+    public bool RaiseRippleCenter
+    {
         get => GetValue(RaiseRippleCenterProperty);
         set => SetValue(RaiseRippleCenterProperty, value);
     }
 
-    public RippleControl() {
+    public RippleControl()
+    {
         AddHandler(PointerReleasedEvent, PointerReleasedHandler);
         AddHandler(PointerPressedEvent, PointerPressedHandler);
         AddHandler(PointerCaptureLostEvent, PointerCaptureLostHandler);
     }
 
-    private void PointerPressedHandler(object? sender, PointerPressedEventArgs e) {
-        if (_pointers == 0) {
+    private void PointerPressedHandler(object? sender, PointerPressedEventArgs e)
+    {
+        if (_pointers == 0)
+        {
             _pointers++;
             Ripple ripple = (_last = CreateRipple(e, RaiseRippleCenter));
             PART_RippleCanvasRoot.Children.Add(ripple);
@@ -58,53 +65,66 @@ public sealed class RippleControl : ContentControl {
         }
     }
 
-    private void PointerReleasedHandler(object? sender, PointerReleasedEventArgs e) {
+    private void PointerReleasedHandler(object? sender, PointerReleasedEventArgs e)
+    {
         RemoveLastRipple();
     }
 
-    private void PointerCaptureLostHandler(object? sender, PointerCaptureLostEventArgs e) {
+    private void PointerCaptureLostHandler(object? sender, PointerCaptureLostEventArgs e)
+    {
         RemoveLastRipple();
     }
 
-    private void RemoveLastRipple() {
-        if (_last != null) {
+    private void RemoveLastRipple()
+    {
+        if (_last != null)
+        {
             _pointers--;
             OnReleaseHandler(_last);
             _last = null;
         }
     }
 
-    private void OnReleaseHandler(Ripple r) {
+    private void OnReleaseHandler(Ripple r)
+    {
         r.RunSecondStep();
         Task.Delay(Ripple.Duration).ContinueWith(RemoveRippleTask, TaskScheduler
             .FromCurrentSynchronizationContext());
 
-        void RemoveRippleTask(Task arg1) {
+        void RemoveRippleTask(Task arg1)
+        {
             PART_RippleCanvasRoot.Children.Remove(r);
         }
     }
 
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
         base.OnApplyTemplate(e);
         PART_RippleCanvasRoot = e.NameScope.Find<Canvas>("PART_RippleCanvasRoot")!;
     }
 
-    private Ripple CreateRipple(PointerPressedEventArgs e, bool center) {
+    private Ripple CreateRipple(PointerPressedEventArgs e, bool center)
+    {
         double width = base.Bounds.Width;
         double height = base.Bounds.Height;
-        Ripple ripple = new Ripple(width, height) {
+        Ripple ripple = new Ripple(width, height)
+        {
             Fill = RippleFill
         };
-        if (center) {
+        if (center)
+        {
             ripple.Margin = new Thickness(width / 2.0, height / 2.0, 0.0, 0.0);
-        } else {
+        }
+        else
+        {
             ripple.SetupInitialValues(e, this);
         }
         return ripple;
     }
 }
 
-public sealed class Ripple : Ellipse {
+public sealed class Ripple : Ellipse
+{
     public static readonly TimeSpan Duration = new(0, 0, 0, 0, 500);
 
     private readonly double _endX;
@@ -115,7 +135,8 @@ public sealed class Ripple : Ellipse {
 
     private static Easing Easing { get; set; } = new CubicEaseOut();
 
-    public Ripple(double outerWidth, double outerHeight) {
+    public Ripple(double outerWidth, double outerHeight)
+    {
         InitializeTransitions();
         base.Width = 0.0;
         base.Height = 0.0;
@@ -129,22 +150,26 @@ public sealed class Ripple : Ellipse {
         base.Opacity = 1.0;
     }
 
-    public void SetupInitialValues(PointerPressedEventArgs e, Control parent) {
+    public void SetupInitialValues(PointerPressedEventArgs e, Control parent)
+    {
         Point position = e.GetPosition(parent);
         base.Margin = new Thickness(position.X, position.Y, 0.0, 0.0);
     }
 
-    public void RunFirstStep() {
+    public void RunFirstStep()
+    {
         base.Width = _maxDiam;
         base.Height = _maxDiam;
         base.Margin = new Thickness((0.0 - _endX) / 2.0, (0.0 - _endY) / 2.0, 0.0, 0.0);
     }
 
-    public void RunSecondStep() {
+    public void RunSecondStep()
+    {
         base.Opacity = 0.0;
     }
 
-    private void InitializeTransitions() {
+    private void InitializeTransitions()
+    {
         Transitions = new Transitions
         {
             new DoubleTransition

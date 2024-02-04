@@ -1,17 +1,17 @@
+using MinecraftLaunch.Components.Fetcher;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WonderLab.Classes.Models;
-using MinecraftLaunch.Components.Fetcher;
 
 namespace WonderLab.Services;
-
 /// <summary>
 /// 数据服务类
 /// </summary>
-public class DataService {
+public class DataService
+{
     private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
     public string Version =>
@@ -24,20 +24,40 @@ public class DataService {
     public string DataFilePath => Path.Combine(FolderPath, "data.json");
 
     public readonly JavaFetcher javaFetcher = new();
-    
+
     public ConfigDataModel ConfigData { get; set; }
 
-    public void Load() {
-        if (File.Exists(DataFilePath)) {
+    public void Load()
+    {
+        if (File.Exists(DataFilePath))
+        {
             string json = File.ReadAllText(DataFilePath);
             ConfigData = JsonSerializer.Deserialize<ConfigDataModel>(json)!;
-        } else {
-            _ = SaveAsync();
+        }
+        else
+        {
+            ConfigData = new();
+            Save();
         }
     }
 
-    public async ValueTask SaveAsync() {
+    public async Task SaveAsync()
+    {
+        if (!Directory.Exists(FolderPath))
+        {
+            Directory.CreateDirectory(FolderPath);
+        }
         var json = JsonSerializer.Serialize(ConfigData ?? new());
         await File.WriteAllTextAsync(DataFilePath, json);
+    }
+
+    public void Save()
+    {
+        if (!Directory.Exists(FolderPath))
+        {
+            Directory.CreateDirectory(FolderPath);
+        }
+        var json = JsonSerializer.Serialize(ConfigData ?? new());
+        File.WriteAllText(DataFilePath, json);
     }
 }

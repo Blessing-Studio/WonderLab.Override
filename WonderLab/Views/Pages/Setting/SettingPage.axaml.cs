@@ -1,14 +1,16 @@
 using Avalonia.Controls;
-using WonderLab.ViewModels.Pages.Setting;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.ViewModels.Pages.Setting;
 
-namespace WonderLab.Views.Pages.Setting {
-    public partial class SettingPage : UserControl {
-        public SettingPageViewModel ViewModel { get; set; }
+namespace WonderLab.Views.Pages.Setting;
 
-        public SettingPage() {
-            InitializeComponent();
-            DataContext = ViewModel = App.ServiceProvider.GetService<SettingPageViewModel>();
-        }
+public partial class SettingPage : UserControl
+{
+    public SettingPageViewModel ViewModel { get; set; }
+
+    public SettingPage()
+    {
+        InitializeComponent();
+        DataContext = ViewModel = App.ServiceProvider.GetService<SettingPageViewModel>();
     }
 }

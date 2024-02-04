@@ -1,54 +1,63 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Layout;
-using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Automation.Peers;
+using Avalonia.Controls;
+using Avalonia.Controls.Automation.Peers;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Automation.Peers;
+using Avalonia.Layout;
+using System;
 
 namespace WonderLab.Views.Controls;
 
 [TemplatePart("PART_Indicator", typeof(Border))]
 [PseudoClasses(":vertical", ":horizontal", ":indeterminate")]
-public class MacOsProgressBar : ProgressBar {
+public class MacOsProgressBar : ProgressBar
+{
     private double _percentage;
 
     private Border? _indicator;
     private IDisposable? _trackSizeChangedListener;
 
-    public double Percentage {
+    public double Percentage
+    {
         get => _percentage;
         private set => SetAndRaise(PercentageProperty, ref _percentage, value);
     }
 
-    protected override Size ArrangeOverride(Size finalSize) {
+    protected override Size ArrangeOverride(Size finalSize)
+    {
         var result = base.ArrangeOverride(finalSize);
         UpdateIndicator();
         return result;
     }
 
     /// <inheritdoc/>
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
         base.OnPropertyChanged(change);
 
         if (change.Property == ValueProperty ||
             change.Property == MinimumProperty ||
             change.Property == MaximumProperty ||
             change.Property == IsIndeterminateProperty ||
-            change.Property == OrientationProperty) {
+            change.Property == OrientationProperty)
+        {
             UpdateIndicator();
         }
 
-        if (change.Property == IsIndeterminateProperty) {
+        if (change.Property == IsIndeterminateProperty)
+        {
             UpdatePseudoClasses(change.GetNewValue<bool>(), null);
-        } else if (change.Property == OrientationProperty) {
+        }
+        else if (change.Property == OrientationProperty)
+        {
             UpdatePseudoClasses(null, change.GetNewValue<Orientation>());
         }
     }
 
     /// <inheritdoc/>
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
         // dispose any previous track size listener
         _trackSizeChangedListener?.Dispose();
 
@@ -61,17 +70,20 @@ public class MacOsProgressBar : ProgressBar {
         UpdateIndicator();
     }
 
-    protected override AutomationPeer OnCreateAutomationPeer() {
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
         return new ProgressBarAutomationPeer(this);
     }
 
-    private void UpdateIndicator() {
+    private void UpdateIndicator()
+    {
         // Gets the size of the parent indicator container
-        var barSize = (_indicator?.Parent as Control)?.Bounds.Size ?? 
+        var barSize = (_indicator?.Parent as Control)?.Bounds.Size ??
                       Bounds.Size;
 
         if (_indicator == null) return;
-        if (IsIndeterminate) {
+        if (IsIndeterminate)
+        {
             var dim = Orientation == Orientation.Horizontal ? barSize.Width : barSize.Height;
             var barIndicatorWidth = dim * 0.4; // Indicator width at 40% of ProgressBar
             var barIndicatorWidth2 = dim * 0.6; // Indicator width at 60% of ProgressBar
@@ -84,16 +96,21 @@ public class MacOsProgressBar : ProgressBar {
 
             TemplateSettings.IndeterminateStartingOffset = -dim;
             TemplateSettings.IndeterminateEndingOffset = dim;
-        } else {
+        }
+        else
+        {
             var percent = Math.Abs(Maximum - Minimum) < double.Epsilon ? 1.0 :
                 (Value - Minimum) / (Maximum - Minimum);
 
-            if (Orientation == Orientation.Horizontal) {
+            if (Orientation == Orientation.Horizontal)
+            {
                 _indicator.Width = (barSize.Width - _indicator.Margin.Left - _indicator.Margin.Right) * percent;
                 _indicator.Height = double.NaN;
-            } else {
+            }
+            else
+            {
                 _indicator.Width = double.NaN;
-                _indicator.Height = (barSize.Height - _indicator.Margin.Top - _indicator.Margin.Bottom) 
+                _indicator.Height = (barSize.Height - _indicator.Margin.Top - _indicator.Margin.Bottom)
                                     * percent;
             }
 
@@ -104,8 +121,10 @@ public class MacOsProgressBar : ProgressBar {
 
     private void UpdatePseudoClasses(
         bool? isIndeterminate,
-        Orientation? o) {
-        if (isIndeterminate.HasValue) {
+        Orientation? o)
+    {
+        if (isIndeterminate.HasValue)
+        {
             PseudoClasses.Set(":indeterminate", isIndeterminate.Value);
         }
 
