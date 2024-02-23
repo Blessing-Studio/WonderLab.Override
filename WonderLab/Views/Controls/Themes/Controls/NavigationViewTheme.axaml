@@ -1,0 +1,129 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:WonderLab.Views.Controls">
+    <!-- Add Resources Here -->
+    <ControlTheme x:Key="{x:Type controls:NavigationView}" TargetType="controls:NavigationView">
+        		<Setter Property="MinHeight" Value="44"/>
+		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+					<Grid RowDefinitions="Auto, 1*, Auto"
+					      Background="{TemplateBinding Background}">
+						<Grid Margin="10"
+						      Grid.Row="0"
+						      MinWidth="300"
+						      MinHeight="28"
+						      ColumnDefinitions="1*, Auto">
+							<Border Name="Layout"
+							        BorderThickness="1"
+							        CornerRadius="10"
+							        Background="{DynamicResource ContentBrush3}"
+							        BorderBrush="{DynamicResource ContentBrush4}">
+								<TextBlock Margin="10 0"
+								           Text="WonderLab"
+								           FontWeight="Bold"
+								           VerticalAlignment="Center"
+								           HorizontalAlignment="Left"/>
+							</Border>
+
+							<Border Grid.Column="1"
+							        Margin="12 0 0 0"
+							        BorderThickness="1"
+							        CornerRadius="10"
+							        Background="{DynamicResource ContentBrush3}"
+							        BorderBrush="{DynamicResource ContentBrush4}">
+								<Grid Margin="15 0" ColumnDefinitions="Auto Auto">
+									<Button Content="&#xE921;"
+									        Name="MinimizedButton"									
+									        Classes="titlebarbutton"
+									        Foreground="{DynamicResource ButtonForeground}"/>
+
+									<Button Grid.Column="1" 
+									        Margin="5 0 0 0"
+									        Content="&#xE8BB;"
+									        Name="CloseButton"
+									        Classes="titlebarbutton"
+									        Foreground="{DynamicResource ButtonForeground}"/>
+								</Grid>
+							</Border>
+						</Grid>
+						
+						<controls:Frame Grid.Row="1"
+						                Name="Frame"
+						                Margin="10 0 10 15"
+						                ClipToBounds="False"
+						                Background="Transparent"/>
+						
+						<!-- ContentPanel -->
+						<Border Grid.Row="1"
+						        Margin="10 5 10 15"
+						        BorderThickness="1"
+						        CornerRadius="12" 
+						        Name="BackgroundPanel"
+						        Background="{DynamicResource ContentBrush2}"
+						        BorderBrush="{DynamicResource ContentBrush4}">
+							<Border.Transitions>
+								<Transitions>
+									<TransformOperationsTransition Duration="0:0:0.25"
+									                               Easing="ExponentialEaseOut"
+									                               Property="RenderTransform"/>
+								</Transitions>
+							</Border.Transitions>
+							
+							<controls:Frame Name="PanelFrame"
+							                ClipToBounds="True"
+							                CornerRadius="12"
+							                Background="Transparent"/>
+						</Border>
+						
+						<Border Opacity="1"
+						        Grid.Row="2"
+						        BorderThickness="1"
+						        VerticalAlignment="Bottom"
+						        HorizontalAlignment="Stretch"
+						        MinHeight="{TemplateBinding MinHeight}"
+						        BorderBrush="{DynamicResource ContentBrush4}"								
+						        Background="{DynamicResource ContentBrush3}">
+							<Grid ColumnDefinitions="Auto, 1*, Auto">
+								<ListBox Background="Transparent"
+								         ClipToBounds="False"
+								         Margin="10 0 -10 0"
+								         HorizontalAlignment="Left"
+								         VerticalAlignment="Stretch"
+								         ItemsSource="{TemplateBinding MenuItems}">
+									<ListBox.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Spacing="5" Orientation="Horizontal"/>
+										</ItemsPanelTemplate>
+									</ListBox.ItemsPanel>
+									<ListBox.Styles>
+										<Style Selector="ListBoxItem">
+											<Setter Property="ClipToBounds" Value="False"/>
+											<Setter Property="Template">
+												<ControlTemplate>
+													<ContentPresenter Background="Transparent"
+													                  ClipToBounds="False"
+													                  Content="{TemplateBinding Content}"
+													                  CornerRadius="{TemplateBinding CornerRadius}"
+													                  BorderThickness="{TemplateBinding BorderThickness}"
+													                  ContentTemplate="{TemplateBinding ContentTemplate}"
+													                  FontWeight="{TemplateBinding FontWeight}"
+													                  FontSize="{TemplateBinding FontSize}"
+													                  Padding="{TemplateBinding Padding}"
+													                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+													                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+												</ControlTemplate>
+											</Setter>
+										</Style>
+									</ListBox.Styles>
+								</ListBox>
+								
+								<ContentPresenter Grid.Column="2"
+								                  Content="{TemplateBinding FooterContent}"/>
+							</Grid>
+						</Border>
+					</Grid>
+			</ControlTemplate>
+		</Setter>
+    </ControlTheme>
+</ResourceDictionary>

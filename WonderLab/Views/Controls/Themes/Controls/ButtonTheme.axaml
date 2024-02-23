@@ -1,0 +1,118 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:WonderLab.Views.Controls">
+    <!-- Add Resources Here -->
+	<ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+		<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+		<Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource ButtonBorderThemeThickness}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+		<Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="RenderTransform" Value="none" />
+		<Setter Property="Transitions">
+			<Transitions>
+				<BrushTransition Duration="0:0:0.35"
+								 Property="Background"
+								 Easing="ExponentialEaseInOut"/>
+
+				<BrushTransition Duration="0:0:0.35"
+				                 Property="BorderBrush"
+				                 Easing="ExponentialEaseInOut"/>
+
+				<BrushTransition Duration="0:0:0.35"
+				                 Property="Foreground"
+				                 Easing="ExponentialEaseInOut"/>
+
+				<DoubleTransition Duration="0:0:0.35"
+				                  Property="Opacity"
+				                  Easing="ExponentialEaseOut"/>
+			</Transitions>
+		</Setter>
+
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Panel>
+					<ContentPresenter RecognizesAccessKey="True"
+					                  Name="PART_ContentPresenter"
+					                  Content="{TemplateBinding Content}"
+					                  Padding="{TemplateBinding Padding}"
+					                  Background="{TemplateBinding Background}"
+					                  Transitions="{TemplateBinding Transitions}"
+					                  BorderBrush="{TemplateBinding BorderBrush}"
+					                  CornerRadius="{TemplateBinding CornerRadius}"
+					                  BorderThickness="{TemplateBinding BorderThickness}"
+					                  ContentTemplate="{TemplateBinding ContentTemplate}"
+					                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+					                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
+					<Border Name="Layout"
+							Opacity="0"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Transitions="{TemplateBinding Transitions}"
+							Background="{DynamicResource ButtonBackgroundPointerOver}"/>
+				</Panel>
+			</ControlTemplate>
+		</Setter>
+
+		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+		</Style>
+
+		<Style Selector="^:pointerover /template/ Border#Layout">
+			<Setter Property="Opacity" Value="1" />
+		</Style>
+
+		<Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+		</Style>
+
+		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+		</Style>
+		
+		<!-- TitleBarButton -->
+		<Style Selector="^.titlebarbutton">
+			<Setter Property="Width" Value="22"/>
+			<Setter Property="Height" Value="22"/>
+			<Setter Property="ClipToBounds" Value="True"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border ClipToBounds="False"> 
+						<controls:RippleControl RippleOpacity="0.2"
+						                        ClipToBounds="False"
+						                        RippleFill="{DynamicResource DividerBrush}"
+						                        CornerRadius="4">
+							<Border Name="Layout"
+							        CornerRadius="4"
+							        Background="{TemplateBinding Background}">
+								<Border.Transitions>
+									<Transitions>
+										<BrushTransition Duration="0:0:0.35"
+										                 Property="Background"
+										                 Easing="CubicEaseOut"/>
+									</Transitions>
+								</Border.Transitions>
+
+								<controls:FontIcon FontSize="12"
+								                   VerticalAlignment="Center"
+								                   HorizontalAlignment="Center"
+								                   Glyph="{TemplateBinding Content}"/>
+							</Border>
+						</controls:RippleControl>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+		
+		<Style Selector="^.titlebarbutton:pointerover /template/ Border#Layout">
+			<Setter Property="Background" Value="#26000000"/>
+		</Style>
+	</ControlTheme>
+</ResourceDictionary>

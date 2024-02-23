@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using WonderLab.Extensions;
 
 namespace WonderLab.Desktop;
 
@@ -12,5 +13,6 @@ public sealed class Program {
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .UseSystemFont()
             .LogToTrace();
 }

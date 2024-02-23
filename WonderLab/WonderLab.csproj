@@ -13,10 +13,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.0.9" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.9" />
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.5" />
+		<PackageReference Include="MinecraftLaunch" Version="3.0.0-preview8" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
 
@@ -25,11 +34,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Assets\" />
-	  <Folder Include="Classes\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Services\" />
+	  <Folder Include="Assets\Languages\" />
 	  <Folder Include="Utilities\" />
 	  <Folder Include="Converters\" />
+	  <Folder Include="Views\Pages\" />
 	</ItemGroup>
 </Project>
