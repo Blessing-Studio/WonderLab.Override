@@ -25,7 +25,7 @@ public sealed class GameService {
         _gameEntries = new();
         GameEntries = new(_gameEntries);
         if (string.IsNullOrEmpty(_settingService?.Data?.ActiveGameFolder)) {
-            Initialize();
+            //Initialize();
         }
     }
 

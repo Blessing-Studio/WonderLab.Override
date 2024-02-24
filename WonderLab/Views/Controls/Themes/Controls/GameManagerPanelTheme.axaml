@@ -2,6 +2,12 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:WonderLab.Views.Controls"
                     xmlns:data="using:WonderLab.Classes.Datas.ViewData">
+    <Design.PreviewWith>
+        <Border Height="450" Width="800">
+            <controls:GameManagerPanel></controls:GameManagerPanel>
+        </Border>
+    </Design.PreviewWith>
+    
     <ControlTheme x:Key="{x:Type controls:GameManagerPanel}" TargetType="controls:GameManagerPanel">
                 <Setter Property="Width" Value="150"/>
         <Setter Property="Height" Value="85"/>
@@ -45,12 +51,14 @@
                             <TextBlock Name="TitleTextBlock"
                                        FontWeight="Bold"
                                        FontSize="16"
+                                       Margin="0 2 0 0"
                                        HorizontalAlignment="Left"/>
 						 
                             <TextBlock Grid.Row="1"
                                        Text="未知"
                                        FontSize="12"
                                        Name="SubTitleTextBlock"
+                                       Margin="0 5 0 0"
                                        TextTrimming="CharacterEllipsis"
                                        Foreground="{DynamicResource DefaultBrush400}"/>
                         </Grid>

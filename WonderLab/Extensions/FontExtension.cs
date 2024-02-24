@@ -11,15 +11,17 @@ namespace WonderLab.Extensions;
 /// </summary>
 public static class FontExtension {
     public static AppBuilder UseSystemFont(this AppBuilder builder) {
+        if (EnvironmentUtil.IsMac) {
+            return builder;
+        }
+        
         var fonts = new Dictionary<string, string> {
             { "Windows", "Microsoft YaHei UI, Microsoft YaHei" },
             { "Linux", "DejaVu Sans, Noto Sans CJK SC , WenQuanYi Micro Hei, WenQuanYi Zen Hei" },
-            { "Other", "苹方-简, 萍方-简" }
         };
 
         var os = EnvironmentUtil.IsWindow 
-            ? "Windows" : EnvironmentUtil.IsLinux
-                ? "Linux" : "Other";
+            ? "Windows" : "Linux";
         
         var font = fonts[os];
         return builder.With(new FontManagerOptions {
