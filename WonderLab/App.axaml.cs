@@ -20,7 +20,7 @@ public sealed partial class App : Application {
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
-    public static IStorageProvider StorageProvider { get; private set; }
+    public static IStorageProvider? StorageProvider { get; private set; }
 
     public override void Initialize() {
         base.Initialize();
@@ -38,9 +38,7 @@ public sealed partial class App : Application {
             desktop.MainWindow = mainWindow;
             mainWindow.DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>();
             
-            desktop.Exit += (sender, args) => {
-                dataService.Save();
-            };
+            desktop.Exit += (sender, args) => dataService.Save();
         }
 
         base.OnFrameworkInitializationCompleted();

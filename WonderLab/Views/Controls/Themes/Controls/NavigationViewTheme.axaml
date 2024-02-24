@@ -9,7 +9,7 @@
 			<ControlTemplate>
 					<Grid RowDefinitions="Auto, 1*, Auto"
 					      Background="{TemplateBinding Background}">
-						<Grid Margin="10"
+						<!--<Grid Margin="10"
 						      Grid.Row="0"
 						      MinWidth="300"
 						      MinHeight="28"
@@ -52,7 +52,7 @@
 						                Name="Frame"
 						                Margin="10 0 10 15"
 						                ClipToBounds="False"
-						                Background="Transparent"/>
+						                Background="Transparent"/>-->
 						
 						<!-- ContentPanel -->
 						<Border Grid.Row="1"

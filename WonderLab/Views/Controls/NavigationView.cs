@@ -12,14 +12,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace WonderLab.Views.Controls;
 
 public sealed class NavigationView : ContentControl {
-    private Border _backgroundPanel;
-    private WindowService _windowService;
-    private double ActualPx => _backgroundPanel.Bounds.Height + 15;
+    private Border? _backgroundPanel;
+    private WindowService? _windowService;
+    private double ActualPx => _backgroundPanel!.Bounds.Height + 15;
     
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
 
-    public static readonly StyledProperty<object> ContentProperty =
+    public static new readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(Content));
 
     public static readonly StyledProperty<object> FooterContentProperty =
@@ -33,7 +33,7 @@ public sealed class NavigationView : ContentControl {
         set => SetValue(MenuItemsProperty, value);
     }
 
-    public object Content {
+    public new object Content {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
@@ -50,7 +50,7 @@ public sealed class NavigationView : ContentControl {
 
     private void SetBackgroundPanelState() {
         var px = IsOpenBackgroundPanel ? 0 : ActualPx;
-        _backgroundPanel.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
+        _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
     }
     
     protected override void OnLoaded(RoutedEventArgs e) {
@@ -63,13 +63,8 @@ public sealed class NavigationView : ContentControl {
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
 
-        //Buttons
-        e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
-        e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
-
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
-        e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
