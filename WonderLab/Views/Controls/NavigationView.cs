@@ -82,6 +82,7 @@ public sealed class NavigationView : ContentControl {
 
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
+        e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {

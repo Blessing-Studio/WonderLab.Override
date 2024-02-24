@@ -1,10 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Threading;
+using WonderLab.ViewModels.Pages;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Services.Navigation;
-using WonderLab.ViewModels.Pages;
+using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.ViewModels.Pages.Navigation;
 
 namespace WonderLab.ViewModels.Windows;

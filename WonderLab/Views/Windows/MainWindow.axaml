@@ -9,12 +9,12 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="840"
         Height="540"
-		Icon="avares://WonderLab/Assets/wonderlab.ico"
         Title="WonderLab"
         Background="Transparent"
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaToDecorationsHint="True">
+        ExtendClientAreaToDecorationsHint="True"
+		Icon="/Assets/wonderlab.ico">
 	<Grid>
 		<ui:NavigationView ClipToBounds="False"
 		                   Content="{Binding ActivePage}"

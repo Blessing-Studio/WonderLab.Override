@@ -15,7 +15,7 @@ public enum LogLevel {
     /// <summary>
     /// 警告
     /// </summary>
-    Warning,
+    Warn,
     /// <summary>
     /// 错误
     /// </summary>
