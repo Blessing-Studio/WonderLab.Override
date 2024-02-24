@@ -12,9 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 namespace WonderLab.Views.Controls;
 
 public sealed class NavigationView : ContentControl {
-    private Border? _backgroundPanel;
-    private WindowService? _windowService;
-    private double ActualPx => _backgroundPanel!.Bounds.Height + 15;
+    private Frame _frame;
+    private Frame _panelFrame;   
+    private Border _backgroundPanel;
+    private WindowService _windowService;
+    private double ActualPx => _backgroundPanel.Bounds.Height + 15;
     
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
@@ -48,6 +50,14 @@ public sealed class NavigationView : ContentControl {
         set => SetValue(FooterContentProperty, value);
     }
 
+    private void SetContent(object page) {
+        _frame.Content = null;
+        _panelFrame.Content = null;
+        
+        var panel = IsOpenBackgroundPanel ? _panelFrame : _frame;
+        panel.Content = page;
+    }
+    
     private void SetBackgroundPanelState() {
         var px = IsOpenBackgroundPanel ? 0 : ActualPx;
         _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
@@ -62,6 +72,13 @@ public sealed class NavigationView : ContentControl {
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
+        //Frames
+        _frame = e.NameScope.Find<Frame>("Frame")!;
+        _panelFrame = e.NameScope.Find<Frame>("PanelFrame")!;
+        
+        //Buttons
+        e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
+        e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
 
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
@@ -70,6 +87,10 @@ public sealed class NavigationView : ContentControl {
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
+        if (change.Property == ContentProperty) {
+            SetContent(change.NewValue!);
+        }
+        
         if (change.Property == IsOpenBackgroundPanelProperty) {
             SetBackgroundPanelState();
         }

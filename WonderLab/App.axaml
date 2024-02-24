@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converter="using:WonderLab.Converters"
              x:Class="WonderLab.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -20,8 +21,13 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/RippleControlTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/GameManagerPanelTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewItemTheme.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
+			
+			<converter:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
+			<converter:BooleanToIntegerConverter x:Key="BooleanToIntegerConverter"/>
+			<converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

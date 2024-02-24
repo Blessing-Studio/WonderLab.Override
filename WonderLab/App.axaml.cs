@@ -7,10 +7,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using WonderLab.Services;
+using WonderLab.Services.Game;
+using WonderLab.Services.Navigation;
 using WonderLab.Services.UI;
 using WonderLab.ViewModels;
+using WonderLab.ViewModels.Pages;
+using WonderLab.ViewModels.Pages.Navigation;
+using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Views;
+using WonderLab.Views.Pages;
+using WonderLab.Views.Pages.Navigation;
+using WonderLab.Views.Pages.Setting;
 using WonderLab.Views.Windows;
 
 namespace WonderLab;
@@ -58,24 +66,30 @@ public sealed partial class App : Application {
         //    => new BackgroundTaskQueue(100)));
 
         //Pages
-        //services.AddScoped<HomePage>();
-        //services.AddScoped<SettingPage>();
-        //services.AddScoped<DownloadPage>();
-        //services.AddScoped<TaskCenterPage>();
-        //services.AddScoped<GameDownloadPage>();
-        //services.AddTransient<LaunchSettingPage>();
-        //services.AddScoped<NotificationCenterPage>();
+        services.AddScoped<HomePage>();
+        
+        services.AddTransient<SettingNavigationPage>();
+        services.AddTransient<DownloadNavigationPage>();
+        
+        services.AddTransient<DetailSettingPage>();
+        services.AddTransient<LaunchSettingPage>();
+        services.AddTransient<NetworkSettingPage>();
+        services.AddTransient<AccountSettingPage>();
 
         //Windows
-        services.AddSingleton<MainWindow>();
+        services.AddScoped<MainWindow>();
 
         //DialogContent
         //services.AddTransient<UpdateDialogContent>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
+        services.AddScoped<LogService>();
+        services.AddScoped<GameService>();
         services.AddScoped<WindowService>();
         services.AddScoped<SettingService>();
+        services.AddScoped<HostNavigationService>();
+        services.AddScoped<SettingNavigationService>();
         //services.AddScoped<TaskService>();
         //services.AddScoped<UpdateService>();
         //services.AddScoped<DownloadService>();
@@ -88,5 +102,14 @@ public sealed partial class App : Application {
     
     private static void ConfigureViewModel(IServiceCollection services) {
         services.AddScoped<MainWindowViewModel>();
+        services.AddTransient<HomePageViewModel>();
+        
+        services.AddTransient<SettingNavigationPageViewModel>();
+        services.AddTransient<DownloadNavigationPageViewModel>();
+        
+        services.AddTransient<DetailSettingPageViewModel>();
+        services.AddTransient<LaunchSettingPageViewModel>();
+        services.AddTransient<AccountSettingPageViewModel>();
+        services.AddTransient<NetworkSettingPageViewModel>();
     }
 }

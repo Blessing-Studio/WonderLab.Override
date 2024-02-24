@@ -14,70 +14,25 @@
         Background="Transparent"
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaToDecorationsHint="True"
-		MinHeight="320"
-		MinWidth="480"
-	    Loaded="Loaded"
-		>
+        ExtendClientAreaToDecorationsHint="True">
 	<Grid>
-		<Image Source="avares://WonderLab/Assets/Images/normal.png" Stretch="UniformToFill"/>
-		<Grid Margin="10"
-			  Height="40"
-			  VerticalAlignment="Top"
-			  ColumnDefinitions="1*, Auto">
-			<Border Name="Layout"
-					BorderThickness="1"
-					CornerRadius="10"
-					Background="{DynamicResource ContentBrush3}"
-					BorderBrush="{DynamicResource ContentBrush4}">
-				<TextBlock Margin="10 0"
-						   Text="{Binding Title}"
-						   FontWeight="Bold"
-						   VerticalAlignment="Center"
-						   HorizontalAlignment="Left"/>
-			</Border>
-
-			<Border Grid.Column="1"
-					Margin="12 0 0 0"
-					BorderThickness="1"
-					CornerRadius="10"
-					Background="{DynamicResource ContentBrush3}"
-					BorderBrush="{DynamicResource ContentBrush4}">
-				<Grid Margin="15 0" ColumnDefinitions="Auto Auto">
-					<Button Content="&#xE921;"
-							Name="MinimizedButton"
-							Classes="titlebarbutton"
-							Foreground="{DynamicResource ButtonForeground}"/>
-
-					<Button Grid.Column="1"
-							Margin="5 0 0 0"
-							Content="&#xE8BB;"
-							Name="CloseButton"
-							Classes="titlebarbutton"
-							Foreground="{DynamicResource ButtonForeground}"/>
-				</Grid>
-			</Border>
-		</Grid>
-		<ui:NavigationView IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
-			<ui:NavigationView.Content>
-				<ui:Frame ClipToBounds="False"
-						  Content="{Binding ActivePage}"/>
-			</ui:NavigationView.Content>
-
+		<ui:NavigationView ClipToBounds="False"
+		                   Content="{Binding ActivePage}"
+		                   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Icon="&#xEA8A;"
+				<ui:NavigationViewItem Icon="&#xEA8A;" 
 									   Content="主页"
 									   Tag="HomePage"
 									   IsSelected="True"
 									   CommandParameter="HomePage"
 									   Command="{Binding NavigationToCommand}"
 									   Foreground="{DynamicResource PrimaryBaseColor}"/>
-
+				
 				<ui:NavigationViewItem Icon="&#xEDDC;"
-									   Content="下载"
-									   CommandParameter="DownloadPage"
-									   Command="{Binding NavigationToCommand}"
-									   Foreground="{DynamicResource SuccessBaseColor}"/>
+				                       Content="下载"
+				                       CommandParameter="DownloadPage"
+				                       Command="{Binding NavigationToCommand}"
+				                       Foreground="{DynamicResource SuccessBaseColor}"/>
 
 				<!-- <ui:NavigationViewItem Icon="&#xF0B9;" -->
 				<!--                        Content="联机" -->
@@ -91,6 +46,36 @@
 									   Command="{Binding NavigationToCommand}"
 									   Foreground="{DynamicResource SecondaryBaseColor}"/>
 			</ui:NavigationView.MenuItems>
+			
+			<ui:NavigationView.FooterContent>
+				<Grid ColumnDefinitions="Auto,Auto">
+					<Button Classes="ripple"
+					        Margin="0 5 0 5"
+					        Padding="10 1 10 1"
+					        CornerRadius="10"
+					        Background="Transparent"
+					        VerticalAlignment="Center">
+						<Grid ColumnDefinitions="Auto,Auto">
+							<ui:FontIcon Glyph="&#xE7E7;"
+							             FontSize="18"
+							             Grid.Column="1"
+							             Margin="8 0 0 0"
+							             VerticalAlignment="Center"/>
+							
+							<Grid Grid.Column="0" RowDefinitions="Auto, Auto">
+								<TextBlock Text="15:04"
+								           FontSize="12"
+								           TextAlignment="Right"/>
+						
+								<TextBlock Grid.Row="1"						           
+								           FontSize="12"
+								           Text="2024/1/17"
+								           TextAlignment="Right"/>
+							</Grid>
+						</Grid>
+					</Button>
+				</Grid>
+			</ui:NavigationView.FooterContent>
 		</ui:NavigationView>
 	</Grid>
 </Window>

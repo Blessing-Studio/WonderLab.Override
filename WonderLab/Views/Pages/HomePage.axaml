@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:WonderLab.Views.Controls"
+             xmlns:vm="using:WonderLab.ViewModels.Pages"
+             x:DataType="vm:HomePageViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WonderLab.Views.Pages.HomePage">
+    <Grid VerticalAlignment="Bottom"
+          HorizontalAlignment="Left"
+          RowDefinitions="1*, 10, Auto">
+        <ui:GameManagerPanel GameEntries="{Binding GameEntries}"
+                             SelectedGame="{Binding ActiveGameEntry}"/>
+        
+        <Button Grid.Row="2"
+                Classes="launchbutton"
+                CornerRadius="16">
+            <TextBlock FontSize="16"
+                       Text="启动游戏"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource ContentBrush1}"/>
+        </Button>
+    </Grid>
+</UserControl>

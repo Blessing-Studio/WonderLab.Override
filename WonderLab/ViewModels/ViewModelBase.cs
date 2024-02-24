@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.ViewModels;
 
-public class ViewModelBase : ObservableObject
-{
+public class ViewModelBase : ObservableObject {
+    public Dispatcher Dispatcher => Dispatcher.UIThread;
 }

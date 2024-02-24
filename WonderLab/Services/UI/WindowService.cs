@@ -1,7 +1,7 @@
 using System;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Controls;
 using WonderLab.Views.Windows;
 
 namespace WonderLab.Services.UI;

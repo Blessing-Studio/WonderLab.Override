@@ -114,5 +114,102 @@
 		<Style Selector="^.titlebarbutton:pointerover /template/ Border#Layout">
 			<Setter Property="Background" Value="#26000000"/>
 		</Style>
+		
+		<Style Selector="^.launchbutton">
+			<Setter Property="Height" Value="45"/>
+	        <Setter Property="Width" Value="155"/>
+	        <Setter Property="CornerRadius" Value="12"/>
+	        <Setter Property="VerticalContentAlignment" Value="Center"/>
+	        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+	        <Setter Property="Background" Value="{DynamicResource PrimaryBrush500}"/>
+	        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush400}"/>
+	        <Setter Property="Foreground" Value="{DynamicResource LayoutForeground}"/>
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="Height"
+					                  Duration="0:0:0.25"
+					                  Easing="QuinticEaseOut"/>
+					
+					<DoubleTransition Property="Width"
+					                  Duration="0:0:0.25"
+					                  Easing="QuinticEaseOut"/>
+		    </Transitions>
+	    </Setter>
+	    
+	    <Setter Property="Template">
+		    <ControlTemplate>
+			    <Grid>
+				    <Border Width="{TemplateBinding Width}"
+				            Height="{TemplateBinding Height}"
+				            Background="{TemplateBinding BorderBrush}"
+				            Transitions="{TemplateBinding Transitions}"
+				            CornerRadius="{TemplateBinding CornerRadius}"
+				            BorderThickness="{TemplateBinding BorderThickness}"/>
+				    
+				    <Border Name="Layout"
+				            Width="{TemplateBinding Width}"
+				            Height="{TemplateBinding Height}"
+				            Background="{TemplateBinding Background}"
+				            Transitions="{TemplateBinding Transitions}"
+				            CornerRadius="{TemplateBinding CornerRadius}"/>
+				    
+				    <ContentPresenter RecognizesAccessKey="True"
+				                      x:Name="PART_ContentPresenter"
+				                      Padding="{TemplateBinding Padding}"
+				                      Content="{TemplateBinding Content}"
+				                      Foreground="{TemplateBinding Foreground}"
+				                      Transitions="{TemplateBinding Transitions}"
+				                      CornerRadius="{TemplateBinding CornerRadius}"
+				                      ContentTemplate="{TemplateBinding ContentTemplate}"
+				                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+				                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+			    </Grid>
+		    </ControlTemplate>
+	    </Setter>
+    </Style>
+		
+		<Style Selector="^.launchbutton:pointerover /template/ Border#Layout">
+			<Setter Property="Width" Value="151"/>
+			<Setter Property="Height" Value="41"/>
+		</Style>
+		
+		<Style Selector="^.ripple">
+			<Setter Property="CornerRadius" Value="12"/>
+			<Setter Property="Transitions">
+				<Transitions>
+					<BrushTransition Duration="0:0:0.35"
+					                 Property="Background"
+					                 Easing="ExponentialEaseInOut"/>
+
+					<DoubleTransition Duration="0:0:0.35"
+					                  Property="Opacity"
+					                  Easing="ExponentialEaseOut"/>
+				</Transitions>
+			</Setter>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<controls:RippleControl RippleOpacity="0.2"
+					                        RippleFill="{DynamicResource DividerBrush}"
+					                        CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid>
+							<Border Margin="-0.5"
+							        Background="{TemplateBinding Background}"
+							        CornerRadius="{TemplateBinding CornerRadius}"/>
+							<ContentPresenter RecognizesAccessKey="True"
+							                  x:Name="PART_ContentPresenter"
+							                  Padding="{TemplateBinding Padding}"
+							                  Content="{TemplateBinding Content}"
+							                  Background="{TemplateBinding Background}"
+							                  BorderBrush="{TemplateBinding BorderBrush}"
+							                  Transitions="{TemplateBinding Transitions}"
+							                  BorderThickness="{TemplateBinding BorderThickness}"
+							                  ContentTemplate="{TemplateBinding ContentTemplate}"
+							                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Grid>
+					</controls:RippleControl>
+				</ControlTemplate>
+			</Setter>
+		</Style>
 	</ControlTheme>
 </ResourceDictionary>

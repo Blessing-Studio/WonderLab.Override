@@ -35,8 +35,5 @@
 
 	<ItemGroup>
 	  <Folder Include="Assets\Languages\" />
-	  <Folder Include="Utilities\" />
-	  <Folder Include="Converters\" />
-	  <Folder Include="Views\Pages\" />
 	</ItemGroup>
 </Project>
