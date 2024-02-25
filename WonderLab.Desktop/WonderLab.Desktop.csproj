@@ -1,17 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.9" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.9" />
+		<PackageReference Include="Dotnet.Bundle" Version="*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WonderLab\WonderLab.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WonderLab\WonderLab.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\WonderLab\Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
+		</Content>
+		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
+			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
+		</Content>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<CFBundleName>WonderLab</CFBundleName>
+		<!-- Also defines .app file name -->
+		<CFBundleDisplayName>WonderLab</CFBundleDisplayName>
+		<CFBundleIdentifier>org.blessing-studio.wonderlab</CFBundleIdentifier>
+		<CFBundleVersion>1.2.0</CFBundleVersion>
+		<CFBundlePackageType>APPL</CFBundlePackageType>
+		<CFBundleExecutable>WonderLab.Desktop</CFBundleExecutable>
+		<CFBundleIconFile>..\WonderLab\Assets\wonderlab.icns</CFBundleIconFile>
+		<!-- Will be copied from output directory -->
+		<NSPrincipalClass>NSApplication</NSPrincipalClass>
+		<NSHighResolutionCapable>true</NSHighResolutionCapable>
+		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>
+		<SignAssembly>True</SignAssembly>
+		<ApplicationIcon>wonderlab.ico</ApplicationIcon>
+		<StartupObject>WonderLab.Desktop.Program</StartupObject>
+	</PropertyGroup>
 </Project>
