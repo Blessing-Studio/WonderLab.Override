@@ -25,7 +25,7 @@ jobs:
       with:
         dotnet-version: "${{env.dotnet-version}}"
     - name: Test
-      run: dotnet test WonderLab/WonderLab.csproj
+      run: dotnet test WonderLab.Desktop/WonderLab.Desktop.csproj
   test_build:
     runs-on: ubuntu-latest
     steps:
@@ -38,4 +38,4 @@ jobs:
       with:
         dotnet-version: "${{env.dotnet-version}}"
     - name: Test
-      run: dotnet build WonderLab/WonderLab.csproj
+      run: dotnet build WonderLab.Desktop/WonderLab.Desktop.csproj
