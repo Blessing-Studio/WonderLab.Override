@@ -30,8 +30,8 @@
 				
 				<ui:NavigationViewItem Icon="&#xEDDC;"
 				                       Content="下载"
-				                       CommandParameter="DownloadPage"
 				                       Command="{Binding NavigationToCommand}"
+				                       CommandParameter="DownloadNavigationPage"
 				                       Foreground="{DynamicResource SuccessBaseColor}"/>
 
 				<!-- <ui:NavigationViewItem Icon="&#xF0B9;" -->
@@ -42,8 +42,8 @@
 
 				<ui:NavigationViewItem Icon="&#xF8B0;"
 									   Content="设置"
-									   CommandParameter="SettingPage"
 									   Command="{Binding NavigationToCommand}"
+									   CommandParameter="SettingNavigationPage"
 									   Foreground="{DynamicResource SecondaryBaseColor}"/>
 			</ui:NavigationView.MenuItems>
 			

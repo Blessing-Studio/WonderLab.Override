@@ -17,7 +17,7 @@ public sealed class HostNavigationService(LogService logService) : INavigationSe
     private readonly Dictionary<string, object> _pages = new() {
         { nameof(HomePage), App.ServiceProvider.GetRequiredService<HomePage>() },
         { nameof(DownloadNavigationPage), App.ServiceProvider.GetRequiredService<DownloadNavigationPage>() },
-        { nameof(SettingNavigationService), App.ServiceProvider.GetRequiredService<SettingNavigationService>() },
+        { nameof(SettingNavigationPage), App.ServiceProvider.GetRequiredService<SettingNavigationPage>() },
     };
     
     public Action<object>? NavigationRequest { get; set; }

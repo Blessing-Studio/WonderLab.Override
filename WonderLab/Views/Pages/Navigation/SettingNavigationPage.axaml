@@ -2,7 +2,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:WonderLab.ViewModels.Pages.Navigation"
+             xmlns:controls="clr-namespace:WonderLab.Views.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:SettingNavigationPageViewModel"
              x:Class="WonderLab.Views.Pages.Navigation.SettingNavigationPage">
-    Welcome to Avalonia!
+    <Grid ColumnDefinitions="165, 1*">
+        <Border BorderThickness="0 0 1 0"
+                CornerRadius="12 0 0 12"
+                BorderBrush="{DynamicResource ContentBrush4}"
+                Background="{DynamicResource SettingSideBarBackground}">
+            <ListBox Margin="0 10"
+                     ClipToBounds="False"
+                     Background="Transparent">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="5"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <controls:NavigationViewItem Width="145"
+                                       Content="启动"
+                                       Icon="&#xE945;"
+                                       IsSelected="True"
+                                       Classes="sidebaritem"
+                                       CommandParameter="LaunchSettingPage"
+                                       Command="{Binding NavigationToCommand}"
+                                       Foreground="{DynamicResource SecondaryBaseBrush}"/>
+				
+                <controls:NavigationViewItem Width="145"
+                                       Content="网络"
+                                       Icon="&#xE701;" 
+                                       Classes="sidebaritem"
+                                       CommandParameter="NetworkSettingPage"
+                                       Command="{Binding NavigationToCommand}"
+                                       Foreground="{DynamicResource SecondaryBaseBrush}"/>
+            </ListBox>
+        </Border>
+            
+        <ContentControl Grid.Column="1"
+                        Margin="18 0"
+                        Content="{Binding ActivePage}"/>
+    </Grid>
 </UserControl>
