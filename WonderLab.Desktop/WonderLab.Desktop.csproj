@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
+		<Version>2.0.0</Version>
 		<Nullable>enable</Nullable>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
@@ -30,14 +31,14 @@
 		<!-- Also defines .app file name -->
 		<CFBundleDisplayName>WonderLab</CFBundleDisplayName>
 		<CFBundleIdentifier>org.blessing-studio.wonderlab</CFBundleIdentifier>
-		<CFBundleVersion>1.2.0</CFBundleVersion>
+		<CFBundleVersion>2.0.0</CFBundleVersion>
 		<CFBundlePackageType>APPL</CFBundlePackageType>
 		<CFBundleExecutable>WonderLab.Desktop</CFBundleExecutable>
 		<CFBundleIconFile>..\WonderLab\Assets\wonderlab.icns</CFBundleIconFile>
 		<!-- Will be copied from output directory -->
 		<NSPrincipalClass>NSApplication</NSPrincipalClass>
 		<NSHighResolutionCapable>true</NSHighResolutionCapable>
-		<CFBundleShortVersionString>12.0.2.0</CFBundleShortVersionString>
+		<CFBundleShortVersionString>2.0.0</CFBundleShortVersionString>
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>wonderlab.ico</ApplicationIcon>
 		<StartupObject>WonderLab.Desktop.Program</StartupObject>
