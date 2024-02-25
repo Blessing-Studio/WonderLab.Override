@@ -26,14 +26,13 @@
       <ControlTemplate>
         <DataValidationErrors ClipToBounds="False">
           <Panel>
-            <Border
-              Name="PART_BorderElement"
-              Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="{TemplateBinding CornerRadius}"
-              MinWidth="{TemplateBinding MinWidth}"
-              MinHeight="{TemplateBinding MinHeight}">
+            <Border Name="PART_BorderElement"
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    MinWidth="{TemplateBinding MinWidth}"
+                    MinHeight="{TemplateBinding MinHeight}">
               <Border.Transitions>
                 <Transitions>
                   <BoxShadowsTransition Property="BoxShadow"
@@ -47,14 +46,13 @@
               </Border.Transitions>
             </Border>
 
-            <Border
-              Margin="{TemplateBinding BorderThickness}">
+            <Border>
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <ui:FontIcon Glyph="&#xE721;"
                              FontSize="18"
                              Grid.Column="0"
-                             Margin="9 0 -4 8"
-                             VerticalAlignment="Bottom"
+                             Margin="15 0 -4 0"
+                             VerticalAlignment="Center"
                              RenderTransform="rotate(-90deg)"
                              IsVisible="{TemplateBinding UseFloatingWatermark}"/>
                 
@@ -64,12 +62,12 @@
                 <DockPanel x:Name="PART_InnerDockPanel"
                            Grid.Column="1"
                            Margin="{TemplateBinding Padding}">
-                  <TextBlock Name="PART_FloatingWatermark"
-                             Foreground="{DynamicResource DefaultBrush500}"
-                             Text="搜你想要的"
-                             DockPanel.Dock="Top"
-                             FontSize="12"
-                             Margin="-25 0 0 0"/>
+                  <!-- <TextBlock Name="PART_FloatingWatermark" -->
+                  <!--            Foreground="{DynamicResource DefaultBrush500}" -->
+                  <!--            Text="搜你想要的" -->
+                  <!--            DockPanel.Dock="Top" -->
+                  <!--            FontSize="12" -->
+                  <!--            Margin="-25 0 0 0"/> -->
                   
                   <ScrollViewer Name="PART_ScrollViewer" 
                                 AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
@@ -77,7 +75,7 @@
                                 BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
                                 VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                                 HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}">
-                    <Grid Margin="-0 3 2 3"
+                    <Grid Margin="0 0"
                           ColumnDefinitions="Auto, 1*">
                       <TextBlock Name="PART_Watermark"
                                  Text="{TemplateBinding Watermark}"
@@ -88,7 +86,7 @@
                                  TextWrapping="{TemplateBinding TextWrapping}"
                                  IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
                                  HorizontalAlignment="Left"
-                                 VerticalAlignment="Bottom"/>
+                                 VerticalAlignment="Center"/>
                       
                       <TextPresenter Grid.Column="1"
                                      Name="PART_TextPresenter"
@@ -106,7 +104,7 @@
                                      SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
                                      CaretBrush="{TemplateBinding CaretBrush}"
                                      HorizontalAlignment="Left"
-                                     VerticalAlignment="Bottom"/>
+                                     VerticalAlignment="Center"/>
                     </Grid>
                     <ScrollViewer.Styles>
                       <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
@@ -120,10 +118,10 @@
                         Width="17"
                         Padding="0"
                         Grid.Column="2"
-                        Margin="0 0 9 8"
+                        Margin="0 0 15 0"
                         Classes="ripple"
                         CornerRadius="20"
-                        VerticalAlignment="Bottom" 
+                        VerticalAlignment="Center" 
                         Command="{Binding $parent[TextBox].Clear}"
                         Background="{DynamicResource ContentBrush4}"
                         IsVisible="{TemplateBinding Text, Converter={StaticResource StringToVisibilityConverter}}">

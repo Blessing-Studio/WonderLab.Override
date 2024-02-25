@@ -1,7 +1,12 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:WonderLab.Views.Controls">
-    <!-- Add Resources Here -->
+	<Design.PreviewWith>
+		<Button Content="启动游戏" 
+		        />
+	</Design.PreviewWith>
+	
+	<!-- Add Resources Here -->
 	<ControlTheme x:Key="{x:Type Button}" TargetType="Button">
 		<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
 		<Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
