@@ -14,11 +14,13 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceInclude Source="/Views/Controls/Themes/ColorTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FrameTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/WindowTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ButtonTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/SuperTitleBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/RippleControlTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/GameManagerPanelTheme.axaml"/>

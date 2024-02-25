@@ -7,55 +7,16 @@
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-					<Grid RowDefinitions="Auto, 1*, Auto"
+					<Grid RowDefinitions="1*, Auto"
 					      Background="{TemplateBinding Background}">
-						<Grid Margin="10"
-						      Grid.Row="0"
-						      MinWidth="300"
-						      MinHeight="28"
-						      ColumnDefinitions="1*, Auto">
-							<Border Name="Layout"
-							        BorderThickness="1"
-							        CornerRadius="10"
-							        Background="{DynamicResource ContentBrush3}"
-							        BorderBrush="{DynamicResource ContentBrush4}">
-								<TextBlock Margin="10 0"
-								           Text="WonderLab"
-								           FontWeight="Bold"
-								           VerticalAlignment="Center"
-								           HorizontalAlignment="Left"/>
-							</Border>
-
-							<Border Grid.Column="1"
-							        Margin="12 0 0 0"
-							        BorderThickness="1"
-							        CornerRadius="10"
-							        Background="{DynamicResource ContentBrush3}"
-							        BorderBrush="{DynamicResource ContentBrush4}">
-								<Grid Margin="15 0" ColumnDefinitions="Auto Auto">
-									<Button Content="&#xE921;"
-									        Name="MinimizedButton"									
-									        Classes="titlebarbutton"
-									        Foreground="{DynamicResource ButtonForeground}"/>
-
-									<Button Grid.Column="1" 
-									        Margin="5 0 0 0"
-									        Content="&#xE8BB;"
-									        Name="CloseButton"
-									        Classes="titlebarbutton"
-									        Foreground="{DynamicResource ButtonForeground}"/>
-								</Grid>
-							</Border>
-						</Grid>
-						
-						<controls:Frame Grid.Row="1"
-						                Name="Frame"
-						                Margin="10 0 10 15"
-						                ClipToBounds="False"
-						                Background="Transparent"/>
+						<controls:Frame Grid.Row="0"
+						                        Name="Frame"
+						                        Margin="10 0 10 15"
+						                        ClipToBounds="False"
+						                        Background="Transparent"/>
 						
 						<!-- ContentPanel -->
-						<Border Grid.Row="1"
+						<Border Grid.Row="0"
 						        Margin="10 5 10 15"
 						        BorderThickness="1"
 						        CornerRadius="12" 

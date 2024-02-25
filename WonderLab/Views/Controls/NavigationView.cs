@@ -77,12 +77,12 @@ public sealed class NavigationView : ContentControl {
         _panelFrame = e.NameScope.Find<Frame>("PanelFrame")!;
         
         //Buttons
-        e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
-        e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
+        //e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
+        //e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
 
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
-        e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
+        //e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {

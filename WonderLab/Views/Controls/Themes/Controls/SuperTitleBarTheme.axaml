@@ -1,0 +1,62 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:WonderLab.Views.Controls">
+    <ControlTheme x:Key="{x:Type controls:SuperTitleBar}" TargetType="controls:SuperTitleBar">
+        <Setter Property="Margin" Value="6 6 6 3.5"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="MinWidth" Value="300"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="1*, Auto"
+                      Margin="{TemplateBinding Margin}"
+                      MinWidth="{TemplateBinding MinWidth}"
+                      MinHeight="{TemplateBinding MinHeight}">
+                    <Border Name="Layout"
+                            BorderThickness="1"
+                            Background="{DynamicResource ContentBrush3}"
+                            BorderBrush="{DynamicResource ContentBrush4}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <TextBlock Margin="10 0"
+                                   Text="WonderLab"
+                                   FontWeight="Bold"
+                                   Name="TitleTextBlock"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"/>
+                    </Border>
+
+                    <Border Grid.Column="1"
+                            Margin="12 0 0 0"
+                            BorderThickness="1"
+                            Background="{DynamicResource ContentBrush3}"
+                            BorderBrush="{DynamicResource ContentBrush4}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            IsVisible="{TemplateBinding IsButtonGroupVisible}">
+                        <Grid Margin="15 0" ColumnDefinitions="Auto Auto">
+                            <Button Content="&#xE921;"
+                                    Name="MinimizedButton"									
+                                    Classes="titlebarbutton"
+                                    Foreground="{DynamicResource ButtonForeground}"/>
+
+                            <Button Grid.Column="1" 
+                                    Margin="5 0 0 0"
+                                    Content="&#xE8BB;"
+                                    Name="CloseButton"
+                                    Classes="titlebarbutton"
+                                    Foreground="{DynamicResource ButtonForeground}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        
+        <Style Selector="^.pro">
+            <Setter Property="Margin" Value="0 0 0 3.5"/>
+            <Setter Property="MinHeight" Value="28"/>
+            <Setter Property="MinWidth" Value="300"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>
