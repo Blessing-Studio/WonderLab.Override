@@ -12,7 +12,7 @@
         Title="WonderLab"
         Background="Transparent"
         TransparencyLevelHint="Mica"
-        ExtendClientAreaChromeHints="SystemChrome"
+        ExtendClientAreaChromeHints="OSXThickTitleBar"
         ExtendClientAreaToDecorationsHint="True"
 		Icon="/Assets/wonderlab.ico">
 	<Grid>
