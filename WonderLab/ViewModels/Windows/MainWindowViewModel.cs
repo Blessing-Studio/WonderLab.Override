@@ -5,6 +5,8 @@ using WonderLab.Classes.Interfaces;
 using WonderLab.Services.Navigation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.ViewModels.Pages.Navigation;
+using Avalonia.Platform;
+using MinecraftLaunch.Utilities;
 
 namespace WonderLab.ViewModels.Windows;
 
@@ -16,7 +18,10 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
 
     [ObservableProperty]
     private bool _isOpenBackgroundPanel;
-    
+
+    [ObservableProperty]
+    private ExtendClientAreaChromeHints _systemChromeType;
+
     public MainWindowViewModel(HostNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
@@ -26,6 +31,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         
         _navigationService = navigationService;
         _navigationService.NavigationTo<HomePageViewModel>();
+
+        SystemChromeType = EnvironmentUtil.IsWindow ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.OSXThickTitleBar;
     }
 
 

@@ -12,11 +12,14 @@
         Title="WonderLab"
         Background="Transparent"
         TransparencyLevelHint="Mica"
-        ExtendClientAreaChromeHints="SystemChrome"
         ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="{Binding SystemChromeType}"
 		Icon="/Assets/wonderlab.ico">
-	<Grid>
-		<ui:NavigationView ClipToBounds="False"
+	<Grid RowDefinitions="Auto, 1*">
+		<ui:SuperTitleBar Grid.Row="0"/>
+		
+		<ui:NavigationView Grid.Row="1"
+						   ClipToBounds="False"
 		                   Content="{Binding ActivePage}"
 		                   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 			<ui:NavigationView.MenuItems>

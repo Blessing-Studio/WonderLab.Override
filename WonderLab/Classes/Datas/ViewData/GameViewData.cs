@@ -3,7 +3,7 @@ using MinecraftLaunch.Classes.Models.Game;
 
 namespace WonderLab.Classes.Datas.ViewData;
 
-public class GameViewData(GameEntry gameEntry) : ObservableObject {
+public sealed class GameViewData(GameEntry gameEntry) : ObservableObject {
     public GameEntry Entry => gameEntry;
     
     public override bool Equals(object? obj) {
@@ -19,5 +19,9 @@ public class GameViewData(GameEntry gameEntry) : ObservableObject {
         }
 
         return Entry.Id;
+    }
+
+    public override int GetHashCode() {
+        return Entry.Id.GetHashCode();
     }
 }
