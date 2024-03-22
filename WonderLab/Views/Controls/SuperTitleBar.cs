@@ -36,8 +36,7 @@ public sealed class SuperTitleBar : ContentControl {
             e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
             e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
         } else {
-            Classes.Add("pro");
-            titleTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            IsVisible = false;
         }
     }
 }

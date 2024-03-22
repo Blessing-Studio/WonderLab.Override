@@ -32,7 +32,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         _navigationService = navigationService;
         _navigationService.NavigationTo<HomePageViewModel>();
 
-        SystemChromeType = EnvironmentUtil.IsWindow ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.OSXThickTitleBar;
+        SystemChromeType = EnvironmentUtil.IsWindow ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.Default;
     }
 
 
