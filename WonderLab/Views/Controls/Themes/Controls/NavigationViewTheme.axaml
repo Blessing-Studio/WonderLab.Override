@@ -3,12 +3,14 @@
                     xmlns:controls="using:WonderLab.Views.Controls">
     <!-- Add Resources Here -->
     <ControlTheme x:Key="{x:Type controls:NavigationView}" TargetType="controls:NavigationView">
-        		<Setter Property="MinHeight" Value="44"/>
+		<Setter Property="MinHeight" Value="44"/>
 		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="Background" Value="{DynamicResource ContentBrush2}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
 		<Setter Property="Template">
 			<ControlTemplate>
 					<Grid RowDefinitions="1*, Auto"
-					      Background="{TemplateBinding Background}">
+					      Background="Transparent">
 						<controls:Frame Grid.Row="0"
 						                        Name="Frame"
 						                        Margin="10 0 10 15"
@@ -21,8 +23,8 @@
 						        BorderThickness="1"
 						        CornerRadius="12" 
 						        Name="BackgroundPanel"
-						        Background="{DynamicResource ContentBrush2}"
-						        BorderBrush="{DynamicResource ContentBrush4}">
+						        Background="{TemplateBinding Background}"
+						        BorderBrush="{TemplateBinding BorderBrush}">
 							<Border.Transitions>
 								<Transitions>
 									<TransformOperationsTransition Duration="0:0:0.25"
@@ -43,7 +45,7 @@
 						        VerticalAlignment="Bottom"
 						        HorizontalAlignment="Stretch"
 						        MinHeight="{TemplateBinding MinHeight}"
-						        BorderBrush="{DynamicResource ContentBrush4}"								
+						        BorderBrush="{TemplateBinding BorderBrush}"								
 						        Background="{DynamicResource BottomBarBackground}">
 							<Grid ColumnDefinitions="Auto, 1*, Auto">
 								<ListBox Background="Transparent"
@@ -62,15 +64,15 @@
 											<Setter Property="ClipToBounds" Value="False"/>
 											<Setter Property="Template">
 												<ControlTemplate>
-													<ContentPresenter Background="Transparent"
-													                  ClipToBounds="False"
+													<ContentPresenter ClipToBounds="False"
+																	  Background="Transparent"
+													                  Padding="{TemplateBinding Padding}"
 													                  Content="{TemplateBinding Content}"
+													                  FontSize="{TemplateBinding FontSize}"
+													                  FontWeight="{TemplateBinding FontWeight}"
 													                  CornerRadius="{TemplateBinding CornerRadius}"
 													                  BorderThickness="{TemplateBinding BorderThickness}"
 													                  ContentTemplate="{TemplateBinding ContentTemplate}"
-													                  FontWeight="{TemplateBinding FontWeight}"
-													                  FontSize="{TemplateBinding FontSize}"
-													                  Padding="{TemplateBinding Padding}"
 													                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 													                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 												</ControlTemplate>

@@ -30,3 +30,6 @@ public sealed record SettingData {
     [JsonPropertyName("gameFolders")]
     public ObservableCollection<string> GameFolders { get; set; }
 }
+
+[JsonSerializable(typeof(SettingData))]
+sealed partial class SettingDataContext : JsonSerializerContext;

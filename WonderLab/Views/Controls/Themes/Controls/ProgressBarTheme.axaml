@@ -6,7 +6,7 @@
       <StackPanel Orientation="Horizontal" Spacing="10">
         <StackPanel Spacing="10">
           <ProgressBar Value="50" Maximum="10" />
-          <ProgressBar Value="50" />
+          <ProgressBar Value="60" />
           <ProgressBar Value="50" Minimum="25" Maximum="75" />
           <ProgressBar IsIndeterminate="True" />
           <ProgressBar ShowProgressText="True" Value="50"/>

@@ -1,4 +1,5 @@
 using MinecraftLaunch.Extensions;
+using MinecraftLaunch.Utilities;
 using System;
 using System.IO;
 using System.Reflection;
@@ -24,16 +25,17 @@ public sealed class SettingService {
     public SettingService() => Initialize();
 
     public void Save() {
-        File.WriteAllText(_settingDataFilePath.FullName, Data.AsJson());
+        File.WriteAllText(_settingDataFilePath.FullName, Data.Serialize(typeof(SettingData),
+            new SettingDataContext(JsonConverterUtil.DefaultJsonOptions)));
     }
 
     public void Initialize() {
-        if (!_settingDataFilePath.Directory.Exists) {
+        if (!_settingDataFilePath.Directory!.Exists) {
             _settingDataFilePath.Directory.Create();
         }
 
         if (_settingDataFilePath.Exists) {
-            Data = File.ReadAllText(_settingDataFilePath.FullName).AsJsonEntry<SettingData>();
+            Data = File.ReadAllText(_settingDataFilePath.FullName).Deserialize(SettingDataContext.Default.SettingData);
         } else {
             Data = new();
             Save();

@@ -8,20 +8,20 @@
   </Design.PreviewWith>
   <!-- Add Resources Here -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
-    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
-    <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
-    <Setter Property="CaretBrush" Value="{DynamicResource TextControlForeground}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ContentBrush3}" />
-    <Setter Property="SelectionBrush" Value="{DynamicResource TextControlSelectionHighlightColor}" />
-    <Setter Property="BorderThickness" Value="2.55" />
-    <Setter Property="CornerRadius" Value="12" />
-    <Setter Property="ClipToBounds" Value="False"/>
     <Setter Property="MinHeight" Value="45" />
     <Setter Property="MinWidth" Value="200" />
-    <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
-    <Setter Property="UseFloatingWatermark" Value="True"/>
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="BorderThickness" Value="2.55" />
     <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="UseFloatingWatermark" Value="True"/>
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ContentBrush3}" />
+    <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+    <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="CaretBrush" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource TextControlSelectionHighlightColor}" />
     <Setter Property="Template">
       <ControlTemplate>
         <DataValidationErrors ClipToBounds="False">
@@ -56,19 +56,9 @@
                              RenderTransform="rotate(-90deg)"
                              IsVisible="{TemplateBinding UseFloatingWatermark}"/>
                 
-                <!-- <ContentPresenter Grid.Column="0" -->
-                <!--                   Content="{TemplateBinding InnerLeftContent}"/> -->
-                
                 <DockPanel x:Name="PART_InnerDockPanel"
                            Grid.Column="1"
                            Margin="{TemplateBinding Padding}">
-                  <!-- <TextBlock Name="PART_FloatingWatermark" -->
-                  <!--            Foreground="{DynamicResource DefaultBrush500}" -->
-                  <!--            Text="搜你想要的" -->
-                  <!--            DockPanel.Dock="Top" -->
-                  <!--            FontSize="12" -->
-                  <!--            Margin="-25 0 0 0"/> -->
-                  
                   <ScrollViewer Name="PART_ScrollViewer" 
                                 AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
                                 IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
@@ -131,7 +121,6 @@
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource DefaultBrush800}"/>
                 </Button>
-                <!-- <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}"/> -->
               </Grid>
             </Border>
           </Panel>

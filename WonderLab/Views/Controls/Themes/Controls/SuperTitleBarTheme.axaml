@@ -2,12 +2,13 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:WonderLab.Views.Controls">
     <ControlTheme x:Key="{x:Type controls:SuperTitleBar}" TargetType="controls:SuperTitleBar">
-        <Setter Property="Margin" Value="6 6 6 3.5"/>
-        <Setter Property="MinHeight" Value="28"/>
         <Setter Property="MinWidth" Value="300"/>
+        <Setter Property="MinHeight" Value="28"/>
         <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Margin" Value="6 6 6 3.5"/>
+		<Setter Property="BorderThickness" Value="1"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="IsHitTestVisible" Value="True"/>
+		<Setter Property="IsHitTestVisible" Value="True"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
 		<Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
 		<Setter Property="Background" Value="{DynamicResource TitleBarBackground}"/>
@@ -18,10 +19,10 @@
                       MinWidth="{TemplateBinding MinWidth}"
                       MinHeight="{TemplateBinding MinHeight}">
                     <Border Name="Layout"
-                            BorderThickness="1"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{TemplateBinding CornerRadius}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             IsHitTestVisible="{TemplateBinding IsHitTestVisible}">
                         <TextBlock Margin="10 0"
                                    Text="WonderLab"
@@ -33,11 +34,11 @@
 
                     <Border Grid.Column="1"
                             Margin="12 0 0 0"
-                            BorderThickness="1"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            IsVisible="{TemplateBinding IsButtonGroupVisible}">
+                            IsVisible="{TemplateBinding IsButtonGroupVisible}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Margin="15 0" ColumnDefinitions="Auto Auto">
                             <Button Content="&#xE921;"
                                     Name="MinimizedButton"									
