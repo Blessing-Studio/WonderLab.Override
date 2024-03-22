@@ -25,6 +25,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     public MainWindowViewModel(HostNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
+                ActivePage = null;
                 ActivePage = p;
             }, DispatcherPriority.ApplicationIdle);
         };

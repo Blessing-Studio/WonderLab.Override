@@ -10,12 +10,13 @@ public partial class SettingNavigationPageViewModel : ViewModelBase {
     private readonly INavigationService _navigationService;
 
     [ObservableProperty] private object? _activePage;
-    
+
     public SettingNavigationPageViewModel(SettingNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
+            ActivePage = null;
             ActivePage = p;
         };
-        
+
         _navigationService = navigationService;
         _navigationService.NavigationTo<LaunchSettingPageViewModel>();
     }

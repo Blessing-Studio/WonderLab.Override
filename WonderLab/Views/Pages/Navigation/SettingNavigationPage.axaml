@@ -15,7 +15,7 @@
             <ListBox Margin="0 10"
                      ClipToBounds="False"
                      Background="Transparent">
-                <ListBox.ItemsPanel>
+				<ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="5"/>
                     </ItemsPanelTemplate>

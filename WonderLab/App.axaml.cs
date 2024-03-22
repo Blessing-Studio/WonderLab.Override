@@ -66,7 +66,7 @@ public sealed partial class App : Application {
         //    => new BackgroundTaskQueue(100)));
 
         //Pages
-        services.AddScoped<HomePage>();
+        services.AddSingleton<HomePage>();
         
         services.AddTransient<SettingNavigationPage>();
         services.AddTransient<DownloadNavigationPage>();

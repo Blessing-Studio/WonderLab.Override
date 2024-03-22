@@ -14,21 +14,22 @@ namespace WonderLab.Services.Navigation;
 /// </summary>
 public sealed class HostNavigationService(LogService logService) : INavigationService {
     private readonly LogService _logService = logService;
-    private readonly Dictionary<string, object> _pages = new() {
-        { nameof(HomePage), App.ServiceProvider.GetRequiredService<HomePage>() },
-        { nameof(DownloadNavigationPage), App.ServiceProvider.GetRequiredService<DownloadNavigationPage>() },
-        { nameof(SettingNavigationPage), App.ServiceProvider.GetRequiredService<SettingNavigationPage>() },
+    private readonly Dictionary<string, Func<object>> _pages = new() {
+        { nameof(HomePage), App.ServiceProvider.GetRequiredService<HomePage> },
+        { nameof(DownloadNavigationPage), App.ServiceProvider.GetRequiredService<DownloadNavigationPage> },
+        { nameof(SettingNavigationPage), App.ServiceProvider.GetRequiredService<SettingNavigationPage> },
     };
     
-    public Action<object>? NavigationRequest { get; set; }
+    public Action<object> NavigationRequest { get; set; }
 
     public void NavigationTo<TViewModel>() where TViewModel : ViewModelBase {
         var viewName = typeof(TViewModel).Name;
-        _logService.Info(nameof(HostNavigationService), $"The name of the page to be navigated is {viewName}");
+        _logService.Info(nameof(HostNavigationService), $"The name of the page to be navigated is {viewName.Replace("ViewModel", "")}");
         
-        if (_pages.TryGetValue(viewName.Replace("ViewModel", ""), out var pageObject)) {
-            (pageObject as UserControl)!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
-            NavigationRequest?.Invoke(pageObject);
+        if (_pages.TryGetValue(viewName.Replace("ViewModel", ""), out var pageFunc)) {
+            object pageEntry = pageFunc();
+            (pageEntry as UserControl)!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
+            NavigationRequest?.Invoke(pageEntry);
         }
     }
 }
