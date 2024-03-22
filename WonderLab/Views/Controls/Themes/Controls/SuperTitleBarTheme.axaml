@@ -8,6 +8,9 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="IsHitTestVisible" Value="True"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+		<Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+		<Setter Property="Background" Value="{DynamicResource TitleBarBackground}"/>
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid ColumnDefinitions="1*, Auto"
@@ -16,8 +19,8 @@
                       MinHeight="{TemplateBinding MinHeight}">
                     <Border Name="Layout"
                             BorderThickness="1"
-                            Background="{DynamicResource ContentBrush3}"
-                            BorderBrush="{DynamicResource ContentBrush4}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             IsHitTestVisible="{TemplateBinding IsHitTestVisible}">
                         <TextBlock Margin="10 0"
@@ -31,35 +34,26 @@
                     <Border Grid.Column="1"
                             Margin="12 0 0 0"
                             BorderThickness="1"
-                            Background="{DynamicResource ContentBrush3}"
-                            BorderBrush="{DynamicResource ContentBrush4}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             IsVisible="{TemplateBinding IsButtonGroupVisible}">
                         <Grid Margin="15 0" ColumnDefinitions="Auto Auto">
                             <Button Content="&#xE921;"
                                     Name="MinimizedButton"									
                                     Classes="titlebarbutton"
-                                    Foreground="{DynamicResource ButtonForeground}"/>
+                                    Foreground="{TemplateBinding Foreground}"/>
 
                             <Button Grid.Column="1" 
                                     Margin="5 0 0 0"
                                     Content="&#xE8BB;"
                                     Name="CloseButton"
                                     Classes="titlebarbutton"
-                                    Foreground="{DynamicResource ButtonForeground}"/>
+                                    Foreground="{TemplateBinding Foreground}"/>
                         </Grid>
                     </Border>
                 </Grid>
             </ControlTemplate>
         </Setter>
-        
-        <Style Selector="^.pro">
-            <Setter Property="Margin" Value="0 0 0 3.5"/>
-            <Setter Property="MinHeight" Value="28"/>
-            <Setter Property="MinWidth" Value="300"/>
-            <Setter Property="CornerRadius" Value="0"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
-        </Style>
     </ControlTheme>
 </ResourceDictionary>

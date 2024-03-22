@@ -9,7 +9,7 @@
     </Design.PreviewWith>
     
     <ControlTheme x:Key="{x:Type controls:GameManagerPanel}" TargetType="controls:GameManagerPanel">
-                <Setter Property="Width" Value="150"/>
+		<Setter Property="Width" Value="155"/>
         <Setter Property="Height" Value="85"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -20,9 +20,9 @@
                         BorderThickness="2"
                         Width="{TemplateBinding Width}"
                         Height="{TemplateBinding Height}"
-                        Background="{DynamicResource ContentBrush3}"
                         BorderBrush="{DynamicResource PrimaryBrush500}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{DynamicResource GameManagerPanelBackground}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="5"

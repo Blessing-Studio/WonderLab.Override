@@ -14,8 +14,10 @@
                              SelectedGame="{Binding ActiveGameEntry}"/>
         
         <Button Grid.Row="2"
-                Classes="launchbutton"
-                CornerRadius="16">
+				Height="45"
+				Width="155"
+                CornerRadius="16"
+				Classes="launchbutton">
             <TextBlock FontSize="16"
                        Text="启动游戏"
                        FontWeight="Bold"

@@ -3,7 +3,7 @@
                     xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
 		<Button Content="启动游戏" 
-		        />
+		        Classes="launchbutton"/>
 	</Design.PreviewWith>
 	
 	<!-- Add Resources Here -->
@@ -19,15 +19,15 @@
 		<Setter Property="RenderTransform" Value="none" />
 		<Setter Property="Transitions">
 			<Transitions>
-				<BrushTransition Duration="0:0:0.35"
+				<BrushTransition Duration="0:0:0.25"
 								 Property="Background"
 								 Easing="ExponentialEaseInOut"/>
 
-				<BrushTransition Duration="0:0:0.35"
+				<BrushTransition Duration="0:0:0.25"
 				                 Property="BorderBrush"
-				                 Easing="ExponentialEaseInOut"/>
+				                 Easing="ExponentialEaseOut"/>
 
-				<BrushTransition Duration="0:0:0.35"
+				<BrushTransition Duration="0:0:0.25"
 				                 Property="Foreground"
 				                 Easing="ExponentialEaseInOut"/>
 
@@ -55,8 +55,8 @@
 
 					<Border Name="Layout"
 							Opacity="0"
-							CornerRadius="{TemplateBinding CornerRadius}"
 							Transitions="{TemplateBinding Transitions}"
+							CornerRadius="{TemplateBinding CornerRadius}"
 							Background="{DynamicResource ButtonBackgroundPointerOver}"/>
 				</Panel>
 			</ControlTemplate>
@@ -120,71 +120,45 @@
 			<Setter Property="Background" Value="#26000000"/>
 		</Style>
 		
+		<!--LaunchButton-->
 		<Style Selector="^.launchbutton">
-			<Setter Property="Height" Value="45"/>
-	        <Setter Property="Width" Value="155"/>
-	        <Setter Property="CornerRadius" Value="12"/>
+			<Setter Property="CornerRadius" Value="12"/>
+			<Setter Property="BorderThickness" Value="3"/>
 	        <Setter Property="VerticalContentAlignment" Value="Center"/>
 	        <Setter Property="HorizontalContentAlignment" Value="Center"/>
 	        <Setter Property="Background" Value="{DynamicResource PrimaryBrush500}"/>
-	        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush400}"/>
 	        <Setter Property="Foreground" Value="{DynamicResource LayoutForeground}"/>
-			<Setter Property="Transitions">
-				<Transitions>
-					<DoubleTransition Property="Height"
-					                  Duration="0:0:0.25"
-					                  Easing="QuinticEaseOut"/>
-					
-					<DoubleTransition Property="Width"
-					                  Duration="0:0:0.25"
-					                  Easing="QuinticEaseOut"/>
-		    </Transitions>
-	    </Setter>
-	    
-	    <Setter Property="Template">
-		    <ControlTemplate>
-			    <Grid>
-				    <Border Width="{TemplateBinding Width}"
-				            Height="{TemplateBinding Height}"
-				            Background="{TemplateBinding BorderBrush}"
-				            Transitions="{TemplateBinding Transitions}"
-				            CornerRadius="{TemplateBinding CornerRadius}"
-				            BorderThickness="{TemplateBinding BorderThickness}"/>
-				    
-				    <Border Name="Layout"
-				            Width="{TemplateBinding Width}"
-				            Height="{TemplateBinding Height}"
-				            Background="{TemplateBinding Background}"
-				            Transitions="{TemplateBinding Transitions}"
-				            CornerRadius="{TemplateBinding CornerRadius}"/>
-				    
-				    <ContentPresenter RecognizesAccessKey="True"
-				                      x:Name="PART_ContentPresenter"
+			<Setter Property="Template">
+				<ControlTemplate>
+					<ContentPresenter RecognizesAccessKey="True"
+									  x:Name="PART_ContentPresenter"
 				                      Padding="{TemplateBinding Padding}"
 				                      Content="{TemplateBinding Content}"
+				                      BorderBrush="{TemplateBinding Background}"
 				                      Foreground="{TemplateBinding Foreground}"
+				                      Background="{TemplateBinding Background}"
 				                      Transitions="{TemplateBinding Transitions}"
 				                      CornerRadius="{TemplateBinding CornerRadius}"
+				                      BorderThickness="{TemplateBinding BorderThickness}"
 				                      ContentTemplate="{TemplateBinding ContentTemplate}"
 				                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
 				                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-			    </Grid>
-		    </ControlTemplate>
-	    </Setter>
-    </Style>
-		
-		<Style Selector="^.launchbutton:pointerover /template/ Border#Layout">
-			<Setter Property="Width" Value="151"/>
-			<Setter Property="Height" Value="41"/>
+				</ControlTemplate>
+			</Setter>
 		</Style>
 		
+		<Style Selector="^.launchbutton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush700}"/>
+		</Style>
+		
+		<!--RippleButton-->
 		<Style Selector="^.ripple">
 			<Setter Property="CornerRadius" Value="12"/>
 			<Setter Property="Transitions">
 				<Transitions>
 					<BrushTransition Duration="0:0:0.35"
 					                 Property="Background"
-					                 Easing="ExponentialEaseInOut"/>
+					                 Easing="ExponentialEaseOut"/>
 
 					<DoubleTransition Duration="0:0:0.35"
 					                  Property="Opacity"

@@ -75,7 +75,7 @@
 	    </Style>
     
 	    <Style Selector="^:selected /template/ Border#Layout">
-		    <Setter Property="Background" Value="{DynamicResource ContentBrush4}"/>
+		    <Setter Property="Background" Value="{DynamicResource NavigationViewItemSelectedBackground}"/>
 		    <Setter Property="Effect">
 			    <DropShadowEffect BlurRadius="5"
 			                      OffsetX="0"

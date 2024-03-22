@@ -44,7 +44,7 @@
 						        HorizontalAlignment="Stretch"
 						        MinHeight="{TemplateBinding MinHeight}"
 						        BorderBrush="{DynamicResource ContentBrush4}"								
-						        Background="{DynamicResource ContentBrush3}">
+						        Background="{DynamicResource BottomBarBackground}">
 							<Grid ColumnDefinitions="Auto, 1*, Auto">
 								<ListBox Background="Transparent"
 								         ClipToBounds="False"

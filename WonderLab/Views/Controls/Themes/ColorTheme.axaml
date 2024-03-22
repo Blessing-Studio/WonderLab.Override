@@ -182,7 +182,12 @@
 			<SolidColorBrush x:Key="DangerBrush900" Color="{StaticResource DangerColor900}"/>
 
 			<!-- Control  -->
+			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
+			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
+			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
 			<SolidColorBrush x:Key="SettingSideBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
+			<SolidColorBrush x:Key="GameManagerPanelBackground" Color="{StaticResource LayoutBackgroundColor}"/>
+			<SolidColorBrush x:Key="NavigationViewItemSelectedBackground" Color="{StaticResource LayoutBackgroundColor}"/>
 		</ResourceDictionary>
 
 		<ResourceDictionary x:Key="Dark">
@@ -366,8 +371,12 @@
 			<SolidColorBrush x:Key="DangerBrush900" Color="{StaticResource DangerColor900}"/>
 
 			<!-- Control  -->
+			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
+			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource ContentColor3}"/>
+			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource ContentColor3}"/>
 			<SolidColorBrush x:Key="SettingSideBarBackground" Color="{StaticResource ContentColor3}"/>
-			<SolidColorBrush x:Key="MainBottomBarBackground" Color="{StaticResource Lay}"/>
+			<SolidColorBrush x:Key="GameManagerPanelBackground" Color="{StaticResource ContentColor3}"/>
+			<SolidColorBrush x:Key="NavigationViewItemSelectedBackground" Color="{StaticResource ContentColor4}"/>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
