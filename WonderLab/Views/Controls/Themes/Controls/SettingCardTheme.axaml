@@ -1,0 +1,26 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				    xmlns:controls="using:WonderLab.Views.Controls">
+	<Design.PreviewWith>
+		<controls:SettingCard>
+			<controls:SettingCardItem/>
+			<controls:SettingCardItem/>
+		</controls:SettingCard>
+	</Design.PreviewWith>
+	
+	<ControlTheme x:Key="{x:Type controls:SettingCard}" TargetType="controls:SettingCard">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Name="Layout">
+					<Grid RowDefinitions="Auto, 1*">
+						<TextBlock VerticalAlignment="Top"
+								   HorizontalAlignment="Left"
+								   Text="{TemplateBinding Title}"/>
+						
+						<ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}"/>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+</ResourceDictionary>

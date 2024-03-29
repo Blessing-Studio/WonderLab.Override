@@ -1,4 +1,5 @@
 using System;
+using WonderLab.Classes.Datas;
 using WonderLab.ViewModels;
 
 namespace WonderLab.Classes.Interfaces;
@@ -7,7 +8,10 @@ namespace WonderLab.Classes.Interfaces;
 /// 导航服务统一接口
 /// </summary>
 public interface INavigationService {
-    Action<object>? NavigationRequest { get; set; }
+    /// <summary>
+    /// 导航后执行请求
+    /// </summary>
+    Action<NavigationPageData> NavigationRequest { get; set; }
 
     /// <summary>
     /// 导航方法

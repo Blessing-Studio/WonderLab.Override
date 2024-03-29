@@ -1,12 +1,13 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Platform;
+using Avalonia.Threading;
+using MinecraftLaunch.Utilities;
 using WonderLab.ViewModels.Pages;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Services.Navigation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.ViewModels.Pages.Navigation;
-using Avalonia.Platform;
-using MinecraftLaunch.Utilities;
+using WonderLab.Classes.Datas;
 
 namespace WonderLab.ViewModels.Windows;
 
@@ -14,7 +15,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
    private readonly INavigationService _navigationService;
 
     [ObservableProperty] 
-    private object? _activePage;
+    private NavigationPageData _activePage;
 
     [ObservableProperty]
     private bool _isOpenBackgroundPanel;
@@ -25,8 +26,10 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     public MainWindowViewModel(HostNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
-                ActivePage = null;
-                ActivePage = p;
+                if (ActivePage?.PageKey != p.PageKey) {
+                    ActivePage = null;
+                    ActivePage = p;
+                }
             }, DispatcherPriority.ApplicationIdle);
         };
         

@@ -8,6 +8,8 @@ using Avalonia.Interactivity;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media.Transformation;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Input;
+using System;
 
 namespace WonderLab.Views.Controls;
 
@@ -51,6 +53,10 @@ public sealed class NavigationView : ContentControl {
     }
 
     private void SetContent(object page) {
+        if (_frame is null || _panelFrame is null) {
+            return;
+        }
+
         _frame.Content = null;
         _panelFrame.Content = null;
         
@@ -98,7 +104,7 @@ public sealed class NavigationView : ContentControl {
     }
 }
 
-public sealed class NavigationViewItem : ListBoxItem {
+public sealed class NavigationViewItem : ListBoxItem, ICommandSource {
     public static readonly StyledProperty<string> IconProperty =
         AvaloniaProperty.Register<NavigationViewItem, string>(nameof(Icon));
 
@@ -129,5 +135,9 @@ public sealed class NavigationViewItem : ListBoxItem {
         e.NameScope.Find<Button>("ButtonLayout")!.Click += (sender, args) => {
             IsSelected = IsSelected ? IsSelected : !IsSelected;
         };
+    }
+
+    void ICommandSource.CanExecuteChanged(object sender, EventArgs e) {
+        throw new NotImplementedException();
     }
 }

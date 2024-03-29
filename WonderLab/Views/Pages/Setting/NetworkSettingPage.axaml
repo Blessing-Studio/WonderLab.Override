@@ -3,6 +3,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Pages.Setting.NetworkSettingPage">
-    Welcome to Avalonia!
+             x:Class="WonderLab.Views.Pages.Setting.NetworkSettingPage"
+			 xmlns:ui="using:WonderLab.Views.Controls">
+	<ItemsControl Margin="0 10 0 0">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<StackPanel Spacing="15"/>
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+
+		<ui:SettingCard Title="Network">
+			<ItemsControl>
+				<ui:SettingCardItem/>
+				<ui:SettingCardItem/>
+			</ItemsControl>
+		</ui:SettingCard>
+
+		<ui:SettingCard Title="Network">
+			<ItemsControl>
+				<ui:SettingCardItem/>
+				<ui:SettingCardItem/>
+			</ItemsControl>
+		</ui:SettingCard>
+	</ItemsControl>
 </UserControl>

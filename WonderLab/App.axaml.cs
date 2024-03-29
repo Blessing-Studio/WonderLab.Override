@@ -68,13 +68,13 @@ public sealed partial class App : Application {
         //Pages
         services.AddSingleton<HomePage>();
         
-        services.AddTransient<SettingNavigationPage>();
-        services.AddTransient<DownloadNavigationPage>();
+        services.AddSingleton<SettingNavigationPage>();
+        services.AddSingleton<DownloadNavigationPage>();
         
-        services.AddTransient<DetailSettingPage>();
-        services.AddTransient<LaunchSettingPage>();
-        services.AddTransient<NetworkSettingPage>();
-        services.AddTransient<AccountSettingPage>();
+        services.AddSingleton<DetailSettingPage>();
+        services.AddSingleton<LaunchSettingPage>();
+        services.AddSingleton<NetworkSettingPage>();
+        services.AddSingleton<AccountSettingPage>();
 
         //Windows
         services.AddScoped<MainWindow>();
@@ -84,12 +84,13 @@ public sealed partial class App : Application {
     }
 
     private static void ConfigureServices(IServiceCollection services) {
-        services.AddScoped<LogService>();
-        services.AddScoped<GameService>();
-        services.AddScoped<WindowService>();
-        services.AddScoped<SettingService>();
-        services.AddScoped<HostNavigationService>();
-        services.AddScoped<SettingNavigationService>();
+        services.AddSingleton<LogService>();
+        services.AddSingleton<GameService>();
+        services.AddSingleton<WindowService>();
+        services.AddSingleton<ControlService>();
+        services.AddSingleton<SettingService>();
+        services.AddSingleton<HostNavigationService>();
+        services.AddSingleton<SettingNavigationService>();
         //services.AddScoped<TaskService>();
         //services.AddScoped<UpdateService>();
         //services.AddScoped<DownloadService>();
@@ -101,11 +102,11 @@ public sealed partial class App : Application {
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {
-        services.AddScoped<MainWindowViewModel>();
+        services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<HomePageViewModel>();
         
-        services.AddTransient<SettingNavigationPageViewModel>();
-        services.AddTransient<DownloadNavigationPageViewModel>();
+        services.AddSingleton<SettingNavigationPageViewModel>();
+        services.AddSingleton<DownloadNavigationPageViewModel>();
         
         services.AddTransient<DetailSettingPageViewModel>();
         services.AddTransient<LaunchSettingPageViewModel>();

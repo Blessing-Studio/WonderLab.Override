@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:WonderLab.Views.Controls">
+	<Design.PreviewWith>
+		<ItemsControl Padding="5" >
+			<controls:SettingCardItem/>
+
+			<controls:SettingCardItem/>
+		</ItemsControl>
+	</Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type controls:SettingCardItem}" TargetType="controls:SettingCardItem">
+		<Setter Property="Margin" Value="0 10 0 0"/>
+		<Setter Property="CornerRadius" Value="12"/>
+		<Setter Property="BorderThickness" Value="2"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+		<Setter Property="Background" Value="{DynamicResource GameManagerPanelBackground}"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Padding="10"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+					<Grid ColumnDefinitions="Auto 1* Auto">
+						<TextBlock Text="{TemplateBinding Description}"/>
+						
+						<ContentControl Grid.Column="2"
+										Content="{TemplateBinding Content}"/>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+</ResourceDictionary>

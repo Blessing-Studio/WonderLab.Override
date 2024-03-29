@@ -20,7 +20,7 @@
 		
 		<ui:NavigationView Grid.Row="1"
 						   ClipToBounds="False"
-		                   Content="{Binding ActivePage}"
+		                   Content="{Binding ActivePage.Page}"
 		                   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 			<ui:NavigationView.MenuItems>
 				<ui:NavigationViewItem Icon="&#xEA8A;" 

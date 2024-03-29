@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Navigation;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Classes.Datas;
 
 namespace WonderLab.Services.Navigation;
 
@@ -20,16 +21,19 @@ public sealed class HostNavigationService(LogService logService) : INavigationSe
         { nameof(SettingNavigationPage), App.ServiceProvider.GetRequiredService<SettingNavigationPage> },
     };
     
-    public Action<object> NavigationRequest { get; set; }
+    public Action<NavigationPageData> NavigationRequest { get; set; }
 
     public void NavigationTo<TViewModel>() where TViewModel : ViewModelBase {
-        var viewName = typeof(TViewModel).Name;
-        _logService.Info(nameof(HostNavigationService), $"The name of the page to be navigated is {viewName.Replace("ViewModel", "")}");
+        var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
+        _logService.Info(nameof(HostNavigationService), $"The name of the page to be navigated is {viewName}");
         
-        if (_pages.TryGetValue(viewName.Replace("ViewModel", ""), out var pageFunc)) {
-            object pageEntry = pageFunc();
-            (pageEntry as UserControl)!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
-            NavigationRequest?.Invoke(pageEntry);
+        if (_pages.TryGetValue(viewName, out var pageFunc)) {
+            object pageObject = pageFunc();
+            (pageObject as UserControl)!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
+            NavigationRequest?.Invoke(new NavigationPageData {
+                Page = pageObject,
+                PageKey = viewName,
+            });
         }
     }
 }
