@@ -2,28 +2,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000"
              x:Class="WonderLab.Views.Pages.Setting.LaunchSettingPage"
 			 xmlns:ui="using:WonderLab.Views.Controls">
-	<ItemsControl Margin="0 10 0 0">
-		<ItemsControl.ItemsPanel>
-			<ItemsPanelTemplate>
-				<StackPanel Spacing="15"/>
-			</ItemsPanelTemplate>
-		</ItemsControl.ItemsPanel>
-		
-		<ui:SettingCard>
-			<ItemsControl>
-				<ui:SettingCardItem/>
-				<ui:SettingCardItem/>
-			</ItemsControl>
-		</ui:SettingCard>
+	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<ItemsControl Margin="0 12 0 12">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Spacing="15"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
 
-		<ui:SettingCard>
-			<ItemsControl>
-				<ui:SettingCardItem/>
-				<ui:SettingCardItem/>
-			</ItemsControl>
-		</ui:SettingCard>
-	</ItemsControl>
+			<ui:SettingCard Title="Minecraft 目录设置">
+				<ItemsControl>
+					<ui:SettingCardItem Description="选择目录：">
+						<ComboBox/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="打开目录：">
+						<Button Content="浏览"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="操作当前选择目录：">
+						<Button Content="移除"/>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+
+			<ui:SettingCard Title="Java 设置">
+				<ItemsControl>
+					<ui:SettingCardItem Description="选择 Java：">
+						<ComboBox/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="打开 Java：">
+						<StackPanel Spacing="8"
+									Orientation="Horizontal">
+							<Button Content="浏览"/>
+
+							<Button Content="搜索"/>
+						</StackPanel>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="操作当前选择 Java：">
+						<Button Content="移除"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="自动为游戏选择最合适的 Java：">
+						<ToggleSwitch OnContent=""
+									  OffContent=""
+									  Margin="0 0 -10 0"/>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+
+			<ui:SettingCard Title="游戏运行设置">
+				<ItemsControl>
+					<ui:SettingCardItem Description="游戏内存分配：">
+						<TextBox UseFloatingWatermark="False"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="自动为游戏分配最合适的内存量：">
+						<ToggleSwitch OnContent=""
+									  OffContent=""
+									  Margin="0 0 -10 0"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="版本隔离：">
+						<ToggleSwitch OnContent=""
+									  OffContent=""
+									  Margin="0 0 -10 0"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="全屏模式：">
+						<ToggleSwitch OnContent=""
+									  OffContent=""
+									  Margin="0 0 -10 0"/>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+		</ItemsControl>
+	</ui:SmoothScrollViewer>
 </UserControl>

@@ -26,6 +26,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardItemTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/GameManagerPanelTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewItemTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/SmoothScrollViewerTheme.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			
 			<converter:BooleanReverseConverter x:Key="BooleanReverseConverter"/>

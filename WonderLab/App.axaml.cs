@@ -102,8 +102,8 @@ public sealed partial class App : Application {
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {
-        services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<HomePageViewModel>();
+        services.AddSingleton<MainWindowViewModel>();
         
         services.AddSingleton<SettingNavigationPageViewModel>();
         services.AddSingleton<DownloadNavigationPageViewModel>();

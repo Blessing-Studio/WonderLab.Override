@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				    xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
-		<controls:SettingCard>
+		<Grid>
 			<controls:SettingCardItem/>
 			<controls:SettingCardItem/>
-		</controls:SettingCard>
+		</Grid>
 	</Design.PreviewWith>
 	
 	<ControlTheme x:Key="{x:Type controls:SettingCard}" TargetType="controls:SettingCard">
@@ -13,11 +13,15 @@
 			<ControlTemplate>
 				<Border Name="Layout">
 					<Grid RowDefinitions="Auto, 1*">
-						<TextBlock VerticalAlignment="Top"
+						<TextBlock FontWeight="Bold"
+								   VerticalAlignment="Top"
 								   HorizontalAlignment="Left"
 								   Text="{TemplateBinding Title}"/>
 						
-						<ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}"/>
+						<ContentPresenter Grid.Row="1"
+										  VerticalAlignment="Center"
+										  VerticalContentAlignment="Center"
+										  Content="{TemplateBinding Content}"/>
 					</Grid>
 				</Border>
 			</ControlTemplate>

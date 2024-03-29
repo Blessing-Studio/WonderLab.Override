@@ -8,7 +8,7 @@
   </Design.PreviewWith>
   <!-- Add Resources Here -->
   <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
-    <Setter Property="MinHeight" Value="45" />
+    <Setter Property="MinHeight" Value="35" />
     <Setter Property="MinWidth" Value="200" />
     <Setter Property="CornerRadius" Value="12" />
     <Setter Property="ClipToBounds" Value="False"/>

@@ -22,7 +22,7 @@ public partial class SettingNavigationPageViewModel : ViewModelBase {
                 if (ActivePage?.PageKey != p.PageKey) {
                     ActivePage = p;
                 }
-            }, DispatcherPriority.ApplicationIdle);
+            }, DispatcherPriority.SystemIdle);
         };
 
         _controlService = controlService;

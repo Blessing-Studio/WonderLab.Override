@@ -22,10 +22,12 @@
 						BorderBrush="{TemplateBinding BorderBrush}"
 						CornerRadius="{TemplateBinding CornerRadius}"
 						BorderThickness="{TemplateBinding BorderThickness}">
-					<Grid ColumnDefinitions="Auto 1* Auto">
-						<TextBlock Text="{TemplateBinding Description}"/>
+					<Grid ColumnDefinitions="Auto 15 1*">
+						<TextBlock VerticalAlignment="Center"
+								   Text="{TemplateBinding Description}"/>
 						
 						<ContentControl Grid.Column="2"
+										HorizontalAlignment="Right"
 										Content="{TemplateBinding Content}"/>
 					</Grid>
 				</Border>

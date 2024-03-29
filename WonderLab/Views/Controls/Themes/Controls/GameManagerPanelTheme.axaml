@@ -77,6 +77,7 @@
                                </Transitions>
                             </Grid.Transitions>
                             <TextBox Margin="12 8 12 5"
+									 Height="45"
                                      Watermark="在此处查找您的本地游戏实例"/>
                             
                             <ListBox Grid.Row="1"
