@@ -85,7 +85,6 @@ public sealed partial class App : Application {
         services.AddSingleton<LogService>();
         services.AddSingleton<GameService>();
         services.AddSingleton<WindowService>();
-        services.AddSingleton<ControlService>();
         services.AddSingleton<SettingService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
