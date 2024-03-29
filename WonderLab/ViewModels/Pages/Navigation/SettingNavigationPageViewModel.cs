@@ -15,7 +15,7 @@ public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
     [ObservableProperty] private object _activeItem;
     [ObservableProperty] private NavigationPageData _activePage;
 
-    public SettingNavigationPageViewModel(SettingNavigationService navigationService, ControlService controlService) {
+    public SettingNavigationPageViewModel(SettingNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
                 if (ActivePage?.PageKey != p.PageKey) {
@@ -24,7 +24,6 @@ public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
             }, DispatcherPriority.SystemIdle);
         };
 
-        _controlService = controlService;
         _navigationService = navigationService;
         _navigationService.NavigationTo<LaunchSettingPageViewModel>();
     }
