@@ -9,9 +9,8 @@ using WonderLab.Services.UI;
 
 namespace WonderLab.ViewModels.Pages.Navigation;
 
-public partial class SettingNavigationPageViewModel : ViewModelBase {
+public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
     private readonly INavigationService _navigationService;
-    private readonly ControlService _controlService;
 
     [ObservableProperty] private object _activeItem;
     [ObservableProperty] private NavigationPageData _activePage;

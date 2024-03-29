@@ -1,5 +1,5 @@
 namespace WonderLab.ViewModels.Pages.Setting;
 
-public class NetworkSettingPageViewModel : ViewModelBase {
+public sealed partial class NetworkSettingPageViewModel : ViewModelBase {
     
 }
