@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Desktop" Version="11.1.0-beta1" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
 		<PackageReference Include="Dotnet.Bundle" Version="*" />
 	</ItemGroup>
 
@@ -42,5 +42,6 @@
 		<SignAssembly>True</SignAssembly>
 		<ApplicationIcon>wonderlab.ico</ApplicationIcon>
 		<StartupObject>WonderLab.Desktop.Program</StartupObject>
+		<UserSecretsId>650eae67-f1f5-4fc8-9914-ea217ada8a3b</UserSecretsId>
 	</PropertyGroup>
 </Project>

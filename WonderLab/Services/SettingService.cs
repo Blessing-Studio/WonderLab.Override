@@ -1,11 +1,11 @@
-using MinecraftLaunch.Extensions;
-using MinecraftLaunch.Utilities;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WonderLab.Classes.Datas;
+using MinecraftLaunch.Utilities;
+using MinecraftLaunch.Extensions;
 
 namespace WonderLab.Services;
 
@@ -17,8 +17,8 @@ namespace WonderLab.Services;
 /// </remarks>
 public sealed class SettingService {
     private readonly FileInfo _settingDataFilePath = new(
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "wonderlab", "settingData.json"));
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        "Blessing-Studio", "wonderlab", "settingData.json"));
 
     public SettingData Data { get; private set; }
 
@@ -35,7 +35,7 @@ public sealed class SettingService {
         }
 
         if (_settingDataFilePath.Exists) {
-            Data = File.ReadAllText(_settingDataFilePath.FullName).Deserialize(SettingDataContext.Default.SettingData);
+            Data = File.ReadAllText(_settingDataFilePath.FullName).AsJsonEntry<SettingData>();
         } else {
             Data = new();
             Save();

@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MinecraftLaunch.Components.Fetcher;
 using System;
 using WonderLab.Services;
 using WonderLab.Services.Game;
@@ -85,9 +86,12 @@ public sealed partial class App : Application {
         services.AddSingleton<LogService>();
         services.AddSingleton<GameService>();
         services.AddSingleton<WindowService>();
+        services.AddSingleton<DialogService>();
         services.AddSingleton<SettingService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
+
+        services.AddScoped<JavaFetcher>();
         //services.AddScoped<TaskService>();
         //services.AddScoped<UpdateService>();
         //services.AddScoped<DownloadService>();

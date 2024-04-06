@@ -65,7 +65,7 @@
                                 BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
                                 VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                                 HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}">
-                    <Grid Margin="0 0"
+                    <Grid Margin="0 0 10 0"
                           ColumnDefinitions="Auto, 1*">
                       <TextBlock Name="PART_Watermark"
                                  Text="{TemplateBinding Watermark}"
@@ -104,7 +104,7 @@
                   </ScrollViewer>
                 </DockPanel>
                 
-                <Button Height="17"
+                <!--<Button Height="17"
                         Width="17"
                         Padding="0"
                         Grid.Column="2"
@@ -120,7 +120,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource DefaultBrush800}"/>
-                </Button>
+                </Button>-->
               </Grid>
             </Border>
           </Panel>

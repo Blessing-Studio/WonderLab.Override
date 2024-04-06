@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Input;
 using Avalonia.Controls;
 using WonderLab.Views.Windows;
+using Avalonia.Platform.Storage;
 
 namespace WonderLab.Services.UI;
 
@@ -16,6 +17,10 @@ public sealed class WindowService(MainWindow window) {
         _mainWindow.Close();
     }
     
+    public IStorageProvider GetStorageProvider() {
+        return _mainWindow.StorageProvider;
+    }
+
     public void SetWindowState(WindowState state) {
         _mainWindow.WindowState = state;
     }

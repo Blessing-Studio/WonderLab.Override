@@ -12,8 +12,8 @@
         Title="WonderLab"
         Background="Transparent"
         TransparencyLevelHint="Mica"
-        ExtendClientAreaToDecorationsHint="False"
-        ExtendClientAreaChromeHints="{Binding SystemChromeType}"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}"
 		Icon="/Assets/wonderlab.ico">
 	<Grid RowDefinitions="Auto, 1*">
 		<ui:SuperTitleBar Grid.Row="0"/>
@@ -37,11 +37,10 @@
 				                       CommandParameter="DownloadNavigationPage"
 				                       Foreground="{DynamicResource SuccessBaseColor}"/>
 
-				<!-- <ui:NavigationViewItem Icon="&#xF0B9;" -->
-				<!--                        Content="联机" -->
-				<!--                        IsSelected="False" -->
-				<!--                        Tag="Setting.SettingPage" -->
-				<!--                        Foreground="{DynamicResource WarningBaseColor}"/> -->
+				 <ui:NavigationViewItem Icon="&#xF0B9;" 
+				                        Content="联机" 
+				                        IsSelected="False" 
+				                        Foreground="{DynamicResource WarningBaseColor}"/> 
 
 				<ui:NavigationViewItem Icon="&#xF8B0;"
 									   Content="设置"

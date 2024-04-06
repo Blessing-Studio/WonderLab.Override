@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1000"
              x:Class="WonderLab.Views.Pages.Setting.LaunchSettingPage"
-			 xmlns:ui="using:WonderLab.Views.Controls">
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+			 xmlns:ml="using:MinecraftLaunch.Classes.Models.Game"
+			 x:DataType="vm:LaunchSettingPageViewModel">
 	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
 		<ItemsControl Margin="0 12 0 12">
 			<ItemsControl.ItemsPanel>
@@ -16,15 +19,20 @@
 			<ui:SettingCard Title="Minecraft 目录设置">
 				<ItemsControl>
 					<ui:SettingCardItem Description="选择目录：">
-						<ComboBox/>
+						<ComboBox ItemsSource="{Binding GameFolders}"
+								  SelectedItem="{Binding ActiveGameFolder}"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="打开目录：">
-						<Button Content="浏览"/>
+						<Button Content="浏览"
+								CommandParameter="Folder"
+								Command="{Binding SearchCommand}"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="操作当前选择目录：">
-						<Button Content="移除"/>
+						<Button Content="移除"
+								CommandParameter="Folder"
+								Command="{Binding RemoveCommand}"/>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
@@ -32,26 +40,39 @@
 			<ui:SettingCard Title="Java 设置">
 				<ItemsControl>
 					<ui:SettingCardItem Description="选择 Java：">
-						<ComboBox/>
+						<ComboBox SelectedItem="{Binding ActiveJava}"
+								  ItemsSource="{Binding Javas, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding JavaPath}"/>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="打开 Java：">
 						<StackPanel Spacing="8"
 									Orientation="Horizontal">
-							<Button Content="浏览"/>
+							<Button Content="浏览"
+									CommandParameter="Java"
+									Command="{Binding SearchCommand}"/>
 
-							<Button Content="搜索"/>
+							<Button Content="搜索" 
+									Command="{Binding AutoSearchCommand}"/>
 						</StackPanel>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="操作当前选择 Java：">
-						<Button Content="移除"/>
+						<Button Content="移除"
+								CommandParameter="Java"
+								Command="{Binding RemoveCommand}"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="自动为游戏选择最合适的 Java：">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
-									  Margin="0 0 -10 0"/>
+									  Margin="0 0 -10 0"
+									  IsChecked="{Binding IsAutoSelectJava}"/>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
@@ -59,25 +80,29 @@
 			<ui:SettingCard Title="游戏运行设置">
 				<ItemsControl>
 					<ui:SettingCardItem Description="游戏内存分配：">
-						<TextBox UseFloatingWatermark="False"/>
+						<TextBox Text="{Binding MaxMemory}"
+								 UseFloatingWatermark="False"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="自动为游戏分配最合适的内存量：">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
-									  Margin="0 0 -10 0"/>
+									  Margin="0 0 -10 0"
+									  IsChecked="{Binding IsAutoAllocateMemory}"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="版本隔离：">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
-									  Margin="0 0 -10 0"/>
+									  Margin="0 0 -10 0"
+									  IsChecked="{Binding IsGameIndependent}"/>
 					</ui:SettingCardItem>
 
 					<ui:SettingCardItem Description="全屏模式：">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
-									  Margin="0 0 -10 0"/>
+									  Margin="0 0 -10 0"
+									  IsChecked="{Binding IsFullScreen}"/>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>

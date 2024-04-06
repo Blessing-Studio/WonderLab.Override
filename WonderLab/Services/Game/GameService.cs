@@ -24,13 +24,14 @@ public sealed class GameService {
         _settingService = settingService;
         _gameEntries = new();
         GameEntries = new(_gameEntries);
-        if (string.IsNullOrEmpty(_settingService?.Data?.ActiveGameFolder)) {
-            //Initialize();
+        if (!string.IsNullOrEmpty(_settingService?.Data?.ActiveGameFolder)) {
+            Initialize();
         }
     }
 
     private void Initialize() {
         _logService.Info(nameof(GameService), "Start initializing this service");
+
         _gameResolver = new GameResolver(_settingService?.Data?.ActiveGameFolder ?? "C:\\Users\\w\\Desktop\\temp\\.minecraft");
         RefreshGameViewEntry();
     }

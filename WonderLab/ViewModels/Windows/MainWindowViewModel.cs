@@ -21,7 +21,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     private bool _isOpenBackgroundPanel;
 
     [ObservableProperty]
-    private ExtendClientAreaChromeHints _systemChromeType;
+    private bool _isTitleBarVisible;
 
     public MainWindowViewModel(HostNavigationService navigationService) {
         navigationService.NavigationRequest += p => {
@@ -36,7 +36,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         _navigationService = navigationService;
         _navigationService.NavigationTo<HomePageViewModel>();
 
-        SystemChromeType = EnvironmentUtil.IsWindow ? ExtendClientAreaChromeHints.NoChrome : ExtendClientAreaChromeHints.Default;
+        IsTitleBarVisible = EnvironmentUtil.IsWindow ? true : false;
     }
 
 

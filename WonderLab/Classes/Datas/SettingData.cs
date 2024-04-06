@@ -14,21 +14,36 @@ public sealed record SettingData {
 
     [JsonPropertyName("activeAccount")]
     public Account ActiveAccount { get; set; }
-    
+
+    [JsonPropertyName("maxMemory")]
+    public int MaxMemory { get; set; } = 1024;
+
     [JsonPropertyName("activeGameId")]
     public string ActiveGameId { get; set; }
     
     [JsonPropertyName("activeGameFolder")]
     public string ActiveGameFolder { get; set; }
-    
+
+    [JsonPropertyName("isFullScreen")]
+    public bool IsFullScreen { get; set; }
+
+    [JsonPropertyName("isGameIndependent")]
+    public bool IsGameIndependent { get; set; }
+
+    [JsonPropertyName("isAutoAllocateMemory")]
+    public bool IsAutoAllocateMemory { get; set; }
+
+    [JsonPropertyName("isAutoSelectJava")]
+    public bool IsAutoSelectJava { get; set; }
+
     [JsonPropertyName("javas")]
-    public ObservableCollection<JavaEntry> Javas { get; set; }
+    public ObservableCollection<JavaEntry> Javas { get; set; } = [];
     
     [JsonPropertyName("accounts")]
-    public ObservableCollection<Account> Accounts { get; set; }
-    
+    public ObservableCollection<Account> Accounts { get; set; } = [];
+
     [JsonPropertyName("gameFolders")]
-    public ObservableCollection<string> GameFolders { get; set; }
+    public ObservableCollection<string> GameFolders { get; set; } = [];
 }
 
 [JsonSerializable(typeof(SettingData))]

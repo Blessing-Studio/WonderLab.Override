@@ -7,7 +7,7 @@
             <ControlTemplate TargetType="PopupRoot">
                 <VisualLayerManager IsPopup="True">
                     <control:RollingBorder x:Name="PopupBorder"
-                                           Margin="10,0,10,30"
+                                           Margin="10,3,10,30"
                                            CornerRadius="6"
                                            RenderTransformOrigin="0% 0%"
                                            Background="{TemplateBinding Background}">
@@ -28,12 +28,11 @@
         <Style Selector="^ /template/ control|RollingBorder#PopupBorder">
             <Style.Animations>
                 <Animation FillMode="Forward"
-                           IterationCount="1" Easing="QuinticEaseOut"
+                           IterationCount="1" Easing="CircularEaseOut"
                            Duration="0:0:1">
-                    
                     <KeyFrame Cue="0%">
                         <Setter Property="Opacity" Value="0"/>
-                        <Setter Property="Percent" Value="65"/>
+                        <Setter Property="Percent" Value="55"/>
                         <Setter Property="BoxShadow" Value="0 0 0 0 #3000"/>
                     </KeyFrame>
             
