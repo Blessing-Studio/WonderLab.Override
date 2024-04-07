@@ -38,11 +38,17 @@ public sealed partial class App : Application {
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+            var themeService = ServiceProvider.GetRequiredService<ThemeService>();
+            var windowService = ServiceProvider.GetRequiredService<WindowService>();
             var dataService = ServiceProvider.GetRequiredService<SettingService>();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;
+            themeService.SetCurrentTheme(dataService.Data.ThemeIndex);
+
             desktop.MainWindow = mainWindow;
+            windowService.SetBackground(dataService.Data.BackgroundIndex);
+
             mainWindow.DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>();
             
             desktop.Exit += (sender, args) => dataService.Save();
@@ -85,6 +91,7 @@ public sealed partial class App : Application {
     private static void ConfigureServices(IServiceCollection services) {
         services.AddSingleton<LogService>();
         services.AddSingleton<GameService>();
+        services.AddSingleton<ThemeService>();
         services.AddSingleton<WindowService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<SettingService>();

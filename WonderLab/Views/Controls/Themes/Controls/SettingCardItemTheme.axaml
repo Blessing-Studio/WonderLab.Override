@@ -10,7 +10,7 @@
 	</Design.PreviewWith>
 
 	<ControlTheme x:Key="{x:Type controls:SettingCardItem}" TargetType="controls:SettingCardItem">
-		<Setter Property="Margin" Value="0 10 0 0"/>
+		<Setter Property="Margin" Value="0 12 0 0"/>
 		<Setter Property="CornerRadius" Value="12"/>
 		<Setter Property="BorderThickness" Value="2"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>

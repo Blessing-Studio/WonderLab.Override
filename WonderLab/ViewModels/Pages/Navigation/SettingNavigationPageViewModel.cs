@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.Classes.Datas;
 using Avalonia.Threading;
 using WonderLab.Services.UI;
+using WonderLab.Views.Pages.Setting;
 
 namespace WonderLab.ViewModels.Pages.Navigation;
 
@@ -33,6 +34,9 @@ public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
         switch (pageKey) {
             case "LaunchSettingPage":
                 _navigationService.NavigationTo<LaunchSettingPageViewModel>(); 
+                break;
+            case "DetailSettingPage":
+                _navigationService.NavigationTo<DetailSettingPageViewModel>();
                 break;
             case "AccountSettingPage":
                 _navigationService.NavigationTo<AccountSettingPageViewModel>(); 

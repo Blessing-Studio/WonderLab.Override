@@ -15,69 +15,82 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}"
 		Icon="/Assets/wonderlab.ico">
-	<Grid RowDefinitions="Auto, 1*">
-		<ui:SuperTitleBar Grid.Row="0"/>
+	<Panel>
+		<ExperimentalAcrylicBorder Name="AcrylicMaterial" 
+								   IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
 		
-		<ui:NavigationView Grid.Row="1"
-						   ClipToBounds="False"
-		                   Content="{Binding ActivePage.Page}"
-		                   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
-			<ui:NavigationView.MenuItems>
-				<ui:NavigationViewItem Icon="&#xEA8A;" 
-									   Content="主页"
-									   Tag="HomePage"
-									   IsSelected="True"
-									   CommandParameter="HomePage"
-									   Command="{Binding NavigationToCommand}"
-									   Foreground="{DynamicResource PrimaryBaseColor}"/>
-				
-				<ui:NavigationViewItem Icon="&#xEDDC;"
-				                       Content="下载"
-				                       Command="{Binding NavigationToCommand}"
-				                       CommandParameter="DownloadNavigationPage"
-				                       Foreground="{DynamicResource SuccessBaseColor}"/>
+		<Grid RowDefinitions="Auto, 1*">
+			<ui:SuperTitleBar Grid.Row="0"/>
 
-				 <ui:NavigationViewItem Icon="&#xF0B9;" 
-				                        Content="联机" 
-				                        IsSelected="False" 
-				                        Foreground="{DynamicResource WarningBaseColor}"/> 
+			<ui:NavigationView Grid.Row="1"
+							   ClipToBounds="False"
+							   Content="{Binding ActivePage.Page}"
+							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
+				<ui:NavigationView.MenuItems>
+					<ui:NavigationViewItem Icon="&#xEA8A;"
+										   Content="主页"
+										   Tag="HomePage"
+										   IsSelected="True"
+										   CommandParameter="HomePage"
+										   Command="{Binding NavigationToCommand}"
+										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
-				<ui:NavigationViewItem Icon="&#xF8B0;"
-									   Content="设置"
-									   Command="{Binding NavigationToCommand}"
-									   CommandParameter="SettingNavigationPage"
-									   Foreground="{DynamicResource SecondaryBaseColor}"/>
-			</ui:NavigationView.MenuItems>
-			
-			<ui:NavigationView.FooterContent>
-				<Grid ColumnDefinitions="Auto,Auto">
-					<Button Classes="ripple"
-					        Margin="0 5 0 5"
-					        Padding="10 1 10 1"
-					        CornerRadius="10"
-					        Background="Transparent"
-					        VerticalAlignment="Center">
-						<Grid ColumnDefinitions="Auto,Auto">
-							<ui:FontIcon Glyph="&#xE7E7;"
-							             FontSize="18"
-							             Grid.Column="1"
-							             Margin="8 0 0 0"
-							             VerticalAlignment="Center"/>
-							
-							<Grid Grid.Column="0" RowDefinitions="Auto, Auto">
-								<TextBlock Text="15:04"
-								           FontSize="12"
-								           TextAlignment="Right"/>
-						
-								<TextBlock Grid.Row="1"						           
-								           FontSize="12"
-								           Text="2024/1/17"
-								           TextAlignment="Right"/>
+					<ui:NavigationViewItem Icon="&#xEDDC;"
+										   Content="下载"
+										   Command="{Binding NavigationToCommand}"
+										   CommandParameter="DownloadNavigationPage"
+										   Foreground="{DynamicResource SuccessBaseColor}"/>
+
+					<ui:NavigationViewItem Icon="&#xF0B9;"
+										   Content="联机"
+										   IsSelected="False"
+										   Foreground="{DynamicResource WarningBaseColor}"/>
+
+					<ui:NavigationViewItem Icon="&#xF8B0;"
+										   Content="设置"
+										   Command="{Binding NavigationToCommand}"
+										   CommandParameter="SettingNavigationPage"
+										   Foreground="{DynamicResource SecondaryColor600}"/>
+				</ui:NavigationView.MenuItems>
+
+				<ui:NavigationView.FooterContent>
+					<Grid ColumnDefinitions="Auto,Auto">
+						<Button Classes="ripple"
+								Margin="0 5 0 5"
+								Padding="10 1 10 1"
+								CornerRadius="10"
+								Background="Transparent"
+								VerticalAlignment="Center">
+							<Grid ColumnDefinitions="Auto,Auto">
+								<ui:FontIcon Glyph="&#xE7E7;"
+											 FontSize="18"
+											 Grid.Column="1"
+											 Margin="8 0 0 0"
+											 VerticalAlignment="Center"/>
+
+								<Grid Grid.Column="0" RowDefinitions="Auto, Auto">
+									<TextBlock Text="15:04"
+											   FontSize="12"
+											   TextAlignment="Right"/>
+
+									<TextBlock Grid.Row="1"
+											   FontSize="12"
+											   Text="2024/1/17"
+											   TextAlignment="Right"/>
+								</Grid>
 							</Grid>
-						</Grid>
-					</Button>
-				</Grid>
-			</ui:NavigationView.FooterContent>
-		</ui:NavigationView>
-	</Grid>
+						</Button>
+					</Grid>
+				</ui:NavigationView.FooterContent>
+			</ui:NavigationView>
+		</Grid>
+	</Panel>
 </Window>

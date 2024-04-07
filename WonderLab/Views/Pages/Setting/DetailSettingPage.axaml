@@ -3,6 +3,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Pages.Setting.DetailSettingPage">
-    Welcome to Avalonia!
+             x:Class="WonderLab.Views.Pages.Setting.DetailSettingPage"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+			 x:DataType="vm:DetailSettingPageViewModel">
+	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<ItemsControl Margin="0 12 0 12">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Spacing="15"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			
+			
+			<ui:SettingCard Title="外观设置">
+				<ItemsControl>
+					<ui:SettingCardItem Description="切换程序主题：">
+						<ComboBox SelectedIndex="{Binding ThemeIndex}">
+							<ComboBoxItem Content="Light"/>
+							<ComboBoxItem Content="Dark"/>
+							<ComboBoxItem Content="Follow System"/>
+						</ComboBox>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="切换程序背景：">
+						<ComboBox SelectedIndex="{Binding BackgroundIndex}">
+							<ComboBoxItem Content="Mica"/>
+							<ComboBoxItem Content="Acrylic"/>
+							<ComboBoxItem Content="Image"/>
+						</ComboBox>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+
+			<ui:SettingCard Title="语言设置">
+				<ui:SettingCardItem Description="更改语言：">
+					<ComboBox SelectedIndex="0" IsEnabled="False">
+						<ComboBoxItem Content="简体中文"/>
+					</ComboBox>
+				</ui:SettingCardItem>
+			</ui:SettingCard>
+		</ItemsControl>
+	</ui:SmoothScrollViewer>
 </UserControl>

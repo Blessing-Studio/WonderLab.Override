@@ -18,6 +18,12 @@ public sealed record SettingData {
     [JsonPropertyName("maxMemory")]
     public int MaxMemory { get; set; } = 1024;
 
+    [JsonPropertyName("themeIndex")]
+    public int ThemeIndex { get; set; } = 0;
+
+    [JsonPropertyName("backgroundIndex")]
+    public int BackgroundIndex { get; set; } = 0;
+
     [JsonPropertyName("activeGameId")]
     public string ActiveGameId { get; set; }
     
