@@ -10,6 +10,9 @@ using Avalonia.Media.Transformation;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Input;
 using System;
+using Avalonia.Threading;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace WonderLab.Views.Controls;
 
@@ -18,8 +21,10 @@ public sealed class NavigationView : ContentControl {
     private Frame _panelFrame;   
     private Border _backgroundPanel;
     private WindowService _windowService;
+    private CancellationTokenSource _cancellationTokenSource = new();
+
     private double ActualPx => _backgroundPanel.Bounds.Height + 15;
-    
+
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
 
@@ -52,7 +57,11 @@ public sealed class NavigationView : ContentControl {
         set => SetValue(FooterContentProperty, value);
     }
 
-    private void SetContent(object page) {
+    private async void SetContent(object page) {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource = new();
+
         if (_frame is null || _panelFrame is null) {
             return;
         }
@@ -61,12 +70,23 @@ public sealed class NavigationView : ContentControl {
         _panelFrame.Content = null;
         
         var panel = IsOpenBackgroundPanel ? _panelFrame : _frame;
-        panel.Content = page;
+
+        await Dispatcher.UIThread.InvokeAsync(async () => {
+            panel.Content = page;
+
+            await Task.Delay(390, _cancellationTokenSource.Token).ContinueWith(x => {
+                if (x.IsCompletedSuccessfully) {
+                    Dispatcher.UIThread.Post(() => panel.Opacity = 1);
+                }
+            });
+        });
     }
     
     private void SetBackgroundPanelState() {
         var px = IsOpenBackgroundPanel ? 0 : ActualPx;
-        _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
+        Dispatcher.UIThread.Post(() => {
+            _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
+        });
     }
     
     protected override void OnLoaded(RoutedEventArgs e) {

@@ -32,11 +32,20 @@
 									                               Property="RenderTransform"/>
 								</Transitions>
 							</Border.Transitions>
-							
-							<controls:Frame Name="PanelFrame"
-							                ClipToBounds="True"
+
+							<controls:Frame Opacity="0"
+											Name="PanelFrame"
 							                CornerRadius="12"
-							                Background="Transparent"/>
+							                ClipToBounds="True"
+							                Background="Transparent">
+								<controls:Frame.Transitions>
+									<Transitions>
+										<DoubleTransition Property="Opacity"
+														  Duration="0:0:0.35"
+														  Easing="ExponentialEaseOut"/>
+									</Transitions>
+								</controls:Frame.Transitions>
+							</controls:Frame>
 						</Border>
 						
 						<Border Opacity="1"

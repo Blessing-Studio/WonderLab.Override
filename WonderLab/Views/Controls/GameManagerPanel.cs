@@ -62,7 +62,7 @@ public sealed class GameManagerPanel : ContentControl {
     private void OnOpenPaneButtonClick(object? sender, RoutedEventArgs e) {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
-        _cancellationTokenSource = new CancellationTokenSource();
+        _cancellationTokenSource = new();
         
         if (!IsPaneOpen) { 
             OpenPaneAsync();
