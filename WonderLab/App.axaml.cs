@@ -27,7 +27,7 @@ public sealed partial class App : Application {
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
-    public static IStorageProvider? StorageProvider { get; private set; }
+    public static IStorageProvider StorageProvider { get; private set; }
 
     public override void Initialize() {
         base.Initialize();
@@ -35,26 +35,31 @@ public sealed partial class App : Application {
     }
 
     public override void OnFrameworkInitializationCompleted() {
+        var dataService = ServiceProvider.GetRequiredService<SettingService>();
+        var themeService = ServiceProvider.GetRequiredService<ThemeService>();
+        var windowService = ServiceProvider.GetRequiredService<WindowService>();
+        var languageService = ServiceProvider.GetRequiredService<LanguageService>();
+
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var themeService = ServiceProvider.GetRequiredService<ThemeService>();
-            var windowService = ServiceProvider.GetRequiredService<WindowService>();
-            var dataService = ServiceProvider.GetRequiredService<SettingService>();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;
-            themeService.SetCurrentTheme(dataService.Data.ThemeIndex);
-
             desktop.MainWindow = mainWindow;
-            windowService.SetBackground(dataService.Data.BackgroundIndex);
+            Init();
 
             mainWindow.DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-            
             desktop.Exit += (sender, args) => dataService.Save();
         }
 
         base.OnFrameworkInitializationCompleted();
+
+        void Init() {
+            themeService.SetCurrentTheme(dataService.Data.ThemeIndex);
+            languageService.SetLanguage(dataService.Data.LanguageIndex);
+            windowService.SetBackground(dataService.Data.BackgroundIndex);
+        }
     }
 
     private static IHostBuilder Build() {
@@ -89,6 +94,8 @@ public sealed partial class App : Application {
     }
 
     private static void ConfigureServices(IServiceCollection services) {
+        services.AddScoped<JavaFetcher>();
+
         services.AddSingleton<LogService>();
         services.AddSingleton<GameService>();
         services.AddSingleton<ThemeService>();
@@ -99,7 +106,6 @@ public sealed partial class App : Application {
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 
-        services.AddScoped<JavaFetcher>();
         //services.AddScoped<TaskService>();
         //services.AddScoped<UpdateService>();
         //services.AddScoped<DownloadService>();

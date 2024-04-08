@@ -47,6 +47,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
         Javas = _data.Javas;
         ActiveJava = _data.ActiveJava;
         GameFolders = _data.GameFolders;
+        MaxMemory = _data.MaxMemory.ToString();
         ActiveGameFolder = _data.ActiveGameFolder;
 
         IsFullScreen = _data.IsFullScreen;

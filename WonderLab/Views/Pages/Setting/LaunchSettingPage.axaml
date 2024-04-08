@@ -57,7 +57,7 @@
 									Orientation="Horizontal">
 							<Button CornerRadius="6"
 									CommandParameter="Java"
-									Content="{DynamicResource Search}"
+									Content="{DynamicResource Browse}"
 									Command="{Binding SearchCommand}"/>
 
 							<Button CornerRadius="6"
