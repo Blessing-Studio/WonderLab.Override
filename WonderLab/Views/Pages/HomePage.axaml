@@ -19,8 +19,8 @@
                 CornerRadius="16"
 				Classes="launchbutton">
             <TextBlock FontSize="16"
-                       Text="启动游戏"
                        FontWeight="Bold"
+                       Text="{DynamicResource Launch}"
                        Foreground="{DynamicResource ContentBrush1}"/>
         </Button>
     </Grid>

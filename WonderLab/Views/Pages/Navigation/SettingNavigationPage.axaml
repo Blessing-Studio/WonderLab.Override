@@ -21,36 +21,36 @@
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
 				<controls:NavigationViewItem Width="145"
-											 Content="启动"
                                              Icon="&#xE945;"
                                              IsSelected="True"
 											 Margin="0 5 0 0"
                                              Classes="sidebaritem"
+											 Content="{DynamicResource Launch}"
                                              CommandParameter="LaunchSettingPage"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
 
 				<controls:NavigationViewItem Width="145"
-							                Content="账户"
-							                Icon="&#xE716;"
-							                Classes="sidebaritem"
-							                CommandParameter="AccountSettingPage"
-							                Command="{Binding NavigationToCommand}"
-							                Foreground="{DynamicResource SecondaryBrush600}"/>
+							                 Icon="&#xE716;"
+							                 Classes="sidebaritem"
+											 Content="{DynamicResource Account}"
+							                 CommandParameter="AccountSettingPage"
+							                 Command="{Binding NavigationToCommand}"
+							                 Foreground="{DynamicResource SecondaryBrush600}"/>
 				
 				<controls:NavigationViewItem Width="145"
-											 Content="网络"
                                              Icon="&#xE701;"
                                              Classes="sidebaritem"
+											 Content="{DynamicResource Network}"
                                              CommandParameter="NetworkSettingPage"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
 
 				<controls:NavigationViewItem Width="145"
-											 Content="个性化"
                                              Icon="&#xE790;"
                                              Classes="sidebaritem"
                                              CommandParameter="DetailSettingPage"
+											 Content="{DynamicResource Appearance}"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
 			</ListBox>

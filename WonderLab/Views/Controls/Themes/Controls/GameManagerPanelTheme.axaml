@@ -57,11 +57,11 @@
                                        HorizontalAlignment="Left"/>
 						 
                             <TextBlock Grid.Row="1"
-                                       Text="未知"
                                        FontSize="12"
+                                       Margin="0 2 0 0"
                                        Name="SubTitleTextBlock"
-                                       Margin="0 5 0 0"
                                        TextTrimming="CharacterEllipsis"
+                                       Text="{DynamicResource Unknown}"
                                        Foreground="{DynamicResource DefaultBrush400}"/>
                         </Grid>
 
@@ -76,9 +76,9 @@
                                                      Easing="QuinticEaseOut"/>
                                </Transitions>
                             </Grid.Transitions>
-                            <TextBox Margin="12 8 12 5"
-									 Height="45"
-                                     Watermark="在此处查找您的本地游戏实例"/>
+                            <TextBox Height="45"
+									 Margin="12 8 12 5"
+                                     Watermark="{DynamicResource GameSearchBoxWatermark}"/>
                             
                             <ListBox Grid.Row="1"
                                      Margin="0 5 0 0"
@@ -166,13 +166,13 @@
                         <Button Grid.Row="1"
                                 FontSize="13"
                                 Classes="ripple"
-                                Content="展开界面"
                                 Padding="0 3 3 3"
                                 FontWeight="Bold"
                                 Name="OpenPaneButton"
                                 Background="Transparent"
                                 VerticalAlignment="Bottom"
                                 Command="{TemplateBinding OpenCommand}"
+                                Content="{DynamicResource ExpandInterface}"  
                                 Foreground="{DynamicResource PrimaryBrush500}"/>
                     </Grid>
                 </Border>

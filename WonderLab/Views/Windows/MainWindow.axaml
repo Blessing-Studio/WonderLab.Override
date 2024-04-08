@@ -36,26 +36,24 @@
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.MenuItems>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
-										   Content="主页"
-										   Tag="HomePage"
 										   IsSelected="True"
 										   CommandParameter="HomePage"
+										   Content="{DynamicResource Home}"
 										   Command="{Binding NavigationToCommand}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xEDDC;"
-										   Content="下载"
+										   Content="{DynamicResource Download}"
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="DownloadNavigationPage"
 										   Foreground="{DynamicResource SuccessBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF0B9;"
-										   Content="联机"
-										   IsSelected="False"
+										   Content="{DynamicResource Online}"
 										   Foreground="{DynamicResource WarningBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF8B0;"
-										   Content="设置"
+										   Content="{DynamicResource Setting}"
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="SettingNavigationPage"
 										   Foreground="{DynamicResource SecondaryColor600}"/>

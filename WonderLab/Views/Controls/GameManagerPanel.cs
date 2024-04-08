@@ -8,7 +8,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Datas.ViewData;
+using WonderLab.Services.UI;
 using WonderLab.Utilities;
 
 namespace WonderLab.Views.Controls;
@@ -17,15 +19,18 @@ namespace WonderLab.Views.Controls;
 /// 游戏实体管理面板控件
 /// </summary>
 public sealed class GameManagerPanel : ContentControl {
-    private Grid _contentPanel = default!;
-    private ListBox _gameListBox = default!;
-    private Button _openPaneButton = default!;
-    private TextBlock _titleTextBlock = default!;
-    private TextBlock _subTitleTextBlock = default!;
+    private Grid _contentPanel;
+    private ListBox _gameListBox;
+    private Button _openPaneButton;
+    private TextBlock _titleTextBlock;
+    private TextBlock _subTitleTextBlock;
+    private LanguageService _languageService;
+
     private Rect _rectCache = new(0, 0, 155, 85);
     private CancellationTokenSource _cancellationTokenSource = new();
+
     private readonly Rect _maxRect = new(0, 0, 645, 370);
-    
+
     public bool IsPaneOpen {
         get => GetValue(IsPaneOpenProperty); 
         set => SetValue(IsPaneOpenProperty, value);
@@ -76,7 +81,10 @@ public sealed class GameManagerPanel : ContentControl {
             Dispatcher.UIThread.Post(() => {
                 Width = _maxRect.Width;
                 Height = _maxRect.Height;
-                _openPaneButton.Content = "收起界面";
+                if (_languageService.TryGetValue("CollapseInterface", out var text)) {
+                    _openPaneButton.Content = text;
+                }
+
                 IsPaneOpen = true;
             });
 
@@ -92,7 +100,10 @@ public sealed class GameManagerPanel : ContentControl {
                 _contentPanel.Opacity = 0;
                 Height = 85;
                 Width = _rectCache.Width;
-                _openPaneButton.Content = "展开界面";
+                if (_languageService.TryGetValue("ExpandInterface", out var text)) {
+                    _openPaneButton.Content = text;
+                }
+
                 IsPaneOpen = false;
             });
         }
@@ -108,6 +119,9 @@ public sealed class GameManagerPanel : ContentControl {
             _contentPanel.Opacity = 0;
             _titleTextBlock.Text = SelectedGame.Entry.Id;
         }
+
+        _languageService = App.ServiceProvider
+            .GetRequiredService<LanguageService>();
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {

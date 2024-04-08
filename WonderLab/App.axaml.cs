@@ -95,6 +95,7 @@ public sealed partial class App : Application {
         services.AddSingleton<WindowService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<SettingService>();
+        services.AddSingleton<LanguageService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 

@@ -21,6 +21,9 @@ public sealed record SettingData {
     [JsonPropertyName("themeIndex")]
     public int ThemeIndex { get; set; } = 0;
 
+    [JsonPropertyName("languageIndex")]
+    public int LanguageIndex { get; set; } = 0;
+
     [JsonPropertyName("backgroundIndex")]
     public int BackgroundIndex { get; set; } = 0;
 

@@ -16,32 +16,32 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ui:SettingCard Title="Minecraft 目录设置">
+			<ui:SettingCard Title="{DynamicResource FolderSettingTitle}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="选择目录：">
+					<ui:SettingCardItem Description="{DynamicResource SelectFolder}">
 						<ComboBox ItemsSource="{Binding GameFolders}"
 								  SelectedItem="{Binding ActiveGameFolder}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="打开目录：">
-						<Button Content="浏览"
-								CornerRadius="6"
+					<ui:SettingCardItem Description="{DynamicResource OpenNewFolder}">
+						<Button CornerRadius="6"
 								CommandParameter="Folder"
-								Command="{Binding SearchCommand}"/>
+								Command="{Binding SearchCommand}"
+								Content="{DynamicResource Browse}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="操作当前选择目录：">
-						<Button Content="移除"
-								CornerRadius="6"
+					<ui:SettingCardItem Description="{DynamicResource RemoveFolder}">
+						<Button CornerRadius="6"
 								CommandParameter="Folder"
-								Command="{Binding RemoveCommand}"/>
+								Command="{Binding RemoveCommand}"
+								Content="{DynamicResource Remove}"/>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="Java 设置">
+			<ui:SettingCard Title="{DynamicResource JavaSettingTitle}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="选择 Java：">
+					<ui:SettingCardItem Description="{DynamicResource SelectJava}">
 						<ComboBox SelectedItem="{Binding ActiveJava}"
 								  ItemsSource="{Binding Javas, Mode=TwoWay}">
 							<ComboBox.ItemTemplate>
@@ -52,28 +52,28 @@
 						</ComboBox>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="打开 Java：">
+					<ui:SettingCardItem Description="{DynamicResource OpenNewJava}">
 						<StackPanel Spacing="8"
 									Orientation="Horizontal">
-							<Button Content="浏览"
-								CornerRadius="6"
+							<Button CornerRadius="6"
 									CommandParameter="Java"
+									Content="{DynamicResource Search}"
 									Command="{Binding SearchCommand}"/>
 
-							<Button Content="搜索"
-								CornerRadius="6"
+							<Button CornerRadius="6"
+									Content="{DynamicResource Search}"
 									Command="{Binding AutoSearchCommand}"/>
 						</StackPanel>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="操作当前选择 Java：">
-						<Button Content="移除"
+					<ui:SettingCardItem Description="{DynamicResource RemoveJava}">
+						<Button CornerRadius="6"
 								CommandParameter="Java"
-								CornerRadius="6"
-								Command="{Binding RemoveCommand}"/>
+								Command="{Binding RemoveCommand}"
+								Content="{DynamicResource Remove}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="自动为游戏选择最合适的 Java：">
+					<ui:SettingCardItem Description="{DynamicResource AutoSelectJava}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
@@ -82,28 +82,28 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="游戏运行设置">
+			<ui:SettingCard Title="{DynamicResource GameSettingTitle}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="游戏内存分配：">
+					<ui:SettingCardItem Description="{DynamicResource AllocateMemory}">
 						<TextBox Text="{Binding MaxMemory}"
 								 UseFloatingWatermark="False"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="自动为游戏分配最合适的内存量：">
+					<ui:SettingCardItem Description="{DynamicResource AutoAllocateMemory}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsAutoAllocateMemory}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="版本隔离：">
+					<ui:SettingCardItem Description="{DynamicResource GameIndependent}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsGameIndependent}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="全屏模式：">
+					<ui:SettingCardItem Description="{DynamicResource FullScreenMode}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"

@@ -16,9 +16,9 @@
 			</ItemsControl.ItemsPanel>
 			
 			
-			<ui:SettingCard Title="外观设置">
+			<ui:SettingCard Title="{DynamicResource AppearanceSettingTitle}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="切换程序主题：">
+					<ui:SettingCardItem Description="{DynamicResource AppTheme}">
 						<ComboBox SelectedIndex="{Binding ThemeIndex}">
 							<ComboBoxItem Content="Light"/>
 							<ComboBoxItem Content="Dark"/>
@@ -26,7 +26,7 @@
 						</ComboBox>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="切换程序背景：">
+					<ui:SettingCardItem Description="{DynamicResource AppBackground}">
 						<ComboBox SelectedIndex="{Binding BackgroundIndex}">
 							<ComboBoxItem Content="Mica"/>
 							<ComboBoxItem Content="Acrylic"/>
@@ -36,8 +36,8 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="语言设置">
-				<ui:SettingCardItem Description="更改语言：">
+			<ui:SettingCard Title="{DynamicResource AppearanceSettingTitle}">
+				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
 					<ComboBox SelectedIndex="0" IsEnabled="False">
 						<ComboBoxItem Content="简体中文"/>
 					</ComboBox>
