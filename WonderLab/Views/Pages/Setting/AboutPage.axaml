@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:ui="clr-namespace:WonderLab.Views.Controls"
-             x:Class="WonderLab.AboutPage">
+			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+             x:Class="WonderLab.AboutPage"
+			 x:DataType="vm:AboutPageViewModel">
 	<ui:SmoothScrollViewer Margin="0 12 0 12"
 						   ScrollViewer.VerticalScrollBarVisibility="Hidden">
 		<Grid RowDefinitions="Auto, Auto, Auto">
@@ -15,6 +17,7 @@
 		               HorizontalAlignment="Left"/>
 			
 			<TextBlock Grid.Row="1"
+					   FontSize="12"
 					   Text="Blessing Studio ©2021-2024. 保留所有权利"/>
 
 			<ItemsControl Grid.Row="2"
@@ -28,12 +31,14 @@
 				<ui:SettingCard Title="关于">
 					<ItemsControl>
 						<ui:SettingCardItem Description="启动器版本：">
-							<HyperlinkButton Content="2.0.0"
-											 Foreground="{DynamicResource SecondaryBrush600}"/>
+							<TextBlock Text="2.0.0"
+									   Foreground="{DynamicResource SecondaryBrush600}"/>
 						</ui:SettingCardItem>
 
 						<ui:SettingCardItem Description="赞助：">
 							<HyperlinkButton Content="爱发电"
+											 Command="{Binding JumpToLinkCommand}"
+											 CommandParameter="https://afdian.net/a/WonderLab"
 											 Foreground="{DynamicResource SecondaryBrush600}"/>
 						</ui:SettingCardItem>
 					</ItemsControl>
@@ -45,9 +50,13 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="任天天🍰"
+												 Command="{Binding JumpToLinkCommand}"
+												 CommandParameter="https://github.com/ruattd"
 												 Foreground="{DynamicResource SecondaryBrush600}"/>
 								
 								<HyperlinkButton Content="КРАШ-2073"
+												 Command="{Binding JumpToLinkCommand}"
+												 CommandParameter="https://github.com/tsavpyn"
 												 Foreground="{DynamicResource SecondaryBrush600}"/>
 							</StackPanel>
 						</ui:SettingCardItem>
@@ -56,10 +65,14 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="dream_pep"
+												 Command="{Binding JumpToLinkCommand}"
+												 CommandParameter="https://github.com/dream0090"
 												 Foreground="{DynamicResource SecondaryBrush600}"/>
 								
 								<HyperlinkButton Content="Starcloudsea"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/Starcloudsea"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -67,7 +80,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="YangSpring114"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/YangSpring114"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -75,12 +90,18 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="YangSpring114"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/YangSpring114"/>
 								
 								<HyperlinkButton Content="JWJUN233233"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/JWJUN233233"/>
 								
 								<HyperlinkButton Content="mailset"
+												 Command="{Binding JumpToLinkCommand}"
+												 CommandParameter="https://github.com/mailset"
 												 Foreground="{DynamicResource SecondaryBrush600}"/>
 							</StackPanel>
 						</ui:SettingCardItem>
@@ -93,7 +114,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="泽托维尔克"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/SentientWaste"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -101,10 +124,14 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="Natsurainko"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/natsurainko"/>
 								
 								<HyperlinkButton Content="llr下一你了亲并"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/laolarou726"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 					</ItemsControl>
@@ -116,7 +143,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="Github"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/AvaloniaUI/Avalonia"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -124,7 +153,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="Github"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/CommunityToolkit/dotnet"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -132,7 +163,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="Github"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/AvaloniaUI/Avalonia.Xaml.Behaviors"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 
@@ -140,7 +173,9 @@
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
 								<HyperlinkButton Content="Github"
-												 Foreground="{DynamicResource SecondaryBrush600}"/>
+												 Command="{Binding JumpToLinkCommand}"
+												 Foreground="{DynamicResource SecondaryBrush600}"
+												 CommandParameter="https://github.com/Blessing-Studio/MinecraftLaunch"/>
 							</StackPanel>
 						</ui:SettingCardItem>
 					</ItemsControl>
