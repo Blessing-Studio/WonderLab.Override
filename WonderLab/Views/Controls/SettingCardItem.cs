@@ -8,7 +8,7 @@ public sealed class SettingCardItem : ContentControl {
         get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
-
+    
     public static readonly StyledProperty<string> DescriptionProperty = 
         AvaloniaProperty.Register<RollingBorder, string>(nameof(Description), "Hello");
 }

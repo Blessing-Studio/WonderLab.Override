@@ -15,6 +15,7 @@ namespace WonderLab.Services.Navigation;
 public sealed class SettingNavigationService(LogService logService) : INavigationService {
     private readonly LogService _logService = logService;
     private readonly Dictionary<string, Func<object>> _pageObjects = new() {
+        { nameof(AboutPage), App.ServiceProvider.GetRequiredService<AboutPage> },
         { nameof(LaunchSettingPage), App.ServiceProvider.GetRequiredService<LaunchSettingPage> },
         { nameof(DetailSettingPage), App.ServiceProvider.GetRequiredService<DetailSettingPage> },
         { nameof(AccountSettingPage), App.ServiceProvider.GetRequiredService<AccountSettingPage> },
@@ -30,6 +31,7 @@ public sealed class SettingNavigationService(LogService logService) : INavigatio
         if (_pageObjects.TryGetValue(viewName, out var pageFunc)) {
             var pageObject = pageFunc();
             (pageObject as UserControl)!.DataContext = App.ServiceProvider.GetRequiredService<TViewModel>();
+
             NavigationRequest?.Invoke(new NavigationPageData {
                 Page = pageObject,
                 PageKey = viewName,

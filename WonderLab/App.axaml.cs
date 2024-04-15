@@ -1,24 +1,24 @@
-﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core.Plugins;
+﻿using System;
+using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Data.Core.Plugins;
 using Microsoft.Extensions.Hosting;
-using MinecraftLaunch.Components.Fetcher;
-using System;
 using WonderLab.Services;
 using WonderLab.Services.Game;
 using WonderLab.Services.Navigation;
+using WonderLab.Views.Windows;
 using WonderLab.Services.UI;
 using WonderLab.ViewModels.Pages;
-using WonderLab.ViewModels.Pages.Navigation;
-using WonderLab.ViewModels.Pages.Setting;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Views.Pages;
 using WonderLab.Views.Pages.Navigation;
 using WonderLab.Views.Pages.Setting;
-using WonderLab.Views.Windows;
+using WonderLab.ViewModels.Pages.Setting;
+using MinecraftLaunch.Components.Fetcher;
+using WonderLab.ViewModels.Pages.Navigation;
+using Avalonia.Controls.ApplicationLifetimes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab;
 
@@ -81,6 +81,7 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();
         
+        services.AddSingleton<AboutPage>();
         services.AddSingleton<DetailSettingPage>();
         services.AddSingleton<LaunchSettingPage>();
         services.AddSingleton<NetworkSettingPage>();
@@ -122,7 +123,8 @@ public sealed partial class App : Application {
         
         services.AddSingleton<SettingNavigationPageViewModel>();
         services.AddSingleton<DownloadNavigationPageViewModel>();
-        
+
+        services.AddSingleton<AboutPageViewModel>();
         services.AddTransient<DetailSettingPageViewModel>();
         services.AddTransient<LaunchSettingPageViewModel>();
         services.AddTransient<AccountSettingPageViewModel>();

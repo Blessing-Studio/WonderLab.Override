@@ -36,7 +36,7 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource AppearanceSettingTitle}">
+			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
 				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
 					<ComboBox SelectedIndex="{Binding LanguageIndex}">
 						<ComboBoxItem Content="简体中文"/>

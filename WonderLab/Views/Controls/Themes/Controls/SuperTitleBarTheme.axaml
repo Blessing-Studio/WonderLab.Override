@@ -4,7 +4,7 @@
     <ControlTheme x:Key="{x:Type controls:SuperTitleBar}" TargetType="controls:SuperTitleBar">
         <Setter Property="MinWidth" Value="300"/>
         <Setter Property="MinHeight" Value="28"/>
-        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="CornerRadius" Value="16"/>
         <Setter Property="Margin" Value="6 6 6 3.5"/>
 		<Setter Property="BorderThickness" Value="1"/>
         <Setter Property="VerticalAlignment" Value="Top"/>

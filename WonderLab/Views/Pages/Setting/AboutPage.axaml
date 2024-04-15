@@ -1,0 +1,151 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="clr-namespace:WonderLab.Views.Controls"
+             x:Class="WonderLab.AboutPage">
+	<ui:SmoothScrollViewer Margin="0 12 0 12"
+						   ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<Grid RowDefinitions="Auto, Auto, Auto">
+			<TextBlock FontSize="20"
+					   Text="WonderLab"
+		               FontWeight="Bold"
+		               VerticalAlignment="Top"
+		               HorizontalAlignment="Left"/>
+			
+			<TextBlock Grid.Row="1"
+					   Text="Blessing Studio ©2021-2024. 保留所有权利"/>
+
+			<ItemsControl Grid.Row="2"
+						  Margin="0 12 0 0">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Spacing="15"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				
+				<ui:SettingCard Title="关于">
+					<ItemsControl>
+						<ui:SettingCardItem Description="启动器版本：">
+							<HyperlinkButton Content="2.0.0"
+											 Foreground="{DynamicResource SecondaryBrush600}"/>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="赞助：">
+							<HyperlinkButton Content="爱发电"
+											 Foreground="{DynamicResource SecondaryBrush600}"/>
+						</ui:SettingCardItem>
+					</ItemsControl>
+				</ui:SettingCard>
+
+				<ui:SettingCard Title="开发团队">
+					<ItemsControl>
+						<ui:SettingCardItem Description="质量控制组：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="任天天🍰"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+								
+								<HyperlinkButton Content="КРАШ-2073"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="设计组：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="dream_pep"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+								
+								<HyperlinkButton Content="Starcloudsea"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="前端开发组：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="YangSpring114"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="后端开发组：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="YangSpring114"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+								
+								<HyperlinkButton Content="JWJUN233233"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+								
+								<HyperlinkButton Content="mailset"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+					</ItemsControl>
+				</ui:SettingCard>
+
+				<ui:SettingCard Title="鸣谢">
+					<ItemsControl>
+						<ui:SettingCardItem Description="服务器支持：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="泽托维尔克"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="技术支持：">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="Natsurainko"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+								
+								<HyperlinkButton Content="llr下一你了亲并"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+					</ItemsControl>
+				</ui:SettingCard>
+
+				<ui:SettingCard Title="开源库引用">
+					<ItemsControl>
+						<ui:SettingCardItem Description="AvaloniaUI">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="Github"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="CommunityToolkit.Mvvm">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="Github"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="Avalonia.Xaml.Behaviors">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="Github"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+
+						<ui:SettingCardItem Description="MinecraftLaunch">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<HyperlinkButton Content="Github"
+												 Foreground="{DynamicResource SecondaryBrush600}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+					</ItemsControl>
+				</ui:SettingCard>
+			</ItemsControl>
+		</Grid>
+	</ui:SmoothScrollViewer>
+</UserControl>

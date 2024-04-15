@@ -51,9 +51,9 @@ public sealed class WindowService {
                 var tintColor = _mainWindow.ActualThemeVariant == ThemeVariant.Dark ? Colors.Black : Colors.White;
 
                 _mainWindow.AcrylicMaterial.Material = new() {
-                    TintOpacity = 0.6d,
+                    TintOpacity = 0.5d,
                     TintColor = tintColor,
-                    MaterialOpacity = 0.65d,
+                    MaterialOpacity = 0.4d,
                     BackgroundSource = AcrylicBackgroundSource.Digger
                 };
                 break;

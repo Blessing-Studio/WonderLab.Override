@@ -32,6 +32,9 @@ public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
     [RelayCommand]
     private void NavigationTo(string pageKey) {
         switch (pageKey) {
+            case "AboutPage":
+                _navigationService.NavigationTo<AboutPageViewModel>();
+                break;
             case "LaunchSettingPage":
                 _navigationService.NavigationTo<LaunchSettingPageViewModel>(); 
                 break;

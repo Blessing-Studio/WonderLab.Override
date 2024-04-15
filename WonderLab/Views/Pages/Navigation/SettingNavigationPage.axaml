@@ -22,8 +22,8 @@
 				</ListBox.ItemsPanel>
 				<controls:NavigationViewItem Width="145"
                                              Icon="&#xE945;"
-                                             IsSelected="True"
 											 Margin="0 5 0 0"
+                                             IsSelected="True"
                                              Classes="sidebaritem"
 											 Content="{DynamicResource Launch}"
                                              CommandParameter="LaunchSettingPage"
@@ -53,6 +53,14 @@
 											 Content="{DynamicResource Appearance}"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
+
+				<controls:NavigationViewItem Width="145"
+											 Icon="&#xE736;"
+							                 Classes="sidebaritem"
+							                 CommandParameter="AboutPage"
+							                 Content="{DynamicResource About}"
+							                 Command="{Binding NavigationToCommand}"
+							                 Foreground="{DynamicResource SecondaryBrush600}"/>
 			</ListBox>
 		</Border>
 
