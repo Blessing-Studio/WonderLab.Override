@@ -167,7 +167,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/*.zip
+        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/*.zip
   build_Linux_Deb:
     strategy:
       matrix:
@@ -189,7 +189,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Deb
-        path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.deb
+        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.deb
   build_Linux_Rpm:
     strategy:
       matrix:
@@ -211,7 +211,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Linux_Rpm
-        path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.rpm
+        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.rpm
   build_MacOS_App:
     strategy:
       matrix:
@@ -237,15 +237,15 @@ jobs:
     - name: Create Windows ZIP
       uses: thedoctor0/zip-release@0.7.1
       with:
-         directory: 'WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/'
+         directory: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/'
          type: 'zip'
-         filename: 'WonderLab.${{ steps.package_version.outputs.version }}.osx.app-${{ matrix.arch }}.zip'
-         path: 'WonderLab.app'
+         filename: 'WonderLab.Desktop.${{ steps.package_version.outputs.version }}.osx.app-${{ matrix.arch }}.zip'
+         path: 'WonderLab.Desktop.app'
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MacOS
-        path: 'WonderLab/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
+        path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
   Release:
     permissions: write-all
     runs-on: ubuntu-latest
