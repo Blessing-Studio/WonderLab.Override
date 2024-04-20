@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="WonderLab.Views.Pages.Setting.NetworkSettingPage"
-			 xmlns:ui="using:WonderLab.Views.Controls">
+			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 x:DataType="vm:NetworkSettingPageViewModel">
 	<ItemsControl Margin="0 10 0 0">
 		<ItemsControl.ItemsPanel>
 			<ItemsPanelTemplate>
@@ -12,17 +14,25 @@
 			</ItemsPanelTemplate>
 		</ItemsControl.ItemsPanel>
 
-		<ui:SettingCard Title="Network">
+		<ui:SettingCard Title="镜像源设置">
 			<ItemsControl>
-				<ui:SettingCardItem/>
-				<ui:SettingCardItem/>
+				<ui:SettingCardItem Description="是否使用镜像源：">
+					<ToggleSwitch OnContent=""
+								  OffContent=""
+								  Margin="0 0 -10 0"/>
+				</ui:SettingCardItem>
 			</ItemsControl>
 		</ui:SettingCard>
 
-		<ui:SettingCard Title="Network">
+		<ui:SettingCard Title="下载设置">
 			<ItemsControl>
-				<ui:SettingCardItem/>
-				<ui:SettingCardItem/>
+				<ui:SettingCardItem Description="最大下载线程数：">
+					<Slider Width="250"/>
+				</ui:SettingCardItem>
+
+				<ui:SettingCardItem Description="大文件下载分片数：">
+					<ComboBox/>
+				</ui:SettingCardItem>
 			</ItemsControl>
 		</ui:SettingCard>
 	</ItemsControl>

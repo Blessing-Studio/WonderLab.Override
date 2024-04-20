@@ -3,6 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Pages.Setting.AccountSettingPage">
-	
+             x:Class="WonderLab.Views.Pages.Setting.AccountSettingPage"
+			 xmlns:ui="clr-namespace:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+			 x:DataType="vm:AccountSettingPageViewModel">
+	<ui:SmoothScrollViewer Margin="0 12 0 12"
+						   ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<ItemsControl>
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Spacing="15"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ui:SettingCard Title="账户设置">
+				
+			</ui:SettingCard>
+		</ItemsControl>
+	</ui:SmoothScrollViewer>
 </UserControl>
