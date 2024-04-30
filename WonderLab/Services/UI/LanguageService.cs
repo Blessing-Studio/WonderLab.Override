@@ -6,13 +6,9 @@ namespace WonderLab.Services.UI;
 
 public sealed class LanguageService {
     private ResourceDictionary _actualLanguage;
-
-    private readonly SettingService _settingService;
     private readonly string _basePath = "avares://Wonderlab/Assets/Languages/";
 
-    public LanguageService(SettingService settingService) {
-        _settingService = settingService;
-
+    public LanguageService() {
         _actualLanguage = AvaloniaXamlLoader
             .Load(new($"{_basePath}zh-CN.axaml")) as ResourceDictionary;
     }

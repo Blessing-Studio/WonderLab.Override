@@ -19,6 +19,7 @@ using MinecraftLaunch.Components.Fetcher;
 using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Services.Download;
 
 namespace WonderLab;
 
@@ -35,30 +36,29 @@ public sealed partial class App : Application {
     }
 
     public override void OnFrameworkInitializationCompleted() {
-        var dataService = ServiceProvider.GetRequiredService<SettingService>();
-        var themeService = ServiceProvider.GetRequiredService<ThemeService>();
-        var windowService = ServiceProvider.GetRequiredService<WindowService>();
-        var languageService = ServiceProvider.GetRequiredService<LanguageService>();
-
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            var mainWindow = GetService<MainWindow>();
             StorageProvider = mainWindow.StorageProvider;
             desktop.MainWindow = mainWindow;
             Init();
 
-            mainWindow.DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-            desktop.Exit += (sender, args) => dataService.Save();
+            mainWindow.DataContext = GetService<MainWindowViewModel>();
+            desktop.Exit += (sender, args) => GetService<SettingService>().Save();
         }
 
         base.OnFrameworkInitializationCompleted();
 
         void Init() {
-            themeService.SetCurrentTheme(dataService.Data.ThemeIndex);
-            languageService.SetLanguage(dataService.Data.LanguageIndex);
-            windowService.SetBackground(dataService.Data.BackgroundIndex);
+            var dataService = GetService<SettingService>();
+            GetService<ThemeService>().SetCurrentTheme(dataService.Data.ThemeIndex);
+            GetService<LanguageService>().SetLanguage(dataService.Data.LanguageIndex);
+            GetService<WindowService>().SetBackground(dataService.Data.BackgroundIndex);
+        }
+
+        T GetService<T>() {
+            return ServiceProvider.GetRequiredService<T>();
         }
     }
 
@@ -104,6 +104,7 @@ public sealed partial class App : Application {
         services.AddSingleton<DialogService>();
         services.AddSingleton<SettingService>();
         services.AddSingleton<LanguageService>();
+        services.AddSingleton<DownloadService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 

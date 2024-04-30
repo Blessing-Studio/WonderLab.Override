@@ -31,8 +31,8 @@
 				<ui:SettingCard Title="关于">
 					<ItemsControl>
 						<ui:SettingCardItem Description="启动器版本：">
-							<TextBlock Text="2.0.0"
-									   Foreground="{DynamicResource SecondaryBrush600}"/>
+							<HyperlinkButton Content="2.0.0"
+											 Foreground="{DynamicResource SecondaryBrush600}"/>
 						</ui:SettingCardItem>
 
 						<ui:SettingCardItem Description="赞助：">

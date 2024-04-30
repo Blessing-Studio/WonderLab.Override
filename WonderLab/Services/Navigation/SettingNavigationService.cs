@@ -1,11 +1,11 @@
 using System;
 using Avalonia.Controls;
 using WonderLab.ViewModels;
+using WonderLab.Classes.Datas;
 using System.Collections.Generic;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Setting;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Classes.Datas;
 
 namespace WonderLab.Services.Navigation;
 

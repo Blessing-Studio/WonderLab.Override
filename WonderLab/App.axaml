@@ -1,12 +1,12 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converter="using:WonderLab.Converters"
+			 xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
              x:Class="WonderLab.App"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme/>
+		<dialogHostAvalonia:DialogHostStyles/>
     </Application.Styles>
 
 	<Application.Resources>
@@ -16,6 +16,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/ColorTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FrameTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ButtonTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/SliderTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>

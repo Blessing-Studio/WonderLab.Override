@@ -21,6 +21,12 @@ public sealed record SettingData {
     [JsonPropertyName("themeIndex")]
     public int ThemeIndex { get; set; } = 0;
 
+    [JsonPropertyName("multiPartsCount")]
+    public int MultiPartsCount { get; set; } = 0;
+
+    [JsonPropertyName("multiThreadsCount")]
+    public int MultiThreadsCount { get; set; } = 0;
+
     [JsonPropertyName("languageIndex")]
     public int LanguageIndex { get; set; } = 0;
 

@@ -2,11 +2,11 @@
 using Avalonia.Controls;
 using WonderLab.ViewModels;
 using WonderLab.Views.Pages;
+using WonderLab.Classes.Datas;
 using System.Collections.Generic;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Navigation;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Classes.Datas;
 
 namespace WonderLab.Services.Navigation;
 
@@ -17,8 +17,8 @@ public sealed class HostNavigationService(LogService logService) : INavigationSe
     private readonly LogService _logService = logService;
     private readonly Dictionary<string, Func<object>> _pages = new() {
         { nameof(HomePage), App.ServiceProvider.GetRequiredService<HomePage> },
-        { nameof(DownloadNavigationPage), App.ServiceProvider.GetRequiredService<DownloadNavigationPage> },
         { nameof(SettingNavigationPage), App.ServiceProvider.GetRequiredService<SettingNavigationPage> },
+        { nameof(DownloadNavigationPage), App.ServiceProvider.GetRequiredService<DownloadNavigationPage> },
     };
     
     public Action<NavigationPageData> NavigationRequest { get; set; }
