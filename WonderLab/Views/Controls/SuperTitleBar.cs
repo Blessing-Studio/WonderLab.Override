@@ -22,7 +22,6 @@ public sealed class SuperTitleBar : ContentControl {
     
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
-        
         _windowService = App.ServiceProvider.GetRequiredService<WindowService>();
     }
 

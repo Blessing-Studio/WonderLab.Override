@@ -1,25 +1,29 @@
 ﻿using System;
 using Avalonia;
-using Avalonia.Markup.Xaml;
-using Avalonia.Platform.Storage;
-using Avalonia.Data.Core.Plugins;
-using Microsoft.Extensions.Hosting;
 using WonderLab.Services;
-using WonderLab.Services.Game;
-using WonderLab.Services.Navigation;
-using WonderLab.Views.Windows;
-using WonderLab.Services.UI;
-using WonderLab.ViewModels.Pages;
-using WonderLab.ViewModels.Windows;
+using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
-using WonderLab.Views.Pages.Navigation;
+using WonderLab.Services.UI;
+using WonderLab.Services.Game;
+using WonderLab.Views.Windows;
+using Avalonia.Platform.Storage;
+using WonderLab.ViewModels.Pages;
+using Avalonia.Data.Core.Plugins;
+using WonderLab.Services.Download;
+using Microsoft.Extensions.Hosting;
+using WonderLab.ViewModels.Windows;
+using WonderLab.Services.Auxiliary;
+using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Setting;
+using WonderLab.Services.Navigation;
+using WonderLab.Views.Dialogs.Setting;
+using WonderLab.Views.Pages.Navigation;
 using WonderLab.ViewModels.Pages.Setting;
 using MinecraftLaunch.Components.Fetcher;
+using WonderLab.ViewModels.Dialogs.Setting;
 using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Services.Download;
 
 namespace WonderLab;
 
@@ -27,7 +31,6 @@ public sealed partial class App : Application {
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
-
     public static IStorageProvider StorageProvider { get; private set; }
 
     public override void Initialize() {
@@ -72,8 +75,8 @@ public sealed partial class App : Application {
 
     private static void ConfigureView(IServiceCollection services) {
         ConfigureViewModel(services);
-        //services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
-        //    => new BackgroundTaskQueue(100)));
+        services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
+            => new BackgroundTaskQueue(100)));
 
         //Pages
         services.AddSingleton<HomePage>();
@@ -90,14 +93,16 @@ public sealed partial class App : Application {
         //Windows
         services.AddScoped<MainWindow>();
 
-        //DialogContent
-        //services.AddTransient<UpdateDialogContent>();
+        //Dialog
+        services.AddTransient<AuthenticateDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
         services.AddScoped<JavaFetcher>();
 
         services.AddSingleton<LogService>();
+        services.AddSingleton<TaskService>();
+        services.AddSingleton<SkinService>();
         services.AddSingleton<GameService>();
         services.AddSingleton<ThemeService>();
         services.AddSingleton<WindowService>();
@@ -108,14 +113,12 @@ public sealed partial class App : Application {
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 
-        //services.AddScoped<TaskService>();
+        services.AddHostedService<QueuedHostedService>();
+
         //services.AddScoped<UpdateService>();
-        //services.AddScoped<DownloadService>();
         //services.AddScoped<TelemetryService>();
         //services.AddScoped<GameEntryService>();
-        //services.AddScoped<NavigationService>();
         //services.AddScoped<NotificationService>();
-        //services.AddHostedService<QueuedHostedService>();
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {
@@ -130,5 +133,6 @@ public sealed partial class App : Application {
         services.AddTransient<LaunchSettingPageViewModel>();
         services.AddTransient<AccountSettingPageViewModel>();
         services.AddTransient<NetworkSettingPageViewModel>();
+        services.AddTransient<AuthenticateDialogViewModel>();
     }
 }

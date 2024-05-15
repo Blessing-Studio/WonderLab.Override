@@ -23,5 +23,5 @@
                        Text="{DynamicResource Launch}"
                        Foreground="{DynamicResource ContentBrush1}"/>
         </Button>
-    </Grid>
+	</Grid>
 </UserControl>

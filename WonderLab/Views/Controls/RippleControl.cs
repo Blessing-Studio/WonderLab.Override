@@ -16,7 +16,7 @@ namespace WonderLab.Views.Controls;
 /// 涟漪特效控件
 /// </summary>
 public sealed class RippleControl : ContentControl {
-    private Ripple? _last;
+    private Ripple _last;
     private byte _pointers;
     private Canvas PART_RippleCanvasRoot;
 
@@ -50,7 +50,7 @@ public sealed class RippleControl : ContentControl {
         AddHandler(PointerCaptureLostEvent, PointerCaptureLostHandler);
     }
 
-    private void PointerPressedHandler(object? sender, PointerPressedEventArgs e) {
+    private void PointerPressedHandler(object sender, PointerPressedEventArgs e) {
         if (_pointers != 0) return;
         
         _pointers++;
@@ -59,11 +59,11 @@ public sealed class RippleControl : ContentControl {
         ripple.RunFirstStep();
     }
 
-    private void PointerReleasedHandler(object? sender, PointerReleasedEventArgs e) {
+    private void PointerReleasedHandler(object sender, PointerReleasedEventArgs e) {
         RemoveLastRipple();
     }
 
-    private void PointerCaptureLostHandler(object? sender, PointerCaptureLostEventArgs e) {
+    private void PointerCaptureLostHandler(object sender, PointerCaptureLostEventArgs e) {
         RemoveLastRipple();
     }
 

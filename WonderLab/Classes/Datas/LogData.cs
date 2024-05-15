@@ -6,8 +6,7 @@ namespace WonderLab.Classes.Datas;
 /// <summary>
 /// 日志详细数据
 /// </summary>
-public sealed record LogData
-{
+public sealed record LogData {
     public string Tag { get; set; } = string.Empty;
 
     /// <summary>

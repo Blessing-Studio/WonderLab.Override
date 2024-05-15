@@ -16,9 +16,144 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ui:SettingCard Title="账户设置">
-				
+			<ui:SettingCard Title="账户设置"
+							Grid.Row="0">
+				<ui:SettingCardItem Description="添加新账户：">
+					<Button Content="添加"
+							Command="{Binding OpenDialogCommand}"/>
+				</ui:SettingCardItem>
 			</ui:SettingCard>
+
+			<ListBox Background="Transparent"
+					 SelectedItem="{Binding ActiveAccount}">
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Margin" Value="0 0 0 12"/>
+						<Setter Property="CornerRadius" Value="12"/>
+						<Setter Property="BorderThickness" Value="2"/>
+						<Setter Property="Background" Value="Transparent"/>
+						<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+						<Setter Property="Transitions">
+							<Transitions>
+								<BrushTransition Duration="0:0:0.25"
+												 Property="Background"
+												 Easing="CubicEaseOut"/>
+
+								<DoubleTransition Property="Height"
+												  Duration="0:0:0.35"
+												  Easing="ExponentialEaseInOut"/>
+							</Transitions>
+						</Setter>
+						<Setter Property="Template">
+							<ControlTemplate>
+								<Border Padding="15 8"
+										Name="Layout"
+										Transitions="{TemplateBinding Transitions}"
+										BorderBrush="{TemplateBinding BorderBrush}"
+										CornerRadius="{TemplateBinding CornerRadius}"
+										BorderThickness="{TemplateBinding BorderThickness}"
+										Background="{DynamicResource GameManagerPanelBackground}">
+									<Grid RowDefinitions="Auto, Auto">
+										<!--Top-->
+										<Grid RowDefinitions="Auto, Auto"> 
+											<TextBlock VerticalAlignment="Center"
+													   Text="{TemplateBinding Content}"/>
+
+											<TextBlock FontSize="12"
+													   Grid.Row="1"
+													   Text="微软账户"/>
+										</Grid>
+										
+										<Grid Height="0"
+											  Grid.Row="1"
+											  Name="BarContent"
+											  ClipToBounds="True"
+											  RowDefinitions="1, Auto"
+											  Transitions="{TemplateBinding Transitions}">
+											<Border Height="1"
+													Opacity="1"
+													Margin="0 6 0 0"
+													Background="{DynamicResource DividerBrush}"/>
+											
+											<!--皮肤正面像-->
+											<!--<StackPanel VerticalAlignment="Center"
+														HorizontalAlignment="Center">
+												--><!--head--><!--
+												<Border x:Name="head" Height="60" Width="60" BoxShadow="0 8 32 0 #66000000" HorizontalAlignment="Center">
+													<Border.Background>
+														<ImageBrush Source="{Binding CurrentGameAccount.Head}" Stretch="UniformToFill"/>
+													</Border.Background>
+												</Border>
+
+												<StackPanel Orientation="Horizontal">
+
+													--><!--左手 RenderTransform="rotate(4deg)"--><!--
+													<Border Name="LeftArm"
+															VerticalAlignment="Top"
+															RenderTransformOrigin="0,0"
+															RenderTransform="rotate(4deg)" Margin="0 -1.4514 0 0"
+															Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+														<Border.Background>
+															<ImageBrush Source="{Binding CurrentGameAccount.LeftHand}" Stretch="UniformToFill"/>
+														</Border.Background>
+													</Border>
+
+													--><!--人棍部分--><!--
+													<StackPanel HorizontalAlignment="Center">
+														--><!--body--><!--
+														<Border x:Name="body" Height="90" Width="60" BoxShadow="0 8 32 0 #66000000">
+															<Border.Background>
+																<ImageBrush Source="{Binding CurrentGameAccount.Body}" Stretch="UniformToFill"/>
+															</Border.Background>
+														</Border>
+
+														--><!--leg--><!--
+														<StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
+															<Border x:Name="leftleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+																<Border.Background>
+																	<ImageBrush Source="{Binding CurrentGameAccount.LeftLeg}" Stretch="UniformToFill"/>
+																</Border.Background>
+															</Border>
+
+															<Border x:Name="rightleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+																<Border.Background>
+																	<ImageBrush Source="{Binding CurrentGameAccount.RightLeg}" Stretch="UniformToFill"/>
+																</Border.Background>
+															</Border>
+														</StackPanel>
+													</StackPanel>
+
+													--><!--右手--><!--
+													<Border RenderTransformOrigin="0,0" RenderTransform="rotate(-4deg)" x:Name="rightarm"
+															Height="90" Width="30" BoxShadow="0 8 32 0 #66000000" VerticalAlignment="Top">
+														<Border.Background>
+															<ImageBrush Source="{Binding CurrentGameAccount.RightHand}" Stretch="UniformToFill"/>
+														</Border.Background> 
+													</Border>
+
+												</StackPanel>
+											</StackPanel>-->
+										</Grid>
+									</Grid>
+								</Border>
+							</ControlTemplate>
+						</Setter>
+					</Style>
+
+					<!--<Style Selector="ListBoxItem:pointerover /template/ Border#Layout">
+						<Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
+					</Style>-->
+
+					<Style Selector="ListBoxItem:selected /template/ Grid#BarContent">
+						<Setter Property="Height" Value="215"/>
+					</Style>
+				</ListBox.Styles>
+
+				<ListBoxItem Content="Test"/>
+				<ListBoxItem Content="Test"/>
+				<ListBoxItem Content="Test"/>
+				<ListBoxItem Content="Test"/>
+			</ListBox>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>
 </UserControl>

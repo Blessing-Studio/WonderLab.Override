@@ -1,18 +1,27 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using Avalonia.Controls;
+using DialogHostAvalonia;
+using WonderLab.ViewModels;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using System.Collections.Generic;
+using WonderLab.Views.Dialogs.Setting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.Services.UI;
 
 public sealed class DialogService {
     private readonly WindowService _windowService;
+    private readonly Dictionary<string, Func<object>> _dialogs = new() {
+        { nameof(AuthenticateDialog), App.ServiceProvider.GetRequiredService<AuthenticateDialog> },
+    };
 
     public DialogService(WindowService windowService) {
         _windowService = windowService;
     }
-
+    
     public async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title) {
         var result = await _windowService.GetStorageProvider().OpenFilePickerAsync(new() {
             AllowMultiple = false,
@@ -51,5 +60,19 @@ public sealed class DialogService {
         }
 
         return new(result.Path.LocalPath);
+    }
+
+    public async void ShowContentDialog<TViewModel>() where TViewModel : ViewModelBase {
+        if (DialogHost.IsDialogOpen("dialogHost")) {
+            return;
+        }
+
+        var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
+
+        if (_dialogs.TryGetValue(viewName, out var contentFunc)) {
+            var pageObject = contentFunc() as UserControl;
+            pageObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
+            await DialogHost.Show(pageObject, "dialogHost");
+        }
     }
 }

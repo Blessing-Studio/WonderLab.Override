@@ -5,15 +5,15 @@ namespace WonderLab.Classes.Datas.ViewData;
 
 public sealed class GameViewData(GameEntry gameEntry) : ObservableObject {
     public GameEntry Entry => gameEntry;
-    
+
     public override bool Equals(object obj) {
         var gameViewData = obj as GameViewData;
 
-        if(gameViewData != null) {
+        if (gameViewData != null) {
             return gameViewData!.Entry.Id == Entry.Id && gameViewData.Entry.GameFolderPath == Entry.GameFolderPath;
         }
 
-        return true ;
+        return true;
     }
 
     public override string ToString() {

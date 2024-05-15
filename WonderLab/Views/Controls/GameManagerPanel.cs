@@ -64,7 +64,7 @@ public sealed class GameManagerPanel : ContentControl {
         AvaloniaProperty.Register<GameManagerPanel, IEnumerable<GameViewData>>(nameof(GameEntries),
             new AvaloniaList<GameViewData>());
 
-    private void OnOpenPaneButtonClick(object? sender, RoutedEventArgs e) {
+    private void OnOpenPaneButtonClick(object sender, RoutedEventArgs e) {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
         _cancellationTokenSource = new();
@@ -138,7 +138,7 @@ public sealed class GameManagerPanel : ContentControl {
         _gameListBox.SelectionChanged += OnGameListBoxSelectionChanged;
     }
 
-    private void OnGameListBoxSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+    private void OnGameListBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
         SelectedGame = _gameListBox.SelectedItem as GameViewData ?? SelectedGame;
     }
 

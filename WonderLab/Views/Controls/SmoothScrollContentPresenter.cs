@@ -71,7 +71,7 @@ public sealed class SmoothScrollContentPresenter : ScrollContentPresenter {
     }
 
     private new bool BringDescendantIntoView(Visual target, Rect targetRect) {
-        Control? child = base.Child;
+        Control child = base.Child;
         if (child == null || !child.IsEffectivelyVisible) {
             return false;
         }

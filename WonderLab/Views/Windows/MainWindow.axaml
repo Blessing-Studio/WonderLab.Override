@@ -5,6 +5,7 @@
         xmlns:vm="using:WonderLab.ViewModels.Windows"
         x:Class="WonderLab.Views.Windows.MainWindow"
         xmlns:ui="using:WonderLab.Views.Controls"
+		xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
         x:DataType="vm:MainWindowViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="840"
@@ -16,7 +17,7 @@
         ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}"
 		Icon="/Assets/wonderlab.ico">
 	<Panel>
-		<ExperimentalAcrylicBorder Name="AcrylicMaterial" 
+		<ExperimentalAcrylicBorder Name="AcrylicMaterial"
 								   IsHitTestVisible="False">
 			<ExperimentalAcrylicBorder.Material>
 				<ExperimentalAcrylicMaterial
@@ -26,7 +27,7 @@
 					MaterialOpacity="0.65" />
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
-		
+
 		<Grid RowDefinitions="Auto, 1*">
 			<ui:SuperTitleBar Grid.Row="0"/>
 
@@ -90,5 +91,13 @@
 				</ui:NavigationView.FooterContent>
 			</ui:NavigationView>
 		</Grid>
+
+		<dha:DialogHost DialogMargin="16"
+					    Identifier="dialogHost"
+						CloseOnClickAway="False"
+					    DisableOpeningAnimation="True"
+					    dha:DialogHostStyle.CornerRadius="8"
+						OverlayBackground="{DynamicResource DialogOverlayBackground}">
+		</dha:DialogHost>
 	</Panel>
 </Window>

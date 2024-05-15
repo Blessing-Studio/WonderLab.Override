@@ -182,6 +182,7 @@
 			<SolidColorBrush x:Key="DangerBrush900" Color="{StaticResource DangerColor900}"/>
 
 			<!-- Control  -->
+			<SolidColorBrush x:Key="DialogOverlayBackground" Color="Black"/>
 			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
 			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
 			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
@@ -371,6 +372,7 @@
 			<SolidColorBrush x:Key="DangerBrush900" Color="{StaticResource DangerColor900}"/>
 
 			<!-- Control  -->
+			<SolidColorBrush x:Key="DialogOverlayBackground" Color="Black"/>
 			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
 			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource ContentColor3}"/>
 			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource ContentColor3}"/>

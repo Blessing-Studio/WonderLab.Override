@@ -15,7 +15,6 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			
-			
 			<ui:SettingCard Title="{DynamicResource AppearanceSettingTitle}">
 				<ItemsControl>
 					<ui:SettingCardItem Description="{DynamicResource AppTheme}">
