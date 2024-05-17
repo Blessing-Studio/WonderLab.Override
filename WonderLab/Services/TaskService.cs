@@ -49,7 +49,7 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue {
         _queue = Channel.CreateBounded<ITaskJob>(boundedChannelOptions);
     }
 
-    public async ValueTask QueueBackgroundWorkItemAsync(ITaskJob? job) {
+    public async ValueTask QueueBackgroundWorkItemAsync(ITaskJob job) {
         if (job == null) {
             throw new ArgumentNullException(nameof(job));
         }

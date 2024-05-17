@@ -25,7 +25,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SuperTitleBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/RippleControlTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewTheme.axaml"/>
-				<ResourceInclude Source="/Views/Controls/Themes/Controls/DoubleSplitViewTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/TaskListPanelTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardItemTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/GameManagerPanelTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewItemTheme.axaml"/>

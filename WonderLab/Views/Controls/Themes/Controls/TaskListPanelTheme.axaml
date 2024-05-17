@@ -1,0 +1,117 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:WonderLab.Views.Controls">
+	<Design.PreviewWith>
+		<Border Width="400" Height="300">
+			<controls:TaskListPanel Margin="20"/>
+		</Border>
+	</Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type controls:TaskListPanel}" TargetType="controls:TaskListPanel">
+		<Setter Property="MinHeight" Value="130"/>
+		<Setter Property="CornerRadius" Value="12"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="ClipToBounds" Value="False"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+		<Setter Property="Background" Value="{DynamicResource SettingSideBarBackground}"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Name="layout"
+						Background="{x:Null}">
+					<Border Width="300"
+							Name="contentLayout"
+						    VerticalAlignment="Bottom"
+						    HorizontalAlignment="Right"
+							Height="{TemplateBinding MinHeight}"
+						    Background="{TemplateBinding Background}"
+						    BorderBrush="{TemplateBinding BorderBrush}"
+						    CornerRadius="{TemplateBinding CornerRadius}"
+						    BorderThickness="{TemplateBinding BorderThickness}">
+						<Border.Effect>
+							<DropShadowEffect Opacity="1"
+											  OffsetX="0"
+											  OffsetY="0"
+											  BlurRadius="5"
+											  Color="#11111126"/>
+						</Border.Effect>
+
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Property="Height"
+												  Duration="0:0:0.35"
+												  Easing="ExponentialEaseInOut"/>
+								
+								<TransformOperationsTransition Duration="0:0:0.40"
+															   Property="RenderTransform"
+															   Easing="ExponentialEaseInOut"/>
+							</Transitions>
+						</Border.Transitions>
+
+						<Grid Margin="15 12"
+							  RowDefinitions="Auto, 1*">
+							<TextBlock Text="任务列表"
+									   FontSize="16"
+									   FontWeight="Bold"/>
+
+							<ListBox Grid.Row="1"
+									 Name="taskListBox"
+									 Margin="0 6 0 0"
+									 ClipToBounds="False"
+									 Background="Transparent"
+									 ItemsSource="{TemplateBinding Tasks}"
+									 CornerRadius="{TemplateBinding CornerRadius}">
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="CornerRadius" Value="8"/>
+										<Setter Property="Margin" Value="0 0 0 12"/>
+										<Setter Property="BorderThickness" Value="1"/>
+										<Setter Property="Background" Value="{DynamicResource SettingSideBarBackground}"/>
+										<Setter Property="Template">
+											<ControlTemplate>
+												<Border Padding="12 8"
+														Name="Layout"
+														Transitions="{TemplateBinding Transitions}"
+														BorderBrush="{DynamicResource ContentBrush4}"
+														CornerRadius="{TemplateBinding CornerRadius}"
+														BorderThickness="{TemplateBinding BorderThickness}"
+														Background="{TemplateBinding Background}">
+													<Grid RowDefinitions="Auto, 4, Auto, 4, Auto">
+														<TextBlock FontSize="14"
+																   Text="启动任务"/>
+
+														<TextBlock Grid.Row="2"
+																   FontSize="12"
+																   Text="10%"/>
+
+														<ProgressBar Grid.Row="4"
+																	 Margin="0 0 0 4"
+																	 Value="10"/>
+													</Grid>
+												</Border>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+								</ListBox.Styles>
+							</ListBox>
+
+							<TextBlock Grid.Row="1"
+									   FontSize="12"
+									   Name="taskListTip"
+									   Text="没有正在进行中的任务"
+									   IsHitTestVisible="False"
+									   VerticalAlignment="Center"
+									   HorizontalAlignment="Center">
+								<TextBlock.Transitions>
+									<Transitions>
+										<DoubleTransition Property="Opacity"
+														  Duration="0:0:0.15"/>					
+									</Transitions>
+								</TextBlock.Transitions>
+							</TextBlock>
+						</Grid>
+					</Border>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+</ResourceDictionary>

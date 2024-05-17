@@ -30,7 +30,7 @@
 
 		<Grid RowDefinitions="Auto, 1*">
 			<ui:SuperTitleBar Grid.Row="0"/>
-
+			
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="False"
 							   Content="{Binding ActivePage.Page}"
@@ -67,7 +67,8 @@
 								Padding="10 1 10 1"
 								CornerRadius="10"
 								Background="Transparent"
-								VerticalAlignment="Center">
+								VerticalAlignment="Center"
+								Command="{Binding ControlTaskListPanelCommand}">
 							<Grid ColumnDefinitions="Auto,Auto">
 								<ui:FontIcon Glyph="&#xE7E7;"
 											 FontSize="18"
@@ -90,8 +91,22 @@
 					</Grid>
 				</ui:NavigationView.FooterContent>
 			</ui:NavigationView>
+
+			<ui:TaskListPanel Grid.Row="1"
+							  Margin="0 0 10 60"
+							  Tasks="{Binding Notifications}"
+							  IsPaneOpen="{Binding IsOpenTaskListPanel}"/>
 		</Grid>
 
+		<StackPanel VerticalAlignment="Center"
+					HorizontalAlignment="Center">
+			<Button Content="Add"
+		Command="{Binding AddTaskCommand}"/>
+
+			<Button Content="Remove"
+		Command="{Binding RemoveTaskCommand}"/>
+		</StackPanel>
+		
 		<dha:DialogHost DialogMargin="16"
 					    Identifier="dialogHost"
 						CloseOnClickAway="False"

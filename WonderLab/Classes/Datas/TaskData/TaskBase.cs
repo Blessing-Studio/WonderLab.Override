@@ -27,8 +27,6 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
     [ObservableProperty] private ValueTask? _workingTask;
 
     public CancellationTokenSource CancellationTokenSource => new();
-    public IRelayCommand CancelTaskCommand => cancelTaskCommand ?? (cancelTaskCommand = new RelayCommand(CancelTask, CanCancelTask));
-    public IRelayCommand RequestDeleteCommand => requestDeleteCommand ?? (requestDeleteCommand = new RelayCommand(RequestDelete, CanDeleteTask));
 
     public event EventHandler<EventArgs> TaskFinished;
 

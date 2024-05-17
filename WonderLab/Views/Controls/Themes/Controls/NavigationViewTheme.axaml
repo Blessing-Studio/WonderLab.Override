@@ -19,9 +19,9 @@
 						
 						<!-- ContentPanel -->
 						<Border Grid.Row="0"
+						        CornerRadius="12" 
 						        Margin="10 5 10 15"
 						        BorderThickness="1"
-						        CornerRadius="12" 
 						        Name="BackgroundPanel"
 						        Background="{TemplateBinding Background}"
 						        BorderBrush="{TemplateBinding BorderBrush}">
