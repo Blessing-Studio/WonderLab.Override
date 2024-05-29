@@ -22,7 +22,7 @@
 							 ScrollViewer.VerticalScrollBarVisibility="Hidden">
 						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>
-								<ReversibleStackPanel ReverseOrder="True"/>
+								<ReversibleStackPanel ReverseOrder="False"/>
 							</ItemsPanelTemplate>
 						</ListBox.ItemsPanel>
 						<ListBox.Styles>
@@ -33,29 +33,12 @@
 								<Setter Property="Background" Value="{DynamicResource SettingSideBarBackground}"/>
 								<Setter Property="Template">
 									<ControlTemplate x:DataType="vd:NotificationViewData" TargetType="vd:NotificationViewData">
-										<controls:NotificationItem IsCancel="{Binding IsCardOpen}"
+										<controls:NotificationItem Title="{Binding Title}"
+																   Content="{Binding Content}"
+																   IsCancel="{Binding IsCardOpen}"
 																   JumpCommand="{Binding JumpCommand}"
 																   CloseCommand="{Binding CloseButtonCommand}"
-																   NotificationType="{Binding NotificationType}">
-											<!--<Grid Margin="15 0"
-												  VerticalAlignment="Center"
-												  RowDefinitions="Auto,Auto"
-												  ColumnDefinitions="Auto,1*,Auto">
-												<TextBlock FontSize="14"
-														   FontWeight="Bold"
-														   Text="{Binding Title}"/>
-
-												<TextBlock Grid.Row="1"
-														   FontSize="12"
-														   Margin="0 2 0 0"
-														   Text="{Binding Content}"/>
-
-												<Button Grid.Column="2"
-														Content="&#xE8BB;"
-														Classes="titlebarbutton"
-														VerticalAlignment="Center"/>
-											</Grid>-->
-										</controls:NotificationItem>
+																   NotificationType="{Binding NotificationType}"/>
 									</ControlTemplate>
 								</Setter>
 							</Style>

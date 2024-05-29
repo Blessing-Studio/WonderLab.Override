@@ -22,7 +22,7 @@
 			<ControlTemplate>
 				<LayoutTransformControl UseRenderTransform="True"
 										Name="PART_LayoutTransformControl">
-					<Border CornerRadius="{TemplateBinding CornerRadius}" Margin="5 10 15 0">
+					<Border CornerRadius="{TemplateBinding CornerRadius}" Margin="5 0 15 10">
 						<Border Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
 								BorderThickness="{TemplateBinding BorderThickness}"
@@ -37,14 +37,14 @@
 								<Grid Margin="10"
 									  RowDefinitions="Auto, Auto"
 									  ColumnDefinitions="Auto,1*,Auto">
-									<TextBlock Text="Title"
-											   FontSize="14"
-											   FontWeight="Bold"/>
+									<TextBlock FontSize="14"
+											   FontWeight="Bold"
+											   Text="{TemplateBinding Title}"/>
 
 									<TextBlock Grid.Row="1"
-											   Text="Some Message"
 											   FontSize="12"
-											   Margin="0 2 0 0"/>
+											   Margin="0 2 0 0"
+											   Text="{TemplateBinding Content}"/>
 
 									<Button Grid.Column="2"
 											Content="&#xE8BB;"

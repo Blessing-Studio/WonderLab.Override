@@ -13,8 +13,13 @@ public sealed class QueuedHostedService(IBackgroundTaskQueue taskQueue, LogServi
     private readonly IBackgroundTaskQueue _taskQueue = taskQueue;
 
     public override async Task StopAsync(CancellationToken stoppingToken) {
-        Debug.WriteLine("QueuedHostedService is stopping.");
+        _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is stopping.");
         await base.StopAsync(stoppingToken);
+    }
+
+    public override Task StartAsync(CancellationToken cancellationToken) {
+        _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is opening.");
+        return base.StartAsync(cancellationToken);
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken) {

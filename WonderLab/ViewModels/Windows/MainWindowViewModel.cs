@@ -13,6 +13,9 @@ using WonderLab.Classes.Datas.ViewData;
 using System.Linq;
 using WonderLab.Services;
 using WonderLab.Classes.Datas.TaskData;
+using System;
+using System.Timers;
+using WonderLab.Services.UI;
 
 namespace WonderLab.ViewModels.Windows;
 
@@ -20,7 +23,10 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     private readonly TaskService _taskService;
     private readonly INavigationService _navigationService;
     private readonly NotificationService _notificationService;
+    private readonly Timer _timer = new(TimeSpan.FromSeconds(1));
 
+    [ObservableProperty] private string _time;
+    [ObservableProperty] private string _year;
     [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
@@ -28,7 +34,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
     [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
 
-    public MainWindowViewModel(HostNavigationService navigationService, TaskService taskService, NotificationService notificationService) {
+    public MainWindowViewModel(
+        TaskService taskService,
+        DialogService dialogService,
+        SettingService settingService,
+        HostNavigationService navigationService, 
+        NotificationService notificationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
                 if (ActivePage?.PageKey != p.PageKey) {
@@ -38,14 +49,24 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             }, DispatcherPriority.ApplicationIdle);
         };
 
+        Time = DateTime.Now.ToString("t");
+        Year = DateTime.Now.ToString("d");
+        _timer.Elapsed += (_, args) => {
+            Time = args.SignalTime.ToString("T");
+            Year = args.SignalTime.ToString("d");
+        };
+
         _taskService = taskService;
         _navigationService = navigationService;
         _notificationService = notificationService;
+
         Tasks = new(_taskService.TaskJobs);
         Notifications = new(_notificationService.Notifications);
+        IsTitleBarVisible = EnvironmentUtil.IsWindow;
 
         _navigationService.NavigationTo<HomePageViewModel>();
-        IsTitleBarVisible = EnvironmentUtil.IsWindow ? true : false;
+        _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
+        _timer.Start();
     }
 
     [RelayCommand]
@@ -76,14 +97,5 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                 _navigationService.NavigationTo<HomePageViewModel>();
                 break;
         }
-    }
-
-    [RelayCommand]
-    private void test() {
-        _notificationService.QueueJob(new NotificationViewData() {
-            NotificationType = Avalonia.Controls.Notifications.NotificationType.Error,
-            Title = "哼哼哼",
-            Content = "啊啊啊啊啊啊啊啊啊啊啊"
-        });
     }
 }

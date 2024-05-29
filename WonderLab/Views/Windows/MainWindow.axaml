@@ -77,13 +77,13 @@
 											 VerticalAlignment="Center"/>
 
 								<Grid Grid.Column="0" RowDefinitions="Auto, Auto">
-									<TextBlock Text="15:04"
-											   FontSize="12"
+									<TextBlock FontSize="12"
+											   Text="{Binding Time}"
 											   TextAlignment="Right"/>
 
 									<TextBlock Grid.Row="1"
 											   FontSize="12"
-											   Text="2024/1/17"
+											   Text="{Binding Year}"
 											   TextAlignment="Right"/>
 								</Grid>
 							</Grid>
@@ -100,7 +100,7 @@
 			<ui:NotificationListPanel Grid.Row="1"
 									  Margin="0 0 0 60"
 									  ClipToBounds="False"
-									  VerticalAlignment="Bottom"
+									  VerticalAlignment="Top"
 									  HorizontalAlignment="Right"
 									  Notifications="{Binding Notifications}"/>
 		</Grid>
@@ -110,11 +110,6 @@
 						CloseOnClickAway="False"
 					    DisableOpeningAnimation="True"
 					    dha:DialogHostStyle.CornerRadius="8"
-						OverlayBackground="{DynamicResource DialogOverlayBackground}">
-		</dha:DialogHost>
-		
-		<Button Command="{Binding testCommand}" HorizontalAlignment="Center"
-				VerticalAlignment="Center"
-				Content="Test"/>
+						OverlayBackground="{DynamicResource DialogOverlayBackground}"/>
 	</Panel>
 </Window>

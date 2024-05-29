@@ -6,6 +6,7 @@ using System.Threading.Channels;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Hosting;
 
 namespace WonderLab.Services;
 

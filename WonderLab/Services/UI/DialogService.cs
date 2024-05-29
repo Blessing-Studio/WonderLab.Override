@@ -9,6 +9,7 @@ using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using WonderLab.Views.Dialogs.Setting;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Views.Dialogs;
 
 namespace WonderLab.Services.UI;
 
@@ -16,6 +17,7 @@ public sealed class DialogService {
     private readonly WindowService _windowService;
     private readonly Dictionary<string, Func<object>> _dialogs = new() {
         { nameof(AuthenticateDialog), App.ServiceProvider.GetRequiredService<AuthenticateDialog> },
+        { nameof(TestUserCheckDialog), App.ServiceProvider.GetRequiredService<TestUserCheckDialog> },
     };
 
     public DialogService(WindowService windowService) {
@@ -74,5 +76,9 @@ public sealed class DialogService {
             pageObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
             await DialogHost.Show(pageObject, "dialogHost");
         }
+    }
+
+    public void CloseContentDialog() {
+        DialogHost.Close("dialogHost");
     }
 }

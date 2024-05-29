@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-						xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-						xmlns:controls="using:WonderLab.Views.Controls">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:WonderLab.Views.Controls"
+					xmlns:t="using:WonderLab.Classes.Datas.TaskData">
 	<Design.PreviewWith>
 		<Border Width="400" Height="300">
 			<controls:TaskListPanel Margin="20"/>
@@ -67,7 +68,7 @@
 										<Setter Property="BorderThickness" Value="1"/>
 										<Setter Property="Background" Value="{DynamicResource SettingSideBarBackground}"/>
 										<Setter Property="Template">
-											<ControlTemplate>
+											<ControlTemplate x:DataType="t:TaskBase">
 												<Border Padding="12 8"
 														Name="Layout"
 														Transitions="{TemplateBinding Transitions}"
@@ -77,15 +78,16 @@
 														Background="{TemplateBinding Background}">
 													<Grid RowDefinitions="Auto, 4, Auto, 4, Auto">
 														<TextBlock FontSize="14"
-																   Text="启动任务"/>
+																   Text="{Binding JobName}"/>
 
 														<TextBlock Grid.Row="2"
 																   FontSize="12"
-																   Text="10%"/>
+																   Text="{Binding ProgressDetail}"/>
 
 														<ProgressBar Grid.Row="4"
 																	 Margin="0 0 0 4"
-																	 Value="10"/>
+																	 Value="{Binding Progress}"
+																	 IsIndeterminate="{Binding IsIndeterminate}"/>
 													</Grid>
 												</Border>
 											</ControlTemplate>

@@ -24,6 +24,8 @@ using WonderLab.ViewModels.Dialogs.Setting;
 using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.ViewModels.Dialogs;
+using WonderLab.Views.Dialogs;
 
 namespace WonderLab;
 
@@ -33,9 +35,10 @@ public sealed partial class App : Application {
     public static IServiceProvider ServiceProvider => _host.Services;
     public static IStorageProvider StorageProvider { get; private set; }
 
-    public override void Initialize() {
+    public override async void Initialize() {
         base.Initialize();
         _host = Build().Build();
+        await _host.RunAsync();
     }
 
     public override void OnFrameworkInitializationCompleted() {
@@ -75,11 +78,6 @@ public sealed partial class App : Application {
 
     private static void ConfigureView(IServiceCollection services) {
         ConfigureViewModel(services);
-        services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
-            => new BackgroundTaskQueue(100)));
-
-        services.AddSingleton((Func<IServiceProvider, IBackgroundNotificationQueue>)((IServiceProvider _)
-            => new BackgroundNotificationQueue(200)));
 
         //Pages
         services.AddSingleton<HomePage>();
@@ -98,6 +96,7 @@ public sealed partial class App : Application {
 
         //Dialog
         services.AddTransient<AuthenticateDialog>();
+        services.AddTransient<TestUserCheckDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
@@ -118,7 +117,11 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingNavigationService>();
 
         services.AddHostedService<QueuedHostedService>();
+        services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
+            => new BackgroundTaskQueue(100)));
 
+        services.AddSingleton((Func<IServiceProvider, IBackgroundNotificationQueue>)((IServiceProvider _)
+            => new BackgroundNotificationQueue(200)));
         //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
         //services.AddScoped<GameEntryService>();
@@ -137,5 +140,6 @@ public sealed partial class App : Application {
         services.AddTransient<AccountSettingPageViewModel>();
         services.AddTransient<NetworkSettingPageViewModel>();
         services.AddTransient<AuthenticateDialogViewModel>();
+        services.AddTransient<TestUserCheckDialogViewModel>();
     }
 }
