@@ -42,7 +42,7 @@ public sealed class TaskListPanel : TemplatedControl {
         }
 
         _windowService = App.ServiceProvider.GetService<WindowService>();
-        _contentLayout.RenderTransform = TransformOperations.Parse($"translateX({_contentLayout.Bounds.Width + 8}px)");
+        _contentLayout.RenderTransform = TransformOperations.Parse($"translateX({_contentLayout.Bounds.Width + 10}px)");
 
         _windowService.HandlePropertyChanged(BoundsProperty, () => {
             if (_taskListBox.ItemCount > 0) {
@@ -83,7 +83,7 @@ public sealed class TaskListPanel : TemplatedControl {
         base.OnPropertyChanged(change);
 
         if (change.Property == IsPaneOpenProperty) {
-            var px = change.GetNewValue<bool>() ? 0 : _contentLayout.Bounds.Width + 8;
+            var px = change.GetNewValue<bool>() ? 0 : _contentLayout.Bounds.Width + 10;
             _contentLayout.RenderTransform = TransformOperations.Parse($"translateX({px}px)");
         }
     }

@@ -23,5 +23,26 @@
                        Text="{DynamicResource Launch}"
                        Foreground="{DynamicResource ContentBrush1}"/>
         </Button>
+
+		<NotificationCard>
+			<Grid VerticalAlignment="Center"
+				  Margin="15 0"
+				  RowDefinitions="Auto,Auto"
+				  ColumnDefinitions="Auto,1*,Auto">
+				<TextBlock Text="Title"
+						   FontSize="14"
+						   FontWeight="Bold"/>
+				
+				<TextBlock Grid.Row="1"
+						   Text="Some Message"
+						   FontSize="12"
+						   Margin="0 2 0 0"/>
+
+				<Button Grid.Column="2"
+						Content="&#xE8BB;" NotificationCard.CloseOnClick="True"
+						Classes="titlebarbutton"
+						VerticalAlignment="Center"/>
+			</Grid>
+		</NotificationCard>
 	</Grid>
 </UserControl>

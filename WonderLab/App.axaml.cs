@@ -78,6 +78,9 @@ public sealed partial class App : Application {
         services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
             => new BackgroundTaskQueue(100)));
 
+        services.AddSingleton((Func<IServiceProvider, IBackgroundNotificationQueue>)((IServiceProvider _)
+            => new BackgroundNotificationQueue(200)));
+
         //Pages
         services.AddSingleton<HomePage>();
         
@@ -110,6 +113,7 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingService>();
         services.AddSingleton<LanguageService>();
         services.AddSingleton<DownloadService>();
+        services.AddSingleton<NotificationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 
@@ -118,7 +122,6 @@ public sealed partial class App : Application {
         //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
         //services.AddScoped<GameEntryService>();
-        //services.AddScoped<NotificationService>();
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {

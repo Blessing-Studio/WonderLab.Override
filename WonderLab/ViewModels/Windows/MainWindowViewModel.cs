@@ -17,17 +17,18 @@ using WonderLab.Classes.Datas.TaskData;
 namespace WonderLab.ViewModels.Windows;
 
 public sealed partial class MainWindowViewModel : ViewModelBase {
-   private readonly LogService _logService;
-   private readonly TaskService _taskService;
+    private readonly TaskService _taskService;
     private readonly INavigationService _navigationService;
+    private readonly NotificationService _notificationService;
 
     [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
     [ObservableProperty] private NavigationPageData _activePage;
-    [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _notifications;
+    [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
+    [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
 
-    public MainWindowViewModel(HostNavigationService navigationService, TaskService taskService, LogService logService) {
+    public MainWindowViewModel(HostNavigationService navigationService, TaskService taskService, NotificationService notificationService) {
         navigationService.NavigationRequest += p => {
             Dispatcher.Post(() => {
                 if (ActivePage?.PageKey != p.PageKey) {
@@ -37,10 +38,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             }, DispatcherPriority.ApplicationIdle);
         };
 
-        _logService = logService;
         _taskService = taskService;
         _navigationService = navigationService;
-        Notifications = new(_taskService.TaskJobs);
+        _notificationService = notificationService;
+        Tasks = new(_taskService.TaskJobs);
+        Notifications = new(_notificationService.Notifications);
 
         _navigationService.NavigationTo<HomePageViewModel>();
         IsTitleBarVisible = EnvironmentUtil.IsWindow ? true : false;
@@ -59,16 +61,16 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             "DownloadNavigationPage" => true,
             _ => false
         };
-        
+
         switch (pageKey) {
             case "HomePage":
-                _navigationService.NavigationTo<HomePageViewModel>(); 
+                _navigationService.NavigationTo<HomePageViewModel>();
                 break;
             case "SettingNavigationPage":
-                _navigationService.NavigationTo<SettingNavigationPageViewModel>(); 
+                _navigationService.NavigationTo<SettingNavigationPageViewModel>();
                 break;
             case "DownloadNavigationPage":
-                _navigationService.NavigationTo<DownloadNavigationPageViewModel>(); 
+                _navigationService.NavigationTo<DownloadNavigationPageViewModel>();
                 break;
             default:
                 _navigationService.NavigationTo<HomePageViewModel>();
@@ -77,13 +79,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     }
 
     [RelayCommand]
-    private void AddTask() {
-        _taskService.TaskJobs.Add(new LaunchTask());
-        _logService.Debug(nameof(MainWindowViewModel), $"Current count is {Notifications.Count}");
-    }
-
-    [RelayCommand]
-    private void RemoveTask() {
-        _taskService.TaskJobs.Remove(Notifications.FirstOrDefault());
+    private void test() {
+        _notificationService.QueueJob(new NotificationViewData() {
+            NotificationType = Avalonia.Controls.Notifications.NotificationType.Error,
+            Title = "哼哼哼",
+            Content = "啊啊啊啊啊啊啊啊啊啊啊"
+        });
     }
 }

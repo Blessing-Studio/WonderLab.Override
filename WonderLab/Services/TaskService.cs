@@ -38,7 +38,7 @@ public sealed partial class TaskService(IBackgroundTaskQueue queue) : Observable
     }
 }
 
-public class BackgroundTaskQueue : IBackgroundTaskQueue {
+public sealed class BackgroundTaskQueue : IBackgroundTaskQueue {
     private readonly Channel<ITaskJob> _queue;
 
     public BackgroundTaskQueue(int queueLength) {

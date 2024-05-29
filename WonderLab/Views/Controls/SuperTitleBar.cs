@@ -6,6 +6,7 @@ using MinecraftLaunch.Utilities;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Controls.Notifications;
 
 namespace WonderLab.Views.Controls;
 

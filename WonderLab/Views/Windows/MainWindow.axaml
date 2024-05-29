@@ -94,18 +94,16 @@
 
 			<ui:TaskListPanel Grid.Row="1"
 							  Margin="0 0 10 60"
-							  Tasks="{Binding Notifications}"
+							  Tasks="{Binding Tasks}"
 							  IsPaneOpen="{Binding IsOpenTaskListPanel}"/>
+			
+			<ui:NotificationListPanel Grid.Row="1"
+									  Margin="0 0 0 60"
+									  ClipToBounds="False"
+									  VerticalAlignment="Bottom"
+									  HorizontalAlignment="Right"
+									  Notifications="{Binding Notifications}"/>
 		</Grid>
-
-		<StackPanel VerticalAlignment="Center"
-					HorizontalAlignment="Center">
-			<Button Content="Add"
-		Command="{Binding AddTaskCommand}"/>
-
-			<Button Content="Remove"
-		Command="{Binding RemoveTaskCommand}"/>
-		</StackPanel>
 		
 		<dha:DialogHost DialogMargin="16"
 					    Identifier="dialogHost"
@@ -114,5 +112,9 @@
 					    dha:DialogHostStyle.CornerRadius="8"
 						OverlayBackground="{DynamicResource DialogOverlayBackground}">
 		</dha:DialogHost>
+		
+		<Button Command="{Binding testCommand}" HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Content="Test"/>
 	</Panel>
 </Window>
