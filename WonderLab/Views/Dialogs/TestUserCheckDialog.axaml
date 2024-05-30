@@ -3,6 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Dialogs"
+			 x:DataType="vm:TestUserCheckDialogViewModel"
              x:Class="WonderLab.Views.Dialogs.TestUserCheckDialog">
-	
+	<ui:DialogContentPanel Title="请输入测试版许可证"
+						   PrimaryButtonContent="下一步"
+						   IsPrimaryButtonVisible="True"
+						   PrimaryButtonCommand="{Binding AuthenticateCommand}"
+						   PrimaryButtonCommandParameter="{Binding ElementName=uuidTextBox, Path=Text}">
+		<ui:DialogContentPanel.Content>
+			<Grid RowDefinitions="Auto, 5, Auto">
+				<TextBlock FontSize="12"
+						   Text="请输入您的测试用户 Uuid："/>
+				
+				<TextBox Grid.Row="2"
+						 Name="uuidTextBox"
+						 UseFloatingWatermark="False"/>
+			</Grid>
+		</ui:DialogContentPanel.Content>
+	</ui:DialogContentPanel>
 </UserControl>

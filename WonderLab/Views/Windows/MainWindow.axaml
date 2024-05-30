@@ -105,11 +105,11 @@
 									  Notifications="{Binding Notifications}"/>
 		</Grid>
 		
-		<dha:DialogHost DialogMargin="16"
+		<dha:DialogHost DialogMargin="0"
 					    Identifier="dialogHost"
 						CloseOnClickAway="False"
 					    DisableOpeningAnimation="True"
-					    dha:DialogHostStyle.CornerRadius="8"
+					    dha:DialogHostStyle.CornerRadius="14"
 						OverlayBackground="{DynamicResource DialogOverlayBackground}"/>
 	</Panel>
 </Window>

@@ -1,0 +1,72 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:WonderLab.Views.Controls"
+					xmlns:vd="using:WonderLab.Classes.Datas.ViewData">
+	<Design.PreviewWith>
+		<Border Width="400" Height="300">
+			<controls:DialogContentPanel>
+				<controls:DialogContentPanel.Content>
+					<Button/>
+				</controls:DialogContentPanel.Content>
+			</controls:DialogContentPanel>
+		</Border>
+	</Design.PreviewWith>
+
+	<ControlTheme x:Key="{x:Type controls:DialogContentPanel}" TargetType="controls:DialogContentPanel">
+		<Setter Property="MinWidth" Value="350" />
+		<Setter Property="CornerRadius" Value="14" />
+		<Setter Property="BorderThickness" Value="2" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+		<Setter Property="Background" Value="{DynamicResource GameManagerPanelBackground}"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border MinWidth="{TemplateBinding MinWidth}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+					<Grid RowDefinitions="Auto, 1*, Auto">
+						<TextBlock FontSize="16"
+								   FontWeight="Bold"
+								   Margin="15 20 15 10"
+								   Text="{TemplateBinding Title}"/>
+					
+						<ContentPresenter Grid.Row="1"
+										  Margin="15 0 15 15"
+						                  Content="{TemplateBinding Content}"/>
+						
+					    <Border Grid.Row="2"
+								Padding="15"
+								BorderThickness="0 2 0 0"
+								CornerRadius="0 0 14 14"
+								BorderBrush="{TemplateBinding BorderBrush}">
+							<Grid ColumnDefinitions="Auto, Auto"
+								  HorizontalAlignment="Right">										
+								<Button Width="100"
+										VerticalAlignment="Stretch"
+										HorizontalAlignment="Stretch"
+										VerticalContentAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Content="{TemplateBinding PrimaryButtonContent}"
+										Command="{TemplateBinding PrimaryButtonCommand}"
+										IsVisible="{TemplateBinding IsPrimaryButtonVisible}"
+								        CommandParameter="{TemplateBinding PrimaryButtonCommandParameter}"/>
+
+								<Button Width="100"
+										Content="关闭"
+										Grid.Column="2"
+										Margin="0 0 10 0"
+										Name="closeButton"
+										VerticalAlignment="Stretch"
+										HorizontalAlignment="Stretch"
+										VerticalContentAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										IsVisible="{TemplateBinding IsCloseButtonVisible}"/>
+							</Grid>
+						</Border>
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+</ResourceDictionary>
