@@ -79,89 +79,84 @@
                             <TextBox Height="45"
 									 Margin="12 8 12 5"
                                      Watermark="{DynamicResource GameSearchBoxWatermark}"/>
-                            
-                            <ListBox Grid.Row="1"
-                                     Margin="0 5 0 0"
-                                     Name="GameListBox"
-                                     Background="Transparent"
-                                     ItemsSource="{TemplateBinding GameEntries}"
-                                     SelectedItem="{TemplateBinding SelectedGame}"
-                                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                                <ListBox.Styles>
-                                    <Style Selector="ListBoxItem">
-                                        <Setter Property="Margin" Value="12 5 12 0"/>
-                                        <Setter Property="ClipToBounds" Value="False"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Template">
-                                            <ControlTemplate x:DataType="data:GameViewData">
-                                                <Border Name="Layout"
+
+							<ListBox Grid.Row="1"
+		                             Margin="0 5 0 0"
+		                             Name="GameListBox"
+		                             Background="Transparent"
+		                             ItemsSource="{TemplateBinding GameEntries}"
+		                             ScrollViewer.VerticalScrollBarVisibility="Hidden">
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="Margin" Value="12 5 12 0"/>
+										<Setter Property="ClipToBounds" Value="False"/>
+										<Setter Property="Background" Value="Transparent"/>
+										<Setter Property="Template">
+											<ControlTemplate x:DataType="data:GameViewData">
+												<Border Name="Layout"
                                                         CornerRadius="12"
                                                         Background="Transparent"
                                                         BorderBrush="{DynamicResource ContentBrush3}">
-                                                    <Border.Transitions>
-                                                        <Transitions>
-                                                            <BrushTransition Duration="0:0:0.35"
+													<Border.Transitions>
+														<Transitions>
+															<BrushTransition Duration="0:0:0.35"
                                                                              Property="Background"
                                                                              Easing="QuinticEaseOut"/>
-                                                        </Transitions>
-                                                    </Border.Transitions>
-                                                    
-                                                    <Grid Margin="12 10" 
+														</Transitions>
+													</Border.Transitions>
+
+													<Grid Margin="12 10"
                                                           ColumnDefinitions="Auto,1*, Auto">
-                                                        <controls:FontIcon FontSize="28"
-                                                                           Glyph="&#xE7FC;"
-                                                                           Margin="0 1 5 0"
-                                                                           VerticalAlignment="Center"
-                                                                           Foreground="{DynamicResource LayoutForeground}"/>
-                        
-                                                        <Grid Grid.Column="1"
+														<controls:FontIcon FontSize="28"
+                                                                        Glyph="&#xE7FC;"
+                                                                        Margin="0 1 5 0"
+                                                                        VerticalAlignment="Center"
+                                                                        Foreground="{DynamicResource LayoutForeground}"/>
+
+														<Grid Grid.Column="1"
                                                               RowDefinitions="Auto, Auto">
-                                                            <TextBlock Text="{Binding Entry.Id}"
+															<TextBlock Text="{Binding Entry.Id}"
                                                                        Foreground="{DynamicResource LayoutForeground}"/>
-                                                            
-                                                            <TextBlock Grid.Row="1"
+
+															<TextBlock Grid.Row="1"
                                                                        FontSize="12"
                                                                        Text="{Binding Entry.Id}"
                                                                        Foreground="{DynamicResource DefaultBrush400}"/>
-                                                        </Grid>
-                                                        
-                                                        <StackPanel Spacing="5"
+														</Grid>
+
+														<StackPanel Spacing="5"
                                                                     Grid.Column="2"
                                                                     Orientation="Horizontal">
-                                                            <Button Padding="4"
+															<Button Padding="4"
+                                                                            Classes="ripple"
+                                                                            Background="Transparent">
+																<controls:FontIcon Glyph="&#xE734;"/>
+															</Button>
+
+															<Button Padding="4"
                                                                     Classes="ripple"
                                                                     Background="Transparent">
-                                                                <controls:FontIcon Glyph="&#xE734;"/>
-                                                            </Button>
-                                                            
-                                                            <Button Padding="4"
+																<controls:FontIcon Glyph="&#xE74D;"/>
+															</Button>
+
+															<Button Padding="4"
                                                                     Classes="ripple"
                                                                     Background="Transparent">
-                                                                <controls:FontIcon Glyph="&#xE74D;"/>
-                                                            </Button>
-                                                            
-                                                            <Button Padding="4"
-                                                                    Classes="ripple"
-                                                                    Background="Transparent">
-                                                                <controls:FontIcon Glyph="&#xE713;"/>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Grid>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter>
-                                    </Style>
-                                    
-                                    <Style Selector="ListBoxItem:pointerover /template/ Border#Layout">
-                                        <Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
-                                    </Style>
-                                    
-                                    <Style Selector="ListBoxItem:selected /template/ Border#Layout">
-                                        <Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
-                                    </Style>
-                                </ListBox.Styles>
-                            </ListBox>
-                        </Grid>
+																<controls:FontIcon Glyph="&#xE713;"/>
+															</Button>
+														</StackPanel>
+													</Grid>
+												</Border>
+											</ControlTemplate>
+										</Setter>
+									</Style>
+
+									<Style Selector="ListBoxItem:pointerover /template/ Border#Layout">
+										<Setter Property="Background" Value="{DynamicResource DividerBrush}"/>
+									</Style>
+								</ListBox.Styles>
+							</ListBox>
+						</Grid>
                         
                         <Button Grid.Row="1"
                                 FontSize="13"

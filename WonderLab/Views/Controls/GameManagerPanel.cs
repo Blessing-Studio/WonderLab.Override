@@ -8,9 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Classes.Datas.ViewData;
-using WonderLab.Services.UI;
 using WonderLab.Utilities;
 
 namespace WonderLab.Views.Controls;
@@ -24,23 +22,20 @@ public sealed class GameManagerPanel : ContentControl {
     private Button _openPaneButton;
     private TextBlock _titleTextBlock;
     private TextBlock _subTitleTextBlock;
-    private LanguageService _languageService;
-
     private Rect _rectCache = new(0, 0, 155, 85);
     private CancellationTokenSource _cancellationTokenSource = new();
-
     private readonly Rect _maxRect = new(0, 0, 645, 370);
 
     public bool IsPaneOpen {
-        get => GetValue(IsPaneOpenProperty); 
+        get => GetValue(IsPaneOpenProperty);
         set => SetValue(IsPaneOpenProperty, value);
     }
 
-    public ICommand OpenCommand { 
+    public ICommand OpenCommand {
         get => GetValue(OpenCommandProperty);
         set => SetValue(OpenCommandProperty, value);
     }
-    
+
     public GameViewData SelectedGame {
         get => GetValue(SelectedGameProperty);
         set => SetValue(SelectedGameProperty, value);
@@ -50,26 +45,26 @@ public sealed class GameManagerPanel : ContentControl {
         get => GetValue(GameEntriesProperty);
         set => SetValue(GameEntriesProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> IsPaneOpenProperty =
         AvaloniaProperty.Register<GameManagerPanel, bool>(nameof(IsPaneOpen), false);
 
     public static readonly StyledProperty<GameViewData> SelectedGameProperty =
         AvaloniaProperty.Register<GameManagerPanel, GameViewData>(nameof(SelectedGame));
-    
+
     public static readonly StyledProperty<ICommand> OpenCommandProperty =
         AvaloniaProperty.Register<GameManagerPanel, ICommand>(nameof(OpenCommand));
-    
+
     public static readonly StyledProperty<IEnumerable<GameViewData>> GameEntriesProperty =
         AvaloniaProperty.Register<GameManagerPanel, IEnumerable<GameViewData>>(nameof(GameEntries),
             new AvaloniaList<GameViewData>());
 
-    private void OnOpenPaneButtonClick(object sender, RoutedEventArgs e) {
+    private void OnOpenPaneButtonClick(object? sender, RoutedEventArgs e) {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
-        _cancellationTokenSource = new();
-        
-        if (!IsPaneOpen) { 
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        if (!IsPaneOpen) {
             OpenPaneAsync();
             return;
         }
@@ -77,14 +72,11 @@ public sealed class GameManagerPanel : ContentControl {
         ClosePane();
         return;
 
-        async void OpenPaneAsync() { 
+        async void OpenPaneAsync() {
             Dispatcher.UIThread.Post(() => {
                 Width = _maxRect.Width;
                 Height = _maxRect.Height;
-                if (_languageService.TryGetValue("CollapseInterface", out var text)) {
-                    _openPaneButton.Content = text;
-                }
-
+                _openPaneButton.Content = "收起界面";
                 IsPaneOpen = true;
             });
 
@@ -100,10 +92,7 @@ public sealed class GameManagerPanel : ContentControl {
                 _contentPanel.Opacity = 0;
                 Height = 85;
                 Width = _rectCache.Width;
-                if (_languageService.TryGetValue("ExpandInterface", out var text)) {
-                    _openPaneButton.Content = text;
-                }
-
+                _openPaneButton.Content = "展开界面";
                 IsPaneOpen = false;
             });
         }
@@ -119,9 +108,6 @@ public sealed class GameManagerPanel : ContentControl {
             _contentPanel.Opacity = 0;
             _titleTextBlock.Text = SelectedGame.Entry.Id;
         }
-
-        _languageService = App.ServiceProvider
-            .GetRequiredService<LanguageService>();
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -132,14 +118,15 @@ public sealed class GameManagerPanel : ContentControl {
         _openPaneButton = e.NameScope.Get<Button>("OpenPaneButton");
         _titleTextBlock = e.NameScope.Get<TextBlock>("TitleTextBlock");
         _subTitleTextBlock = e.NameScope.Get<TextBlock>("SubTitleTextBlock");
-        
+
         _titleTextBlock.Text = "未选择游戏";
         _openPaneButton.Click += OnOpenPaneButtonClick;
         _gameListBox.SelectionChanged += OnGameListBoxSelectionChanged;
     }
 
-    private void OnGameListBoxSelectionChanged(object sender, SelectionChangedEventArgs e) {
+    private void OnGameListBoxSelectionChanged(object? sender, SelectionChangedEventArgs e) {
         SelectedGame = _gameListBox.SelectedItem as GameViewData ?? SelectedGame;
+        _gameListBox.SelectedItem = null;
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {

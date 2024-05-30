@@ -10,8 +10,8 @@
     <Grid VerticalAlignment="Bottom"
           HorizontalAlignment="Left"
           RowDefinitions="1*, 10, Auto">
-        <ui:GameManagerPanel GameEntries="{Binding GameEntries}"
-                             SelectedGame="{Binding ActiveGameEntry}"/>
+        <ui:GameManagerPanel GameEntries="{Binding GameEntries,Mode=TwoWay}"
+                             SelectedGame="{Binding ActiveGameEntry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         
         <Button Grid.Row="2"
 				Height="45"
