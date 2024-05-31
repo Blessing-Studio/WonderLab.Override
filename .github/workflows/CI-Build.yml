@@ -57,7 +57,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Windows
-        path: WonderLab/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
+        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
   build_Windows_Installer:
     strategy:
       matrix:
