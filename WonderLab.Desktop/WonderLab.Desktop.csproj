@@ -20,10 +20,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\WonderLab\Assets\wonderlab.png" CopyToPublishDirectory="PreserveNewest">
+		<Content Include="..\WonderLab\Assets\wonderlab.png">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</Content>
-		<Content Include="wonderlab.desktop" CopyToPublishDirectory="PreserveNewest">
+		<Content Include="wonderlab.desktop">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
 	</ItemGroup>
