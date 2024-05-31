@@ -5,15 +5,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Services;
+using WonderLab.Services.UI;
 
 namespace WonderLab.ViewModels.Dialogs;
 
 public sealed partial class TestUserCheckDialogViewModel : ViewModelBase {
+    private readonly DialogService _dialogService;
     private readonly SettingService _settingService;
     private readonly NotificationService _notificationService;
     private readonly string _apiKey = "9e15a18a-e726-453b-9004-a670c1dfaca3";
 
-    public TestUserCheckDialogViewModel(NotificationService notificationService, SettingService settingService) {
+    public TestUserCheckDialogViewModel(NotificationService notificationService, SettingService settingService, DialogService dialogService) {
+        _dialogService = dialogService;
         _settingService = settingService;
         _notificationService = notificationService;
     }
@@ -32,5 +35,6 @@ public sealed partial class TestUserCheckDialogViewModel : ViewModelBase {
         });
 
         _settingService.Data.TestUserUuid = result.Key;
+        _dialogService.CloseContentDialog();
     }
 }
