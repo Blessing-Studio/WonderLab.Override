@@ -92,4 +92,11 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 [Bilibili](https://space.bilibili.com/435654748)
 [Blog](https://blogs.mailset.top)
 
+#### dream_pep
+
+一个奇怪的UI设计师，经常忘记修UI文件（bushi）
+
+[Github](https://github.com/dream0090)
+[Page](https://serverhub.cc)
+
 </div>
