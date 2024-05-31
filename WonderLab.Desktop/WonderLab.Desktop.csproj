@@ -7,6 +7,7 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,9 +29,9 @@
 	</ItemGroup>
 
 	<PropertyGroup>
-		<CFBundleName>WonderLab</CFBundleName>
+		<CFBundleName>WonderLab.Desktop</CFBundleName>
 		<!-- Also defines .app file name -->
-		<CFBundleDisplayName>WonderLab</CFBundleDisplayName>
+		<CFBundleDisplayName>WonderLab.Desktop</CFBundleDisplayName>
 		<CFBundleIdentifier>org.blessing-studio.wonderlab</CFBundleIdentifier>
 		<CFBundleVersion>2.0.0</CFBundleVersion>
 		<CFBundlePackageType>APPL</CFBundlePackageType>
