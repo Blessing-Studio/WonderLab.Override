@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -125,15 +126,20 @@ public sealed class GameManagerPanel : ContentControl {
     }
 
     private void OnGameListBoxSelectionChanged(object? sender, SelectionChangedEventArgs e) {
+        SelectedGame = null;
         SelectedGame = _gameListBox.SelectedItem as GameViewData ?? SelectedGame;
-        _gameListBox.SelectedItem = null;
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
         if (change.Property == SelectedGameProperty && _titleTextBlock != null) {
-            string gameId = change.GetNewValue<GameViewData>().Entry.Id;
+            var viewData = change.GetNewValue<GameViewData>();
+            if (viewData is null) {
+                return;
+            }
+
+            string gameId = viewData.Entry.Id;
             _rectCache = MathUtil.CalculateText(gameId, _titleTextBlock);
             Dispatcher.UIThread.Post(() => {
                 Height = 85;
