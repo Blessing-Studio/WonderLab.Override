@@ -23,18 +23,26 @@ public sealed partial class TestUserCheckDialogViewModel : ViewModelBase {
 
     [RelayCommand]
     private async Task Authenticate(string uuid) {
-        var result = await "http://47.113.149.130:14514/api/user".WithHeaders(new Dictionary<string, string>() {
+        try {
+            var result = await "http://47.113.149.130:14514/api/user".WithHeaders(new Dictionary<string, string>() {
                 { "x-api-key", _apiKey },
                 { "x-user-uuid", uuid },
             }).GetJsonAsync<KeyValuePair<string, string>>();
 
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "你好",
-            Content = $"欢迎测试用户 {result.Value} 回来！",
-            NotificationType = NotificationType.Success
-        });
+            _notificationService.QueueJob(new NotificationViewData {
+                Title = "你好",
+                Content = $"欢迎测试用户 {result.Value} 回来！",
+                NotificationType = NotificationType.Success
+            });
 
-        _settingService.Data.TestUserUuid = result.Key;
-        _dialogService.CloseContentDialog();
+            _settingService.Data.TestUserUuid = result.Key;
+            _dialogService.CloseContentDialog();
+        } catch (System.Exception ex) {
+            _notificationService.QueueJob(new NotificationViewData {
+                Title = "错误",
+                Content = $"{ex.Message}",
+                NotificationType = NotificationType.Error
+            });
+        }
     }
 }

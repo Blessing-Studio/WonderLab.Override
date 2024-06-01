@@ -28,21 +28,40 @@ public sealed class InitTask : TaskBase {
 
     public async override ValueTask BuildWorkItemAsync(CancellationToken token) {
         await Task.Delay(TimeSpan.FromSeconds(1), token);
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "信息",
+            Content = $"正在初始化部分服务，稍等片刻",
+            NotificationType = NotificationType.Information
+        });
+
         IsIndeterminate = false;
-        if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
+        if (!string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
             return;
         }
 
-        var result = await "http://47.113.149.130:14514/api/user".WithHeaders(new Dictionary<string, string>() {
+        try {
+            var result = await "http://47.113.149.130:14514/api/user".WithHeaders(new Dictionary<string, string>() {
                 { "x-api-key", _apiKey },
                 { "x-user-uuid", _settingService.Data.TestUserUuid },
-            }).GetJsonAsync<KeyValuePair<string, string>>(cancellationToken: token);
+            }).GetJsonAsync<KeyValuePair<string, string>>();
 
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "你好",
-            Content = $"欢迎测试用户 {result.Value} 回来！",
-            NotificationType = NotificationType.Success
-        });
+            _notificationService.QueueJob(new NotificationViewData {
+                Title = "你好",
+                Content = $"欢迎测试用户 {result.Value} 回来！",
+                NotificationType = NotificationType.Success
+            });
+
+            _settingService.Data.TestUserUuid = result.Key;
+            _dialogService.CloseContentDialog();
+        } catch (Exception ex) {
+            _notificationService.QueueJob(new NotificationViewData {
+                Title = "错误",
+                Content = $"{ex.Message}",
+                NotificationType = NotificationType.Error
+            });
+
+            _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
+        }
     }
 }
