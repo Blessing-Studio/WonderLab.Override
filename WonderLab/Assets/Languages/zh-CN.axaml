@@ -46,4 +46,16 @@
 	<sys:String x:Key="AppBackground">切换程序背景：</sys:String>
 	<sys:String x:Key="LanguageSettingTitle">语言设置</sys:String>
 	<sys:String x:Key="AppearanceSettingTitle">外观设置</sys:String>
+
+	<!--AboutPage-->
+	<sys:String x:Key="Developers">开发团队</sys:String>
+	<sys:String x:Key="Donate">赞助：</sys:String>
+	<sys:String x:Key="Version">启动器版本：</sys:String>
+	<sys:String x:Key="QualityControl">质量控制组：</sys:String>
+	<sys:String x:Key="Designers">设计组：</sys:String>
+	<sys:String x:Key="FrontEndDevelopers">前端开发组：</sys:String>
+	<sys:String x:Key="BackEndDevelopers">后端开发组：</sys:String>
+	<sys:String x:Key="Thanks">鸣谢</sys:String>
+	<sys:String x:Key="ServerSupport">服务器支持：</sys:String>
+	<sys:String x:Key="TechnicalSupport">技术支持：</sys:String>
 </ResourceDictionary>

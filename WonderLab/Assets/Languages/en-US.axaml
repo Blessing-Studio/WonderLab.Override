@@ -10,11 +10,12 @@
 
 	<!--MainWindow-->
 	<sys:String x:Key="Home">Home</sys:String>
-	<sys:String x:Key="Online">Online</sys:String>
+	<sys:String x:Key="Online">MultiplePlayers</sys:String>
 	<sys:String x:Key="Setting">Setting</sys:String>
 	<sys:String x:Key="Download">Download</sys:String>
 
 	<!--SettingNavigationPage-->
+	<sys:String x:Key="About">About</sys:String>
 	<sys:String x:Key="Account">Account</sys:String>
 	<sys:String x:Key="Network">Network</sys:String>
 	<sys:String x:Key="Appearance">Appearance</sys:String>
@@ -44,4 +45,16 @@
 	<sys:String x:Key="AppBackground">Change app background:</sys:String>
 	<sys:String x:Key="LanguageSettingTitle">Language Setting</sys:String>
 	<sys:String x:Key="AppearanceSettingTitle">Appearance Setting</sys:String>
+	
+	<!--AboutPage-->
+	<sys:String x:Key="Developers">Developers</sys:String>
+	<sys:String x:Key="Donate">Donate: </sys:String>
+	<sys:String x:Key="Version">Launcher Version: </sys:String>
+	<sys:String x:Key="QualityControl">QualityControllers: </sys:String>
+	<sys:String x:Key="Designers">Designers: </sys:String>
+	<sys:String x:Key="FrontEndDevelopers">Front-end Developers: </sys:String>
+	<sys:String x:Key="BackEndDevelopers">Back-end Developers: </sys:String>
+	<sys:String x:Key="Thanks">Thanks</sys:String>
+	<sys:String x:Key="ServerSupport">Server Support: </sys:String>
+	<sys:String x:Key="TechnicalSupport">Technical Support: </sys:String>
 </ResourceDictionary>
