@@ -4,7 +4,9 @@
 					xmlns:vd="using:WonderLab.Classes.Datas.ViewData">
 	<Design.PreviewWith>
 		<Border Width="400" Height="300">
-			<controls:DialogContentPanel>
+			<controls:DialogContentPanel Title="你好" IsTopCloseButtonVisible="True"
+										 IsPrimaryButtonVisible="True"
+										 IsCloseButtonVisible="True">
 				<controls:DialogContentPanel.Content>
 					<Button/>
 				</controls:DialogContentPanel.Content>
@@ -30,19 +32,30 @@
 								   FontWeight="Bold"
 								   Margin="15 20 15 10"
 								   Text="{TemplateBinding Title}"/>
-					
+
+						<Button FontSize="20"
+								Grid.Column="0"
+								Margin="0 20 15 0"
+								Content="&#xE8BB;"
+								Name="topCloseButton"
+								VerticalAlignment="Top"
+								Classes="titlebarbutton"
+								HorizontalAlignment="Right"
+								Foreground="{TemplateBinding Foreground}"
+								IsVisible="{TemplateBinding IsTopCloseButtonVisible}"/>
+						
 						<ContentPresenter Grid.Row="1"
 										  Margin="15 0 15 15"
 						                  Content="{TemplateBinding Content}"/>
 						
 					    <Border Grid.Row="2"
 								Padding="15"
-								BorderThickness="0 2 0 0"
 								CornerRadius="0 0 14 14"
+								BorderThickness="0 2 0 0"
 								BorderBrush="{TemplateBinding BorderBrush}">
-							<Grid ColumnDefinitions="Auto, Auto"
-								  HorizontalAlignment="Right">										
-								<Button Width="100"
+							<Grid HorizontalAlignment="Right"
+								  ColumnDefinitions="Auto, Auto, Auto">							
+								<Button Width="65"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
 										VerticalContentAlignment="Stretch"
@@ -52,16 +65,20 @@
 										IsVisible="{TemplateBinding IsPrimaryButtonVisible}"
 								        CommandParameter="{TemplateBinding PrimaryButtonCommandParameter}"/>
 
-								<Button Width="100"
+								<Button Width="65"
 										Content="关闭"
 										Grid.Column="2"
-										Margin="0 0 10 0"
+										Margin="10 0 0 0"
 										Name="closeButton"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
 										VerticalContentAlignment="Stretch"
 										HorizontalContentAlignment="Center"
 										IsVisible="{TemplateBinding IsCloseButtonVisible}"/>
+
+								<ContentPresenter Grid.Column="3"
+												  Margin="10 0 0 0"
+												  Content="{TemplateBinding BottomBarContent}"/>
 							</Grid>
 						</Border>
 					</Grid>

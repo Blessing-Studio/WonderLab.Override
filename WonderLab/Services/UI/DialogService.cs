@@ -16,8 +16,9 @@ namespace WonderLab.Services.UI;
 public sealed class DialogService {
     private readonly WindowService _windowService;
     private readonly Dictionary<string, Func<object>> _dialogs = new() {
-        { nameof(AuthenticateDialog), App.ServiceProvider.GetRequiredService<AuthenticateDialog> },
         { nameof(TestUserCheckDialog), App.ServiceProvider.GetRequiredService<TestUserCheckDialog> },
+        { nameof(ChooseAccountTypeDialog), App.ServiceProvider.GetRequiredService<ChooseAccountTypeDialog> },
+        { nameof(OfflineAuthenticateDialog), App.ServiceProvider.GetRequiredService<OfflineAuthenticateDialog> },
     };
 
     public bool IsDialogOpen => DialogHost.IsDialogOpen("dialogHost");

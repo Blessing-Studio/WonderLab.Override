@@ -85,6 +85,7 @@
 		<Style Selector="^.titlebarbutton">
 			<Setter Property="Width" Value="22"/>
 			<Setter Property="Height" Value="22"/>
+			<Setter Property="FontSize" Value="12"/>
 			<Setter Property="ClipToBounds" Value="True"/>
 			<Setter Property="Background" Value="Transparent"/>
 			<Setter Property="Template">
@@ -105,10 +106,10 @@
 									</Transitions>
 								</Border.Transitions>
 
-								<controls:FontIcon FontSize="12"
-								                   VerticalAlignment="Center"
+								<controls:FontIcon VerticalAlignment="Center"
 								                   HorizontalAlignment="Center"
-								                   Glyph="{TemplateBinding Content}"/>
+								                   Glyph="{TemplateBinding Content}"
+												   FontSize="{TemplateBinding FontSize}"/>
 							</Border>
 						</controls:RippleControl>
 					</Border>

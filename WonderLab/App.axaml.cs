@@ -95,11 +95,13 @@ public sealed partial class App : Application {
         services.AddScoped<MainWindow>();
 
         //Dialog
-        services.AddTransient<AuthenticateDialog>();
         services.AddTransient<TestUserCheckDialog>();
+        services.AddTransient<ChooseAccountTypeDialog>();
+        services.AddTransient<OfflineAuthenticateDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
+        services.AddHostedService<QueuedHostedService>();
         services.AddScoped<JavaFetcher>();
 
         services.AddSingleton<LogService>();
@@ -109,6 +111,7 @@ public sealed partial class App : Application {
         services.AddSingleton<ThemeService>();
         services.AddSingleton<WindowService>();
         services.AddSingleton<DialogService>();
+        services.AddSingleton<AccountService>();
         services.AddSingleton<SettingService>();
         services.AddSingleton<LanguageService>();
         services.AddSingleton<DownloadService>();
@@ -116,7 +119,6 @@ public sealed partial class App : Application {
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 
-        services.AddHostedService<QueuedHostedService>();
         services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
             => new BackgroundTaskQueue(100)));
 
@@ -139,7 +141,8 @@ public sealed partial class App : Application {
         services.AddTransient<LaunchSettingPageViewModel>();
         services.AddTransient<AccountSettingPageViewModel>();
         services.AddTransient<NetworkSettingPageViewModel>();
-        services.AddTransient<AuthenticateDialogViewModel>();
         services.AddTransient<TestUserCheckDialogViewModel>();
+        services.AddTransient<ChooseAccountTypeDialogViewModel>();
+        services.AddTransient<OfflineAuthenticateDialogViewModel>();
     }
 }

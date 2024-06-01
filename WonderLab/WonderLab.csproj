@@ -32,7 +32,7 @@
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0-beta1" />
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.10.9" />
 		<PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
-		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview02" />
+		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview03" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.2.24128.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.2.24128.5" />
 
@@ -51,5 +51,11 @@
 	  <AvaloniaXaml Update="Assets\Languages\zh-CN.axaml">
 	    <SubType>Designer</SubType>
 	  </AvaloniaXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Dialogs\Setting\ChooseAccountTypeDialog.axaml.cs">
+	    <DependentUpon>ChooseAccountTypeDialog.axaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>

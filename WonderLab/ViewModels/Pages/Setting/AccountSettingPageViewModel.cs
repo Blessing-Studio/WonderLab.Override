@@ -16,6 +16,6 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void OpenDialog() {
-        _dialogService.ShowContentDialog<AuthenticateDialogViewModel>();
+        _dialogService.ShowContentDialog<ChooseAccountTypeDialogViewModel>();
     }
 }

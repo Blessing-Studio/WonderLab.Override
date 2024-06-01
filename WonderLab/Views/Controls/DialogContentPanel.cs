@@ -10,6 +10,7 @@ namespace WonderLab.Views.Controls;
 
 public sealed class DialogContentPanel : TemplatedControl {
     private Button _closeButton;
+    private Button _topCloseButton;
 
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<DialogContentPanel, string>(nameof(Title));
@@ -17,8 +18,14 @@ public sealed class DialogContentPanel : TemplatedControl {
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<DialogContentPanel, object>(nameof(Content));
 
+    public static readonly StyledProperty<object> BottomBarContentProperty =
+        AvaloniaProperty.Register<DialogContentPanel, object>(nameof(BottomBarContent));
+
     public static readonly StyledProperty<bool> IsCloseButtonVisibleProperty =
         AvaloniaProperty.Register<DialogContentPanel, bool>(nameof(IsCloseButtonVisible));
+
+    public static readonly StyledProperty<bool> IsTopCloseButtonVisibleProperty =
+        AvaloniaProperty.Register<DialogContentPanel, bool>(nameof(IsTopCloseButtonVisible));
 
     public static readonly StyledProperty<bool> IsPrimaryButtonVisibleProperty =
         AvaloniaProperty.Register<DialogContentPanel, bool>(nameof(IsPrimaryButtonVisible));
@@ -42,9 +49,19 @@ public sealed class DialogContentPanel : TemplatedControl {
         set => SetValue(ContentProperty, value);
     }
 
+    public object BottomBarContent {
+        get => GetValue(BottomBarContentProperty);
+        set => SetValue(BottomBarContentProperty, value);
+    }
+
     public bool IsCloseButtonVisible {
         get => GetValue(IsCloseButtonVisibleProperty);
         set => SetValue(IsCloseButtonVisibleProperty, value);
+    }
+
+    public object PrimaryButtonContent {
+        get => GetValue(PrimaryButtonContentProperty);
+        set => SetValue(PrimaryButtonContentProperty, value);
     }
 
     public bool IsPrimaryButtonVisible {
@@ -52,9 +69,9 @@ public sealed class DialogContentPanel : TemplatedControl {
         set => SetValue(IsPrimaryButtonVisibleProperty, value);
     }
 
-    public object PrimaryButtonContent {
-        get => GetValue(PrimaryButtonContentProperty);
-        set => SetValue(PrimaryButtonContentProperty, value);
+    public bool IsTopCloseButtonVisible {
+        get => GetValue(IsTopCloseButtonVisibleProperty);
+        set => SetValue(IsTopCloseButtonVisibleProperty, value);
     }
 
     public ICommand PrimaryButtonCommand {
@@ -71,14 +88,14 @@ public sealed class DialogContentPanel : TemplatedControl {
         base.OnLoaded(e);
 
         var dialogService = App.ServiceProvider.GetService<DialogService>();
-        _closeButton.Click += (_, _) => {
-            dialogService.CloseContentDialog();
-        };
+        _closeButton.Click += (_, _) => dialogService.CloseContentDialog();
+        _topCloseButton.Click += (_, _) => dialogService.CloseContentDialog();
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
 
         _closeButton = e.NameScope.Find<Button>("closeButton");
+        _topCloseButton = e.NameScope.Find<Button>("topCloseButton");
     }
 }

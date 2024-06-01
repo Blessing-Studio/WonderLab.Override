@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using MinecraftLaunch.Classes.Models.Game;
 using System;
+using WonderLab.Extensions;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
@@ -44,11 +45,11 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
         _settingService = settingService;
         _data = _settingService.Data;
 
-        Javas = _data.Javas;
         ActiveJava = _data.ActiveJava;
-        GameFolders = _data.GameFolders;
+        Javas = _data.Javas.ToObservableList();
         MaxMemory = _data.MaxMemory.ToString();
         ActiveGameFolder = _data.ActiveGameFolder;
+        GameFolders = _data.GameFolders.ToObservableList();
 
         IsFullScreen = _data.IsFullScreen;
         IsAutoSelectJava = _data.IsAutoSelectJava;
@@ -126,13 +127,13 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
 
         switch (e.PropertyName) {
             case nameof(Javas):
-                _data.Javas = Javas;
+                _data.Javas = Javas.ToList();
                 break;
             case nameof(ActiveJava):
                 _data.ActiveJava = ActiveJava;
                 break;
             case nameof(GameFolders):
-                _data.GameFolders = GameFolders;
+                _data.GameFolders = GameFolders.ToList();
                 break;
             case nameof(ActiveGameFolder):
                 _data.ActiveGameFolder = ActiveGameFolder;
