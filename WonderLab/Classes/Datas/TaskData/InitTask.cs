@@ -35,7 +35,7 @@ public sealed class InitTask : TaskBase {
         });
 
         IsIndeterminate = false;
-        if (!string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
+        if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
             return;
         }
@@ -53,7 +53,9 @@ public sealed class InitTask : TaskBase {
             });
 
             _settingService.Data.TestUserUuid = result.Key;
-            _dialogService.CloseContentDialog();
+            if (_dialogService.IsDialogOpen) {
+                _dialogService.CloseContentDialog();
+            }
         } catch (Exception ex) {
             _notificationService.QueueJob(new NotificationViewData {
                 Title = "错误",

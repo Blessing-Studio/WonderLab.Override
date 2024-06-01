@@ -20,6 +20,8 @@ public sealed class DialogService {
         { nameof(TestUserCheckDialog), App.ServiceProvider.GetRequiredService<TestUserCheckDialog> },
     };
 
+    public bool IsDialogOpen => DialogHost.IsDialogOpen("dialogHost");
+
     public DialogService(WindowService windowService) {
         _windowService = windowService;
     }
