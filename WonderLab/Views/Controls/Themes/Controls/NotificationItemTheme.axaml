@@ -9,7 +9,7 @@
 	</Design.PreviewWith>
 
 	<ControlTheme x:Key="{x:Type controls:NotificationItem}" TargetType="controls:NotificationItem">
-		<Setter Property="Width" Value="350"/>
+		<Setter Property="MaxWidth" Value="350"/>
 		<Setter Property="CornerRadius" Value="8" />
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="BorderThickness" Value="2" />
@@ -41,9 +41,11 @@
 											   FontWeight="Bold"
 											   Text="{TemplateBinding Title}"/>
 
-									<TextBlock Grid.Row="1"
+									<TextBlock Width="260"
+											   Grid.Row="1"
 											   FontSize="12"
 											   Margin="0 2 0 0"
+											   TextWrapping="WrapWithOverflow"
 											   Text="{TemplateBinding Content}"/>
 
 									<Button Grid.Column="2"
