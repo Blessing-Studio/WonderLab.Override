@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 	  <AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
+	  <AvaloniaResource Remove="Assets\Images\steve.png" />
 	  <AvaloniaResource Remove="Assets\Languages\en-US.axaml" />
 	  <AvaloniaResource Remove="Assets\Languages\zh-CN.axaml" />
 	</ItemGroup>
@@ -24,6 +25,7 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
+	  <EmbeddedResource Include="Assets\Images\steve.png" />
 	</ItemGroup>
 
 	<ItemGroup>

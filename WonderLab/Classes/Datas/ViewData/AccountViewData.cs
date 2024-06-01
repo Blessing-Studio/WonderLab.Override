@@ -5,6 +5,7 @@ using MinecraftLaunch.Classes.Enums;
 using MinecraftLaunch.Classes.Models.Auth;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Utilities;
 
 namespace WonderLab.Classes.Datas.ViewData;
 
@@ -18,7 +19,9 @@ public sealed partial class AccountViewData : ObservableObject {
     [ObservableProperty] private Bitmap _leftHand;
     [ObservableProperty] private Bitmap _rightHand;
 
-    public required Account Account { get; init; }
+    [ObservableProperty] private string _uuid;
+
+    public Account Account { get; init; }
 
     public AccountViewData(Account account) {
         Account = account;
@@ -29,17 +32,19 @@ public sealed partial class AccountViewData : ObservableObject {
 
     private async ValueTask InitAsync() {
         (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) skinParts = default;
-        if (Account.Type is AccountType.Offline) {
-            skinParts = _skinService.Steve;
-        } else {
-            var skinData = Account.Type switch {
-                AccountType.Microsoft => _skinService.GetMicrosoftSkinAsync(Account as MicrosoftAccount),
-                AccountType.Yggdrasil => _skinService.GetYggdrasilSkinAsync(Account as YggdrasilAccount),
-                _ => default
-            };
+        await Task.Run(async () => {
+            if (Account.Type is AccountType.Offline) {
+                skinParts = _skinService.Steve;
+            } else {
+                var skinData = Account.Type switch {
+                    AccountType.Microsoft => _skinService.GetMicrosoftSkinAsync(Account as MicrosoftAccount),
+                    AccountType.Yggdrasil => _skinService.GetYggdrasilSkinAsync(Account as YggdrasilAccount),
+                    _ => default
+                };
 
-            skinParts = _skinService.GetSkinParts(await skinData);
-        }
+                skinParts = _skinService.GetSkinParts(await skinData);
+            }
+        });
 
         Head = skinParts.head;
         Body = skinParts.body;
@@ -47,5 +52,6 @@ public sealed partial class AccountViewData : ObservableObject {
         LeftHand = skinParts.leftHead;
         RightLeg = skinParts.rightLeg;
         RightHand = skinParts.rightHead;
+        Uuid = StringUtil.ReplaceUuid(Account.Uuid.ToString());
     }
 }

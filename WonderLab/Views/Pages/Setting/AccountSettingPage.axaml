@@ -6,6 +6,7 @@
              x:Class="WonderLab.Views.Pages.Setting.AccountSettingPage"
 			 xmlns:ui="clr-namespace:WonderLab.Views.Controls"
 			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
+			 xmlns:data="using:WonderLab.Classes.Datas.ViewData"
 			 x:DataType="vm:AccountSettingPageViewModel">
 	<ui:SmoothScrollViewer Margin="0 12 0 12"
 						   ScrollViewer.VerticalScrollBarVisibility="Hidden">
@@ -24,8 +25,10 @@
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
+			<!--ItemsSource="{Binding Accounts}"-->
 			<ListBox Background="Transparent"
-					 SelectedItem="{Binding ActiveAccount}">
+					 SelectedItem="{Binding ActiveAccount}"
+					 ItemsSource="{Binding Accounts}">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="Margin" Value="0 0 0 12"/>
@@ -42,10 +45,14 @@
 								<DoubleTransition Property="Height"
 												  Duration="0:0:0.35"
 												  Easing="ExponentialEaseInOut"/>
+
+								<DoubleTransition Property="Opacity"
+												  Duration="0:0:0.35"
+												  Easing="CubicEaseOut"/>
 							</Transitions>
 						</Setter>
 						<Setter Property="Template">
-							<ControlTemplate>
+							<ControlTemplate x:DataType="data:AccountViewData">
 								<Border Padding="15 8"
 										Name="Layout"
 										Transitions="{TemplateBinding Transitions}"
@@ -53,11 +60,19 @@
 										CornerRadius="{TemplateBinding CornerRadius}"
 										BorderThickness="{TemplateBinding BorderThickness}"
 										Background="{DynamicResource GameManagerPanelBackground}">
-									<Grid RowDefinitions="Auto, Auto">
+									<Grid>
 										<!--Top-->
-										<Grid RowDefinitions="Auto, Auto"> 
+										<Grid Name="TopContent"
+											  RowDefinitions="Auto, Auto">
+											<Grid.Transitions>
+												<Transitions>
+													<DoubleTransition Property="Opacity"
+																	  Duration="0:0:0.25"
+																	  Easing="ExponentialEaseOut"/>
+												</Transitions>
+											</Grid.Transitions>
 											<TextBlock VerticalAlignment="Center"
-													   Text="{TemplateBinding Content}"/>
+													   Text="{Binding Account.Name}"/>
 
 											<TextBlock FontSize="12"
 													   Grid.Row="1"
@@ -65,74 +80,148 @@
 										</Grid>
 										
 										<Grid Height="0"
-											  Grid.Row="1"
+											  Opacity="0"
 											  Name="BarContent"
 											  ClipToBounds="True"
-											  RowDefinitions="1, Auto"
+											  ColumnDefinitions="Auto, Auto"
 											  Transitions="{TemplateBinding Transitions}">
-											<Border Height="1"
-													Opacity="1"
-													Margin="0 6 0 0"
-													Background="{DynamicResource DividerBrush}"/>
-											
 											<!--皮肤正面像-->
-											<!--<StackPanel VerticalAlignment="Center"
-														HorizontalAlignment="Center">
-												--><!--head--><!--
-												<Border x:Name="head" Height="60" Width="60" BoxShadow="0 8 32 0 #66000000" HorizontalAlignment="Center">
+											<StackPanel Margin="15 5 10 5"
+														VerticalAlignment="Center"
+														HorizontalAlignment="Left">
+												<!--head-->
+												<Border x:Name="head" Height="45" Width="45" BoxShadow="0 2 8 0 #66000000" HorizontalAlignment="Center">
 													<Border.Background>
-														<ImageBrush Source="{Binding CurrentGameAccount.Head}" Stretch="UniformToFill"/>
+														<ImageBrush Source="{Binding Head}" Stretch="UniformToFill"/>
 													</Border.Background>
 												</Border>
 
 												<StackPanel Orientation="Horizontal">
-
-													--><!--左手 RenderTransform="rotate(4deg)"--><!--
+													<!--左手 RenderTransform="rotate(4deg)"-->
 													<Border Name="LeftArm"
 															VerticalAlignment="Top"
 															RenderTransformOrigin="0,0"
 															RenderTransform="rotate(4deg)" Margin="0 -1.4514 0 0"
-															Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+															Height="70" Width="22.5" BoxShadow="0 2 8 0 #66000000">
 														<Border.Background>
-															<ImageBrush Source="{Binding CurrentGameAccount.LeftHand}" Stretch="UniformToFill"/>
+															<ImageBrush Source="{Binding LeftHand}" Stretch="UniformToFill"/>
 														</Border.Background>
 													</Border>
 
-													--><!--人棍部分--><!--
+													<!--人棍部分-->
 													<StackPanel HorizontalAlignment="Center">
-														--><!--body--><!--
-														<Border x:Name="body" Height="90" Width="60" BoxShadow="0 8 32 0 #66000000">
+														<!--body-->
+														<Border ZIndex="1" x:Name="body" Height="70" Width="45" BoxShadow="0 2 8 0 #66000000">
 															<Border.Background>
-																<ImageBrush Source="{Binding CurrentGameAccount.Body}" Stretch="UniformToFill"/>
+																<ImageBrush Source="{Binding Body}" Stretch="UniformToFill"/>
 															</Border.Background>
 														</Border>
 
-														--><!--leg--><!--
-														<StackPanel  HorizontalAlignment="Center" Orientation="Horizontal">
-															<Border x:Name="leftleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+														<!--leg-->
+														<StackPanel ZIndex="0" HorizontalAlignment="Center" Orientation="Horizontal">
+															<Border x:Name="leftleg" Height="70" Width="22.5" BoxShadow="0 2 8 0 #66000000">
 																<Border.Background>
-																	<ImageBrush Source="{Binding CurrentGameAccount.LeftLeg}" Stretch="UniformToFill"/>
+																	<ImageBrush Source="{Binding LeftLeg}" Stretch="UniformToFill"/>
 																</Border.Background>
 															</Border>
 
-															<Border x:Name="rightleg" Height="90" Width="30" BoxShadow="0 8 32 0 #66000000">
+															<Border x:Name="rightleg" Height="70" Width="22.5" BoxShadow="0 2 8 0 #66000000">
 																<Border.Background>
-																	<ImageBrush Source="{Binding CurrentGameAccount.RightLeg}" Stretch="UniformToFill"/>
+																	<ImageBrush Source="{Binding RightLeg}" Stretch="UniformToFill"/>
 																</Border.Background>
 															</Border>
 														</StackPanel>
 													</StackPanel>
 
-													--><!--右手--><!--
+													<!--右手-->
 													<Border RenderTransformOrigin="0,0" RenderTransform="rotate(-4deg)" x:Name="rightarm"
-															Height="90" Width="30" BoxShadow="0 8 32 0 #66000000" VerticalAlignment="Top">
+															Height="70" Width="22.5" BoxShadow="0 2 8 0 #66000000" VerticalAlignment="Top">
 														<Border.Background>
-															<ImageBrush Source="{Binding CurrentGameAccount.RightHand}" Stretch="UniformToFill"/>
-														</Border.Background> 
+															<ImageBrush Source="{Binding RightHand}" Stretch="UniformToFill"/>
+														</Border.Background>
 													</Border>
 
 												</StackPanel>
-											</StackPanel>-->
+											</StackPanel>
+
+											<Grid Grid.Column="1"
+												  Margin="25 25 0 0"
+												  RowDefinitions="Auto, Auto, Auto, 1*, Auto, Auto">
+												<TextBlock FontSize="24"
+														   FontWeight="Bold"
+														   Text="{Binding Account.Name}"/>
+												
+												<TextBlock Grid.Row="1"
+														   FontSize="16"
+														   Text="{Binding Uuid}"
+														   Foreground="{DynamicResource DefaultBrush400}"/>
+
+												<Border Grid.Row="2"
+														Padding="5 2"
+														Margin="0 4 0 0"
+														CornerRadius="4"
+														BorderThickness="1"
+														HorizontalAlignment="Left"
+														BorderBrush="{DynamicResource ContentBrush4}">
+													<TextBlock FontSize="12"
+															   Text="{Binding Account.Type}"
+															   Foreground="{DynamicResource DefaultBrush500}"/>
+												</Border>
+												
+												<TextBlock Grid.Row="4"
+														   Text="这个账户可以执行的操作："/>
+
+												<StackPanel Grid.Row="5"
+															Spacing="0"
+															Orientation="Horizontal">
+													
+													<Button Width="30"
+															Height="30"
+															Padding="0"
+															FontSize="16" 
+															Grid.Column="0"
+															Classes="ripple"
+															Background="Transparent"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Center"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center"
+															Foreground="{TemplateBinding Foreground}">
+														<ui:FontIcon Glyph="&#xE74D;"/>
+													</Button>
+
+													<Button Width="30"
+															Height="30"
+															Padding="0"
+															FontSize="16"
+															Grid.Column="0"
+															Classes="ripple"
+															Background="Transparent"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Center"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center"
+															Foreground="{TemplateBinding Foreground}">
+														<ui:FontIcon Glyph="&#xE72C;"/>
+													</Button>
+
+													<Button Width="30"
+															Height="30"
+															Padding="0"
+															FontSize="16"
+															Grid.Column="0"
+															Classes="ripple"
+															IsVisible="False"
+															Background="Transparent"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Center"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center"
+															Foreground="{TemplateBinding Foreground}">
+														<ui:FontIcon Glyph="&#xE74D;"/>
+													</Button>
+												</StackPanel>
+											</Grid>
 										</Grid>
 									</Grid>
 								</Border>
@@ -145,14 +234,14 @@
 					</Style>-->
 
 					<Style Selector="ListBoxItem:selected /template/ Grid#BarContent">
+						<Setter Property="Opacity" Value="1"/>
 						<Setter Property="Height" Value="215"/>
 					</Style>
-				</ListBox.Styles>
 
-				<ListBoxItem Content="Test"/>
-				<ListBoxItem Content="Test"/>
-				<ListBoxItem Content="Test"/>
-				<ListBoxItem Content="Test"/>
+					<Style Selector="ListBoxItem:selected /template/ Grid#TopContent">
+						<Setter Property="Opacity" Value="0"/>
+					</Style>
+				</ListBox.Styles>
 			</ListBox>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>

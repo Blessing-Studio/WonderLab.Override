@@ -2,8 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
-		<Button Content="启动游戏" 
-		        Classes="launchbutton"/>
+
+		<Button FontSize="26"
+				Grid.Column="0"
+				Margin="0 5 0 0"
+				Width="50"
+				Height="50"
+				Content="&#xE8BB;"
+				Classes="titlebarbutton"
+				HorizontalAlignment="Left"/>
 	</Design.PreviewWith>
 	
 	<!-- Add Resources Here -->
@@ -90,9 +97,12 @@
 			<Setter Property="Background" Value="Transparent"/>
 			<Setter Property="Template">
 				<ControlTemplate>
-					<Border ClipToBounds="False"> 
-						<controls:RippleControl RippleOpacity="0.2"
+					<Border ClipToBounds="False" 
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}"> 
+						<controls:RippleControl RippleOpacity="0.2" 
 						                        ClipToBounds="False"
+												FontSize="{TemplateBinding FontSize}"
 						                        RippleFill="{DynamicResource DividerBrush}"
 						                        CornerRadius="4">
 							<Border Name="Layout"

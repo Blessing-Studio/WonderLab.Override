@@ -7,6 +7,8 @@ using Avalonia.Controls.Notifications;
 using WonderLab.Classes.Datas.ViewData;
 using MinecraftLaunch.Components.Authenticator;
 using WonderLab.Services.UI;
+using CommunityToolkit.Mvvm.Messaging;
+using WonderLab.Classes.Datas.MessageData;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
@@ -39,6 +41,8 @@ public sealed partial class OfflineAuthenticateDialogViewModel : ViewModelBase {
                 Content = $"已成功将账户 {name} 添加至 WonderLab！",
                 NotificationType = NotificationType.Success
             });
+
+            WeakReferenceMessenger.Default.Send(new AccountMessage(accounts));
 
             if (_dialogService.IsDialogOpen) {
                 _dialogService.CloseContentDialog();

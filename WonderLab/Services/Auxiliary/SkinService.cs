@@ -42,7 +42,7 @@ public sealed class SkinService {
 
     private (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) GetSteve() {
         var memoryStream = new MemoryStream();
-        using var stream = AssetLoader.Open(new Uri($"resm:Wonderlab.Assets.steve.png"));
+        using var stream = AssetLoader.Open(new Uri($"resm:WonderLab.Assets.Images.steve.png"));
         stream!.CopyTo(memoryStream);
         memoryStream.Position = 0;
 
