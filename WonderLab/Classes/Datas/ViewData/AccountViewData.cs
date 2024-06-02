@@ -6,11 +6,17 @@ using MinecraftLaunch.Classes.Models.Auth;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Utilities;
+using WonderLab.Services;
+using CommunityToolkit.Mvvm.Input;
+using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.Messaging;
+using WonderLab.Classes.Datas.MessageData;
 
 namespace WonderLab.Classes.Datas.ViewData;
 
 public sealed partial class AccountViewData : ObservableObject {
     private readonly SkinService _skinService;
+    private readonly SettingService _settingService;
 
     [ObservableProperty] private Bitmap _head;
     [ObservableProperty] private Bitmap _body;
@@ -26,11 +32,19 @@ public sealed partial class AccountViewData : ObservableObject {
     public AccountViewData(Account account) {
         Account = account;
         _skinService = App.ServiceProvider.GetService<SkinService>();
+        _settingService = App.ServiceProvider.GetService<SettingService>();
 
         _ = InitAsync();
     }
 
-    private async ValueTask InitAsync() {
+    [RelayCommand]
+    private void Delete() {
+        if (_settingService.Data.Accounts.Remove(Account)) {
+            WeakReferenceMessenger.Default.Send(new AccountChangeNotificationMessage(this));
+        }
+    }
+
+    private async Task InitAsync() {
         (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) skinParts = default;
         await Task.Run(async () => {
             if (Account.Type is AccountType.Offline) {
