@@ -43,7 +43,6 @@ public sealed partial class OfflineAuthenticateDialogViewModel : ViewModelBase {
             });
 
             WeakReferenceMessenger.Default.Send(new AccountMessage(accounts));
-
             if (_dialogService.IsDialogOpen) {
                 _dialogService.CloseContentDialog();
             }
