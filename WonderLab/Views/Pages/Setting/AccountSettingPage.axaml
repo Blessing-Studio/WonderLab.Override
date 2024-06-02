@@ -184,6 +184,7 @@
 															Background="Transparent"
 															HorizontalAlignment="Left"
 															VerticalAlignment="Center"
+															Command="{Binding DeleteCommand}"
 															VerticalContentAlignment="Center"
 															HorizontalContentAlignment="Center"
 															Foreground="{TemplateBinding Foreground}">
@@ -215,7 +216,6 @@
 															Background="Transparent"
 															HorizontalAlignment="Left"
 															VerticalAlignment="Center"
-															Command="{Binding DeleteCommand}"
 															VerticalContentAlignment="Center"
 															HorizontalContentAlignment="Center"
 															Foreground="{TemplateBinding Foreground}">

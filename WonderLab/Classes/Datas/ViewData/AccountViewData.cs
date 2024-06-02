@@ -55,8 +55,14 @@ public sealed partial class AccountViewData : ObservableObject {
                     AccountType.Yggdrasil => _skinService.GetYggdrasilSkinAsync(Account as YggdrasilAccount),
                     _ => default
                 };
+                
+                var result = await skinData;
+                if (result is null) {
+                    skinParts = _skinService.Steve;
+                    return;
+                }
 
-                skinParts = _skinService.GetSkinParts(await skinData);
+                skinParts = _skinService.GetSkinParts(result);
             }
         });
 

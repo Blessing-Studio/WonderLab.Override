@@ -20,14 +20,14 @@ public sealed class SkinService {
         Steve = GetSteve();
     }
 
-    public ValueTask<byte[]> GetMicrosoftSkinAsync(MicrosoftAccount account) {
+    public async Task<byte[]> GetMicrosoftSkinAsync(MicrosoftAccount account) {
         MicrosoftSkinFetcher microsoftSkinFetcher = new(account.Uuid.ToString());
-        return microsoftSkinFetcher.GetSkinAsync();
+        return await microsoftSkinFetcher.GetSkinAsync();
     }
 
-    public ValueTask<byte[]> GetYggdrasilSkinAsync(YggdrasilAccount account) {
+    public async Task<byte[]> GetYggdrasilSkinAsync(YggdrasilAccount account) {
         YggdrasilSkinFetcher yggdrasilSkinFetcher = new(account.YggdrasilServerUrl, account.Uuid.ToString());
-        return yggdrasilSkinFetcher.GetSkinAsync();
+        return await yggdrasilSkinFetcher.GetSkinAsync();
     }
 
     public (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) GetSkinParts(byte[] skinData) {

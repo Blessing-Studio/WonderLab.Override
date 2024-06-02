@@ -18,6 +18,12 @@ public sealed partial class ChooseAccountTypeDialogViewModel : ViewModelBase {
             case "Offline":
                 _dialogService.ShowContentDialog<OfflineAuthenticateDialogViewModel>();
                 break;
+            case "Yggdrasil":
+                _dialogService.ShowContentDialog<YggdrasilAuthenticateDialogViewModel>();
+                break;
+            case "Microsoft":
+                //_dialogService.ShowContentDialog<YggdrasilAuthenticateDialogViewModel>();
+                break;
         }
     }
 }

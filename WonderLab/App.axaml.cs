@@ -98,6 +98,7 @@ public sealed partial class App : Application {
         services.AddTransient<TestUserCheckDialog>();
         services.AddTransient<ChooseAccountTypeDialog>();
         services.AddTransient<OfflineAuthenticateDialog>();
+        services.AddTransient<YggdrasilAuthenticateDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
@@ -144,5 +145,6 @@ public sealed partial class App : Application {
         services.AddTransient<TestUserCheckDialogViewModel>();
         services.AddTransient<ChooseAccountTypeDialogViewModel>();
         services.AddTransient<OfflineAuthenticateDialogViewModel>();
+        services.AddTransient<YggdrasilAuthenticateDialogViewModel>();
     }
 }

@@ -19,6 +19,7 @@ public sealed class DialogService {
         { nameof(TestUserCheckDialog), App.ServiceProvider.GetRequiredService<TestUserCheckDialog> },
         { nameof(ChooseAccountTypeDialog), App.ServiceProvider.GetRequiredService<ChooseAccountTypeDialog> },
         { nameof(OfflineAuthenticateDialog), App.ServiceProvider.GetRequiredService<OfflineAuthenticateDialog> },
+        { nameof(YggdrasilAuthenticateDialog), App.ServiceProvider.GetRequiredService<YggdrasilAuthenticateDialog> },
     };
 
     public bool IsDialogOpen => DialogHost.IsDialogOpen("dialogHost");
