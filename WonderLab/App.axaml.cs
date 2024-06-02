@@ -80,7 +80,7 @@ public sealed partial class App : Application {
         ConfigureViewModel(services);
 
         //Pages
-        services.AddSingleton<HomePage>();
+        services.AddTransient<HomePage>();
         
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();

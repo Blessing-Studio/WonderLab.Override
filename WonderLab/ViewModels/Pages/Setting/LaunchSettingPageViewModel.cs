@@ -133,7 +133,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
                 _data.ActiveJava = ActiveJava;
                 break;
             case nameof(GameFolders):
-                _data.GameFolders = GameFolders.ToList();
+                _data.GameFolders = [.. GameFolders];
                 break;
             case nameof(ActiveGameFolder):
                 _data.ActiveGameFolder = ActiveGameFolder;
