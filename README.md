@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://img.picui.cn/free/2024/06/02/665c7539a33eb.png"/>
+<img Height="200" Width="200" src="https://raw.githubusercontent.com/Blessing-Studio/WonderLab.Override/master/wonderlab/Assets/wonderlab.ico"/>
 </p>
 
 <div align="center">
