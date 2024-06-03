@@ -46,11 +46,6 @@ Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛�
 
 ## 鸣谢
 
-#### MCBBS
-
-提供 MCBBS下载源。
-[MCBBS官网](https://www.mcbbs.net/)
-
 #### bangbang93
 
 提供BMCLAPI镜像源。
