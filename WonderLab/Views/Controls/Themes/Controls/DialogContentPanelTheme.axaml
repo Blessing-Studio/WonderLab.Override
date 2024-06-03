@@ -42,6 +42,7 @@
 								Classes="titlebarbutton"
 								HorizontalAlignment="Right"
 								Foreground="{TemplateBinding Foreground}"
+								Command="{TemplateBinding TopCloseButtonCommand}"
 								IsVisible="{TemplateBinding IsTopCloseButtonVisible}"/>
 						
 						<ContentPresenter Grid.Row="1"

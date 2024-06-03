@@ -10,6 +10,8 @@
 	<ui:DialogContentPanel Title="请输入测试版许可证"
 						   PrimaryButtonContent="下一步"
 						   IsPrimaryButtonVisible="True"
+						   IsTopCloseButtonVisible="True"
+						   TopCloseButtonCommand="{Binding CloseCommand}"
 						   PrimaryButtonCommand="{Binding AuthenticateCommand}"
 						   PrimaryButtonCommandParameter="{Binding ElementName=uuidTextBox, Path=Text}">
 		<ui:DialogContentPanel.Content>

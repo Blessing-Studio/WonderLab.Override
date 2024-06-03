@@ -36,6 +36,9 @@ public sealed class DialogContentPanel : TemplatedControl {
     public static readonly StyledProperty<ICommand> PrimaryButtonCommandProperty =
         AvaloniaProperty.Register<DialogContentPanel, ICommand>(nameof(PrimaryButtonCommand));
 
+    public static readonly StyledProperty<ICommand> TopCloseButtonCommandProperty =
+        AvaloniaProperty.Register<DialogContentPanel, ICommand>(nameof(TopCloseButtonCommand));
+
     public static readonly StyledProperty<object> PrimaryButtonCommandParameterProperty =
         AvaloniaProperty.Register<DialogContentPanel, object>(nameof(PrimaryButtonCommandParameter));
 
@@ -77,6 +80,11 @@ public sealed class DialogContentPanel : TemplatedControl {
     public ICommand PrimaryButtonCommand {
         get => GetValue(PrimaryButtonCommandProperty);
         set => SetValue(PrimaryButtonCommandProperty, value);
+    }
+
+    public ICommand TopCloseButtonCommand {
+        get => GetValue(TopCloseButtonCommandProperty);
+        set => SetValue(TopCloseButtonCommandProperty, value);
     }
 
     public object PrimaryButtonCommandParameter {

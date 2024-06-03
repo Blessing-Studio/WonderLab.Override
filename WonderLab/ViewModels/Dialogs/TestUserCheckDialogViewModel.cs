@@ -1,24 +1,31 @@
-﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.Input;
-using Flurl.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WonderLab.Classes.Datas.ViewData;
+﻿using Flurl.Http;
 using WonderLab.Services;
 using WonderLab.Services.UI;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using CommunityToolkit.Mvvm.Input;
+using WonderLab.Classes.Datas.ViewData;
+using Avalonia.Controls.Notifications;
 
 namespace WonderLab.ViewModels.Dialogs;
 
 public sealed partial class TestUserCheckDialogViewModel : ViewModelBase {
     private readonly DialogService _dialogService;
+    private readonly WindowService _windowService;
     private readonly SettingService _settingService;
     private readonly NotificationService _notificationService;
     private readonly string _apiKey = "9e15a18a-e726-453b-9004-a670c1dfaca3";
 
-    public TestUserCheckDialogViewModel(NotificationService notificationService, SettingService settingService, DialogService dialogService) {
+    public TestUserCheckDialogViewModel(NotificationService notificationService, SettingService settingService, DialogService dialogService, WindowService windowService) {
         _dialogService = dialogService;
+        _windowService = windowService;
         _settingService = settingService;
         _notificationService = notificationService;
+    }
+
+    [RelayCommand]
+    private void Close() {
+        _windowService.Close();
     }
 
     [RelayCommand]
