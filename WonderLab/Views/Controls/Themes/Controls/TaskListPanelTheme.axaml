@@ -55,8 +55,8 @@
 									   FontWeight="Bold"/>
 
 							<ListBox Grid.Row="1"
-									 Name="taskListBox"
 									 Margin="0 6 0 0"
+									 Name="taskListBox"
 									 ClipToBounds="False"
 									 Background="Transparent"
 									 ItemsSource="{TemplateBinding Tasks}"

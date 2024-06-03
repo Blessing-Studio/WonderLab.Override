@@ -22,7 +22,8 @@
 			<ControlTemplate>
 				<LayoutTransformControl UseRenderTransform="True"
 										Name="PART_LayoutTransformControl">
-					<Border CornerRadius="{TemplateBinding CornerRadius}" Margin="5 0 15 10">
+					<Border Margin="5 0 15 10"
+							CornerRadius="{TemplateBinding CornerRadius}">
 						<Border Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
 								BorderThickness="{TemplateBinding BorderThickness}"

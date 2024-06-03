@@ -1,6 +1,12 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:WonderLab.Views.Controls">
+	<Design.PreviewWith>
+		<Border Width="400" Height="300">
+			<controls:NavigationView/>
+		</Border>
+	</Design.PreviewWith>
+	
     <!-- Add Resources Here -->
     <ControlTheme x:Key="{x:Type controls:NavigationView}" TargetType="controls:NavigationView">
 		<Setter Property="MinHeight" Value="44"/>
@@ -9,65 +15,61 @@
 		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-					<Grid RowDefinitions="1*, Auto"
-					      Background="Transparent">
+					<Grid Background="Transparent"
+						  RowDefinitions="1*, Auto">
 						<controls:Frame Grid.Row="0"
-						                        Name="Frame"
-						                        Margin="10 0 10 15"
-						                        ClipToBounds="False"
-						                        Background="Transparent"/>
+										Name="Frame"
+										Margin="10 0 10 15"
+										ClipToBounds="False"
+										Background="Transparent"/>
 						
 						<!-- ContentPanel -->
-						<Border Grid.Row="0"
-						        CornerRadius="12" 
-						        Margin="10 5 10 15"
-						        BorderThickness="1"
-						        Name="BackgroundPanel"
-						        Background="{TemplateBinding Background}"
-						        BorderBrush="{TemplateBinding BorderBrush}">
-							<Border.Transitions>
-								<Transitions>
-									<TransformOperationsTransition Duration="0:0:0.25"
-									                               Easing="ExponentialEaseOut"
-									                               Property="RenderTransform"/>
-								</Transitions>
-							</Border.Transitions>
-
-							<controls:Frame Opacity="0"
-											Name="PanelFrame"
-							                CornerRadius="12"
-							                ClipToBounds="True"
-							                Background="Transparent">
-								<controls:Frame.Transitions>
-									<Transitions>
-										<DoubleTransition Property="Opacity"
-														  Duration="0:0:0.35"
-														  Easing="ExponentialEaseOut"/>
-									</Transitions>
-								</controls:Frame.Transitions>
-							</controls:Frame>
-						</Border>
+						<LayoutTransformControl UseRenderTransform="True"
+												Name="PART_LayoutTransformControl">
+							<Border Grid.Row="0"
+									CornerRadius="12"
+									Margin="10 5 10 15"
+									BorderThickness="1"
+									Name="BackgroundPanel"
+									Background="{TemplateBinding Background}"
+									BorderBrush="{TemplateBinding BorderBrush}">
+								<controls:Frame Opacity="0"
+												Name="PanelFrame"
+												CornerRadius="12"
+												ClipToBounds="True"
+												Background="Transparent">
+									<controls:Frame.Transitions>
+										<Transitions>
+											<DoubleTransition Property="Opacity"
+															  Duration="0:0:0.35"
+															  Easing="ExponentialEaseOut"/>
+										</Transitions>
+									</controls:Frame.Transitions>
+								</controls:Frame>
+							</Border>
+						</LayoutTransformControl>
 						
 						<Border Opacity="1"
-						        Grid.Row="2"
-						        BorderThickness="1"
-						        VerticalAlignment="Bottom"
-						        HorizontalAlignment="Stretch"
-						        MinHeight="{TemplateBinding MinHeight}"
-						        BorderBrush="{TemplateBinding BorderBrush}"								
-						        Background="{DynamicResource BottomBarBackground}">
-							<Grid ColumnDefinitions="Auto, 1*, Auto">
-								<ListBox Background="Transparent"
-								         ClipToBounds="False"
-								         Margin="10 0 -10 0"
-								         HorizontalAlignment="Left"
-								         VerticalAlignment="Stretch"
-								         ItemsSource="{TemplateBinding MenuItems}">
+								Grid.Row="2"
+								BorderThickness="1"
+								VerticalAlignment="Bottom"
+								HorizontalAlignment="Stretch"
+								MinHeight="{TemplateBinding MinHeight}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								Background="{DynamicResource BottomBarBackground}">
+							<Grid ColumnDefinitions="Auto, 1*, Auto">								
+								<ListBox Margin="10 0 -10 0"
+										 ClipToBounds="False"
+										 Background="Transparent"
+										 HorizontalAlignment="Left"
+										 VerticalAlignment="Stretch"
+										 ItemsSource="{TemplateBinding MenuItems}">
 									<ListBox.ItemsPanel>
 										<ItemsPanelTemplate>
 											<StackPanel Spacing="5" Orientation="Horizontal"/>
 										</ItemsPanelTemplate>
 									</ListBox.ItemsPanel>
+									
 									<ListBox.Styles>
 										<Style Selector="ListBoxItem">
 											<Setter Property="ClipToBounds" Value="False"/>
@@ -75,15 +77,15 @@
 												<ControlTemplate>
 													<ContentPresenter ClipToBounds="False"
 																	  Background="Transparent"
-													                  Padding="{TemplateBinding Padding}"
-													                  Content="{TemplateBinding Content}"
-													                  FontSize="{TemplateBinding FontSize}"
-													                  FontWeight="{TemplateBinding FontWeight}"
-													                  CornerRadius="{TemplateBinding CornerRadius}"
-													                  BorderThickness="{TemplateBinding BorderThickness}"
-													                  ContentTemplate="{TemplateBinding ContentTemplate}"
-													                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-													                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+																	  Padding="{TemplateBinding Padding}"
+																	  Content="{TemplateBinding Content}"
+																	  FontSize="{TemplateBinding FontSize}"
+																	  FontWeight="{TemplateBinding FontWeight}"
+																	  CornerRadius="{TemplateBinding CornerRadius}"
+																	  BorderThickness="{TemplateBinding BorderThickness}"
+																	  ContentTemplate="{TemplateBinding ContentTemplate}"
+																	  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+																	  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
 												</ControlTemplate>
 											</Setter>
 										</Style>
@@ -91,11 +93,58 @@
 								</ListBox>
 								
 								<ContentPresenter Grid.Column="2"
-								                  Content="{TemplateBinding FooterContent}"/>
+												  Content="{TemplateBinding FooterContent}"/>
 							</Grid>
 						</Border>
 					</Grid>
 			</ControlTemplate>
 		</Setter>
+
+		<Style Selector="^ /template/ LayoutTransformControl#PART_LayoutTransformControl">
+			<Style.Animations>
+				<Animation Duration="0:0:0.35" FillMode="Forward">
+					<KeyFrame Cue="0%">
+						<Setter Property="Opacity" Value="0"/>
+						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="Opacity" Value="0"/>
+						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
+		
+		<Style Selector="^:ispanelopen /template/ LayoutTransformControl#PART_LayoutTransformControl">
+			<Style.Animations>
+				<Animation FillMode="Forward"
+						   Duration="0:0:0.15" 
+						   Easing="ExponentialEaseOut">
+					<KeyFrame Cue="0%">
+						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="Opacity" Value="1"/>
+						<Setter Property="TranslateTransform.Y" Value="0"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
+
+		<Style Selector="^:ispanelclose /template/ LayoutTransformControl#PART_LayoutTransformControl">
+			<Setter Property="RenderTransformOrigin" Value="50%,0%"/>
+			<Style.Animations>
+				<Animation FillMode="Forward"
+						   Duration="0:0:0.25" 
+						   Easing="ExponentialEaseIn">
+					<KeyFrame Cue="0%">
+						<Setter Property="TranslateTransform.Y" Value="0"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
     </ControlTheme>
 </ResourceDictionary>

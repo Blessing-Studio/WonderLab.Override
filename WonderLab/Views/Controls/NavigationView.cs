@@ -13,17 +13,34 @@ using System;
 using Avalonia.Threading;
 using System.Threading.Tasks;
 using System.Threading;
+using Avalonia.Controls.Metadata;
 
 namespace WonderLab.Views.Controls;
 
+[PseudoClasses(":ispanelopen", ":ispanelclose")]
 public sealed class NavigationView : ContentControl {
+    public sealed class NavigationViewTemplateSettings : AvaloniaObject {
+        private double _actualPx;
+
+        public static readonly DirectProperty<NavigationViewTemplateSettings, double> ActualPxProperty =
+                AvaloniaProperty.RegisterDirect<NavigationViewTemplateSettings, double>(nameof(ActualPx), p => p.ActualPx,
+                    (p, o) => p.ActualPx = o);
+
+        public double ActualPx {
+            get => _actualPx;
+            set => SetAndRaise(ActualPxProperty, ref _actualPx,
+                value);
+        }
+    }
+
     private Frame _frame;
     private Frame _panelFrame;   
     private Border _backgroundPanel;
     private WindowService _windowService;
     private CancellationTokenSource _cancellationTokenSource = new();
 
-    private double ActualPx => _backgroundPanel.Bounds.Height + 15;
+    //private double ActualPx => _backgroundPanel.Bounds.Height + 15;
+    public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
@@ -83,17 +100,36 @@ public sealed class NavigationView : ContentControl {
     }
     
     private void SetBackgroundPanelState() {
-        var px = IsOpenBackgroundPanel ? 0 : ActualPx;
-        Dispatcher.UIThread.Post(() => {
-            _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
-        });
+        //var px = IsOpenBackgroundPanel ? 0 : ActualPx;
+        //Dispatcher.UIThread.Post(() => {
+        //    _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
+        //}, DispatcherPriority.Send);
     }
-    
+
+    private void UpdateIndicator() {
+        TemplateSettings.ActualPx = _backgroundPanel.Bounds.Height + 15;
+    }
+
+    private void UpdatePseudoClasses() {
+        PseudoClasses.Set(":ispanelopen", IsOpenBackgroundPanel is true);
+        PseudoClasses.Set(":ispanelclose", IsOpenBackgroundPanel is false);
+    }
+
+    private void OnPanelPropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e) {
+        if (e.Property == BoundsProperty) {
+            UpdateIndicator();
+        }
+    }
+
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
+        if (Design.IsDesignMode) {
+            return;
+        }
+
         _windowService = App.ServiceProvider.GetRequiredService<WindowService>();
-        _windowService.HandlePropertyChanged(BoundsProperty, SetBackgroundPanelState);
-        SetBackgroundPanelState();
+        //_windowService.HandlePropertyChanged(BoundsProperty, SetBackgroundPanelState);
+        //SetBackgroundPanelState();
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -102,12 +138,9 @@ public sealed class NavigationView : ContentControl {
         _frame = e.NameScope.Find<Frame>("Frame")!;
         _panelFrame = e.NameScope.Find<Frame>("PanelFrame")!;
         
-        //Buttons
-        //e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
-        //e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
-
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
+        _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
         //e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
     }
 
@@ -119,7 +152,8 @@ public sealed class NavigationView : ContentControl {
         }
         
         if (change.Property == IsOpenBackgroundPanelProperty) {
-            SetBackgroundPanelState();
+            UpdatePseudoClasses();
+            //SetBackgroundPanelState();
         }
     }
 }
