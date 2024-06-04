@@ -19,10 +19,14 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
     private readonly SettingService _settingService;
     private readonly NotificationService _notificationService;
 
-    [ObservableProperty] private object _activeAccount;
+    [ObservableProperty] private AccountViewData _activeAccount;
     [ObservableProperty] private ObservableCollection<AccountViewData> _accounts = [];
 
-    public AccountSettingPageViewModel(DialogService dialogService, SettingService settingService, NotificationService notificationService, TaskService taskService) {
+    public AccountSettingPageViewModel(
+        DialogService dialogService,
+        SettingService settingService, 
+        NotificationService notificationService,
+        TaskService taskService) {
         _dialogService = dialogService;
         _settingService = settingService;
         _notificationService = notificationService;
@@ -39,6 +43,10 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
     [RelayCommand]
     private void OpenDialog() {
         _dialogService.ShowContentDialog<ChooseAccountTypeDialogViewModel>();
+    }
+
+    partial void OnActiveAccountChanged(AccountViewData value) {
+        _settingService.Data.ActiveAccount = value.Account;
     }
 
     private async void AccountHandle(object obj, AccountMessage accountMessage) {

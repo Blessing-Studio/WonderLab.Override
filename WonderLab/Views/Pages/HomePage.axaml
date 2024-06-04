@@ -17,7 +17,8 @@
 				Height="45"
 				Width="155"
                 CornerRadius="16"
-				Classes="launchbutton">
+				Classes="launchbutton"
+				Command="{Binding LaunchCommand}">
             <TextBlock FontSize="16"
                        FontWeight="Bold"
                        Text="{DynamicResource Launch}"

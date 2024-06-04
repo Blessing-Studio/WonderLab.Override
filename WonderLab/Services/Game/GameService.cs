@@ -11,11 +11,11 @@ namespace WonderLab.Services.Game;
 /// 游戏实体 <see cref="GameEntry"/> 相关操作服务类
 /// </summary>
 public sealed class GameService {
-    private IGameResolver _gameResolver;
     private readonly LogService _logService;
     private readonly SettingService _settingService;
     private readonly ObservableCollection<GameViewData> _gameEntries;
     
+    public IGameResolver GameResolver { get; private set; }
     public GameViewData ActiveGameEntry { get; private set; }
     public ReadOnlyObservableCollection<GameViewData> GameEntries { get; }
 
@@ -31,14 +31,13 @@ public sealed class GameService {
 
     private void Initialize() {
         _logService.Info(nameof(GameService), "Start initializing this service");
-
-        _gameResolver = new GameResolver(_settingService?.Data?.ActiveGameFolder ?? "C:\\Users\\w\\Desktop\\temp\\.minecraft");
+        GameResolver = new GameResolver(_settingService?.Data?.ActiveGameFolder ?? "C:\\Users\\w\\Desktop\\temp\\.minecraft");
         RefreshGameViewEntry();
     }
     
     public void RefreshGameViewEntry() {
         _gameEntries.Clear();
-        var gameViewEntries = _gameResolver.GetGameEntitys()
+        var gameViewEntries = GameResolver.GetGameEntitys()
             .Select(x => new GameViewData(x));
         if (gameViewEntries is null || !gameViewEntries.Any()) return;
 
@@ -47,7 +46,7 @@ public sealed class GameService {
         }
 
         if (!string.IsNullOrEmpty(_settingService?.Data?.ActiveGameId)) {
-            var gameEntry = _gameResolver.GetGameEntity(_settingService.Data.ActiveGameId);
+            var gameEntry = GameResolver.GetGameEntity(_settingService.Data.ActiveGameId);
             if (gameEntry is not null) {
                 var gameViewEntry = new GameViewData(gameEntry);
                 ActivateGameViewEntry(gameViewEntry);

@@ -27,8 +27,8 @@
 
 			<!--ItemsSource="{Binding Accounts}"-->
 			<ListBox Background="Transparent"
-					 SelectedItem="{Binding ActiveAccount}"
-					 ItemsSource="{Binding Accounts}">
+					 ItemsSource="{Binding Accounts}"
+					 SelectedItem="{Binding ActiveAccount}">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="Margin" Value="0 0 0 12"/>
