@@ -14,9 +14,12 @@ public sealed class AccountLoadTask : TaskBase {
     public AccountLoadTask(IEnumerable<Account> accounts) { 
         _accounts = accounts;
         JobName = "账户信息加载任务";
+        IsIndeterminate = true;
     }
 
     public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
+        Progress = 0;
+
         var tasks = _accounts.Select(x => {
             return Task.Run(() => new AccountViewData(x));
         });
@@ -26,5 +29,7 @@ public sealed class AccountLoadTask : TaskBase {
                 WeakReferenceMessenger.Default.Send(new AccountViewMessage(await x));
             }
         });
+
+        await Task.Delay(250);
     }
 }

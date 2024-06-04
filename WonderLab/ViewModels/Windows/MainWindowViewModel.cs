@@ -30,7 +30,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
-    [ObservableProperty] private NavigationPageData _activePage;
+    [ObservableProperty] private object _activePage;
+    [ObservableProperty] private NavigationPageData _activePanelPage;
     [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
     [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
 
@@ -38,19 +39,24 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         TaskService taskService,
         DialogService dialogService,
         SettingService settingService,
-        HostNavigationService navigationService, 
+        HostNavigationService navigationService,
         NotificationService notificationService) {
-        navigationService.NavigationRequest += p => {
-            Dispatcher.Post(() => {
-                if (ActivePage?.PageKey != p.PageKey) {
-                    ActivePage = null;
-                    ActivePage = p;
+        navigationService.NavigationRequest += async p => {
+            await Dispatcher.InvokeAsync(() => {
+                if (ActivePanelPage?.PageKey != p.PageKey) {
+                    if (p.PageKey is "HomePage") {
+                        ActivePage = p.Page;
+                    } else {
+                        ActivePanelPage = null;
+                        ActivePanelPage = p;
+                    }
                 }
             }, DispatcherPriority.ApplicationIdle);
         };
 
         Time = DateTime.Now.ToString("t");
         Year = DateTime.Now.ToString("d");
+
         _timer.Elapsed += (_, args) => {
             Time = args.SignalTime.ToString("T");
             Year = args.SignalTime.ToString("d");
@@ -71,7 +77,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
 
     [RelayCommand]
     private void ControlTaskListPanel() {
-        IsOpenTaskListPanel = IsOpenTaskListPanel ? false : true;
+        IsOpenTaskListPanel = !IsOpenTaskListPanel;
     }
 
     [RelayCommand]

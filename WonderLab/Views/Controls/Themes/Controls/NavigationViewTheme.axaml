@@ -21,7 +21,8 @@
 										Name="Frame"
 										Margin="10 0 10 15"
 										ClipToBounds="False"
-										Background="Transparent"/>
+										Background="Transparent"
+										Content="{TemplateBinding Content}"/>
 						
 						<!-- ContentPanel -->
 						<LayoutTransformControl UseRenderTransform="True"
@@ -33,19 +34,12 @@
 									Name="BackgroundPanel"
 									Background="{TemplateBinding Background}"
 									BorderBrush="{TemplateBinding BorderBrush}">
-								<controls:Frame Opacity="0"
+								<controls:Frame Opacity="1"
 												Name="PanelFrame"
 												CornerRadius="12"
 												ClipToBounds="True"
-												Background="Transparent">
-									<controls:Frame.Transitions>
-										<Transitions>
-											<DoubleTransition Property="Opacity"
-															  Duration="0:0:0.35"
-															  Easing="ExponentialEaseOut"/>
-										</Transitions>
-									</controls:Frame.Transitions>
-								</controls:Frame>
+												Background="Transparent"
+												Content="{TemplateBinding PanelContent}"/>
 							</Border>
 						</LayoutTransformControl>
 						
@@ -114,11 +108,12 @@
 				</Animation>
 			</Style.Animations>
 		</Style>
-		
+
+		<!--IsPanelOpen-->
 		<Style Selector="^:ispanelopen /template/ LayoutTransformControl#PART_LayoutTransformControl">
 			<Style.Animations>
 				<Animation FillMode="Forward"
-						   Duration="0:0:0.15" 
+						   Duration="0:0:0.35" 
 						   Easing="ExponentialEaseOut">
 					<KeyFrame Cue="0%">
 						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>

@@ -33,15 +33,15 @@ public sealed class NavigationView : ContentControl {
         }
     }
 
-    private Frame _frame;
-    private Frame _panelFrame;   
     private Border _backgroundPanel;
-    private CancellationTokenSource _cancellationTokenSource = new();
 
     public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
+
+    public static readonly StyledProperty<object> PanelContentProperty =
+        AvaloniaProperty.Register<NavigationView, object>(nameof(PanelContent));
 
     public static readonly StyledProperty<object> FooterContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(FooterContent));
@@ -53,43 +53,22 @@ public sealed class NavigationView : ContentControl {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
-
-    public bool IsOpenBackgroundPanel {
-        get => GetValue(IsOpenBackgroundPanelProperty);
-        set => SetValue(IsOpenBackgroundPanelProperty, value);
-    }
     
+    public object PanelContent {
+        get => GetValue(PanelContentProperty);
+        set => SetValue(PanelContentProperty, value);
+    }
+
     public object FooterContent {
         get => GetValue(FooterContentProperty);
         set => SetValue(FooterContentProperty, value);
     }
 
-    private async void SetContent(object page) {
-        return;
-        _cancellationTokenSource.Cancel();
-        _cancellationTokenSource.Dispose();
-        _cancellationTokenSource = new();
-
-        if (_frame is null || _panelFrame is null) {
-            return;
-        }
-
-        _frame.Content = null;
-        _panelFrame.Content = null;
-        
-        var panel = IsOpenBackgroundPanel ? _panelFrame : _frame;
-
-        await Dispatcher.UIThread.InvokeAsync(async () => {
-            panel.Content = page;
-
-            await Task.Delay(390, _cancellationTokenSource.Token).ContinueWith(x => {
-                if (x.IsCompletedSuccessfully) {
-                    Dispatcher.UIThread.Post(() => panel.Opacity = 1);
-                }
-            });
-        });
+    public bool IsOpenBackgroundPanel {
+        get => GetValue(IsOpenBackgroundPanelProperty);
+        set => SetValue(IsOpenBackgroundPanelProperty, value);
     }
-    
+
     private void UpdateIndicator() {
         TemplateSettings.ActualPx = _backgroundPanel.Bounds.Height + 15;
     }
@@ -106,11 +85,7 @@ public sealed class NavigationView : ContentControl {
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
-        base.OnApplyTemplate(e);
-        //Frames
-        _frame = e.NameScope.Find<Frame>("Frame")!;
-        _panelFrame = e.NameScope.Find<Frame>("PanelFrame")!;
-        
+        base.OnApplyTemplate(e);        
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
         _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
@@ -118,10 +93,6 @@ public sealed class NavigationView : ContentControl {
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
-
-        if (change.Property == ContentProperty) {
-            SetContent(change.NewValue!);
-        }
         
         if (change.Property == IsOpenBackgroundPanelProperty) {
             UpdatePseudoClasses();

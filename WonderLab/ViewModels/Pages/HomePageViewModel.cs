@@ -23,8 +23,9 @@ public sealed partial class HomePageViewModel : ViewModelBase {
         _gameService = gameService;
 
         GameEntries = _gameService.GameEntries.ToObservableList();
+
         _ = Task.Run(async () => {
-            await Task.Delay(1000);
+            await Task.Delay(250);
             ActiveGameEntry = _gameService.ActiveGameEntry;
         });
     }

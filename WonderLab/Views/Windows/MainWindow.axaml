@@ -33,7 +33,8 @@
 			
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="False"
-							   Content="{Binding ActivePage.Page}"
+							   Content="{Binding ActivePage}"
+							   PanelContent="{Binding ActivePanelPage.Page}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.MenuItems>
 					<ui:NavigationViewItem Icon="&#xEA8A;"

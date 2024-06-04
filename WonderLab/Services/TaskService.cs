@@ -6,7 +6,6 @@ using System.Threading.Channels;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Hosting;
 
 namespace WonderLab.Services;
 
@@ -36,6 +35,7 @@ public sealed partial class TaskService(IBackgroundTaskQueue queue) : Observable
 
             Interlocked.Increment(ref _currentRunningJobs);
         });
+
     }
 }
 

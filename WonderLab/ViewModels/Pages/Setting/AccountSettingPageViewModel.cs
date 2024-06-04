@@ -1,18 +1,16 @@
-using WonderLab.Services.UI;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using WonderLab.ViewModels.Dialogs.Setting;
-using WonderLab.Services;
-using System.Collections.ObjectModel;
-using WonderLab.Classes.Datas.ViewData;
 using System.Linq;
-using WonderLab.Extensions;
-using CommunityToolkit.Mvvm.Messaging;
-using WonderLab.Classes.Datas.MessageData;
+using WonderLab.Services;
+using WonderLab.Services.UI;
 using System.Threading.Tasks;
-using WonderLab.Classes.Datas.TaskData;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using Avalonia.Controls.Notifications;
-using MinecraftLaunch.Classes.Models.Auth;
+using CommunityToolkit.Mvvm.Messaging;
+using WonderLab.Classes.Datas.TaskData;
+using WonderLab.Classes.Datas.ViewData;
+using WonderLab.Classes.Datas.MessageData;
+using WonderLab.ViewModels.Dialogs.Setting;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 

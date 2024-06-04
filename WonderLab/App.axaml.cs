@@ -105,10 +105,11 @@ public sealed partial class App : Application {
         services.AddHostedService<QueuedHostedService>();
         services.AddScoped<JavaFetcher>();
 
+        services.AddTransient<GameService>();
+
         services.AddSingleton<LogService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<SkinService>();
-        services.AddSingleton<GameService>();
         services.AddSingleton<ThemeService>();
         services.AddSingleton<WindowService>();
         services.AddSingleton<DialogService>();
@@ -131,7 +132,7 @@ public sealed partial class App : Application {
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {
-        services.AddSingleton<HomePageViewModel>();
+        services.AddTransient<HomePageViewModel>();
         services.AddSingleton<MainWindowViewModel>();
         
         services.AddSingleton<SettingNavigationPageViewModel>();
