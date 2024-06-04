@@ -36,17 +36,12 @@ public sealed class NavigationView : ContentControl {
     private Frame _frame;
     private Frame _panelFrame;   
     private Border _backgroundPanel;
-    private WindowService _windowService;
     private CancellationTokenSource _cancellationTokenSource = new();
 
-    //private double ActualPx => _backgroundPanel.Bounds.Height + 15;
     public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
         AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
-
-    public static new readonly StyledProperty<object> ContentProperty =
-        AvaloniaProperty.Register<NavigationView, object>(nameof(Content));
 
     public static readonly StyledProperty<object> FooterContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(FooterContent));
@@ -57,11 +52,6 @@ public sealed class NavigationView : ContentControl {
     public IEnumerable MenuItems {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
-    }
-
-    public new object Content {
-        get => GetValue(ContentProperty);
-        set => SetValue(ContentProperty, value);
     }
 
     public bool IsOpenBackgroundPanel {
@@ -75,6 +65,7 @@ public sealed class NavigationView : ContentControl {
     }
 
     private async void SetContent(object page) {
+        return;
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
         _cancellationTokenSource = new();
@@ -99,13 +90,6 @@ public sealed class NavigationView : ContentControl {
         });
     }
     
-    private void SetBackgroundPanelState() {
-        //var px = IsOpenBackgroundPanel ? 0 : ActualPx;
-        //Dispatcher.UIThread.Post(() => {
-        //    _backgroundPanel!.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
-        //}, DispatcherPriority.Send);
-    }
-
     private void UpdateIndicator() {
         TemplateSettings.ActualPx = _backgroundPanel.Bounds.Height + 15;
     }
@@ -121,17 +105,6 @@ public sealed class NavigationView : ContentControl {
         }
     }
 
-    protected override void OnLoaded(RoutedEventArgs e) {
-        base.OnLoaded(e);
-        if (Design.IsDesignMode) {
-            return;
-        }
-
-        _windowService = App.ServiceProvider.GetRequiredService<WindowService>();
-        //_windowService.HandlePropertyChanged(BoundsProperty, SetBackgroundPanelState);
-        //SetBackgroundPanelState();
-    }
-
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
         //Frames
@@ -141,7 +114,6 @@ public sealed class NavigationView : ContentControl {
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
         _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
-        //e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
@@ -153,7 +125,6 @@ public sealed class NavigationView : ContentControl {
         
         if (change.Property == IsOpenBackgroundPanelProperty) {
             UpdatePseudoClasses();
-            //SetBackgroundPanelState();
         }
     }
 }

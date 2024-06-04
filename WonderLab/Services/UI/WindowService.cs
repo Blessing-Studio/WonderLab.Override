@@ -18,9 +18,11 @@ namespace WonderLab.Services.UI;
 /// </summary>
 public sealed class WindowService {
     private readonly MainWindow _mainWindow;
+    private readonly LogService _logService;
 
-    public WindowService(MainWindow window) {
+    public WindowService(MainWindow window, LogService logService) {
         _mainWindow = window;
+        _logService = logService;
 
         _mainWindow.ActualThemeVariantChanged += (_, args) => {
             if (_mainWindow.TransparencyLevelHint.Any(x => x == WindowTransparencyLevel.AcrylicBlur)) {
@@ -31,6 +33,7 @@ public sealed class WindowService {
 
     public void Close() {
         _mainWindow.Close();
+        _logService.Finish();
     }
 
     public IStorageProvider GetStorageProvider() {

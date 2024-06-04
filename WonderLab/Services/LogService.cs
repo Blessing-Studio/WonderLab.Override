@@ -14,12 +14,16 @@ namespace WonderLab.Services;
 public sealed class LogService {
     private readonly StreamWriter _writer;
     private readonly ActionBlock<LogData> _outputJobs;
-    private readonly string _logFile = $"WonderLog-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log";
+    private readonly string _logFile = $"logs\\WonderLog-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log";
     
     public LogService() {
         _outputJobs = new ActionBlock<LogData>(async logMessage => {
             await WriteLogAsync(logMessage);
         });
+
+        if (!Directory.Exists("logs")) {
+            Directory.CreateDirectory("logs");
+        }
 
         _writer = new StreamWriter(_logFile);
     }
