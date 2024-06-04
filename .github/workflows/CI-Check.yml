@@ -2,7 +2,7 @@ name: CI-Check
 on:
   workflow_dispatch:
   push:
-    branches: [ "**" ]
+    branches: [ "feature" ]
   pull_request:
     types:
       - opened

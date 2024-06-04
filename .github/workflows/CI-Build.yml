@@ -2,7 +2,7 @@ name: CI-Build
 on:
   workflow_dispatch:
   push:
-    branches: [ "**" ]
+    branches: [ "feature" ]
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -61,7 +61,7 @@ jobs:
   build_Windows_Installer:
     strategy:
       matrix:
-        arch: ["x64", "arm64"]#We won't support x86 anymore
+        arch: ["x64", "arm64"] #We won't support x86 anymore
     runs-on: windows-latest
     needs: [test, test_build, build_Windows]
     steps:
@@ -91,28 +91,6 @@ jobs:
       with:
         name: WindowsInstaller
         path: Deploy/OUT/*.exe
-  #build_Linux:
-  #  strategy:
-  #    matrix:
-  #      arch: ["x64", "musl-x64", "arm", "arm64"] #"bionic-arm64" is not available
-  #  runs-on: ubuntu-latest
-  #  needs: [test, test_build]
-  #  steps:
-  #  - name: Checkout
-  #    uses: actions/checkout@v3
-  #    with:
-  #      fetch-depth: 0
-  #  - name: "Setup Dotnet"
-  #    uses: "actions/setup-dotnet@v3"
-  #    with:
-  #      dotnet-version: "${{env.dotnet-version}}"
-  #  - name: Build
-  #    run: dotnet build WonderLab.Desktop/WonderLab.Desktop.csproj -t:CreateZip --arch ${{ matrix.arch }} --os linux 
-  #  - name: Upload build artifacts
-  #    uses: actions/upload-artifact@v3
-  #    with:
-  #      name: Linux
-  #      path: WonderLab/bin/Release/${{ env.target-version }}/linux-${{ matrix.arch }}/*.zip
   build_Linux_Appimage:
     strategy:
       matrix:
@@ -289,7 +267,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         automatic_release_tag: AutoBuild_${{ env.BRANCH_NAME }}
-        title: "自动构建版本 - ${{ env.BRANCH_NAME }}"
+        title: "${{ env.BRANCH_NAME }} 分支 - 测试渠道"
         files: |
             *.exe
             *.zip
