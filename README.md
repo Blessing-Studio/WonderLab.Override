@@ -99,4 +99,9 @@ Release 命名规则： WonderLab.Override.`版本号`.`系统`-`架构`
 
 现 `WonderLab` 的 `AUR` 维护者，archlinux用户
 
+<<<<<<< HEAD
 [website](www.fts427.top)
+=======
+[website](https://www.fts427.top/)
+
+>>>>>>> 88633ba (F | readme | fix the link of FTS427's website)
