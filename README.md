@@ -28,7 +28,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 可以在 [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) 下载你想要的版本
 
-Release 命名规则： WonderLab.Remake.`版本号`.`系统`-`架构`
+Release 命名规则： WonderLab.Override.`版本号`.`系统`-`架构`
 
 ## 反馈问题
 
@@ -100,4 +100,3 @@ Release 命名规则： WonderLab.Remake.`版本号`.`系统`-`架构`
 现 `WonderLab` 的 `AUR` 维护者，archlinux用户
 
 [website](www.fts427.top)
-
