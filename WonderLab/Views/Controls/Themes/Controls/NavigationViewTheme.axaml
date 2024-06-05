@@ -3,7 +3,11 @@
                     xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
 		<Border Width="400" Height="300">
-			<controls:NavigationView/>
+			<controls:NavigationView>
+				<controls:NavigationView.Items>
+					<controls:NavigationViewItem/>
+				</controls:NavigationView.Items>
+			</controls:NavigationView>
 		</Border>
 	</Design.PreviewWith>
 	
@@ -13,6 +17,12 @@
 		<Setter Property="ClipToBounds" Value="False"/>
 		<Setter Property="Background" Value="{DynamicResource ContentBrush2}"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
+		<Setter Property="ItemsPanel">
+			<ItemsPanelTemplate>
+				<StackPanel Spacing="5" Orientation="Horizontal"/>
+			</ItemsPanelTemplate>
+		</Setter>
+		
 		<Setter Property="Template">
 			<ControlTemplate>
 					<Grid Background="Transparent"
@@ -51,8 +61,23 @@
 								MinHeight="{TemplateBinding MinHeight}"
 								BorderBrush="{TemplateBinding BorderBrush}"
 								Background="{DynamicResource BottomBarBackground}">
-							<Grid ColumnDefinitions="Auto, 1*, Auto">								
-								<ListBox Margin="10 0 -10 0"
+							<Grid ColumnDefinitions="Auto, 1*, Auto">
+								<ScrollViewer Margin="10 0 -10 0"
+											  Name="PART_ScrollViewer"
+											  HorizontalAlignment="Left"
+											  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+											  VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
+											  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+											  HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
+											  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+											  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+											  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}">
+									<ItemsPresenter Name="PART_ItemsPresenter"
+													Margin="{TemplateBinding Padding}"
+													ItemsPanel="{TemplateBinding ItemsPanel}" />
+								</ScrollViewer>
+								
+								<!--<ListBox Margin="10 0 -10 0"
 										 ClipToBounds="False"
 										 Background="Transparent"
 										 HorizontalAlignment="Left"
@@ -84,7 +109,7 @@
 											</Setter>
 										</Style>
 									</ListBox.Styles>
-								</ListBox>
+								</ListBox>-->
 								
 								<ContentPresenter Grid.Column="2"
 												  Content="{TemplateBinding FooterContent}"/>

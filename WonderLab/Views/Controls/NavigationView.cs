@@ -14,11 +14,14 @@ using Avalonia.Threading;
 using System.Threading.Tasks;
 using System.Threading;
 using Avalonia.Controls.Metadata;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace WonderLab.Views.Controls;
 
 [PseudoClasses(":ispanelopen", ":ispanelclose")]
-public sealed class NavigationView : ContentControl {
+public sealed class NavigationView : SelectingItemsControl {
     public sealed class NavigationViewTemplateSettings : AvaloniaObject {
         private double _actualPx;
 
@@ -38,7 +41,10 @@ public sealed class NavigationView : ContentControl {
     public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
     public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
-        AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems),new AvaloniaList<NavigationViewItem>());
+        AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems));
+
+    public static readonly StyledProperty<object> ContentProperty =
+        AvaloniaProperty.Register<NavigationView, object>(nameof(Content));
 
     public static readonly StyledProperty<object> PanelContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(PanelContent));
@@ -53,7 +59,12 @@ public sealed class NavigationView : ContentControl {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
-    
+
+    public object Content {
+        get => GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+
     public object PanelContent {
         get => GetValue(PanelContentProperty);
         set => SetValue(PanelContentProperty, value);
@@ -85,7 +96,8 @@ public sealed class NavigationView : ContentControl {
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
-        base.OnApplyTemplate(e);        
+        base.OnApplyTemplate(e);
+
         //Layouts
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
         _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
