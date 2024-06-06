@@ -25,11 +25,11 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             IsHitTestVisible="{TemplateBinding IsHitTestVisible}">
                         <TextBlock Margin="10 0"
-                                   Text="WonderLab"
-                                   FontWeight="Bold"
-                                   Name="TitleTextBlock"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"/>
+								   FontWeight="Bold"
+								   Name="TitleTextBlock"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Left"
+								   Text="{TemplateBinding Title}"/>
                     </Border>
 
                     <Border Grid.Column="1"

@@ -26,6 +26,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.ViewModels.Dialogs;
 using WonderLab.Views.Dialogs;
+using Avalonia.Controls;
+using System.Threading.Tasks;
 
 namespace WonderLab;
 
@@ -45,13 +47,24 @@ public sealed partial class App : Application {
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var mainWindow = GetService<MainWindow>();
-            StorageProvider = mainWindow.StorageProvider;
-            desktop.MainWindow = mainWindow;
-            Init();
+            var settingService = GetService<SettingService>();
+            var isInitialize = !settingService.IsInitialize;
 
-            mainWindow.DataContext = GetService<MainWindowViewModel>();
-            desktop.Exit += (sender, args) => GetService<SettingService>().Save();
+            var oobeWindow = GetService<OobeWindow>();
+            var mainWindow = GetService<MainWindow>();
+            var oobeWindowViewModel = GetService<OobeWindowViewModel>();
+            var mainWindowViewModel = GetService<MainWindowViewModel>();
+
+            Window window = isInitialize ? oobeWindow : mainWindow;
+            window.DataContext = isInitialize ? oobeWindowViewModel : mainWindowViewModel;
+
+            StorageProvider = window.StorageProvider;
+            desktop.MainWindow = window;
+            if (window is MainWindow) {
+                Init();
+            }
+
+            desktop.Exit += async (sender, args) => await Task.Run(() => settingService.Save());
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -92,7 +105,8 @@ public sealed partial class App : Application {
         services.AddSingleton<AccountSettingPage>();
 
         //Windows
-        services.AddScoped<MainWindow>();
+        services.AddSingleton<MainWindow>();
+        services.AddSingleton<OobeWindow>();
 
         //Dialog
         services.AddTransient<TestUserCheckDialog>();
@@ -106,12 +120,12 @@ public sealed partial class App : Application {
         services.AddScoped<JavaFetcher>();
 
         services.AddTransient<GameService>();
+        services.AddTransient<WindowService>();
 
         services.AddSingleton<LogService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
-        services.AddSingleton<WindowService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<AccountService>();
         services.AddSingleton<SettingService>();
@@ -133,16 +147,23 @@ public sealed partial class App : Application {
     
     private static void ConfigureViewModel(IServiceCollection services) {
         services.AddTransient<HomePageViewModel>();
+
+        //Window
         services.AddSingleton<MainWindowViewModel>();
-        
+        services.AddSingleton<OobeWindowViewModel>();
+
+        //Navigation Page
         services.AddSingleton<SettingNavigationPageViewModel>();
         services.AddSingleton<DownloadNavigationPageViewModel>();
 
+        //Setting Page
         services.AddSingleton<AboutPageViewModel>();
         services.AddTransient<DetailSettingPageViewModel>();
         services.AddTransient<LaunchSettingPageViewModel>();
         services.AddTransient<AccountSettingPageViewModel>();
         services.AddTransient<NetworkSettingPageViewModel>();
+
+        //Dialog
         services.AddTransient<TestUserCheckDialogViewModel>();
         services.AddTransient<ChooseAccountTypeDialogViewModel>();
         services.AddTransient<OfflineAuthenticateDialogViewModel>();

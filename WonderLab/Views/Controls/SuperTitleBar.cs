@@ -13,14 +13,22 @@ namespace WonderLab.Views.Controls;
 public sealed class SuperTitleBar : ContentControl {
     private WindowService _windowService;
     
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<SuperTitleBar, string>(nameof(Title), "WonderLab");
+
     public static readonly StyledProperty<bool> IsButtonGroupVisibleProperty =
-        AvaloniaProperty.Register<NavigationView, bool>(nameof(IsButtonGroupVisible), EnvironmentUtil.IsWindow);
-    
+        AvaloniaProperty.Register<SuperTitleBar, bool>(nameof(IsButtonGroupVisible), EnvironmentUtil.IsWindow);
+
+    public string Title {
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
     public bool IsButtonGroupVisible {
         get => GetValue(IsButtonGroupVisibleProperty);
         set => SetValue(IsButtonGroupVisibleProperty, value);
     }
-    
+
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
         _windowService = App.ServiceProvider.GetRequiredService<WindowService>();

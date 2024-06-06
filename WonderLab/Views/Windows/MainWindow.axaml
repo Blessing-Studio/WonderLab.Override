@@ -36,7 +36,7 @@
 							   Content="{Binding ActivePage}"
 							   PanelContent="{Binding ActivePanelPage.Page}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
-				<ui:NavigationView.MenuItems>
+				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
 										   IsSelected="True"
 										   CommandParameter="HomePage"
@@ -59,7 +59,7 @@
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="SettingNavigationPage"
 										   Foreground="{DynamicResource SecondaryColor600}"/>
-				</ui:NavigationView.MenuItems>
+				</ui:NavigationView.Items>
 
 				<ui:NavigationView.FooterContent>
 					<Grid ColumnDefinitions="Auto,Auto">

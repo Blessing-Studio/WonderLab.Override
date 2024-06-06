@@ -40,9 +40,6 @@ public sealed class NavigationView : SelectingItemsControl {
 
     public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
-    public static readonly StyledProperty<IEnumerable> MenuItemsProperty =
-        AvaloniaProperty.Register<NavigationView, IEnumerable>(nameof(MenuItems));
-
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(Content));
 
@@ -55,11 +52,6 @@ public sealed class NavigationView : SelectingItemsControl {
     public static readonly StyledProperty<bool> IsOpenBackgroundPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsOpenBackgroundPanel));
     
-    public IEnumerable MenuItems {
-        get => GetValue(MenuItemsProperty);
-        set => SetValue(MenuItemsProperty, value);
-    }
-
     public object Content {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);

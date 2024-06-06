@@ -10,6 +10,7 @@ using System.IO;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using System.Linq;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace WonderLab.Services.UI;
 
@@ -17,18 +18,24 @@ namespace WonderLab.Services.UI;
 /// 主窗体 <see cref="MainWindow"/> 的扩展服务类
 /// </summary>
 public sealed class WindowService {
-    private readonly MainWindow _mainWindow;
+    private readonly Window _mainWindow;
     private readonly LogService _logService;
 
-    public WindowService(MainWindow window, LogService logService) {
-        _mainWindow = window;
-        _logService = logService;
+    public double ActualWidth => _mainWindow.Bounds.Width;
+    public double ActualHeight => _mainWindow.Bounds.Height;
 
-        _mainWindow.ActualThemeVariantChanged += (_, args) => {
-            if (_mainWindow.TransparencyLevelHint.Any(x => x == WindowTransparencyLevel.AcrylicBlur)) {
-                SetBackground(1);
-            }
-        };
+    public WindowService(LogService logService) {
+        _logService = logService;
+        _mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)
+            .MainWindow;
+
+        if (_mainWindow is not null) {
+            _mainWindow.ActualThemeVariantChanged += (_, args) => {
+                if (_mainWindow.TransparencyLevelHint.Any(x => x == WindowTransparencyLevel.AcrylicBlur)) {
+                    SetBackground(1);
+                }
+            };
+        }
     }
 
     public void Close() {
@@ -36,24 +43,21 @@ public sealed class WindowService {
         _logService.Finish();
     }
 
-    public IStorageProvider GetStorageProvider() {
-        return _mainWindow.StorageProvider;
-    }
-
     public void SetBackground(int type) {
-        _mainWindow.Background = Brushes.Transparent;
-        _mainWindow.AcrylicMaterial.IsVisible = false;
+        var main = _mainWindow as MainWindow;
+        main.Background = Brushes.Transparent;
+        main.AcrylicMaterial.IsVisible = false;
 
         switch (type) {
             case 0:
-                _mainWindow.TransparencyLevelHint = [WindowTransparencyLevel.Mica];
+                main.TransparencyLevelHint = [WindowTransparencyLevel.Mica];
                 break;
             case 1:
-                _mainWindow.AcrylicMaterial.IsVisible = true;
-                _mainWindow.TransparencyLevelHint = [WindowTransparencyLevel.AcrylicBlur];
-                var tintColor = _mainWindow.ActualThemeVariant == ThemeVariant.Dark ? Colors.Black : Colors.White;
+                main.AcrylicMaterial.IsVisible = true;
+                main.TransparencyLevelHint = [WindowTransparencyLevel.AcrylicBlur];
+                var tintColor = main.ActualThemeVariant == ThemeVariant.Dark ? Colors.Black : Colors.White;
 
-                _mainWindow.AcrylicMaterial.Material = new() {
+                main.AcrylicMaterial.Material = new() {
                     TintOpacity = 0.5d,
                     TintColor = tintColor,
                     MaterialOpacity = 0.4d,
@@ -61,7 +65,7 @@ public sealed class WindowService {
                 };
                 break;
             case 2:
-                _mainWindow.Background = new ImageBrush {
+                main.Background = new ImageBrush {
                     Source = new Bitmap(""),
                     Stretch = Stretch.UniformToFill
                 };
@@ -85,7 +89,7 @@ public sealed class WindowService {
         };
     }
 
-    public double ActualWidth => _mainWindow.Bounds.Width;
-
-    public double ActualHeight => _mainWindow.Bounds.Height;
+    public IStorageProvider GetStorageProvider() {
+        return _mainWindow.StorageProvider;
+    }
 }

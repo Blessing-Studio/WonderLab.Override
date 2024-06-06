@@ -21,6 +21,7 @@ public sealed class SettingService {
         "Blessing-Studio", "wonderlab", "settingData.json"));
 
     public SettingData Data { get; private set; }
+    public bool IsInitialize { get; private set; }
 
     public SettingService() => Initialize();
 
@@ -40,5 +41,7 @@ public sealed class SettingService {
             Data = new();
             Save();
         }
+
+        IsInitialize = !_settingDataFilePath.Exists;
     }
 }
