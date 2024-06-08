@@ -20,24 +20,17 @@
 
 ## 自我介绍
 
-WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x86、x64、Arm 架构
+WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x64、Arm 架构
 
-``` {.is-info}
-请您注意，本版本为内部测试版本
-需要联网激活，请在下载前确认您是否有测试资格！
-```
+> [!IMPORTANT]
+> 请您注意，本版本为测试版本，需要联网激活，请在下载前确认您是否有测试资格！
 
-``` {.is-info}
-当前分支为 `feature` 内部测试分支，更新速率快、不稳定、附带多种未知功能
- 可能会导致您已安装的正式版 WonderLab 发生错误
-```
-
+> [!WARNING]
+> 当前分支为 `feature` 内部测试分支，更新速率快、不稳定、附带多种未知功能，可能会导致您已安装的正式版 WonderLab 发生错误
 
 ## 如何安装
 
-可以在 [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) 下载你想要的版本
-
-Release 命名规则： WonderLab.Remake.`版本号`.`系统`-`架构`
+请到 [这里](https://www.blessingta.link/zh_CN/wonderlab/) 查看详细文档
 
 ## 反馈问题
 
@@ -104,3 +97,8 @@ Release 命名规则： WonderLab.Remake.`版本号`.`系统`-`架构`
 [Github](https://github.com/dream0090)
 [Page](https://serverhub.cc)
 
+### [FTS427](https://github.com/FTS427)
+
+现 WonderLab 的 AUR 维护者，文档的编辑者，干一些杂活
+
+[website](https://www.fts427.top/)
