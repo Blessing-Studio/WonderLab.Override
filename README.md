@@ -28,7 +28,7 @@ The present branch is `master` stable branch，you can use it without worring ab
 
 You can go to [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) to download any version you want.
 
-Release's m=name rule: WonderLab.Override.`Version`.`System`-`Framwork`
+Release's name rule: WonderLab.Override.`Version`.`System`-`Framwork`
 
 ## Send an issue
 
