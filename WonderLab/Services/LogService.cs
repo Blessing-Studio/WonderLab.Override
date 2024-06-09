@@ -14,7 +14,7 @@ namespace WonderLab.Services;
 public sealed class LogService {
     private readonly StreamWriter _writer;
     private readonly ActionBlock<LogData> _outputJobs;
-    private readonly string _logFile = $"logs\\WonderLog-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log";
+    private readonly string _logFile = $"logs\\WonderLog-{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.log";
     
     public LogService() {
         _outputJobs = new ActionBlock<LogData>(async logMessage => {
