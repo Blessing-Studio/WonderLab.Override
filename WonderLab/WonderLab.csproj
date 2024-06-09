@@ -64,8 +64,4 @@
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Views\Windows\OobeWindow.axaml" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\Pages\Oobe\" />
-	</ItemGroup>
 </Project>

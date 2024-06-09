@@ -1,21 +1,27 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Controls;
 using WonderLab.Services;
 using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
 using WonderLab.Services.UI;
+using System.Threading.Tasks;
 using WonderLab.Services.Game;
 using WonderLab.Views.Windows;
+using WonderLab.Views.Dialogs;
 using Avalonia.Platform.Storage;
+using WonderLab.Views.Pages.Oobe;
 using WonderLab.ViewModels.Pages;
 using Avalonia.Data.Core.Plugins;
 using WonderLab.Services.Download;
+using WonderLab.ViewModels.Dialogs;
 using Microsoft.Extensions.Hosting;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Services.Auxiliary;
 using WonderLab.Classes.Interfaces;
 using WonderLab.Views.Pages.Setting;
 using WonderLab.Services.Navigation;
+using WonderLab.ViewModels.Pages.Oobe;
 using WonderLab.Views.Dialogs.Setting;
 using WonderLab.Views.Pages.Navigation;
 using WonderLab.ViewModels.Pages.Setting;
@@ -24,10 +30,6 @@ using WonderLab.ViewModels.Dialogs.Setting;
 using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.ViewModels.Dialogs;
-using WonderLab.Views.Dialogs;
-using Avalonia.Controls;
-using System.Threading.Tasks;
 
 namespace WonderLab;
 
@@ -48,15 +50,10 @@ public sealed partial class App : Application {
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             var settingService = GetService<SettingService>();
-            var isInitialize = !settingService.IsInitialize;
+            var isInitialize = settingService.IsInitialize;
 
-            var oobeWindow = GetService<OobeWindow>();
-            var mainWindow = GetService<MainWindow>();
-            var oobeWindowViewModel = GetService<OobeWindowViewModel>();
-            var mainWindowViewModel = GetService<MainWindowViewModel>();
-
-            Window window = isInitialize ? oobeWindow : mainWindow;
-            window.DataContext = isInitialize ? oobeWindowViewModel : mainWindowViewModel;
+            Window window = isInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
+            window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
             StorageProvider = window.StorageProvider;
             desktop.MainWindow = window;
@@ -95,9 +92,11 @@ public sealed partial class App : Application {
         //Pages
         services.AddTransient<HomePage>();
         
+        services.AddSingleton<OobeWelcomePage>();
+
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();
-        
+
         services.AddSingleton<AboutPage>();
         services.AddSingleton<DetailSettingPage>();
         services.AddSingleton<LaunchSettingPage>();
@@ -132,6 +131,7 @@ public sealed partial class App : Application {
         services.AddSingleton<LanguageService>();
         services.AddSingleton<DownloadService>();
         services.AddSingleton<NotificationService>();
+        services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
 
@@ -151,6 +151,9 @@ public sealed partial class App : Application {
         //Window
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<OobeWindowViewModel>();
+
+        //Oobe Page
+        services.AddSingleton<OobeWelcomePageViewModel>();
 
         //Navigation Page
         services.AddSingleton<SettingNavigationPageViewModel>();

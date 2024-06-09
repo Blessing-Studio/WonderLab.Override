@@ -20,11 +20,12 @@
 							  Title="WonderLab - 设置向导"/>
 
 			<ui:NavigationView Grid.Row="1"
-							   ClipToBounds="False"
+							   SelectedIndex="0"
+							   ClipToBounds="True"
+							   PanelContent="{Binding ActivePage}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
-										   IsSelected="True"
 										   Content="欢迎"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
@@ -41,6 +42,12 @@
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 				</ui:NavigationView.Items>
 			</ui:NavigationView>
+			
+			<Border Height="38"
+					Grid.Row="1"
+					Background="Transparent"
+					VerticalAlignment="Bottom"
+					HorizontalAlignment="Stretch"/>
 		</Grid>
 
 		<dha:DialogHost DialogMargin="0"
