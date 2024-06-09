@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Extensions;
+using WonderLab.Services;
 
 namespace WonderLab.Desktop;
 
 public sealed class Program {
     [STAThread]
     public static void Main(string[] args) {
-        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        try {
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        } catch (Exception ex) {
+            var logService = App.ServiceProvider.GetService<LogService>();
+            logService!.Error(nameof(Program), $"程序遭遇了致命性错误，信息堆栈：{ex}");
+            logService.Finish();
+        }
     }
 
     public static AppBuilder BuildAvaloniaApp() => AppBuilder.Configure<App>()
