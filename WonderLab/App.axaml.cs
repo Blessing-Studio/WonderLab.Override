@@ -37,6 +37,7 @@ public sealed partial class App : Application {
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
+
     public static IStorageProvider StorageProvider { get; private set; }
 
     public override async void Initialize() {
@@ -161,10 +162,10 @@ public sealed partial class App : Application {
 
         //Setting Page
         services.AddSingleton<AboutPageViewModel>();
-        services.AddTransient<DetailSettingPageViewModel>();
-        services.AddTransient<LaunchSettingPageViewModel>();
-        services.AddTransient<AccountSettingPageViewModel>();
-        services.AddTransient<NetworkSettingPageViewModel>();
+        services.AddSingleton<DetailSettingPageViewModel>();
+        services.AddSingleton<LaunchSettingPageViewModel>();
+        services.AddSingleton<AccountSettingPageViewModel>();
+        services.AddSingleton<NetworkSettingPageViewModel>();
 
         //Dialog
         services.AddTransient<TestUserCheckDialogViewModel>();

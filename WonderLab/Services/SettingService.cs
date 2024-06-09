@@ -26,8 +26,8 @@ public sealed class SettingService {
     public SettingService() => Initialize();
 
     public void Save() {
-        File.WriteAllText(_settingDataFilePath.FullName, Data.Serialize(typeof(SettingData),
-            new SettingDataContext(JsonConverterUtil.DefaultJsonOptions)));
+        var json = Data.Serialize(typeof(SettingData), new SettingDataContext(JsonConverterUtil.DefaultJsonOptions));
+        File.WriteAllText(_settingDataFilePath.FullName, json);
     }
 
     public void Initialize() {

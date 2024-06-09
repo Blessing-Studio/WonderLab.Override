@@ -69,8 +69,8 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
                 return;
             }
 
-            GameFolders.Add(folder.FullName);
-            ActiveGameFolder = folder.FullName;
+            GameFolders = GameFolders.Union(Enumerable.Repeat(folder.FullName, 1)).ToObservableList();
+            ActiveGameFolder = GameFolders.Last();
         } else {
             var java = await _dialogService.OpenFilePickerAsync(new List<FilePickerFileType> {
                 new("JavaÎÄ¼þ") { Patterns = [EnvironmentUtil.IsWindow ? "javaw.exe" : "java"] }
@@ -86,8 +86,8 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
                     return;
                 }
 
-                Javas.Add(javaInfo);
-                ActiveJava = javaInfo;
+                Javas = Javas.Union(Enumerable.Repeat(javaInfo, 1)).ToObservableList();
+                ActiveJava = Javas.Last();
             });
         }
     }
@@ -107,16 +107,11 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     [RelayCommand]
     private async Task AutoSearch() {
         var javas = await _javaFetcher.FetchAsync();
-        if (Javas is null) {
-            Javas = new();
-        }
-
+        Javas ??= [];
         Javas.Clear();
 
         var javasList = Javas?.Union(javas);
-        foreach (var java in javasList) {
-            Javas.Add(java);
-        }
+        Javas = javasList.ToObservableList();
 
         ActiveJava = Javas.Last();
         _logService.Info(nameof(LaunchSettingPageViewModel), $"Current java count is {Javas.Count}");
@@ -127,7 +122,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
 
         switch (e.PropertyName) {
             case nameof(Javas):
-                _data.Javas = Javas.ToList();
+                _data.Javas = [.. Javas];
                 break;
             case nameof(ActiveJava):
                 _data.ActiveJava = ActiveJava;
