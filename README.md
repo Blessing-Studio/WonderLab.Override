@@ -6,92 +6,98 @@
 
 # WonderLab.Override
 
-真正的下一代跨平台 Minecraft 启动器
-
-时隔半年，吸取了上次的错误，我们为大家带来了全新的小蓝瓶！
-
-
+The True Next Generation Cross-Platform Minecraft Launcher
 
 ![Downloads](https://img.shields.io/github/downloads/Blessing-Studio/WonderLab.Override/total?logo=github&label=%E4%B8%8B%E8%BD%BD%E9%87%8F&style=for-the-badge&color=44cc11)
 ![Star](https://img.shields.io/github/stars/Blessing-Studio/WonderLab.Override?logo=github&label=Star&style=for-the-badge)
 ![License](https://img.shields.io/github/license/Blessing-Studio/WonderLab.Override?logo=github&label=开源协议&style=for-the-badge&color=ff7a35)
 
-## 介绍
+[![QQ1](https://img.shields.io/badge/一群-722391932-81A1C1.svg?style=for-the-badge&logo=QQ&logoColor=white)](https://jq.qq.com/?_wv=1027&k=kU7khFu6)
+[![QQ2](https://img.shields.io/badge/二群-789238146-81A1C1.svg?style=for-the-badge&logo=QQ&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=vxXeM940Sa8EPK0ddxDr7J-7RCxkConY&authKey=NlLAobL2hA0y5SqUgYwycJpnXsN%2F%2BGpCqqt2V%2BuiUgx%2B%2Fy8cFbvKk%2FnRg1Ezql9y&noverify=0&group_code=789238146)
+[![Discord](https://img.shields.io/badge/Discord-4169E1?style=for-the-badge&logo=Discord&logoColor=white)](https://discord.gg/YQ62mn5d)
 
-WonderLab是一个跨平台 Minecraft 启动器，支持自动更新，Modrinth、Curseforge 资源下载，全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x86,x64,Arm 系统架构。
+</div>
 
-## 下载
+## Introduction
 
-目前我们开放了Windows，MacOS，Linux的下载链接，你可以在 [这里](https://github.com/Blessing-Studio/WonderLab.Override/releases) 下载你想要的版本。
-你可以通过加入 [WonderLab测试群](https://jq.qq.com/?_wv=1027&k=kU7khFu6)/[WonderLab测试二群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=vxXeM940Sa8EPK0ddxDr7J-7RCxkConY&authKey=NlLAobL2hA0y5SqUgYwycJpnXsN%2F%2BGpCqqt2V%2BuiUgx%2B%2Fy8cFbvKk%2FnRg1Ezql9y&noverify=0&group_code=789238146)/[Discord](https://discord.gg/YQ62mn5d)/[QQ频道](https://pd.qq.com/s/fx97xzvzt)来获取内测版本。
+WonderLab is a cross-platform Minecraft launcher,support auto-update,Modrinth、Curseforge resource download、full format modpacks setup（probably），and also support Windows，MacOS，Linux,etc;and compliant x86、x64、Arm framwork at the same time.
 
-## 引用
+The present branch is `master` stable branch，you can use it without worring about it.
 
-#### Avalonia
+## How to install
 
-Avalonia是一个跨平台UI框架，提供灵活的样式系统并支持广泛的操作系统。
-[官网](https://www.avaloniaui.net/)
-[GitHub](https://github.com/AvaloniaUI/Avalonia)
+You can go to [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) to download any version you want.
 
-#### Newtonsoft.Json
+Release's m=name rule: WonderLab.Override.`Version`.`System`-`Framwork`
 
-流行的 .NET 高性能 JSON 框架。
-[官网](https://www.newtonsoft.com/json)
-[GitHub](https://github.com/JamesNK/Newtonsoft.Json)
+## Send an issue
 
-#### MinecraftLaunch
+You can go to [`Issues`](https://github.com/Blessing-Studio/WonderLab.Override/issues) or [`Discussion`](https://github.com/Blessing-Studio/WonderLab.Override/discussions) to post your suggestions and questions.
 
-一个由C#编写的跨平台模块化 Minecraft 启动核心。
-[GitHub](https://github.com/Blessing-Studio/MinecraftLaunch)
+Also,your [`PR`](https://github.com/Blessing-Studio/WonderLab.Override/pulls) is welcomed.
 
-## 鸣谢
+## Referenced Project
 
-#### bangbang93
+[Avalonia](https://github.com/AvaloniaUI/Avalonia)
 
-提供BMCLAPI镜像源。
-[爱发电](https://afdian.net/a/bangbang93)
+[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+
+[MinecraftLaunch](https://github.com/Blessing-Studio/MinecraftLaunch)
+
+## Special Thanks
+
+### bangbang93
+
+Provide BMCLAPI image source.
+
+[Ai-Fa-Dian](https://afdian.net/a/bangbang93)
 [GitHub](https://github.com/bangbang93)
 
-## 开发团队
+## Developers
 
-#### [Xilu](https://baka_hs.gitee.io/xilu-baka/)
+### [Xilu](https://baka_hs.gitee.io/xilu-baka/)
 
-一个平平无奇的 C# 程序设计爱好者，平时喜欢整有用的以及没用的烂活
+A normal C# program lover,like making something useful and something useless.
 
 [GitHub](https://github.com/YangSpring114)
-[Bilibili](https://space.bilibili.com/1098028524?spm_id_from=333.999.0.0)
-[爱发电](https://afdian.net/a/WonderLab)
+[Bilibili](https://space.bilibili.com/1098028524)
+[Ai-Fa-Dian](https://afdian.net/a/WonderLab)
 
-#### Ddggdd135
+### Ddggdd135
 
-一个喜欢编程的学生, Minecraft肝帝, C#爱好者
+A student who like programming, spend all his time in Minecraft, C# Lover.
 
 [GitHub](https://github.com/JWJUN233233)
 [Bilibili](https://space.bilibili.com/1049351987)
 
-#### Starcloudsea
+### Starcloudsea
 
-啥活都想整的没脑子C#编程爱好者和视频创作者
+A guy who want to make something interesting,C# lover and video maker.
 
-正在创作: BadMcen Launcher
+In Progress: BadMcen Launcher
 
 [GitHub](https://github.com/Starcloudsea)
 [Bilibili](https://space.bilibili.com/2123349162?spm_id_from=333.1007.0.0)
-[爱发电](https://afdian.net/a/Starcloudsea)
+[Ai-Fa-Dian](https://afdian.net/a/Starcloudsea)
 
-#### [mail_set](https://blogs.mailset.top)
+### [mail_set](https://blogs.mailset.top)
 
-一个热爱Linux的Arch使用者（虽然打游戏还是会用Windows）
+A Arch Linux user and also love Linu(But he will use windows when he want to play games)
 
 [Github](https://github.com/mailset)
 [Bilibili](https://space.bilibili.com/435654748)
 [Blog](https://blogs.mailset.top)
 
-#### dream_pep
+### dream_pep
 
-一个奇怪的UI设计师，经常忘记修UI文件（bushi）
+A strange UI designer,always forget to fix UI file(Nah)
 
 [Github](https://github.com/dream0090)
 [Page](https://serverhub.cc)
 
-</div>
+### [FTS427](https://github.com/FTS427)
+
+`WonderLab`'s `AUR` maintainer，archlinux user.
+
+[website](https://www.fts427.top/)
+
