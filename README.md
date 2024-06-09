@@ -25,8 +25,9 @@ WonderLab is a cross-platform Minecraft launcher,support auto-update,Modrinth、
 The present branch is `master` stable branch，you can use it without worring about it.
 
 ## How to install
-
-You can go to [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) to download any version you want.
+We've opened Windows，MacOS，Linux's download link',you can go [HERE](https://github.com/Blessing-Studio/WonderLab.Override/releases) to download any version you want.
+If you are Chinese,you can join 
+[WonderLab Test Group](https://jq.qq.com/?_wv=1027&k=kU7khFu6)/[WonderLab Second Test Group](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=vxXeM940Sa8EPK0ddxDr7J-7RCxkConY&authKey=NlLAobL2hA0y5SqUgYwycJpnXsN%2F%2BGpCqqt2V%2BuiUgx%2B%2Fy8cFbvKk%2FnRg1Ezql9y&noverify=0&group_code=789238146)/[Discord(for foreigners)](https://discord.gg/YQ62mn5d)/[QQ Channel](https://pd.qq.com/s/fx97xzvzt)to get insider version.
 
 Release's name rule: WonderLab.Override.`Version`.`System`-`Framwork`
 
@@ -39,10 +40,18 @@ Also,your [`PR`](https://github.com/Blessing-Studio/WonderLab.Override/pulls) is
 ## Referenced Project
 
 [Avalonia](https://github.com/AvaloniaUI/Avalonia)
+Avalonia is a cross-platform UI framework,provide flexible pattern system and support OS widely.
+[Website](https://www.avaloniaui.net/)
+[GitHub](https://github.com/AvaloniaUI/Avalonia)
 
 [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+The popular .NET high perfomance JSON framework.
+[Website](https://www.newtonsoft.com/json)
+[GitHub](https://github.com/JamesNK/Newtonsoft.Json)
 
 [MinecraftLaunch](https://github.com/Blessing-Studio/MinecraftLaunch)
+A C# programmed cross-platform modularization Minecraft launch core.
+[GitHub](https://github.com/Blessing-Studio/MinecraftLaunch)
 
 ## Special Thanks
 
