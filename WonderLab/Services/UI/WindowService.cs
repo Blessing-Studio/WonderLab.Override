@@ -11,6 +11,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using System.Linq;
 using Avalonia.Controls.ApplicationLifetimes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.Services.UI;
 
@@ -24,18 +25,18 @@ public sealed class WindowService {
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 
-    public WindowService(LogService logService) {
+    public WindowService(SettingService settingService, LogService logService) {
         _logService = logService;
-        _mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)
-            .MainWindow;
 
-        if (_mainWindow is not null) {
-            _mainWindow.ActualThemeVariantChanged += (_, args) => {
-                if (_mainWindow.TransparencyLevelHint.Any(x => x == WindowTransparencyLevel.AcrylicBlur)) {
-                    SetBackground(1);
-                }
-            };
-        }
+        _mainWindow = settingService.IsInitialize 
+            ? App.ServiceProvider.GetService<OobeWindow>() 
+            : App.ServiceProvider.GetService<MainWindow>();
+
+        _mainWindow.ActualThemeVariantChanged += (_, args) => {
+            if (_mainWindow.TransparencyLevelHint.Any(x => x == WindowTransparencyLevel.AcrylicBlur)) {
+                SetBackground(1);
+            }
+        };
     }
 
     public void Close() {

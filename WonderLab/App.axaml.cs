@@ -119,13 +119,13 @@ public sealed partial class App : Application {
         services.AddScoped<JavaFetcher>();
 
         services.AddTransient<GameService>();
-        services.AddTransient<WindowService>();
 
         services.AddSingleton<LogService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
         services.AddSingleton<DialogService>();
+        services.AddSingleton<WindowService>();
         services.AddSingleton<AccountService>();
         services.AddSingleton<SettingService>();
         services.AddSingleton<LanguageService>();

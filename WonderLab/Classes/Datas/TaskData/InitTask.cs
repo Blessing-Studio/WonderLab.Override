@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using WonderLab.ViewModels.Dialogs;
 using Avalonia.Controls.Notifications;
 using WonderLab.Classes.Datas.ViewData;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -35,6 +36,7 @@ public sealed class InitTask : TaskBase {
         });
 
         IsIndeterminate = false;
+
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
             return;

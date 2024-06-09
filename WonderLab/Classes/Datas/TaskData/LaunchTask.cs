@@ -77,7 +77,7 @@ public sealed class LaunchTask : TaskBase {
             });
 
             IsIndeterminate = true;
-            await Task.Run(result.Process.WaitForExit);
+            await Task.Run(result.Process.WaitForExit, token);
         }
     }
 }

@@ -54,6 +54,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             }, DispatcherPriority.ApplicationIdle);
         };
 
+        _taskService = taskService;
+        _navigationService = navigationService;
+        _notificationService = notificationService;
+
+        _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
+
         Time = DateTime.Now.ToString("t");
         Year = DateTime.Now.ToString("d");
 
@@ -62,16 +68,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             Year = args.SignalTime.ToString("d");
         };
 
-        _taskService = taskService;
-        _navigationService = navigationService;
-        _notificationService = notificationService;
-
         Tasks = new(_taskService.TaskJobs);
         Notifications = new(_notificationService.Notifications);
         IsTitleBarVisible = EnvironmentUtil.IsWindow;
 
         _navigationService.NavigationTo<HomePageViewModel>();
-        _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
         _timer.Start();
     }
 
