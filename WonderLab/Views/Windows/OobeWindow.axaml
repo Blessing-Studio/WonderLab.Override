@@ -8,10 +8,10 @@
 		xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 		x:DataType="vm:OobeWindowViewModel"
         x:Class="WonderLab.Views.Windows.OobeWindow"
-		Width="800"
-		Height="500"
+		Width="850"
+		Height="550"
 		CanResize="False"
-        Title="OobeWindow"
+        Title="WonderLab - 设置向导"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}">
 	<Grid>
@@ -20,9 +20,9 @@
 							  Title="WonderLab - 设置向导"/>
 
 			<ui:NavigationView Grid.Row="1"
-							   SelectedIndex="0"
 							   ClipToBounds="True"
 							   PanelContent="{Binding ActivePage}"
+							   SelectedIndex="{Binding CurrentPageId}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"

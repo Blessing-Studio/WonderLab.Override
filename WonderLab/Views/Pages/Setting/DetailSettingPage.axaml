@@ -39,7 +39,9 @@
 				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
 					<ComboBox SelectedIndex="{Binding LanguageIndex}">
 						<ComboBoxItem Content="简体中文"/>
+						<ComboBoxItem Content="繁體中文"/>
 						<ComboBoxItem Content="English"/>
+						<ComboBoxItem Content="Русский язык"/>
 					</ComboBox>
 				</ui:SettingCardItem>
 			</ui:SettingCard>

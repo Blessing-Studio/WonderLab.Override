@@ -16,7 +16,7 @@ public sealed class LanguageService {
     public void SetLanguage(int languageIndex) {
         string languageXaml = languageIndex switch {
             0 => "zh-CN.axaml",
-            1 => "en-US.axaml",
+            2 => "en-US.axaml",
             _ => "zh-CN.axaml"
         };
 

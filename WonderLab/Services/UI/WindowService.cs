@@ -1,16 +1,13 @@
 using System;
 using Avalonia;
+using System.Linq;
+using Avalonia.Media;
 using Avalonia.Input;
+using Avalonia.Styling;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using WonderLab.Views.Windows;
 using Avalonia.Platform.Storage;
-using WonderLab.Classes.Enums;
-using Avalonia.Media;
-using System.IO;
-using Avalonia.Media.Imaging;
-using Avalonia.Styling;
-using System.Linq;
-using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.Services.UI;

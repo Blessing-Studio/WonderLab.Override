@@ -13,6 +13,8 @@ public sealed class OobeNavigationService(LogService logService) : INavigationSe
     private readonly LogService _logService = logService;
     private readonly Dictionary<string, Func<object>> _pages = new() {
         { nameof(OobeWelcomePage), App.ServiceProvider.GetRequiredService<OobeWelcomePage> },
+        { nameof(OobeLanguagePage), App.ServiceProvider.GetRequiredService<OobeLanguagePage> },
+        { nameof(OobeAccountPage), App.ServiceProvider.GetRequiredService<OobeAccountPage> },
     };
 
     public Action<NavigationPageData> NavigationRequest { get; set; }

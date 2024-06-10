@@ -94,6 +94,8 @@ public sealed partial class App : Application {
         services.AddTransient<HomePage>();
         
         services.AddSingleton<OobeWelcomePage>();
+        services.AddSingleton<OobeAccountPage>();
+        services.AddSingleton<OobeLanguagePage>();
 
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();
@@ -116,8 +118,8 @@ public sealed partial class App : Application {
     }
 
     private static void ConfigureServices(IServiceCollection services) {
-        services.AddHostedService<QueuedHostedService>();
         services.AddScoped<JavaFetcher>();
+        services.AddHostedService<QueuedHostedService>();
 
         services.AddTransient<GameService>();
 
@@ -143,7 +145,6 @@ public sealed partial class App : Application {
             => new BackgroundNotificationQueue(200)));
         //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
-        //services.AddScoped<GameEntryService>();
     }
     
     private static void ConfigureViewModel(IServiceCollection services) {
@@ -155,6 +156,8 @@ public sealed partial class App : Application {
 
         //Oobe Page
         services.AddSingleton<OobeWelcomePageViewModel>();
+        services.AddSingleton<OobeAccountPageViewModel>();
+        services.AddSingleton<OobeLanguagePageViewModel>();
 
         //Navigation Page
         services.AddSingleton<SettingNavigationPageViewModel>();
