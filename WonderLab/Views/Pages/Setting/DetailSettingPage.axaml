@@ -8,10 +8,10 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
 			 x:DataType="vm:DetailSettingPageViewModel">
 	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
-		<ItemsControl Margin="0 12 0 12">
+		<ItemsControl Margin="0 24 0 16">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<StackPanel Spacing="15"/>
+					<StackPanel Spacing="24"/>
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			

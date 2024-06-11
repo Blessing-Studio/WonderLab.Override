@@ -7,10 +7,10 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
 			 xmlns:ui="using:WonderLab.Views.Controls"
 			 x:DataType="vm:NetworkSettingPageViewModel">
-	<ItemsControl Margin="0 10 0 0">
+	<ItemsControl Margin="0 24 0 16">
 		<ItemsControl.ItemsPanel>
 			<ItemsPanelTemplate>
-				<StackPanel Spacing="15"/>
+				<StackPanel Spacing="24"/>
 			</ItemsPanelTemplate>
 		</ItemsControl.ItemsPanel>
 

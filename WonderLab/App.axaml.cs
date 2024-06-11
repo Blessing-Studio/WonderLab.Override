@@ -62,7 +62,7 @@ public sealed partial class App : Application {
                 Init();
             }
 
-            desktop.Exit += async (sender, args) => await Task.Run(() => settingService.Save());
+            desktop.Exit += (sender, args) => settingService.Save();
         }
 
         base.OnFrameworkInitializationCompleted();

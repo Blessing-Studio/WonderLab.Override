@@ -43,7 +43,7 @@ public sealed class LogService {
             Message = message, 
             Level = LogLevel.Debug,
             Timestamp = DateTime.Now
-        });    
+        });
     }
 
     public void Warn(string tag, string message) {

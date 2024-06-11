@@ -96,11 +96,13 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     private void Remove(string key) {
         if (key is "Folder") {
             GameFolders.Remove(ActiveGameFolder);
+            GameFolders = GameFolders.ToObservableList();
             ActiveGameFolder = GameFolders.Any() ? GameFolders.First() : string.Empty;
             _logService.Info(nameof(LaunchSettingPageViewModel), $"Active game folder value is {ActiveGameFolder}");
         } else {
             Javas.Remove(ActiveJava);
             ActiveJava = Javas.Any() ? Javas.First() : null;
+            Javas = Javas.ToObservableList();
         }
     }
 

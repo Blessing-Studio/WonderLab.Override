@@ -46,7 +46,7 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
     }
 
     partial void OnActiveAccountChanged(AccountViewData value) {
-        _settingService.Data.ActiveAccount = value.Account;
+        _settingService.Data.ActiveAccount = value?.Account;
     }
 
     private async void AccountHandle(object obj, AccountMessage accountMessage) {

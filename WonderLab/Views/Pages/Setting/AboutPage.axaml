@@ -7,9 +7,9 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
              x:Class="WonderLab.AboutPage"
 			 x:DataType="vm:AboutPageViewModel">
-	<ui:SmoothScrollViewer Margin="0 12 0 12"
-						   ScrollViewer.VerticalScrollBarVisibility="Hidden">
-		<Grid RowDefinitions="Auto, Auto, Auto">
+	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<Grid Margin="0 24 0 16"
+			  RowDefinitions="Auto, Auto, Auto">
 			<TextBlock FontSize="20"
 					   Text="WonderLab"
 		               FontWeight="Bold"
@@ -24,7 +24,7 @@
 						  Margin="0 12 0 0">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<StackPanel Spacing="15"/>
+						<StackPanel Spacing="24"/>
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 				

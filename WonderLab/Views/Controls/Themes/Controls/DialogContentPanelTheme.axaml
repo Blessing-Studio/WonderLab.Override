@@ -30,12 +30,12 @@
 					<Grid RowDefinitions="Auto, 1*, Auto">
 						<TextBlock FontSize="16"
 								   FontWeight="Bold"
-								   Margin="15 20 15 10"
+								   Margin="16 24 16 12"
 								   Text="{TemplateBinding Title}"/>
 
 						<Button FontSize="20"
 								Grid.Column="0"
-								Margin="0 20 15 0"
+								Margin="0 24 16 0"
 								Content="&#xE8BB;"
 								Name="topCloseButton"
 								VerticalAlignment="Top"
@@ -46,11 +46,11 @@
 								IsVisible="{TemplateBinding IsTopCloseButtonVisible}"/>
 						
 						<ContentPresenter Grid.Row="1"
-										  Margin="15 0 15 15"
+										  Margin="16 0 16 16"
 						                  Content="{TemplateBinding Content}"/>
 						
 					    <Border Grid.Row="2"
-								Padding="15"
+								Padding="16"
 								CornerRadius="0 0 14 14"
 								BorderThickness="0 2 0 0"
 								BorderBrush="{TemplateBinding BorderBrush}">
@@ -69,7 +69,7 @@
 								<Button Width="65"
 										Content="关闭"
 										Grid.Column="2"
-										Margin="10 0 0 0"
+										Margin="8 0 0 0"
 										Name="closeButton"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
