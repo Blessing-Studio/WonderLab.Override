@@ -1,16 +1,17 @@
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Avalonia;
-using Avalonia.Collections;
+using System.Threading;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
 using Avalonia.Threading;
-using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Utilities;
+using System.Windows.Input;
+using Avalonia.Collections;
+using WonderLab.Services.UI;
+using Avalonia.Interactivity;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Avalonia.Controls.Primitives;
+using WonderLab.Classes.Datas.ViewData;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WonderLab.Views.Controls;
 
@@ -23,6 +24,7 @@ public sealed class GameManagerPanel : ContentControl {
     private Button _openPaneButton;
     private TextBlock _titleTextBlock;
     private TextBlock _subTitleTextBlock;
+    private WindowService _windowService;
     private Rect _rectCache = new(0, 0, 155, 85);
     private CancellationTokenSource _cancellationTokenSource = new();
     private readonly Rect _maxRect = new(0, 0, 645, 370);
@@ -60,6 +62,17 @@ public sealed class GameManagerPanel : ContentControl {
         AvaloniaProperty.Register<GameManagerPanel, IEnumerable<GameViewData>>(nameof(GameEntries),
             new AvaloniaList<GameViewData>());
 
+    private void ClosePane() {
+        var width = _windowService.ActualWidth - 20;
+        Dispatcher.UIThread.Post(() => {
+            Height = 85;
+            IsPaneOpen = false;
+            _contentPanel.Opacity = 0;
+            _openPaneButton.Content = "展开界面";
+            Width = _rectCache.Width > width ? width : _rectCache.Width;
+        });
+    }
+
     private void OnOpenPaneButtonClick(object sender, RoutedEventArgs e) {
         _cancellationTokenSource.Cancel();
         _cancellationTokenSource.Dispose();
@@ -88,27 +101,24 @@ public sealed class GameManagerPanel : ContentControl {
             });
         }
 
-        void ClosePane() {
-            Dispatcher.UIThread.Post(() => {
-                _contentPanel.Opacity = 0;
-                Height = 85;
-                Width = _rectCache.Width;
-                _openPaneButton.Content = "展开界面";
-                IsPaneOpen = false;
-            });
-        }
+
     }
 
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
+
+        _windowService = App.ServiceProvider.GetService<WindowService>();
         if (SelectedGame != null) {
             _rectCache = MathUtil.CalculateText(SelectedGame.Entry.Id, _titleTextBlock);
-            Height = 85;
-            IsPaneOpen = false;
-            Width = _rectCache.Width;
-            _contentPanel.Opacity = 0;
             _titleTextBlock.Text = SelectedGame.Entry.Id;
+            ClosePane();
         }
+
+        _windowService.HandlePropertyChanged(BoundsProperty, () => {
+            var width = _windowService.ActualWidth - 20;
+            _rectCache = MathUtil.CalculateText(SelectedGame.Entry.Id, _titleTextBlock);
+            Width = _rectCache.Width > width ? width : _rectCache.Width;
+        });
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -141,13 +151,8 @@ public sealed class GameManagerPanel : ContentControl {
 
             string gameId = viewData.Entry.Id;
             _rectCache = MathUtil.CalculateText(gameId, _titleTextBlock);
-            Dispatcher.UIThread.Post(() => {
-                Height = 85;
-                IsPaneOpen = false;
-                Width = _rectCache.Width;
-                _contentPanel.Opacity = 0;
-                _titleTextBlock.Text = gameId;
-            });
+            _titleTextBlock.Text = gameId;
+            ClosePane();
         }
     }
 }
