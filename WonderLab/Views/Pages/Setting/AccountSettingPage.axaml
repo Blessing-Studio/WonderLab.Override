@@ -152,12 +152,13 @@
 												
 												<TextBlock Grid.Row="1"
 														   FontSize="16"
+														   Margin="0 4 0 0"
 														   Text="{Binding Uuid}"
 														   Foreground="{DynamicResource DefaultBrush400}"/>
 
 												<Border Grid.Row="2"
 														Padding="5 2"
-														Margin="0 4 0 0"
+														Margin="0 8 0 0"
 														CornerRadius="4"
 														BorderThickness="1"
 														HorizontalAlignment="Left"
@@ -172,6 +173,7 @@
 
 												<StackPanel Grid.Row="5"
 															Spacing="0"
+															Margin="0 4 0 0"
 															Orientation="Horizontal">
 													
 													<Button Width="30"
