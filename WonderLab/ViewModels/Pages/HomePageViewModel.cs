@@ -1,12 +1,13 @@
-using System.Collections.ObjectModel;
+using System.Linq;
+using WonderLab.Services;
+using WonderLab.Extensions;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+using WonderLab.Services.Game;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using WonderLab.Classes.Datas.TaskData;
 using WonderLab.Classes.Datas.ViewData;
-using WonderLab.Extensions;
-using WonderLab.Services;
-using WonderLab.Services.Game;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace WonderLab.ViewModels.Pages;
 
@@ -19,7 +20,8 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [ObservableProperty]
     private GameViewData activeGameEntry;
-    
+
+    public bool IsGameEmpty => !GameEntries.Any();
     public ObservableCollection<GameViewData> GameEntries { get; private set; }
     
     /// <inheritdoc />

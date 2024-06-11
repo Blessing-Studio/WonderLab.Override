@@ -5,7 +5,7 @@
 		<Border Width="400" Height="300">
 			<controls:NavigationView>
 				<controls:NavigationView.Items>
-					<controls:NavigationViewItem/>
+					<controls:NavigationViewItem IsSelected="True"/>
 				</controls:NavigationView.Items>
 			</controls:NavigationView>
 		</Border>
@@ -29,7 +29,7 @@
 						  RowDefinitions="1*, Auto">
 						<controls:Frame Grid.Row="0"
 										Name="Frame"
-										Margin="10 0 10 15"
+										Margin="0 0 12 15"
 										ClipToBounds="False"
 										Background="Transparent"
 										Content="{TemplateBinding Content}"/>
@@ -62,7 +62,7 @@
 								BorderBrush="{TemplateBinding BorderBrush}"
 								Background="{DynamicResource BottomBarBackground}">
 							<Grid ColumnDefinitions="Auto, 1*, Auto">
-								<ScrollViewer Margin="10 0 -10 0"
+								<ScrollViewer Margin="16 0 -10 0"
 											  Name="PART_ScrollViewer"
 											  HorizontalAlignment="Left"
 											  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
@@ -78,6 +78,7 @@
 								</ScrollViewer>
 								
 								<ContentPresenter Grid.Column="2"
+												  Margin="0 0 10 0"
 												  Content="{TemplateBinding FooterContent}"/>
 							</Grid>
 						</Border>

@@ -34,6 +34,11 @@ public sealed class GameManagerPanel : ContentControl {
         set => SetValue(IsPaneOpenProperty, value);
     }
 
+    public bool IsGameEmpty {
+        get => GetValue(IsGameEmptyProperty);
+        set => SetValue(IsGameEmptyProperty, value);
+    }
+
     public ICommand OpenCommand {
         get => GetValue(OpenCommandProperty);
         set => SetValue(OpenCommandProperty, value);
@@ -49,6 +54,9 @@ public sealed class GameManagerPanel : ContentControl {
         set => SetValue(GameEntriesProperty, value);
     }
 
+    public static readonly StyledProperty<bool> IsGameEmptyProperty =
+        AvaloniaProperty.Register<GameManagerPanel, bool>(nameof(IsGameEmpty), true);
+
     public static readonly StyledProperty<bool> IsPaneOpenProperty =
         AvaloniaProperty.Register<GameManagerPanel, bool>(nameof(IsPaneOpen), false);
 
@@ -63,7 +71,7 @@ public sealed class GameManagerPanel : ContentControl {
             new AvaloniaList<GameViewData>());
 
     private void ClosePane() {
-        var width = _windowService.ActualWidth - 20;
+        var width = _windowService.ActualWidth - 30;
         Dispatcher.UIThread.Post(() => {
             Height = 85;
             IsPaneOpen = false;
@@ -106,7 +114,7 @@ public sealed class GameManagerPanel : ContentControl {
 
     protected override void OnLoaded(RoutedEventArgs e) {
         base.OnLoaded(e);
-
+        
         _windowService = App.ServiceProvider.GetService<WindowService>();
         if (SelectedGame != null) {
             _rectCache = MathUtil.CalculateText(SelectedGame.Entry.Id, _titleTextBlock);
@@ -115,7 +123,11 @@ public sealed class GameManagerPanel : ContentControl {
         }
 
         _windowService.HandlePropertyChanged(BoundsProperty, () => {
-            var width = _windowService.ActualWidth - 20;
+            if (SelectedGame is null) {
+                return;
+            }
+
+            var width = _windowService.ActualWidth - 30;
             _rectCache = MathUtil.CalculateText(SelectedGame.Entry.Id, _titleTextBlock);
             Width = _rectCache.Width > width ? width : _rectCache.Width;
         });

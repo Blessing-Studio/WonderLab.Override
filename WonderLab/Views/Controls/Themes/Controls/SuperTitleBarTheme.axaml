@@ -5,8 +5,8 @@
         <Setter Property="MinWidth" Value="300"/>
         <Setter Property="MinHeight" Value="28"/>
         <Setter Property="CornerRadius" Value="16"/>
-        <Setter Property="Margin" Value="6 6 6 3.5"/>
 		<Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="8 6 8 3.5"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
 		<Setter Property="IsHitTestVisible" Value="True"/>
 		<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}"/>
