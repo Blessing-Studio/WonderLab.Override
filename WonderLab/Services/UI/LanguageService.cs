@@ -5,10 +5,12 @@ using Avalonia.Markup.Xaml;
 namespace WonderLab.Services.UI;
 
 public sealed class LanguageService {
+    private readonly LogService _logService;
     private ResourceDictionary _actualLanguage;
     private readonly string _basePath = "avares://Wonderlab/Assets/Languages/";
 
-    public LanguageService() {
+    public LanguageService(LogService logService) {
+        _logService = logService;
         _actualLanguage = AvaloniaXamlLoader
             .Load(new($"{_basePath}zh-CN.axaml")) as ResourceDictionary;
     }
@@ -16,7 +18,9 @@ public sealed class LanguageService {
     public void SetLanguage(int languageIndex) {
         string languageXaml = languageIndex switch {
             0 => "zh-CN.axaml",
+            1 => "zh-TW.axaml",
             2 => "en-US.axaml",
+            3 => "ru-RU.axaml",
             _ => "zh-CN.axaml"
         };
 
@@ -27,6 +31,7 @@ public sealed class LanguageService {
         Application.Current.Resources.MergedDictionaries.Add(newLanguage);
 
         _actualLanguage = newLanguage;
+        _logService.Info(nameof(LanguageService), $"当前语言文件：{languageXaml}");
     }
 
     public bool TryGetValue(string key, out string value) {

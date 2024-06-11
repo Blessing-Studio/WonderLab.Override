@@ -16,6 +16,7 @@
 	  <AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
 	  <AvaloniaResource Remove="Assets\Images\steve.png" />
 	  <AvaloniaResource Remove="Assets\Languages\en-US.axaml" />
+	  <AvaloniaResource Remove="Assets\Languages\ru-RU.axaml" />
 	  <AvaloniaResource Remove="Assets\Languages\zh-CN.axaml" />
 	  <AvaloniaResource Remove="Assets\Languages\zh-TW.axaml" />
 	</ItemGroup>
@@ -64,6 +65,12 @@
 
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Views\Windows\OobeWindow.axaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AvaloniaXaml Update="Assets\Languages\ru-RU.axaml">
+	    <SubType>Designer</SubType>
+	  </AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>

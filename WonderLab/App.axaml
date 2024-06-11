@@ -18,6 +18,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FrameTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ButtonTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SliderTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ListBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
