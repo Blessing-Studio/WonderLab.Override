@@ -24,7 +24,6 @@
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
-			<!--ItemsSource="{Binding Accounts}"-->
 			<ListBox Background="Transparent"
 					 ItemsSource="{Binding Accounts}"
 					 SelectedItem="{Binding ActiveAccount}">

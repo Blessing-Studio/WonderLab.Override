@@ -45,6 +45,17 @@
 					</ComboBox>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
+
+			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
+				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+					<ToggleSwitch OnContent=""
+								  OffContent=""
+								  Margin="0 0 -10 0"
+								  IsChecked="{Binding IsDebugMode}"
+								  Command="{Binding NotificationCommand}"
+								  CommandParameter="您更改了调试（Debug）选项，如要使功能生效请重启程序！"/>
+				</ui:SettingCardItem>
+			</ui:SettingCard>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>
 </UserControl>

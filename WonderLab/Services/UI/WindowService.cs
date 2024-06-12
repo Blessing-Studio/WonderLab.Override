@@ -9,6 +9,7 @@ using Avalonia.Media.Imaging;
 using WonderLab.Views.Windows;
 using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.ViewModels.Windows;
 
 namespace WonderLab.Services.UI;
 

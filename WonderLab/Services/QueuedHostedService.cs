@@ -7,14 +7,19 @@ using WonderLab.Classes.Interfaces;
 
 namespace WonderLab.Services;
 
-public sealed class QueuedHostedService(IBackgroundTaskQueue taskQueue, LogService logService) : BackgroundService {
+public sealed class QueuedHostedService(IBackgroundTaskQueue _taskQueue, SettingService _settingService, LogService _logService) : BackgroundService {
+    private int _stopCount;
     private long _currentRunningJobs;
-    private readonly LogService _logService = logService;
-    private readonly IBackgroundTaskQueue _taskQueue = taskQueue;
 
-    public override async Task StopAsync(CancellationToken stoppingToken) {
+    public override Task StopAsync(CancellationToken stoppingToken) {
+        _stopCount++;
+        if (_stopCount > 1) {
+            return Task.CompletedTask;
+        }
+
+        _settingService.Save();
         _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is stopping.");
-        await base.StopAsync(stoppingToken);
+        return base.StopAsync(stoppingToken);
     }
 
     public override Task StartAsync(CancellationToken cancellationToken) {
@@ -40,7 +45,7 @@ public sealed class QueuedHostedService(IBackgroundTaskQueue taskQueue, LogServi
             try {
                 workItem = await _taskQueue.DequeueAsync(stoppingToken);
                 Interlocked.Increment(ref _currentRunningJobs);
-                _logService.Info(nameof(QueuedHostedService), $"成功从任务队列获取任务 [{workItem.JobName}]。");
+                _logService.Info(nameof(QueuedHostedService), $"成功从任务队列获取任务 {workItem.JobName}。");
                 sw.Start();
                 workItem.TaskStatus = TaskStatus.Created;
                 workItem.TaskStatus = TaskStatus.WaitingForActivation;
@@ -52,11 +57,11 @@ public sealed class QueuedHostedService(IBackgroundTaskQueue taskQueue, LogServi
                 workItem.TaskStatus = TaskStatus.RanToCompletion;
                 workItem.InvokeTaskFinished();
                 sw.Stop();
-                _logService.Info(nameof(QueuedHostedService), $"任务 [{workItem.JobName}] 已完成执行，用时：[{sw.Elapsed.TotalSeconds} 秒]。");
+                _logService.Info(nameof(QueuedHostedService), $"任务 {workItem.JobName} 已完成执行，用时：[{sw.Elapsed.TotalSeconds} 秒]。");
             } catch (OperationCanceledException) {
                 if (workItem != null) {
                     workItem.TaskStatus = TaskStatus.Canceled;
-                    _logService.Info(nameof(QueuedHostedService), $"任务 [{workItem.JobName}] 被取消了。");
+                    _logService.Info(nameof(QueuedHostedService), $"任务 {workItem.JobName} 被取消了。");
                 }
             } catch (Exception) {
                 if (workItem != null) {

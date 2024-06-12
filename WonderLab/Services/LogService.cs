@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WonderLab.Classes.Datas;
 using WonderLab.Classes.Enums;
 using System.Threading.Tasks.Dataflow;
+using System.Collections.ObjectModel;
 
 namespace WonderLab.Services;
 
@@ -15,12 +16,14 @@ public sealed class LogService {
     private readonly StreamWriter _writer;
     private readonly ActionBlock<LogData> _outputJobs;
     private readonly string _logFile = $"logs\\WonderLog-{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.log";
-    
+
+    public ObservableCollection<LogData> LogDatas { get; } = new();
+
     public LogService() {
         _outputJobs = new ActionBlock<LogData>(async logMessage => {
             await WriteLogAsync(logMessage);
         });
-
+        
         if (!Directory.Exists("logs")) {
             Directory.CreateDirectory("logs");
         }
@@ -29,50 +32,65 @@ public sealed class LogService {
     }
     
     public void Info(string tag, string message) {
-        _outputJobs.Post(new LogData {
+        var logData = new LogData {
             Tag = tag,
-            Message = message, 
+            Message = message,
             Level = LogLevel.Info,
             Timestamp = DateTime.Now
-        });
+        };
+
+        LogDatas.Add(logData);
+        _outputJobs.Post(logData);
     }
 
     public void Debug(string tag, string message) {
-        _outputJobs.Post(new LogData {
+        var logData = new LogData {
             Tag = tag,
-            Message = message, 
+            Message = message,
             Level = LogLevel.Debug,
             Timestamp = DateTime.Now
-        });
+        };
+
+        LogDatas.Add(logData);
+        _outputJobs.Post(logData);
     }
 
     public void Warn(string tag, string message) {
-        _outputJobs.Post(new LogData {
+        var logData = new LogData {
             Tag = tag,
-            Message = message, 
+            Message = message,
             Level = LogLevel.Warn,
             Timestamp = DateTime.Now
-        });
+        };
+
+        LogDatas.Add(logData);
+        _outputJobs.Post(logData);
     }
 
     public void Error(string tag, string message) {
-        _outputJobs.Post(new LogData {
+        var logData = new LogData {
             Tag = tag,
-            Message = message, 
+            Message = message,
             Level = LogLevel.Error,
             Timestamp = DateTime.Now
-        });
+        };
+
+        LogDatas.Add(logData);
+        _outputJobs.Post(logData);
     }
 
     public void Fatal(string tag, string message) {
-        _outputJobs.Post(new LogData {
+        var logData = new LogData {
             Tag = tag,
-            Message = message, 
+            Message = message,
             Level = LogLevel.Fatal,
             Timestamp = DateTime.Now
-        });
+        };
+
+        LogDatas.Add(logData);
+        _outputJobs.Post(logData);
     }
-    
+
     public void Finish() {
         _outputJobs.Complete();
         _outputJobs.Completion.Wait();

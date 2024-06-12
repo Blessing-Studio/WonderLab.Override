@@ -95,6 +95,7 @@
 					</KeyFrame>
 					<KeyFrame Cue="100%">
 						<Setter Property="Opacity" Value="0"/>
+						<Setter Property="IsHitTestVisible" Value="False"/>
 						<Setter Property="TranslateTransform.Y" Value="{Binding $parent[controls:NavigationView].TemplateSettings.ActualPx}"/>
 					</KeyFrame>
 				</Animation>
@@ -126,11 +127,11 @@
 					</KeyFrame>
 					<KeyFrame Cue="100%">
 						<Setter Property="Opacity" Value="1"/>
+						<Setter Property="IsHitTestVisible" Value="True"/>
 						<Setter Property="TranslateTransform.Y" Value="0"/>
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>
-			<Setter Property="IsVisible" Value="True"/>
 		</Style>
 
 		<Style Selector="^:ispanelopen /template/ controls|Frame#PART_PanelFrame">
@@ -163,6 +164,7 @@
 					</KeyFrame>
 					<KeyFrame Cue="100%">
 						<Setter Property="IsVisible" Value="False"/>
+						<Setter Property="IsHitTestVisible" Value="False"/>
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>

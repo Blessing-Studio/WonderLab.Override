@@ -9,6 +9,8 @@ using WonderLab.ViewModels.Dialogs;
 using Avalonia.Controls.Notifications;
 using WonderLab.Classes.Datas.ViewData;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Views.Windows;
+using WonderLab.ViewModels.Windows;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -36,6 +38,13 @@ public sealed class InitTask : TaskBase {
         });
 
         IsIndeterminate = false;
+
+        if (_settingService.Data.IsDebugMode) {
+            var window = App.ServiceProvider.GetService<MainWindow>();
+            var logWindow = App.ServiceProvider.GetService<LogWindow>();
+            logWindow.DataContext = App.ServiceProvider.GetService<LogWindowViewModel>();
+            logWindow.Show(window);
+        }
 
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();

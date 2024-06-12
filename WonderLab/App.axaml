@@ -36,6 +36,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NotificationListPanelTheme.axaml"/>
 			</ResourceDictionary.MergedDictionaries>
 			
+			<converter:LogSerializeConverter x:Key="LogSerializeConverter"/>
 			<converter:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
 			<converter:BooleanToIntegerConverter x:Key="BooleanToIntegerConverter"/>
 			<converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>

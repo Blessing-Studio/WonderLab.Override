@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:ui="using:WonderLab.Views.Controls"
+		xmlns:vm="using:WonderLab.ViewModels.Windows"
+		xmlns:data="using:WonderLab.Classes.Datas"
+		xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+		x:DataType="vm:LogWindowViewModel"
+        x:Class="WonderLab.Views.Windows.LogWindow"
+        Title="WonderLab - 启动器日志"
+		ExtendClientAreaChromeHints="NoChrome">
+	<Grid RowDefinitions="1*, Auto">
+		<Border Grid.Row="0"
+				CornerRadius="12"
+				BorderThickness="1"
+				Margin="16 8 16 3.5"
+				Background="{DynamicResource ContentBrush2}"
+				BorderBrush="{DynamicResource ContentBrush4}">
+			<ListBox Margin="16 12 16 0"
+					 ItemsSource="{Binding Logs}">
+				<ListBox.ItemTemplate>
+					<DataTemplate x:DataType="data:LogData" DataType="data:LogData">
+						<TextBlock Text="{Binding, Converter={StaticResource LogSerializeConverter}}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Border>
+
+		<Border Grid.Row="1"
+				Padding="16 12"
+				CornerRadius="12"
+				BorderThickness="1"
+				Margin="16 6 16 9.5"
+				Background="{DynamicResource ContentBrush2}"
+				BorderBrush="{DynamicResource ContentBrush4}">
+			<ComboBox>
+				<ComboBoxItem Content="All"/>
+				<ComboBoxItem Content="Info"/>
+			</ComboBox>
+		</Border>
+	</Grid>
+</Window>

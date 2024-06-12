@@ -21,6 +21,7 @@ public sealed record SettingData {
     [JsonPropertyName("activeGameId")] public string ActiveGameId { get; set; }
     [JsonPropertyName("activeGameFolder")] public string ActiveGameFolder { get; set; }
 
+    [JsonPropertyName("isDebugMode")] public bool IsDebugMode { get; set; }
     [JsonPropertyName("isFullScreen")] public bool IsFullScreen { get; set; }
     [JsonPropertyName("isAutoSelectJava")] public bool IsAutoSelectJava { get; set; }
     [JsonPropertyName("isGameIndependent")] public bool IsGameIndependent { get; set; }

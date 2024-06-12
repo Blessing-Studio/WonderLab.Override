@@ -62,7 +62,7 @@ public sealed partial class App : Application {
                 Init();
             }
 
-            desktop.Exit += (sender, args) => settingService.Save();
+            desktop.Exit += (sender, args) => _host.StopAsync();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -107,6 +107,7 @@ public sealed partial class App : Application {
         services.AddSingleton<AccountSettingPage>();
 
         //Windows
+        services.AddSingleton<LogWindow>();
         services.AddSingleton<MainWindow>();
         services.AddSingleton<OobeWindow>();
 
@@ -151,6 +152,7 @@ public sealed partial class App : Application {
         services.AddTransient<HomePageViewModel>();
 
         //Window
+        services.AddSingleton<LogWindowViewModel>();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<OobeWindowViewModel>();
 
