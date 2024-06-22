@@ -1,8 +1,58 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Dialogs.Setting.MicrosoftAuthenticateDialog">
-  Welcome to Avalonia!
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Setting"
+			 x:DataType="vm:MicrosoftAuthenticateDialogViewModel"
+			 x:Class="WonderLab.Views.Dialogs.Setting.MicrosoftAuthenticateDialog">
+	<ui:DialogContentPanel Title="登录微软账户"
+						   IsTopCloseButtonVisible="True"
+						   IsCloseButtonVisible="False"
+						   IsPrimaryButtonVisible="False">
+		<ui:DialogContentPanel.Content>
+			<Grid>
+				<ui:ProgressRing Width="50"
+								 Height="50"
+								 BorderThickness="5"
+								 IsIndeterminate="True"
+								 VerticalAlignment="Center"
+								 HorizontalAlignment="Center"
+								 IsVisible="{Binding IsCodeLoadFinish, Converter={StaticResource BooleanReverseConverter}}"/>
+
+				<Grid VerticalAlignment="Center"
+					  RowDefinitions="Auto Auto Auto Auto"
+					  IsVisible="{Binding IsCodeLoadFinish}">
+					<TextBlock TextAlignment="Center"
+							   Text="请使用验证代码"/>
+
+					<SelectableTextBlock Grid.Row="1"
+										 FontSize="18"
+										 FontWeight="Bold"
+										 TextAlignment="Center"
+										 HorizontalAlignment="Center"
+										 Text="{Binding DeviceCode, Mode=OneWay}"/>
+
+					<TextBlock TextAlignment="Center"
+							   Grid.Row="2">
+						<Run Text="访问验证网址以继续下一步验证操作"/>
+						<LineBreak/>
+						<Run Text="网址访问速度可能比较慢，但请务必在规定的时间内完成验证操作，否则此验证码将失效！"/>
+					</TextBlock>
+				</Grid>
+			</Grid>
+		</ui:DialogContentPanel.Content>
+
+		<ui:DialogContentPanel.BottomBarContent>
+			<StackPanel Spacing="8"
+						Orientation="Horizontal">
+				<Button Content="复制验证码"
+						Command="{Binding CopyDeviceCodeCommand}"/>
+				
+				<Button Content="打开验证网站"
+						Command="{Binding OpenUrlCommand}"/>
+			</StackPanel>
+		</ui:DialogContentPanel.BottomBarContent>
+	</ui:DialogContentPanel>
 </UserControl>

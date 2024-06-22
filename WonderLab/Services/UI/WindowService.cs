@@ -42,6 +42,10 @@ public sealed class WindowService {
         _logService.Finish();
     }
 
+    public async void CopyText(string text) {
+        await _mainWindow.Clipboard.SetTextAsync(text);
+    }
+
     public void SetBackground(int type) {
         var main = _mainWindow as MainWindow;
         main.Background = Brushes.Transparent;
