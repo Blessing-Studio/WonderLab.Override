@@ -23,12 +23,12 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     public bool IsGameEmpty => !GameEntries.Any();
     public ObservableCollection<GameViewData> GameEntries { get; private set; }
-    
+
     /// <inheritdoc />
     public HomePageViewModel(
         GameService gameService,
         LogService logService,
-        TaskService taskService, 
+        TaskService taskService,
         SettingService settingService,
         NotificationService notificationService) {
         _logService = logService;
@@ -51,6 +51,6 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void Launch() {
-        _taskService.QueueJob(new LaunchTask(_gameService, _settingService, _notificationService));
+        _taskService.QueueJob(new LaunchTask(_gameService, _logService, _settingService, _notificationService));
     }
 }
