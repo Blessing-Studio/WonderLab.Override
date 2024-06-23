@@ -10,6 +10,7 @@ using WonderLab.Views.Windows;
 using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.ViewModels.Windows;
+using System.Collections.Generic;
 
 namespace WonderLab.Services.UI;
 
@@ -17,16 +18,20 @@ namespace WonderLab.Services.UI;
 /// 主窗体 <see cref="MainWindow"/> 的扩展服务类
 /// </summary>
 public sealed class WindowService {
+    private DialogService _dialogService;
+
     private readonly Window _mainWindow;
     private readonly LogService _logService;
+    private readonly SettingService _settingService;
 
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 
     public WindowService(SettingService settingService, LogService logService) {
         _logService = logService;
+        _settingService = settingService;
 
-        _mainWindow = settingService.IsInitialize 
+        _mainWindow = _settingService.IsInitialize 
             ? App.ServiceProvider.GetService<OobeWindow>() 
             : App.ServiceProvider.GetService<MainWindow>();
 
@@ -46,7 +51,7 @@ public sealed class WindowService {
         await _mainWindow.Clipboard.SetTextAsync(text);
     }
 
-    public void SetBackground(int type) {
+    public async void SetBackground(int type) {
         var main = _mainWindow as MainWindow;
         main.Background = Brushes.Transparent;
         main.AcrylicMaterial.IsVisible = false;
@@ -68,10 +73,23 @@ public sealed class WindowService {
                 };
                 break;
             case 2:
-                main.Background = new ImageBrush {
-                    Source = new Bitmap(""),
-                    Stretch = Stretch.UniformToFill
-                };
+                string path = _settingService.Data.ImagePath;
+                if (string.IsNullOrEmpty(path)) {
+                    _dialogService = App.ServiceProvider.GetService<DialogService>();
+
+                    var result = await _dialogService.OpenFilePickerAsync([
+                        new FilePickerFileType("图像文件") { Patterns = new List<string>() { "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" } }
+                    ], "打开文件");
+
+                    if (result is null) {
+                        return;
+                    }
+
+                    path = result.FullName;
+                }
+
+                //_settingService.Data.ImagePath = path;
+                (main.DataContext as MainWindowViewModel).ImagePath = path;
                 break;
         }
     }

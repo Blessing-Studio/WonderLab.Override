@@ -16,10 +16,12 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
     private readonly LanguageService _languageService;
     private readonly NotificationService _notificationService;
 
+    [ObservableProperty] private bool _isImage = false;
+    [ObservableProperty] private bool _isDebugMode = false;
+
     [ObservableProperty] private int _themeIndex = 0;
     [ObservableProperty] private int _languageIndex = 0;
     [ObservableProperty] private int _backgroundIndex = 0;
-    [ObservableProperty] private bool _isDebugMode = false;
 
     public DetailSettingPageViewModel(
         ThemeService themeService, 
@@ -59,6 +61,7 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
             case nameof(BackgroundIndex):
                 _windowService.SetBackground(BackgroundIndex);
                 _settingService.Data.BackgroundIndex = BackgroundIndex;
+                IsImage = BackgroundIndex is 2;
                 break;
             case nameof(LanguageIndex):
                 _languageService.SetLanguage(LanguageIndex);

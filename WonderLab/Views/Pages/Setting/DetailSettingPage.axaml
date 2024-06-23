@@ -35,6 +35,12 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
+			<ui:SettingCard Title="图片背景设置"
+							IsVisible="{Binding IsImage}">
+				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+				</ui:SettingCardItem>
+			</ui:SettingCard>
+			
 			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
 				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
 					<ComboBox SelectedIndex="{Binding LanguageIndex}">

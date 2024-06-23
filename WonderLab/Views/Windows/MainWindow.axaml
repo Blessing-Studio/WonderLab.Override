@@ -28,6 +28,9 @@
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
 
+		<ui:ImageBox Source="{Binding ImagePath}"
+					 IsEnableBlur="True"/>
+		
 		<Grid RowDefinitions="Auto, 1*">
 			<ui:SuperTitleBar Grid.Row="0"/>
 			

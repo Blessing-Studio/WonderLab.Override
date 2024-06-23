@@ -27,10 +27,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
 
     [ObservableProperty] private string _time;
     [ObservableProperty] private string _year;
+    [ObservableProperty] private string _imagePath;
+    [ObservableProperty] private object _activePage;
     [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
-    [ObservableProperty] private object _activePage;
     [ObservableProperty] private NavigationPageData _activePanelPage;
     [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
     [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
