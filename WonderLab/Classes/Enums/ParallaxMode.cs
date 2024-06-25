@@ -6,4 +6,5 @@
 public enum ParallaxMode {
     None,
     Flat,
+    Solid
 }

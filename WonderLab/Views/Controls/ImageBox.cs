@@ -73,7 +73,7 @@ public sealed class ImageBox : TemplatedControl {
         set => SetValue(ParallaxModeProperty, value);
     }
 
-    private void SetDefaultPosition() {
+    private void SetDefaultFlatPosition() {
         if (_image.RenderTransform is not TranslateTransform) {
             return;
         }
@@ -83,8 +83,66 @@ public sealed class ImageBox : TemplatedControl {
         translateTransform.Y = 0;
     }
 
+    private void SetDefaultSolidPosition() {
+        if (_image.RenderTransform is not Rotate3DTransform) {
+            return;
+        }
+
+        var rotate3DTransform = (Rotate3DTransform)_image.RenderTransform;
+        rotate3DTransform.Depth = 0.0;
+        rotate3DTransform.AngleX = 0.0;
+        rotate3DTransform.AngleY = 0.0;
+        rotate3DTransform.CenterX = Bounds.Center.X;
+        rotate3DTransform.CenterY = Bounds.Center.Y;
+    }
+
+    private void ApplySolidParallaxEffect(Point position) {
+        Size desiredSize = _image.DesiredSize;
+        double num = (position.X / desiredSize.Width - 0.5) * -5;
+        double num2 = (position.Y / desiredSize.Height - 0.5) * -2;
+
+        if (_image.RenderTransform is not Rotate3DTransform) {
+            _image.RenderTransform = new Rotate3DTransform(num, num2, 0, num, num2, 0, 300) {
+                Transitions = [new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = Rotate3DTransform.DepthProperty,
+                },
+                new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = Rotate3DTransform.CenterXProperty
+                },
+                new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = Rotate3DTransform.CenterYProperty
+                },
+                new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = Rotate3DTransform.AngleXProperty
+                },
+                new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = Rotate3DTransform.AngleYProperty
+                },]
+            };
+
+            return;
+        }
+
+        var rotate3DTransform = (Rotate3DTransform)_image.RenderTransform;
+        rotate3DTransform.Depth = 300.0;
+        rotate3DTransform.CenterX = num;
+        rotate3DTransform.CenterY = num2;
+        rotate3DTransform.AngleX = num;
+        rotate3DTransform.AngleY = num2;
+    }
+
     private void ApplyFlatParallaxEffect(Point position) {
-        int xOffset = 100, yOffset = 100;
+        int xOffset = 50, yOffset = 50;
 
         Size desiredSize = _image.DesiredSize;
         double num = desiredSize.Height - position.X / xOffset - desiredSize.Height;
@@ -194,9 +252,15 @@ public sealed class ImageBox : TemplatedControl {
             return;
         }
 
-        _image.Margin = new(-20);
-        _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
-        _windowService.RegisterPointerExited(args => SetDefaultPosition());
+        if (ParallaxMode is ParallaxMode.Flat) {
+            _image.Margin = new(-20);
+            _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
+            _windowService.RegisterPointerExited(args => SetDefaultFlatPosition());
+        } else {
+            _image.Margin = new(-25);
+            _windowService.RegisterPointerMoved(args => ApplySolidParallaxEffect(args.GetPosition(_image)));
+            _windowService.RegisterPointerExited(args => SetDefaultSolidPosition());
+        }
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -254,7 +318,7 @@ public sealed class ImageBox : TemplatedControl {
             if (IsEnableBlur) {
                 return;
             }
-           
+
             _image.Effect = new BlurEffect {
                 Radius = BlurRadius
             };
@@ -262,16 +326,23 @@ public sealed class ImageBox : TemplatedControl {
 
         if (change.Property == ParallaxModeProperty) {
             _image.Margin = new(0);
+            _windowService.UnregisterPointerMoved();
+            _windowService.UnregisterPointerExited();
+
             if (ParallaxMode is ParallaxMode.Flat) {
                 _image.Margin = new(-20);
-                _windowService.RegisterPointerExited(args => SetDefaultPosition());
+                _windowService.RegisterPointerExited(args => SetDefaultFlatPosition());
                 _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
+                return;
+            } else if (ParallaxMode is ParallaxMode.Solid) {
+                _image.Margin = new(-35);
+                _windowService.RegisterPointerExited(args => SetDefaultSolidPosition());
+                _windowService.RegisterPointerMoved(args => ApplySolidParallaxEffect(args.GetPosition(_image)));
                 return;
             }
 
-            SetDefaultPosition();
-            _windowService.UnregisterPointerMoved();
-            _windowService.UnregisterPointerExited();
+            SetDefaultFlatPosition();
+            SetDefaultSolidPosition();
         }
 
         async ValueTask InitBlurImageAsync() {

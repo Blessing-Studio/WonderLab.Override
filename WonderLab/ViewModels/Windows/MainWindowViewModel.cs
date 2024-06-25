@@ -86,6 +86,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         ParallaxMode = settingService.Data.ParallaxMode switch {
             0 => ParallaxMode.None,
             1 => ParallaxMode.Flat,
+            2 => ParallaxMode.Solid,
             _ => ParallaxMode.None,
         };
 
@@ -139,7 +140,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         ParallaxMode = parallaxModeChange.ParallaxMode switch {
             0 => ParallaxMode.None,
             1 => ParallaxMode.Flat,
-            _ => ParallaxMode.None,
+            2 => ParallaxMode.Solid,
+            _ => ParallaxMode.None
         };
     }
 }

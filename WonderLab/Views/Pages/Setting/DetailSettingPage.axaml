@@ -47,6 +47,7 @@
 						<ComboBox SelectedIndex="{Binding ParallaxMode}">
 							<ComboBoxItem Content="None"/>
 							<ComboBoxItem Content="Flat"/>
+							<ComboBoxItem Content="3D"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 					
