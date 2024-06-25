@@ -98,8 +98,8 @@ public sealed class ImageBox : TemplatedControl {
 
     private void ApplySolidParallaxEffect(Point position) {
         Size desiredSize = _image.DesiredSize;
-        double num = (position.X / desiredSize.Width - 0.5) * -5;
-        double num2 = (position.Y / desiredSize.Height - 0.5) * -2;
+        double num = (position.X / desiredSize.Width - 0.5) * 5;
+        double num2 = (position.Y / desiredSize.Height - 0.5) * 2;
 
         if (_image.RenderTransform is not Rotate3DTransform) {
             _image.RenderTransform = new Rotate3DTransform(num, num2, 0, num, num2, 0, 300) {
