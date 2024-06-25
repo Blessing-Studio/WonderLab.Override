@@ -37,8 +37,33 @@
 
 			<ui:SettingCard Title="图片背景设置"
 							IsVisible="{Binding IsImage}">
-				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
-				</ui:SettingCardItem>
+				<ItemsControl>
+					<ui:SettingCardItem Description="更改图片：">
+						<Button Content="选择"
+								Command="{Binding SearchCommand}"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="背景视差效果：">
+						<ComboBox SelectedIndex="{Binding ParallaxMode}">
+							<ComboBoxItem Content="None"/>
+							<ComboBoxItem Content="Flat"/>
+						</ComboBox>
+					</ui:SettingCardItem>
+					
+					<ui:SettingCardItem Description="是否启用渐进式模糊：">
+						<ToggleSwitch OnContent=""
+									  OffContent=""
+									  Margin="0 0 -10 0"
+									  IsChecked="{Binding IsEnableBlur}"/>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="图片模糊半径："
+										IsVisible="{Binding IsEnableBlur, Converter={StaticResource BooleanReverseConverter}}">
+						<Slider Width="250"
+								Maximum="64"
+								Value="{Binding BlurRadius, Mode=TwoWay}"/>
+					</ui:SettingCardItem>
+				</ItemsControl>
 			</ui:SettingCard>
 			
 			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">

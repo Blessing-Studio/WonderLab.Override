@@ -4,7 +4,6 @@
 	<Design.PreviewWith>
 		<Border Padding="20">
 			<!-- Add Controls for Previewer Here -->
-			<controls:FontIcon Glyph="&#xE76E;" Foreground="Black"/>
 		</Border>
 	</Design.PreviewWith>
 
@@ -13,9 +12,24 @@
 			<ControlTemplate>
 				<Panel>
 					<Image Name="PART_Image"
-						   Stretch="UniformToFill"/>
-					
-					<controls:ProgressRing IsIndeterminate="True"
+						   Stretch="UniformToFill">
+						<Image.Transitions>
+							<Transitions>
+								<EffectTransition Property="Effect"
+												  Duration="0:0:0.35"/>
+								
+								<ThicknessTransition Property="Margin"
+													 Duration="0:0:0.45"
+													 Easing="CubicEaseOut"/>
+							</Transitions>
+						</Image.Transitions>
+					</Image>
+
+					<controls:ProgressRing Width="50"
+										   Height="50"
+										   IsVisible="False"
+										   BorderThickness="5"
+										   IsIndeterminate="True"
 										   Name="PART_ProgressRing"
 										   VerticalAlignment="Center"
 										   HorizontalAlignment="Center"/>

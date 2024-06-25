@@ -67,10 +67,12 @@ public sealed partial class App : Application {
 
         base.OnFrameworkInitializationCompleted();
 
-        void Init() {
+        async void Init() {
             var dataService = GetService<SettingService>();
             GetService<ThemeService>().SetCurrentTheme(dataService.Data.ThemeIndex);
             GetService<LanguageService>().SetLanguage(dataService.Data.LanguageIndex);
+
+            await Task.Delay(500);
             GetService<WindowService>().SetBackground(dataService.Data.BackgroundIndex);
         }
 

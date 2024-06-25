@@ -1,7 +1,9 @@
 using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.ComponentModel;
+using WonderLab.Classes.Datas.MessageData;
 using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Classes.Enums;
 using WonderLab.Services;
@@ -18,8 +20,11 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
 
     [ObservableProperty] private bool _isImage = false;
     [ObservableProperty] private bool _isDebugMode = false;
+    [ObservableProperty] private bool _isEnableBlur = false;
 
+    [ObservableProperty] private int _blurRadius = 0;
     [ObservableProperty] private int _themeIndex = 0;
+    [ObservableProperty] private int _parallaxMode = 0;
     [ObservableProperty] private int _languageIndex = 0;
     [ObservableProperty] private int _backgroundIndex = 0;
 
@@ -35,8 +40,11 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
         _languageService = languageService;
         _notificationService = notificationService;
 
+        BlurRadius = _settingService.Data.BlurRadius;
         ThemeIndex = _settingService.Data.ThemeIndex;
         IsDebugMode = _settingService.Data.IsDebugMode;
+        ParallaxMode = _settingService.Data.ParallaxMode;
+        IsEnableBlur = _settingService.Data.IsEnableBlur;
         LanguageIndex = _settingService.Data.LanguageIndex;
         BackgroundIndex = _settingService.Data.BackgroundIndex;
     }
@@ -48,6 +56,12 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
             Content = text,
             NotificationType = NotificationType.Information
         });
+    }
+
+    [RelayCommand]
+    private void Search() {
+        _settingService.Data.ImagePath = string.Empty;
+        _windowService.SetBackground(BackgroundIndex);
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e) {
@@ -69,6 +83,18 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
                 break;
             case nameof(IsDebugMode):
                 _settingService.Data.IsDebugMode = IsDebugMode;
+                break;
+            case nameof(IsEnableBlur):
+                _settingService.Data.IsEnableBlur = IsEnableBlur;
+                WeakReferenceMessenger.Default.Send(new BlurEnableMessage(IsEnableBlur));
+                break;
+            case nameof(ParallaxMode):
+                _settingService.Data.ParallaxMode = ParallaxMode;
+                WeakReferenceMessenger.Default.Send(new ParallaxModeChangeMessage(ParallaxMode));
+                break;
+            case nameof(BlurRadius):
+                _settingService.Data.BlurRadius = BlurRadius;
+                WeakReferenceMessenger.Default.Send(new BlurRadiusChangeMessage(BlurRadius));
                 break;
         }
     }

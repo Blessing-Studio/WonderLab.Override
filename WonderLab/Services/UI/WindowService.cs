@@ -19,6 +19,8 @@ namespace WonderLab.Services.UI;
 /// </summary>
 public sealed class WindowService {
     private DialogService _dialogService;
+    private Action<PointerEventArgs> _pointerMovedAction;
+    private Action<PointerEventArgs> _pointerExitedAction;
 
     private readonly Window _mainWindow;
     private readonly LogService _logService;
@@ -55,6 +57,7 @@ public sealed class WindowService {
         var main = _mainWindow as MainWindow;
         main.Background = Brushes.Transparent;
         main.AcrylicMaterial.IsVisible = false;
+        main.imageBox.IsVisible = false;
 
         switch (type) {
             case 0:
@@ -73,6 +76,7 @@ public sealed class WindowService {
                 };
                 break;
             case 2:
+                main.imageBox.IsVisible = true;
                 string path = _settingService.Data.ImagePath;
                 if (string.IsNullOrEmpty(path)) {
                     _dialogService = App.ServiceProvider.GetService<DialogService>();
@@ -88,8 +92,11 @@ public sealed class WindowService {
                     path = result.FullName;
                 }
 
-                //_settingService.Data.ImagePath = path;
-                (main.DataContext as MainWindowViewModel).ImagePath = path;
+                var mainVM = (main.DataContext as MainWindowViewModel);
+                mainVM.ImagePath = path;
+                mainVM.BlurRadius = _settingService.Data.BlurRadius;
+                mainVM.IsEnableBlur = _settingService.Data.IsEnableBlur;
+                _settingService.Data.ImagePath = path;
                 break;
         }
     }
@@ -110,7 +117,33 @@ public sealed class WindowService {
         };
     }
 
+    public void RegisterPointerMoved(Action<PointerEventArgs> action) {
+        _pointerMovedAction = action;
+        _mainWindow.PointerMoved += OnPointerMoved;
+    }
+
+    public void RegisterPointerExited(Action<PointerEventArgs> action) {
+        _pointerExitedAction = action;
+        _mainWindow.PointerExited += OnPointerExited;
+    }
+
+    public void UnregisterPointerMoved() {
+        _mainWindow.PointerMoved -= OnPointerMoved;
+    }
+
+    public void UnregisterPointerExited() {
+        _mainWindow.PointerExited -= OnPointerExited;
+    }
+
     public IStorageProvider GetStorageProvider() {
         return _mainWindow.StorageProvider;
+    }
+
+    private void OnPointerMoved(object sender, PointerEventArgs e) {
+        _pointerMovedAction?.Invoke(e);
+    }
+
+    private void OnPointerExited(object sender, PointerEventArgs e) {
+        _pointerExitedAction?.Invoke(e);
     }
 }

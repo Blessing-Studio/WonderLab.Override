@@ -1,29 +1,42 @@
 ﻿using System;
 using Avalonia;
 using System.Linq;
+using Avalonia.Media;
 using System.Numerics;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using WonderLab.Extensions;
 using SixLabors.ImageSharp;
+using WonderLab.Services.UI;
 using Avalonia.Media.Imaging;
 using System.Threading.Tasks;
+using WonderLab.Classes.Enums;
 using System.Collections.Frozen;
 using Avalonia.Controls.Primitives;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using Color = SixLabors.ImageSharp.Color;
 using SixLabors.ImageSharp.Drawing.Processing;
+using Microsoft.Extensions.DependencyInjection;
+
+using Size = Avalonia.Size;
+using Point = Avalonia.Point;
+using Rectangle = SixLabors.ImageSharp.Rectangle;
 
 using Image = Avalonia.Controls.Image;
-using Rectangle = SixLabors.ImageSharp.Rectangle;
 using LinearGradientBrush = SixLabors.ImageSharp.Drawing.Processing.LinearGradientBrush;
-using Avalonia.Threading;
+using Avalonia.LogicalTree;
+using Avalonia.Interactivity;
+using WonderLab.Services;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 
 namespace WonderLab.Views.Controls;
 
 public sealed class ImageBox : TemplatedControl {
     private Image _image;
     private ProgressRing _progressRing;
+    private WindowService _windowService;
 
     private readonly Color DarkOverlayColor = Color.ParseHex("#1C1C1C");
     private readonly Color LightOverlayColor = Color.ParseHex("#F6F6F6");
@@ -31,12 +44,23 @@ public sealed class ImageBox : TemplatedControl {
     public static readonly StyledProperty<string> SourceProperty =
         AvaloniaProperty.Register<ImageBox, string>(nameof(Source));
 
+    public static readonly StyledProperty<int> BlurRadiusProperty =
+        AvaloniaProperty.Register<ImageBox, int>(nameof(BlurRadius));
+
     public static readonly StyledProperty<bool> IsEnableBlurProperty =
         AvaloniaProperty.Register<ImageBox, bool>(nameof(IsEnableBlur));
+
+    public static readonly StyledProperty<ParallaxMode> ParallaxModeProperty =
+        AvaloniaProperty.Register<ImageBox, ParallaxMode>(nameof(ParallaxMode));
 
     public string Source {
         get => GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
+    }
+
+    public int BlurRadius {
+        get => GetValue(BlurRadiusProperty);
+        set => SetValue(BlurRadiusProperty, value);
     }
 
     public bool IsEnableBlur {
@@ -44,11 +68,56 @@ public sealed class ImageBox : TemplatedControl {
         set => SetValue(IsEnableBlurProperty, value);
     }
 
+    public ParallaxMode ParallaxMode {
+        get => GetValue(ParallaxModeProperty);
+        set => SetValue(ParallaxModeProperty, value);
+    }
+
+    private void SetDefaultPosition() {
+        if (_image.RenderTransform is not TranslateTransform) {
+            return;
+        }
+
+        var translateTransform = (TranslateTransform)_image.RenderTransform;
+        translateTransform.X = 0;
+        translateTransform.Y = 0;
+    }
+
+    private void ApplyFlatParallaxEffect(Point position) {
+        int xOffset = 100, yOffset = 100;
+
+        Size desiredSize = _image.DesiredSize;
+        double num = desiredSize.Height - position.X / xOffset - desiredSize.Height;
+        double num2 = desiredSize.Width - position.Y / yOffset - desiredSize.Width;
+
+        if (_image.RenderTransform is not TranslateTransform) {
+            _image.RenderTransform = new TranslateTransform(num, num2) {
+                Transitions = [new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = TranslateTransform.XProperty
+                },
+                new DoubleTransition {
+                    Easing = new CubicEaseOut(),
+                    Duration = TimeSpan.FromSeconds(0.35),
+                    Property = TranslateTransform.YProperty
+                }]
+            };
+
+            return;
+        }
+
+        var translateTransform = (TranslateTransform)_image.RenderTransform;
+        if (xOffset > 0) translateTransform.X = num;
+        if (yOffset > 0) translateTransform.Y = num2;
+    }
+
     private void ApplyOpacityMask(Image<Rgba32> image, Image<Rgba32> mask) {
         Image<Rgba32> image2 = image;
         mask.Mutate(delegate (IImageProcessingContext x) {
             x.Resize(image2.Width, image2.Height);
         });
+
         for (int i = 0; i < image2.Height; i++) {
             for (int j = 0; j < image2.Width; j++) {
                 Rgba32 rgba = image2[j, i];
@@ -59,22 +128,25 @@ public sealed class ImageBox : TemplatedControl {
     }
 
     private Image<Rgba32> ApplyBlurToImage(
-        Image<Rgba32> src, 
-        float blurSigma, 
+        Image<Rgba32> src,
+        float blurSigma,
         float blurUpperLayerOpacity,
-        LinearGradientBrush[] brushes, 
+        LinearGradientBrush[] brushes,
         FrozenSet<QuantizedColor> palette) {
         if (brushes.Length == 0) {
             return src.Clone();
         }
+
         if (blurUpperLayerOpacity == 0f) {
             return src.Clone();
         }
+
         Image<Rgba32> result = src.Clone();
         Image<Rgba32>[] array = new Image<Rgba32>[brushes.Length];
         int num = palette.Count((QuantizedColor p) => p.IsDark);
         int num2 = palette.Count((QuantizedColor p) => !p.IsDark);
         bool flag = num >= num2;
+
         for (int i = 0; i < brushes.Length; i++) {
             Image<Rgba32> image = src.Clone();
             LinearGradientBrush brush = brushes[i];
@@ -82,17 +154,17 @@ public sealed class ImageBox : TemplatedControl {
             Image<Rgba32> materialColorLayer = new Image<Rgba32>(src.Width, src.Height, color.ToPixel<Rgba32>());
             try {
                 using Image<Rgba32> image2 = new Image<Rgba32>(src.Width, src.Height, new Rgba32(Vector4.Zero));
-                image.Mutate(delegate (IImageProcessingContext ctx)
-                {
+                image.Mutate(delegate (IImageProcessingContext ctx) {
                     ctx.DrawImage(materialColorLayer, result.Bounds, PixelColorBlendingMode.Normal, PixelAlphaCompositionMode.SrcAtop, 1f);
                     ctx.GaussianBlur(blurSigma);
                 });
+
                 int drawThickness = image2.Width * image2.Height;
                 Rectangle drawBounds = image2.Bounds;
-                image2.Mutate(delegate (IImageProcessingContext ctx)
-                {
+                image2.Mutate(delegate (IImageProcessingContext ctx) {
                     ctx.Draw(brush, drawThickness, drawBounds);
                 });
+
                 ApplyOpacityMask(image, image2);
                 array[i] = image;
             } finally {
@@ -101,16 +173,30 @@ public sealed class ImageBox : TemplatedControl {
                 }
             }
         }
+
         Image<Rgba32>[] array2 = array;
         foreach (Image<Rgba32> mask in array2) {
-            result.Mutate(delegate (IImageProcessingContext ctx)
-            {
+            result.Mutate(delegate (IImageProcessingContext ctx) {
                 ctx.DrawImage(mask, result.Bounds, PixelColorBlendingMode.Normal, PixelAlphaCompositionMode.SrcAtop, 1f);
             });
+
             mask.Dispose();
         }
 
         return result;
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e) {
+        base.OnLoaded(e);
+
+        _windowService = App.ServiceProvider.GetService<WindowService>();
+        if (ParallaxMode is ParallaxMode.None) {
+            return;
+        }
+
+        _image.Margin = new(-20);
+        _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
+        _windowService.RegisterPointerExited(args => SetDefaultPosition());
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
@@ -123,22 +209,69 @@ public sealed class ImageBox : TemplatedControl {
     protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
+        if (!IsLoaded) {
+            return;
+        }
+
         if (change.Property == SourceProperty) {
+            _progressRing.IsVisible = true;
             if (IsEnableBlur) {
                 await InitBlurImageAsync();
             } else {
                 var image = new Bitmap(Source);
                 _image.Source = image;
             }
+
+            _progressRing.IsVisible = false;
         }
 
         if (change.Property == IsEnableBlurProperty) {
+            _progressRing.IsVisible = true;
+
             if (IsEnableBlur) {
+                if (BlurRadius > 0) {
+                    _image.Effect = new BlurEffect {
+                        Radius = 0
+                    };
+                }
+
                 await InitBlurImageAsync();
             } else {
                 var image = new Bitmap(Source);
                 _image.Source = image;
+
+                if (BlurRadius > 0) {
+                    _image.Effect = new BlurEffect {
+                        Radius = BlurRadius
+                    };
+                }
             }
+
+            _progressRing.IsVisible = false;
+        }
+
+        if (change.Property == BlurRadiusProperty) {
+            if (IsEnableBlur) {
+                return;
+            }
+           
+            _image.Effect = new BlurEffect {
+                Radius = BlurRadius
+            };
+        }
+
+        if (change.Property == ParallaxModeProperty) {
+            _image.Margin = new(0);
+            if (ParallaxMode is ParallaxMode.Flat) {
+                _image.Margin = new(-20);
+                _windowService.RegisterPointerExited(args => SetDefaultPosition());
+                _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
+                return;
+            }
+
+            SetDefaultPosition();
+            _windowService.UnregisterPointerMoved();
+            _windowService.UnregisterPointerExited();
         }
 
         async ValueTask InitBlurImageAsync() {
@@ -166,17 +299,16 @@ public sealed class ImageBox : TemplatedControl {
                 var image = ApplyBlurToImage(imageSourceSI, 15f, 0.5f, [brush], palette);
                 return image.ToBitmap();
             });
+
             await Dispatcher.UIThread.InvokeAsync(() => _image.Source = bitmap);
         }
     }
 }
 
 public readonly struct QuantizedColor {
-    public Avalonia.Media.Color Color { get; }
-
     public bool IsDark { get; }
-
     public int Population { get; }
+    public Avalonia.Media.Color Color { get; }
 
     public QuantizedColor(Avalonia.Media.Color color, int population) {
         Color = color;

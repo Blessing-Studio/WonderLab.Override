@@ -28,8 +28,11 @@
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
 
-		<ui:ImageBox Source="{Binding ImagePath}"
-					 IsEnableBlur="True"/>
+		<ui:ImageBox Name="imageBox"
+					 Source="{Binding ImagePath}"
+					 BlurRadius="{Binding BlurRadius}"
+					 IsEnableBlur="{Binding IsEnableBlur}"
+					 ParallaxMode="{Binding ParallaxMode}"/>
 		
 		<Grid RowDefinitions="Auto, 1*">
 			<ui:SuperTitleBar Grid.Row="0"/>
