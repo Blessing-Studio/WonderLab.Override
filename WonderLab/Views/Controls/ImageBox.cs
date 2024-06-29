@@ -84,12 +84,16 @@ public sealed class ImageBox : TemplatedControl {
     }
 
     private void SetDefaultSolidPosition() {
-        if (_image.RenderTransform is not Rotate3DTransform) {
+        if (_image.RenderTransform is not TransformGroup) {
             return;
         }
 
-        var rotate3DTransform = (Rotate3DTransform)_image.RenderTransform;
-        rotate3DTransform.Depth = 0.0;
+        var scaleTransform = (ScaleTransform)((TransformGroup)_image.RenderTransform).Children[1];
+        scaleTransform.ScaleX = 1.45;
+        scaleTransform.ScaleY = 1.45;
+
+        var rotate3DTransform = (Rotate3DTransform)((TransformGroup)_image.RenderTransform).Children.First();
+        rotate3DTransform.Depth = 300;
         rotate3DTransform.AngleX = 0.0;
         rotate3DTransform.AngleY = 0.0;
         rotate3DTransform.CenterX = Bounds.Center.X;
@@ -98,11 +102,13 @@ public sealed class ImageBox : TemplatedControl {
 
     private void ApplySolidParallaxEffect(Point position) {
         Size desiredSize = _image.DesiredSize;
-        double num = (position.X / desiredSize.Width - 0.5) * 5;
-        double num2 = (position.Y / desiredSize.Height - 0.5) * 2;
+        double num = (position.X / desiredSize.Width - 0.5) * -15.0;
+        double num2 = (0.0 - (position.Y / desiredSize.Height - 0.5)) * -10.0;
 
-        if (_image.RenderTransform is not Rotate3DTransform) {
-            _image.RenderTransform = new Rotate3DTransform(num, num2, 0, num, num2, 0, 300) {
+        if (_image.RenderTransform is not TransformGroup) {
+
+            var scaleTransform = new ScaleTransform(1.45, 1.45);
+            var rotate3DTransform = new Rotate3DTransform(num, num2, 0, num, num2, 0, 300) {
                 Transitions = [new DoubleTransition {
                     Easing = new CubicEaseOut(),
                     Duration = TimeSpan.FromSeconds(0.35),
@@ -130,21 +136,25 @@ public sealed class ImageBox : TemplatedControl {
                 },]
             };
 
+            _image.RenderTransform = new TransformGroup() {
+                Children = [rotate3DTransform, scaleTransform]
+            };
+
             return;
         }
 
-        var rotate3DTransform = (Rotate3DTransform)_image.RenderTransform;
-        rotate3DTransform.Depth = 300.0;
-        rotate3DTransform.CenterX = num;
-        rotate3DTransform.CenterY = num2;
-        rotate3DTransform.AngleX = num;
-        rotate3DTransform.AngleY = num2;
+        var rotate3DTransform1 = (Rotate3DTransform)((TransformGroup)_image.RenderTransform).Children.First();
+        rotate3DTransform1.Depth = 300.0;
+        rotate3DTransform1.CenterX = num;
+        rotate3DTransform1.CenterY = num2;
+        rotate3DTransform1.AngleX = num;
+        rotate3DTransform1.AngleY = num2;
     }
 
     private void ApplyFlatParallaxEffect(Point position) {
         int xOffset = 50, yOffset = 50;
 
-        Size desiredSize = _image.DesiredSize;
+        Rect desiredSize = _image.Bounds;
         double num = desiredSize.Height - position.X / xOffset - desiredSize.Height;
         double num2 = desiredSize.Width - position.Y / yOffset - desiredSize.Width;
 
@@ -257,7 +267,6 @@ public sealed class ImageBox : TemplatedControl {
             _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
             _windowService.RegisterPointerExited(args => SetDefaultFlatPosition());
         } else {
-            _image.Margin = new(-25);
             _windowService.RegisterPointerMoved(args => ApplySolidParallaxEffect(args.GetPosition(_image)));
             _windowService.RegisterPointerExited(args => SetDefaultSolidPosition());
         }
@@ -335,7 +344,6 @@ public sealed class ImageBox : TemplatedControl {
                 _windowService.RegisterPointerMoved(args => ApplyFlatParallaxEffect(args.GetPosition(_image)));
                 return;
             } else if (ParallaxMode is ParallaxMode.Solid) {
-                _image.Margin = new(-35);
                 _windowService.RegisterPointerExited(args => SetDefaultSolidPosition());
                 _windowService.RegisterPointerMoved(args => ApplySolidParallaxEffect(args.GetPosition(_image)));
                 return;
