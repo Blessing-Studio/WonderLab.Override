@@ -25,8 +25,6 @@ public sealed partial class OobeLanguagePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void Navigation() {
-        WeakReferenceMessenger.Default.Send(new OobePageMessage {
-            PageKey = "OOBEAccount"
-        });
+        WeakReferenceMessenger.Default.Send(new OobePageMessage("OOBEAccount"));
     }
 }

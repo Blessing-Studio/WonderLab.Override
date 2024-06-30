@@ -7,17 +7,10 @@ using WonderLab.Classes.Interfaces;
 
 namespace WonderLab.Services;
 
-public sealed class QueuedHostedService(IBackgroundTaskQueue _taskQueue, SettingService _settingService, LogService _logService) : BackgroundService {
-    private int _stopCount;
+public sealed class QueuedHostedService(IBackgroundTaskQueue backgroundTaskQueue, LogService _logService) : BackgroundService {
     private long _currentRunningJobs;
 
     public override Task StopAsync(CancellationToken stoppingToken) {
-        _stopCount++;
-        if (_stopCount > 1) {
-            return Task.CompletedTask;
-        }
-
-        _settingService.Save();
         _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is stopping.");
         return base.StopAsync(stoppingToken);
     }
@@ -43,7 +36,7 @@ public sealed class QueuedHostedService(IBackgroundTaskQueue _taskQueue, Setting
             ITaskJob workItem = default!;
 
             try {
-                workItem = await _taskQueue.DequeueAsync(stoppingToken);
+                workItem = await backgroundTaskQueue.DequeueAsync(stoppingToken);
                 Interlocked.Increment(ref _currentRunningJobs);
                 _logService.Info(nameof(QueuedHostedService), $"成功从任务队列获取任务 {workItem.JobName}。");
                 sw.Start();
