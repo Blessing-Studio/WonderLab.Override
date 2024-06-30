@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using MinecraftLaunch.Classes.Models.Game;
 using System;
+using System.IO;
 using WonderLab.Extensions;
 
 namespace WonderLab.ViewModels.Pages.Setting;
@@ -73,7 +74,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
             ActiveGameFolder = GameFolders.Last();
         } else {
             var java = await _dialogService.OpenFilePickerAsync(new List<FilePickerFileType> {
-                new("JavaÎÄ¼þ") { Patterns = [EnvironmentUtil.IsWindow ? "javaw.exe" : "java"] }
+                new("Javaæ–‡ä»¶") { Patterns = [EnvironmentUtil.IsWindow ? "javaw.exe" : "java"] }
             }, "Select Java");
 
             if (java is null) {
@@ -81,8 +82,12 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
             }
 
             RunBackgroundWork(() => {
-                var javaInfo = JavaUtil.GetJavaInfo(java.FullName);
-                if (Javas.Any(x => x.JavaPath == javaInfo.JavaPath)) {
+                string javaPath = java.Name is "jre.bundle" 
+                    ? Path.Combine(java.FullName, "Contents", "Home", "bin", "java")
+                    : java.FullName;
+                
+                var javaInfo = JavaUtil.GetJavaInfo(javaPath);
+                if (Javas.Count > 0 && Javas.Any(x => x?.JavaPath == javaInfo.JavaPath)) {
                     return;
                 }
 
@@ -115,7 +120,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
         var javasList = Javas?.Union(javas);
         Javas = javasList.ToObservableList();
 
-        ActiveJava = Javas.Last();
+        ActiveJava = Javas.LastOrDefault();
         _logService.Info(nameof(LaunchSettingPageViewModel), $"Current java count is {Javas.Count}");
     }
 

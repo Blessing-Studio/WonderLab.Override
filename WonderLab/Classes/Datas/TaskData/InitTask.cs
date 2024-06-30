@@ -29,7 +29,7 @@ public sealed class InitTask : TaskBase {
         _notificationService = notificationService;
     }
 
-    public async override ValueTask BuildWorkItemAsync(CancellationToken token) {
+    public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
         await Task.Delay(TimeSpan.FromSeconds(1), token);
         _notificationService.QueueJob(new NotificationViewData {
             Title = "信息",
@@ -46,6 +46,8 @@ public sealed class InitTask : TaskBase {
             logWindow.Show(window);
         }
 
+        return;
+        
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
             return;

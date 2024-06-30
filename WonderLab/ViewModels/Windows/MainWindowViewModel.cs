@@ -16,6 +16,10 @@ using WonderLab.Classes.Datas.TaskData;
 using System;
 using System.Timers;
 using WonderLab.Services.UI;
+using CommunityToolkit.Mvvm.Messaging;
+using System.Threading.Tasks;
+using WonderLab.Classes.Datas.MessageData;
+using WonderLab.Classes.Enums;
 
 namespace WonderLab.ViewModels.Windows;
 
@@ -27,10 +31,18 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
 
     [ObservableProperty] private string _time;
     [ObservableProperty] private string _year;
+    [ObservableProperty] private string _imagePath;
+
+    [ObservableProperty] private int _blurRadius;
+
+    [ObservableProperty] private object _activePage;
+    [ObservableProperty] private ParallaxMode _parallaxMode;
+
+    [ObservableProperty] private bool _isEnableBlur;
     [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
-    [ObservableProperty] private object _activePage;
+
     [ObservableProperty] private NavigationPageData _activePanelPage;
     [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
     [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
@@ -71,9 +83,19 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         Tasks = new(_taskService.TaskJobs);
         Notifications = new(_notificationService.Notifications);
         IsTitleBarVisible = EnvironmentUtil.IsWindow;
+        ParallaxMode = settingService.Data.ParallaxMode switch {
+            0 => ParallaxMode.None,
+            1 => ParallaxMode.Flat,
+            2 => ParallaxMode.Solid,
+            _ => ParallaxMode.None,
+        };
 
         _navigationService.NavigationTo<HomePageViewModel>();
         _timer.Start();
+
+        WeakReferenceMessenger.Default.Register<BlurEnableMessage>(this, BlurEnableValueHandle);
+        WeakReferenceMessenger.Default.Register<BlurRadiusChangeMessage>(this, BlurRadiusChangeHandle);
+        WeakReferenceMessenger.Default.Register<ParallaxModeChangeMessage>(this, ParallaxModeChangeHandle);
     }
 
     [RelayCommand]
@@ -104,5 +126,22 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                 _navigationService.NavigationTo<HomePageViewModel>();
                 break;
         }
+    }
+
+    private void BlurEnableValueHandle(object obj, BlurEnableMessage blurEnable) {
+        IsEnableBlur = blurEnable.IsEnableBlur;
+    }
+
+    private void BlurRadiusChangeHandle(object obj, BlurRadiusChangeMessage blurRadiusChange) {
+        BlurRadius = blurRadiusChange.BlurRadius;
+    }
+
+    private void ParallaxModeChangeHandle(object obj, ParallaxModeChangeMessage parallaxModeChange) {
+        ParallaxMode = parallaxModeChange.ParallaxMode switch {
+            0 => ParallaxMode.None,
+            1 => ParallaxMode.Flat,
+            2 => ParallaxMode.Solid,
+            _ => ParallaxMode.None
+        };
     }
 }

@@ -10,6 +10,7 @@ using WonderLab.Views.Windows;
 using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.ViewModels.Windows;
+using System.Collections.Generic;
 
 namespace WonderLab.Services.UI;
 
@@ -17,16 +18,22 @@ namespace WonderLab.Services.UI;
 /// 主窗体 <see cref="MainWindow"/> 的扩展服务类
 /// </summary>
 public sealed class WindowService {
+    private DialogService _dialogService;
+    private Action<PointerEventArgs> _pointerMovedAction;
+    private Action<PointerEventArgs> _pointerExitedAction;
+
     private readonly Window _mainWindow;
     private readonly LogService _logService;
+    private readonly SettingService _settingService;
 
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 
     public WindowService(SettingService settingService, LogService logService) {
         _logService = logService;
+        _settingService = settingService;
 
-        _mainWindow = settingService.IsInitialize 
+        _mainWindow = _settingService.IsInitialize 
             ? App.ServiceProvider.GetService<OobeWindow>() 
             : App.ServiceProvider.GetService<MainWindow>();
 
@@ -42,10 +49,15 @@ public sealed class WindowService {
         _logService.Finish();
     }
 
-    public void SetBackground(int type) {
+    public async void CopyText(string text) {
+        await _mainWindow.Clipboard.SetTextAsync(text);
+    }
+
+    public async void SetBackground(int type) {
         var main = _mainWindow as MainWindow;
         main.Background = Brushes.Transparent;
         main.AcrylicMaterial.IsVisible = false;
+        main.imageBox.IsVisible = false;
 
         switch (type) {
             case 0:
@@ -64,10 +76,27 @@ public sealed class WindowService {
                 };
                 break;
             case 2:
-                main.Background = new ImageBrush {
-                    Source = new Bitmap(""),
-                    Stretch = Stretch.UniformToFill
-                };
+                main.imageBox.IsVisible = true;
+                string path = _settingService.Data.ImagePath;
+                if (string.IsNullOrEmpty(path)) {
+                    _dialogService = App.ServiceProvider.GetService<DialogService>();
+
+                    var result = await _dialogService.OpenFilePickerAsync([
+                        new FilePickerFileType("图像文件") { Patterns = new List<string>() { "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" } }
+                    ], "打开文件");
+
+                    if (result is null) {
+                        return;
+                    }
+
+                    path = result.FullName;
+                }
+
+                var mainVM = (main.DataContext as MainWindowViewModel);
+                mainVM.ImagePath = path;
+                mainVM.BlurRadius = _settingService.Data.BlurRadius;
+                mainVM.IsEnableBlur = _settingService.Data.IsEnableBlur;
+                _settingService.Data.ImagePath = path;
                 break;
         }
     }
@@ -88,7 +117,33 @@ public sealed class WindowService {
         };
     }
 
+    public void RegisterPointerMoved(Action<PointerEventArgs> action) {
+        _pointerMovedAction = action;
+        _mainWindow.PointerMoved += OnPointerMoved;
+    }
+
+    public void RegisterPointerExited(Action<PointerEventArgs> action) {
+        _pointerExitedAction = action;
+        _mainWindow.PointerExited += OnPointerExited;
+    }
+
+    public void UnregisterPointerMoved() {
+        _mainWindow.PointerMoved -= OnPointerMoved;
+    }
+
+    public void UnregisterPointerExited() {
+        _mainWindow.PointerExited -= OnPointerExited;
+    }
+
     public IStorageProvider GetStorageProvider() {
         return _mainWindow.StorageProvider;
+    }
+
+    private void OnPointerMoved(object sender, PointerEventArgs e) {
+        _pointerMovedAction?.Invoke(e);
+    }
+
+    private void OnPointerExited(object sender, PointerEventArgs e) {
+        _pointerExitedAction?.Invoke(e);
     }
 }

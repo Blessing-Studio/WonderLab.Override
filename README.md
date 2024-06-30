@@ -1,5 +1,5 @@
 <p align="center">
-<img Height="200" Width="200" src="https://raw.githubusercontent.com/Blessing-Studio/WonderLab.Override/master/wonderlab/Assets/wonderlab.ico"/>
+<img src="http://blessing-studio.cn/wp-content/uploads/2024/06/组件-7-1.png"/>
 </p>
 
 <div align="center">
@@ -30,7 +30,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ## 如何安装
 
-请到 [这里](https://www.blessingta.link/zh_CN/wonderlab/install.html) 查看详细文档
+请到 [这里](https://wiki.blessing-studio.cn/zh_CN/wonderlab/install.html) 查看详细文档
 
 ## 反馈问题
 

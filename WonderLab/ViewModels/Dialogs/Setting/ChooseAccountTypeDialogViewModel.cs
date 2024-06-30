@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using WonderLab.Services.UI;
+﻿using WonderLab.Services.UI;
+using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
@@ -22,7 +22,7 @@ public sealed partial class ChooseAccountTypeDialogViewModel : ViewModelBase {
                 _dialogService.ShowContentDialog<YggdrasilAuthenticateDialogViewModel>();
                 break;
             case "Microsoft":
-                //_dialogService.ShowContentDialog<YggdrasilAuthenticateDialogViewModel>();
+                _dialogService.ShowContentDialog<MicrosoftAuthenticateDialogViewModel>();
                 break;
         }
     }

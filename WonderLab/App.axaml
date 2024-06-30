@@ -20,9 +20,11 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ListBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ImageBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressRingTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SuperTitleBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/RippleControlTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/NavigationViewTheme.axaml"/>
@@ -40,6 +42,7 @@
 			<converter:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
 			<converter:BooleanToIntegerConverter x:Key="BooleanToIntegerConverter"/>
 			<converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+			<converter:FitSquarelyWithinAspectRatioConverter x:Key="FitSquarelyWithinAspectRatioConverter"/>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

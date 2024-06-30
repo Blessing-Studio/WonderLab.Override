@@ -33,5 +33,7 @@ public sealed class Program {
         })
         .With(new X11PlatformOptions() { 
             OverlayPopups = true,
+        }).With(new SkiaOptions {
+            MaxGpuResourceSizeBytes = 1073741824L
         });
 }
