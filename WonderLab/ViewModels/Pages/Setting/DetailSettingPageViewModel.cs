@@ -1,8 +1,11 @@
 using Avalonia.Controls.Notifications;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using WonderLab.Classes.Datas.MessageData;
 using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Classes.Enums;
@@ -28,6 +31,8 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
     [ObservableProperty] private int _languageIndex = 0;
     [ObservableProperty] private int _backgroundIndex = 0;
 
+    public List<FontFamily> Fonts { get; }
+
     public DetailSettingPageViewModel(
         ThemeService themeService, 
         WindowService windowService,
@@ -47,6 +52,8 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
         IsEnableBlur = _settingService.Data.IsEnableBlur;
         LanguageIndex = _settingService.Data.LanguageIndex;
         BackgroundIndex = _settingService.Data.BackgroundIndex;
+
+        Fonts = FontManager.Current.SystemFonts.ToList();
     }
 
     [RelayCommand]

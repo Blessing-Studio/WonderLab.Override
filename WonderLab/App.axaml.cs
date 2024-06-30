@@ -60,28 +60,13 @@ public sealed partial class App : Application {
             StorageProvider = window.StorageProvider;
             desktop.MainWindow = window;
 
-            await Task.Delay(TimeSpan.FromMilliseconds(50)).ContinueWith(task => {
-                GetService<Dispatcher>().Post(() => {
-                    window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
-                });
-            });
-            //if (window is MainWindow) {
-            //    Init();
-            //}
+            await Task.Delay(TimeSpan.FromMilliseconds(50));
+            window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
             desktop.Exit += (sender, args) => _host.StopAsync();
         }
 
         base.OnFrameworkInitializationCompleted();
-
-        //async void Init() {
-        //    var dataService = GetService<SettingService>();
-        //    GetService<ThemeService>().SetCurrentTheme(dataService.Data.ThemeIndex);
-        //    GetService<LanguageService>().SetLanguage(dataService.Data.LanguageIndex);
-
-        //    await Task.Delay(500);
-        //    GetService<WindowService>().SetBackground(dataService.Data.BackgroundIndex);
-        //}
 
         T GetService<T>() {
             return ServiceProvider.GetRequiredService<T>();
