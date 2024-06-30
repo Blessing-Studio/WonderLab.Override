@@ -30,7 +30,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ## 如何安装
 
-请到 [这里](https://www.blessingta.link/zh_CN/wonderlab/) 查看详细文档
+请到 [这里](https://wiki.blessing-studio.cn/zh_CN/wonderlab/) 查看详细文档
 
 ## 反馈问题
 
