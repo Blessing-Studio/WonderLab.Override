@@ -16,17 +16,8 @@ public static class FontExtension {
             return builder;
         }
         
-        var fonts = new Dictionary<string, string> {
-            { "Windows", "Microsoft YaHei UI, Microsoft YaHei" },
-            { "Linux", "DejaVu Sans, Noto Sans CJK SC , WenQuanYi Micro Hei, WenQuanYi Zen Hei" },
-        };
-
-        var os = EnvironmentUtil.IsWindow 
-            ? "Windows" : "Linux";
-        
-        var font = fonts[os];
         return builder.With(new FontManagerOptions {
-            DefaultFamilyName = font,
+            DefaultFamilyName = "Microsoft YaHei UI, Microsoft YaHei",
         });
     }
 }
