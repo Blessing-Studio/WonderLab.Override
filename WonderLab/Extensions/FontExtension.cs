@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,18 +16,11 @@ public static class FontExtension {
         if (EnvironmentUtil.IsMac) {
             return builder;
         }
-        
-        var fonts = new Dictionary<string, string> {
-            { "Windows", "Microsoft YaHei UI, Microsoft YaHei" },
-            { "Linux", "DejaVu Sans, Noto Sans CJK SC , WenQuanYi Micro Hei, WenQuanYi Zen Hei" },
-        };
 
-        var os = EnvironmentUtil.IsWindow 
-            ? "Windows" : "Linux";
-        
-        var font = fonts[os];
         return builder.With(new FontManagerOptions {
-            DefaultFamilyName = font,
+            //DefaultFamilyName = "Microsoft YaHei UI, Microsoft YaHei",
+            //DefaultFamilyName = "resm:WonderLab.Assets.Fonts.HarmonyOS_Sans_SC_Regular.ttf?assembly=WonderLab#HarmonyOS Sans SC",
+            FontFallbacks = [new FontFallback { FontFamily = "Microsoft YaHei UI" }]
         });
     }
 }

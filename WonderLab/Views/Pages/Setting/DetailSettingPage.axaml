@@ -88,6 +88,20 @@
 								  CommandParameter="您更改了调试（Debug）选项，如要使功能生效请重启程序！"/>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
+
+			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
+				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+					<ComboBox ItemsSource="{Binding Fonts}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Name}"
+										   VerticalAlignment="Center"
+										   HorizontalAlignment="Left"/>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</ui:SettingCardItem>
+			</ui:SettingCard>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>
 </UserControl>

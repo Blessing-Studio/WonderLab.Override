@@ -1,6 +1,7 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using WonderLab.Services;
 using Avalonia.Markup.Xaml;
 using WonderLab.Views.Pages;
@@ -23,6 +24,7 @@ using WonderLab.Views.Pages.Setting;
 using WonderLab.Services.Navigation;
 using WonderLab.ViewModels.Pages.Oobe;
 using WonderLab.Views.Dialogs.Setting;
+using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Views.Pages.Navigation;
 using WonderLab.ViewModels.Pages.Setting;
 using MinecraftLaunch.Components.Fetcher;
@@ -40,53 +42,48 @@ public sealed partial class App : Application {
 
     public static IStorageProvider StorageProvider { get; private set; }
 
-    public override async void Initialize() {
-        base.Initialize();
-        _host = Build().Build();
-        await _host.RunAsync();
+    public override void RegisterServices() {
+        base.RegisterServices();
+
+        var bulider = CreateHostBuilder();
+        _host = bulider.Build();
+        _host.Start();
     }
 
-    public override void OnFrameworkInitializationCompleted() {
+    public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var settingService = GetService<SettingService>();
-            var isInitialize = settingService.IsInitialize;
+            var isInitialize = ServiceProvider.GetRequiredService<SettingService>().IsInitialize;
 
             Window window = isInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
-            window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
-
             StorageProvider = window.StorageProvider;
             desktop.MainWindow = window;
-            if (window is MainWindow) {
-                Init();
-            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(50));
+            window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
             desktop.Exit += (sender, args) => _host.StopAsync();
         }
 
         base.OnFrameworkInitializationCompleted();
 
-        async void Init() {
-            var dataService = GetService<SettingService>();
-            GetService<ThemeService>().SetCurrentTheme(dataService.Data.ThemeIndex);
-            GetService<LanguageService>().SetLanguage(dataService.Data.LanguageIndex);
-
-            await Task.Delay(500);
-            GetService<WindowService>().SetBackground(dataService.Data.BackgroundIndex);
-        }
-
         T GetService<T>() {
             return ServiceProvider.GetRequiredService<T>();
         }
     }
 
-    private static IHostBuilder Build() {
-        return Host.CreateDefaultBuilder().ConfigureServices((_, services) => {
-            ConfigureServices(services);
-        }).ConfigureServices((_, services) => {
-            ConfigureView(services);
-        });
+    private static IHostBuilder CreateHostBuilder() {
+        var builder = Host.CreateDefaultBuilder()
+            .ConfigureServices(ConfigureServices)
+            .ConfigureServices(ConfigureView)
+            .ConfigureServices(services => {
+                services.AddSingleton<JavaFetcher>();
+                services.AddSingleton<WeakReferenceMessenger>();
+                services.AddSingleton(_ => Dispatcher.UIThread);
+            });
+
+        return builder;
     }
 
     private static void ConfigureView(IServiceCollection services) {
@@ -122,9 +119,6 @@ public sealed partial class App : Application {
     }
 
     private static void ConfigureServices(IServiceCollection services) {
-        services.AddScoped<JavaFetcher>();
-        services.AddHostedService<QueuedHostedService>();
-
         services.AddTransient<GameService>();
 
         services.AddSingleton<LogService>();
@@ -133,14 +127,17 @@ public sealed partial class App : Application {
         services.AddSingleton<ThemeService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<WindowService>();
-        services.AddSingleton<AccountService>();
         services.AddSingleton<SettingService>();
+        services.AddSingleton<AccountService>();
         services.AddSingleton<LanguageService>();
         services.AddSingleton<DownloadService>();
         services.AddSingleton<NotificationService>();
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
+
+        services.AddHostedService<QueuedHostedService>();
+        services.AddHostedService<SettingBackgroundService>();
 
         services.AddSingleton((Func<IServiceProvider, IBackgroundTaskQueue>)((IServiceProvider _)
             => new BackgroundTaskQueue(100)));

@@ -47,7 +47,8 @@
 											  OffsetY="0"
 											  Color="#16000000"/>
 						</Border.Effect>
-						<Grid Margin="12 1" 
+						<Grid Margin="12 0" 
+							  VerticalAlignment="Center"
 							  ColumnDefinitions="Auto, Auto">
 							<controls:FontIcon Name="Icon"
 											   FontSize="14"

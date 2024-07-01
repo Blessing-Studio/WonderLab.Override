@@ -11,6 +11,7 @@ using Avalonia.Platform.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.ViewModels.Windows;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WonderLab.Services.UI;
 
@@ -26,6 +27,7 @@ public sealed class WindowService {
     private readonly LogService _logService;
     private readonly SettingService _settingService;
 
+    public bool IsLoaded => _mainWindow.IsLoaded;
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 

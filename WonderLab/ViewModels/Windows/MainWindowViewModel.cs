@@ -20,6 +20,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Threading.Tasks;
 using WonderLab.Classes.Datas.MessageData;
 using WonderLab.Classes.Enums;
+using System.Diagnostics;
+using Avalonia;
 
 namespace WonderLab.ViewModels.Windows;
 
