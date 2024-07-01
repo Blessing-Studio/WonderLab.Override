@@ -6,12 +6,12 @@
 	<sys:String x:Key="Unknown">Unknown</sys:String>
 	<sys:String x:Key="ExpandInterface">Expand</sys:String>
 	<sys:String x:Key="CollapseInterface">Collapse</sys:String>
-	<sys:String x:Key="GameSearchBoxWatermark">Find your local game instance here.</sys:String>
+	<sys:String x:Key="GameSearchBoxWatermark">Find your local game core here</sys:String>
 
 	<!--MainWindow-->
 	<sys:String x:Key="Home">Home</sys:String>
-	<sys:String x:Key="Online">MultiplePlayers</sys:String>
-	<sys:String x:Key="Setting">Setting</sys:String>
+	<sys:String x:Key="Online">Multiplayer</sys:String>
+	<sys:String x:Key="Setting">Settings</sys:String>
 	<sys:String x:Key="Download">Download</sys:String>
 
 	<!--SettingNavigationPage-->
@@ -24,37 +24,37 @@
 	<sys:String x:Key="Browse">Browse</sys:String>
 	<sys:String x:Key="Remove">Remove</sys:String>
 	<sys:String x:Key="Search">Search</sys:String>
-	<sys:String x:Key="OpenNewJava">Open java:</sys:String>
-	<sys:String x:Key="SelectJava">Select java:</sys:String>
+	<sys:String x:Key="OpenNewJava">Open Java:</sys:String>
+	<sys:String x:Key="SelectJava">Select Java:</sys:String>
 	<sys:String x:Key="OpenNewFolder">Open folder:</sys:String>
 	<sys:String x:Key="SelectFolder">Select folder:</sys:String>
-	<sys:String x:Key="JavaSettingTitle">Java Setting</sys:String>
-	<sys:String x:Key="GameSettingTitle">Game Setting</sys:String>
+	<sys:String x:Key="JavaSettingTitle">Java Settings</sys:String>
+	<sys:String x:Key="GameSettingTitle">Game Settings</sys:String>
 	<sys:String x:Key="FullScreenMode">Full screen mode:</sys:String>
 	<sys:String x:Key="GameIndependent">Game independent:</sys:String>
-	<sys:String x:Key="RemoveJava">Remove the current java:</sys:String>
+	<sys:String x:Key="RemoveJava">Remove the current Java:</sys:String>
 	<sys:String x:Key="AllocateMemory">Allocate game memory:</sys:String>
 	<sys:String x:Key="RemoveFolder">Remove the current folder:</sys:String>
-	<sys:String x:Key="AutoSelectJava">Auto select java with game:</sys:String>
-	<sys:String x:Key="FolderSettingTitle">Minecraft Folder Setting</sys:String>
+	<sys:String x:Key="AutoSelectJava">Auto select Java with game:</sys:String>
+	<sys:String x:Key="FolderSettingTitle">Minecraft Folder Settings</sys:String>
 	<sys:String x:Key="AutoAllocateMemory">Auto allocate memory with game:</sys:String>
 
 	<!--DetailSettingPage-->
-	<sys:String x:Key="AppTheme">Change app theme:</sys:String>
+	<sys:String x:Key="AppTheme">Change theme:</sys:String>
 	<sys:String x:Key="AppLanguage">Change language:</sys:String>
-	<sys:String x:Key="AppBackground">Change app background:</sys:String>
-	<sys:String x:Key="LanguageSettingTitle">Language Setting</sys:String>
-	<sys:String x:Key="AppearanceSettingTitle">Appearance Setting</sys:String>
+	<sys:String x:Key="AppBackground">Change background:</sys:String>
+	<sys:String x:Key="LanguageSettingTitle">Language Settings</sys:String>
+	<sys:String x:Key="AppearanceSettingTitle">Appearance Settings</sys:String>
 	
 	<!--AboutPage-->
-	<sys:String x:Key="Developers">Developers</sys:String>
+	<sys:String x:Key="Developers">Development Team</sys:String>
 	<sys:String x:Key="Donate">Donate: </sys:String>
-	<sys:String x:Key="Version">Launcher Version: </sys:String>
+	<sys:String x:Key="Version">Version: </sys:String>
 	<sys:String x:Key="QualityControl">QualityControllers: </sys:String>
 	<sys:String x:Key="Designers">Designers: </sys:String>
 	<sys:String x:Key="FrontEndDevelopers">Front-end Developers: </sys:String>
 	<sys:String x:Key="BackEndDevelopers">Back-end Developers: </sys:String>
-	<sys:String x:Key="Thanks">Thanks</sys:String>
+	<sys:String x:Key="Thanks">Credits</sys:String>
 	<sys:String x:Key="ServerSupport">Server Support: </sys:String>
 	<sys:String x:Key="TechnicalSupport">Technical Support: </sys:String>
 </ResourceDictionary>
