@@ -50,15 +50,16 @@
                           RowDefinitions="1*, Auto">
                         <Grid RowDefinitions="Auto,Auto"
                               IsVisible="{TemplateBinding IsPaneOpen, Converter={StaticResource BooleanReverseConverter}}">
-                            <TextBlock Name="TitleTextBlock"
-                                       FontWeight="Bold"
-                                       FontSize="16"
+                            <TextBlock Classes="large"
                                        Margin="0 2 0 0"
-									   TextTrimming="CharacterEllipsis"
-                                       HorizontalAlignment="Left"/>
+									   FontWeight="Bold"
+									   Name="TitleTextBlock"
+                                       HorizontalAlignment="Left"
+									   TextTrimming="CharacterEllipsis"/>
 						 
                             <TextBlock Grid.Row="1"
                                        FontSize="12"
+									   Classes="small"
                                        Margin="0 2 0 0"
                                        Name="SubTitleTextBlock"
                                        TextTrimming="CharacterEllipsis"
@@ -82,15 +83,15 @@
                                      Watermark="{DynamicResource GameSearchBoxWatermark}"/>
 
 							<StackPanel Grid.Row="1"
-										Spacing="12"
 										VerticalAlignment="Center"
 										HorizontalAlignment="Center"
+										Spacing="{DynamicResource LargeSpcing}"
 										IsVisible="{TemplateBinding IsGameEmpty}">
 								<controls:FontIcon FontSize="55"
 												   Glyph="&#xE74D;"
 												   HorizontalAlignment="Center"/>
 								
-								<TextBlock FontSize="18"
+								<TextBlock Classes="subtitle"
 										   Text="未找到游戏核心"/>
 							</StackPanel>
 							

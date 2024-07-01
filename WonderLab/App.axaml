@@ -14,7 +14,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceInclude Source="/Views/Controls/Themes/ColorTheme.axaml"/>
-				<ResourceInclude Source="/Views/Controls/Themes/SpcingTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FrameTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ButtonTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SliderTheme.axaml"/>
@@ -23,6 +22,7 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ImageBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBlockTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressRingTheme.axaml"/>

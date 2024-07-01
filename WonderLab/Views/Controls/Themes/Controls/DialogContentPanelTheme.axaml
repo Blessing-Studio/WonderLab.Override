@@ -28,14 +28,14 @@
 						CornerRadius="{TemplateBinding CornerRadius}"
 						BorderThickness="{TemplateBinding BorderThickness}">
 					<Grid RowDefinitions="Auto, 1*, Auto">
-						<TextBlock FontSize="16"
+						<TextBlock Classes="large"
 								   FontWeight="Bold"
-								   Margin="16 24 16 12"
+								   Margin="16 20 16 12"
 								   Text="{TemplateBinding Title}"/>
 
 						<Button FontSize="20"
 								Grid.Column="0"
-								Margin="0 24 16 0"
+								Margin="0 20 16 0"
 								Content="&#xE8BB;"
 								Name="topCloseButton"
 								VerticalAlignment="Top"
