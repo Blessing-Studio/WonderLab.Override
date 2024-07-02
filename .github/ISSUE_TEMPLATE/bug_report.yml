@@ -21,7 +21,7 @@ body:
         required: true
   
   - type: dropdown
-    id: reproducibility
+    id: branchversion
     attributes:
        label: 分支版本
        description: 选择你是从哪个分支下载的 WonderLab
