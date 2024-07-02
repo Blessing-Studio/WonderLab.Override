@@ -15,7 +15,7 @@ namespace WonderLab.Services;
 public sealed class LogService {
     private readonly StreamWriter _writer;
     private readonly ActionBlock<LogData> _outputJobs;
-    private readonly string _logFile = Path.Combine("logs", $"Log-{DateTime.Now:MM_dd_HH_mm_ss}.log");
+    private readonly string _logFile = Path.Combine("logs", $"WonderLog-{DateTime.Now:MM_dd_HH_mm_ss}.log");
 
     public ObservableCollection<LogData> LogDatas { get; } = new();
 
