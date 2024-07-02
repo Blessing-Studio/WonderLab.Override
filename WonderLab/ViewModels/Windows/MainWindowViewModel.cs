@@ -41,7 +41,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     [ObservableProperty] private ParallaxMode _parallaxMode;
 
     [ObservableProperty] private bool _isEnableBlur;
-    [ObservableProperty] private bool _isTitleBarVisible;
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
 
@@ -84,7 +83,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
 
         Tasks = new(_taskService.TaskJobs);
         Notifications = new(_notificationService.Notifications);
-        IsTitleBarVisible = EnvironmentUtil.IsWindow;
+
         ParallaxMode = settingService.Data.ParallaxMode switch {
             0 => ParallaxMode.None,
             1 => ParallaxMode.Flat,

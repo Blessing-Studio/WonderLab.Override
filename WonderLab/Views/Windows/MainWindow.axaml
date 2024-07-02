@@ -14,7 +14,7 @@
         Background="Transparent"
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}"
+        ExtendClientAreaToDecorationsHint="True"
 		Icon="/Assets/wonderlab.ico"
 		FontFamily="{StaticResource DefaultFontFamily}">
 	<Panel>

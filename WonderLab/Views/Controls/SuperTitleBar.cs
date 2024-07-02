@@ -2,11 +2,8 @@ using Avalonia;
 using Avalonia.Controls;
 using WonderLab.Services.UI;
 using Avalonia.Interactivity;
-using MinecraftLaunch.Utilities;
 using Avalonia.Controls.Primitives;
-using Avalonia.Layout;
 using Microsoft.Extensions.DependencyInjection;
-using Avalonia.Controls.Notifications;
 
 namespace WonderLab.Views.Controls;
 
@@ -17,7 +14,7 @@ public sealed class SuperTitleBar : ContentControl {
         AvaloniaProperty.Register<SuperTitleBar, string>(nameof(Title), "WonderLab");
 
     public static readonly StyledProperty<bool> IsButtonGroupVisibleProperty =
-        AvaloniaProperty.Register<SuperTitleBar, bool>(nameof(IsButtonGroupVisible), EnvironmentUtil.IsWindow);
+        AvaloniaProperty.Register<SuperTitleBar, bool>(nameof(IsButtonGroupVisible), true);
 
     public string Title {
         get => GetValue(TitleProperty);
@@ -40,11 +37,7 @@ public sealed class SuperTitleBar : ContentControl {
         e.NameScope.Find<Border>("Layout")!.PointerPressed += (_, args) => _windowService.BeginMoveDrag(args);
         var titleTextBlock = e.NameScope.Find<TextBlock>("TitleTextBlock");
         
-        if (EnvironmentUtil.IsWindow) {
-            e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
-            e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
-        } else {
-            IsVisible = false;
-        }
+        e.NameScope.Find<Button>("CloseButton")!.Click += (_, _) => _windowService.Close();
+        e.NameScope.Find<Button>("MinimizedButton")!.Click += (_, _) => _windowService.SetWindowState(WindowState.Minimized);
     }
 }
