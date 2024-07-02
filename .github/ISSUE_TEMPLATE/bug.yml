@@ -1,4 +1,4 @@
-name: Bug 反馈
+name: Bug Report
 description: 反馈 WonderLab 使用中遇到的问题和 Bug
 labels:
   - "bug"
@@ -19,6 +19,18 @@ body:
         required: true
       - label: 查看 [CI](https://github.com/Blessing-Studio/WonderLab.Override/releases) 中最新自动构建版是否已修复你所遇到的问题
         required: true
+  
+  - type: dropdown
+    id: reproducibility
+    attributes:
+       label: 分支版本
+       description: 选择你是从哪个分支下载的 WonderLab
+       options:
+         - master
+         - feature
+         - bugfixing
+    validations:
+      required: true
 
   - type: textarea
     id: issue-description
@@ -27,6 +39,7 @@ body:
       description: 在此详细描述你遇到的问题(日志和此处二选一 都提交可以让我们更快修复)
     validations:
       required: true
+
   - type: textarea
     id: issue-log
     attributes:
@@ -34,6 +47,7 @@ body:
       description: 在此提交崩溃日志
     validations:
       required: false
+
   - type: dropdown
     id: reproducibility
     attributes:
@@ -94,15 +108,15 @@ body:
       #如果你不太确定，可以截图 "" 的输出内容并截图，记得截全。
       placeholder: '1.2.x'
 
-  - type: textarea
-    id: other-plugin
-    attributes:
-      label: 插件信息
-      description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
-      placeholder: |
-        插件: 版本
-    validations:
-      required: false
+  #- type: textarea
+  #  id: other-plugin
+  #  attributes:
+  #    label: 插件信息
+  #    description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
+  #    placeholder: |
+  #      插件: 版本
+  #  validations:
+  #    required: false
 
   - type: textarea
     id: additional
