@@ -35,7 +35,8 @@
 					 ParallaxMode="{Binding ParallaxMode}"/>
 		
 		<Grid RowDefinitions="Auto, 1*">
-			<ui:SuperTitleBar Grid.Row="0"/>
+			<ui:SuperTitleBar Grid.Row="0"
+							  Title="WonderLab - DEBUG MODE"/>
 			
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="False"
@@ -89,7 +90,7 @@
 											   TextAlignment="Right"/>
 
 									<TextBlock Grid.Row="1"
-											   FontSize="12"
+											   Classes="small"
 											   Text="{Binding Year}"
 											   TextAlignment="Right"/>
 								</Grid>

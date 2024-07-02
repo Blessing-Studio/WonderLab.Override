@@ -14,7 +14,10 @@
 		<Setter Property="FontFamily" Value="{StaticResource IconFontFamily}"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<TextBlock Text="{TemplateBinding Glyph}"
+				<TextBlock Classes="fonticon"
+						   Text="{TemplateBinding Glyph}"
+						   FontSize="{TemplateBinding FontSize}"
+						   FontFamily="{TemplateBinding FontFamily}"
 						   Background="{TemplateBinding Background}"/>
 			</ControlTemplate>
 		</Setter>

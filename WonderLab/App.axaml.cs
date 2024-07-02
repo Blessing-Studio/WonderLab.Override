@@ -82,7 +82,7 @@ public sealed partial class App : Application {
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
             });
-
+        
         return builder;
     }
 
