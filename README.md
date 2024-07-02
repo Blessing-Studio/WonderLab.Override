@@ -48,7 +48,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### bangbang93
 
-提供BMCLAPI镜像源。
+提供BMCLAPI镜像源
 
 [爱发电](https://afdian.net/a/bangbang93)
 [GitHub](https://github.com/bangbang93)
