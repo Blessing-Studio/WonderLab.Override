@@ -16,15 +16,16 @@ using MinecraftLaunch.Classes.Models.Game;
 using System;
 using System.IO;
 using WonderLab.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
 public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     private readonly SettingData _data;
-    private readonly LogService _logService;
     private readonly JavaFetcher _javaFetcher;
     private readonly DialogService _dialogService;
     private readonly SettingService _settingService;
+    private readonly ILogger<LaunchSettingPageViewModel> _logger;   
 
     [ObservableProperty] private string _maxMemory;
     [ObservableProperty] private string _activeGameFolder;
@@ -39,11 +40,16 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     [ObservableProperty] private ObservableCollection<JavaEntry> _javas;
     [ObservableProperty] private ObservableCollection<string> _gameFolders;
 
-    public LaunchSettingPageViewModel(SettingService settingService, LogService logService, DialogService dialogService, JavaFetcher javaFetcher) {
-        _logService = logService;
-        _javaFetcher = javaFetcher;
+    public LaunchSettingPageViewModel(
+        JavaFetcher javaFetcher,
+        DialogService dialogService, 
+        SettingService settingService, 
+        ILogger<LaunchSettingPageViewModel> logger) {
         _dialogService = dialogService;
         _settingService = settingService;
+
+        _logger = logger;
+        _javaFetcher = javaFetcher;
         _data = _settingService.Data;
 
         ActiveJava = _data.ActiveJava;
@@ -103,7 +109,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
             GameFolders.Remove(ActiveGameFolder);
             GameFolders = GameFolders.ToObservableList();
             ActiveGameFolder = GameFolders.Any() ? GameFolders.First() : string.Empty;
-            _logService.Info(nameof(LaunchSettingPageViewModel), $"Active game folder value is {ActiveGameFolder}");
+            _logger.LogInformation("活动游戏目录为 {ActiveGameFolder}", ActiveGameFolder);
         } else {
             Javas.Remove(ActiveJava);
             ActiveJava = Javas.Any() ? Javas.First() : null;
@@ -121,7 +127,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
         Javas = javasList.ToObservableList();
 
         ActiveJava = Javas.LastOrDefault();
-        _logService.Info(nameof(LaunchSettingPageViewModel), $"Current java count is {Javas.Count}");
+        _logger.LogInformation("共存在 {JavaCount} 个 Java", Javas.Count);
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e) {

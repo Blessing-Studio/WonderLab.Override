@@ -12,7 +12,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace WonderLab.ViewModels.Pages;
 
 public sealed partial class HomePageViewModel : ViewModelBase {
-    private readonly LogService _logService;
     private readonly GameService _gameService;
     private readonly TaskService _taskService;
     private readonly SettingService _settingService;
@@ -27,11 +26,9 @@ public sealed partial class HomePageViewModel : ViewModelBase {
     /// <inheritdoc />
     public HomePageViewModel(
         GameService gameService,
-        LogService logService,
         TaskService taskService,
         SettingService settingService,
         NotificationService notificationService) {
-        _logService = logService;
         _gameService = gameService;
         _taskService = taskService;
         _settingService = settingService;
@@ -51,6 +48,6 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void Launch() {
-        _taskService.QueueJob(new LaunchTask(_gameService, _logService, _settingService, _notificationService));
+        _taskService.QueueJob(new LaunchTask(_gameService, _settingService, _notificationService));
     }
 }

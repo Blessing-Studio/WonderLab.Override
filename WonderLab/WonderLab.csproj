@@ -13,81 +13,90 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaResource Remove="Assets\Fonts\DinPro.ttf" />
-	  <AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
-	  <AvaloniaResource Remove="Assets\Images\steve.png" />
-	  <AvaloniaResource Remove="Assets\Languages\en-US.axaml" />
-	  <AvaloniaResource Remove="Assets\Languages\ru-RU.axaml" />
-	  <AvaloniaResource Remove="Assets\Languages\zh-CN.axaml" />
-	  <AvaloniaResource Remove="Assets\Languages\zh-TW.axaml" />
+		<AvaloniaResource Remove="Assets\Fonts\DinPro.ttf" />
+		<AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
+		<AvaloniaResource Remove="Assets\Images\steve.png" />
+		<AvaloniaResource Remove="Assets\Languages\en-US.axaml" />
+		<AvaloniaResource Remove="Assets\Languages\ru-RU.axaml" />
+		<AvaloniaResource Remove="Assets\Languages\zh-CN.axaml" />
+		<AvaloniaResource Remove="Assets\Languages\zh-TW.axaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\Fonts\DinPro.ttf" />
-	  <None Remove="Assets\Images\steve.png" />
+		<None Remove="Assets\Fonts\DinPro.ttf" />
+		<None Remove="Assets\Images\steve.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
-	  <EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
-	  <EmbeddedResource Include="Assets\Images\steve.png" />
+		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
+		<EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
+		<EmbeddedResource Include="Assets\Images\steve.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.1.0-beta1" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0-beta1" />
 		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.10.9" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0-beta1" />
+		
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		
 		<PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
+		
 		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview03" />
+		
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.2.24128.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.2.24128.5" />
 
-		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0-beta1" />
+		<PackageReference Include="Serilog" Version="3.1.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+
 		<PackageReference Include="MinecraftLaunch.Skin" Version="1.0.1" />
+		
 		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.3" />
+		
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0-beta1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Assets\Languages\en-US.axaml">
-	    <SubType>Designer</SubType>
-	  </AvaloniaXaml>
+		<AvaloniaXaml Update="Assets\Languages\en-US.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Assets\Languages\zh-CN.axaml">
-	    <SubType>Designer</SubType>
-	  </AvaloniaXaml>
+		<AvaloniaXaml Update="Assets\Languages\zh-CN.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\Dialogs\Setting\ChooseAccountTypeDialog.axaml.cs">
-	    <DependentUpon>ChooseAccountTypeDialog.axaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Views\Dialogs\Setting\ChooseAccountTypeDialog.axaml.cs">
+			<DependentUpon>ChooseAccountTypeDialog.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Views\Windows\OobeWindow.axaml" />
+		<UpToDateCheckInput Remove="Views\Windows\OobeWindow.axaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Assets\Languages\ru-RU.axaml">
-	    <SubType>Designer</SubType>
-	  </AvaloniaXaml>
+		<AvaloniaXaml Update="Assets\Languages\ru-RU.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Assets\Languages\zh-TW.axaml">
-	    <SubType>Designer</SubType>
-	  </AvaloniaXaml>
+		<AvaloniaXaml Update="Assets\Languages\zh-TW.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Pages\Download\" />
+		<Folder Include="Views\Pages\Download\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Views\Controls\Themes\Controls\ImageBoxTheme.axaml" />
+		<UpToDateCheckInput Remove="Views\Controls\Themes\Controls\ImageBoxTheme.axaml" />
 	</ItemGroup>
 </Project>

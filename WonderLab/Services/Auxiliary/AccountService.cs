@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using MinecraftLaunch.Classes.Enums;
 using MinecraftLaunch.Classes.Interfaces;
 using MinecraftLaunch.Classes.Models.Auth;
@@ -14,13 +15,13 @@ namespace WonderLab.Services.Auxiliary;
 /// 游戏账户服务类
 /// </summary>
 public sealed class AccountService {
-    private readonly LogService _logService;
+    private readonly ILogger<AccountService> _logger;
     private OfflineAuthenticator _offlineAuthenticator;
     private MicrosoftAuthenticator _microsoftAuthenticator;
     private YggdrasilAuthenticator _yggdrasilAuthenticator;
 
-    public AccountService(LogService logService) {
-        _logService = logService;
+    public AccountService(ILogger<AccountService> logger) {
+        _logger = logger;
     }
 
     /// <summary>
@@ -28,7 +29,7 @@ public sealed class AccountService {
     /// </summary>
     public bool InitializeComponent<T>(IAuthenticator<T> authenticator, AccountType type = AccountType.Offline) {
         try {
-            _logService.Info(nameof(AccountService), $"开始初始化验证器，类型为：{type}");
+            _logger.LogInformation("开始初始化验证器，类型为：{type}", type);
             switch (type) {
                 case AccountType.Offline:
                     _offlineAuthenticator = authenticator as OfflineAuthenticator;
@@ -44,7 +45,7 @@ public sealed class AccountService {
                     return false;
             }
         } catch (Exception ex) {
-            _logService.Error(nameof(AccountService), $"初始化验证器失败，错误类型为：{ex.GetType().Name}，错误信息为：{ex.Message}");
+            _logger.LogError("初始化验证器失败，错误类型为：{ErrorType}，错误信息为：{ErrorMessage}", ex.GetType().Name, ex.Message);
             return false;
         }
     }
@@ -57,7 +58,7 @@ public sealed class AccountService {
         Action<DeviceCodeResponse> action = default, 
         CancellationTokenSource tokenSource = default) {
 
-        _logService.Info(nameof(AccountService), $"开始验证，类型为：{type}");
+        _logger.LogInformation("开始验证，类型为：{type}", type);
         switch (type) {
             case 1:
                 return Enumerable.Repeat(_offlineAuthenticator.Authenticate(), 1);

@@ -1,5 +1,7 @@
 ﻿using System;
+using Serilog;
 using Avalonia;
+using System.IO;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using WonderLab.Services;
@@ -16,6 +18,7 @@ using WonderLab.ViewModels.Pages;
 using Avalonia.Data.Core.Plugins;
 using WonderLab.Services.Download;
 using WonderLab.ViewModels.Dialogs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using WonderLab.ViewModels.Windows;
 using WonderLab.Services.Auxiliary;
@@ -81,6 +84,18 @@ public sealed partial class App : Application {
                 services.AddSingleton<JavaFetcher>();
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
+            })
+            .ConfigureLogging(builder => {
+                builder.ClearProviders();
+                Log.Logger = new LoggerConfiguration()
+                .Enrich
+                .FromLogContext()
+                .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
+                rollingInterval: RollingInterval.Day, 
+                outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
+                builder.AddSerilog(Log.Logger);
             });
         
         return builder;
@@ -106,7 +121,6 @@ public sealed partial class App : Application {
         services.AddSingleton<AccountSettingPage>();
 
         //Windows
-        services.AddSingleton<LogWindow>();
         services.AddSingleton<MainWindow>();
         services.AddSingleton<OobeWindow>();
 
@@ -121,7 +135,6 @@ public sealed partial class App : Application {
     private static void ConfigureServices(IServiceCollection services) {
         services.AddTransient<GameService>();
 
-        services.AddSingleton<LogService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
@@ -152,7 +165,6 @@ public sealed partial class App : Application {
         services.AddTransient<HomePageViewModel>();
 
         //Window
-        services.AddSingleton<LogWindowViewModel>();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<OobeWindowViewModel>();
 

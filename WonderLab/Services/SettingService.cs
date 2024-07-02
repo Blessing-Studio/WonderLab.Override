@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Classes.Datas.MessageData;
 using Avalonia.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.Services;
 
@@ -38,7 +39,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
     private bool _isInitialize;
     private SettingData _settingData;
 
-    private readonly LogService _logService;
+    private readonly ILogger<SettingBackgroundService> _logger;
     private readonly ThemeService _themeService;
     private readonly WindowService _windowService;
     private readonly LanguageService _languageService;
@@ -49,12 +50,12 @@ internal sealed class SettingBackgroundService : BackgroundService {
 
     public SettingBackgroundService(
         Dispatcher dispatcher,
-        LogService logService,
         ThemeService themeService,
         WindowService windowService,
         LanguageService languageService,
+        ILogger<SettingBackgroundService> logger,
         WeakReferenceMessenger weakReferenceMessenger) {
-        _logService = logService;
+        _logger = logger;
         _themeService = themeService;
         _windowService = windowService;
         _languageService = languageService;
@@ -69,12 +70,11 @@ internal sealed class SettingBackgroundService : BackgroundService {
 
     private void Save() {
         var json = _settingData.Serialize(typeof(SettingData), new SettingDataContext(JsonConverterUtil.DefaultJsonOptions));
-        _logService.Debug(nameof(SettingService), $"开始保存数据，序列化结果如下：\n{json}");
         File.WriteAllText(_settingDataFilePath.FullName, json);
     }
 
     private void Initialize() {
-        _logService.Info(nameof(SettingBackgroundService), "开始初始化设置数据服务");
+        _logger.LogInformation("开始初始化设置数据服务");
 
         if (!_settingDataFilePath.Directory!.Exists) {
             _settingDataFilePath.Directory.Create();
@@ -88,7 +88,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         }
 
         _isInitialize = !_settingDataFilePath.Exists;
-        _logService.Info(nameof(SettingBackgroundService), $"是否需要进入 OOBE：{_isInitialize}");
+        _logger.LogInformation("是否需要进入 OOBE：{IsOOBE}", _isInitialize);
 
         _weakReferenceMessenger.Send(new SettingDataChangedMessage(_settingData));
         _weakReferenceMessenger.Send(new IsDataInitializeChangedMessage(_isInitialize));
