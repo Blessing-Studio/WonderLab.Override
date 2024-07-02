@@ -78,7 +78,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         Year = DateTime.Now.ToString("d");
 
         _timer.Elapsed += (_, args) => {
-            Time = args.SignalTime.ToString("T");
+            Time = args.SignalTime.ToString("t");
             Year = args.SignalTime.ToString("d");
         };
 

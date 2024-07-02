@@ -18,8 +18,7 @@ public static class FontExtension {
         }
 
         return builder.With(new FontManagerOptions {
-            //DefaultFamilyName = "Microsoft YaHei UI, Microsoft YaHei",
-            //DefaultFamilyName = "resm:WonderLab.Assets.Fonts.HarmonyOS_Sans_SC_Regular.ttf?assembly=WonderLab#HarmonyOS Sans SC",
+            //DefaultFamilyName = FontManager.Current.DefaultFontFamily.Name,
             FontFallbacks = [new FontFallback { FontFamily = "Microsoft YaHei UI" }]
         });
     }

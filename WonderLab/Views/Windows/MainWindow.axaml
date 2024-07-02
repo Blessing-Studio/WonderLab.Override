@@ -15,7 +15,8 @@
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}"
-		Icon="/Assets/wonderlab.ico">
+		Icon="/Assets/wonderlab.ico"
+		FontFamily="{StaticResource DefaultFontFamily}">
 	<Panel>
 		<ExperimentalAcrylicBorder Name="AcrylicMaterial"
 								   IsHitTestVisible="False">
@@ -90,7 +91,7 @@
 											   TextAlignment="Right"/>
 
 									<TextBlock Grid.Row="1"
-											   Classes="small"
+											   FontSize="12"
 											   Text="{Binding Year}"
 											   TextAlignment="Right"/>
 								</Grid>

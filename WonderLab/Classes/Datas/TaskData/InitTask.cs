@@ -4,13 +4,14 @@ using System.Threading;
 using WonderLab.Services;
 using WonderLab.Services.UI;
 using System.Threading.Tasks;
+using WonderLab.Views.Windows;
 using System.Collections.Generic;
 using WonderLab.ViewModels.Dialogs;
+using WonderLab.ViewModels.Windows;
 using Avalonia.Controls.Notifications;
 using WonderLab.Classes.Datas.ViewData;
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Views.Windows;
-using WonderLab.ViewModels.Windows;
+using Avalonia.Media;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -46,6 +47,11 @@ public sealed class InitTask : TaskBase {
             logWindow.Show(window);
         }
 
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "信息",
+            Content = FontManager.Current.DefaultFontFamily.Name,
+            NotificationType = NotificationType.Information
+        });
         return;
         
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {

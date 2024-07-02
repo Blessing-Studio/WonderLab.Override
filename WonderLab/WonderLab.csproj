@@ -13,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaResource Remove="Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf" />
+	  <AvaloniaResource Remove="Assets\Fonts\DinPro.ttf" />
 	  <AvaloniaResource Remove="Assets\Fonts\SegoeFluentIcons.ttf" />
 	  <AvaloniaResource Remove="Assets\Images\steve.png" />
 	  <AvaloniaResource Remove="Assets\Languages\en-US.axaml" />
@@ -23,12 +23,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf" />
+	  <None Remove="Assets\Fonts\DinPro.ttf" />
 	  <None Remove="Assets\Images\steve.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf" />
+	  <EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
 	  <EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
 	  <EmbeddedResource Include="Assets\Images\steve.png" />
 	</ItemGroup>
