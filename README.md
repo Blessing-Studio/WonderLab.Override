@@ -16,6 +16,8 @@
 [![QQ2](https://img.shields.io/badge/二群-789238146-81A1C1.svg?style=for-the-badge&logo=QQ&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=vxXeM940Sa8EPK0ddxDr7J-7RCxkConY&authKey=NlLAobL2hA0y5SqUgYwycJpnXsN%2F%2BGpCqqt2V%2BuiUgx%2B%2Fy8cFbvKk%2FnRg1Ezql9y&noverify=0&group_code=789238146)
 [![Discord](https://img.shields.io/badge/Discord-4169E1?style=for-the-badge&logo=Discord&logoColor=white)](https://discord.gg/YQ62mn5d)
 
+[![README_en](https://img.shields.io/badge/English-4169E1?style=for-the-badge&logoColor=white)](/README_en.md)
+
 </div>
 
 ## 自我介绍
@@ -26,7 +28,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 > 请您注意，本版本为测试版本，需要联网激活，请在下载前确认您是否有测试资格！
 
 > [!WARNING]
-> 当前分支为 `feature` 内部测试分支，更新速率快、不稳定、附带多种未知功能，可能会导致您已安装的正式版 WonderLab 发生错误
+> 当前分支为 `feature` 内部测试分支，是一个 更新速率快、不稳定、附带多种未知功能 的版本
 
 ## 如何安装
 
@@ -50,7 +52,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### bangbang93
 
-提供BMCLAPI镜像源。
+提供BMCLAPI镜像源
 
 [爱发电](https://afdian.net/a/bangbang93)
 [GitHub](https://github.com/bangbang93)
@@ -99,6 +101,6 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### [FTS427](https://github.com/FTS427)
 
-现 WonderLab 的 AUR 维护者，
+现 `WonderLab` 的 `AUR` 维护者，archlinux用户
 
 [website](https://www.fts427.top/)
