@@ -1,4 +1,4 @@
-name: Bug 反馈
+name: Bug Report
 description: 反馈 WonderLab 使用中遇到的问题和 Bug
 labels:
   - "bug"
@@ -7,18 +7,30 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢你使用 WonderLab 问题反馈系统！
+        请按照此模板按要求填写
         
-        如果此问题反馈不符合模板，将会被管理员无条件关闭。
+        如果此问题反馈不符合模板，将会被管理员无条件关闭
   - type: checkboxes
     attributes:
       label: '❗ 检查表'
       description: 在反馈前, 请确认你已经做了下面这些事情
       options:
-      - label: 搜索了已有的 [issues](https://github.com/Blessing-Studio/WonderLab.Override/issues) 列表中是否有相似问题
+      - label: 搜索了已有的 [Issues](https://github.com/Blessing-Studio/WonderLab.Override/issues) 列表中是否有相似问题
         required: true
-      - label: 查看 [CI](https://github.com/Blessing-Studio/WonderLab.Override/release) 中最新自动构建版是否已修复你所遇到的问题
+      - label: 查看 [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) 中最新自动构建版是否已修复你所遇到的问题
         required: true
+  
+  - type: dropdown
+    id: reproducibility
+    attributes:
+       label: 分支版本
+       description: 选择你是从哪个分支下载的 WonderLab
+       options:
+         - master
+         - feature
+         - bugfixing
+    validations:
+      required: true
 
   - type: textarea
     id: issue-description
@@ -27,6 +39,7 @@ body:
       description: 在此详细描述你遇到的问题(日志和此处二选一 都提交可以让我们更快修复)
     validations:
       required: true
+
   - type: textarea
     id: issue-log
     attributes:
@@ -34,6 +47,7 @@ body:
       description: 在此提交崩溃日志
     validations:
       required: false
+
   - type: dropdown
     id: reproducibility
     attributes:
@@ -88,21 +102,21 @@ body:
     validations:
       required: true
     attributes:
-      label: WonderLab版本
+      label: WonderLab 版本
       description: |
         **"最新版" 不是版本号，请填写一个确切的版本号！**
       #如果你不太确定，可以截图 "" 的输出内容并截图，记得截全。
       placeholder: '1.2.x'
 
-  - type: textarea
-    id: other-plugin
-    attributes:
-      label: 插件信息
-      description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
-      placeholder: |
-        插件: 版本
-    validations:
-      required: false
+  #- type: textarea
+  #  id: other-plugin
+  #  attributes:
+  #    label: 插件信息
+  #    description: 如果这个问题与你的其他插件有关，请提供你的WonderLab插件列表。
+  #    placeholder: |
+  #      插件: 版本
+  #  validations:
+  #    required: false
 
   - type: textarea
     id: additional
