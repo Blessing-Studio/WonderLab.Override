@@ -1,12 +1,12 @@
-﻿using Avalonia.Controls.Notifications;
-using MinecraftLaunch.Classes.Models.Launch;
-using MinecraftLaunch.Components.Analyzer;
-using MinecraftLaunch.Components.Launcher;
-using System.Threading;
-using System.Threading.Tasks;
-using WonderLab.Classes.Datas.ViewData;
+﻿using System.Threading;
 using WonderLab.Services;
+using System.Threading.Tasks;
 using WonderLab.Services.Game;
+using Avalonia.Controls.Notifications;
+using WonderLab.Classes.Datas.ViewData;
+using MinecraftLaunch.Components.Launcher;
+using MinecraftLaunch.Components.Analyzer;
+using MinecraftLaunch.Classes.Models.Launch;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -14,16 +14,13 @@ namespace WonderLab.Classes.Datas.TaskData;
 /// 游戏启动任务
 /// </summary>
 public sealed class LaunchTask : TaskBase {
-    private readonly LogService _logService;
     private readonly GameService _gameService;
     private readonly SettingService _settingService;
     private readonly NotificationService _notificationService;
 
     public LaunchTask(GameService gameService, 
-        LogService logService,
         SettingService settingService,
-        NotificationService notificationService) { 
-        _logService = logService;
+        NotificationService notificationService) {
         _gameService = gameService;
         _settingService = settingService;
         _notificationService = notificationService;
@@ -75,7 +72,7 @@ public sealed class LaunchTask : TaskBase {
         };
 
         result.OutputLogReceived += (_, args) => {
-            _logService.Debug(JobName, args.Original);
+
         };
 
         _notificationService.QueueJob(new NotificationViewData {

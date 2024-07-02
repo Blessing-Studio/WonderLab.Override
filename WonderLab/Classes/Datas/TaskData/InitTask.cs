@@ -22,12 +22,12 @@ public sealed class InitTask : TaskBase {
     private readonly string _apiKey = "9e15a18a-e726-453b-9004-a670c1dfaca3";
 
     public InitTask(SettingService settingService, DialogService dialogService, NotificationService notificationService) {
-        IsIndeterminate = true;
-        JobName = "程序初始化任务";
-
         _dialogService = dialogService;
         _settingService = settingService;
         _notificationService = notificationService;
+
+        IsIndeterminate = true;
+        JobName = "程序初始化任务";
     }
 
     public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
@@ -40,20 +40,9 @@ public sealed class InitTask : TaskBase {
 
         IsIndeterminate = false;
 
-        if (_settingService.Data.IsDebugMode) {
-            var window = App.ServiceProvider.GetService<MainWindow>();
-            var logWindow = App.ServiceProvider.GetService<LogWindow>();
-            logWindow.DataContext = App.ServiceProvider.GetService<LogWindowViewModel>();
-            logWindow.Show(window);
-        }
-
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "信息",
-            Content = FontManager.Current.DefaultFontFamily.Name,
-            NotificationType = NotificationType.Information
-        });
+#if DEBUG
         return;
-        
+#else
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
             return;
@@ -84,5 +73,6 @@ public sealed class InitTask : TaskBase {
 
             _dialogService.ShowContentDialog<TestUserCheckDialogViewModel>();
         }
+#endif
     }
 }

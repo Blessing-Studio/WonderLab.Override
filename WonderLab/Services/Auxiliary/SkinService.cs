@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using System.Threading.Tasks;
 using MinecraftLaunch.Skin.Class.Fetchers;
 using MinecraftLaunch.Classes.Models.Auth;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.Services.Auxiliary;
 
@@ -14,29 +15,29 @@ namespace WonderLab.Services.Auxiliary;
 /// 皮肤服务类
 /// </summary>
 public sealed class SkinService {
-    private readonly LogService _logService;
+    private readonly ILogger<SkinService> _logger;
     public required (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) Steve { get; init; }
 
-    public SkinService(LogService logService) {
-        _logService = logService;
+    public SkinService(ILogger<SkinService> logger) {
+        _logger = logger;
         Steve = GetSteve();
     }
 
     public async Task<byte[]> GetMicrosoftSkinAsync(MicrosoftAccount account) {
-        _logService.Info(nameof(SkinService), $"开始为 {account.Type} 账户 {account.Name} 获取 Skin");
+        _logger.LogInformation("开始为 {AccountType} 账户 {AccountName} 获取 Skin", account.Type, account.Name);
         MicrosoftSkinFetcher microsoftSkinFetcher = new(account.Uuid.ToString());
         return await microsoftSkinFetcher.GetSkinAsync();
     }
 
     public async Task<byte[]> GetYggdrasilSkinAsync(YggdrasilAccount account) {
-        _logService.Info(nameof(SkinService), $"开始为 {account.Type} 账户 {account.Name} 获取 Skin");
+        _logger.LogInformation("开始为 {AccountType} 账户 {AccountName} 获取 Skin", account.Type, account.Name);
         YggdrasilSkinFetcher yggdrasilSkinFetcher = new(account.YggdrasilServerUrl, account.Uuid.ToString());
         return await yggdrasilSkinFetcher.GetSkinAsync();
     }
 
     public (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) GetSkinParts(byte[] skinData) {
         var skinResolver = new SkinResolver(skinData);
-        _logService.Info(nameof(SkinService), $"开始肢解 Skin 部位");
+        _logger.LogInformation("开始肢解 Skin 部位");
 
         return (skinResolver.CropSkinHeadBitmap().ToBitmap(), 
             skinResolver.CropSkinBodyBitmap().ToBitmap(), 
@@ -47,7 +48,7 @@ public sealed class SkinService {
     }
 
     private (Bitmap head, Bitmap body, Bitmap leftHead, Bitmap rightHead, Bitmap leftLeg, Bitmap rightLeg) GetSteve() {
-        _logService.Info(nameof(SkinService), $"开始获取默认 Skin");
+        _logger.LogInformation("开始获取默认 Skin");
 
         var memoryStream = new MemoryStream();
         using var stream = AssetLoader.Open(new Uri($"resm:WonderLab.Assets.Images.steve.png"));

@@ -2,21 +2,30 @@
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using WonderLab.Classes.Interfaces;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.Services;
 
-public sealed class QueuedHostedService(IBackgroundTaskQueue backgroundTaskQueue, LogService _logService) : BackgroundService {
+public sealed class QueuedHostedService : BackgroundService {
     private long _currentRunningJobs;
 
+    private readonly ILogger<QueuedHostedService> _logger;
+    private readonly IBackgroundTaskQueue _backgroundTaskQueue;
+
+    public QueuedHostedService(IBackgroundTaskQueue backgroundTaskQueue, ILogger<QueuedHostedService> logger) {
+        _logger = logger;
+        _backgroundTaskQueue = backgroundTaskQueue;
+    }
+
     public override Task StopAsync(CancellationToken stoppingToken) {
-        _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is stopping.");
+        _logger.LogInformation("程序主机已关闭");
         return base.StopAsync(stoppingToken);
     }
 
     public override Task StartAsync(CancellationToken cancellationToken) {
-        _logService.Info(nameof(QueuedHostedService), "QueuedHostedService is opening.");
+        _logger.LogInformation("程序主机已开启");
         return base.StartAsync(cancellationToken);
     }
 
@@ -36,25 +45,31 @@ public sealed class QueuedHostedService(IBackgroundTaskQueue backgroundTaskQueue
             ITaskJob workItem = default!;
 
             try {
-                workItem = await backgroundTaskQueue.DequeueAsync(stoppingToken);
+                workItem = await _backgroundTaskQueue.DequeueAsync(stoppingToken);
                 Interlocked.Increment(ref _currentRunningJobs);
-                _logService.Info(nameof(QueuedHostedService), $"成功从任务队列获取任务 {workItem.JobName}。");
+                _logger.LogInformation("成功从任务队列获取任务： {JobName}", workItem.JobName);
+
                 sw.Start();
                 workItem.TaskStatus = TaskStatus.Created;
                 workItem.TaskStatus = TaskStatus.WaitingForActivation;
+
                 var value = workItem.BuildWorkItemAsync(workItem.CancellationTokenSource.Token);
+
                 workItem.WorkingTask = value;
                 workItem.TaskStatus = TaskStatus.WaitingToRun;
                 workItem.TaskStatus = TaskStatus.Running;
+
                 await value;
+
                 workItem.TaskStatus = TaskStatus.RanToCompletion;
                 workItem.InvokeTaskFinished();
                 sw.Stop();
-                _logService.Info(nameof(QueuedHostedService), $"任务 {workItem.JobName} 已完成执行，用时：[{sw.Elapsed.TotalSeconds} 秒]。");
+
+                _logger.LogInformation("任务 {JobName} 已完成执行，用时：{TotalSeconds} 秒。", workItem.JobName, sw.Elapsed.TotalSeconds);
             } catch (OperationCanceledException) {
                 if (workItem != null) {
                     workItem.TaskStatus = TaskStatus.Canceled;
-                    _logService.Info(nameof(QueuedHostedService), $"任务 {workItem.JobName} 被取消了。");
+                    _logger.LogInformation("任务 {workItem.JobName} 被取消了", workItem.JobName);
                 }
             } catch (Exception) {
                 if (workItem != null) {

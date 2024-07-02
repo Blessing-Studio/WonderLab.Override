@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using WonderLab.Classes.Datas.ViewData;
 using MinecraftLaunch.Classes.Interfaces;
@@ -11,7 +12,7 @@ namespace WonderLab.Services.Game;
 /// 游戏实体 <see cref="GameEntry"/> 相关操作服务类
 /// </summary>
 public sealed class GameService {
-    private readonly LogService _logService;
+    private readonly ILogger<GameService> _logger;
     private readonly SettingService _settingService;
     private readonly ObservableCollection<GameViewData> _gameEntries;
     
@@ -19,10 +20,11 @@ public sealed class GameService {
     public GameViewData ActiveGameEntry { get; private set; }
     public ReadOnlyObservableCollection<GameViewData> GameEntries { get; }
 
-    public GameService(SettingService settingService, LogService logService) {
-        _logService = logService;
+    public GameService(SettingService settingService, ILogger<GameService> logger) {
+        _logger = logger;
         _settingService = settingService;
-        _gameEntries = new();
+
+        _gameEntries = [];
         GameEntries = new(_gameEntries);
         if (!string.IsNullOrEmpty(_settingService?.Data?.ActiveGameFolder)) {
             Initialize();
@@ -30,7 +32,7 @@ public sealed class GameService {
     }
 
     private void Initialize() {
-        _logService.Info(nameof(GameService), "Start initializing this service");
+        _logger.LogInformation("开始初始化游戏实例服务");
         GameResolver = new GameResolver(_settingService?.Data?.ActiveGameFolder ?? "C:\\Users\\w\\Desktop\\temp\\.minecraft");
         RefreshGameViewEntry();
     }

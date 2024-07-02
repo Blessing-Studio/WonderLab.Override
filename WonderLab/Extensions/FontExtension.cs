@@ -18,7 +18,6 @@ public static class FontExtension {
         }
 
         return builder.With(new FontManagerOptions {
-            //DefaultFamilyName = FontManager.Current.DefaultFontFamily.Name,
             FontFallbacks = [new FontFallback { FontFamily = "Microsoft YaHei UI" }]
         });
     }

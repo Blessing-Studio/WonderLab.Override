@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WonderLab.ViewModels.Windows;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.Services.UI;
 
@@ -24,19 +25,19 @@ public sealed class WindowService {
     private Action<PointerEventArgs> _pointerExitedAction;
 
     private readonly Window _mainWindow;
-    private readonly LogService _logService;
     private readonly SettingService _settingService;
+    private readonly ILogger<WindowService> _logger;
 
     public bool IsLoaded => _mainWindow.IsLoaded;
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 
-    public WindowService(SettingService settingService, LogService logService) {
-        _logService = logService;
+    public WindowService(SettingService settingService, ILogger<WindowService> logger) {
+        _logger = logger;
         _settingService = settingService;
 
-        _mainWindow = _settingService.IsInitialize 
-            ? App.ServiceProvider.GetService<OobeWindow>() 
+        _mainWindow = _settingService.IsInitialize
+            ? App.ServiceProvider.GetService<OobeWindow>()
             : App.ServiceProvider.GetService<MainWindow>();
 
         _mainWindow.ActualThemeVariantChanged += (_, args) => {
@@ -47,8 +48,7 @@ public sealed class WindowService {
     }
 
     public void Close() {
-        _mainWindow.Close();
-        _logService.Finish();
+        _mainWindow.Close();            
     }
 
     public async void CopyText(string text) {
