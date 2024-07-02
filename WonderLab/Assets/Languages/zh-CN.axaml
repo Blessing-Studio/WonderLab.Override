@@ -24,37 +24,37 @@
 	<sys:String x:Key="Browse">浏览</sys:String>
 	<sys:String x:Key="Remove">移除</sys:String>
 	<sys:String x:Key="Search">搜索</sys:String>
-	<sys:String x:Key="SelectJava">选择 Java：</sys:String>
-	<sys:String x:Key="SelectFolder">选择目录：</sys:String>
-	<sys:String x:Key="OpenNewJava">打开 Java：</sys:String>
-	<sys:String x:Key="OpenNewFolder">打开目录：</sys:String>
-	<sys:String x:Key="FullScreenMode">全屏模式：</sys:String>
-	<sys:String x:Key="GameIndependent">版本隔离：</sys:String>
+	<sys:String x:Key="OpenNewJava">增加 Java 路径</sys:String>
+	<sys:String x:Key="SelectJava">选择 Java 路径</sys:String>
+	<sys:String x:Key="OpenNewFolder">增加目录</sys:String>
+	<sys:String x:Key="SelectFolder">选择目录</sys:String>
 	<sys:String x:Key="JavaSettingTitle">Java 设置</sys:String>
-	<sys:String x:Key="AllocateMemory">游戏内存分配：</sys:String>
 	<sys:String x:Key="GameSettingTitle">游戏运行设置</sys:String>
-	<sys:String x:Key="RemoveJava">操作当前选择 Java：</sys:String>
-	<sys:String x:Key="RemoveFolder">操作当前选择目录：</sys:String>
+	<sys:String x:Key="FullScreenMode">全屏模式</sys:String>
+	<sys:String x:Key="GameIndependent">版本隔离</sys:String>
+	<sys:String x:Key="RemoveJava">移除当前 Java</sys:String>
+	<sys:String x:Key="AllocateMemory">游戏内存分配</sys:String>
+	<sys:String x:Key="RemoveFolder">移除当前目录：</sys:String>
+	<sys:String x:Key="AutoSelectJava">自动为游戏选择合适的 Java</sys:String>
 	<sys:String x:Key="FolderSettingTitle">Minecraft 目录设置</sys:String>
-	<sys:String x:Key="AutoSelectJava">自动为游戏选择最合适的 Java：</sys:String>
-	<sys:String x:Key="AutoAllocateMemory">自动为游戏分配最合适的内存量：</sys:String>
+	<sys:String x:Key="AutoAllocateMemory">自动为游戏分配合适的内存量</sys:String>
 
 	<!--DetailSettingPage-->
-	<sys:String x:Key="AppTheme">切换程序主题：</sys:String>
-	<sys:String x:Key="AppLanguage">更改语言：</sys:String>
-	<sys:String x:Key="AppBackground">切换程序背景：</sys:String>
+	<sys:String x:Key="AppTheme">切换主题</sys:String>
+	<sys:String x:Key="AppLanguage">更改语言</sys:String>
+	<sys:String x:Key="AppBackground">切换背景</sys:String>
 	<sys:String x:Key="LanguageSettingTitle">语言设置</sys:String>
 	<sys:String x:Key="AppearanceSettingTitle">外观设置</sys:String>
 
 	<!--AboutPage-->
 	<sys:String x:Key="Developers">开发团队</sys:String>
-	<sys:String x:Key="Donate">赞助：</sys:String>
-	<sys:String x:Key="Version">启动器版本：</sys:String>
-	<sys:String x:Key="QualityControl">质量控制组：</sys:String>
-	<sys:String x:Key="Designers">设计组：</sys:String>
-	<sys:String x:Key="FrontEndDevelopers">前端开发组：</sys:String>
-	<sys:String x:Key="BackEndDevelopers">后端开发组：</sys:String>
+	<sys:String x:Key="Donate">赞助我们</sys:String>
+	<sys:String x:Key="Version">版本</sys:String>
+	<sys:String x:Key="QualityControl">质量控制组</sys:String>
+	<sys:String x:Key="Designers">设计组</sys:String>
+	<sys:String x:Key="FrontEndDevelopers">前端开发组</sys:String>
+	<sys:String x:Key="BackEndDevelopers">后端开发组</sys:String>
 	<sys:String x:Key="Thanks">鸣谢</sys:String>
-	<sys:String x:Key="ServerSupport">服务器支持：</sys:String>
-	<sys:String x:Key="TechnicalSupport">技术支持：</sys:String>
+	<sys:String x:Key="ServerSupport">服务器支持</sys:String>
+	<sys:String x:Key="TechnicalSupport">技术支持</sys:String>
 </ResourceDictionary>
