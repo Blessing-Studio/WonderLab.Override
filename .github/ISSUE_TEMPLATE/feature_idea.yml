@@ -9,7 +9,7 @@ body:
       value: |
         感谢你使用 WonderLab 问题反馈系统！
         
-        如果此建议建议不符合模板，将会被管理员无条件关闭。
+        如果此建议不符合模板，将会被管理员无条件关闭。
   - type: textarea
     id: issue-description
     attributes:
