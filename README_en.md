@@ -80,7 +80,7 @@ In progress: BadMcen Launcher
 
 ### [mail_set](https://blogs.mailset.top)
 
-A Archer whos love Linux (Windows is also needed when gaming)
+An Archer who loves Linux (Windows is also needed when gaming)
 
 [Github](https://github.com/mailset)
 [Bilibili](https://space.bilibili.com/435654748)
