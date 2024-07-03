@@ -22,7 +22,6 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ImageBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
-				<!--<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBlockTheme.axaml"/>-->
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressRingTheme.axaml"/>

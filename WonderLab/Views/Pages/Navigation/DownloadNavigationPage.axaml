@@ -4,5 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="WonderLab.Views.Pages.Navigation.DownloadNavigationPage">
-    Welcome to Avalonia!
+	<Grid>
+		<Polyline Stroke="White"
+				  HorizontalAlignment="Center"
+				  VerticalAlignment="Center">
+			<Polyline.Points>
+				<Point>0.18, 39.5</Point>
+				<Point>14.86, 54.18</Point>
+				<Point>14.86, 61.89</Point>
+				<Point>0.28, 47.32</Point>
+			</Polyline.Points>
+		</Polyline>
+	</Grid>
 </UserControl>
+<!--new Point(0.18, 39.5),
+new Point(14.86, 54.18),
+new Point(14.86, 61.89),
+new Point(0.28, 47.32)-->

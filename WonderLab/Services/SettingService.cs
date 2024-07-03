@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Classes.Datas.MessageData;
 using Avalonia.Threading;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace WonderLab.Services;
 
@@ -80,14 +81,23 @@ internal sealed class SettingBackgroundService : BackgroundService {
             _settingDataFilePath.Directory.Create();
         }
 
+        _isInitialize = !_settingDataFilePath.Exists;
+
         if (_settingDataFilePath.Exists) {
-            _settingData = File.ReadAllText(_settingDataFilePath.FullName).AsJsonEntry<SettingData>();
+            try {
+                _settingData = File.ReadAllText(_settingDataFilePath.FullName).AsJsonEntry<SettingData>();
+            } catch (JsonException) {
+                _logger.LogError("Json 序列化时出现故障，开始重置设置");
+                _settingData = new();
+                Save();
+
+                _isInitialize = true;
+            }
         } else {
             _settingData = new();
             Save();
         }
 
-        _isInitialize = !_settingDataFilePath.Exists;
         _logger.LogInformation("是否需要进入 OOBE：{IsOOBE}", _isInitialize);
 
         _weakReferenceMessenger.Send(new SettingDataChangedMessage(_settingData));
