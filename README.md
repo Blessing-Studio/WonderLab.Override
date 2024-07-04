@@ -24,6 +24,8 @@
 
 WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x64、Arm 架构
 
+支持的语言：简体中文、繁体中文、文言華夏、English(US)、Русский язык
+
 > [!IMPORTANT]
 > 请您注意，本版本为测试版本，需要联网激活，请在下载前确认您是否有测试资格！
 

@@ -14,9 +14,9 @@
 			</ItemsPanelTemplate>
 		</ItemsControl.ItemsPanel>
 
-		<ui:SettingCard Title="镜像源设置">
+		<ui:SettingCard Title="{DynamicResource SMirror}">
 			<ItemsControl>
-				<ui:SettingCardItem Description="是否使用镜像源：">
+				<ui:SettingCardItem Description="{DynamicResource IfMirror}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
 								  Margin="0 0 -10 0"/>
@@ -24,13 +24,13 @@
 			</ItemsControl>
 		</ui:SettingCard>
 
-		<ui:SettingCard Title="下载设置">
+		<ui:SettingCard Title="{DynamicResource SDownload}">
 			<ItemsControl>
-				<ui:SettingCardItem Description="最大下载线程数：">
+				<ui:SettingCardItem Description="{DynamicResource MaxDownloadT}">
 					<Slider Width="250"/>
 				</ui:SettingCardItem>
 
-				<ui:SettingCardItem Description="大文件下载分片数：">
+				<ui:SettingCardItem Description="{DynamicResource BigFileT}">
 					<ComboBox/>
 				</ui:SettingCardItem>
 			</ItemsControl>

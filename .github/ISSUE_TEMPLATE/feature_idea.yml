@@ -7,23 +7,23 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢你使用 WonderLab 问题反馈系统！
+        感谢你使用 WonderLab 建议反馈系统！
         
-        如果此建议不符合模板，将会被管理员无条件关闭。
+        如果此建议不符合模板，将会被无条件关闭。
   - type: textarea
     id: issue-description
     attributes:
       label: 建议描述
-      description: 在此详细描述你的想法
+      description: 在此详细描述你的想法并阐述其原因
     validations:
       required: true
 
   - type: dropdown
     id: server-platform-type
     attributes:
-      label: 操作系统版本
+      label: 操作系统版
       description: |
-        选择你正在使用的操作系统
+        选择你想在哪个平台上增加这项功能
       options:
         - Windows
         - Linux
@@ -47,4 +47,4 @@ body:
     id: additional
     attributes:
       label: 补充信息
-      description: 如有必要，你可以在下文继续添加其他信息
+      description: 如有必要，你可以补充其他信息

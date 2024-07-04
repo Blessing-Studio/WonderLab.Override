@@ -17,7 +17,7 @@ body:
       options:
       - label: 搜索了已有的 [Issues](https://github.com/Blessing-Studio/WonderLab.Override/issues) 列表中是否有相似问题
         required: true
-      - label: 查看 [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) 中最新自动构建版是否已修复你所遇到的问题
+      - label: 查看 [Releases](https://github.com/Blessing-Studio/WonderLab.Override/releases) 中最新构建是否已修复你所遇到的问题
         required: true
   
   - type: dropdown
@@ -86,7 +86,7 @@ body:
   - type: dropdown
     id: server-platform-type
     attributes:
-      label: 操作系统版本
+      label: 操作系统
       description: |
         选择你正在使用的操作系统
       options:
@@ -106,7 +106,7 @@ body:
       description: |
         **"最新版" 不是版本号，请填写一个确切的版本号！**
       #如果你不太确定，可以截图 "" 的输出内容并截图，记得截全。
-      placeholder: '1.2.x'
+      placeholder: '2.0.0'
 
   #- type: textarea
   #  id: other-plugin
@@ -122,6 +122,6 @@ body:
     id: additional
     attributes:
       label: 补充信息
-      description: 如有必要，你可以在下文继续添加其他信息
+      description: 如有必要，你可以补充信息
     validations:
       required: false

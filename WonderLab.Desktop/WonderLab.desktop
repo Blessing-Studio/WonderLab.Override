@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=WonderLab
+Name=WonderLab-feature
 Type=Application
 Terminal=false
 Exec=/usr/bin/WonderLab.Override/start.sh

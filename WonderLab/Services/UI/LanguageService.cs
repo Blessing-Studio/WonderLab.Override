@@ -22,6 +22,7 @@ public sealed class LanguageService {
             1 => "zh-TW.axaml",
             2 => "en-US.axaml",
             3 => "ru-RU.axaml",
+            4 => "zh-lzh.axaml",
             _ => "zh-CN.axaml"
         };
 
