@@ -19,9 +19,9 @@
 				<ItemsControl>
 					<ui:SettingCardItem Description="{DynamicResource AppTheme}">
 						<ComboBox SelectedIndex="{Binding ThemeIndex}">
-							<ComboBoxItem Content="Light"/>
-							<ComboBoxItem Content="Dark"/>
-							<ComboBoxItem Content="Follow System"/>
+							<ComboBoxItem Content="{DynamicResource TLight}"/>
+							<ComboBoxItem Content="{DynamicResource TDark}"/>
+							<ComboBoxItem Content="{DynamicResource TAuto}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 
@@ -29,36 +29,36 @@
 						<ComboBox SelectedIndex="{Binding BackgroundIndex}">
 							<ComboBoxItem Content="Mica"/>
 							<ComboBoxItem Content="Acrylic"/>
-							<ComboBoxItem Content="Image"/>
+							<ComboBoxItem Content="{DynamicResource BImage}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="图片背景设置"
+			<ui:SettingCard Title="{DynamicResource BSImage}"
 							IsVisible="{Binding IsImage}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="更改图片：">
-						<Button Content="选择"
+					<ui:SettingCardItem Description="{DynamicResource ChangeImage}">
+						<Button Content="{DynamicResource Browse}"
 								Command="{Binding SearchCommand}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="背景视差效果：">
+					<ui:SettingCardItem Description="{DynamicResource BackgroundView}">
 						<ComboBox SelectedIndex="{Binding ParallaxMode}">
-							<ComboBoxItem Content="None"/>
-							<ComboBoxItem Content="Flat"/>
-							<ComboBoxItem Content="3D"/>
+							<ComboBoxItem Content="{DynamicResource None}"/>
+							<ComboBoxItem Content="{DynamicResource BFlat}"/>
+							<ComboBoxItem Content="{DynamicResource B3D}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 					
-					<ui:SettingCardItem Description="是否启用渐进式模糊：">
+					<ui:SettingCardItem Description="{DynamicResource IfGradualBlur}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsEnableBlur}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="图片模糊半径："
+					<ui:SettingCardItem Description="{DynamicResource ImageBlur}"
 										IsVisible="{Binding IsEnableBlur, Converter={StaticResource BooleanReverseConverter}}">
 						<Slider Width="250"
 								Maximum="64"
@@ -74,23 +74,24 @@
 						<ComboBoxItem Content="繁體中文"/>
 						<ComboBoxItem Content="English"/>
 						<ComboBoxItem Content="Русский язык"/>
+						<ComboBoxItem Content="文言華夏"/>
 					</ComboBox>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
-				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+			<ui:SettingCard Title="{DynamicResource DebugSettingsTitle}">
+				<ui:SettingCardItem Description="{DynamicResource DebugSettingsD}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
 								  Margin="0 0 -10 0"
 								  IsChecked="{Binding IsDebugMode}"
 								  Command="{Binding NotificationCommand}"
-								  CommandParameter="您更改了调试（Debug）选项，如要使功能生效请重启程序！"/>
+								  CommandParameter="{DynamicResource DebugSettingsI}"/>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
-				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+			<ui:SettingCard Title="{DynamicResource FontSettingsTitle}">
+				<ui:SettingCardItem Description="{DynamicResource ChooseFont}">
 					<ComboBox ItemsSource="{Binding Fonts}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>

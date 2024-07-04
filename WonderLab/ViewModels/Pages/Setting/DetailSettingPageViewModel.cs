@@ -59,7 +59,7 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
     [RelayCommand]
     private void Notification(string text) {
         _notificationService.QueueJob(new NotificationViewData {
-            Title = "пео╒",
+            Title = "{DynamicResource Info}",
             Content = text,
             NotificationType = NotificationType.Information
         });
