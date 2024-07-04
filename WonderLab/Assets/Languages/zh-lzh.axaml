@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+	<!--HomePage-->
+	<sys:String x:Key="Launch">戲</sys:String>
+	<sys:String x:Key="Unknown">未知</sys:String>
+	<sys:String x:Key="ExpandInterface">展</sys:String>
+	<sys:String x:Key="CollapseInterface">收</sys:String>
+	<sys:String x:Key="GameSearchBoxWatermark">欲尋本地裝設</sys:String>
+	
+	<!--MainWindow-->
+	<sys:String x:Key="Home">主頁</sys:String>
+	<sys:String x:Key="Online">衆戲</sys:String>
+	<sys:String x:Key="Setting">规設</sys:String>
+	<sys:String x:Key="Download">下傳</sys:String>
+
+	<!--SettingNavigationPage-->
+	<sys:String x:Key="About">有涉</sys:String>
+	<sys:String x:Key="Account">戶簿</sys:String>
+	
+	<!--Network-->
+	<sys:String x:Key="Network">網絡</sys:String>
+	<sys:String x:Key="SMirror">鏡像更定</sys:String>
+	<sys:String x:Key="Appearance">自定</sys:String>
+
+	<!--LaunchSettingPage-->
+	<sys:String x:Key="Browse">覽</sys:String>
+	<sys:String x:Key="Remove">刪</sys:String>
+	<sys:String x:Key="Search">尋</sys:String>
+	<sys:String x:Key="OpenNewJava">增爪哇之夾</sys:String>
+	<sys:String x:Key="SelectJava">擇爪哇</sys:String>
+	<sys:String x:Key="OpenNewFolder">立有戲之夾</sys:String>
+	<sys:String x:Key="SelectFolder">擇戲之檔案夾</sys:String>
+	<sys:String x:Key="JavaSettingTitle">爪哇更定</sys:String>
+	<sys:String x:Key="GameSettingTitle">戲之更定</sys:String>
+	<sys:String x:Key="FullScreenMode">壹覽無余</sys:String>
+	<sys:String x:Key="GameIndependent">版本隔离</sys:String>
+	<sys:String x:Key="RemoveJava">棄现之爪哇</sys:String>
+	<sys:String x:Key="AllocateMemory">戲之內存更定</sys:String>
+	<sys:String x:Key="RemoveFolder">棄现之檔案夾</sys:String>
+	<sys:String x:Key="AutoSelectJava">自選適之爪哇</sys:String>
+	<sys:String x:Key="FolderSettingTitle">戲之檔案夾更定</sys:String>
+	<sys:String x:Key="AutoAllocateMemory">自選適之內存</sys:String>
+
+	<!--DetailSettingPage-->
+	<!--Theme-->
+	<sys:String x:Key="AppTheme">擇其旨</sys:String>
+	<sys:String x:Key="TLight">明</sys:String>
+	<sys:String x:Key="TDark">暗</sys:String>
+	<sys:String x:Key="TAuto">自适</sys:String>
+	
+	<!--Language-->
+	<sys:String x:Key="AppLanguage">擇文</sys:String>
+	<sys:String x:Key="LanguageSettingTitle">文</sys:String>
+	
+	<!--Background-->
+	<sys:String x:Key="AppBackground">景之所樣</sys:String>
+	<sys:String x:Key="BImage">圖像</sys:String>
+	
+	<sys:String x:Key="AppearanceSettingTitle">視之所樣更定</sys:String>
+
+	<!--AboutPage-->
+	<sys:String x:Key="Developers">開發隊</sys:String>
+	<sys:String x:Key="Donate">賛助吾等</sys:String>
+	<sys:String x:Key="Version">版本</sys:String>
+	<sys:String x:Key="QualityControl">質量控製者</sys:String>
+	<sys:String x:Key="Designers">設計者</sys:String>
+	<sys:String x:Key="FrontEndDevelopers">前端開發者</sys:String>
+	<sys:String x:Key="BackEndDevelopers">後端開發者</sys:String>
+	<sys:String x:Key="Thanks">敢拜</sys:String>
+	<sys:String x:Key="ServerSupport">伺服器之支援</sys:String>
+	<sys:String x:Key="TechnicalSupport">术之支援</sys:String>
+</ResourceDictionary>
