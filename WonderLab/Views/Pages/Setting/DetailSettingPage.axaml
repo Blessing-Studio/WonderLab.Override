@@ -74,6 +74,7 @@
 						<ComboBoxItem Content="繁體中文"/>
 						<ComboBoxItem Content="English"/>
 						<ComboBoxItem Content="Русский язык"/>
+            <ComboBoxItem Content="日本語"/>
 						<ComboBoxItem Content="文言華夏"/>
 					</ComboBox>
 				</ui:SettingCardItem>

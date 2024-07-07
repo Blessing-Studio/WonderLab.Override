@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+  <!--HomePage-->
+  <sys:String x:Key="Launch">启动</sys:String>
+  <sys:String x:Key="Unknown">未知</sys:String>
+  <sys:String x:Key="ExpandInterface">展开界面</sys:String>
+  <sys:String x:Key="CollapseInterface">收起界面</sys:String>
+  <sys:String x:Key="GameSearchBoxWatermark">在此处查找您的本地游戏实例</sys:String>
+  <sys:String x:Key="Info">提示</sys:String>
+
+  <!--MainWindow-->
+  <sys:String x:Key="Home">主页</sys:String>
+  <sys:String x:Key="Online">联机</sys:String>
+  <sys:String x:Key="Setting">设置</sys:String>
+  <sys:String x:Key="Download">下载</sys:String>
+
+  <!--SettingNavigationPage-->
+  <sys:String x:Key="About">关于</sys:String>
+  <sys:String x:Key="Account">账户</sys:String>
+
+  <!--Netowork-->
+  <sys:String x:Key="Network">网络</sys:String>
+  <sys:String x:Key="SMirror">镜像源设置</sys:String>
+  <sys:String x:Key="IfMirror">是否使用镜像源</sys:String>
+  <sys:String x:Key="SDownload">下载设置</sys:String>
+  <sys:String x:Key="MaxDownloadT">最大下载线程数</sys:String>
+  <sys:String x:Key="BigFileT">大文件下载分片数</sys:String>
+
+  <sys:String x:Key="Appearance">个性化</sys:String>
+
+  <!--LaunchSettingPage-->
+  <sys:String x:Key="Browse">浏览</sys:String>
+  <sys:String x:Key="Remove">移除</sys:String>
+  <sys:String x:Key="Search">搜索</sys:String>
+  <sys:String x:Key="OpenNewJava">增加 Java 路径</sys:String>
+  <sys:String x:Key="SelectJava">选择 Java 路径</sys:String>
+  <sys:String x:Key="OpenNewFolder">增加目录</sys:String>
+  <sys:String x:Key="SelectFolder">选择目录</sys:String>
+  <sys:String x:Key="JavaSettingTitle">Java 设置</sys:String>
+  <sys:String x:Key="GameSettingTitle">游戏运行设置</sys:String>
+  <sys:String x:Key="FullScreenMode">全屏模式</sys:String>
+  <sys:String x:Key="GameIndependent">版本隔离</sys:String>
+  <sys:String x:Key="RemoveJava">移除当前 Java</sys:String>
+  <sys:String x:Key="AllocateMemory">游戏内存分配</sys:String>
+  <sys:String x:Key="RemoveFolder">移除当前目录：</sys:String>
+  <sys:String x:Key="AutoSelectJava">自动为游戏选择合适的 Java</sys:String>
+  <sys:String x:Key="FolderSettingTitle">Minecraft 目录设置</sys:String>
+  <sys:String x:Key="AutoAllocateMemory">自动为游戏分配合适的内存量</sys:String>
+
+  <!--DetailSettingPage-->
+  <!--Theme-->
+  <sys:String x:Key="AppTheme">切换主题</sys:String>
+  <sys:String x:Key="TLight">亮色</sys:String>
+  <sys:String x:Key="TDark">暗色</sys:String>
+  <sys:String x:Key="TAuto">跟随系统</sys:String>
+
+  <!--Language-->
+  <sys:String x:Key="AppLanguage">更改语言</sys:String>
+  <sys:String x:Key="LanguageSettingTitle">语言设置</sys:String>
+
+  <!--Background-->
+  <sys:String x:Key="AppBackground">背景渲染模式</sys:String>
+  <sys:String x:Key="BImage">图像</sys:String>
+  <sys:String x:Key="BSImage">背景图片设置</sys:String>
+  <sys:String x:Key="ChangeImage">更改图片</sys:String>
+  <sys:String x:Key="BackgroundView">背景视差效果</sys:String>
+  <sys:String x:Key="None">无</sys:String>
+  <sys:String x:Key="BFlat">平面</sys:String>
+  <sys:String x:Key="B3D">立体</sys:String>
+  <sys:String x:Key="IfGradualBlur">启用背景渐进式模糊</sys:String>
+  <sys:String x:Key="ImageBlur">图片模糊强度</sys:String>
+
+  <sys:String x:Key="AppearanceSettingTitle">外观设置</sys:String>
+
+  <!--Font-->
+  <sys:String x:Key="FontSettingsTitle">字体设置</sys:String>
+  <sys:String x:Key="ChooseFont">选择字体</sys:String>
+
+  <!--Debug-->
+  <sys:String x:Key="DebugSettingsTitle">调试模式设置</sys:String>
+  <sys:String x:Key="DebugSettingsD">启用调试（Debug）模式</sys:String>
+  <sys:String x:Key="DebugSettingsI">您更改了调试（Debug）选项，如要使功能生效请重启程序！</sys:String>
+
+  <!--AboutPage-->
+  <sys:String x:Key="Developers">开发团队</sys:String>
+  <sys:String x:Key="Donate">赞助我们</sys:String>
+  <sys:String x:Key="Version">版本</sys:String>
+  <sys:String x:Key="QualityControl">质量控制组</sys:String>
+  <sys:String x:Key="Designers">设计组</sys:String>
+  <sys:String x:Key="FrontEndDevelopers">前端开发组</sys:String>
+  <sys:String x:Key="BackEndDevelopers">后端开发组</sys:String>
+  <sys:String x:Key="Thanks">鸣谢</sys:String>
+  <sys:String x:Key="ServerSupport">服务器支持</sys:String>
+  <sys:String x:Key="TechnicalSupport">技术支持</sys:String>
+</ResourceDictionary>

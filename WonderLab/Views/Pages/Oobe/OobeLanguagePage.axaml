@@ -76,6 +76,8 @@
 				<ListBoxItem Content="繁體中文"/>
 				<ListBoxItem Content="English"/>
 				<ListBoxItem Content="Русский язык"/>
+        <ListBoxItem Content="日本語"/>
+        <ListBoxItem Content="文言華夏"/>
 			</ListBox>
 
 
