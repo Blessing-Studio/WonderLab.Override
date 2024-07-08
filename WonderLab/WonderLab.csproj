@@ -102,6 +102,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\refs\BlessingStudio.Wrap\src\BlessingStudio.Wrap\BlessingStudio.Wrap.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <AvaloniaXaml Update="Assets\Languages\ja-JP.axaml">
 	    <SubType>Designer</SubType>
 	  </AvaloniaXaml>

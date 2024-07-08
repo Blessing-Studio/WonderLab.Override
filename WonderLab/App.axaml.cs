@@ -1,51 +1,54 @@
-﻿using System;
-using Serilog;
-using Avalonia;
-using System.IO;
+﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Threading;
-using WonderLab.Services;
-using Avalonia.Markup.Xaml;
-using WonderLab.Views.Pages;
-using WonderLab.Services.UI;
-using System.Threading.Tasks;
-using WonderLab.Services.Game;
-using WonderLab.Views.Windows;
-using WonderLab.Views.Dialogs;
-using Avalonia.Platform.Storage;
-using WonderLab.Views.Pages.Oobe;
-using WonderLab.ViewModels.Pages;
-using Avalonia.Data.Core.Plugins;
-using WonderLab.Services.Download;
-using WonderLab.ViewModels.Dialogs;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
-using WonderLab.ViewModels.Windows;
-using WonderLab.Services.Auxiliary;
-using WonderLab.Classes.Interfaces;
-using WonderLab.Views.Pages.Setting;
-using WonderLab.Services.Navigation;
-using WonderLab.ViewModels.Pages.Oobe;
-using WonderLab.Views.Dialogs.Setting;
-using CommunityToolkit.Mvvm.Messaging;
-using WonderLab.Views.Pages.Navigation;
-using WonderLab.ViewModels.Pages.Setting;
-using MinecraftLaunch.Components.Fetcher;
-using WonderLab.ViewModels.Dialogs.Setting;
-using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
+using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MinecraftLaunch.Components.Fetcher;
+using Serilog;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using WonderLab.Classes.Interfaces;
+using WonderLab.Services;
+using WonderLab.Services.Auxiliary;
+using WonderLab.Services.Download;
+using WonderLab.Services.Game;
+using WonderLab.Services.Navigation;
+using WonderLab.Services.UI;
+using WonderLab.Services.Wrap;
+using WonderLab.ViewModels.Dialogs;
+using WonderLab.ViewModels.Dialogs.Setting;
+using WonderLab.ViewModels.Pages;
+using WonderLab.ViewModels.Pages.Navigation;
+using WonderLab.ViewModels.Pages.Oobe;
+using WonderLab.ViewModels.Pages.Setting;
+using WonderLab.ViewModels.Windows;
+using WonderLab.Views.Dialogs;
+using WonderLab.Views.Dialogs.Setting;
+using WonderLab.Views.Pages;
+using WonderLab.Views.Pages.Navigation;
+using WonderLab.Views.Pages.Oobe;
+using WonderLab.Views.Pages.Setting;
+using WonderLab.Views.Windows;
 
 namespace WonderLab;
 
-public sealed partial class App : Application {
+public sealed partial class App : Application
+{
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
     public static IStorageProvider StorageProvider { get; private set; }
 
-    public override void RegisterServices() {
+    public override void RegisterServices()
+    {
         base.RegisterServices();
 
         var bulider = CreateHostBuilder();
@@ -53,10 +56,12 @@ public sealed partial class App : Application {
         _host.Start();
     }
 
-    public override async void OnFrameworkInitializationCompleted() {
+    public override async void OnFrameworkInitializationCompleted()
+    {
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
             var isInitialize = ServiceProvider.GetRequiredService<SettingService>().IsInitialize;
 
             Window window = isInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
@@ -71,42 +76,47 @@ public sealed partial class App : Application {
 
         base.OnFrameworkInitializationCompleted();
 
-        T GetService<T>() {
+        T GetService<T>()
+        {
             return ServiceProvider.GetRequiredService<T>();
         }
     }
 
-    private static IHostBuilder CreateHostBuilder() {
+    private static IHostBuilder CreateHostBuilder()
+    {
         var builder = Host.CreateDefaultBuilder()
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
-            .ConfigureServices(services => {
+            .ConfigureServices(services =>
+            {
                 services.AddSingleton<JavaFetcher>();
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
             })
-            .ConfigureLogging(builder => {
+            .ConfigureLogging(builder =>
+            {
                 builder.ClearProviders();
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
                 .FromLogContext()
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
-                rollingInterval: RollingInterval.Day, 
+                rollingInterval: RollingInterval.Day,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
                 builder.AddSerilog(Log.Logger);
             });
-        
+
         return builder;
     }
 
-    private static void ConfigureView(IServiceCollection services) {
+    private static void ConfigureView(IServiceCollection services)
+    {
         ConfigureViewModel(services);
 
         //Pages
         services.AddTransient<HomePage>();
-        
+
         services.AddSingleton<OobeWelcomePage>();
         services.AddSingleton<OobeAccountPage>();
         services.AddSingleton<OobeLanguagePage>();
@@ -132,7 +142,8 @@ public sealed partial class App : Application {
         services.AddTransient<MicrosoftAuthenticateDialog>();
     }
 
-    private static void ConfigureServices(IServiceCollection services) {
+    private static void ConfigureServices(IServiceCollection services)
+    {
         services.AddTransient<GameService>();
 
         services.AddSingleton<TaskService>();
@@ -148,6 +159,8 @@ public sealed partial class App : Application {
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
+        services.AddSingleton<UPnPService>();
+        services.AddSingleton<WrapService>();
 
         services.AddHostedService<QueuedHostedService>();
         services.AddHostedService<SettingBackgroundService>();
@@ -160,8 +173,9 @@ public sealed partial class App : Application {
         //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
     }
-    
-    private static void ConfigureViewModel(IServiceCollection services) {
+
+    private static void ConfigureViewModel(IServiceCollection services)
+    {
         services.AddTransient<HomePageViewModel>();
 
         //Window
