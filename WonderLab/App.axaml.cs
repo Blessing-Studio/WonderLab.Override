@@ -40,10 +40,14 @@ using WonderLab.Views.Pages.Navigation;
 using WonderLab.Views.Pages.Oobe;
 using WonderLab.Views.Pages.Setting;
 using WonderLab.Views.Windows;
+using Microsoft.ApplicationInsights.Extensibility;
+using WonderLab.Classes;
 
 namespace WonderLab;
 
 public sealed partial class App : Application {
+    private const string CONNECTION_STRING = "InstrumentationKey=2fd6d1c2-c40c-4a49-87bf-6883f625a901;IngestionEndpoint=https://australiaeast-1.in.applicationinsights.azure.com/;LiveEndpoint=https://australiaeast.livediagnostics.monitor.azure.com/;ApplicationId=bb052d56-b930-4bcd-94dc-97fe2b6111f4";
+
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
@@ -72,9 +76,9 @@ public sealed partial class App : Application {
             await Task.Delay(TimeSpan.FromMilliseconds(50));
             window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
-#pragma warning disable VSTHRD101 // Avoid unsupported async delegates
-            desktop.Exit += async (sender, args) => await _host.StopAsync();
-#pragma warning restore VSTHRD101 // Avoid unsupported async delegates
+            desktop.Exit += async (sender, args) => {
+                await _host.StopAsync();
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -87,11 +91,13 @@ public sealed partial class App : Application {
 
     private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()
+            .ConfigureServices(ConfigureApplicationInsights)
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
             .ConfigureServices(services => {
                 services.AddSingleton<JavaFetcher>();
                 services.AddSingleton<WeakReferenceMessenger>();
+                services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
             })
             .ConfigureLogging(builder => {
@@ -99,6 +105,9 @@ public sealed partial class App : Application {
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
                 .FromLogContext()
+                .WriteTo.ApplicationInsights(new TelemetryConfiguration() {
+                    ConnectionString = CONNECTION_STRING
+                }, TelemetryConverter.Traces)
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
                 rollingInterval: RollingInterval.Day,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")
@@ -108,6 +117,12 @@ public sealed partial class App : Application {
             });
 
         return builder;
+    }
+
+    private static void ConfigureApplicationInsights(IServiceCollection services) {
+        services.AddApplicationInsightsTelemetryWorkerService(option => {
+            option.ConnectionString = CONNECTION_STRING;
+        });
     }
 
     private static void ConfigureView(IServiceCollection services) {

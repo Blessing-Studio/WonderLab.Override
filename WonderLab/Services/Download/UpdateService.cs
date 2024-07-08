@@ -11,9 +11,9 @@ public sealed class UpdateService {
     private const string BASE_API = "http://47.113.149.130:14514/api/update";
 
     private readonly ILogger<UpdateService> _logger;
-    private readonly Assembly _assembly = Assembly.GetExecutingAssembly();
+    private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
-    public string Version =>
+    public static string Version =>
         (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyFileVersionAttribute), false)
         as AssemblyFileVersionAttribute).Version;
 

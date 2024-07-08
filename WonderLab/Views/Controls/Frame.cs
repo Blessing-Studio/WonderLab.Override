@@ -8,4 +8,4 @@ namespace WonderLab.Views.Controls;
 /// <remarks>
 /// 将 <see cref="UserControl"/> 处理并显示出来
 /// </remarks>
-public sealed class Frame : ContentControl;
+public sealed class Frame : TransitioningContentControl;

@@ -43,12 +43,16 @@
 		
 		<PackageReference Include="DialogHost.Avalonia" Version="0.7.7" />
 		
-		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview03" />
+		<PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
+		
+		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview04" />
 		
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.2.24128.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.2.24128.5" />
 
 		<PackageReference Include="Serilog" Version="3.1.1" />
+
+		<PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.1-dev-00043" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 

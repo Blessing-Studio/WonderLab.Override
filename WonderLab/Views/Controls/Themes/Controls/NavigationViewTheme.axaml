@@ -39,7 +39,7 @@
 												Name="PART_LayoutTransformControl">
 							<Border Grid.Row="0"
 									CornerRadius="12"
-									Margin="10 5 10 15"
+									Margin="14 5 14 15"
 									BorderThickness="1"
 									Name="BackgroundPanel"
 									Background="{TemplateBinding Background}"

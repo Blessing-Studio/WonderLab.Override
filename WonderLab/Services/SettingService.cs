@@ -12,6 +12,7 @@ using WonderLab.Classes.Datas.MessageData;
 using Avalonia.Threading;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Microsoft.ApplicationInsights;
 
 namespace WonderLab.Services;
 
@@ -40,7 +41,9 @@ internal sealed class SettingBackgroundService : BackgroundService {
     private bool _isInitialize;
     private SettingData _settingData;
 
+    private readonly TelemetryClient _telemetryClient;
     private readonly ILogger<SettingBackgroundService> _logger;
+
     private readonly ThemeService _themeService;
     private readonly WindowService _windowService;
     private readonly LanguageService _languageService;
@@ -53,6 +56,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         Dispatcher dispatcher,
         ThemeService themeService,
         WindowService windowService,
+        TelemetryClient telemetryClient,
         LanguageService languageService,
         ILogger<SettingBackgroundService> logger,
         WeakReferenceMessenger weakReferenceMessenger) {
@@ -62,6 +66,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         _languageService = languageService;
 
         _dispatcher = dispatcher;
+        _telemetryClient = telemetryClient;
         _weakReferenceMessenger = weakReferenceMessenger;
 
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -70,6 +75,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
     }
 
     private void Save() {
+        _telemetryClient.Flush();
         var json = _settingData.Serialize(typeof(SettingData), new SettingDataContext(JsonConverterUtil.DefaultJsonOptions));
         File.WriteAllText(_settingDataFilePath.FullName, json);
     }
