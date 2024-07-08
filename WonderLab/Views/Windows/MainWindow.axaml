@@ -6,17 +6,26 @@
         x:Class="WonderLab.Views.Windows.MainWindow"
         xmlns:ui="using:WonderLab.Views.Controls"
 		xmlns:dha="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+		xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+		xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         x:DataType="vm:MainWindowViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="840"
         Height="540"
         Title="WonderLab"
+		Name="Window"
         Background="Transparent"
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="True"
 		Icon="/Assets/wonderlab.ico"
 		FontFamily="{StaticResource DefaultFontFamily}">
+	<i:Interaction.Behaviors>
+		<ia:EventTriggerBehavior EventName="Loaded" SourceObject="Window">
+			
+		</ia:EventTriggerBehavior>
+	</i:Interaction.Behaviors>
+	
 	<Panel>
 		<ExperimentalAcrylicBorder Name="AcrylicMaterial"
 								   IsHitTestVisible="False">

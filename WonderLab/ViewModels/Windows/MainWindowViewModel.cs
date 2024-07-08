@@ -54,7 +54,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         SettingService settingService,
         HostNavigationService navigationService,
         NotificationService notificationService) {
-        navigationService.NavigationRequest += async p => {
+        _taskService = taskService;
+        _navigationService = navigationService;
+        _notificationService = notificationService;
+
+        _navigationService.NavigationRequest += async p => {
             await Dispatcher.InvokeAsync(() => {
                 if (ActivePanelPage?.PageKey != p.PageKey) {
                     if (p.PageKey is "HomePage") {
@@ -66,10 +70,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                 }
             }, DispatcherPriority.ApplicationIdle);
         };
-
-        _taskService = taskService;
-        _navigationService = navigationService;
-        _notificationService = notificationService;
 
         _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
 

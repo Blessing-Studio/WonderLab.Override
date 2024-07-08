@@ -149,6 +149,7 @@ public sealed partial class App : Application
         services.AddSingleton<TaskService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
+        services.AddSingleton<UpdateService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<WindowService>();
         services.AddSingleton<SettingService>();
@@ -170,7 +171,6 @@ public sealed partial class App : Application
 
         services.AddSingleton((Func<IServiceProvider, IBackgroundNotificationQueue>)((IServiceProvider _)
             => new BackgroundNotificationQueue(200)));
-        //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
     }
 
