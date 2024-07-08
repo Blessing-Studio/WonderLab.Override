@@ -108,6 +108,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     private void NavigationTo(string pageKey) {
         IsOpenBackgroundPanel = pageKey switch {
             "HomePage" => false,
+            "MultiplayerPage" => true,
             "SettingNavigationPage" => true,
             "DownloadNavigationPage" => true,
             _ => false
@@ -116,6 +117,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         switch (pageKey) {
             case "HomePage":
                 _navigationService.NavigationTo<HomePageViewModel>();
+                break;
+            case "MultiplayerPage":
+                _navigationService.NavigationTo<MultiplayerPageViewModel>();
                 break;
             case "SettingNavigationPage":
                 _navigationService.NavigationTo<SettingNavigationPageViewModel>();

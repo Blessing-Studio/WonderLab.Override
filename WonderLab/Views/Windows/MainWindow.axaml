@@ -69,6 +69,8 @@
 
 					<ui:NavigationViewItem Icon="&#xF0B9;"
 										   Content="{DynamicResource Online}"
+										   CommandParameter="MultiplayerPage"
+										   Command="{Binding NavigationToCommand}"
 										   Foreground="{DynamicResource WarningBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF8B0;"

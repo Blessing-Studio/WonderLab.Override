@@ -5,16 +5,19 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+
 using CommunityToolkit.Mvvm.Messaging;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MinecraftLaunch.Components.Fetcher;
-using Serilog;
+
 using System;
+using Serilog;
 using System.IO;
 using System.Threading.Tasks;
-using WonderLab.Classes.Interfaces;
+
 using WonderLab.Services;
 using WonderLab.Services.Auxiliary;
 using WonderLab.Services.Download;
@@ -24,6 +27,7 @@ using WonderLab.Services.UI;
 using WonderLab.Services.Wrap;
 using WonderLab.ViewModels.Dialogs;
 using WonderLab.ViewModels.Dialogs.Setting;
+using WonderLab.Classes.Interfaces;
 using WonderLab.ViewModels.Pages;
 using WonderLab.ViewModels.Pages.Navigation;
 using WonderLab.ViewModels.Pages.Oobe;
@@ -39,16 +43,14 @@ using WonderLab.Views.Windows;
 
 namespace WonderLab;
 
-public sealed partial class App : Application
-{
+public sealed partial class App : Application {
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
     public static IStorageProvider StorageProvider { get; private set; }
 
-    public override void RegisterServices()
-    {
+    public override void RegisterServices() {
         base.RegisterServices();
 
         var bulider = CreateHostBuilder();
@@ -56,12 +58,11 @@ public sealed partial class App : Application
         _host.Start();
     }
 
-    public override async void OnFrameworkInitializationCompleted()
-    {
+#pragma warning disable VSTHRD100 // Avoid async void methods
+    public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             var isInitialize = ServiceProvider.GetRequiredService<SettingService>().IsInitialize;
 
             Window window = isInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
@@ -71,30 +72,29 @@ public sealed partial class App : Application
             await Task.Delay(TimeSpan.FromMilliseconds(50));
             window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
-            desktop.Exit += (sender, args) => _host.StopAsync();
+#pragma warning disable VSTHRD101 // Avoid unsupported async delegates
+            desktop.Exit += async (sender, args) => await _host.StopAsync();
+#pragma warning restore VSTHRD101 // Avoid unsupported async delegates
         }
 
         base.OnFrameworkInitializationCompleted();
 
-        T GetService<T>()
-        {
+        T GetService<T>() {
             return ServiceProvider.GetRequiredService<T>();
         }
     }
+#pragma warning restore VSTHRD100 // Avoid async void methods
 
-    private static IHostBuilder CreateHostBuilder()
-    {
+    private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
-            .ConfigureServices(services =>
-            {
+            .ConfigureServices(services => {
                 services.AddSingleton<JavaFetcher>();
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
             })
-            .ConfigureLogging(builder =>
-            {
+            .ConfigureLogging(builder => {
                 builder.ClearProviders();
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
@@ -110,12 +110,12 @@ public sealed partial class App : Application
         return builder;
     }
 
-    private static void ConfigureView(IServiceCollection services)
-    {
+    private static void ConfigureView(IServiceCollection services) {
         ConfigureViewModel(services);
 
         //Pages
         services.AddTransient<HomePage>();
+        services.AddSingleton<MultiplayerPage>();
 
         services.AddSingleton<OobeWelcomePage>();
         services.AddSingleton<OobeAccountPage>();
@@ -142,13 +142,14 @@ public sealed partial class App : Application
         services.AddTransient<MicrosoftAuthenticateDialog>();
     }
 
-    private static void ConfigureServices(IServiceCollection services)
-    {
+    private static void ConfigureServices(IServiceCollection services) {
         services.AddTransient<GameService>();
 
         services.AddSingleton<TaskService>();
+        services.AddSingleton<WrapService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
+        services.AddSingleton<UPnPService>();
         services.AddSingleton<UpdateService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<WindowService>();
@@ -160,8 +161,6 @@ public sealed partial class App : Application
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
-        services.AddSingleton<UPnPService>();
-        services.AddSingleton<WrapService>();
 
         services.AddHostedService<QueuedHostedService>();
         services.AddHostedService<SettingBackgroundService>();
@@ -174,9 +173,9 @@ public sealed partial class App : Application
         //services.AddScoped<TelemetryService>();
     }
 
-    private static void ConfigureViewModel(IServiceCollection services)
-    {
+    private static void ConfigureViewModel(IServiceCollection services) {
         services.AddTransient<HomePageViewModel>();
+        services.AddSingleton<MultiplayerPageViewModel>();
 
         //Window
         services.AddSingleton<MainWindowViewModel>();
