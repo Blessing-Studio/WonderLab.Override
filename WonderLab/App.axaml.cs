@@ -17,6 +17,7 @@ using System;
 using Serilog;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using WonderLab.Services;
 using WonderLab.Services.Auxiliary;
