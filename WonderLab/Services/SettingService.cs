@@ -24,7 +24,7 @@ namespace WonderLab.Services;
 public sealed class SettingService {
     public SettingData Data { get; private set; }
     public bool IsInitialize { get; private set; }
-
+    
     public SettingService(WeakReferenceMessenger weakReferenceMessenger) {
         weakReferenceMessenger.Register<SettingDataChangedMessage>(this, (_, args) => {
             Data = args.Data;
@@ -39,6 +39,7 @@ public sealed class SettingService {
 internal sealed class SettingBackgroundService : BackgroundService {
     private bool _isInitialize;
     private SettingData _settingData;
+
 
     private readonly ILogger<SettingBackgroundService> _logger;
     private readonly ThemeService _themeService;
@@ -78,7 +79,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         _logger.LogInformation("开始初始化设置数据服务");
 
         if (!_settingDataFilePath.Directory!.Exists) {
-            _settingDataFilePath.Directory.Create();
+            _settingDataFilePath.Directory.Create(); 
         }
 
         _isInitialize = !_settingDataFilePath.Exists;
@@ -90,7 +91,6 @@ internal sealed class SettingBackgroundService : BackgroundService {
                 _logger.LogError("Json 序列化时出现故障，开始重置设置");
                 _settingData = new();
                 Save();
-
                 _isInitialize = true;
             }
         } else {
@@ -103,10 +103,14 @@ internal sealed class SettingBackgroundService : BackgroundService {
         _weakReferenceMessenger.Send(new SettingDataChangedMessage(_settingData));
         _weakReferenceMessenger.Send(new IsDataInitializeChangedMessage(_isInitialize));
         _dispatcher.Post(ViewDataInitialize);
+        
     }
 
     private void ViewDataInitialize() {
         if (_isInitialize) {
+            _languageService.SetLanguage(0);
+            _themeService.SetCurrentTheme(3);
+            _windowService.SetBackground(0);
             return;
         }
 

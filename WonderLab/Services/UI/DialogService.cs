@@ -21,6 +21,7 @@ public sealed class DialogService {
         { nameof(OfflineAuthenticateDialog), App.ServiceProvider.GetRequiredService<OfflineAuthenticateDialog> },
         { nameof(YggdrasilAuthenticateDialog), App.ServiceProvider.GetRequiredService<YggdrasilAuthenticateDialog> },
         { nameof(MicrosoftAuthenticateDialog), App.ServiceProvider.GetRequiredService<MicrosoftAuthenticateDialog> },
+        { nameof(RecheckToOobeDialog), App.ServiceProvider.GetRequiredService<RecheckToOobeDialog> },
     };
 
     public bool IsDialogOpen => DialogHost.IsDialogOpen("dialogHost");

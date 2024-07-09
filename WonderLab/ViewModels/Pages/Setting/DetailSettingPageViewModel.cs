@@ -11,6 +11,8 @@ using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Classes.Enums;
 using WonderLab.Services;
 using WonderLab.Services.UI;
+using WonderLab.ViewModels.Dialogs.Setting;
+using WonderLab.Views.Dialogs.Setting;
 
 namespace WonderLab.ViewModels.Pages.Setting;
 
@@ -20,6 +22,7 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
     private readonly SettingService _settingService;
     private readonly LanguageService _languageService;
     private readonly NotificationService _notificationService;
+    private readonly DialogService _dialogService;
 
     [ObservableProperty] private bool _isImage = false;
     [ObservableProperty] private bool _isDebugMode = false;
@@ -38,12 +41,14 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
         WindowService windowService,
         SettingService settingService, 
         LanguageService languageService,
-        NotificationService notificationService) {
+        NotificationService notificationService,
+        DialogService dialogService) {
         _themeService = themeService;
         _windowService = windowService;
         _settingService = settingService;
         _languageService = languageService;
         _notificationService = notificationService;
+        _dialogService = dialogService;
 
         BlurRadius = _settingService.Data.BlurRadius;
         ThemeIndex = _settingService.Data.ThemeIndex;
@@ -71,6 +76,10 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
         _windowService.SetBackground(BackgroundIndex);
     }
 
+    [RelayCommand]
+    private void PressOobe() {
+        _dialogService.ShowContentDialog<RecheckToOobeDialogViewModel>();
+    }
     protected override void OnPropertyChanged(PropertyChangedEventArgs e) {
         base.OnPropertyChanged(e);
 

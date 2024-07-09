@@ -35,6 +35,8 @@ using WonderLab.ViewModels.Dialogs.Setting;
 using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
 using Microsoft.Extensions.DependencyInjection;
+using WonderLab.Classes.Datas;
+using System.Diagnostics;
 
 namespace WonderLab;
 
@@ -55,7 +57,7 @@ public sealed partial class App : Application {
 
     public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
-
+        Initialize();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             var isInitialize = ServiceProvider.GetRequiredService<SettingService>().IsInitialize;
 
@@ -130,6 +132,7 @@ public sealed partial class App : Application {
         services.AddTransient<OfflineAuthenticateDialog>();
         services.AddTransient<YggdrasilAuthenticateDialog>();
         services.AddTransient<MicrosoftAuthenticateDialog>();
+        services.AddTransient<RecheckToOobeDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
@@ -190,5 +193,14 @@ public sealed partial class App : Application {
         services.AddTransient<OfflineAuthenticateDialogViewModel>();
         services.AddTransient<YggdrasilAuthenticateDialogViewModel>();
         services.AddTransient<MicrosoftAuthenticateDialogViewModel>();
+        services.AddTransient<RecheckToOobeDialogViewModel>();
+    }
+    public void Restart() {
+        var startInfo = new ProcessStartInfo {
+            FileName = Process.GetCurrentProcess().MainModule.FileName,
+            UseShellExecute = true
+        };
+        Process.Start(startInfo);
+        Environment.Exit(0);
     }
 }

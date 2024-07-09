@@ -81,6 +81,7 @@
 			</ui:SettingCard>
 
 			<ui:SettingCard Title="{DynamicResource DebugSettingsTitle}">
+        <ItemsControl>
 				<ui:SettingCardItem Description="{DynamicResource DebugSettingsD}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
@@ -89,6 +90,12 @@
 								  Command="{Binding NotificationCommand}"
 								  CommandParameter="{DynamicResource DebugSettingsI}"/>
 				</ui:SettingCardItem>
+        <ui:SettingCardItem Description="{DynamicResource PressOOBE}">
+					<Button Command="{Binding PressOobeCommand}"
+                  Content="{DynamicResource ToOOBE}"
+                  IsEnabled="{Binding IsDebugMode}"/>
+        </ui:SettingCardItem>
+        </ItemsControl>
 			</ui:SettingCard>
 
 			<ui:SettingCard Title="{DynamicResource FontSettingsTitle}">
@@ -104,6 +111,7 @@
 					</ComboBox>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
+      
 		</ItemsControl>
 	</ui:SmoothScrollViewer>
 </UserControl>
