@@ -20,19 +20,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: "Setup Dotnet"
@@ -51,19 +51,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: "Setup Dotnet"
@@ -90,19 +90,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
@@ -130,19 +130,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install InnoSetup
@@ -181,19 +181,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install pupnet
@@ -232,19 +232,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
@@ -272,19 +272,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
@@ -312,19 +312,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Build
@@ -352,19 +352,19 @@ jobs:
     - name: Checkout BlessingStudio.Warp repo
       uses: actions/checkout@v3
       with:
-        repository: Blessing-Studio/BlessingStudio.Wrap
+        repository: Blessing-Studio/BlessingStudio.Wrap@master
         path: refs/BlessingStudio.Warp
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout NatTypeTester repo
       uses: actions/checkout@v3
       with:
-        repository: HMBSbige/NatTypeTester
+        repository: HMBSbige/NatTypeTester@master
         path: refs/BlessingStudio.Warp/refs/NatTypeTester
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Checkout ConsoleInteractive repo
       uses: actions/checkout@v3
       with:
-        repository: breadbyte/ConsoleInteractive
+        repository: breadbyte/ConsoleInteractive@main
         path: refs/BlessingStudio.Warp/refs/ConsoleInteractive
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Get version
