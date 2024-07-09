@@ -64,7 +64,7 @@
 			</ListBox>
 		</Border>
 
-		<ContentControl Margin="36 0"
+		<controls:Frame Margin="36 0"
 						Grid.Column="1"
                         Content="{Binding ActivePage.Page}"/>
 	</Grid>

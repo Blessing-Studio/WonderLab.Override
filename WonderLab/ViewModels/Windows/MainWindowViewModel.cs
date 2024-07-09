@@ -54,7 +54,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         SettingService settingService,
         HostNavigationService navigationService,
         NotificationService notificationService) {
-        navigationService.NavigationRequest += async p => {
+        _taskService = taskService;
+        _navigationService = navigationService;
+        _notificationService = notificationService;
+
+        _navigationService.NavigationRequest += async p => {
             await Dispatcher.InvokeAsync(() => {
                 if (ActivePanelPage?.PageKey != p.PageKey) {
                     if (p.PageKey is "HomePage") {
@@ -66,10 +70,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                 }
             }, DispatcherPriority.ApplicationIdle);
         };
-
-        _taskService = taskService;
-        _navigationService = navigationService;
-        _notificationService = notificationService;
 
         _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
 
@@ -108,6 +108,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     private void NavigationTo(string pageKey) {
         IsOpenBackgroundPanel = pageKey switch {
             "HomePage" => false,
+            "MultiplayerPage" => true,
             "SettingNavigationPage" => true,
             "DownloadNavigationPage" => true,
             _ => false
@@ -116,6 +117,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         switch (pageKey) {
             case "HomePage":
                 _navigationService.NavigationTo<HomePageViewModel>();
+                break;
+            case "MultiplayerPage":
+                _navigationService.NavigationTo<MultiplayerPageViewModel>();
                 break;
             case "SettingNavigationPage":
                 _navigationService.NavigationTo<SettingNavigationPageViewModel>();

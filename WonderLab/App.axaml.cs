@@ -1,46 +1,53 @@
-﻿using System;
-using Serilog;
-using Avalonia;
-using System.IO;
+﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Threading;
-using WonderLab.Services;
-using Avalonia.Markup.Xaml;
-using WonderLab.Views.Pages;
-using WonderLab.Services.UI;
-using System.Threading.Tasks;
-using WonderLab.Services.Game;
-using WonderLab.Views.Windows;
-using WonderLab.Views.Dialogs;
-using Avalonia.Platform.Storage;
-using WonderLab.Views.Pages.Oobe;
-using WonderLab.ViewModels.Pages;
-using Avalonia.Data.Core.Plugins;
-using WonderLab.Services.Download;
-using WonderLab.ViewModels.Dialogs;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
-using WonderLab.ViewModels.Windows;
-using WonderLab.Services.Auxiliary;
-using WonderLab.Classes.Interfaces;
-using WonderLab.Views.Pages.Setting;
-using WonderLab.Services.Navigation;
-using WonderLab.ViewModels.Pages.Oobe;
-using WonderLab.Views.Dialogs.Setting;
-using CommunityToolkit.Mvvm.Messaging;
-using WonderLab.Views.Pages.Navigation;
-using WonderLab.ViewModels.Pages.Setting;
-using MinecraftLaunch.Components.Fetcher;
-using WonderLab.ViewModels.Dialogs.Setting;
-using WonderLab.ViewModels.Pages.Navigation;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
+using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+
+using CommunityToolkit.Mvvm.Messaging;
+
 using Microsoft.Extensions.DependencyInjection;
-using WonderLab.Classes.Datas;
-using System.Diagnostics;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using MinecraftLaunch.Components.Fetcher;
+
+using System;
+using Serilog;
+using System.IO;
+using System.Threading.Tasks;
+
+using WonderLab.Services;
+using WonderLab.Services.Auxiliary;
+using WonderLab.Services.Download;
+using WonderLab.Services.Game;
+using WonderLab.Services.Navigation;
+using WonderLab.Services.UI;
+using WonderLab.Services.Wrap;
+using WonderLab.ViewModels.Dialogs;
+using WonderLab.ViewModels.Dialogs.Setting;
+using WonderLab.Classes.Interfaces;
+using WonderLab.ViewModels.Pages;
+using WonderLab.ViewModels.Pages.Navigation;
+using WonderLab.ViewModels.Pages.Oobe;
+using WonderLab.ViewModels.Pages.Setting;
+using WonderLab.ViewModels.Windows;
+using WonderLab.Views.Dialogs;
+using WonderLab.Views.Dialogs.Setting;
+using WonderLab.Views.Pages;
+using WonderLab.Views.Pages.Navigation;
+using WonderLab.Views.Pages.Oobe;
+using WonderLab.Views.Pages.Setting;
+using WonderLab.Views.Windows;
+using Microsoft.ApplicationInsights.Extensibility;
+using WonderLab.Classes;
 
 namespace WonderLab;
 
 public sealed partial class App : Application {
+    private const string CONNECTION_STRING = "InstrumentationKey=2fd6d1c2-c40c-4a49-87bf-6883f625a901;IngestionEndpoint=https://australiaeast-1.in.applicationinsights.azure.com/;LiveEndpoint=https://australiaeast.livediagnostics.monitor.azure.com/;ApplicationId=bb052d56-b930-4bcd-94dc-97fe2b6111f4";
+
     private static IHost _host = default!;
 
     public static IServiceProvider ServiceProvider => _host.Services;
@@ -55,6 +62,7 @@ public sealed partial class App : Application {
         _host.Start();
     }
 
+#pragma warning disable VSTHRD100 // Avoid async void methods
     public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
         Initialize();
@@ -68,7 +76,9 @@ public sealed partial class App : Application {
             await Task.Delay(TimeSpan.FromMilliseconds(50));
             window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
-            desktop.Exit += (sender, args) => _host.StopAsync();
+            desktop.Exit += async (sender, args) => {
+                await _host.StopAsync();
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -77,14 +87,17 @@ public sealed partial class App : Application {
             return ServiceProvider.GetRequiredService<T>();
         }
     }
+#pragma warning restore VSTHRD100 // Avoid async void methods
 
     private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()
+            .ConfigureServices(ConfigureApplicationInsights)
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
             .ConfigureServices(services => {
                 services.AddSingleton<JavaFetcher>();
                 services.AddSingleton<WeakReferenceMessenger>();
+                services.AddSingleton<ITelemetryInitializer, TelemetryInitializer>();
                 services.AddSingleton(_ => Dispatcher.UIThread);
             })
             .ConfigureLogging(builder => {
@@ -92,15 +105,24 @@ public sealed partial class App : Application {
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
                 .FromLogContext()
+                .WriteTo.ApplicationInsights(new TelemetryConfiguration() {
+                    ConnectionString = CONNECTION_STRING
+                }, TelemetryConverter.Traces)
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
-                rollingInterval: RollingInterval.Day, 
+                rollingInterval: RollingInterval.Day,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
                 builder.AddSerilog(Log.Logger);
             });
-        
+
         return builder;
+    }
+
+    private static void ConfigureApplicationInsights(IServiceCollection services) {
+        services.AddApplicationInsightsTelemetryWorkerService(option => {
+            option.ConnectionString = CONNECTION_STRING;
+        });
     }
 
     private static void ConfigureView(IServiceCollection services) {
@@ -108,7 +130,8 @@ public sealed partial class App : Application {
 
         //Pages
         services.AddTransient<HomePage>();
-        
+        services.AddSingleton<MultiplayerPage>();
+
         services.AddSingleton<OobeWelcomePage>();
         services.AddSingleton<OobeAccountPage>();
         services.AddSingleton<OobeLanguagePage>();
@@ -139,8 +162,11 @@ public sealed partial class App : Application {
         services.AddTransient<GameService>();
 
         services.AddSingleton<TaskService>();
+        services.AddSingleton<WrapService>();
         services.AddSingleton<SkinService>();
         services.AddSingleton<ThemeService>();
+        services.AddSingleton<UPnPService>();
+        services.AddSingleton<UpdateService>();
         services.AddSingleton<DialogService>();
         services.AddSingleton<WindowService>();
         services.AddSingleton<SettingService>();
@@ -160,12 +186,12 @@ public sealed partial class App : Application {
 
         services.AddSingleton((Func<IServiceProvider, IBackgroundNotificationQueue>)((IServiceProvider _)
             => new BackgroundNotificationQueue(200)));
-        //services.AddScoped<UpdateService>();
         //services.AddScoped<TelemetryService>();
     }
-    
+
     private static void ConfigureViewModel(IServiceCollection services) {
         services.AddTransient<HomePageViewModel>();
+        services.AddSingleton<MultiplayerPageViewModel>();
 
         //Window
         services.AddSingleton<MainWindowViewModel>();

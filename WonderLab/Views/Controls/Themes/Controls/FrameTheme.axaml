@@ -7,7 +7,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <ControlTemplate>
-                <ContentControl Content="{TemplateBinding Content}"
+				<TransitioningContentControl Content="{TemplateBinding Content}"
                                 Padding="{TemplateBinding Padding}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -17,7 +17,15 @@
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}">
+					<TransitioningContentControl.PageTransition>
+						<CompositePageTransition>
+							<CrossFade Duration="0:0:0.35"
+									   FadeInEasing="ExponentialEaseIn"
+									   FadeOutEasing="ExponentialEaseOut"/>
+						</CompositePageTransition>	
+					</TransitioningContentControl.PageTransition>
+				</TransitioningContentControl>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

@@ -19,6 +19,8 @@ public sealed record SettingData {
     [JsonPropertyName("backgroundIndex")] public int BackgroundIndex { get; set; } = 0;
     [JsonPropertyName("multiThreadsCount")] public int MultiThreadsCount { get; set; } = 0;
 
+    [JsonPropertyName("clientToken")] public string ClientToken { get; set; }
+
     [JsonPropertyName("imagePath")] public string ImagePath { get; set; }
     [JsonPropertyName("testUserUuid")] public string TestUserUuid { get; set; }
     [JsonPropertyName("activeGameId")] public string ActiveGameId { get; set; }
