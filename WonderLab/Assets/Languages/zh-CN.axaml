@@ -94,4 +94,12 @@
 	<sys:String x:Key="Thanks">鸣谢</sys:String>
 	<sys:String x:Key="ServerSupport">服务器支持</sys:String>
 	<sys:String x:Key="TechnicalSupport">技术支持</sys:String>
+
+	<!--Oobe-->
+	<sys:String x:Key="Welcome">欢迎</sys:String>
+	<sys:String x:Key="Language">语言</sys:String>
+	<sys:String x:Key="Style">个性化</sys:String>
+	<sys:String x:Key="Start">开始吧！</sys:String>
+	<sys:String x:Key="Next">下一步</sys:String>
+	<sys:String x:Key="Sorry">对不起，但是我们目前没有完成此功能</sys:String>
 </ResourceDictionary>

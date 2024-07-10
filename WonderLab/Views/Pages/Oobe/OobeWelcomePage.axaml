@@ -40,7 +40,7 @@
 			
 			<Button Grid.Row="4"
 					CornerRadius="8"
-					Content="开始吧"
+					Content="{DynamicResource Start}"
 					Padding="30 10"
 					Classes="launchbutton"
 					HorizontalAlignment="Right"

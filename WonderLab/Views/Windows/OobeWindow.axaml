@@ -26,19 +26,19 @@
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
-										   Content="欢迎"
+										   Content="{DynamicResource Welcome}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF2B7;"
-										   Content="语言"
+										   Content="{DynamicResource Language}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE716;"
-										   Content="账户"
+										   Content="{DynamicResource Account}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE790;"
-										   Content="个性化"
+										   Content="{DynamicResource Style}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 				</ui:NavigationView.Items>
 			</ui:NavigationView>

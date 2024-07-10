@@ -35,7 +35,7 @@ public sealed class SettingService {
     private static bool GetIsInitialized() {
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         FileInfo path = new(Path.Combine(documentsPath, "Blessing-Studio", "wonderlab", "settingData.json"));
-        return path.Exists;
+        return !path.Exists;
     }
 }
 
