@@ -53,7 +53,6 @@ public sealed partial class App : Application {
 
     public static IServiceProvider ServiceProvider => _host.Services;
 
-    public static IStorageProvider StorageProvider { get; private set; }
 
     public override void RegisterServices() {
         base.RegisterServices();
@@ -65,16 +64,11 @@ public sealed partial class App : Application {
 
     public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
-        Initialize();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-
             Window window = SettingService.IsInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
-            StorageProvider = window.StorageProvider;
             desktop.MainWindow = window;
 
-            await Task.Delay(TimeSpan.FromMilliseconds(50));
             window.DataContext = SettingService.IsInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
-
             desktop.Exit += async (sender, args) => await _host.StopAsync();
         }
 

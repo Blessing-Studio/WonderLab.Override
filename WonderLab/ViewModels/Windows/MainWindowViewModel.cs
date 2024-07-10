@@ -19,6 +19,8 @@ using WonderLab.Classes.Enums;
 namespace WonderLab.ViewModels.Windows;
 
 public sealed partial class MainWindowViewModel : ViewModelBase {
+    private readonly SettingService _settingService;
+    private readonly DialogService _dialogService;
     private readonly TaskService _taskService;
     private readonly INavigationService _navigationService;
     private readonly NotificationService _notificationService;
@@ -48,6 +50,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         HostNavigationService navigationService,
         NotificationService notificationService) {
         _taskService = taskService;
+        _dialogService = dialogService;
+        _settingService = settingService;
         _navigationService = navigationService;
         _notificationService = notificationService;
 
@@ -63,29 +67,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                 }
             }, DispatcherPriority.ApplicationIdle);
         };
-
-        _taskService.QueueJob(new InitTask(settingService, dialogService, notificationService));
-
-        Time = DateTime.Now.ToString("t");
-        Year = DateTime.Now.ToString("d");
-
-        _timer.Elapsed += (_, args) => {
-            Time = args.SignalTime.ToString("t");
-            Year = args.SignalTime.ToString("d");
-        };
-
-        Tasks = new(_taskService.TaskJobs);
-        Notifications = new(_notificationService.Notifications);
-
-        ParallaxMode = settingService.Data.ParallaxMode switch {
-            0 => ParallaxMode.None,
-            1 => ParallaxMode.Flat,
-            2 => ParallaxMode.Solid,
-            _ => ParallaxMode.None,
-        };
-
-        _navigationService.NavigationTo<HomePageViewModel>();
-        _timer.Start();
 
         WeakReferenceMessenger.Default.Register<BlurEnableMessage>(this, BlurEnableValueHandle);
         WeakReferenceMessenger.Default.Register<BlurRadiusChangeMessage>(this, BlurRadiusChangeHandle);
@@ -141,5 +122,30 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
             2 => ParallaxMode.Solid,
             _ => ParallaxMode.None
         };
+    }
+
+    public void OnLoaded() {
+        _taskService.QueueJob(new InitTask(_settingService, _dialogService, _notificationService));
+
+        Time = DateTime.Now.ToString("t");
+        Year = DateTime.Now.ToString("d");
+
+        _timer.Elapsed += (_, args) => {
+            Time = args.SignalTime.ToString("t");
+            Year = args.SignalTime.ToString("d");
+        };
+
+        Tasks = new(_taskService.TaskJobs);
+        Notifications = new(_notificationService.Notifications);
+
+        ParallaxMode = _settingService.Data.ParallaxMode switch {
+            0 => ParallaxMode.None,
+            1 => ParallaxMode.Flat,
+            2 => ParallaxMode.Solid,
+            _ => ParallaxMode.None,
+        };
+
+        _navigationService.NavigationTo<HomePageViewModel>();
+        _timer.Start();
     }
 }

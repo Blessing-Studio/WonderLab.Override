@@ -48,6 +48,8 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void Launch() {
-        _taskService.QueueJob(new LaunchTask(_gameService, _settingService, _notificationService));
+        var launchTask = new LaunchTask(_gameService, _settingService, _notificationService);
+        //launchTask.WaitForRunAsync();
+        _taskService.QueueJob(launchTask);
     }
 }
