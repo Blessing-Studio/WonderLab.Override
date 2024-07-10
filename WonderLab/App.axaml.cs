@@ -63,23 +63,19 @@ public sealed partial class App : Application {
         _host.Start();
     }
 
-#pragma warning disable VSTHRD100 // Avoid async void methods
     public override async void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
         Initialize();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-            var isInitialize = ServiceProvider.GetRequiredService<SettingService>().IsInitialize;
 
-            Window window = isInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
+            Window window = SettingService.IsInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
             StorageProvider = window.StorageProvider;
             desktop.MainWindow = window;
 
             await Task.Delay(TimeSpan.FromMilliseconds(50));
-            window.DataContext = isInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
+            window.DataContext = SettingService.IsInitialize ? GetService<OobeWindowViewModel>() : GetService<MainWindowViewModel>();
 
-            desktop.Exit += async (sender, args) => {
-                await _host.StopAsync();
-            };
+            desktop.Exit += async (sender, args) => await _host.StopAsync();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -88,7 +84,6 @@ public sealed partial class App : Application {
             return ServiceProvider.GetRequiredService<T>();
         }
     }
-#pragma warning restore VSTHRD100 // Avoid async void methods
 
     private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()

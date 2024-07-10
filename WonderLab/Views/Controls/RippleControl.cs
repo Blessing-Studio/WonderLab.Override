@@ -77,8 +77,9 @@ public sealed class RippleControl : ContentControl {
 
     private void OnReleaseHandler(Ripple r) {
         r.RunSecondStep();
-        Task.Delay(Ripple.Duration).ContinueWith(RemoveRippleTask, TaskScheduler
+        _ = Task.Delay(Ripple.Duration).ContinueWith(RemoveRippleTask, TaskScheduler
             .FromCurrentSynchronizationContext());
+
         return;
 
         void RemoveRippleTask(Task arg1) {

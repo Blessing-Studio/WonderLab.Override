@@ -38,7 +38,7 @@ public sealed class WindowService {
         _logger = logger;
         _settingService = settingService;
 
-        _mainWindow = _settingService.IsInitialize
+        _mainWindow = SettingService.IsInitialize
             ? App.ServiceProvider.GetService<OobeWindow>()
             : App.ServiceProvider.GetService<MainWindow>();
 
@@ -63,6 +63,10 @@ public sealed class WindowService {
 
     public async void SetBackground(int type) {
         var main = _mainWindow as MainWindow;
+        if (main is null) {
+            return;
+        }
+
         main.Background = Brushes.Transparent;
         main.AcrylicMaterial.IsVisible = false;
         main.imageBox.IsVisible = false;

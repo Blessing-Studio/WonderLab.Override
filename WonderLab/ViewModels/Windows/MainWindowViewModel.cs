@@ -1,6 +1,4 @@
-﻿using Avalonia.Platform;
-using Avalonia.Threading;
-using MinecraftLaunch.Utilities;
+﻿using Avalonia.Threading;
 using WonderLab.ViewModels.Pages;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.Classes.Interfaces;
@@ -9,19 +7,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.ViewModels.Pages.Navigation;
 using WonderLab.Classes.Datas;
 using System.Collections.ObjectModel;
-using WonderLab.Classes.Datas.ViewData;
-using System.Linq;
 using WonderLab.Services;
 using WonderLab.Classes.Datas.TaskData;
 using System;
 using System.Timers;
 using WonderLab.Services.UI;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Threading.Tasks;
 using WonderLab.Classes.Datas.MessageData;
 using WonderLab.Classes.Enums;
-using System.Diagnostics;
-using Avalonia;
 
 namespace WonderLab.ViewModels.Windows;
 
