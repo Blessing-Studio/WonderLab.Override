@@ -16,7 +16,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Classes.Datas.MessageData;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
-public sealed partial class MicrosoftAuthenticateDialogViewModel : ViewModelBase {
+public sealed partial class MicrosoftAuthenticateDialogViewModel : DialogViewModelBase {
     private readonly WindowService _windowService;
     private readonly DialogService _dialogService;
     private readonly AccountService _accountService;

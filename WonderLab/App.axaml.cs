@@ -3,21 +3,19 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.ApplicationInsights.Extensibility;
 using MinecraftLaunch.Components.Fetcher;
 
 using System;
 using Serilog;
 using System.IO;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 using WonderLab.Services;
 using WonderLab.Services.Auxiliary;
@@ -41,8 +39,9 @@ using WonderLab.Views.Pages.Navigation;
 using WonderLab.Views.Pages.Oobe;
 using WonderLab.Views.Pages.Setting;
 using WonderLab.Views.Windows;
-using Microsoft.ApplicationInsights.Extensibility;
 using WonderLab.Classes;
+using WonderLab.Views.Dialogs.Multiplayer;
+using WonderLab.ViewModels.Dialogs.Multiplayer;
 
 namespace WonderLab;
 
@@ -50,9 +49,7 @@ public sealed partial class App : Application {
     private const string CONNECTION_STRING = "InstrumentationKey=2fd6d1c2-c40c-4a49-87bf-6883f625a901;IngestionEndpoint=https://australiaeast-1.in.applicationinsights.azure.com/;LiveEndpoint=https://australiaeast.livediagnostics.monitor.azure.com/;ApplicationId=bb052d56-b930-4bcd-94dc-97fe2b6111f4";
 
     private static IHost _host = default!;
-
     public static IServiceProvider ServiceProvider => _host.Services;
-
 
     public override void RegisterServices() {
         base.RegisterServices();
@@ -112,6 +109,7 @@ public sealed partial class App : Application {
     private static void ConfigureApplicationInsights(IServiceCollection services) {
         services.AddApplicationInsightsTelemetryWorkerService(option => {
             option.ConnectionString = CONNECTION_STRING;
+            option.EnableDebugLogger = false;
         });
     }
 
@@ -141,11 +139,14 @@ public sealed partial class App : Application {
 
         //Dialog
         services.AddTransient<TestUserCheckDialog>();
+        services.AddTransient<RecheckToOobeDialog>();
+        services.AddTransient<JoinMutilplayerDialog>();
+        services.AddTransient<CreateMutilplayerDialog>();
         services.AddTransient<ChooseAccountTypeDialog>();
         services.AddTransient<OfflineAuthenticateDialog>();
         services.AddTransient<YggdrasilAuthenticateDialog>();
         services.AddTransient<MicrosoftAuthenticateDialog>();
-        services.AddTransient<RecheckToOobeDialog>();
+        services.AddTransient<JoinMutilplayerRequestDialog>();
     }
 
     private static void ConfigureServices(IServiceCollection services) {
@@ -205,10 +206,13 @@ public sealed partial class App : Application {
 
         //Dialog
         services.AddTransient<TestUserCheckDialogViewModel>();
+        services.AddTransient<RecheckToOobeDialogViewModel>();
+        services.AddTransient<JoinMutilplayerDialogViewModel>();
+        services.AddTransient<CreateMutilplayerDialogViewModel>();
         services.AddTransient<ChooseAccountTypeDialogViewModel>();
         services.AddTransient<OfflineAuthenticateDialogViewModel>();
         services.AddTransient<YggdrasilAuthenticateDialogViewModel>();
         services.AddTransient<MicrosoftAuthenticateDialogViewModel>();
-        services.AddTransient<RecheckToOobeDialogViewModel>();
+        services.AddTransient<JoinMutilplayerRequestDialogViewModel>();
     }
 }

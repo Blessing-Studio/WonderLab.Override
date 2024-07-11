@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Multiplayer"
+			 x:DataType="vm:JoinMutilplayerRequestDialogViewModel"
+			 x:Class="WonderLab.Views.Dialogs.Multiplayer.JoinMutilplayerRequestDialog">
+	<ui:DialogContentPanel Title="有新的请求"
+						   PrimaryButtonContent="批准"
+						   IsCloseButtonVisible="True"
+						   IsPrimaryButtonVisible="True"
+						   PrimaryButtonCommand="{Binding AllowCommand}">
+		<ui:DialogContentPanel.Content>
+			<Grid>
+				<TextBlock TextWrapping="WrapWithOverflow"
+						   Text="有一个新的请求试图加入你的连接，请问是否准许？"/>
+			</Grid>
+		</ui:DialogContentPanel.Content>
+	</ui:DialogContentPanel>
+</UserControl>

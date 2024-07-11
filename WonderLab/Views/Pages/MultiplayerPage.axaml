@@ -3,6 +3,73 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="using:WonderLab.Views.Controls"
+			 xmlns:vm="using:WonderLab.ViewModels.Pages"
+			 x:DataType="vm:MultiplayerPageViewModel"
              x:Class="WonderLab.MultiplayerPage">
-	
+	<ui:SmoothScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+		<ItemsControl Margin="36 24 36 16">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Spacing="24"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ui:SettingCard Title="网络信息">
+				<ItemsControl>
+					<ui:SettingCardItem Description="是否支持 UPNP">
+						<Panel>
+							<HyperlinkButton Content="{Binding IsSupportUPnP}"
+											 IsVisible="{Binding IsUPnPLoading, Converter={StaticResource BooleanReverseConverter}}"/>
+							
+							<ui:ProgressRing Width="25"
+											 Height="25"
+											 BorderThickness="2.5"
+											 IsIndeterminate="True"
+											 Background="Transparent"
+											 IsVisible="{Binding IsUPnPLoading}"
+											 Foreground="{DynamicResource WarningBaseColor}"/>
+						</Panel>
+					</ui:SettingCardItem>
+
+					<ui:SettingCardItem Description="当前网络（NAT）环境">
+						<Panel>
+							<HyperlinkButton Content="{Binding NatType}"
+											 IsVisible="{Binding IsNatTypeLoading, Converter={StaticResource BooleanReverseConverter}}"/>
+
+							<ui:ProgressRing Width="25"
+											 Height="25"
+											 BorderThickness="2.5"
+											 IsIndeterminate="True"
+											 Background="Transparent"
+											 IsVisible="{Binding IsNatTypeLoading}"
+											 Foreground="{DynamicResource WarningBaseColor}"/>
+						</Panel>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+
+			<ui:SettingCard Title="操作">
+				<ui:SettingCardItem Description="连接">
+					<StackPanel Spacing="8"
+								Orientation="Horizontal">
+						<Button Content="创建房间"
+								Command="{Binding CreateCommand}"/>
+						
+						<Button Content="加入房间"
+								Command="{Binding JoinCommand}"/>
+					</StackPanel>
+				</ui:SettingCardItem>
+			</ui:SettingCard>
+
+			<ui:SettingCard Title="房间管理">
+				<ItemsControl>
+					<ui:SettingCardItem Description="你的用户令牌">
+						<Button Content="复制"
+								Command="{Binding CopyTokenCommand}"/>
+					</ui:SettingCardItem>
+				</ItemsControl>
+			</ui:SettingCard>
+		</ItemsControl>
+	</ui:SmoothScrollViewer>
 </UserControl>

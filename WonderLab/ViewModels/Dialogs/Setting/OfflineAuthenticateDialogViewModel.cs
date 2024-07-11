@@ -12,7 +12,7 @@ using WonderLab.Classes.Datas.MessageData;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
-public sealed partial class OfflineAuthenticateDialogViewModel : ViewModelBase {
+public sealed partial class OfflineAuthenticateDialogViewModel : DialogViewModelBase {
     private readonly DialogService _dialogService;
     private readonly SettingService _settingService;
     private readonly AccountService _accountService;

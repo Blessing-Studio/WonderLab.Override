@@ -48,7 +48,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         DialogService dialogService,
         SettingService settingService,
         HostNavigationService navigationService,
-        NotificationService notificationService) {
+        NotificationService notificationService,
+        Dispatcher dispatcher) {
         _taskService = taskService;
         _dialogService = dialogService;
         _settingService = settingService;
@@ -56,7 +57,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         _notificationService = notificationService;
 
         _navigationService.NavigationRequest += async p => {
-            await Dispatcher.InvokeAsync(() => {
+            await dispatcher.InvokeAsync(async () => {
                 if (ActivePanelPage?.PageKey != p.PageKey) {
                     if (p.PageKey is "HomePage") {
                         ActivePage = p.Page;
@@ -65,7 +66,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
                         ActivePanelPage = p;
                     }
                 }
-            }, DispatcherPriority.ApplicationIdle);
+            }, DispatcherPriority.Background);
         };
 
         WeakReferenceMessenger.Default.Register<BlurEnableMessage>(this, BlurEnableValueHandle);

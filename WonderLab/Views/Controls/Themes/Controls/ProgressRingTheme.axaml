@@ -4,17 +4,17 @@
 	<Design.PreviewWith>
 		<StackPanel>
 			<Border Padding="20">
-				<control:ProgressRing IsIndeterminate="True" StartAngle="90" EndAngle="270" Value="50" Foreground="Red" BorderThickness="5" Width="100" Height="100"></control:ProgressRing>
+				<control:ProgressRing StartAngle="90" EndAngle="270" Value="50" Foreground="Red" BorderThickness="2" Width="16" Height="16"></control:ProgressRing>
 			</Border>
 			<Border Padding="20">
-				<control:ProgressRing IsIndeterminate="True" BorderThickness="10" Width="100" Height="100"></control:ProgressRing>
+				<control:ProgressRing IsIndeterminate="True" BorderThickness="1" Width="10" Height="10"></control:ProgressRing>
 			</Border>
 		</StackPanel>
 	</Design.PreviewWith>
 
 	<ControlTheme TargetType="control:ProgressRing" x:Key="{x:Type control:ProgressRing}">
-		<Setter Property="MinWidth" Value="16" />
-		<Setter Property="MinHeight" Value="16" />
+		<Setter Property="MinWidth" Value="12" />
+		<Setter Property="MinHeight" Value="12" />
 		<Setter Property="BorderThickness" Value="9" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryBrush500}"/>
 		<Setter Property="Background" Value="{DynamicResource SystemControlBackgroundBaseLowBrush}"/>
@@ -23,9 +23,13 @@
 			<ControlTemplate>
 				<Panel x:Name="FluentRingRoot">
 					<Ellipse x:Name="Track"
+							 Width="{TemplateBinding Width}"
+							 Height="{TemplateBinding Height}"
 							 Stroke="{TemplateBinding Background}"
 							 StrokeThickness="{ReflectionBinding BorderThickness.Left, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 					<Arc x:Name="Fill"
+						 Width="{TemplateBinding Width}"
+						 Height="{TemplateBinding Height}"
 						 Stroke="{TemplateBinding Foreground}"
 						 StrokeThickness="{ReflectionBinding BorderThickness.Left, RelativeSource={RelativeSource Mode=TemplatedParent}}"
 						 StrokeLineCap="Round" />

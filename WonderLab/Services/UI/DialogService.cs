@@ -10,26 +10,35 @@ using System.Collections.Generic;
 using WonderLab.Views.Dialogs.Setting;
 using Microsoft.Extensions.DependencyInjection;
 using WonderLab.Views.Dialogs;
+using WonderLab.ViewModels.Dialogs.Multiplayer;
+using WonderLab.Views.Dialogs.Multiplayer;
+using Avalonia.Threading;
+using Waher.Events;
 
 namespace WonderLab.Services.UI;
 
 public sealed class DialogService {
+    private readonly Dispatcher _dispatcher;
     private readonly WindowService _windowService;
     private readonly Dictionary<string, Func<object>> _dialogs = new() {
         { nameof(TestUserCheckDialog), App.ServiceProvider.GetRequiredService<TestUserCheckDialog> },
+        { nameof(RecheckToOobeDialog), App.ServiceProvider.GetRequiredService<RecheckToOobeDialog> },
+        { nameof(JoinMutilplayerDialog), App.ServiceProvider.GetRequiredService<JoinMutilplayerDialog> },
         { nameof(ChooseAccountTypeDialog), App.ServiceProvider.GetRequiredService<ChooseAccountTypeDialog> },
+        { nameof(CreateMutilplayerDialog), App.ServiceProvider.GetRequiredService<CreateMutilplayerDialog> },
         { nameof(OfflineAuthenticateDialog), App.ServiceProvider.GetRequiredService<OfflineAuthenticateDialog> },
         { nameof(YggdrasilAuthenticateDialog), App.ServiceProvider.GetRequiredService<YggdrasilAuthenticateDialog> },
         { nameof(MicrosoftAuthenticateDialog), App.ServiceProvider.GetRequiredService<MicrosoftAuthenticateDialog> },
-        { nameof(RecheckToOobeDialog), App.ServiceProvider.GetRequiredService<RecheckToOobeDialog> },
+        { nameof(JoinMutilplayerRequestDialog) , App.ServiceProvider.GetRequiredService <JoinMutilplayerRequestDialog> },
     };
 
     public bool IsDialogOpen => DialogHost.IsDialogOpen("dialogHost");
 
-    public DialogService(WindowService windowService) {
+    public DialogService(WindowService windowService, Dispatcher dispatcher) {
+        _dispatcher = dispatcher;
         _windowService = windowService;
     }
-    
+
     public async ValueTask<FileInfo> OpenFilePickerAsync(IEnumerable<FilePickerFileType> filters, string title) {
         var result = await _windowService.GetStorageProvider().OpenFilePickerAsync(new() {
             AllowMultiple = false,
@@ -70,7 +79,7 @@ public sealed class DialogService {
         return new(result.Path.LocalPath);
     }
 
-    public async void ShowContentDialog<TViewModel>() where TViewModel : ViewModelBase {
+    public async void ShowContentDialog<TViewModel>() where TViewModel : DialogViewModelBase {
         if (DialogHost.IsDialogOpen("dialogHost")) {
             return;
         }
@@ -78,13 +87,31 @@ public sealed class DialogService {
         var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
 
         if (_dialogs.TryGetValue(viewName, out var contentFunc)) {
-            var pageObject = contentFunc() as UserControl;
-            pageObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
-            await DialogHost.Show(pageObject, "dialogHost");
+            var dialogObject = contentFunc() as UserControl;
+            dialogObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
+            await DialogHost.Show(dialogObject, "dialogHost");
+        }
+    }
+
+    public async void ShowContentDialog<TViewModel>(object parameter) where TViewModel : DialogViewModelBase {
+        if (DialogHost.IsDialogOpen("dialogHost")) {
+            return;
+        }
+
+        var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
+
+        if (_dialogs.TryGetValue(viewName, out var contentFunc)) {
+            _dispatcher.Post(async () => {
+                var dialogObject = contentFunc() as UserControl;
+                dialogObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
+                (dialogObject.DataContext as DialogViewModelBase).Initialize(parameter);
+
+                await DialogHost.Show(dialogObject, "dialogHost");
+            });
         }
     }
 
     public void CloseContentDialog() {
-        DialogHost.Close("dialogHost");
+        _dispatcher.Invoke(() => DialogHost.Close("dialogHost"));
     }
 }

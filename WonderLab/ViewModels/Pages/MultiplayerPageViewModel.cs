@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Threading;
-using System.Net.Sockets;
+using STUN.Enums;
 using BlessingStudio.Wrap;
 using Waher.Networking.UPnP;
+using WonderLab.Services.UI;
 using System.Threading.Tasks;
 using WonderLab.Services.Wrap;
-using System.Collections.Generic;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using BlessingStudio.Wrap.Client.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
+using WonderLab.ViewModels.Dialogs.Multiplayer;
 
 using UPnPService = WonderLab.Services.Wrap.UPnPService;
-using Waher.Script.Constants;
+using WonderLab.Services;
+using Avalonia.Controls.Notifications;
+using WonderLab.Classes.Datas.ViewData;
+using Avalonia.Threading;
 
 namespace WonderLab.ViewModels.Pages;
 
@@ -19,30 +24,66 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
     private const string UPNP_WANPPP_SERVICE = "urn:schemas-upnp-org:service:WANPPPConnection:1";
 
     private UPnP _uPnP;
+    private string _userToken;
 
     private readonly TimeSpan _timeOutSpan;
 
     private readonly WrapService _wrapService;
     private readonly UPnPService _upnPService;
+    private readonly DialogService _dialogService;
+    private readonly WindowService _windowService;
+    private readonly NotificationService _notificationService;
     private readonly ILogger<MultiplayerPageViewModel> _logger;
 
-    [ObservableProperty] private bool _isuPnPLoading;
+    [ObservableProperty] private NatType _natType;
+    [ObservableProperty] private bool _isSupportUPnP;
+    [ObservableProperty] private bool _isUPnPLoading;
+    [ObservableProperty] private bool _isNatTypeLoading;
 
     public MultiplayerPageViewModel(
-        WrapService wrapService, 
+        WrapService wrapService,
         UPnPService uPnPService,
+        DialogService dialogService,
+        WindowService windowService,
+        NotificationService notificationService,
         ILogger<MultiplayerPageViewModel> logger) {
         _logger = logger;
         _wrapService = wrapService;
         _upnPService = uPnPService;
+        _windowService = windowService;
+        _dialogService = dialogService;
+        _notificationService = notificationService;
 
-        IsuPnPLoading = true;
+        IsUPnPLoading = true;
+        IsNatTypeLoading = true;
 
         _timeOutSpan = TimeSpan.FromSeconds(30);
+
         _ = InitializeAsync();
     }
 
+    [RelayCommand]
+    private void Create() {
+        _dialogService.ShowContentDialog<CreateMutilplayerDialogViewModel>();
+    }
+
+    [RelayCommand]
+    private void Join() {
+        _dialogService.ShowContentDialog<JoinMutilplayerDialogViewModel>();
+    }
+
+    [RelayCommand]
+    private void CopyToken() {
+        _windowService.CopyText(_userToken);
+    }
+
     private async ValueTask InitializeAsync() {
+        _wrapService.NewRequest += OnNewRequest;
+        _wrapService.ReconnectPeer += OnReconnectPeer;
+        _wrapService.ConnectFailed += OnConnectFailed;
+        _wrapService.RequestInvalidated += OnRequestInvalidated;
+        _wrapService.LoginedSuccessfully += OnLoginedSuccessfully;
+
         await Task.Run(async () => {
             try {
                 _upnPService.Init();
@@ -53,7 +94,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
                     await Task.Delay(5);
                 }
 
-                IsuPnPLoading = false;
+                IsUPnPLoading = false;
                 foreach (UPnPDevice uPnPDevice in _upnPService.UPnPDeviceLocations) {
                     if (uPnPDevice != null) {
                         Waher.Networking.UPnP.UPnPService natService = uPnPDevice.GetService(UPNP_WANIP_SRVICE);
@@ -68,11 +109,58 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
                 }
 
                 _logger.LogInformation("开始查找 NAT 类型，是否支持 uPnP：{IsSupportUPnP}", _uPnP is not null);
-                var natType = await _upnPService.GetNatTypeAsync(_uPnP);
-                _logger.LogInformation("NAT 类型为：{Type}", natType);
+
+                IsSupportUPnP = _uPnP is not null;
+                NatType = await _upnPService.GetNatTypeAsync(_uPnP);
+                IsNatTypeLoading = false;
+
+                _logger.LogInformation("NAT 类型为：{Type}", NatType);
             } catch (Exception ex) {
                 _logger.LogError(ex, "查找 uPnP 设备或 NAT 类型时出现了错误");
+                NatType = NatType.Unknown;
+            } finally {
+                _wrapService.Init();
+                _wrapService.Connect(_wrapService.ServerIP);
+                _wrapService.Start();
             }
         });
+    }
+
+    private void OnConnectFailed(object sender, ConnectPeerFailedEvent e) {
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "错误",
+            Content = $"与 {e.UserToken} 连接失败",
+            NotificationType = NotificationType.Error
+        });
+    }
+
+    private void OnReconnectPeer(object sender, ReconnectPeerEvent e) {
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "信息",
+            Content = $"开始与 {e.UserToken} 反向打洞",
+            NotificationType = NotificationType.Information
+        });
+    }
+
+    private void OnRequestInvalidated(object sender, RequestInvalidatedEvent e) {
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "警告",
+            Content = $"给 {e.Requester} 发出的请求已失效",
+            NotificationType = NotificationType.Warning
+        });
+    }
+
+    private void OnNewRequest(object sender, NewRequestEvent e) {
+        _dialogService.ShowContentDialog<JoinMutilplayerRequestDialogViewModel>(e.RequestInfo);
+    }
+
+    private void OnLoginedSuccessfully(object sender, LoginedSuccessfullyEvent e) {
+        _notificationService.QueueJob(new NotificationViewData {
+            Title = "成功",
+            Content = $"已成功与打洞服务器建立连接，您的用户令牌为：{e.UserToken}",
+            NotificationType = NotificationType.Success
+        });
+
+        _userToken = e.UserToken;
     }
 }

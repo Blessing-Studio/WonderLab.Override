@@ -9,7 +9,7 @@ using WonderLab.Classes.Datas.ViewData;
 
 namespace WonderLab.ViewModels.Dialogs;
 
-public sealed partial class TestUserCheckDialogViewModel : ViewModelBase {
+public sealed partial class TestUserCheckDialogViewModel : DialogViewModelBase {
     private readonly DialogService _dialogService;
     private readonly WindowService _windowService;
     private readonly SettingService _settingService;

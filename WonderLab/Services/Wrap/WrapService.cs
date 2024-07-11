@@ -95,6 +95,10 @@ public sealed class WrapService : IWrapClient {
         ServerIP = Dns.GetHostAddresses(SERVER_HOST).First();
 
         // 注册各种事件处理器
+        Client.NewRequest += e => {
+            NewRequest(this, e);
+        };
+
         Client.ExpectedDisconnect += e => {
             ExpectedDisconnect(this, e);
         };

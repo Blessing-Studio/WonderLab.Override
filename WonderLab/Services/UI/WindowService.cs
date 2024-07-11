@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using WonderLab.Views;
 using System.Xml.Serialization;
+using WonderLab.Services.Wrap;
 
 namespace WonderLab.Services.UI;
 
@@ -27,6 +28,8 @@ public sealed class WindowService {
     private Action<PointerEventArgs> _pointerExitedAction;
 
     private static Window _mainWindow;
+
+    private readonly WrapService _wrapService;
     private readonly SettingService _settingService;
     private readonly ILogger<WindowService> _logger;
 
@@ -34,8 +37,9 @@ public sealed class WindowService {
     public double ActualWidth => _mainWindow.Bounds.Width;
     public double ActualHeight => _mainWindow.Bounds.Height;
 
-    public WindowService(SettingService settingService, ILogger<WindowService> logger) {
+    public WindowService(SettingService settingService, WrapService wrapService, ILogger<WindowService> logger) {
         _logger = logger;
+        _wrapService = wrapService;
         _settingService = settingService;
 
         _mainWindow = SettingService.IsInitialize
@@ -54,7 +58,11 @@ public sealed class WindowService {
     }
 
     public void Close() {
-        _mainWindow.Close();            
+        if (_wrapService.Client is { IsConnected:true }) {
+            _wrapService.Close();
+        }
+
+        _mainWindow.Close();
     }
 
     public async void CopyText(string text) {

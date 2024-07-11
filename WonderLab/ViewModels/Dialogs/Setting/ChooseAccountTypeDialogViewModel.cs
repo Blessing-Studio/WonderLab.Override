@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
-public sealed partial class ChooseAccountTypeDialogViewModel : ViewModelBase {
+public sealed partial class ChooseAccountTypeDialogViewModel : DialogViewModelBase {
     private readonly DialogService _dialogService;
 
     public ChooseAccountTypeDialogViewModel(DialogService dialogService) {

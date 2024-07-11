@@ -15,7 +15,7 @@ using MinecraftLaunch.Components.Authenticator;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
-public sealed partial class YggdrasilAuthenticateDialogViewModel : ViewModelBase {
+public sealed partial class YggdrasilAuthenticateDialogViewModel : DialogViewModelBase {
     private readonly DialogService _dialogService;
     private readonly SettingService _settingService;
     private readonly AccountService _accountService;
