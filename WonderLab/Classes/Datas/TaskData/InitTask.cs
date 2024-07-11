@@ -51,7 +51,7 @@ public sealed class InitTask : TaskBase {
 
         try {
             var result = await "http://47.113.149.130:14514/api/user".WithHeaders(new Dictionary<string, string>() {
-                { "x-api-key", _apiKey },
+                { "x-api-key", APIKEY },
                 { "x-user-uuid", _settingService.Data.TestUserUuid },
             }).GetJsonAsync<KeyValuePair<string, string>>();
 
