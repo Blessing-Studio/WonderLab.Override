@@ -49,7 +49,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
                 _upnPService.Search();
                 _logger.LogInformation("开始查找 UPnP 设备");
                 var now = DateTime.Now;
-                while ((DateTime.Now - now) < _timeOutSpan && _upnPService.UPnPDeviceLocations.IsEmpty) {
+                while ((DateTime.Now - now) < _timeOutSpan && _upnPService.UPnPDeviceLocations.Count is 0) {
                     await Task.Delay(5);
                 }
 

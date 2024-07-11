@@ -96,7 +96,7 @@ public sealed partial class App : Application {
                 .Enrich
                 .FromLogContext()
                 .WriteTo.ApplicationInsights(new TelemetryConfiguration() {
-                    ConnectionString = CONNECTION_STRING
+                    ConnectionString = CONNECTION_STRING,
                 }, TelemetryConverter.Traces)
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
                 rollingInterval: RollingInterval.Day,
@@ -210,13 +210,5 @@ public sealed partial class App : Application {
         services.AddTransient<YggdrasilAuthenticateDialogViewModel>();
         services.AddTransient<MicrosoftAuthenticateDialogViewModel>();
         services.AddTransient<RecheckToOobeDialogViewModel>();
-    }
-    public void Restart() {
-        var startInfo = new ProcessStartInfo {
-            FileName = Process.GetCurrentProcess().MainModule.FileName,
-            UseShellExecute = true
-        };
-        Process.Start(startInfo);
-        Environment.Exit(0);
     }
 }
