@@ -22,8 +22,8 @@
 							<HyperlinkButton Content="{Binding IsSupportUPnP}"
 											 IsVisible="{Binding IsUPnPLoading, Converter={StaticResource BooleanReverseConverter}}"/>
 
-							<ui:ProgressRing Width="25"
-											 Height="25"
+							<ui:ProgressRing Width="20"
+											 Height="20"
 											 BorderThickness="2.5"
 											 IsIndeterminate="True"
 											 Background="Transparent"
@@ -37,11 +37,13 @@
 							<HyperlinkButton Content="{Binding NatType}"
 											 IsVisible="{Binding IsNatTypeLoading, Converter={StaticResource BooleanReverseConverter}}"/>
 
-							<ui:ProgressRing Width="25"
-											 Height="25"
+							<ui:ProgressRing Width="20"
+											 Height="20"
 											 BorderThickness="2.5"
 											 IsIndeterminate="True"
 											 Background="Transparent"
+											 VerticalAlignment="Center"
+											 HorizontalAlignment="Center"
 											 IsVisible="{Binding IsNatTypeLoading}"
 											 Foreground="{DynamicResource WarningBaseColor}"/>
 						</Panel>
@@ -53,7 +55,7 @@
 				<ui:SettingCardItem Description="连接">
 					<StackPanel Spacing="8"
 								Orientation="Horizontal">
-						<Button Content="创建房间"
+						<Button Content="创建房间" IsVisible="False"
 								Command="{Binding CreateCommand}"/>
 
 						<Button Content="加入房间"
