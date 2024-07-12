@@ -21,7 +21,7 @@
 						<Panel>
 							<HyperlinkButton Content="{Binding IsSupportUPnP}"
 											 IsVisible="{Binding IsUPnPLoading, Converter={StaticResource BooleanReverseConverter}}"/>
-							
+
 							<ui:ProgressRing Width="25"
 											 Height="25"
 											 BorderThickness="2.5"
@@ -55,7 +55,7 @@
 								Orientation="Horizontal">
 						<Button Content="创建房间"
 								Command="{Binding CreateCommand}"/>
-						
+
 						<Button Content="加入房间"
 								Command="{Binding JoinCommand}"/>
 					</StackPanel>
@@ -63,12 +63,23 @@
 			</ui:SettingCard>
 
 			<ui:SettingCard Title="房间管理">
-				<ItemsControl>
-					<ui:SettingCardItem Description="你的用户令牌">
-						<Button Content="复制"
-								Command="{Binding CopyTokenCommand}"/>
-					</ui:SettingCardItem>
-				</ItemsControl>
+				<StackPanel>
+					<ItemsControl>
+						<ui:SettingCardItem Description="你的用户令牌">
+							<StackPanel Spacing="8"
+								Orientation="Horizontal">
+								<TextBlock Text="{Binding UserToken}" Margin="0 6"></TextBlock>
+								<Button Content="复制"
+										Command="{Binding CopyTokenCommand}"/>
+							</StackPanel>
+						</ui:SettingCardItem>
+					</ItemsControl>
+					<ItemsControl>
+						<ui:SettingCardItem Description="你的Minecraft端口">
+							<TextBox Text="{Binding MinecraftPort}"></TextBox>
+						</ui:SettingCardItem>
+					</ItemsControl>
+				</StackPanel>
 			</ui:SettingCard>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>

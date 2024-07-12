@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using STUN.Enums;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Waher.Networking.UPnP;
 using WonderLab.Classes.Datas.ViewData;
@@ -23,7 +24,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
     private const string UPNP_WANPPP_SERVICE = "urn:schemas-upnp-org:service:WANPPPConnection:1";
 
     private UPnP _uPnP;
-    private string _userToken;
+    
 
     private readonly TimeSpan _timeOutSpan;
 
@@ -38,6 +39,8 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
     [ObservableProperty] private bool _isSupportUPnP;
     [ObservableProperty] private bool _isUPnPLoading;
     [ObservableProperty] private bool _isNatTypeLoading;
+    [ObservableProperty] private string _userToken;
+    [ObservableProperty] private string _minecraftPort;
 
     public MultiplayerPageViewModel(
         WrapService wrapService,
@@ -59,6 +62,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
 
         _timeOutSpan = TimeSpan.FromSeconds(30);
 
+        MinecraftPort = "25565";
         _ = InitializeAsync();
     }
 
@@ -77,7 +81,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
     [RelayCommand]
     private void CopyToken()
     {
-        _windowService.CopyText(_userToken);
+        _windowService.CopyText(UserToken);
     }
 
     private async ValueTask InitializeAsync()
@@ -87,6 +91,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
         _wrapService.ConnectFailed += OnConnectFailed;
         _wrapService.RequestInvalidated += OnRequestInvalidated;
         _wrapService.LoginedSuccessfully += OnLoginedSuccessfully;
+        _wrapService.ConnectPeerSuccessfully += OnConnectPeerSuccessfully;
 
         await Task.Run(async () =>
         {
@@ -143,6 +148,16 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
         });
     }
 
+    private void OnConnectPeerSuccessfully(object sender, ConnectPeerSuccessfullyEvent e)
+    {
+        _notificationService.QueueJob(new NotificationViewData
+        {
+            Title = "错误",
+            Content = $"与 {e.UserToken} 连接成功 映射端口为 {e.Port}",
+            NotificationType = NotificationType.Information
+        });
+    }
+
     private void OnConnectFailed(object sender, ConnectPeerFailedEvent e)
     {
         _notificationService.QueueJob(new NotificationViewData
@@ -186,7 +201,6 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
             Content = $"已成功与打洞服务器建立连接，您的用户令牌为：{e.UserToken}",
             NotificationType = NotificationType.Success
         });
-
-        _userToken = e.UserToken;
+        UserToken = e.UserToken;
     }
 }
