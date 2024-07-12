@@ -63,24 +63,20 @@
 			</ui:SettingCard>
 
 			<ui:SettingCard Title="房间管理">
-				<StackPanel>
-					<ItemsControl>
-						<ui:SettingCardItem Description="你的用户令牌">
-							<StackPanel Spacing="8"
-								Orientation="Horizontal">
-								<TextBlock Text="{Binding UserToken}" Margin="0 6"></TextBlock>
-								<Button Content="复制"
-										Command="{Binding CopyTokenCommand}"/>
-							</StackPanel>
-						</ui:SettingCardItem>
-					</ItemsControl>
-					<ItemsControl>
-						<ui:SettingCardItem Description="你的Minecraft端口">
-							<TextBox Text="{Binding MinecraftPort}"></TextBox>
-						</ui:SettingCardItem>
-					</ItemsControl>
-				</StackPanel>
+				<ItemsControl>
+					<ui:SettingCardItem Description="你的用户令牌">
+						<StackPanel Spacing="8"
+									Orientation="Horizontal">
+							<HyperlinkButton Content="{Binding UserToken}"
+											 Command="{Binding CopyTokenCommand}"/>
+						</StackPanel>
+					</ui:SettingCardItem>
+				</ItemsControl>
 			</ui:SettingCard>
 		</ItemsControl>
 	</ui:SmoothScrollViewer>
 </UserControl>
+
+<!--<ui:SettingCardItem Description="你的Minecraft端口">
+	<TextBox Text="{Binding MinecraftPort}"></TextBox>
+</ui:SettingCardItem>-->
