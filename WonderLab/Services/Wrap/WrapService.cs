@@ -100,31 +100,38 @@ public sealed class WrapService : IWrapClient {
         };
 
         Client.ExpectedDisconnect += e => {
-            ExpectedDisconnect(this, e);
+            if (ExpectedDisconnect!= null)
+                ExpectedDisconnect(this, e);
         };
 
         Client.UnexpectedDisconnect += e => {
-            UnexpectedDisconnect(this, e);
+            if (UnexpectedDisconnect != null)
+                UnexpectedDisconnect(this, e);
         };
 
         Client.ConnectPeerSuccessfully += e => {
-            ConnectPeerSuccessfully(this, e);
+            if (ConnectPeerSuccessfully != null)
+                ConnectPeerSuccessfully(this, e);
         };
 
         Client.RequestInvalidated += e => {
-            RequestInvalidated(this, e);
+            if (RequestInvalidated != null)
+                RequestInvalidated(this, e);
         };
 
         Client.ReconnectPeer += e => {
-            ReconnectPeer(this, e);
+            if (ReconnectPeer != null)
+                ReconnectPeer(this, e);
         };
 
         Client.ConnectFailed += e => {
-            ConnectFailed(this, e);
+            if (ConnectFailed != null)
+                ConnectFailed(this, e);
         };
 
         Client.LoginedSuccessfully += e => {
-            LoginedSuccessfully(this, e);
+            if (LoginedSuccessfully != null)
+                LoginedSuccessfully(this, e);
         };
     }
 
