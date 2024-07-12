@@ -1,25 +1,24 @@
-﻿using System;
-using STUN.Enums;
+﻿using Avalonia.Controls.Notifications;
 using BlessingStudio.Wrap;
-using Waher.Networking.UPnP;
-using WonderLab.Services.UI;
-using System.Threading.Tasks;
-using WonderLab.Services.Wrap;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Logging;
 using BlessingStudio.Wrap.Client.Events;
 using CommunityToolkit.Mvvm.ComponentModel;
-using WonderLab.ViewModels.Dialogs.Multiplayer;
-
-using UPnPService = WonderLab.Services.Wrap.UPnPService;
-using WonderLab.Services;
-using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
+using STUN.Enums;
+using System;
+using System.Threading.Tasks;
+using Waher.Networking.UPnP;
 using WonderLab.Classes.Datas.ViewData;
-using Avalonia.Threading;
+using WonderLab.Services;
+using WonderLab.Services.UI;
+using WonderLab.Services.Wrap;
+using WonderLab.ViewModels.Dialogs.Multiplayer;
+using UPnPService = WonderLab.Services.Wrap.UPnPService;
 
 namespace WonderLab.ViewModels.Pages;
 
-public sealed partial class MultiplayerPageViewModel : ViewModelBase {
+public sealed partial class MultiplayerPageViewModel : ViewModelBase
+{
     private const string UPNP_WANIP_SRVICE = "urn:schemas-upnp-org:service:WANIPConnection:1";
     private const string UPNP_WANPPP_SERVICE = "urn:schemas-upnp-org:service:WANPPPConnection:1";
 
@@ -46,7 +45,8 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
         DialogService dialogService,
         WindowService windowService,
         NotificationService notificationService,
-        ILogger<MultiplayerPageViewModel> logger) {
+        ILogger<MultiplayerPageViewModel> logger)
+    {
         _logger = logger;
         _wrapService = wrapService;
         _upnPService = uPnPService;
@@ -63,44 +63,54 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
     }
 
     [RelayCommand]
-    private void Create() {
+    private void Create()
+    {
         _dialogService.ShowContentDialog<CreateMutilplayerDialogViewModel>();
     }
 
     [RelayCommand]
-    private void Join() {
+    private void Join()
+    {
         _dialogService.ShowContentDialog<JoinMutilplayerDialogViewModel>();
     }
 
     [RelayCommand]
-    private void CopyToken() {
+    private void CopyToken()
+    {
         _windowService.CopyText(_userToken);
     }
 
-    private async ValueTask InitializeAsync() {
+    private async ValueTask InitializeAsync()
+    {
         _wrapService.NewRequest += OnNewRequest;
         _wrapService.ReconnectPeer += OnReconnectPeer;
         _wrapService.ConnectFailed += OnConnectFailed;
         _wrapService.RequestInvalidated += OnRequestInvalidated;
         _wrapService.LoginedSuccessfully += OnLoginedSuccessfully;
 
-        await Task.Run(async () => {
-            try {
+        await Task.Run(async () =>
+        {
+            try
+            {
                 _upnPService.Init();
                 _upnPService.Search();
                 _logger.LogInformation("开始查找 UPnP 设备");
                 var now = DateTime.Now;
-                while ((DateTime.Now - now) < _timeOutSpan && _upnPService.UPnPDeviceLocations.Count is 0) {
+                while ((DateTime.Now - now) < _timeOutSpan && _upnPService.UPnPDeviceLocations.Count is 0)
+                {
                     await Task.Delay(5);
                 }
 
                 IsUPnPLoading = false;
-                foreach (UPnPDevice uPnPDevice in _upnPService.UPnPDeviceLocations) {
-                    if (uPnPDevice != null) {
+                foreach (UPnPDevice uPnPDevice in _upnPService.UPnPDeviceLocations)
+                {
+                    if (uPnPDevice != null)
+                    {
                         Waher.Networking.UPnP.UPnPService natService = uPnPDevice.GetService(UPNP_WANIP_SRVICE);
                         natService ??= uPnPDevice.GetService(UPNP_WANPPP_SERVICE);
 
-                        if (natService != null) {
+                        if (natService != null)
+                        {
                             _uPnP = new UPnP(natService);
                             _logger.LogInformation("UPnP已支持");
                             break;
@@ -111,14 +121,21 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
                 _logger.LogInformation("开始查找 NAT 类型，是否支持 uPnP：{IsSupportUPnP}", _uPnP is not null);
 
                 IsSupportUPnP = _uPnP is not null;
-                NatType = await _upnPService.GetNatTypeAsync(_uPnP);
+                if (IsSupportUPnP)
+                    NatType = await _upnPService.GetNatTypeAsync(_uPnP);
+                else
+                    NatType = await _wrapService.GetNatTypeAsync();
                 IsNatTypeLoading = false;
 
                 _logger.LogInformation("NAT 类型为：{Type}", NatType);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "查找 uPnP 设备或 NAT 类型时出现了错误");
                 NatType = NatType.Unknown;
-            } finally {
+            }
+            finally
+            {
                 _wrapService.Init();
                 _wrapService.Connect(_wrapService.ServerIP);
                 _wrapService.Start();
@@ -126,36 +143,45 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
         });
     }
 
-    private void OnConnectFailed(object sender, ConnectPeerFailedEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
+    private void OnConnectFailed(object sender, ConnectPeerFailedEvent e)
+    {
+        _notificationService.QueueJob(new NotificationViewData
+        {
             Title = "错误",
             Content = $"与 {e.UserToken} 连接失败",
             NotificationType = NotificationType.Error
         });
     }
 
-    private void OnReconnectPeer(object sender, ReconnectPeerEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
+    private void OnReconnectPeer(object sender, ReconnectPeerEvent e)
+    {
+        _notificationService.QueueJob(new NotificationViewData
+        {
             Title = "信息",
             Content = $"开始与 {e.UserToken} 反向打洞",
             NotificationType = NotificationType.Information
         });
     }
 
-    private void OnRequestInvalidated(object sender, RequestInvalidatedEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
+    private void OnRequestInvalidated(object sender, RequestInvalidatedEvent e)
+    {
+        _notificationService.QueueJob(new NotificationViewData
+        {
             Title = "警告",
             Content = $"给 {e.Requester} 发出的请求已失效",
             NotificationType = NotificationType.Warning
         });
     }
 
-    private void OnNewRequest(object sender, NewRequestEvent e) {
+    private void OnNewRequest(object sender, NewRequestEvent e)
+    {
         _dialogService.ShowContentDialog<JoinMutilplayerRequestDialogViewModel>(e.RequestInfo);
     }
 
-    private void OnLoginedSuccessfully(object sender, LoginedSuccessfullyEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
+    private void OnLoginedSuccessfully(object sender, LoginedSuccessfullyEvent e)
+    {
+        _notificationService.QueueJob(new NotificationViewData
+        {
             Title = "成功",
             Content = $"已成功与打洞服务器建立连接，您的用户令牌为：{e.UserToken}",
             NotificationType = NotificationType.Success
