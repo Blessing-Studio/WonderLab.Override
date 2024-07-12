@@ -31,7 +31,7 @@ public sealed partial class TestUserCheckDialogViewModel : DialogViewModelBase {
     [RelayCommand]
     private async Task Authenticate(string uuid) {
         try {
-            var result = await "https://wlapi.mcols.cn/api/update/webhook".WithHeaders(new Dictionary<string, string>() {
+            var result = await "https://wlapi.mcols.cn/api/user".WithHeaders(new Dictionary<string, string>() {
                 { "x-api-key", _apiKey },
                 { "x-user-uuid", uuid },
             }).GetJsonAsync<KeyValuePair<string, string>>();
