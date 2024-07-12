@@ -10,13 +10,31 @@
 	<ui:DialogContentPanel Title="加入对方的连接"
 						   PrimaryButtonContent="确定"
 						   IsCloseButtonVisible="True"
-						   IsPrimaryButtonVisible="True"
 						   PrimaryButtonCommand="{Binding MakeRequestCommand}"
-						   PrimaryButtonCommandParameter="{Binding ElementName=tokenTextBox, Path=Text}">
+						   PrimaryButtonCommandParameter="{Binding ElementName=tokenTextBox, Path=Text}"
+						   IsPrimaryButtonVisible="{Binding IsMakedRequest, Converter={StaticResource BooleanReverseConverter}}">
 		<ui:DialogContentPanel.Content>
-			<TextBox Name="tokenTextBox"
-					 Watermark="请输入对方的用户令牌"
-					 UseFloatingWatermark="False"/>
+			<Grid>
+				<TextBox Name="tokenTextBox"
+						 UseFloatingWatermark="False"
+						 Watermark="请输入对方的用户令牌"
+						 IsVisible="{Binding IsMakedRequest, Converter={StaticResource BooleanReverseConverter}}"/>
+
+				<StackPanel Spacing="8"
+							IsVisible="{Binding IsMakedRequest}">
+					<ui:ProgressRing Width="45"
+									 Height="45"
+									 BorderThickness="4"
+									 IsIndeterminate="True"
+									 Background="Transparent"
+									 VerticalAlignment="Center"
+									 HorizontalAlignment="Center"
+									 Foreground="{DynamicResource WarningBaseColor}"/>
+
+					<TextBlock HorizontalAlignment="Center"
+							   Text="{Binding ProcessInfoText}"/>
+				</StackPanel>
+			</Grid>
 		</ui:DialogContentPanel.Content>
 	</ui:DialogContentPanel>
 </UserControl>

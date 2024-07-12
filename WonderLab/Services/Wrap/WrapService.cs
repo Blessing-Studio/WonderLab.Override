@@ -96,42 +96,35 @@ public sealed class WrapService : IWrapClient {
 
         // 注册各种事件处理器
         Client.NewRequest += e => {
-            NewRequest(this, e);
+            NewRequest?.Invoke(this, e);
         };
 
         Client.ExpectedDisconnect += e => {
-            if (ExpectedDisconnect!= null)
-                ExpectedDisconnect(this, e);
+            ExpectedDisconnect?.Invoke(this, e);
         };
 
         Client.UnexpectedDisconnect += e => {
-            if (UnexpectedDisconnect != null)
-                UnexpectedDisconnect(this, e);
+            UnexpectedDisconnect?.Invoke(this, e);
         };
 
         Client.ConnectPeerSuccessfully += e => {
-            if (ConnectPeerSuccessfully != null)
-                ConnectPeerSuccessfully(this, e);
+            ConnectPeerSuccessfully?.Invoke(this, e);
         };
 
         Client.RequestInvalidated += e => {
-            if (RequestInvalidated != null)
-                RequestInvalidated(this, e);
+            RequestInvalidated?.Invoke(this, e);
         };
 
         Client.ReconnectPeer += e => {
-            if (ReconnectPeer != null)
-                ReconnectPeer(this, e);
+            ReconnectPeer?.Invoke(this, e);
         };
 
         Client.ConnectFailed += e => {
-            if (ConnectFailed != null)
-                ConnectFailed(this, e);
+            ConnectFailed?.Invoke(this, e);
         };
 
         Client.LoginedSuccessfully += e => {
-            if (LoginedSuccessfully != null)
-                LoginedSuccessfully(this, e);
+            LoginedSuccessfully?.Invoke(this, e);
         };
     }
 

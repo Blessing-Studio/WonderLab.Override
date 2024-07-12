@@ -81,9 +81,6 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
 
     private async ValueTask InitializeAsync() {
         _wrapService.NewRequest += OnNewRequest;
-        _wrapService.ReconnectPeer += OnReconnectPeer;
-        _wrapService.ConnectFailed += OnConnectFailed;
-        _wrapService.RequestInvalidated += OnRequestInvalidated;
         _wrapService.LoginedSuccessfully += OnLoginedSuccessfully;
         _wrapService.ConnectPeerSuccessfully += OnConnectPeerSuccessfully;
 
@@ -138,33 +135,9 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
 
     private void OnConnectPeerSuccessfully(object sender, ConnectPeerSuccessfullyEvent e) {
         _notificationService.QueueJob(new NotificationViewData {
-            Title = "错误",
+            Title = "成功",
             Content = $"与 {e.UserToken} 连接成功 映射端口为 {e.Port}",
-            NotificationType = NotificationType.Information
-        });
-    }
-
-    private void OnConnectFailed(object sender, ConnectPeerFailedEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "错误",
-            Content = $"与 {e.UserToken} 连接失败",
-            NotificationType = NotificationType.Error
-        });
-    }
-
-    private void OnReconnectPeer(object sender, ReconnectPeerEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "信息",
-            Content = $"开始与 {e.UserToken} 反向打洞",
-            NotificationType = NotificationType.Information
-        });
-    }
-
-    private void OnRequestInvalidated(object sender, RequestInvalidatedEvent e) {
-        _notificationService.QueueJob(new NotificationViewData {
-            Title = "警告",
-            Content = $"给 {e.Requester} 发出的请求已失效",
-            NotificationType = NotificationType.Warning
+            NotificationType = NotificationType.Success
         });
     }
 

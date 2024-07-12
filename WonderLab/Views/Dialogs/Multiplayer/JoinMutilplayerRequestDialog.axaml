@@ -10,12 +10,28 @@
 	<ui:DialogContentPanel Title="有新的请求"
 						   PrimaryButtonContent="批准"
 						   IsCloseButtonVisible="True"
-						   IsPrimaryButtonVisible="True"
-						   PrimaryButtonCommand="{Binding AllowCommand}">
+						   PrimaryButtonCommand="{Binding AllowCommand}"
+						   IsPrimaryButtonVisible="{Binding IsAllow, Converter={StaticResource BooleanReverseConverter}}">
 		<ui:DialogContentPanel.Content>
 			<Grid>
 				<TextBlock TextWrapping="WrapWithOverflow"
-						   Text="有一个新的请求试图加入你的连接，请问是否准许？"/>
+						   Text="有一个新的请求试图加入你的连接，请问是否准许？"
+						   IsVisible="{Binding IsAllow, Converter={StaticResource BooleanReverseConverter}}"/>
+
+				<StackPanel Spacing="8"
+							IsVisible="{Binding IsAllow}">
+					<ui:ProgressRing Width="45"
+									 Height="45"
+									 BorderThickness="4"
+									 IsIndeterminate="True"
+									 Background="Transparent"
+									 VerticalAlignment="Center"
+									 HorizontalAlignment="Center"
+									 Foreground="{DynamicResource WarningBaseColor}"/>
+					
+					<TextBlock HorizontalAlignment="Center"
+							   Text="{Binding ProcessInfoText}"/>
+				</StackPanel>
 			</Grid>
 		</ui:DialogContentPanel.Content>
 	</ui:DialogContentPanel>
