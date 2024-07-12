@@ -60,7 +60,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase
         IsUPnPLoading = true;
         IsNatTypeLoading = true;
 
-        _timeOutSpan = TimeSpan.FromSeconds(30);
+        _timeOutSpan = TimeSpan.FromSeconds(10);
 
         MinecraftPort = "25565";
         _ = InitializeAsync();
