@@ -41,7 +41,7 @@ public sealed class InitTask : TaskBase {
 
         IsIndeterminate = false;
 
-#if !DEBUG
+#if DEBUG
         return;
 #else
         if (string.IsNullOrEmpty(_settingService.Data.TestUserUuid)) {
