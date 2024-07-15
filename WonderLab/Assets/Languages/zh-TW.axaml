@@ -7,7 +7,6 @@
 	<sys:String x:Key="ExpandInterface">展開界面</sys:String>
 	<sys:String x:Key="CollapseInterface">收起界面</sys:String>
 	<sys:String x:Key="GameSearchBoxWatermark">在此處査找您的本地遊戱實例</sys:String>
-	<sys:String x:Key="Info">提示</sys:String>
 
 	<!--MainWindow-->
 	<sys:String x:Key="Home">主頁</sys:String>
