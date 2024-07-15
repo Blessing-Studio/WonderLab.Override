@@ -20,10 +20,10 @@ public sealed class LanguageService {
         string languageXaml = languageIndex switch {
             0 => "zh-CN.axaml",
             1 => "zh-TW.axaml",
-            2 => "en-US.axaml",
-            3 => "ru-RU.axaml",
-            4 => "ja-JP.axaml",
-            5 => "zh-lzh.axaml",
+            2 => "zh-lzh.axaml",
+            3 => "en-US.axaml",
+            4 => "ru-RU.axaml",
+            5 => "ja-JP.axaml",
             _ => "zh-CN.axaml"
         };
 
