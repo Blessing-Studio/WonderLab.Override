@@ -21,8 +21,12 @@
 	<!--Network-->
 	<sys:String x:Key="Network">網絡</sys:String>
 	<sys:String x:Key="SMirror">鏡像更定</sys:String>
-	<sys:String x:Key="Appearance">自定</sys:String>
+	<sys:String x:Key="IfMirror">用鏡像之源</sys:String>
+	<sys:String x:Key="SDownload">下傳更定</sys:String>
+	<sys:String x:Key="MaxDownloadT">下傳綫程之最大值</sys:String>
+	<sys:String x:Key="BigFileT">分下傳大文件之片數</sys:String>
 
+	<sys:String x:Key="Appearance">樣之所定</sys:String>
 	<!--LaunchSettingPage-->
 	<sys:String x:Key="Browse">覽</sys:String>
 	<sys:String x:Key="Remove">刪</sys:String>
@@ -42,7 +46,6 @@
 	<sys:String x:Key="FolderSettingTitle">戲之檔案夾更定</sys:String>
 	<sys:String x:Key="AutoAllocateMemory">自選適之內存</sys:String>
 
-	<!--DetailSettingPage-->
 	<!--Theme-->
 	<sys:String x:Key="AppTheme">擇其旨</sys:String>
 	<sys:String x:Key="TLight">明</sys:String>
@@ -56,8 +59,26 @@
 	<!--Background-->
 	<sys:String x:Key="AppBackground">景之所樣</sys:String>
 	<sys:String x:Key="BImage">圖像</sys:String>
+	<sys:String x:Key="BSImage">圖景更定</sys:String>
+	<sys:String x:Key="ChangeImage">更景</sys:String>
+	<sys:String x:Key="BackgroundView">視景之效</sys:String>
+	<sys:String x:Key="None">無</sys:String>
+	<sys:String x:Key="BFlat">平面</sys:String>
+	<sys:String x:Key="B3D">立體</sys:String>
+	<sys:String x:Key="IfGradualBlur">自適景霧</sys:String>
+	<sys:String x:Key="ImageBlur">景霧濃</sys:String>
 	
 	<sys:String x:Key="AppearanceSettingTitle">視之所樣更定</sys:String>
+
+	<!--Font-->
+	<sys:String x:Key="FontSettingsTitle">字樣更定</sys:String>
+	<sys:String x:Key="ChooseFont">擇字樣</sys:String>
+	<!--Debug-->
+	<sys:String x:Key="DebugSettingsTitle">調試模式更定</sys:String>
+	<sys:String x:Key="DebugSettingsD">啓調試模式</sys:String>
+	<sys:String x:Key="DebugSettingsI">君已修調試模式之項，須重啟啟者以用</sys:String>
+	<sys:String x:Key="PressOOBE">啓開箱體驗</sys:String>
+	<sys:String x:Key="ToOOBE">啓</sys:String>
 
 	<!--AboutPage-->
 	<sys:String x:Key="Developers">開發隊</sys:String>
@@ -70,4 +91,12 @@
 	<sys:String x:Key="Thanks">敢拜</sys:String>
 	<sys:String x:Key="ServerSupport">伺服器之支援</sys:String>
 	<sys:String x:Key="TechnicalSupport">术之支援</sys:String>
+
+	<!--Oobe-->
+	<sys:String x:Key="Welcome">歡迎</sys:String>
+	<sys:String x:Key="Language">文</sys:String>
+	<sys:String x:Key="Style">樣</sys:String>
+	<sys:String x:Key="Start">啓！</sys:String>
+	<sys:String x:Key="Next">前行</sys:String>
+	<sys:String x:Key="Sorry">謝之！內測之版未開</sys:String>
 </ResourceDictionary>

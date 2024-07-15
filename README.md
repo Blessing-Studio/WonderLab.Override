@@ -24,7 +24,7 @@
 
 WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x64、Arm 架构
 
-支持的语言：简体中文、繁体中文、文言華夏、English(US)、Русский язык
+支持的语言：简体中文、繁体中文、文言華夏、English(US)、Русский язык、日本語
 
 > [!IMPORTANT]
 > 请您注意，本版本为测试版本，需要联网激活，请在下载前确认您是否有测试资格！
@@ -54,7 +54,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### bangbang93
 
-提供BMCLAPI镜像源
+提供 BMCLAPI 镜像源
 
 [爱发电](https://afdian.net/a/bangbang93)
 [GitHub](https://github.com/bangbang93)
@@ -71,14 +71,14 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### Ddggdd135
 
-一个喜欢编程的学生, Minecraft肝帝, C#爱好者
+一个喜欢编程的学生, Minecraft 肝帝, C# 爱好者
 
 [GitHub](https://github.com/JWJUN233233)
 [Bilibili](https://space.bilibili.com/1049351987)
 
 ### Starcloudsea
 
-啥活都想整的没脑子C#编程爱好者和视频创作者
+啥活都想整的没脑子 C# 编程爱好者和视频创作者
 
 正在创作: BadMcen Launcher
 
@@ -88,7 +88,7 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### [mail_set](https://blogs.mailset.top)
 
-一个热爱Linux的Arch使用者（虽然打游戏还是会用Windows）
+一个热爱 Linux 的 Arch 使用者（虽然打游戏还是会用 Windows）
 
 [Github](https://github.com/mailset)
 [Bilibili](https://space.bilibili.com/435654748)
@@ -96,13 +96,13 @@ WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth
 
 ### dream_pep
 
-一个奇怪的UI设计师，经常忘记修UI文件（bushi）
+一个奇怪的 UI 设计师，经常忘记修 UI 文件（bushi）
 
 [Github](https://github.com/dream0090)
 [Page](https://serverhub.cc)
 
 ### [FTS427](https://github.com/FTS427)
 
-现 `WonderLab` 的 `AUR` 维护者，archlinux用户
+现 `WonderLab` 的 `AUR` 维护者，archlinux 用户
 
 [website](https://www.fts427.top/)

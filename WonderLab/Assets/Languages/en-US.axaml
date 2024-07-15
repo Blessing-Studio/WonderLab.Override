@@ -7,7 +7,6 @@
 	<sys:String x:Key="ExpandInterface">Expand</sys:String>
 	<sys:String x:Key="CollapseInterface">Collapse</sys:String>
 	<sys:String x:Key="GameSearchBoxWatermark">Find your game core here</sys:String>
-	<sys:String x:Key="Info">Info</sys:String>
 
 	<!--MainWindow-->
 	<sys:String x:Key="Home">Home</sys:String>
@@ -19,7 +18,7 @@
 	<sys:String x:Key="About">About</sys:String>
 	<sys:String x:Key="Account">Account</sys:String>
 	
-	<!--Netowork-->
+	<!--Network-->
 	<sys:String x:Key="Network">Network</sys:String>
 	<sys:String x:Key="SMirror">Mirrors Settings</sys:String>
 	<sys:String x:Key="IfMirror">Use mirrors</sys:String>
@@ -81,16 +80,27 @@
 	<sys:String x:Key="DebugSettingsTitle">Debug Mode Settings</sys:String>
 	<sys:String x:Key="DebugSettingsD">Enable Debug mode</sys:String>
 	<sys:String x:Key="DebugSettingsI">You have been changed Debug option, restart launcher to make it work!</sys:String>
+
+	<sys:String x:Key="PressOOBE">Open OOBE</sys:String>
+	<sys:String x:Key="ToOOBE">Open</sys:String>
 	
 	<!--AboutPage-->
 	<sys:String x:Key="Developers">Our Team</sys:String>
 	<sys:String x:Key="Donate">Donate</sys:String>
 	<sys:String x:Key="Version">Version</sys:String>
-	<sys:String x:Key="QualityControl">QualityControllers</sys:String>
-	<sys:String x:Key="Designers">Designers: </sys:String>
-	<sys:String x:Key="FrontEndDevelopers">Front-end Developers: </sys:String>
-	<sys:String x:Key="BackEndDevelopers">Back-end Developers: </sys:String>
+	<sys:String x:Key="QualityControl">QA</sys:String>
+	<sys:String x:Key="Designers">UED</sys:String>
+	<sys:String x:Key="FrontEndDevelopers">FE</sys:String>
+	<sys:String x:Key="BackEndDevelopers">RD</sys:String>
 	<sys:String x:Key="Thanks">Credits</sys:String>
 	<sys:String x:Key="ServerSupport">Server Support</sys:String>
 	<sys:String x:Key="TechnicalSupport">Technical Support</sys:String>
+
+	<!--Oobe-->
+	<sys:String x:Key="Welcome">Welcome</sys:String>
+	<sys:String x:Key="Language">Language</sys:String>
+	<sys:String x:Key="Style">Appearance</sys:String>
+	<sys:String x:Key="Start">Launch!</sys:String>
+	<sys:String x:Key="Next">Next</sys:String>
+	<sys:String x:Key="Sorry">We haven't finished this, maybe you can do</sys:String>
 </ResourceDictionary>

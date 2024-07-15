@@ -72,10 +72,10 @@
 					<ComboBox SelectedIndex="{Binding LanguageIndex}">
 						<ComboBoxItem Content="简体中文"/>
 						<ComboBoxItem Content="繁體中文"/>
+						<ComboBoxItem Content="文言華夏"/>
 						<ComboBoxItem Content="English"/>
 						<ComboBoxItem Content="Русский язык"/>
-            <ComboBoxItem Content="日本語"/>
-						<ComboBoxItem Content="文言華夏"/>
+            			<ComboBoxItem Content="日本語"/>
 					</ComboBox>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
