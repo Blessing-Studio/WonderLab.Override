@@ -19,7 +19,7 @@
 	<sys:String x:Key="About">關於</sys:String>
 	<sys:String x:Key="Account">賬戶</sys:String>
 	
-	<!--Netowork-->
+	<!--Network-->
 	<sys:String x:Key="Network">網絡</sys:String>
 	<sys:String x:Key="SMirror">鏡像源設置</sys:String>
 	<sys:String x:Key="IfMirror">是否使用鏡像源</sys:String>
@@ -78,8 +78,8 @@
 	<sys:String x:Key="DebugSettingsTitle">調試模式設置</sys:String>
 	<sys:String x:Key="DebugSettingsD">啟用調試（Debug）模式</sys:String>
 	<sys:String x:Key="DebugSettingsI">您更改瞭調試（Debug）選項，如要使功能生傚請重啟程序！</sys:String>
-  <sys:String x:Key="PressOOBE">一鍵跳轉OOBE</sys:String>
-  <sys:String x:Key="ToOOBE">跳轉</sys:String>
+	<sys:String x:Key="PressOOBE">一鍵跳轉 OOBE</sys:String>
+	<sys:String x:Key="ToOOBE">跳轉</sys:String>
 
 	<!--AboutPage-->
 	<sys:String x:Key="Developers">開發糰隊</sys:String>
