@@ -79,8 +79,9 @@
 	<sys:String x:Key="DebugSettingsTitle">调试模式设置</sys:String>
 	<sys:String x:Key="DebugSettingsD">启用调试（Debug）模式</sys:String>
 	<sys:String x:Key="DebugSettingsI">您更改了调试（Debug）选项，如要使功能生效请重启程序！</sys:String>
-  <sys:String x:Key="PressOOBE">一键跳转OOBE</sys:String>
-  <sys:String x:Key="ToOOBE">跳转</sys:String>
+	
+	<sys:String x:Key="PressOOBE">一键跳转 OOBE</sys:String>
+  	<sys:String x:Key="ToOOBE">跳转</sys:String>
 
 	<!--AboutPage-->
 	<sys:String x:Key="Developers">开发团队</sys:String>
