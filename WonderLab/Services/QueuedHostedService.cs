@@ -5,17 +5,20 @@ using System.Threading.Tasks;
 using WonderLab.Classes.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Avalonia.Threading;
 
 namespace WonderLab.Services;
 
 public sealed class QueuedHostedService : BackgroundService {
     private long _currentRunningJobs;
 
+    private readonly Dispatcher _dispatcher;
     private readonly ILogger<QueuedHostedService> _logger;
     private readonly IBackgroundTaskQueue _backgroundTaskQueue;
 
-    public QueuedHostedService(IBackgroundTaskQueue backgroundTaskQueue, ILogger<QueuedHostedService> logger) {
+    public QueuedHostedService(Dispatcher dispatcher,IBackgroundTaskQueue backgroundTaskQueue, ILogger<QueuedHostedService> logger) {
         _logger = logger;
+        _dispatcher = dispatcher;
         _backgroundTaskQueue = backgroundTaskQueue;
     }
 
@@ -47,7 +50,7 @@ public sealed class QueuedHostedService : BackgroundService {
             try {
                 workItem = await _backgroundTaskQueue.DequeueAsync(stoppingToken);
                 Interlocked.Increment(ref _currentRunningJobs);
-                _logger.LogInformation("成功从任务队列获取任务： {JobName}", workItem.JobName);
+                _logger.LogInformation("成功从任务队列获取任务：{JobName}", workItem.JobName);
 
                 sw.Start();
                 workItem.TaskStatus = TaskStatus.Created;
@@ -61,10 +64,12 @@ public sealed class QueuedHostedService : BackgroundService {
 
                 await value;
 
-                workItem.TaskStatus = TaskStatus.RanToCompletion;
-                workItem.InvokeTaskFinished();
-                sw.Stop();
+                await _dispatcher.InvokeAsync(() => {
+                    workItem.InvokeTaskFinished();
+                    workItem.TaskStatus = TaskStatus.RanToCompletion;
+                });
 
+                sw.Stop();
                 _logger.LogInformation("任务 {JobName} 已完成执行，用时：{TotalSeconds} 秒。", workItem.JobName, sw.Elapsed.TotalSeconds);
             } catch (OperationCanceledException) {
                 if (workItem != null) {
@@ -82,6 +87,7 @@ public sealed class QueuedHostedService : BackgroundService {
                 }
 
                 workItem?.Dispose();
+
                 sw.Reset();
             }
         }

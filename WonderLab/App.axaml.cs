@@ -51,6 +51,8 @@ public sealed partial class App : Application {
     private static IHost _host = default!;
     public static IServiceProvider ServiceProvider => _host.Services;
 
+    public static T GetService<T>() => ServiceProvider.GetRequiredService<T>();
+
     public override void RegisterServices() {
         base.RegisterServices();
 
@@ -70,10 +72,6 @@ public sealed partial class App : Application {
         }
 
         base.OnFrameworkInitializationCompleted();
-
-        T GetService<T>() {
-            return ServiceProvider.GetRequiredService<T>();
-        }
     }
 
     private static IHostBuilder CreateHostBuilder() {
@@ -140,6 +138,7 @@ public sealed partial class App : Application {
         //Dialog
         services.AddTransient<TestUserCheckDialog>();
         services.AddTransient<RecheckToOobeDialog>();
+        services.AddTransient<RefreshAccountDialog>();
         services.AddTransient<JoinMutilplayerDialog>();
         services.AddTransient<CreateMutilplayerDialog>();
         services.AddTransient<ChooseAccountTypeDialog>();
@@ -207,6 +206,7 @@ public sealed partial class App : Application {
         //Dialog
         services.AddTransient<TestUserCheckDialogViewModel>();
         services.AddTransient<RecheckToOobeDialogViewModel>();
+        services.AddTransient<RefreshAccountDialogViewModel>();
         services.AddTransient<JoinMutilplayerDialogViewModel>();
         services.AddTransient<CreateMutilplayerDialogViewModel>();
         services.AddTransient<ChooseAccountTypeDialogViewModel>();

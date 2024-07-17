@@ -1,9 +1,9 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="WonderLab.Views.Pages.Setting.NetworkSettingPage"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="WonderLab.Views.Pages.Setting.NetworkSettingPage"
 			 xmlns:vm="using:WonderLab.ViewModels.Pages.Setting"
 			 xmlns:ui="using:WonderLab.Views.Controls"
 			 x:DataType="vm:NetworkSettingPageViewModel">
@@ -19,7 +19,8 @@
 				<ui:SettingCardItem Description="{DynamicResource IfMirror}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
-								  Margin="0 0 -10 0"/>
+								  Margin="0 0 -10 0"
+								  IsChecked="{Binding IsUseMirrorDownloadSource}"/>
 				</ui:SettingCardItem>
 			</ItemsControl>
 		</ui:SettingCard>
@@ -27,11 +28,11 @@
 		<ui:SettingCard Title="{DynamicResource SDownload}">
 			<ItemsControl>
 				<ui:SettingCardItem Description="{DynamicResource MaxDownloadT}">
-					<Slider Width="250"/>
+					<Slider Width="250" Value="{Binding MultiThreadsCount}"/>
 				</ui:SettingCardItem>
 
 				<ui:SettingCardItem Description="{DynamicResource BigFileT}">
-					<ComboBox/>
+					<ComboBox SelectedItem="{Binding MultiPartsCount}"/>
 				</ui:SettingCardItem>
 			</ItemsControl>
 		</ui:SettingCard>

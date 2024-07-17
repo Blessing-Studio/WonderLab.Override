@@ -12,6 +12,7 @@ using WonderLab.Classes.Datas.ViewData;
 using WonderLab.Classes.Datas.MessageData;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MinecraftLaunch.Components.Authenticator;
+using MinecraftLaunch.Classes.Models.Auth;
 
 namespace WonderLab.ViewModels.Dialogs.Setting;
 
@@ -39,15 +40,28 @@ public sealed partial class YggdrasilAuthenticateDialogViewModel : DialogViewMod
     [RelayCommand]
     private async Task Authenticate() {
         try {
+            var refreshAccount = Parameter as YggdrasilAccount;
+            if (refreshAccount is not null) {
+                Url = refreshAccount.YggdrasilServerUrl;
+            }
+
             _accountService.InitializeComponent(new YggdrasilAuthenticator(Url, Email, Password), AccountType.Yggdrasil);
             var accounts = await _accountService.AuthenticateAsync(3);
-            _settingService.Data.Accounts.AddRange(accounts);
+            _settingService.Data.Accounts.AddRange(accounts.Union(_settingService.Data.Accounts));
 
-            _notificationService.QueueJob(new NotificationViewData {
-                Title = "成功",
-                Content = $"已成功将账户 {string.Join(",", accounts.Select(x => x.Name))} 添加至 WonderLab！",
-                NotificationType = NotificationType.Success
-            });
+            if (refreshAccount is null) {
+                _notificationService.QueueJob(new NotificationViewData {
+                    Title = "成功",
+                    Content = $"已成功将账户 {string.Join(",", accounts.Select(x => x.Name))} 添加至 WonderLab！",
+                    NotificationType = NotificationType.Success
+                });
+            } else {
+                _notificationService.QueueJob(new NotificationViewData {
+                    Title = "成功",
+                    Content = $"已成功刷新账户 {refreshAccount.Name}！",
+                    NotificationType = NotificationType.Success
+                });
+            }
 
             WeakReferenceMessenger.Default.Send(new AccountMessage(accounts));
             if (_dialogService.IsDialogOpen) {

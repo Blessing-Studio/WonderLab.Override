@@ -12,6 +12,7 @@ using WonderLab.ViewModels.Windows;
 using Avalonia.Controls.Notifications;
 using WonderLab.Classes.Datas.ViewData;
 using Microsoft.Extensions.DependencyInjection;
+using MinecraftLaunch;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -40,6 +41,7 @@ public sealed class InitTask : TaskBase {
         });
 
         IsIndeterminate = false;
+        MirrorDownloadManager.IsUseMirrorDownloadSource = _settingService.Data.IsUseMirrorDownloadSource;
 
 #if DEBUG
         return;

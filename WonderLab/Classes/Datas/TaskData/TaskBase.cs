@@ -33,8 +33,7 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
     public async ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token) {
         await Task.Delay(200, token);
         while (!token.IsCancellationRequested) {
-            TaskStatus taskStatus = TaskStatus;
-            if ((uint)(taskStatus - 5) <= 2u) {
+            if ((uint)(TaskStatus - 5) <= 2u) {
                 break;
             }
 

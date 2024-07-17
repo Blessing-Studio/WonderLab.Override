@@ -32,6 +32,7 @@ public sealed record SettingData {
     [JsonPropertyName("isAutoSelectJava")] public bool IsAutoSelectJava { get; set; }
     [JsonPropertyName("isGameIndependent")] public bool IsGameIndependent { get; set; }
     [JsonPropertyName("isAutoAllocateMemory")] public bool IsAutoAllocateMemory { get; set; }
+    [JsonPropertyName("isUseMirrorDownloadSource")] public bool IsUseMirrorDownloadSource { get; set; }
 
     [JsonPropertyName("activeJava")] public JavaEntry ActiveJava { get; set; }
     [JsonPropertyName("activeAccount")] public Account ActiveAccount { get; set; }
