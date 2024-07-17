@@ -130,7 +130,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
             var downloadSource = _settingService.Data.IsUseMirrorDownloadSource
                 ? MirrorDownloadManager.Bmcl
                 : null;
-
+            
             var resultComplete = await _resourceChecker.MissingResources.DownloadResourceEntrysAsync(downloadSource, args => {
                 var percentage = args.ToPercentage() * 100;
                 ReportProgress(percentage, $"{args.CompletedCount}/{args.TotalCount} - {percentage:0.00}%");
