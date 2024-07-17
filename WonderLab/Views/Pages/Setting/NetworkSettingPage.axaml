@@ -28,7 +28,10 @@
 		<ui:SettingCard Title="{DynamicResource SDownload}">
 			<ItemsControl>
 				<ui:SettingCardItem Description="{DynamicResource MaxDownloadT}">
-					<Slider Width="250" Value="{Binding MultiThreadsCount}"/>
+					<Slider Width="250"
+							Minimum="1"
+							Maximum="256"
+							Value="{Binding MultiThreadsCount}"/>
 				</ui:SettingCardItem>
 
 				<ui:SettingCardItem Description="{DynamicResource BigFileT}">

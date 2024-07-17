@@ -33,5 +33,7 @@ public sealed partial class NetworkSettingPageViewModel : ViewModelBase {
                 _settingService.Data.IsUseMirrorDownloadSource = IsUseMirrorDownloadSource;
                 break;
         }
+
+        _downloadService.Init();
     }
 }
