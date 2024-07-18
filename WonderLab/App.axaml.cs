@@ -76,7 +76,7 @@ public sealed partial class App : Application {
 
     private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()
-            .ConfigureServices(ConfigureApplicationInsights)
+            //.ConfigureServices(ConfigureApplicationInsights)
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
             .ConfigureServices(services => {
@@ -90,9 +90,9 @@ public sealed partial class App : Application {
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
                 .FromLogContext()
-                .WriteTo.ApplicationInsights(new TelemetryConfiguration() {
-                    ConnectionString = CONNECTION_STRING,
-                }, TelemetryConverter.Traces)
+                //.WriteTo.ApplicationInsights(new TelemetryConfiguration() {
+                //    ConnectionString = CONNECTION_STRING,
+                //}, TelemetryConverter.Traces)
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
                 rollingInterval: RollingInterval.Day,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")

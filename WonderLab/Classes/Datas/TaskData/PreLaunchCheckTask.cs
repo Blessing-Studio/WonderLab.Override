@@ -78,9 +78,9 @@ public sealed class PreLaunchCheckTask : TaskBase {
     public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
         try {
             _isReturnTrue = true;
-            await Task.Run(CheckJavaAndExecute, token);
-            await Task.Run(CheckResourcesAndExecute, token);
-            await Task.Run(CheckAccountAndExecute, token);
+            await Task.Run(CheckJavaAndExecuteAsync, token);
+            await Task.Run(CheckResourcesAndExecuteAsync, token);
+            await Task.Run(CheckAccountAndExecuteAsync, token);
 
             IsIndeterminate = false;
             ReportProgress(1, "预启动检查完成");
@@ -97,7 +97,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckJavaAndExecute() {
+    async Task CheckJavaAndExecuteAsync() {
         ReportProgress("正在检查 Java 相关信息");
         var resultJava = await CheckJavaAsync();
         if (!resultJava.value && !resultJava.canExecute) {
@@ -116,7 +116,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckResourcesAndExecute() {
+    async Task CheckResourcesAndExecuteAsync() {
         ReportProgress("正在检查游戏本体资源完整性");
         var resultResource = await CheckResourcesAsync();
         if (!resultResource) {
@@ -148,7 +148,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckAccountAndExecute() {
+    async Task CheckAccountAndExecuteAsync() {
         IsIndeterminate = true;
         ReportProgress("正在验证账户信息");
         var (value, canExecute) = await CheckAccountAsync();

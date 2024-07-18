@@ -108,33 +108,25 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
     }
 
     protected void ReportProgress(string detail) {
-        if (!string.IsNullOrEmpty(detail) && ShouldUpdate()) {
-            _insideProgressDetail = detail;
-            DebounceUIUpdate();
-        }
+        Dispatcher.UIThread.Post(() => {
+            if (!string.IsNullOrEmpty(detail)) {
+                ProgressDetail = detail;
+            }
+        });
     }
 
     protected void ReportProgress(double progress) {
-        if (progress < 0.0) {
-            IsIndeterminate = true;
-        }
+        Dispatcher.UIThread.Post(() => {
+            if (progress < 0.0) {
+                IsIndeterminate = true;
+            }
 
-        if (ShouldUpdate()) {
-            _insideProgress = progress;
-            DebounceUIUpdate();
-        }
+            Progress = progress;
+        });
     }
 
     protected void ReportProgress(double progress, string detail) {
-        if (progress < 0.0) {
-            IsIndeterminate = true;
-        }
-
-        if (!string.IsNullOrEmpty(detail) && ShouldUpdate()) {
-            _insideProgress = progress;
-            _insideProgressDetail = detail;
-
-            DebounceUIUpdate();
-        }
+        ReportProgress(progress);
+        ReportProgress(detail);
     }
 }

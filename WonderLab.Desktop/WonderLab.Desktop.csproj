@@ -9,6 +9,16 @@
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="wonderlab.icns" />
+	  <None Remove="wonderlab.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AvaloniaResource Include="wonderlab.icns">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </AvaloniaResource>
+	  <AvaloniaResource Include="wonderlab.png" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia.Desktop" Version="11.1.0-rc1" />
@@ -20,30 +30,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\WonderLab\Assets\wonderlab.png">
+		<Content Include="wonderlab.png">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</Content>
+
 		<Content Include="wonderlab.desktop">
 			<LinuxPath>/usr/share/applications/wonderlab.desktop</LinuxPath>
 		</Content>
 	</ItemGroup>
 
 	<PropertyGroup>
-		<CFBundleName>WonderLab.Desktop</CFBundleName>
-		<!-- Also defines .app file name -->
-		<CFBundleDisplayName>WonderLab.Desktop</CFBundleDisplayName>
-		<CFBundleIdentifier>org.blessing-studio.wonderlab</CFBundleIdentifier>
-		<CFBundleVersion>2.0.0</CFBundleVersion>
-		<CFBundlePackageType>APPL</CFBundlePackageType>
-		<CFBundleExecutable>WonderLab.Desktop</CFBundleExecutable>
-		<CFBundleIconFile>..\WonderLab\Assets\wonderlab.icns</CFBundleIconFile>
-		<!-- Will be copied from output directory -->
-		<NSPrincipalClass>NSApplication</NSPrincipalClass>
-		<NSHighResolutionCapable>true</NSHighResolutionCapable>
-		<CFBundleShortVersionString>2.0.0</CFBundleShortVersionString>
 		<SignAssembly>True</SignAssembly>
-		<ApplicationIcon>wonderlab.ico</ApplicationIcon>
+		<CFBundleVersion>2.0.0</CFBundleVersion>
+		<CFBundleName>WonderLab.Desktop</CFBundleName>
+		<CFBundlePackageType>APPL</CFBundlePackageType>
+		<NSPrincipalClass>NSApplication</NSPrincipalClass>
+		<CFBundleIconFile>wonderlab.icns</CFBundleIconFile>
+		<CFBundleDisplayName>WonderLab</CFBundleDisplayName>
+		<NSHighResolutionCapable>true</NSHighResolutionCapable>
 		<StartupObject>WonderLab.Desktop.Program</StartupObject>
+		<CFBundleExecutable>WonderLab.Desktop</CFBundleExecutable>
+		<CFBundleShortVersionString>2.0.0</CFBundleShortVersionString>
 		<UserSecretsId>650eae67-f1f5-4fc8-9914-ea217ada8a3b</UserSecretsId>
+		<CFBundleIdentifier>com.blessing-studio.wonderlab</CFBundleIdentifier>
 	</PropertyGroup>
 </Project>
