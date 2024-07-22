@@ -40,12 +40,17 @@ build_osx() {
 
     for file in ${files[@]}
     do
-        cp $base_dir/$file $app_dir/$file
+        cp $base_dir/$file \
+            $app_dir/$file
     done
 
     chmod a+x $app_dir/WonderLab.Desktop
+
+    cd $base_dir
+
     zip $zip_name $base_dir/WonderLab.app
-    echo "$zip_name build done!"
+    echo " $base_dir/$zip_name build done!"
 }
 
 build_osx osx-x64
+build_osx osx-arm64
