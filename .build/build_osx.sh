@@ -41,7 +41,7 @@ build_osx() {
 
     for line in ${files[@]}
     do
-        cp $base/$line \
+        cp $base_dir/$line \
             $app_dir/$line
     done
 
