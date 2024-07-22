@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Branch>Lsaac</Branch>
+		<Branch>lsaac</Branch>
 		<Version>2.0.0</Version>
 		<Nullable>disable</Nullable>
 		<LangVersion>latest</LangVersion>

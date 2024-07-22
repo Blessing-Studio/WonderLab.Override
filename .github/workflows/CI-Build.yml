@@ -61,40 +61,6 @@ jobs:
       with:
         name: Windows
         path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
-  build_Windows_Installer:
-    strategy:
-      matrix:
-        arch: ["x64", "arm64"] #We won't support x86 anymore
-    runs-on: windows-latest
-    needs: [test, test_build, build_Windows]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        submodules: recursive
-    - name: "Setup Dotnet"
-      uses: "actions/setup-dotnet@v3"
-      with:
-        dotnet-version: "${{env.dotnet-version}}"
-    - name: Install InnoSetup
-      uses: ConorMacBride/install-package@v1
-      with:
-        choco: innosetup
-    - name: Install pupnet
-      run: dotnet tool install -g KuiperZone.PupNet
-    - name: Get version
-      id: package_version
-      uses: Blessing-Studio/get-csproj-version@main
-      with:
-        file: WonderLab.Desktop/WonderLab.Desktop.csproj
-    - name: Build
-      run: pupnet -r win-${{ matrix.arch }} -k setup -y -o WonderLab.${{ steps.package_version.outputs.version }}.win-${{ matrix.arch }}.installer.exe
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: WindowsInstaller
-        path: Deploy/OUT/*.exe
   build_Linux_Appimage:
     strategy:
       matrix:
@@ -130,28 +96,31 @@ jobs:
         name: AppImage
         path: Deploy/OUT/*.AppImage
   build_MacOS:
-    strategy:
-      matrix:
-        arch: ["x64", "arm64"]
+    # strategy:
+    #   matrix:
+    #     arch: ["x64", "arm64"]
     runs-on: macos-latest
     needs: [test, test_build]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        submodules: recursive
-    - name: "Setup Dotnet"
-      uses: "actions/setup-dotnet@v3"
-      with:
-        dotnet-version: "${{env.dotnet-version}}"
-    - name: Build
-      run: dotnet build WonderLab.Desktop/WonderLab.Desktop.csproj -t:CreateZip --arch ${{ matrix.arch }} --os osx ${{ env.compile-flags }}
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: MacOS
-        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/*.zip
+      - uses: actions/checkout@v3
+      - name: Set .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "${{env.dotnet-version}}"
+  
+      - name: Update code
+        shell: bash
+        working-directory: ./
+        run: |
+          chmod a+x ./.build/update_code.sh
+          ./.build/update_code.sh
+  
+      - name: Build
+        shell: bash
+        working-directory: ./
+        run: |
+          chmod a+x ./build/build_osx.sh
+          ./build/build_osx.sh
   build_Linux_Deb:
     strategy:
       matrix:
