@@ -238,22 +238,27 @@ jobs:
       uses: geekyeggo/delete-artifact@v2
       with:
           name: Windows
-    #- name: Delete Linux Artifact
-    #  uses: geekyeggo/delete-artifact@v2
-    #  with:
-    #      name: Linux
+
     - name: Delete Deb Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
           name: Linux_Deb
+
     - name: Delete Rpm Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
           name: Linux_Rpm
-    - name: Delete MacOS Artifact
+
+    - name: Delete OSX-x64 Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
-          name: MacOS
+          name: OSX_x64
+
+    - name: Delete OSX-x64 Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: OSX_arm64
+
     - name: Delete AppImage Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
