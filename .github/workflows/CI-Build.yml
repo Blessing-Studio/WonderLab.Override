@@ -119,8 +119,8 @@ jobs:
         shell: bash
         working-directory: ./
         run: |
-          chmod a+x ./build/build_osx.sh
-          ./build/build_osx.sh
+          chmod a+x ./.build/build_osx.sh
+          ./.build/build_osx.sh
   build_Linux_Deb:
     strategy:
       matrix:
