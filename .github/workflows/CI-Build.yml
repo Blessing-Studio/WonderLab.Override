@@ -96,9 +96,9 @@ jobs:
         name: AppImage
         path: Deploy/OUT/*.AppImage
   build_MacOS:
-    # strategy:
-    #   matrix:
-    #     arch: ["x64", "arm64"]
+    strategy:
+      matrix:
+        arch: ["x64", "arm64"]
     runs-on: macos-latest
     needs: [test, test_build]
     steps:
@@ -121,6 +121,11 @@ jobs:
         run: |
           chmod a+x ./.build/build_osx.sh
           ./.build/build_osx.sh
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MacOS
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
   build_Linux_Deb:
     strategy:
       matrix:
