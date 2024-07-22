@@ -96,9 +96,6 @@ jobs:
         name: AppImage
         path: Deploy/OUT/*.AppImage
   build_MacOS:
-    strategy:
-      matrix:
-        arch: ["x64", "arm64"]
     runs-on: macos-latest
     needs: [test, test_build]
     steps:
@@ -121,11 +118,18 @@ jobs:
         run: |
           chmod a+x ./.build/build_osx.sh
           ./.build/build_osx.sh
-      - name: Upload build artifacts
+
+      - name: Upload x64 build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: MacOS
-          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-${{ matrix.arch }}/publish/*.zip'
+          name: OSX_x64
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-x64/publish/*.zip'
+
+      - name: Upload arm64 build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: OSX_arm64
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-arm64/publish/*.zip'
   build_Linux_Deb:
     strategy:
       matrix:
@@ -177,33 +181,40 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_REF: $ github.ref
-    needs: [build_Linux_Deb, build_Linux_Rpm, build_Linux_Appimage]
+    needs: [build_Windows, build_MacOS, build_Linux_Deb, build_Linux_Rpm, build_Linux_Appimage]
     steps:
     - uses: nelonoel/branch-name@v1
+
     - name: Download Windows Build
       uses: actions/download-artifact@v3
       with:
        name: Windows
-    #- name: Download Linux Build
-    #  uses: actions/download-artifact@v3
-    #  with:
-    #   name: Linux
+
     - name: Download AppImage Build
       uses: actions/download-artifact@v3
       with:
        name: AppImage
+
     - name: Download Deb Build
       uses: actions/download-artifact@v3
       with:
        name: Linux_Deb
+
     - name: Download Rpm Build
       uses: actions/download-artifact@v3
       with:
         name: Linux_Rpm
-    - name: Download MacOS Build
+
+    - name: Download OSX-x64 Build
       uses: actions/download-artifact@v3
       with:
-       name: MacOS
+        name: OSX_x64
+
+    - name: Download OSX-arm64 Build
+      uses: actions/download-artifact@v3
+      with:
+        name: OSX_arm64
+
     - name: Create Release
       if: github.event_name != 'pull_request' 
       uses: "marvinpinto/action-automatic-releases@latest"
