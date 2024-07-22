@@ -1,9 +1,9 @@
 #!/bin/bash
 
 file_content=$(cat ./WonderLab/WonderLab.csproj)
-branch=$(echo "$file_content" | grep -oPm1 "(?<=<Branch>)[^<]+")
-version=$(echo "$file_content" | grep -oPm1 "(?<=<Version>)[^<]+")
-runtime=$(echo "$file_content" | grep -oPm1 "(?<=<TargetFramework>)[^<]+")
+branch=$(echo "$file_content" | sed -n 's/.*<Branch>\([^<]*\)<\/Branch>.*/\1/p')  
+version=$(echo "$file_content" | sed -n 's/.*<Version>\([^<]*\)<\/Version>.*/\1/p')  
+runtime=$(echo "$file_content" | sed -n 's/.*<TargetFramework>\([^<]*\)<\/TargetFramework>.*/\1/p') 
 
 echo "Branch: $branch"
 echo "Version: $version"

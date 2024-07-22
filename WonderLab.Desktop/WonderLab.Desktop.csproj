@@ -10,8 +10,8 @@
 		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="wonderlab.icns" />
-	  <None Remove="wonderlab.png" />
+	  <None Remove="wonderlab.icns"/>
+	  <None Remove="wonderlab.png"/>
 	</ItemGroup>
 	<ItemGroup>
 	  <AvaloniaResource Include="wonderlab.icns">
