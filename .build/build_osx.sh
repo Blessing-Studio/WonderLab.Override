@@ -33,23 +33,22 @@ build_osx() {
     files=("libAvaloniaNative.dylib"
     "libHarfBuzzSharp.dylib"
     "libSkiaSharp.dylib"
+    "WonderLab.Desktop.pdb"
     "WonderLab.Desktop")
 
     app_dir="$base_app_dir/MacOS"
     mkdir $app_dir
 
-    for file in ${files[@]}
+    for line in ${files[@]}
     do
-        cp $base_dir/$file \
-            $app_dir/$file
+        cp $base/$line \
+            $app_dir/$line
     done
 
     chmod a+x $app_dir/WonderLab.Desktop
 
-    cd $base_dir
-
-    zip $zip_name $base_dir/WonderLab.app
-    echo " $base_dir/$zip_name build done!"
+    zip -r $zip_name $base_dir/WonderLab.app
+    echo "$zip_name build done!"
 }
 
 build_osx osx-x64
