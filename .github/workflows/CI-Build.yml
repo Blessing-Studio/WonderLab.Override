@@ -207,17 +207,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_REF: $ github.ref
-    needs: [build_Linux_Deb, build_Linux_Rpm, build_MacOS_App, build_Windows_Installer, build_Linux_Appimage]
+    needs: [build_Linux_Deb, build_Linux_Rpm, build_MacOS_App, build_Linux_Appimage]
     steps:
     - uses: nelonoel/branch-name@v1
     - name: Download Windows Build
       uses: actions/download-artifact@v3
       with:
        name: Windows
-    - name: Download Windows Installer Build
-      uses: actions/download-artifact@v3
-      with:
-       name: WindowsInstaller
     #- name: Download Linux Build
     #  uses: actions/download-artifact@v3
     #  with:
@@ -277,10 +273,6 @@ jobs:
       uses: geekyeggo/delete-artifact@v2
       with:
           name: MacOS
-    - name: Delete WindowsInstaller Artifact
-      uses: geekyeggo/delete-artifact@v2
-      with:
-          name: WindowsInstaller
     - name: Delete AppImage Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
