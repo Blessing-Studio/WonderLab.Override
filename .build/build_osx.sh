@@ -1,20 +1,18 @@
 #!/bin/bash
 
 file_content=$(cat ./WonderLab/WonderLab.csproj)
-branch=$(echo "$file_content" | sed -n 's/.*<Branch>\([^<]*\)<\/Branch>.*/\1/p')
 version=$(echo "$file_content" | sed -n 's/.*<Version>\([^<]*\)<\/Version>.*/\1/p')
 runtime=$(echo "$file_content" | sed -n 's/.*<TargetFramework>\([^<]*\)<\/TargetFramework>.*/\1/p')
 
-echo "Branch: $branch"
 echo "Version: $version"
 echo "RunTime: $runtime"
 
 build_osx() {
-    echo "build WonderLab.$branch.$version.$1.app.zip"
+    echo "build WonderLab.$version.$1.app.zip"
 
     base_dir="./WonderLab.Desktop/bin/Release/$runtime/publish/$1"
     base_app_dir="$base_dir/WonderLab.app/Contents"
-    zip_name="WonderLab.$branch.$version.$1.app.zip"
+    zip_name="WonderLab.$version.$1.app.zip"
 
     cd -
     dotnet publish WonderLab.Desktop -p:PublishProfile=$1

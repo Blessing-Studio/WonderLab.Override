@@ -24,6 +24,7 @@ jobs:
         dotnet-version: "${{env.dotnet-version}}"
     - name: Test
       run: dotnet test WonderLab.Desktop/WonderLab.Desktop.csproj
+      
   test_build:
     runs-on: ubuntu-latest
     steps:
@@ -38,29 +39,27 @@ jobs:
         dotnet-version: "${{env.dotnet-version}}"
     - name: Test
       run: dotnet build WonderLab.Desktop/WonderLab.Desktop.csproj
+
   build_Windows:
-    strategy:
-      matrix:
-        arch: ["x64", "arm64"] #We won't support x86 anymore
     runs-on: windows-latest
     needs: [test, test_build]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        submodules: recursive
-    - name: "Setup Dotnet"
-      uses: "actions/setup-dotnet@v3"
-      with:
-        dotnet-version: "${{env.dotnet-version}}"
-    - name: Build
-      run: dotnet build WonderLab.Desktop/WonderLab.Desktop.csproj -t:CreateZip --arch ${{ matrix.arch }} --os win ${{ env.compile-flags }}
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: Windows
-        path: WonderLab.Desktop/bin/Release/${{ env.target-version }}/win-${{ matrix.arch }}/*.zip
+      - uses: actions/checkout@v3
+      - name: Set .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "${{env.dotnet-version}}"
+
+      - name: Update code
+        shell: cmd
+        working-directory: ./
+        run: ./build/update.cmd
+
+      - name: Build
+        shell: powershell
+        working-directory: ./
+        run: ./build/build_windows.ps1
+
   build_Linux_Appimage:
     strategy:
       matrix:
