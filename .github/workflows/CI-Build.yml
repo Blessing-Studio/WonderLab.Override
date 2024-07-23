@@ -53,7 +53,7 @@ jobs:
       - name: Update code
         shell: cmd
         working-directory: ./
-        run: ./.build/update_code.cmd
+        run: ./.build/update_code.bat
 
       - name: Build
         shell: powershell
