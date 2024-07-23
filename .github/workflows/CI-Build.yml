@@ -123,13 +123,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: OSX_x64
-          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-x64/publish/*.zip'
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/publish/osx-x64/*.zip'
 
       - name: Upload arm64 build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: OSX_arm64
-          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/osx-arm64/publish/*.zip'
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/publish/osx-arm64/*.zip'
   build_Linux_Deb:
     strategy:
       matrix:
