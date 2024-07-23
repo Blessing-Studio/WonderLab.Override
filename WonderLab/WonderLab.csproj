@@ -5,6 +5,7 @@
 		<Nullable>disable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<TargetFramework>net8.0</TargetFramework>
+		<NoWarn>CS1701;CS1702;VSTHRD110;VSTHRD002;VSTHRD101;VSTHRD100</NoWarn>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	</PropertyGroup>
@@ -31,7 +32,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Assets\Fonts\DinPro.ttf" />
-		<EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf"/>
+		<EmbeddedResource Include="Assets\Fonts\SegoeFluentIcons.ttf" />
 		<EmbeddedResource Include="Assets\Images\steve.png" />
 	</ItemGroup>
 
@@ -59,8 +60,6 @@
 		<PackageReference Include="MinecraftLaunch.Skin" Version="1.0.1" />
 		
 		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.3" />
-
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Serilog.Sinks.Console" Version="5.0.1" />
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0-beta1" />
 	</ItemGroup>
 
@@ -99,10 +98,6 @@
 		<AvaloniaXaml Update="Assets\Languages\zh-TW.axaml">
 			<SubType>Designer</SubType>
 		</AvaloniaXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Views\Pages\Download\" />
 	</ItemGroup>
 
 	<ItemGroup>

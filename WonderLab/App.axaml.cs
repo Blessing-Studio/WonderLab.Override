@@ -42,6 +42,8 @@ using WonderLab.Views.Windows;
 using WonderLab.Classes;
 using WonderLab.Views.Dialogs.Multiplayer;
 using WonderLab.ViewModels.Dialogs.Multiplayer;
+using WonderLab.ViewModels.Pages.Download;
+using WonderLab.Views.Download;
 
 namespace WonderLab;
 
@@ -61,7 +63,7 @@ public sealed partial class App : Application {
         _host.Start();
     }
 
-    public override async void OnFrameworkInitializationCompleted() {
+    public override void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             Window window = SettingService.IsInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
@@ -125,6 +127,8 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();
 
+        services.AddSingleton<SearchPage>();
+
         services.AddSingleton<AboutPage>();
         services.AddSingleton<DetailSettingPage>();
         services.AddSingleton<LaunchSettingPage>();
@@ -167,6 +171,7 @@ public sealed partial class App : Application {
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
+        services.AddSingleton<DownloadNavigationService>();
 
         services.AddHostedService<QueuedHostedService>();
         services.AddHostedService<SettingBackgroundService>();
@@ -195,6 +200,9 @@ public sealed partial class App : Application {
         //Navigation Page
         services.AddSingleton<SettingNavigationPageViewModel>();
         services.AddSingleton<DownloadNavigationPageViewModel>();
+
+        //Download Page
+        services.AddSingleton<SearchPageViewModel>();
 
         //Setting Page
         services.AddSingleton<AboutPageViewModel>();

@@ -18,9 +18,10 @@ public abstract class NavigationServiceBase : INavigationService {
         _dispatcher = dispatcher;
     }
 
-    public virtual void NavigationTo<TViewModel>() where TViewModel : ViewModelBase {
-        _dispatcher.Post(() => {
-            var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
+    public virtual async void NavigationTo<TViewModel>() where TViewModel : ViewModelBase {
+        var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
+
+        await _dispatcher.InvokeAsync(() => {
             if (FuncPages.TryGetValue(viewName, out var pageFunc)) {
                 object pageObject = pageFunc();
                 (pageObject as UserControl)!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
