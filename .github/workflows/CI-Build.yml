@@ -24,7 +24,7 @@ jobs:
         dotnet-version: "${{env.dotnet-version}}"
     - name: Test
       run: dotnet test WonderLab.Desktop/WonderLab.Desktop.csproj
-      
+
   test_build:
     runs-on: ubuntu-latest
     steps:
@@ -53,12 +53,24 @@ jobs:
       - name: Update code
         shell: cmd
         working-directory: ./
-        run: ./build/update.cmd
+        run: ./.build/update_code.cmd
 
       - name: Build
         shell: powershell
         working-directory: ./
-        run: ./build/build_windows.ps1
+        run: ./.build/build_windows.ps1
+
+      - name: Upload x64 build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows_x64
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/publish/win-x64/*.zip'
+
+      - name: Upload arm64 build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows_arm64
+          path: 'WonderLab.Desktop/bin/Release/${{ env.target-version }}/publish/win-arm64/*.zip'
 
   build_Linux_Appimage:
     strategy:
@@ -184,10 +196,15 @@ jobs:
     steps:
     - uses: nelonoel/branch-name@v1
 
-    - name: Download Windows Build
+    - name: Download Windows-x64 Build
       uses: actions/download-artifact@v3
       with:
-       name: Windows
+        name: Windows_x64
+
+    - name: Download Windows-arm64 Build
+      uses: actions/download-artifact@v3
+      with:
+        name: Windows_arm64
 
     - name: Download AppImage Build
       uses: actions/download-artifact@v3
@@ -228,15 +245,21 @@ jobs:
             *.deb
             *.rpm
             *.AppImage
+
   Delete_Artifacts:
     permissions: write-all
     runs-on: ubuntu-latest
     needs: [Release]
     steps:
-    - name: Delete Windows Artifact
+    - name: Delete Windows-x64 Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
-          name: Windows
+          name: Windows_x64
+
+    - name: Delete Windows-arm64 Artifact
+      uses: geekyeggo/delete-artifact@v2
+      with:
+          name: Windows_arm64
 
     - name: Delete Deb Artifact
       uses: geekyeggo/delete-artifact@v2
@@ -253,7 +276,7 @@ jobs:
       with:
           name: OSX_x64
 
-    - name: Delete OSX-x64 Artifact
+    - name: Delete OSX-arm64 Artifact
       uses: geekyeggo/delete-artifact@v2
       with:
           name: OSX_arm64
