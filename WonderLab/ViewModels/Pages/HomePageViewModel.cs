@@ -8,6 +8,12 @@ using System.Collections.ObjectModel;
 using WonderLab.Classes.Datas.TaskData;
 using WonderLab.Classes.Datas.ViewData;
 using CommunityToolkit.Mvvm.ComponentModel;
+using MinecraftLaunch.Components.Fetcher;
+using WonderLab.Services.UI;
+using WonderLab.Services.Auxiliary;
+using WonderLab.Services.Download;
+using CommunityToolkit.Mvvm.Messaging;
+using Avalonia.Controls.Notifications;
 
 namespace WonderLab.ViewModels.Pages;
 
@@ -48,8 +54,31 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private void Launch() {
-        var launchTask = new LaunchTask(_gameService, _settingService, _notificationService);
-        //launchTask.WaitForRunAsync();
-        _taskService.QueueJob(launchTask);
+        if (_gameService.ActiveGameEntry is null) {
+            _notificationService.QueueJob(new NotificationViewData {
+                Title = "错误",
+                Content = "无法启动，原因：未选择任何游戏实例！",
+                NotificationType = NotificationType.Error
+            });
+
+            return;
+        }
+
+        var preCheckTask = new PreLaunchCheckTask(App.GetService<JavaFetcher>(),
+            _gameService,
+            App.GetService<DialogService>(), 
+            _settingService, App.GetService<AccountService>(),
+            App.GetService<DownloadService>(),
+            _notificationService,
+            App.GetService<WeakReferenceMessenger>());
+
+        preCheckTask.CanLaunch += (_, arg) => {
+            if (arg) {
+                var launchTask = new LaunchTask(_gameService, _settingService, _notificationService);
+                _taskService.QueueJob(launchTask);
+            }
+        };
+
+        _taskService.QueueJob(preCheckTask);
     }
 }

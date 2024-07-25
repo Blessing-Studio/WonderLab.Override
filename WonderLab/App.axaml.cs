@@ -42,6 +42,8 @@ using WonderLab.Views.Windows;
 using WonderLab.Classes;
 using WonderLab.Views.Dialogs.Multiplayer;
 using WonderLab.ViewModels.Dialogs.Multiplayer;
+using WonderLab.ViewModels.Pages.Download;
+using WonderLab.Views.Download;
 
 namespace WonderLab;
 
@@ -51,6 +53,8 @@ public sealed partial class App : Application {
     private static IHost _host = default!;
     public static IServiceProvider ServiceProvider => _host.Services;
 
+    public static T GetService<T>() => ServiceProvider.GetRequiredService<T>();
+
     public override void RegisterServices() {
         base.RegisterServices();
 
@@ -59,7 +63,7 @@ public sealed partial class App : Application {
         _host.Start();
     }
 
-    public override async void OnFrameworkInitializationCompleted() {
+    public override void OnFrameworkInitializationCompleted() {
         BindingPlugins.DataValidators.RemoveAt(0);
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
             Window window = SettingService.IsInitialize ? GetService<OobeWindow>() : GetService<MainWindow>();
@@ -70,15 +74,11 @@ public sealed partial class App : Application {
         }
 
         base.OnFrameworkInitializationCompleted();
-
-        T GetService<T>() {
-            return ServiceProvider.GetRequiredService<T>();
-        }
     }
 
     private static IHostBuilder CreateHostBuilder() {
         var builder = Host.CreateDefaultBuilder()
-            .ConfigureServices(ConfigureApplicationInsights)
+            //.ConfigureServices(ConfigureApplicationInsights)
             .ConfigureServices(ConfigureServices)
             .ConfigureServices(ConfigureView)
             .ConfigureServices(services => {
@@ -92,9 +92,9 @@ public sealed partial class App : Application {
                 Log.Logger = new LoggerConfiguration()
                 .Enrich
                 .FromLogContext()
-                .WriteTo.ApplicationInsights(new TelemetryConfiguration() {
-                    ConnectionString = CONNECTION_STRING,
-                }, TelemetryConverter.Traces)
+                //.WriteTo.ApplicationInsights(new TelemetryConfiguration() {
+                //    ConnectionString = CONNECTION_STRING,
+                //}, TelemetryConverter.Traces)
                 .WriteTo.File(Path.Combine("logs", $"WonderLog.log"),
                 rollingInterval: RollingInterval.Day,
                 outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}] ({SourceContext}): {Message:lj}{NewLine}{Exception}")
@@ -127,6 +127,8 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingNavigationPage>();
         services.AddSingleton<DownloadNavigationPage>();
 
+        services.AddSingleton<SearchPage>();
+
         services.AddSingleton<AboutPage>();
         services.AddSingleton<DetailSettingPage>();
         services.AddSingleton<LaunchSettingPage>();
@@ -140,6 +142,7 @@ public sealed partial class App : Application {
         //Dialog
         services.AddTransient<TestUserCheckDialog>();
         services.AddTransient<RecheckToOobeDialog>();
+        services.AddTransient<RefreshAccountDialog>();
         services.AddTransient<JoinMutilplayerDialog>();
         services.AddTransient<CreateMutilplayerDialog>();
         services.AddTransient<ChooseAccountTypeDialog>();
@@ -168,6 +171,7 @@ public sealed partial class App : Application {
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();
         services.AddSingleton<SettingNavigationService>();
+        services.AddSingleton<DownloadNavigationService>();
 
         services.AddHostedService<QueuedHostedService>();
         services.AddHostedService<SettingBackgroundService>();
@@ -197,6 +201,9 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingNavigationPageViewModel>();
         services.AddSingleton<DownloadNavigationPageViewModel>();
 
+        //Download Page
+        services.AddSingleton<SearchPageViewModel>();
+
         //Setting Page
         services.AddSingleton<AboutPageViewModel>();
         services.AddSingleton<DetailSettingPageViewModel>();
@@ -207,6 +214,7 @@ public sealed partial class App : Application {
         //Dialog
         services.AddTransient<TestUserCheckDialogViewModel>();
         services.AddTransient<RecheckToOobeDialogViewModel>();
+        services.AddTransient<RefreshAccountDialogViewModel>();
         services.AddTransient<JoinMutilplayerDialogViewModel>();
         services.AddTransient<CreateMutilplayerDialogViewModel>();
         services.AddTransient<ChooseAccountTypeDialogViewModel>();

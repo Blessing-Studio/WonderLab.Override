@@ -5,8 +5,6 @@ using WonderLab.ViewModels.Pages.Setting;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WonderLab.Classes.Datas;
 using Avalonia.Threading;
-using WonderLab.Services.UI;
-using WonderLab.Views.Pages.Setting;
 
 namespace WonderLab.ViewModels.Pages.Navigation;
 
@@ -17,8 +15,8 @@ public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
     [ObservableProperty] private NavigationPageData _activePage;
 
     public SettingNavigationPageViewModel(SettingNavigationService navigationService, Dispatcher dispatcher) {
-        navigationService.NavigationRequest += p => {
-            dispatcher.Post(() => {
+        navigationService.NavigationRequest += async p => {
+            await dispatcher.InvokeAsync(() => {
                 if (ActivePage?.PageKey != p.PageKey) {
                     ActivePage = p;
                 }

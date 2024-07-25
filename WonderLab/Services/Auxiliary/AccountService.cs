@@ -20,6 +20,8 @@ public sealed class AccountService {
     private MicrosoftAuthenticator _microsoftAuthenticator;
     private YggdrasilAuthenticator _yggdrasilAuthenticator;
 
+    public bool IsRefresh { get; private set; }
+
     public AccountService(ILogger<AccountService> logger) {
         _logger = logger;
     }
@@ -27,9 +29,11 @@ public sealed class AccountService {
     /// <summary>
     /// 初始化验证器组件
     /// </summary>
-    public bool InitializeComponent<T>(IAuthenticator<T> authenticator, AccountType type = AccountType.Offline) {
+    public bool InitializeComponent<T>(IAuthenticator<T> authenticator, AccountType type = AccountType.Offline, bool isRefresh = false) {
         try {
             _logger.LogInformation("开始初始化验证器，类型为：{type}", type);
+            IsRefresh = isRefresh;
+
             switch (type) {
                 case AccountType.Offline:
                     _offlineAuthenticator = authenticator as OfflineAuthenticator;
@@ -63,7 +67,10 @@ public sealed class AccountService {
             case 1:
                 return Enumerable.Repeat(_offlineAuthenticator.Authenticate(), 1);
             case 2:
-                await _microsoftAuthenticator.DeviceFlowAuthAsync(action, tokenSource);
+                if (!IsRefresh) {
+                    await _microsoftAuthenticator.DeviceFlowAuthAsync(action, tokenSource);
+                }
+
                 return Enumerable.Repeat(await _microsoftAuthenticator.AuthenticateAsync(), 1);
             case 3:
                 return await _yggdrasilAuthenticator.AuthenticateAsync();

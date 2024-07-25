@@ -6,11 +6,13 @@ using System.Threading.Channels;
 using WonderLab.Classes.Interfaces;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
 
 namespace WonderLab.Services;
 
-public sealed partial class TaskService(IBackgroundTaskQueue queue) : ObservableObject {
+public sealed partial class TaskService(IBackgroundTaskQueue queue, ILogger<TaskService> logger) : ObservableObject {
     private int _currentRunningJobs;
+    private readonly ILogger<TaskService> _logger = logger;
     private readonly IBackgroundTaskQueue _taskQueue = queue;
 
     [ObservableProperty] private ObservableCollection<ITaskJob> taskJobs = [];
@@ -20,12 +22,14 @@ public sealed partial class TaskService(IBackgroundTaskQueue queue) : Observable
             return;
         }
 
-        Task.Run(async () => {
+        _ = Task.Run(async () => {
             await _taskQueue.QueueBackgroundWorkItemAsync(job);
             job.TaskFinished += (_, args) => {
                 using (job) {
                     Interlocked.Decrement(ref _currentRunningJobs);
-                    TaskJobs.Remove(job);
+                    if (TaskJobs.Remove(job)) {
+                        _logger.LogInformation("任务已被移出队列！");
+                    }
                 }
             };
 
@@ -35,7 +39,6 @@ public sealed partial class TaskService(IBackgroundTaskQueue queue) : Observable
 
             Interlocked.Increment(ref _currentRunningJobs);
         });
-
     }
 }
 

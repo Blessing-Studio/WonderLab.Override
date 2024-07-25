@@ -80,6 +80,13 @@
 														<TextBlock FontSize="14"
 																   Text="{Binding JobName}"/>
 
+														<Button Content="&#xE8BB;"
+																Classes="titlebarbutton"
+																HorizontalAlignment="Right"
+																IsVisible="{Binding CanBeCancelled}"
+																Command="{Binding CancelTaskCommand}"
+																Foreground="{TemplateBinding Foreground}"/>
+														
 														<TextBlock Grid.Row="2"
 																   FontSize="12"
 																   Text="{Binding ProgressDetail}"/>

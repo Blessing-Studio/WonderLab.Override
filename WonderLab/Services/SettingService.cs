@@ -57,7 +57,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         Dispatcher dispatcher,
         ThemeService themeService,
         WindowService windowService,
-        TelemetryClient telemetryClient,
+        //TelemetryClient telemetryClient,
         LanguageService languageService,
         ILogger<SettingBackgroundService> logger,
         WeakReferenceMessenger weakReferenceMessenger) {
@@ -67,7 +67,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
         _languageService = languageService;
 
         _dispatcher = dispatcher;
-        _telemetryClient = telemetryClient;
+        //_telemetryClient = telemetryClient;
         _weakReferenceMessenger = weakReferenceMessenger;
 
         string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -76,7 +76,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
     }
 
     private void Save() {
-        _telemetryClient.Flush();
+        //_telemetryClient.Flush();
         var json = _settingData.Serialize(typeof(SettingData), new SettingDataContext(JsonConverterUtil.DefaultJsonOptions));
         File.WriteAllText(_settingDataFilePath.FullName, json);
     }

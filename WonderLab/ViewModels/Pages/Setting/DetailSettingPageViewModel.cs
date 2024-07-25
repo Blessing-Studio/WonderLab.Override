@@ -58,7 +58,7 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
         LanguageIndex = _settingService.Data.LanguageIndex;
         BackgroundIndex = _settingService.Data.BackgroundIndex;
 
-        Fonts = FontManager.Current.SystemFonts.ToList();
+        Fonts = [.. FontManager.Current.SystemFonts];
     }
 
     [RelayCommand]

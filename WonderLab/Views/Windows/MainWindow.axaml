@@ -18,7 +18,7 @@
         TransparencyLevelHint="Mica"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="True"
-		Icon="/Assets/wonderlab.ico"
+		Icon="/Assets/Images/wonderlab.ico"
 		FontFamily="{StaticResource DefaultFontFamily}">
 	<i:Interaction.Behaviors>
 		<ia:EventTriggerBehavior EventName="Loaded" SourceObject="Window">

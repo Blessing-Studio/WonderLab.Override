@@ -13,6 +13,13 @@ namespace WonderLab.Classes.Datas.TaskData;
 /// </summary>
 public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable {
     private bool _isTaskFinishedEventFired;
+    private DispatcherTimer _debounceTimer;
+    private const int MinUpdateInterval = 400; // 最小更新间隔（毫秒）
+    private DateTime _lastUpdateTime;
+
+    private double _insideProgress;
+    private bool _insideIsIndeterminate;
+    private string _insideProgressDetail;
 
     [ObservableProperty] private double _progress;
 
@@ -30,11 +37,19 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
 
     public event EventHandler<EventArgs> TaskFinished;
 
+    public TaskBase() {
+        _debounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
+        _debounceTimer.Tick += (s, e) => {
+            (s as DispatcherTimer).Stop();
+            Progress = _insideProgress;
+            ProgressDetail = _insideProgressDetail;
+        };
+    }
+
     public async ValueTask<TaskStatus> WaitForRunAsync(CancellationToken token) {
         await Task.Delay(200, token);
         while (!token.IsCancellationRequested) {
-            TaskStatus taskStatus = TaskStatus;
-            if ((uint)(taskStatus - 5) <= 2u) {
+            if ((uint)(TaskStatus - 5) <= 2u) {
                 break;
             }
 
@@ -78,8 +93,22 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
         return !IsDeletedRequested;
     }
 
+    protected bool ShouldUpdate() {
+        var now = DateTime.Now;
+        if ((now - _lastUpdateTime).TotalMilliseconds >= MinUpdateInterval) {
+            _lastUpdateTime = now;
+            return true;
+        }
+        return false;
+    }
+
+    protected void DebounceUIUpdate() {
+        Progress = _insideProgress;
+        ProgressDetail = _insideProgressDetail;
+    }
+
     protected void ReportProgress(string detail) {
-        Dispatcher.UIThread.Post(delegate {
+        Dispatcher.UIThread.Post(() => {
             if (!string.IsNullOrEmpty(detail)) {
                 ProgressDetail = detail;
             }
@@ -87,10 +116,11 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
     }
 
     protected void ReportProgress(double progress) {
-        Dispatcher.UIThread.Post(delegate {
+        Dispatcher.UIThread.Post(() => {
             if (progress < 0.0) {
                 IsIndeterminate = true;
             }
+
             Progress = progress;
         });
     }
