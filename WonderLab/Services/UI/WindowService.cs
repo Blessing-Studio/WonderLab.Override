@@ -70,6 +70,10 @@ public sealed class WindowService {
     }
 
     public async void SetBackground(int type) {
+        if (Design.IsDesignMode) {
+            return;
+        }
+
         var main = _mainWindow as MainWindow;
         if (main is null) {
             return;

@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="using:WonderLab.Views.Controls">
 	<Design.PreviewWith>
 		<Border Padding="20">
 			<StackPanel Spacing="10">
@@ -27,17 +28,18 @@
 	<x:Double x:Key="ComboBoxMinHeight">32</x:Double>
 
 	<ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
-		<Setter Property="Padding" Value="{DynamicResource ComboBoxPadding}" />
-		<Setter Property="FocusAdorner" Value="{x:Null}" />
+		<Setter Property="MinWidth" Value="80" />
+		<Setter Property="MinHeight" Value="35" />
+		<Setter Property="CornerRadius" Value="12" />
+		<Setter Property="BorderThickness" Value="2.55" />
 		<Setter Property="MaxDropDownHeight" Value="504" />
+		<Setter Property="FocusAdorner" Value="{x:Null}" />
+		<Setter Property="Padding" Value="{DynamicResource ComboBoxPadding}" />
 		<Setter Property="Foreground" Value="{DynamicResource ComboBoxForeground}" />
 		<Setter Property="Background" Value="{DynamicResource ComboBoxBackground}" />
 		<Setter Property="BorderBrush" Value="{DynamicResource ComboBoxBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{DynamicResource ComboBoxBorderThemeThickness}" />
-		<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-		<Setter Property="MinHeight" Value="{DynamicResource ComboBoxMinHeight}" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="HorizontalAlignment" Value="Left" />
@@ -52,13 +54,26 @@
 								Grid.ColumnSpan="2"
 								Background="{TemplateBinding Background}"
 								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
 								CornerRadius="{TemplateBinding CornerRadius}"
-								MinWidth="{DynamicResource ComboBoxThemeMinWidth}" />
+								BorderThickness="{TemplateBinding BorderThickness}"
+								MinWidth="{DynamicResource ComboBoxThemeMinWidth}">
+							<Border.Transitions>
+								<Transitions>
+									<BoxShadowsTransition Property="BoxShadow"
+														  Duration="0:0:0.35"
+														  Easing="ExponentialEaseOut"/>
+
+									<BrushTransition Duration="0:0:0.35"
+													 Property="BorderBrush"
+													 Easing="ExponentialEaseOut"/>
+								</Transitions>
+							</Border.Transitions>
+						</Border>
+						
 						<Border x:Name="HighlightBackground"
 								Grid.Column="0"
 								Grid.ColumnSpan="2"
-								Background="{DynamicResource ComboBoxBackgroundUnfocused}"
+								Background="Red"
 								BorderBrush="{DynamicResource ComboBoxBackgroundBorderBrushUnfocused}"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								CornerRadius="{TemplateBinding CornerRadius}"
@@ -81,44 +96,54 @@
 
 						<Border x:Name="DropDownOverlay"
 								Grid.Column="1"
-								Background="Transparent"
+								Background="Red"
 								Margin="0,1,1,1"
 								Width="30"
 								IsVisible="False"
 								HorizontalAlignment="Right" />
 
-						<PathIcon x:Name="DropDownGlyph"
-								  Grid.Column="1"
-								  UseLayoutRounding="False"
-								  IsHitTestVisible="False"
-								  Height="12"
-								  Width="12"
-								  Margin="0,0,10,0"
-								  HorizontalAlignment="Right"
-								  VerticalAlignment="Center"
-								  Foreground="{DynamicResource ComboBoxDropDownGlyphForeground}"
-								  Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"/>
+						<controls:FontIcon Width="13"
+										   Height="12"
+										   FontSize="12"
+										   Grid.Column="1"
+										   Glyph="&#xE70D;"
+										   Margin="0 0 10 0"
+										   Name="DropDownGlyphIcon"
+										   IsHitTestVisible="False"
+										   UseLayoutRounding="False"
+										   VerticalAlignment="Center"
+										   HorizontalAlignment="Right"
+										   Foreground="{DynamicResource ComboBoxDropDownGlyphForeground}">
+							<controls:FontIcon.Transitions>
+								<Transitions>
+									<ThicknessTransition Property="Margin"
+														 Duration="0:0:0.35"
+														 Easing="ExponentialEaseOut"/>
+								</Transitions>
+							</controls:FontIcon.Transitions>
+						</controls:FontIcon>
 
 						<Popup Name="PART_Popup"
+							   Placement="AnchorAndGravity"
 							   IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
 							   MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
 							   MaxHeight="{TemplateBinding MaxDropDownHeight}"
 							   PlacementTarget="{TemplateBinding}"
 							   IsLightDismissEnabled="True">
 							<Border x:Name="PopupBorder"
+									HorizontalAlignment="Stretch"
 									Background="{DynamicResource ComboBoxDropDownBackground}"
 									BorderBrush="{DynamicResource ComboBoxDropDownBorderBrush}"
 									BorderThickness="{DynamicResource ComboBoxDropdownBorderThickness}"
 									Padding="{DynamicResource ComboBoxDropdownBorderPadding}"
-									HorizontalAlignment="Stretch"
-									CornerRadius="{DynamicResource OverlayCornerRadius}">
-								<ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-											  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-											  IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
+									CornerRadius="{TemplateBinding CornerRadius}">
+								<controls:SmoothScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+															 VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+															 IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}">
 									<ItemsPresenter Name="PART_ItemsPresenter"
-													Margin="{DynamicResource ComboBoxDropdownContentMargin}"
-													ItemsPanel="{TemplateBinding ItemsPanel}" />
-								</ScrollViewer>
+													ItemsPanel="{TemplateBinding ItemsPanel}"
+													Margin="{DynamicResource ComboBoxDropdownContentMargin}"/>
+								</controls:SmoothScrollViewer>
 							</Border>
 						</Popup>
 					</Grid>
@@ -128,14 +153,12 @@
 
 		<!--  PointerOver State  -->
 		<Style Selector="^:pointerover /template/ Border#Background">
-			<Setter Property="Background" Value="{DynamicResource ComboBoxBackgroundPointerOver}" />
-			<Setter Property="BorderBrush" Value="{DynamicResource ComboBoxBorderBrushPointerOver}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ContentBrush4}" />
 		</Style>
 
 		<!--  Pressed State  -->
-		<Style Selector="^:pressed /template/ Border#Background">
-			<Setter Property="Background" Value="{DynamicResource ComboBoxBackgroundPressed}" />
-			<Setter Property="BorderBrush" Value="{DynamicResource ComboBoxBorderBrushPressed}" />
+		<Style Selector="^:pressed /template/ controls|FontIcon#DropDownGlyphIcon">
+			<Setter Property="Margin" Value="0 0 10 -4"/>
 		</Style>
 
 		<!-- Error State -->
@@ -157,7 +180,7 @@
 		</Style>
 
 		<!--  Focused State  -->
-		<Style Selector="^:focus-visible">
+		<Style Selector="^:focus-visible"> 
 			<Style Selector="^ /template/ Border#HighlightBackground">
 				<Setter Property="IsVisible" Value="True" />
 				<Setter Property="BorderBrush" Value="{DynamicResource ComboBoxBackgroundBorderBrushFocused}" />

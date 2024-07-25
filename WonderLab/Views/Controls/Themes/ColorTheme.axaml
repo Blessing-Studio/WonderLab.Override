@@ -184,6 +184,9 @@
 			<!-- Control  -->
 			<SolidColorBrush x:Key="DialogOverlayBackground" Color="Black"/>
 			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
+			<SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource ContentColor2}"/>
+			<SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource ContentColor3}"/>
+			<SolidColorBrush x:Key="ComboBoxBorderBrush" Color="{StaticResource ContentColor3}"/>
 			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
 			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
 			<SolidColorBrush x:Key="SettingSideBarBackground" Color="{StaticResource LayoutBackgroundColor}"/>
@@ -374,7 +377,10 @@
 			<!-- Control  -->
 			<SolidColorBrush x:Key="DialogOverlayBackground" Color="Black"/>
 			<SolidColorBrush x:Key="TextBoxBackground" Color="{StaticResource ContentColor2}"/>
+			<SolidColorBrush x:Key="ComboBoxBackground" Color="{StaticResource ContentColor2}"/>
 			<SolidColorBrush x:Key="TitleBarBackground" Color="{StaticResource ContentColor3}"/>
+			<SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource ContentColor4}"/>
+			<SolidColorBrush x:Key="ComboBoxBorderBrush" Color="{StaticResource ContentColor4}"/>
 			<SolidColorBrush x:Key="BottomBarBackground" Color="{StaticResource ContentColor3}"/>
 			<SolidColorBrush x:Key="SettingSideBarBackground" Color="{StaticResource ContentColor3}"/>
 			<SolidColorBrush x:Key="GameManagerPanelBackground" Color="{StaticResource ContentColor3}"/>

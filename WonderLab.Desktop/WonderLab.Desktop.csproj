@@ -10,8 +10,8 @@
 		<UseAppHost>true</UseAppHost>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="wonderlab.icns"/>
-	  <None Remove="wonderlab.png"/>
+	  <None Remove="wonderlab.icns" />
+	  <None Remove="wonderlab.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <AvaloniaResource Include="wonderlab.icns">
@@ -30,6 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="wonderlab.ico" />
 		<Content Include="wonderlab.png">
 			<LinuxPath>/usr/share/icons/wonderlab.png</LinuxPath>
 		</Content>
@@ -53,5 +54,6 @@
 		<CFBundleShortVersionString>2.0.0</CFBundleShortVersionString>
 		<UserSecretsId>650eae67-f1f5-4fc8-9914-ea217ada8a3b</UserSecretsId>
 		<CFBundleIdentifier>com.blessing-studio.wonderlab</CFBundleIdentifier>
+		<ApplicationIcon>wonderlab.ico</ApplicationIcon>
 	</PropertyGroup>
 </Project>
