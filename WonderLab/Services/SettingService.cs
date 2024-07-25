@@ -122,7 +122,7 @@ internal sealed class SettingBackgroundService : BackgroundService {
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken) {
-        await Task.Run(() => Save(), cancellationToken);
+        Save();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
