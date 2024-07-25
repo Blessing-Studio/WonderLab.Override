@@ -28,7 +28,7 @@
 					<Grid Background="Transparent"
 						  RowDefinitions="1*, Auto">
 						<controls:Frame Grid.Row="0"
-										Name="Frame"
+										Name="PART_Frame"
 										Margin="0 0 12 15"
 										ClipToBounds="False"
 										Background="Transparent"
@@ -48,8 +48,7 @@
 												CornerRadius="12"
 												ClipToBounds="True"
 												Name="PART_PanelFrame"
-												Background="Transparent"
-												Content="{TemplateBinding PanelContent}"/>
+												Background="Transparent"/>
 							</Border>
 						</LayoutTransformControl>
 						
@@ -106,10 +105,10 @@
 			<Style.Animations>
 				<Animation Duration="0:0:0.35" FillMode="Forward">
 					<KeyFrame Cue="0%">
-						<Setter Property="Opacity" Value="0"/>
+						<Setter Property="Opacity" Value="1"/>
 					</KeyFrame>
 					<KeyFrame Cue="100%">
-						<Setter Property="Opacity" Value="0"/>
+						<Setter Property="Opacity" Value="1"/>
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>
@@ -134,7 +133,7 @@
 			</Style.Animations>
 		</Style>
 
-		<Style Selector="^:ispanelopen /template/ controls|Frame#PART_PanelFrame">
+		<!--<Style Selector="^:ispanelopen /template/ controls|Frame#PART_PanelFrame">
 			<Style.Animations>
 				<Animation FillMode="Both"
 						   Delay="0:0:0.45"
@@ -148,7 +147,7 @@
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>
-		</Style>
+		</Style>-->
 
 		<Style Selector="^:ispanelclose /template/ LayoutTransformControl#PART_LayoutTransformControl">
 			<Setter Property="RenderTransformOrigin" Value="50%,0%"/>
@@ -170,7 +169,7 @@
 			</Style.Animations>
 		</Style>
 
-		<Style Selector="^:ispanelclose /template/ controls|Frame#PART_PanelFrame">
+		<!--<Style Selector="^:ispanelclose /template/ controls|Frame#PART_PanelFrame">
 			<Style.Animations>
 				<Animation FillMode="Both"
 						   Delay="0:0:0.45"
@@ -184,6 +183,6 @@
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>
-		</Style>
+		</Style>-->
     </ControlTheme>
 </ResourceDictionary>

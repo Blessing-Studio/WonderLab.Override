@@ -36,7 +36,10 @@ public sealed class NavigationView : SelectingItemsControl {
         }
     }
 
+    private Frame PART_Frame;
+    private Frame PART_PanelFrame;
     private Border _backgroundPanel;
+    private bool _oldIsOpenBackgroundPanel;
 
     public NavigationViewTemplateSettings TemplateSettings { get; } = new();
 
@@ -77,8 +80,8 @@ public sealed class NavigationView : SelectingItemsControl {
     }
 
     private void UpdatePseudoClasses() {
-        PseudoClasses.Set(":ispanelopen", IsOpenBackgroundPanel is true);
-        PseudoClasses.Set(":ispanelclose", IsOpenBackgroundPanel is false);
+        PseudoClasses.Set(":ispanelopen", IsOpenBackgroundPanel);
+        PseudoClasses.Set(":ispanelclose", !IsOpenBackgroundPanel);
     }
 
     private void OnPanelPropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e) {
@@ -91,15 +94,28 @@ public sealed class NavigationView : SelectingItemsControl {
         base.OnApplyTemplate(e);
 
         //Layouts
-        _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel")!;
+        PART_Frame = e.NameScope.Find<Frame>("PART_Frame");
+        PART_PanelFrame = e.NameScope.Find<Frame>("PART_PanelFrame");
+        _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel");
+
         _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
-        
+
         if (change.Property == IsOpenBackgroundPanelProperty) {
             UpdatePseudoClasses();
+            _oldIsOpenBackgroundPanel = change.GetOldValue<bool>();
+        }
+
+        if (change.Property == PanelContentProperty) {
+            if (!_oldIsOpenBackgroundPanel) {
+                _oldIsOpenBackgroundPanel = true;
+                await Task.Delay(TimeSpan.Parse("0:0:0.4"));
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent);
         }
     }
 }
