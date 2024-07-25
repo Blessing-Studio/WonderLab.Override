@@ -20,7 +20,7 @@ The true NEXT generation cross-platform Minecraft launcher
 
 ## About
 
-WonderLab is a cross-platform Minecraft launcher, supports auto-update, Modrinth, Curseforge resource download, full format modpacks install(probably), and also supports Windows，MacOS，Linux, etc, and supports x64, Arm
+WonderLab is a cross-platform Minecraft launcher, supports auto-update, Modrinth, Curseforge resource download, full format modpacks install(probably), and also supports Windows，MacOS，Linux, etc, and supports x64, Arm64
 
 Language support: 简体中文, 繁体中文, 文言華夏, English(US), Русский язык, 日本語
 

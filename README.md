@@ -22,7 +22,7 @@
 
 ## 自我介绍
 
-WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x64、Arm 架构
+WonderLab 是一个跨平台 Minecraft 启动器，支持自动更新、Modrinth、Curseforge 资源下载、全格式整合包安装（大概），并支持 Windows，MacOS，Linux 等操作系统，同时兼容 x64、Arm64 架构
 
 支持的语言：简体中文、繁体中文、文言華夏、English(US)、Русский язык、日本語
 
