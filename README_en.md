@@ -1,5 +1,5 @@
 <p align="center">
-<img Height="200" Width="200" src="https://raw.githubusercontent.com/Blessing-Studio/WonderLab.Override/master/wonderlab/Assets/wonderlab.ico"/>
+<img src="http://blessing-studio.cn/wp-content/uploads/2024/06/组件-7-1.png"/>
 </p>
 
 <div align="center">
