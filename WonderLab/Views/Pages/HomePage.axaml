@@ -23,7 +23,7 @@
 				Command="{Binding LaunchCommand}">
             <TextBlock FontSize="16"
                        FontWeight="Bold"
-                       Text="{DynamicResource Launch}" 
+                       Text="{DynamicResource Home_Launch}" 
                        Foreground="{DynamicResource ContentBrush1}"/>
         </Button>
 	</Grid>

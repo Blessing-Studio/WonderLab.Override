@@ -11,13 +11,13 @@
 		Width="850"
 		Height="550"
 		CanResize="False"
-        Title="WonderLab - 设置向导"
+        Title="{DynamicResource OOBE_Guide}"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaToDecorationsHint="{Binding IsTitleBarVisible}">
 	<Grid>
 		<Grid RowDefinitions="Auto, 1*">
 			<ui:SuperTitleBar Grid.Row="0"
-							  Title="WonderLab - 设置向导"/>
+							  Title="{DynamicResource OOBE_Guide}"/>
 
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="True"
@@ -26,19 +26,19 @@
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
-										   Content="{DynamicResource Welcome}"
+										   Content="{DynamicResource OOBE_Welcome}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF2B7;"
-										   Content="{DynamicResource Language}"
+										   Content="{DynamicResource OOBE_Lang}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE716;"
-										   Content="{DynamicResource Account}"
+										   Content="{DynamicResource OOBE_Account}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE790;"
-										   Content="{DynamicResource Style}"
+										   Content="{DynamicResource OOBE_Appearance}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 				</ui:NavigationView.Items>
 			</ui:NavigationView>

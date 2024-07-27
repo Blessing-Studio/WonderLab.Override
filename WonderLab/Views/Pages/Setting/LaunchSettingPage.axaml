@@ -16,32 +16,32 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ui:SettingCard Title="{DynamicResource FolderSettingTitle}">
+			<ui:SettingCard Title="{DynamicResource Settings_Launch_Folder}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="{DynamicResource SelectFolder}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Folder_Select}">
 						<ComboBox ItemsSource="{Binding GameFolders}"
 								  SelectedItem="{Binding ActiveGameFolder}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource OpenNewFolder}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Folder_New}">
 						<Button CornerRadius="6"
 								CommandParameter="Folder"
 								Command="{Binding SearchCommand}"
-								Content="{DynamicResource Browse}"/>
+								Content="{DynamicResource Item_Browse}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource RemoveFolder}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Folder_Remove}">
 						<Button CornerRadius="6"
 								CommandParameter="Folder"
 								Command="{Binding RemoveCommand}"
-								Content="{DynamicResource Remove}"/>
+								Content="{DynamicResource Item_Remove}"/>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource JavaSettingTitle}">
+			<ui:SettingCard Title="{DynamicResource Settings_Launch_Java}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="{DynamicResource SelectJava}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Java_Select}">
 						<ComboBox SelectedItem="{Binding ActiveJava}"
 								  ItemsSource="{Binding Javas, Mode=TwoWay}">
 							<ComboBox.ItemTemplate>
@@ -52,28 +52,28 @@
 						</ComboBox>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource OpenNewJava}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Java_New}">
 						<StackPanel Spacing="8"
 									Orientation="Horizontal">
 							<Button CornerRadius="6"
 									CommandParameter="Java"
-									Content="{DynamicResource Browse}"
+									Content="{DynamicResource Item_Browse}"
 									Command="{Binding SearchCommand}"/>
 
 							<Button CornerRadius="6"
-									Content="{DynamicResource Search}"
+									Content="{DynamicResource Item_Search}"
 									Command="{Binding AutoSearchCommand}"/>
 						</StackPanel>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource RemoveJava}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Java_Remove}">
 						<Button CornerRadius="6"
 								CommandParameter="Java"
 								Command="{Binding RemoveCommand}"
-								Content="{DynamicResource Remove}"/>
+								Content="{DynamicResource Item_Remove}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource AutoSelectJava}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Java_SelectAuto}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
@@ -82,28 +82,28 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource GameSettingTitle}">
+			<ui:SettingCard Title="{DynamicResource Settings_Launch_Game}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="{DynamicResource AllocateMemory}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Game_Memory}">
 						<TextBox Text="{Binding MaxMemory}"
 								 UseFloatingWatermark="False"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource AutoAllocateMemory}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Game_MemoryAuto}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsAutoAllocateMemory}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource GameIndependent}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_Independent}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsGameIndependent}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource FullScreenMode}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Launch_FullScreen}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"

@@ -1,106 +1,145 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:sys="clr-namespace:System;assembly=System.Runtime">
-	<!--HomePage-->
-	<sys:String x:Key="Launch">Launch</sys:String>
+	<!--Main-->
+	<sys:String x:Key="Main_Home">Home</sys:String>
+	<sys:String x:Key="Main_Download">Download</sys:String>	
+	<sys:String x:Key="Main_Multiplayer">Multiplayer</sys:String>
+	<sys:String x:Key="Main_Settings">Settings</sys:String>
+
+	<!--Home-->
+	<sys:String x:Key="Home_Launch">Launch</sys:String>
+
+	<!--Download-->
+	<sys:String x:Key="Download_Search_Watermark">Type here to search</sys:String>
+
+	<!--Multiplayer-->
+	<sys:String x:Key="Multiplayer_NetworkInfo">Network Info</sys:String>
+	<sys:String x:Key="Multiplayer_IfUPNP">Support UPNP</sys:String>
+	<sys:String x:Key="Multiplayer_EnvNAT">NAT status</sys:String>
+	
+	<sys:String x:Key="Multiplayer_Action">Action</sys:String>
+	<sys:String x:Key="Multiplayer_Action_Connect">Connect</sys:String>
+	<sys:String x:Key="Multiplayer_Action_NewRoom">Create Room</sys:String>
+	<sys:String x:Key="Multiplayer_Action_JoinRoom">Jonin Room</sys:String>
+	
+	<sys:String x:Key="Multiplayer_ControlRoom">Control Room</sys:String>
+	<sys:String x:Key="Multiplayer_ControlRoom_UserToken">Your User Token</sys:String>
+
+	<!--Settings-->
+	<!--Nav-->
+	<sys:String x:Key="Nav_Settings_Launch">Game</sys:String>
+	<sys:String x:Key="Nav_Settings_Account">Account</sys:String>
+	<sys:String x:Key="Nav_Settings_Network">Network</sys:String>
+	<sys:String x:Key="Nav_Settings_Appearance">Appearance</sys:String>
+	<sys:String x:Key="Nav_Settings_About">About</sys:String>
+	
+	<!--About-->
+	<sys:String x:Key="Settings_About">About</sys:String>
+	<sys:String x:Key="Settings_About_Rights">Blessing Studio ©2021-2024. Rights</sys:String>
+	<sys:String x:Key="Settings_About_Version">Version</sys:String>
+	<sys:String x:Key="Settings_About_Donate">Donate</sys:String>
+	
+	<sys:String x:Key="Settings_About_Developers">Our Team</sys:String>
+	<sys:String x:Key="Settings_About_Developers_QA">QA</sys:String>
+	<sys:String x:Key="Settings_About_Developers_UED">UED</sys:String>
+	<sys:String x:Key="Settings_About_Developers_FE">FE</sys:String>
+	<sys:String x:Key="Settings_About_Developers_RD">RD</sys:String>
+
+	<sys:String x:Key="Settings_About_Thanks">Credits</sys:String>
+	<sys:String x:Key="Settings_About_Thanks_ServerSupport">Server Support</sys:String>
+	<sys:String x:Key="Settings_About_Thanks_TechSupport">Technical Support</sys:String>
+	
+	<sys:String x:Key="Settings_About_IncludedOSLib">Open Source Library References</sys:String>
+	
+	<!--Account-->
+	<sys:String x:Key="Settings_Account">Account Settings</sys:String>
+	<sys:String x:Key="Settings_Account_Add_Description">Add new account</sys:String>
+
+	<!--Detail-->
+	<sys:String x:Key="Settings_Appearance">Appearance Settings</sys:String>
+	<sys:String x:Key="Settings_Appearance_Theme">Theme</sys:String>
+
+	<sys:String x:Key="Settings_Background_Mode">Background rendering mode</sys:String>
+	<sys:String x:Key="Settings_Background_Image">Background Pictue Settings</sys:String>
+	<sys:String x:Key="Settings_Background_ImageChange">Change pictue</sys:String>
+	<sys:String x:Key="Settings_Background_ParallaxEffects">Background parallax effects</sys:String>
+	<sys:String x:Key="Settings_Background_GradualBlur">Wallpaper gradual blur</sys:String>
+	<sys:String x:Key="Settings_Background_BlurValue">Wallpaper blur value</sys:String>
+
+	<sys:String x:Key="Settings_Lang">Language Settings</sys:String>
+	<sys:String x:Key="Settings_Lang_Change">Select language</sys:String>
+
+	<sys:String x:Key="Settings_DebugMode">Debug Mode Settings</sys:String>
+	<sys:String x:Key="Settings_DebugMode_Change">Debug Mode</sys:String>
+
+	<sys:String x:Key="Settings_OOBE">Jump to OOBE</sys:String>
+ 
+	<sys:String x:Key="Settings_Font">Font Settings</sys:String>
+	<sys:String x:Key="Settings_Font_Change">Select font</sys:String>
+
+	<!--Launch-->
+	<sys:String x:Key="Settings_Launch_Folder">Minecraft Directory Settings</sys:String>
+	<sys:String x:Key="Settings_Launch_Folder_Select">Select directory</sys:String>
+	<sys:String x:Key="Settings_Launch_Folder_New">Add directory</sys:String>
+	<sys:String x:Key="Settings_Launch_Folder_Remove">Remove this directory from list</sys:String>
+
+	<sys:String x:Key="Settings_Launch_Java">Java Settings</sys:String>
+	<sys:String x:Key="Settings_Launch_Java_Select">Select Java path</sys:String>
+	<sys:String x:Key="Settings_Launch_Java_New">Add Java path</sys:String>
+	<sys:String x:Key="Settings_Launch_Java_Remove">Remove this Java path from list</sys:String>
+	<sys:String x:Key="Settings_Launch_Java_SelectAuto">Auto select suitable Java</sys:String>
+
+	<sys:String x:Key="Settings_Launch_Game">Game Settings</sys:String>
+	<sys:String x:Key="Settings_Launch_Game_Memory">Game memory allocate</sys:String>
+	<sys:String x:Key="Settings_Launch_Game_MemoryAuto">Auto allocate suitable memory</sys:String>	
+
+	<sys:String x:Key="Settings_Launch_Independent">Game direcotories isolated</sys:String>
+	<sys:String x:Key="Settings_Launch_FullScreen">Full screen mode</sys:String>
+
+	<!--Network-->
+	<sys:String x:Key="Settings_Mirror">Mirror Settings</sys:String>
+	<sys:String x:Key="Settings_Mirror_Change">Enable mirror download</sys:String>
+	<sys:String x:Key="Settings_Download">Download Settings</sys:String>
+	<sys:String x:Key="Settings_Download_MaxThreads">Max download threads</sys:String>
+	<sys:String x:Key="Settings_Download_MaxParts">Max file-download parts value</sys:String>
+
+	<!--OOBE-->
+	<sys:String x:Key="OOBE_Guide">WonderLab - Guide</sys:String>
+	<sys:String x:Key="OOBE_Welcome">Welcome</sys:String>
+	<sys:String x:Key="OOBE_Lang">Language</sys:String>
+	<sys:String x:Key="OOBE_Appearance">Appearance</sys:String>
+	<sys:String x:Key="OOBE_Start">Launch!</sys:String>
+	<sys:String x:Key="OOBE_Next">Next</sys:String>
+	<sys:String x:Key="OOBE_Sorry">Sorry, isn't finished</sys:String>
+
+	<!--AloneItem-->
+	<sys:String x:Key="Item_Afdian">AiFaDian</sys:String>
+	<sys:String x:Key="Item_MSAccount">Microsoft Account</sys:String>
+	
+	<sys:String x:Key="Item_None">None</sys:String>
+ 	<sys:String x:Key="Item_Jump">Go</sys:String>
+	<sys:String x:Key="Item_Add">Add</sys:String>
+	<sys:String x:Key="Item_Browse">Browse</sys:String>
+	<sys:String x:Key="Item_Remove">Remove</sys:String>
+	<sys:String x:Key="Item_Search">Search</sys:String>
+
+	<sys:String x:Key="Item_Theme_Light">Light</sys:String>
+	<sys:String x:Key="Item_Theme_Dark">Dark</sys:String>
+	<sys:String x:Key="Item_Theme_Auto">Follow system</sys:String>
+	
+	<sys:String x:Key="Item_Background_Mica">Mica</sys:String>
+	<sys:String x:Key="Item_Background_Acrylic">Acrylic</sys:String>
+	<sys:String x:Key="Item_Background_Image">Picture</sys:String>
+	<sys:String x:Key="Item_Background_Flat">Flat</sys:String>
+	<sys:String x:Key="Item_Background_3D">3D</sys:String>
+	
+	<!--Info-->
+	<sys:String x:Key="Info_DebugMode_Changed">You have been changed Debug option, restart launcher to make it work!</sys:String>
+	
 	<sys:String x:Key="Unknown">Unknown</sys:String>
 	<sys:String x:Key="ExpandInterface">Expand</sys:String>
 	<sys:String x:Key="CollapseInterface">Collapse</sys:String>
 	<sys:String x:Key="GameSearchBoxWatermark">Find your game core here</sys:String>
 
-	<!--MainWindow-->
-	<sys:String x:Key="Home">Home</sys:String>
-	<sys:String x:Key="Online">Multiplayer</sys:String>
-	<sys:String x:Key="Setting">Settings</sys:String>
-	<sys:String x:Key="Download">Download</sys:String>
-
-	<!--SettingNavigationPage-->
-	<sys:String x:Key="About">About</sys:String>
-	<sys:String x:Key="Account">Account</sys:String>
-	
-	<!--Network-->
-	<sys:String x:Key="Network">Network</sys:String>
-	<sys:String x:Key="SMirror">Mirrors Settings</sys:String>
-	<sys:String x:Key="IfMirror">Use mirrors</sys:String>
-	<sys:String x:Key="SDownload">Download Settings</sys:String>
-	<sys:String x:Key="MaxDownloadT">Max download thread</sys:String>
-	<sys:String x:Key="BigFileT">Big files download piecewise</sys:String>
-
-	<sys:String x:Key="Appearance">Appearance</sys:String>
-
-	<!--LaunchSettingPage-->
-	<sys:String x:Key="Browse">Browse</sys:String>
-	<sys:String x:Key="Remove">Remove</sys:String>
-	<sys:String x:Key="Search">Search</sys:String>
-	<sys:String x:Key="OpenNewJava">Add Java path</sys:String>
-	<sys:String x:Key="SelectJava">Select Java path</sys:String>
-	<sys:String x:Key="OpenNewFolder">Add directory</sys:String>
-	<sys:String x:Key="SelectFolder">Select directory</sys:String>
-	<sys:String x:Key="JavaSettingTitle">Java Settings</sys:String>
-	<sys:String x:Key="GameSettingTitle">Game Settings</sys:String>
-	<sys:String x:Key="FullScreenMode">Full screen</sys:String>
-	<sys:String x:Key="GameIndependent">Game direcotories isolated</sys:String>
-	<sys:String x:Key="RemoveJava">Remove this Java from list</sys:String>
-	<sys:String x:Key="AllocateMemory">Allocate game memory</sys:String>
-	<sys:String x:Key="RemoveFolder">Remove this direcotory form list</sys:String>
-	<sys:String x:Key="AutoSelectJava">Auto select Java</sys:String>
-	<sys:String x:Key="FolderSettingTitle">Minecraft Directory Settings</sys:String>
-	<sys:String x:Key="AutoAllocateMemory">Auto allocate memory</sys:String>
-
-	<!--DetailSettingPage-->
-	<!--Theme-->
-	<sys:String x:Key="AppTheme">Change theme</sys:String>
-	<sys:String x:Key="TLight">Light</sys:String>
-	<sys:String x:Key="TDark">Dark</sys:String>
-	<sys:String x:Key="TAuto">Follow system style</sys:String>
-	
-	<!--Language-->
-	<sys:String x:Key="AppLanguage">Change language</sys:String>
-	<sys:String x:Key="LanguageSettingTitle">Language Settings</sys:String>
-
-	<!--Background-->
-	<sys:String x:Key="AppBackground">Background rendering mode</sys:String>
-	<sys:String x:Key="BImage">Picture</sys:String>
-	<sys:String x:Key="BSImage">Wallpaper Settings</sys:String>
-	<sys:String x:Key="ChangeImage">Change wallpaper</sys:String>
-	<sys:String x:Key="BackgroundView">Background parallax effects</sys:String>
-	<sys:String x:Key="None">None</sys:String>
-	<sys:String x:Key="BFlat">Flat</sys:String>
-	<sys:String x:Key="B3D">3D</sys:String>
-	<sys:String x:Key="IfGradualBlur">Enable wallpaper gradual blur</sys:String>
-	<sys:String x:Key="ImageBlur">Wallpaper blur value</sys:String>
-
-	<sys:String x:Key="AppearanceSettingTitle">Appearance Settings</sys:String>
-
-	<!--Font-->
-	<sys:String x:Key="FontSettingsTitle">Font Settings</sys:String>
-	<sys:String x:Key="ChooseFont">Choose font</sys:String>
-
-	<!--Debug-->
-	<sys:String x:Key="DebugSettingsTitle">Debug Mode Settings</sys:String>
-	<sys:String x:Key="DebugSettingsD">Enable Debug mode</sys:String>
-	<sys:String x:Key="DebugSettingsI">You have been changed Debug option, restart launcher to make it work!</sys:String>
-
-	<sys:String x:Key="PressOOBE">Open OOBE</sys:String>
-	<sys:String x:Key="ToOOBE">Open</sys:String>
-	
-	<!--AboutPage-->
-	<sys:String x:Key="Developers">Our Team</sys:String>
-	<sys:String x:Key="Donate">Donate</sys:String>
-	<sys:String x:Key="Version">Version</sys:String>
-	<sys:String x:Key="QualityControl">QA</sys:String>
-	<sys:String x:Key="Designers">UED</sys:String>
-	<sys:String x:Key="FrontEndDevelopers">FE</sys:String>
-	<sys:String x:Key="BackEndDevelopers">RD</sys:String>
-	<sys:String x:Key="Thanks">Credits</sys:String>
-	<sys:String x:Key="ServerSupport">Server Support</sys:String>
-	<sys:String x:Key="TechnicalSupport">Technical Support</sys:String>
-
-	<!--Oobe-->
-	<sys:String x:Key="Welcome">Welcome</sys:String>
-	<sys:String x:Key="Language">Language</sys:String>
-	<sys:String x:Key="Style">Appearance</sys:String>
-	<sys:String x:Key="Start">Launch!</sys:String>
-	<sys:String x:Key="Next">Next</sys:String>
-	<sys:String x:Key="Sorry">We haven't finished this, maybe you can do</sys:String>
 </ResourceDictionary>

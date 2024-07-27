@@ -24,8 +24,9 @@
 											 Icon="&#xE721;"
 											 IsSelected="True"
 											 Classes="sidebaritem"
-											 Content="搜索"
+											 Content="{DynamicResource Item_Search}"
 											 Foreground="{DynamicResource SuccessBaseColor}"/>
+
 
 				<controls:NavigationViewItem Height="30"
 											 Icon="&#xF133;"

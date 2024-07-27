@@ -15,50 +15,50 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 			
-			<ui:SettingCard Title="{DynamicResource AppearanceSettingTitle}">
+			<ui:SettingCard Title="{DynamicResource Settings_Appearance}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="{DynamicResource AppTheme}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Appearance_Theme}">
 						<ComboBox SelectedIndex="{Binding ThemeIndex}">
-							<ComboBoxItem Content="{DynamicResource TLight}"/>
-							<ComboBoxItem Content="{DynamicResource TDark}"/>
-							<ComboBoxItem Content="{DynamicResource TAuto}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Theme_Light}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Theme_Dark}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Theme_Auto}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource AppBackground}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Background_Mode}">
 						<ComboBox SelectedIndex="{Binding BackgroundIndex}">
-							<ComboBoxItem Content="Mica"/>
-							<ComboBoxItem Content="Acrylic"/>
-							<ComboBoxItem Content="{DynamicResource BImage}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Background_Mica}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Background_Acrylic}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Background_Image}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource BSImage}"
+			<ui:SettingCard Title="{DynamicResource Settings_Background_Image}"
 							IsVisible="{Binding IsImage}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="{DynamicResource ChangeImage}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Background_ImageChange}">
 						<Button Content="{DynamicResource Browse}"
 								Command="{Binding SearchCommand}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource BackgroundView}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Background_ParallaxEffects}">
 						<ComboBox SelectedIndex="{Binding ParallaxMode}">
-							<ComboBoxItem Content="{DynamicResource None}"/>
-							<ComboBoxItem Content="{DynamicResource BFlat}"/>
-							<ComboBoxItem Content="{DynamicResource B3D}"/>
+							<ComboBoxItem Content="{DynamicResource Item_None}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Background_Flat}"/>
+							<ComboBoxItem Content="{DynamicResource Item_Background_3D}"/>
 						</ComboBox>
 					</ui:SettingCardItem>
 					
-					<ui:SettingCardItem Description="{DynamicResource IfGradualBlur}">
+					<ui:SettingCardItem Description="{DynamicResource Settings_Background_GradualBlur}">
 						<ToggleSwitch OnContent=""
 									  OffContent=""
 									  Margin="0 0 -10 0"
 									  IsChecked="{Binding IsEnableBlur}"/>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="{DynamicResource ImageBlur}"
+					<ui:SettingCardItem Description="{DynamicResource Settings_Background_BlurValue}"
 										IsVisible="{Binding IsEnableBlur, Converter={StaticResource BooleanReverseConverter}}">
 						<Slider Width="250"
 								Maximum="64"
@@ -67,8 +67,8 @@
 				</ItemsControl>
 			</ui:SettingCard>
 			
-			<ui:SettingCard Title="{DynamicResource LanguageSettingTitle}">
-				<ui:SettingCardItem Description="{DynamicResource AppLanguage}">
+			<ui:SettingCard Title="{DynamicResource Settings_Lang}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_Lang_Change}">
 					<ComboBox SelectedIndex="{Binding LanguageIndex}">
 						<ComboBoxItem Content="简体中文"/>
 						<ComboBoxItem Content="繁體中文"/>
@@ -80,26 +80,26 @@
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource DebugSettingsTitle}">
+			<ui:SettingCard Title="{DynamicResource Settings_DebugMode}">
         <ItemsControl>
-				<ui:SettingCardItem Description="{DynamicResource DebugSettingsD}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_DebugMode_Change}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
 								  Margin="0 0 -10 0"
 								  IsChecked="{Binding IsDebugMode}"
 								  Command="{Binding NotificationCommand}"
-								  CommandParameter="{DynamicResource DebugSettingsI}"/>
+								  CommandParameter="{DynamicResource Info_DebugMode_Changed}"/>
 				</ui:SettingCardItem>
-        <ui:SettingCardItem Description="{DynamicResource PressOOBE}">
+        <ui:SettingCardItem Description="{DynamicResource Settings_OOBE}">
 					<Button Command="{Binding PressOobeCommand}"
-                  Content="{DynamicResource ToOOBE}"
+                  Content="{DynamicResource Item_Jump}"
                   IsEnabled="{Binding IsDebugMode}"/>
         </ui:SettingCardItem>
         </ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="{DynamicResource FontSettingsTitle}">
-				<ui:SettingCardItem Description="{DynamicResource ChooseFont}">
+			<ui:SettingCard Title="{DynamicResource Settings_Font}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_Font_Change}">
 					<ComboBox ItemsSource="{Binding Fonts}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
