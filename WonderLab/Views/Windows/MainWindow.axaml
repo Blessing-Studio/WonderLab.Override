@@ -57,24 +57,24 @@
 					<ui:NavigationViewItem Icon="&#xEA8A;"
 										   IsSelected="True"
 										   CommandParameter="HomePage"
-										   Content="{DynamicResource Home}"
+										   Content="{DynamicResource Main_Home}"
 										   Command="{Binding NavigationToCommand}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xEDDC;"
-										   Content="{DynamicResource Download}"
+										   Content="{DynamicResource Main_Download}"
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="DownloadNavigationPage"
 										   Foreground="{DynamicResource SuccessBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF0B9;"
-										   Content="{DynamicResource Online}"
+										   Content="{DynamicResource Main_Multiplayer}"
 										   CommandParameter="MultiplayerPage"
 										   Command="{Binding NavigationToCommand}"
 										   Foreground="{DynamicResource WarningBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF8B0;"
-										   Content="{DynamicResource Setting}"
+										   Content="{DynamicResource Main_Settings}"
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="SettingNavigationPage"
 										   Foreground="{DynamicResource SecondaryColor600}"/>

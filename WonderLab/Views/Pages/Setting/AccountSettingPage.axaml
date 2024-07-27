@@ -16,10 +16,10 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ui:SettingCard Title="账户设置"
+			<ui:SettingCard Title="{DynamicResource Settings_Account}"
 							Grid.Row="0">
-				<ui:SettingCardItem Description="添加新账户：">
-					<Button Content="添加"
+				<ui:SettingCardItem Description="{DynamicResource Settings_Account_Add_Description}">
+					<Button Content="{DynamicResource Item_Add}"
 							Command="{Binding OpenDialogCommand}"/>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
@@ -74,7 +74,7 @@
 
 											<TextBlock FontSize="12"
 													   Grid.Row="1"
-													   Text="微软账户"/>
+													   Text="{DynamicResource Item_MSAccount}"/>
 										</Grid>
 										
 										<Grid Height="0"

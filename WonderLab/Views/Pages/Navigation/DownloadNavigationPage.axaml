@@ -24,7 +24,7 @@
 											 Icon="&#xE721;"
 											 IsSelected="True"
 											 Classes="sidebaritem"
-											 Content="搜索"
+											 Content="{DynamicResource Item_Search}"
 											 Foreground="{DynamicResource SecondaryBrush600}"/>
 
 				<controls:NavigationViewItem Height="30"

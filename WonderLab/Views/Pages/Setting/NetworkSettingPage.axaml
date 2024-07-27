@@ -14,9 +14,9 @@
 			</ItemsPanelTemplate>
 		</ItemsControl.ItemsPanel>
 
-		<ui:SettingCard Title="{DynamicResource SMirror}">
+		<ui:SettingCard Title="{DynamicResource Settings_Mirror}">
 			<ItemsControl>
-				<ui:SettingCardItem Description="{DynamicResource IfMirror}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_Mirror_Change}">
 					<ToggleSwitch OnContent=""
 								  OffContent=""
 								  Margin="0 0 -10 0"
@@ -25,16 +25,16 @@
 			</ItemsControl>
 		</ui:SettingCard>
 
-		<ui:SettingCard Title="{DynamicResource SDownload}">
+		<ui:SettingCard Title="{DynamicResource Settings_Download}">
 			<ItemsControl>
-				<ui:SettingCardItem Description="{DynamicResource MaxDownloadT}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_Download_MaxThreads}">
 					<Slider Width="250"
 							Minimum="1"
 							Maximum="256"
 							Value="{Binding MultiThreadsCount}"/>
 				</ui:SettingCardItem>
 
-				<ui:SettingCardItem Description="{DynamicResource BigFileT}">
+				<ui:SettingCardItem Description="{DynamicResource Settings_Download_MaxParts}">
 					<ComboBox SelectedItem="{Binding MultiPartsCount}"/>
 				</ui:SettingCardItem>
 			</ItemsControl>

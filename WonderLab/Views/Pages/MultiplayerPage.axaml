@@ -15,9 +15,9 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
-			<ui:SettingCard Title="网络信息">
+			<ui:SettingCard Title="{DynamicResource Multiplayer_InternetInfo}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="是否支持 UPNP">
+					<ui:SettingCardItem Description="{DynamicResource Multiplayer_IfUPNP}">
 						<Panel>
 							<HyperlinkButton Content="{Binding IsSupportUPnP}"
 											 IsVisible="{Binding IsUPnPLoading, Converter={StaticResource BooleanReverseConverter}}"/>
@@ -32,7 +32,7 @@
 						</Panel>
 					</ui:SettingCardItem>
 
-					<ui:SettingCardItem Description="当前网络（NAT）环境">
+					<ui:SettingCardItem Description="{DynamicResource Multiplayer_EnvNAT}">
 						<Panel>
 							<HyperlinkButton Content="{Binding NatType}"
 											 IsVisible="{Binding IsNatTypeLoading, Converter={StaticResource BooleanReverseConverter}}"/>
@@ -51,22 +51,22 @@
 				</ItemsControl>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="操作">
-				<ui:SettingCardItem Description="连接">
+			<ui:SettingCard Title="{DynamicResource Multiplayer_Action}">
+				<ui:SettingCardItem Description="{DynamicResource Multiplayer_Action_Connect}">
 					<StackPanel Spacing="8"
 								Orientation="Horizontal">
-						<Button Content="创建房间" IsVisible="False"
+						<Button Content="{DynamicResource Multiplayer_Action_NewRoom}" IsVisible="False"
 								Command="{Binding CreateCommand}"/>
 
-						<Button Content="加入房间"
+						<Button Content="{DynamicResource Multiplayer_Action_JoinRoom}"
 								Command="{Binding JoinCommand}"/>
 					</StackPanel>
 				</ui:SettingCardItem>
 			</ui:SettingCard>
 
-			<ui:SettingCard Title="房间管理">
+			<ui:SettingCard Title="{DynamicResource Multiplayer_ControlRoom}">
 				<ItemsControl>
-					<ui:SettingCardItem Description="你的用户令牌">
+					<ui:SettingCardItem Description="{DynamicResource Multiplayer_ControlRoom_UserToken}">
 						<StackPanel Spacing="8"
 									Orientation="Horizontal">
 							<HyperlinkButton Content="{Binding UserToken}"

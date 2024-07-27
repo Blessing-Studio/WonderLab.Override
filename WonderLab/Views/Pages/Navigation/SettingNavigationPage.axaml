@@ -25,7 +25,7 @@
 											 Margin="0 5 0 0"
                                              IsSelected="True"
                                              Classes="sidebaritem"
-											 Content="{DynamicResource Launch}"
+											 Content="{DynamicResource Nav_Settings_Launch}"
                                              CommandParameter="LaunchSettingPage"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
@@ -33,7 +33,7 @@
 				<controls:NavigationViewItem Width="145"
 							                 Icon="&#xE716;"
 							                 Classes="sidebaritem"
-											 Content="{DynamicResource Account}"
+											 Content="{DynamicResource Nav_Settings_Account}"
 							                 CommandParameter="AccountSettingPage"
 							                 Command="{Binding NavigationToCommand}"
 							                 Foreground="{DynamicResource SecondaryBrush600}"/>
@@ -41,7 +41,7 @@
 				<controls:NavigationViewItem Width="145"
                                              Icon="&#xE701;"
                                              Classes="sidebaritem"
-											 Content="{DynamicResource Network}"
+											 Content="{DynamicResource Nav_Settings_Network}"
                                              CommandParameter="NetworkSettingPage"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
@@ -50,7 +50,7 @@
                                              Icon="&#xE790;"
                                              Classes="sidebaritem"
                                              CommandParameter="DetailSettingPage"
-											 Content="{DynamicResource Appearance}"
+											 Content="{DynamicResource Nav_Settings_Appearance}"
                                              Command="{Binding NavigationToCommand}"
                                              Foreground="{DynamicResource SecondaryBrush600}"/>
 
@@ -58,7 +58,7 @@
 											 Icon="&#xE736;"
 							                 Classes="sidebaritem"
 							                 CommandParameter="AboutPage"
-							                 Content="{DynamicResource About}"
+							                 Content="{DynamicResource Nav_Settings_About}"
 							                 Command="{Binding NavigationToCommand}"
 							                 Foreground="{DynamicResource SecondaryBrush600}"/>
 			</ListBox>
