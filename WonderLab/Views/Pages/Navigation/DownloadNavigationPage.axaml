@@ -25,21 +25,19 @@
 											 IsSelected="True"
 											 Classes="sidebaritem"
 											 Content="搜索"
-											 Foreground="{DynamicResource SecondaryBrush600}"/>
+											 Foreground="{DynamicResource SuccessBaseColor}"/>
 
 				<controls:NavigationViewItem Height="30"
 											 Icon="&#xF133;"
-											 IsSelected="True"
 											 Classes="sidebaritem"
 											 Content="Minecraft"
-											 Foreground="{DynamicResource SecondaryBrush600}"/>
+											 Foreground="{DynamicResource SuccessBaseColor}"/>
 
 				<controls:NavigationViewItem Height="30"
 											 Icon="&#xECA5;"
-											 IsSelected="True"
 											 Classes="sidebaritem"
 											 Content="扩展资源"
-											 Foreground="{DynamicResource SecondaryBrush600}"/>
+											 Foreground="{DynamicResource SuccessBaseColor}"/>
 			</ListBox>
 		</Border>
 

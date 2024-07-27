@@ -42,7 +42,7 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
         GameEntries = _gameService.GameEntries.ToObservableList();
 
-        _ = Task.Run(async () => {
+        RunBackgroundWork(async() => {
             await Task.Delay(250);
             ActiveGameEntry = _gameService.ActiveGameEntry;
         });
@@ -66,7 +66,7 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
         var preCheckTask = new PreLaunchCheckTask(App.GetService<JavaFetcher>(),
             _gameService,
-            App.GetService<DialogService>(), 
+            App.GetService<DialogService>(),
             _settingService, App.GetService<AccountService>(),
             App.GetService<DownloadService>(),
             _notificationService,

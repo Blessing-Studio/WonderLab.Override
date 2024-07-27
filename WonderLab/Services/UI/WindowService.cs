@@ -58,7 +58,7 @@ public sealed class WindowService {
     }
 
     public void Close() {
-        if (_wrapService.Client is { IsConnected:true }) {
+        if (_wrapService.Client is { IsConnected: true }) {
             _wrapService.Close();
         }
 
@@ -105,9 +105,9 @@ public sealed class WindowService {
                 if (string.IsNullOrEmpty(path)) {
                     _dialogService = App.ServiceProvider.GetService<DialogService>();
 
-                    var result = await _dialogService.OpenFilePickerAsync([
+                    var result = await Task.Run(async () => await _dialogService.OpenFilePickerAsync([
                         new FilePickerFileType("图像文件") { Patterns = new List<string>() { "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" } }
-                    ], "打开文件");
+                    ], "打开文件"));
 
                     if (result is null) {
                         return;

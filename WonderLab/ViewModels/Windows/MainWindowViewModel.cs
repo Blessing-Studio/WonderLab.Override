@@ -22,12 +22,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     private readonly SettingService _settingService;
     private readonly DialogService _dialogService;
     private readonly TaskService _taskService;
-    private readonly INavigationService _navigationService;
+    private readonly HostNavigationService _navigationService;
     private readonly NotificationService _notificationService;
-    private readonly Timer _timer = new(TimeSpan.FromSeconds(1));
 
-    [ObservableProperty] private string _time;
-    [ObservableProperty] private string _year;
     [ObservableProperty] private string _imagePath;
 
     [ObservableProperty] private int _blurRadius;
@@ -48,25 +45,20 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         DialogService dialogService,
         SettingService settingService,
         HostNavigationService navigationService,
-        NotificationService notificationService,
-        Dispatcher dispatcher) {
+        NotificationService notificationService) {
         _taskService = taskService;
         _dialogService = dialogService;
         _settingService = settingService;
         _navigationService = navigationService;
         _notificationService = notificationService;
 
-        _navigationService.NavigationRequest += async p => {
-            await dispatcher.InvokeAsync(async () => {
-                if (ActivePanelPage?.PageKey != p.PageKey) {
-                    if (p.PageKey is "HomePage") {
-                        ActivePage = p.Page;
-                    } else {
-                        ActivePanelPage = null;
-                        ActivePanelPage = p;
-                    }
-                }
-            }, DispatcherPriority.Background);
+        _navigationService.NavigationRequest += p => {
+            if (p.PageKey is "HomePage") {
+                ActivePage = p.Page;
+            } else {
+                ActivePanelPage = null;
+                ActivePanelPage = p;
+            }
         };
 
         WeakReferenceMessenger.Default.Register<BlurEnableMessage>(this, BlurEnableValueHandle);
@@ -128,14 +120,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     public void OnLoaded() {
         _taskService.QueueJob(new InitTask(_settingService, _dialogService, _notificationService));
 
-        Time = DateTime.Now.ToString("t");
-        Year = DateTime.Now.ToString("d");
-
-        _timer.Elapsed += (_, args) => {
-            Time = args.SignalTime.ToString("t");
-            Year = args.SignalTime.ToString("d");
-        };
-
         Tasks = new(_taskService.TaskJobs);
         Notifications = new(_notificationService.Notifications);
 
@@ -147,6 +131,5 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         };
 
         _navigationService.NavigationTo<HomePageViewModel>();
-        _timer.Start();
     }
 }

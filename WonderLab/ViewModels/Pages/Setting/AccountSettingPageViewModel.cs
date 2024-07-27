@@ -24,7 +24,7 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
 
     public AccountSettingPageViewModel(
         DialogService dialogService,
-        SettingService settingService, 
+        SettingService settingService,
         NotificationService notificationService,
         TaskService taskService) {
         _dialogService = dialogService;
@@ -32,7 +32,7 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
         _notificationService = notificationService;
 
         if (_settingService.Data.Accounts.Count != 0) {
-            taskService.QueueJob(new AccountLoadTask(_settingService.Data.Accounts));
+            RunBackgroundWork(() => taskService.QueueJob(new AccountLoadTask(_settingService.Data.Accounts)));
         }
 
         WeakReferenceMessenger.Default.Register<AccountMessage>(this, AccountHandle);
@@ -49,8 +49,8 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
         _settingService.Data.ActiveAccount = value?.Account;
     }
 
-    private async void AccountHandle(object obj, AccountMessage accountMessage) {
-        await Task.Run(async () => {
+    private void AccountHandle(object obj, AccountMessage accountMessage) {
+        RunBackgroundWork(async () => {
             foreach (var item in accountMessage.Accounts.Select(x => new AccountViewData(x))) {
                 Accounts.Add(item);
                 await Task.Delay(5);
@@ -58,11 +58,13 @@ public sealed partial class AccountSettingPageViewModel : ViewModelBase {
         });
     }
 
-    private async void AccountViewHandle(object obj, AccountViewMessage accountMessage) {
-        foreach (var item in accountMessage.Accounts) {
-            Accounts.Add(item);
-            await Task.Delay(5);
-        }
+    private void AccountViewHandle(object obj, AccountViewMessage accountMessage) {
+        RunBackgroundWork(async () => {
+            foreach (var item in accountMessage.Accounts) {
+                Accounts.Add(item);
+                await Task.Delay(5);
+            }
+        });
     }
 
     private void AccountChangeHandle(object obj, AccountChangeNotificationMessage accountMessage) {

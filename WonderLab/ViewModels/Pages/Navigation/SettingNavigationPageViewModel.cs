@@ -9,7 +9,7 @@ using Avalonia.Threading;
 namespace WonderLab.ViewModels.Pages.Navigation;
 
 public sealed partial class SettingNavigationPageViewModel : ViewModelBase {
-    private readonly INavigationService _navigationService;
+    private readonly SettingNavigationService _navigationService;
 
     [ObservableProperty] private object _activeItem;
     [ObservableProperty] private NavigationPageData _activePage;

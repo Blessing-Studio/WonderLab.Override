@@ -1,22 +1,17 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using System.Collections;
-using System.Windows.Input;
-using Avalonia.Collections;
-using WonderLab.Services.UI;
-using Avalonia.Interactivity;
-using Avalonia.Controls.Primitives;
-using Avalonia.Media.Transformation;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Avalonia;
 using Avalonia.Input;
-using System;
+using Avalonia.Controls;
+using Avalonia.Metadata;
 using Avalonia.Threading;
+using System.Windows.Input;
 using System.Threading.Tasks;
-using System.Threading;
 using Avalonia.Controls.Metadata;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using Avalonia.Controls.Primitives;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
+using Avalonia.Styling;
+using Avalonia.Media.Transformation;
 
 namespace WonderLab.Views.Controls;
 
@@ -38,6 +33,8 @@ public sealed class NavigationView : SelectingItemsControl {
 
     private Frame PART_Frame;
     private Frame PART_PanelFrame;
+    private LayoutTransformControl PART_LayoutTransformControl;
+
     private Border _backgroundPanel;
     private bool _oldIsOpenBackgroundPanel;
 
@@ -54,7 +51,8 @@ public sealed class NavigationView : SelectingItemsControl {
     
     public static readonly StyledProperty<bool> IsOpenBackgroundPanelProperty =
         AvaloniaProperty.Register<NavigationView, bool>(nameof(IsOpenBackgroundPanel));
-    
+
+    [Content]
     public object Content {
         get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
@@ -75,47 +73,51 @@ public sealed class NavigationView : SelectingItemsControl {
         set => SetValue(IsOpenBackgroundPanelProperty, value);
     }
 
-    private void UpdateIndicator() {
-        TemplateSettings.ActualPx = _backgroundPanel.Bounds.Height + 15;
+    private DispatcherOperation RunAnimation() {
+        var px = IsOpenBackgroundPanel ? 0 : _backgroundPanel.Bounds.Height + 15;
+
+        Dispatcher.UIThread.VerifyAccess();
+        return Dispatcher.UIThread.InvokeAsync(() => {
+            PART_LayoutTransformControl.Opacity = IsOpenBackgroundPanel ? 1 : 0;
+            PART_LayoutTransformControl.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
+        });
+
     }
 
-    private void UpdatePseudoClasses() {
-        PseudoClasses.Set(":ispanelopen", IsOpenBackgroundPanel);
-        PseudoClasses.Set(":ispanelclose", !IsOpenBackgroundPanel);
-    }
-
-    private void OnPanelPropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e) {
-        if (e.Property == BoundsProperty) {
-            UpdateIndicator();
-        }
-    }
-
-    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override async void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
 
         //Layouts
         PART_Frame = e.NameScope.Find<Frame>("PART_Frame");
         PART_PanelFrame = e.NameScope.Find<Frame>("PART_PanelFrame");
+        PART_LayoutTransformControl = e.NameScope.Find<LayoutTransformControl>("PART_LayoutTransformControl");
         _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel");
 
-        _backgroundPanel.PropertyChanged += OnPanelPropertyChanged;
+        await Dispatcher.UIThread.InvokeAsync(() => {
+            PART_LayoutTransformControl.Opacity = 0;
+            PART_LayoutTransformControl.RenderTransform = TransformOperations.Parse($"translateY({_backgroundPanel.Bounds.Height + 15}px)");
+        });
     }
 
     protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
         if (change.Property == IsOpenBackgroundPanelProperty) {
-            UpdatePseudoClasses();
-            _oldIsOpenBackgroundPanel = change.GetOldValue<bool>();
+            await RunAnimation();
+
+            await Task.Delay(TimeSpan.Parse("0:0:0.3"));
+            await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent, DispatcherPriority.ApplicationIdle);
         }
 
         if (change.Property == PanelContentProperty) {
-            if (!_oldIsOpenBackgroundPanel) {
-                _oldIsOpenBackgroundPanel = true;
-                await Task.Delay(TimeSpan.Parse("0:0:0.4"));
-            }
+            var dispatcherOperation = RunAnimation();
 
-            await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent);
+            dispatcherOperation.Completed += async (_, _) => {
+                await Task.Delay(TimeSpan.Parse("0:0:0.3"));
+                await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent, DispatcherPriority.ApplicationIdle);
+            };
+
+            await dispatcherOperation;
         }
     }
 }

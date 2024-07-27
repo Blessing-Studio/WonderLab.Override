@@ -9,10 +9,10 @@ public sealed partial class NetworkSettingPageViewModel : ViewModelBase {
     private readonly SettingService _settingService;
     private readonly DownloadService _downloadService;
 
-    [ObservableProperty] private bool _isUseMirrorDownloadSource;
-
     [ObservableProperty] private int _multiPartsCount;
     [ObservableProperty] private int _multiThreadsCount;
+
+    [ObservableProperty] private bool _isUseMirrorDownloadSource;
 
     public NetworkSettingPageViewModel(SettingService settingService, DownloadService downloadService) {
         _settingService = settingService;

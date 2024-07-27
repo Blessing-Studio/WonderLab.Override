@@ -98,13 +98,16 @@
 
 								<Grid Grid.Column="0" RowDefinitions="Auto, Auto">
 									<TextBlock FontSize="12"
-											   Text="{Binding Time}"
+											   Text="任务中心"
 											   TextAlignment="Right"/>
 
 									<TextBlock Grid.Row="1"
 											   FontSize="12"
-											   Text="{Binding Year}"
-											   TextAlignment="Right"/>
+											   TextAlignment="Right">
+										<Run Text="当前正在执行"/>
+										<Run Text="{Binding Tasks.Count}"/>
+										<Run Text="个任务"/>
+									</TextBlock>
 								</Grid>
 							</Grid>
 						</Button>
