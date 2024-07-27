@@ -19,11 +19,14 @@
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SliderTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ListBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/TextBoxTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ComboBoxTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/FontIconTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ImageBoxTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ImageCardTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/PopupRootTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SettingCardTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressBarTheme.axaml"/>
+				<ResourceInclude Source="/Views/Controls/Themes/Controls/ComboBoxItemTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/ProgressRingTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/SuperTitleBarTheme.axaml"/>
 				<ResourceInclude Source="/Views/Controls/Themes/Controls/RippleControlTheme.axaml"/>

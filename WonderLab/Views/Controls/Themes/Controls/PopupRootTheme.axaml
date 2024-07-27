@@ -8,8 +8,8 @@
             <ControlTemplate TargetType="PopupRoot">
                 <VisualLayerManager IsPopup="True">
                     <control:RollingBorder x:Name="PopupBorder"
-                                           Margin="10 3 10 30"
-                                           CornerRadius="6"
+                                           Margin="10"
+                                           CornerRadius="12"
                                            RenderTransformOrigin="0% 0%"
                                            Background="{TemplateBinding Background}">
                         <control:RollingBorder.Transitions>

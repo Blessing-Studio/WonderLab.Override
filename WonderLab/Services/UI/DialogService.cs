@@ -101,7 +101,7 @@ public sealed class DialogService {
         var viewName = typeof(TViewModel).Name.Replace("ViewModel", "");
 
         if (_dialogs.TryGetValue(viewName, out var contentFunc)) {
-            _dispatcher.Post(async () => {
+            await _dispatcher.InvokeAsync(async () => {
                 var dialogObject = contentFunc() as UserControl;
                 dialogObject!.DataContext = App.ServiceProvider!.GetRequiredService<TViewModel>();
                 (dialogObject.DataContext as DialogViewModelBase).Initialize(parameter);

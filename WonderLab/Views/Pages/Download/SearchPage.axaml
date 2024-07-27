@@ -6,7 +6,8 @@
 			 xmlns:controls="clr-namespace:WonderLab.Views.Controls"
              x:Class="WonderLab.Views.Download.SearchPage">
 	<controls:SmoothScrollViewer>
-		<Grid Margin="0 24 0 16"
+		<Grid MaxWidth="850"
+			  Margin="0 24 0 16"
 			  HorizontalAlignment="Stretch"
 			  RowDefinitions="Auto, Auto">
 			<Grid ColumnDefinitions="Auto, 1*">
@@ -20,8 +21,28 @@
 
 			<Grid Grid.Row="1"
 				  Margin="0 22 0 0"
-				  ColumnDefinitions="Auto, Auto">
-				
+				  ColumnDefinitions="0.6*, 12, 1*">
+				<controls:ImageCard/>
+
+				<Grid Grid.Column="2"
+					  RowDefinitions="Auto, Auto">
+					<controls:ImageCard/>
+
+					<Button Grid.Row="1"
+							MinHeight="50"
+							CornerRadius="12"
+							Margin="0 12 0 0"
+							Classes="card"
+							HorizontalAlignment="Stretch">
+						<StackPanel Margin="12 8">
+							<TextBlock Text="Download Minecraft"/>
+
+							<TextBlock Text="Find all versions of Minecraft for Windows, Mac, and Linux."
+									   FontSize="12"
+									   Opacity="0.8"/>
+						</StackPanel>
+					</Button>
+				</Grid>
 			</Grid>
 		</Grid>
 	</controls:SmoothScrollViewer>

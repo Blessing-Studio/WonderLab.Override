@@ -107,16 +107,16 @@ public abstract partial class TaskBase : ObservableObject, ITaskJob, IDisposable
         ProgressDetail = _insideProgressDetail;
     }
 
-    protected void ReportProgress(string detail) {
-        Dispatcher.UIThread.Post(() => {
+    protected async void ReportProgress(string detail) {
+        await Dispatcher.UIThread.InvokeAsync(() => {
             if (!string.IsNullOrEmpty(detail)) {
                 ProgressDetail = detail;
             }
         });
     }
 
-    protected void ReportProgress(double progress) {
-        Dispatcher.UIThread.Post(() => {
+    protected async void ReportProgress(double progress) {
+        await Dispatcher.UIThread.InvokeAsync(() => {
             if (progress < 0.0) {
                 IsIndeterminate = true;
             }

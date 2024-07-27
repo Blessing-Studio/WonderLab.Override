@@ -16,8 +16,8 @@
     <Setter Property="FocusAdorner" Value="{x:Null}" />
     <Setter Property="UseFloatingWatermark" Value="True"/>
     <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ContentBrush3}" />
     <Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}" />
     <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
     <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
     <Setter Property="CaretBrush" Value="{DynamicResource TextControlForeground}" />

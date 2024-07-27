@@ -25,7 +25,7 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     private readonly JavaFetcher _javaFetcher;
     private readonly DialogService _dialogService;
     private readonly SettingService _settingService;
-    private readonly ILogger<LaunchSettingPageViewModel> _logger;   
+    private readonly ILogger<LaunchSettingPageViewModel> _logger;
 
     [ObservableProperty] private string _maxMemory;
     [ObservableProperty] private string _activeGameFolder;
@@ -42,8 +42,8 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
 
     public LaunchSettingPageViewModel(
         JavaFetcher javaFetcher,
-        DialogService dialogService, 
-        SettingService settingService, 
+        DialogService dialogService,
+        SettingService settingService,
         ILogger<LaunchSettingPageViewModel> logger) {
         _dialogService = dialogService;
         _settingService = settingService;
@@ -65,33 +65,33 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     }
 
     [RelayCommand]
-    private async Task Search(string key) {
-        if (key is "Folder") {
-            var folder = await _dialogService.OpenFolderPickerAsync("Select Folder");
-            if (folder is null) {
-                return;
-            }
+    private void Search(string key) {
+        RunBackgroundWork(async () => {
+            if (key is "Folder") {
+                var folder = await _dialogService.OpenFolderPickerAsync("Select Folder");
+                if (folder is null) {
+                    return;
+                }
 
-            if (GameFolders.Any(x => x == folder.FullName)) {
-                return;
-            }
+                if (GameFolders.Any(x => x == folder.FullName)) {
+                    return;
+                }
 
-            GameFolders = GameFolders.Union(Enumerable.Repeat(folder.FullName, 1)).ToObservableList();
-            ActiveGameFolder = GameFolders.Last();
-        } else {
-            var java = await _dialogService.OpenFilePickerAsync(new List<FilePickerFileType> {
+                GameFolders = GameFolders.Union(Enumerable.Repeat(folder.FullName, 1)).ToObservableList();
+                ActiveGameFolder = GameFolders.Last();
+            } else {
+                var java = await _dialogService.OpenFilePickerAsync(new List<FilePickerFileType> {
                 new("Java文件") { Patterns = [EnvironmentUtil.IsWindow ? "javaw.exe" : "java"] }
             }, "Select Java");
 
-            if (java is null) {
-                return;
-            }
+                if (java is null) {
+                    return;
+                }
 
-            RunBackgroundWork(() => {
-                string javaPath = java.Name is "jre.bundle" 
+                string javaPath = java.Name is "jre.bundle"
                     ? Path.Combine(java.FullName, "Contents", "Home", "bin", "java")
                     : java.FullName;
-                
+
                 var javaInfo = JavaUtil.GetJavaInfo(javaPath);
                 if (Javas.Count > 0 && Javas.Any(x => x?.JavaPath == javaInfo.JavaPath)) {
                     return;
@@ -99,8 +99,8 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
 
                 Javas = Javas.Union(Enumerable.Repeat(javaInfo, 1)).ToObservableList();
                 ActiveJava = Javas.Last();
-            });
-        }
+            }
+        });
     }
 
     [RelayCommand]
@@ -118,16 +118,17 @@ public sealed partial class LaunchSettingPageViewModel : ViewModelBase {
     }
 
     [RelayCommand]
-    private async Task AutoSearch() {
-        var javas = await _javaFetcher.FetchAsync();
-        Javas ??= [];
-        Javas.Clear();
+    private void AutoSearch() {
+        RunBackgroundWork(async () => {
+            var javas = await _javaFetcher.FetchAsync();
+            Javas ??= [];
+            Javas.Clear();
 
-        var javasList = Javas?.Union(javas);
-        Javas = javasList.ToObservableList();
+            var javasList = Javas?.Union(javas);
+            Javas = javasList.ToObservableList();
 
-        ActiveJava = Javas.LastOrDefault();
-        _logger.LogInformation("共存在 {JavaCount} 个 Java", Javas.Count);
+            ActiveJava = Javas.LastOrDefault();
+        }, () => _logger.LogInformation("共存在 {JavaCount} 个 Java", Javas.Count));
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e) {

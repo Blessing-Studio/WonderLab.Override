@@ -61,7 +61,7 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
         _timeOutSpan = TimeSpan.FromSeconds(10);
 
         MinecraftPort = "25565";
-        _ = InitializeAsync();
+        Initialize();
     }
 
     [RelayCommand]
@@ -79,12 +79,12 @@ public sealed partial class MultiplayerPageViewModel : ViewModelBase {
         _windowService.CopyText(UserToken);
     }
 
-    private async ValueTask InitializeAsync() {
+    private void Initialize() {
         _wrapService.NewRequest += OnNewRequest;
         _wrapService.LoginedSuccessfully += OnLoginedSuccessfully;
         _wrapService.ConnectPeerSuccessfully += OnConnectPeerSuccessfully;
 
-        await Task.Run(async () => {
+        RunBackgroundWork(async () => {
             try {
                 _upnPService.Init();
                 _upnPService.Search();

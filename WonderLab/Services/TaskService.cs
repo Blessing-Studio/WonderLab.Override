@@ -55,7 +55,7 @@ public sealed class BackgroundTaskQueue : IBackgroundTaskQueue {
 
     public async ValueTask QueueBackgroundWorkItemAsync(ITaskJob job) {
         if (job == null) {
-            throw new ArgumentNullException(nameof(job));
+            ArgumentNullException.ThrowIfNull(job);
         }
 
         await _queue.Writer.WriteAsync(job);

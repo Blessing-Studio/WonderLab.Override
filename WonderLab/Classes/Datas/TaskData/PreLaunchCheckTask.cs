@@ -21,6 +21,7 @@ using System;
 using WonderLab.ViewModels.Dialogs.Setting;
 using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Classes.Datas.MessageData;
+using Avalonia.Threading;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -78,6 +79,8 @@ public sealed class PreLaunchCheckTask : TaskBase {
     public override async ValueTask BuildWorkItemAsync(CancellationToken token) {
         try {
             _isReturnTrue = true;
+
+            var res = Dispatcher.UIThread.CheckAccess();
             await Task.Run(CheckJavaAndExecuteAsync, token);
             await Task.Run(CheckResourcesAndExecuteAsync, token);
             await Task.Run(CheckAccountAndExecuteAsync, token);
@@ -132,8 +135,8 @@ public sealed class PreLaunchCheckTask : TaskBase {
                 : null;
             
             var resultComplete = await _resourceChecker.MissingResources.DownloadResourceEntrysAsync(downloadSource, args => {
-                var percentage = args.ToPercentage() * 100;
-                ReportProgress(percentage, $"{args.CompletedCount}/{args.TotalCount} - {percentage:0.00}%");
+                //var percentage = args.ToPercentage() * 100;
+                //(percentage, $"{args.CompletedCount}/{args.TotalCount} - {percentage:0.00}%");
             }, _downloadService.MainDownloadRequest);
 
             if (!resultComplete) {

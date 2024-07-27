@@ -33,8 +33,7 @@ public sealed class QueuedHostedService : BackgroundService {
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken) {
-        return Task.WhenAll(ProcessTaskQueueAsync(stoppingToken), ProcessTaskQueueAsync(stoppingToken),
-            ProcessTaskQueueAsync(stoppingToken));
+        return ProcessTaskQueueAsync(stoppingToken);
     }
 
     private async Task ProcessTaskQueueAsync(CancellationToken stoppingToken) {

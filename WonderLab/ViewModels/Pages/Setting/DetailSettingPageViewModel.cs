@@ -80,6 +80,7 @@ public sealed partial class DetailSettingPageViewModel : ViewModelBase {
     private void PressOobe() {
         _dialogService.ShowContentDialog<RecheckToOobeDialogViewModel>();
     }
+
     protected override void OnPropertyChanged(PropertyChangedEventArgs e) {
         base.OnPropertyChanged(e);
 
