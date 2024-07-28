@@ -102,6 +102,7 @@
 	<sys:String x:Key="Settings_Lang">Language Settings</sys:String>
 	<sys:String x:Key="Settings_Lang_Change">Select your language</sys:String>
 
+
 	<sys:String x:Key="Settings_DebugMode">Debug Mode Settings</sys:String>
 	<sys:String x:Key="Settings_DebugMode_Change">Debug mode</sys:String>
 
