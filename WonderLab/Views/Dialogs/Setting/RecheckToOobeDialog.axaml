@@ -13,6 +13,5 @@
                          IsPrimaryButtonVisible="True"
                          PrimaryButtonCommand="{Binding ToOobeCommand}"
                          Content="此操作会造成您的配置文件全部蒸发，确定要跳转吗喵？">
-    
   </ui:DialogContentPanel>
 </UserControl>

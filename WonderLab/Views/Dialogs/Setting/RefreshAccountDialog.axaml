@@ -7,8 +7,8 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Setting"
 			 xmlns:ui="using:WonderLab.Views.Controls"
 			 x:DataType="vm:RefreshAccountDialogViewModel">
-	<ui:DialogContentPanel Title="刷新账户"
-						   PrimaryButtonContent="继续"
+	<ui:DialogContentPanel Title="{DynamicResource Item_Sync}"
+						   PrimaryButtonContent="{DynamicResource Item_Continue}"
 						   IsCloseButtonVisible="True"
 						   IsPrimaryButtonVisible="True">
 		<ui:DialogContentPanel.Content>

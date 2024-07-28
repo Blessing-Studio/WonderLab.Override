@@ -11,7 +11,8 @@
 	<sys:String x:Key="Home_Launch">Launch</sys:String>
 
 	<!--Download-->
-	<sys:String x:Key="Download_Search_Watermark">Type here to search</sys:String>
+	<sys:String x:Key="Nav_Download_ExtraResource">Extra Resource</sys:String>
+	<sys:String x:Key="Download_Search_Watermark">Tap here to search</sys:String>
 
 	<!--Multiplayer-->
 	<sys:String x:Key="Multiplayer_NetworkInfo">Network Info</sys:String>
@@ -22,9 +23,18 @@
 	<sys:String x:Key="Multiplayer_Action_Connect">Connect</sys:String>
 	<sys:String x:Key="Multiplayer_Action_NewRoom">Create Room</sys:String>
 	<sys:String x:Key="Multiplayer_Action_JoinRoom">Join Room</sys:String>
-	
+
 	<sys:String x:Key="Multiplayer_ControlRoom">Control Room</sys:String>
 	<sys:String x:Key="Multiplayer_ControlRoom_UserToken">Your User Token</sys:String>
+
+	<sys:String x:Key="Dialog_Multiplayer_NewConnect">Create a new connect</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewConnect_Ask">Are you sure create a new connect?(Tip: Wrap can't displace server, using server instead of Wrap when have a mount of players!)</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_JoinConnect">Join a connect</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_TypeToken">Enter token</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewRequest">New connect request</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewRequest_Ask">A new request want to join you, do you allow?</sys:String>
+
+	<sys:String x:Key="Multiplayer_Allow">Allow</sys:String>
 
 	<!--Settings-->
 	<!--Nav-->
@@ -36,7 +46,7 @@
 	
 	<!--About-->
 	<sys:String x:Key="Settings_About">About</sys:String>
-	<sys:String x:Key="Settings_About_Rights">Blessing Studio ©2021-2024. Rights</sys:String>
+	<sys:String x:Key="Settings_About_Rights">Copyright © 2021-2024 Blessing Studio</sys:String>
 	<sys:String x:Key="Settings_About_Version">Version</sys:String>
 	<sys:String x:Key="Settings_About_Donate">Donate</sys:String>
 	
@@ -47,14 +57,36 @@
 	<sys:String x:Key="Settings_About_Developers_RD">RD</sys:String>
 
 	<sys:String x:Key="Settings_About_Thanks">Credits</sys:String>
-	<sys:String x:Key="Settings_About_Thanks_ServerSupport">Server Support</sys:String>
-	<sys:String x:Key="Settings_About_Thanks_TechSupport">Technical Support</sys:String>
+	<sys:String x:Key="Settings_About_Thanks_ServerSupport">Server support</sys:String>
+	<sys:String x:Key="Settings_About_Thanks_TechSupport">Technical support</sys:String>
 	
 	<sys:String x:Key="Settings_About_IncludedOSLib">Open Source Library References</sys:String>
 	
 	<!--Account-->
 	<sys:String x:Key="Settings_Account">Account Settings</sys:String>
 	<sys:String x:Key="Settings_Account_Add_Description">Add new account</sys:String>
+
+	<sys:String x:Key="Dialog_Account_Choose">Choose account type</sys:String>
+	<sys:String x:Key="Dialog_Account_Choose_Tip">Choose an account type, accounts' infomation will be saved in this machine</sys:String>
+
+	<sys:String x:Key="Dialog_Account_MS_Add">Add Microsoft account</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip1">Use authentication code</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip2">Open authentication website for the next step</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip3">Be sure  to complete the verification within the specified time, otherwise the verification code will be invalid!</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_CopyToken">Copy authentication code</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_OpenURL">Open authentication website</sys:String>
+
+	<sys:String x:Key="Dialog_Account_ThirdParty_New">Add Yggdrasil third-party account</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_URL">Enter Yggdrasil server url</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_Yuuka">Enter E-mail</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_Passwd">Enter password</sys:String>
+
+	<sys:String x:Key="Dialog_Account_Offline_New">Add offline account</sys:String>
+	<sys:String x:Key="Dialog_Account_Offline_InputName">Enter name</sys:String>
+
+	<sys:String x:Key="Account_MS">Microsoft</sys:String>
+	<sys:String x:Key="Account_ThirdParty">Third-party</sys:String>
+	<sys:String x:Key="Account_Offline">Offline</sys:String>
 
 	<!--Detail-->
 	<sys:String x:Key="Settings_Appearance">Appearance Settings</sys:String>
@@ -68,10 +100,11 @@
 	<sys:String x:Key="Settings_Background_BlurValue">Wallpaper blur value</sys:String>
 
 	<sys:String x:Key="Settings_Lang">Language Settings</sys:String>
-	<sys:String x:Key="Settings_Lang_Change">Select Your language</sys:String>
+	<sys:String x:Key="Settings_Lang_Change">Select your language</sys:String>
+
 
 	<sys:String x:Key="Settings_DebugMode">Debug Mode Settings</sys:String>
-	<sys:String x:Key="Settings_DebugMode_Change">Debug Mode</sys:String>
+	<sys:String x:Key="Settings_DebugMode_Change">Debug mode</sys:String>
 
 	<sys:String x:Key="Settings_OOBE">Jump to OOBE</sys:String>
  
@@ -107,15 +140,18 @@
 	<!--OOBE-->
 	<sys:String x:Key="OOBE_Guide">WonderLab - Guide</sys:String>
 	<sys:String x:Key="OOBE_Welcome">Welcome</sys:String>
+	<sys:String x:Key="OOBE_Welcome_Tip">Thanks choosing WonderLab, you'll follow this guide set basic option, this launcher won't upload your personal infomation</sys:String>
 	<sys:String x:Key="OOBE_Lang">Language</sys:String>
-	<sys:String x:Key="OOBE_Appearance">Appearance</sys:String>
+	<sys:String x:Key="OOBE_Lang_Ask">Choose your language</sys:String>
 	<sys:String x:Key="OOBE_Start">Launch!</sys:String>
-	<sys:String x:Key="OOBE_Next">Next</sys:String>
 	<sys:String x:Key="OOBE_Sorry">Sorry, isn't finished</sys:String>
+
+	<!--TestUser-->
+	<sys:String x:Key="Dialog_TestUser_RequestUUID">Your testing-user token</sys:String>
+	<sys:String x:Key="Dialog_TestUser_InputUUID">Enter your testing-user's UUID: </sys:String>
 
 	<!--AloneItem-->
 	<sys:String x:Key="Item_Afdian">AiFaDian</sys:String>
-	<sys:String x:Key="Item_MSAccount">Microsoft Account</sys:String>
 	
 	<sys:String x:Key="Item_None">None</sys:String>
  	<sys:String x:Key="Item_Jump">Go</sys:String>
@@ -123,6 +159,10 @@
 	<sys:String x:Key="Item_Browse">Browse</sys:String>
 	<sys:String x:Key="Item_Remove">Remove</sys:String>
 	<sys:String x:Key="Item_Search">Search</sys:String>
+	<sys:String x:Key="Item_Next">Next</sys:String>
+	<sys:String x:Key="Item_Yes">Sure</sys:String>
+	<sys:String x:Key="Item_Continue">Continue</sys:String>
+	<sys:String x:Key="Item_Sync">Refresh</sys:String>
 
 	<sys:String x:Key="Item_Theme_Light">Light</sys:String>
 	<sys:String x:Key="Item_Theme_Dark">Dark</sys:String>

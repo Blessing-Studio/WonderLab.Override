@@ -23,11 +23,11 @@
     <Grid Margin="36 40 36 40"
           Grid.Column="1"
 			    RowDefinitions="Auto, 12, Auto, 12, Auto, 1*, Auto">
-      <Label Content="{DynamicResource Sorry}"
+      <Label Content="{DynamicResource OOBE_Sorry}"
             FontSize="25"
             FontWeight="Bold"/>
       <Button Grid.Row="6"
-					Content="{DynamicResource Next}"
+					Content="{DynamicResource Item_Next}"
 					Padding="30 10"
 					CornerRadius="8"
 					Classes="launchbutton"

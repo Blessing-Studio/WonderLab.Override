@@ -8,23 +8,23 @@
 			 x:DataType="vm:YggdrasilAuthenticateDialogViewModel"
              x:Class="WonderLab.Views.Dialogs.Setting.YggdrasilAuthenticateDialog">
 	<ui:DialogContentPanel Width="550"
-						   Title="创建 Yggdrasil 外置账户"
-						   PrimaryButtonContent="确定"
+						   Title="{DynamicResource Dialog_Account_ThirdParty_New}"
+						   PrimaryButtonContent="{DynamicResource Item_Yes}"
 						   IsCloseButtonVisible="True"
 						   IsPrimaryButtonVisible="True"
 						   PrimaryButtonCommand="{Binding AuthenticateCommand}">
 		<ui:DialogContentPanel.Content>
 			<StackPanel Spacing="10">
-				<TextBox Watermark="请输入 Yggdrasil 服务器网址"
+				<TextBox Watermark=""
 						 Text="{Binding Url}"
 						 UseFloatingWatermark="False"/>
 
-				<TextBox Watermark="请输入邮箱"
+				<TextBox Watermark="{DynamicResource Dialog_Account_ThirdParty_Yuuka}"
 						 Text="{Binding Email}"
 						 UseFloatingWatermark="False"/>
 
 				<TextBox PasswordChar="*"
-						 Watermark="请输入密码"
+						 Watermark="{DynamicResource Dialog_Account_ThirdParty_Passwd}"
 						 Text="{Binding Password}"
 						 UseFloatingWatermark="False"/>
 			</StackPanel>

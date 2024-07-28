@@ -7,15 +7,15 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Multiplayer"
 			 x:DataType="vm:JoinMutilplayerRequestDialogViewModel"
 			 x:Class="WonderLab.Views.Dialogs.Multiplayer.JoinMutilplayerRequestDialog">
-	<ui:DialogContentPanel Title="有新的请求"
-						   PrimaryButtonContent="批准"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_Multiplayer_NewRequest}"
+						   PrimaryButtonContent="{DynamicResource Multiplayer_Allow}"
 						   IsCloseButtonVisible="True"
 						   PrimaryButtonCommand="{Binding AllowCommand}"
 						   IsPrimaryButtonVisible="{Binding IsAllow, Converter={StaticResource BooleanReverseConverter}}">
 		<ui:DialogContentPanel.Content>
 			<Grid>
 				<TextBlock TextWrapping="WrapWithOverflow"
-						   Text="有一个新的请求试图加入你的连接，请问是否准许？"
+						   Text="{DynamicResource Dialog_Multiplayer_NewRequest_Ask}"
 						   IsVisible="{Binding IsAllow, Converter={StaticResource BooleanReverseConverter}}"/>
 
 				<StackPanel Spacing="8"

@@ -7,8 +7,8 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs"
 			 x:DataType="vm:TestUserCheckDialogViewModel"
              x:Class="WonderLab.Views.Dialogs.TestUserCheckDialog">
-	<ui:DialogContentPanel Title="请输入测试版许可证"
-						   PrimaryButtonContent="下一步"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_TestUser_ReuestUUID}"
+						   PrimaryButtonContent="{DynamicResource Item_Next}"
 						   IsPrimaryButtonVisible="True"
 						   IsTopCloseButtonVisible="True"
 						   TopCloseButtonCommand="{Binding CloseCommand}"
@@ -17,7 +17,7 @@
 		<ui:DialogContentPanel.Content>
 			<Grid RowDefinitions="Auto, 5, Auto">
 				<TextBlock FontSize="12"
-						   Text="请输入您的测试用户 Uuid："/>
+						   Text="{DynamicResource Dialog_TestUser_InputUUID}"/>
 				
 				<TextBox Grid.Row="2"
 						 Name="uuidTextBox"
