@@ -74,7 +74,7 @@
 
 											<TextBlock FontSize="12"
 													   Grid.Row="1"
-													   Text="{DynamicResource Item_MSAccount}"/>
+													   Text="{DynamicResource Account_MS}"/>
 										</Grid>
 										
 										<Grid Height="0"

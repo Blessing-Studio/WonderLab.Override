@@ -24,13 +24,13 @@
 		<Grid Margin="36 40 36 40"
 			  Grid.Column="1"
 			  RowDefinitions="Auto, 12, Auto, 12, Auto, 1*, Auto">
-			<Label Content="语言设置"
+			<Label Content="{DynamicResource OOBE_Lang}"
 				   FontSize="25"
 				   FontWeight="Bold"/>
 
 			<TextBlock Grid.Row="2"
 					   TextWrapping="WrapWithOverflow"
-					   Text="请选择当前您正在使用的语言。"/>
+					   Text="{DynamicResource OOBE_Lang_Ask}"/>
 
 			<ListBox Grid.Row="4"
 					 Height="200"
@@ -74,15 +74,15 @@
 
 				<ListBoxItem Content="简体中文"/>
 				<ListBoxItem Content="繁體中文"/>
+				<ListBoxItem Content="文言華夏"/>
 				<ListBoxItem Content="English"/>
 				<ListBoxItem Content="Русский язык"/>
         		<ListBoxItem Content="日本語"/>
-        		<ListBoxItem Content="文言華夏"/>
 			</ListBox>
 
 
 			<Button Grid.Row="6"
-					Content="{DynamicResource Next}"
+					Content="{DynamicResource Item_Next}"
 					Padding="30 10"
 					CornerRadius="8"
 					Classes="launchbutton"

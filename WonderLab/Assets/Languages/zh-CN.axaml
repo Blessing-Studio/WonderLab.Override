@@ -11,6 +11,7 @@
 	<sys:String x:Key="Home_Launch">启动</sys:String>
 
 	<!--Download-->
+	<sys:String x:Key="Nav_Download_ExtraResource">扩展资源</sys:String>
 	<sys:String x:Key="Download_Search_Watermark">猜你想搜</sys:String>
 
 	<!--Multiplayer-->
@@ -22,16 +23,25 @@
 	<sys:String x:Key="Multiplayer_Action_Connect">连接</sys:String>
 	<sys:String x:Key="Multiplayer_Action_NewRoom">创建房间</sys:String>
 	<sys:String x:Key="Multiplayer_Action_JoinRoom">加入房间</sys:String>
-	
+
 	<sys:String x:Key="Multiplayer_ControlRoom">房间管理</sys:String>
 	<sys:String x:Key="Multiplayer_ControlRoom_UserToken">你的用户令牌</sys:String>
+
+	<sys:String x:Key="Dialog_Multiplayer_NewConnect">创建新的连接</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewConnect_Ask">您确定要创建新的连接吗？（注：Wrap 服务并不能取代服务器，在创建大型多人游戏时仍建议采用服务器！）</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_JoinConnect">加入对方的连接</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_TypeToken">请输入对方的用户令牌</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewRequest">有新的请求</sys:String>
+	<sys:String x:Key="Dialog_Multiplayer_NewRequest_Ask">有一个新的请求试图加入你的连接，是否批准？</sys:String>
+
+	<sys:String x:Key="Multiplayer_Allow">批准</sys:String>
 
 	<!--Settings-->
 	<!--Nav-->
 	<sys:String x:Key="Nav_Settings_Launch">游戏</sys:String>
 	<sys:String x:Key="Nav_Settings_Account">账户</sys:String>
 	<sys:String x:Key="Nav_Settings_Network">网络</sys:String>
-	<sys:String x:Key="Nav_Settings_Appearance">外观</sys:String>
+	<sys:String x:Key="Nav_Settings_Appearance">个性化</sys:String>
 	<sys:String x:Key="Nav_Settings_About">关于</sys:String>
 	
 	<!--About-->
@@ -55,6 +65,28 @@
 	<!--Account-->
 	<sys:String x:Key="Settings_Account">账户设置</sys:String>
 	<sys:String x:Key="Settings_Account_Add_Description">添加新账户</sys:String>
+
+	<sys:String x:Key="Dialog_Account_Choose">选择验证类型</sys:String>
+	<sys:String x:Key="Dialog_Account_Choose_Tip">请选择一种验证类型，如有正版账户请选择微软登录，账户信息会在验证完成后保存至本地</sys:String>
+
+	<sys:String x:Key="Dialog_Account_MS_Add">增添微软账户</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip1">请使用验证代码</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip2">访问验证网址以继续下一步验证操作</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_Add_Tip3">网址访问速度可能比较慢，但请务必在规定的时间内完成验证操作，否则此验证码将失效！</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_CopyToken">复制验证码</sys:String>
+	<sys:String x:Key="Dialog_Account_MS_OpenURL">打开验证网站</sys:String>
+
+	<sys:String x:Key="Dialog_Account_ThirdParty_New">增添 Yggdrasil 外置账户</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_URL">请输入 Yggdrasil 服务器网址</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_Yuuka">请输入优香</sys:String>
+	<sys:String x:Key="Dialog_Account_ThirdParty_Passwd">请输入密码</sys:String>
+
+	<sys:String x:Key="Dialog_Account_Offline_New">增添离线账户</sys:String>
+	<sys:String x:Key="Dialog_Account_Offline_InputName">请输入名称</sys:String>
+
+	<sys:String x:Key="Account_MS">微软</sys:String>
+	<sys:String x:Key="Account_ThirdParty">第三方</sys:String>
+	<sys:String x:Key="Account_Offline">离线</sys:String>
 
 	<!--Detail-->
 	<sys:String x:Key="Settings_Appearance">外观设置</sys:String>
@@ -107,22 +139,29 @@
 	<!--OOBE-->
 	<sys:String x:Key="OOBE_Guide">WonderLab - 设置向导</sys:String>
 	<sys:String x:Key="OOBE_Welcome">欢迎</sys:String>
+	<sys:String x:Key="OOBE_Welcome_Tip">感谢您使用 WonderLab，接下来将进行简单的设置向导，本启动器不会上传您的私人信息</sys:String>
 	<sys:String x:Key="OOBE_Lang">语言</sys:String>
-	<sys:String x:Key="OOBE_Appearance">个性化</sys:String>
+	<sys:String x:Key="OOBE_Lang_Ask">请选择当前您正在使用的语言</sys:String>
 	<sys:String x:Key="OOBE_Start">开始吧！</sys:String>
-	<sys:String x:Key="OOBE_Next">下一步</sys:String>
 	<sys:String x:Key="OOBE_Sorry">对不起，但是我们目前没有完成此功能</sys:String>
+
+	<!--TestUser-->
+	<sys:String x:Key="Dialog_TestUser_RequestUUID">请输入测试版许可证</sys:String>
+	<sys:String x:Key="Dialog_TestUser_InputUUID">请输入您的测试用户 UUID：</sys:String>
 
 	<!--AloneItem-->
 	<sys:String x:Key="Item_Afdian">爱发电</sys:String>
-	<sys:String x:Key="Item_MSAccount">微软账号</sys:String>
-	
+
 	<sys:String x:Key="Item_None">无</sys:String>
  	<sys:String x:Key="Item_Jump">跳转</sys:String>
 	<sys:String x:Key="Item_Add">添加</sys:String>
 	<sys:String x:Key="Item_Browse">浏览</sys:String>
 	<sys:String x:Key="Item_Remove">移除</sys:String>
 	<sys:String x:Key="Item_Search">搜索</sys:String>
+	<sys:String x:Key="Item_Next">下一步</sys:String>
+	<sys:String x:Key="Item_Yes">确定</sys:String>
+	<sys:String x:Key="Item_Continue">继续</sys:String>
+	<sys:String x:Key="Item_Sync">刷新</sys:String>
 
 	<sys:String x:Key="Item_Theme_Light">亮色</sys:String>
 	<sys:String x:Key="Item_Theme_Dark">暗色</sys:String>

@@ -30,17 +30,17 @@
 		<Grid Margin="36 40 36 40"
 			  Grid.Column="1"
 			  RowDefinitions="Auto, 12, Auto, 1*, Auto">
-			<Label Content="欢迎使用"
+			<Label Content="{DynamicResource OOBE_Welcome}"
 				   FontSize="25"
 				   FontWeight="Bold"/>
 			
 			<TextBlock Grid.Row="2"
 					   TextWrapping="WrapWithOverflow"
-					   Text="感谢您使用 WonderLab，接下来将进行简单的设置向导，本启动器不会上传您的私人信息。"/>
+					   Text="{DynamicResource OOBE_Welcome_Tip}"/>
 			
 			<Button Grid.Row="4"
 					CornerRadius="8"
-					Content="{DynamicResource Start}"
+					Content="{DynamicResource OOBE_Start}"
 					Padding="30 10"
 					Classes="launchbutton"
 					HorizontalAlignment="Right"

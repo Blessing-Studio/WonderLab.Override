@@ -7,16 +7,16 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Multiplayer"
 			 x:DataType="vm:CreateMutilplayerDialogViewModel"
 			 x:Class="WonderLab.Views.Dialogs.Multiplayer.CreateMutilplayerDialog">
-	<ui:DialogContentPanel Title="创建新的连接"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_Multiplayer_NewConnect}"
 						   IsCloseButtonVisible="True"
-						   PrimaryButtonContent="继续"
+						   PrimaryButtonContent="{DynamicResource Item_Continue}"
 						   IsPrimaryButtonVisible="True"
 						   PrimaryButtonCommand="{Binding CreateCommand}">
 		<ui:DialogContentPanel.Content>
 			<Grid>
 				<TextBlock TextWrapping="WrapWithOverflow"
 						   IsVisible="{Binding IsConnecting, Converter={StaticResource BooleanReverseConverter}}"
-						   Text="您确定要创建新的连接吗？（注：Wrap 服务并不能取代服务器，在创建大型多人游戏时仍建议采用服务器！）"/>
+						   Text="{DynamicResource Dialog_Multiplayer_NewConnect}"/>
 				
 				<ui:ProgressRing BorderThickness="3"
 								 IsIndeterminate="True"

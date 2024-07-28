@@ -7,8 +7,8 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Multiplayer"
 			 x:DataType="vm:JoinMutilplayerDialogViewModel"
              x:Class="WonderLab.Views.Dialogs.Multiplayer.JoinMutilplayerDialog">
-	<ui:DialogContentPanel Title="加入对方的连接"
-						   PrimaryButtonContent="确定"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_Multiplayer_JoinConnect}"
+						   PrimaryButtonContent="{DynamicResource Item_Yes}"
 						   IsCloseButtonVisible="True"
 						   PrimaryButtonCommand="{Binding MakeRequestCommand}"
 						   PrimaryButtonCommandParameter="{Binding ElementName=tokenTextBox, Path=Text}"
@@ -17,7 +17,7 @@
 			<Grid>
 				<TextBox Name="tokenTextBox"
 						 UseFloatingWatermark="False"
-						 Watermark="请输入对方的用户令牌"
+						 Watermark="{DynamicResource Dialog_Multiplayer_TypeToken}"
 						 IsVisible="{Binding IsMakedRequest, Converter={StaticResource BooleanReverseConverter}}"/>
 
 				<StackPanel Spacing="8"

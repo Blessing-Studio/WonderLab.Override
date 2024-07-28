@@ -7,15 +7,15 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Setting"
 			 x:DataType="vm:OfflineAuthenticateDialogViewModel"
              x:Class="WonderLab.Views.Dialogs.Setting.OfflineAuthenticateDialog">
-	<ui:DialogContentPanel Title="创建离线账户"
-						   PrimaryButtonContent="确定"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_Account_Offline_New}"
+						   PrimaryButtonContent="{DynamicResource Item_Yes}"
 						   IsCloseButtonVisible="True"
 						   IsPrimaryButtonVisible="True"
 						   PrimaryButtonCommand="{Binding AuthenticateCommand}"
 						   PrimaryButtonCommandParameter="{Binding ElementName=nameTextBox, Path=Text}">
 		<ui:DialogContentPanel.Content>
 			<TextBox Name="nameTextBox"
-					 Watermark="请输入名称"
+					 Watermark="{DynamicResource Dialog_Account_Offline_InputName}"
 					 UseFloatingWatermark="False"/>
 		</ui:DialogContentPanel.Content>
 	</ui:DialogContentPanel>

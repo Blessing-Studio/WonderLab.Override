@@ -7,7 +7,7 @@
 			 xmlns:vm="using:WonderLab.ViewModels.Dialogs.Setting"
 			 x:DataType="vm:MicrosoftAuthenticateDialogViewModel"
 			 x:Class="WonderLab.Views.Dialogs.Setting.MicrosoftAuthenticateDialog">
-	<ui:DialogContentPanel Title="登录微软账户"
+	<ui:DialogContentPanel Title="{DynamicResource Dialog_Account_MS_Add}"
 						   IsTopCloseButtonVisible="True"
 						   IsCloseButtonVisible="False"
 						   IsPrimaryButtonVisible="False">
@@ -25,7 +25,7 @@
 					  RowDefinitions="Auto Auto Auto Auto"
 					  IsVisible="{Binding IsCodeLoadFinish}">
 					<TextBlock TextAlignment="Center"
-							   Text="请使用验证代码"/>
+							   Text="{DynamicResource Dialog_Account_MS_Add_Tip1}"/>
 
 					<SelectableTextBlock Grid.Row="1"
 										 FontSize="18"
@@ -36,9 +36,9 @@
 
 					<TextBlock TextAlignment="Center"
 							   Grid.Row="2">
-						<Run Text="访问验证网址以继续下一步验证操作"/>
+						<Run Text="{DynamicResource Dialog_Account_MS_Add_Tip2}"/>
 						<LineBreak/>
-						<Run Text="网址访问速度可能比较慢，但请务必在规定的时间内完成验证操作，否则此验证码将失效！"/>
+						<Run Text="{DynamicResource Dialog_Account_MS_Add_Tip3}"/>
 					</TextBlock>
 				</Grid>
 			</Grid>
@@ -47,10 +47,10 @@
 		<ui:DialogContentPanel.BottomBarContent>
 			<StackPanel Spacing="8"
 						Orientation="Horizontal">
-				<Button Content="复制验证码"
+				<Button Content="{DynamicResource Dialog_Account_MS_CopyToken}"
 						Command="{Binding CopyDeviceCodeCommand}"/>
 				
-				<Button Content="打开验证网站"
+				<Button Content="{DynamicResource Dialog_Account_MS_OpenURL}"
 						Command="{Binding OpenUrlCommand}"/>
 			</StackPanel>
 		</ui:DialogContentPanel.BottomBarContent>

@@ -34,11 +34,11 @@
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE716;"
-										   Content="{DynamicResource OOBE_Account}"
+										   Content="{DynamicResource Nav_Settings_Account}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xE790;"
-										   Content="{DynamicResource OOBE_Appearance}"
+										   Content="{DynamicResource Nav_Settings_Appearance}"
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 				</ui:NavigationView.Items>
 			</ui:NavigationView>
