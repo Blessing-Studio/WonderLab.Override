@@ -21,7 +21,7 @@
 	<sys:String x:Key="Multiplayer_Action">Action</sys:String>
 	<sys:String x:Key="Multiplayer_Action_Connect">Connect</sys:String>
 	<sys:String x:Key="Multiplayer_Action_NewRoom">Create Room</sys:String>
-	<sys:String x:Key="Multiplayer_Action_JoinRoom">Jonin Room</sys:String>
+	<sys:String x:Key="Multiplayer_Action_JoinRoom">Join Room</sys:String>
 	
 	<sys:String x:Key="Multiplayer_ControlRoom">Control Room</sys:String>
 	<sys:String x:Key="Multiplayer_ControlRoom_UserToken">Your User Token</sys:String>
@@ -68,7 +68,7 @@
 	<sys:String x:Key="Settings_Background_BlurValue">Wallpaper blur value</sys:String>
 
 	<sys:String x:Key="Settings_Lang">Language Settings</sys:String>
-	<sys:String x:Key="Settings_Lang_Change">Select language</sys:String>
+	<sys:String x:Key="Settings_Lang_Change">Select Your language</sys:String>
 
 	<sys:String x:Key="Settings_DebugMode">Debug Mode Settings</sys:String>
 	<sys:String x:Key="Settings_DebugMode_Change">Debug Mode</sys:String>
