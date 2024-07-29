@@ -51,7 +51,6 @@
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="False"
 							   Content="{Binding ActivePage}"
-							   PanelContent="{Binding ActivePanelPage.Page}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>
 					<ui:NavigationViewItem Icon="&#xEA8A;"
@@ -62,21 +61,21 @@
 										   Foreground="{DynamicResource PrimaryBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xEDDC;"
-										   Content="{DynamicResource Main_Download}"
 										   Command="{Binding NavigationToCommand}"
+										   Content="{DynamicResource Main_Download}"
 										   CommandParameter="DownloadNavigationPage"
 										   Foreground="{DynamicResource SuccessBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF0B9;"
-										   Content="{DynamicResource Main_Multiplayer}"
 										   CommandParameter="MultiplayerPage"
 										   Command="{Binding NavigationToCommand}"
+										   Content="{DynamicResource Main_Multiplayer}"
 										   Foreground="{DynamicResource WarningBaseColor}"/>
 
 					<ui:NavigationViewItem Icon="&#xF8B0;"
-										   Content="{DynamicResource Main_Settings}"
 										   Command="{Binding NavigationToCommand}"
 										   CommandParameter="SettingNavigationPage"
+										   Content="{DynamicResource Main_Settings}"
 										   Foreground="{DynamicResource SecondaryColor600}"/>
 				</ui:NavigationView.Items>
 

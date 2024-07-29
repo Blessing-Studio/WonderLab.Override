@@ -25,72 +25,67 @@
 		
 		<Setter Property="Template">
 			<ControlTemplate>
-					<Grid Background="Transparent"
-						  RowDefinitions="1*, Auto">
-						<controls:Frame Grid.Row="0"
-										Name="PART_Frame"
-										Margin="0 0 12 15"
-										ClipToBounds="False"
-										Background="Transparent"
-										Content="{TemplateBinding Content}"/>
-						
-						<!-- ContentPanel -->
-						<LayoutTransformControl UseRenderTransform="True"
-												Name="PART_LayoutTransformControl">
-							<LayoutTransformControl.Transitions>
-								<Transitions>
-									<DoubleTransition Property="Opacity"
-													  Duration="0:0:0.35"
-													  Easing="ExponentialEaseInOut"/>
-									
-									<TransformOperationsTransition Duration="0:0:0.35"
-																   Property="RenderTransform"
-																   Easing="ExponentialEaseInOut"/>
-								</Transitions>
-							</LayoutTransformControl.Transitions>
-							<Border Grid.Row="0"
-									CornerRadius="12"
-									Margin="14 5 14 15"
-									BorderThickness="1"
-									Name="BackgroundPanel"
-									Background="{TemplateBinding Background}"
-									BorderBrush="{TemplateBinding BorderBrush}">
-								<controls:Frame ClipToBounds="True"
-												Name="PART_PanelFrame"
-												Background="Transparent"/>
-							</Border>
-						</LayoutTransformControl>
-						
-						<Border Opacity="1"
-								Grid.Row="2"
-								BorderThickness="1"
-								VerticalAlignment="Bottom"
-								HorizontalAlignment="Stretch"
-								MinHeight="{TemplateBinding MinHeight}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								Background="{DynamicResource BottomBarBackground}">
-							<Grid ColumnDefinitions="Auto, 1*, Auto">
-								<ScrollViewer Margin="16 0 -10 0"
-											  Name="PART_ScrollViewer"
-											  HorizontalAlignment="Left"
-											  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
-											  VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
-											  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
-											  HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
-											  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
-											  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
-											  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}">
-									<ItemsPresenter Name="PART_ItemsPresenter"
-													Margin="{TemplateBinding Padding}"
-													ItemsPanel="{TemplateBinding ItemsPanel}" />
-								</ScrollViewer>
-								
-								<ContentPresenter Grid.Column="2"
-												  Margin="0 0 10 0"
-												  Content="{TemplateBinding FooterContent}"/>
-							</Grid>
-						</Border>
-					</Grid>
+				<Grid Background="Transparent"
+					  RowDefinitions="1*, Auto">
+					<Border Opacity="0"
+							Grid.Row="0"
+							CornerRadius="12"
+							Name="PART_Border"
+							Margin="14 5 14 15"
+							BorderThickness="1"
+							RenderTransform="translateY(15px)"
+							Effect="{StaticResource UnderlineShadow}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}">
+						<Border.Transitions>
+							<Transitions>
+								<DoubleTransition Property="Opacity"
+												  Duration="0:0:0.35"
+												  Easing="ExponentialEaseInOut"/>
+
+								<TransformOperationsTransition Duration="0:0:0.35"
+															   Property="RenderTransform"
+															   Easing="ExponentialEaseInOut"/>
+							</Transitions>
+						</Border.Transitions>
+					</Border>
+
+					<ContentPresenter Grid.Row="0"
+									  Margin="14 5 14 15"
+									  Background="Transparent"
+									  Name="PART_ContentPresenter"/>
+
+					<!--navbar-->
+					<Border Opacity="1"
+							Grid.Row="2"
+							BorderThickness="1"
+							VerticalAlignment="Bottom"
+							HorizontalAlignment="Stretch"
+							MinHeight="{TemplateBinding MinHeight}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							Background="{DynamicResource BottomBarBackground}">
+						<Grid ColumnDefinitions="Auto, 1*, Auto">
+							<ScrollViewer Margin="16 0 0 0"
+										  Name="PART_ScrollViewer"
+										  HorizontalAlignment="Left"
+										  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+										  VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}"
+										  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+										  HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
+										  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+										  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+										  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}">
+								<ItemsPresenter Name="PART_ItemsPresenter"
+												Margin="{TemplateBinding Padding}"
+												ItemsPanel="{TemplateBinding ItemsPanel}" />
+							</ScrollViewer>
+
+							<ContentPresenter Grid.Column="2"
+											  Margin="0 0 10 0"
+											  Content="{TemplateBinding FooterContent}"/>
+						</Grid>
+					</Border>
+				</Grid>
 			</ControlTemplate>
 		</Setter>
 
@@ -110,7 +105,7 @@
 			</Style.Animations>
 		</Style>-->
 
-		<Style Selector="^ /template/ controls|Frame#PART_PanelFrame">
+		<!--<Style Selector="^ /template/ controls|Frame#PART_PanelFrame">
 			<Style.Animations>
 				<Animation Duration="0:0:0.35" FillMode="Forward">
 					<KeyFrame Cue="0%">
@@ -121,7 +116,7 @@
 					</KeyFrame>
 				</Animation>
 			</Style.Animations>
-		</Style>
+		</Style>-->
 
 		<!--IsPanelOpen-->
 		<!--<Style Selector="^:ispanelopen /template/ LayoutTransformControl#PART_LayoutTransformControl">

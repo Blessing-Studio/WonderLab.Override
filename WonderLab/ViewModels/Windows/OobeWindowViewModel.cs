@@ -19,7 +19,7 @@ public sealed partial class OobeWindowViewModel : ViewModelBase {
     
     public OobeWindowViewModel(OobeNavigationService navigationService) {
         IsTitleBarVisible = EnvironmentUtil.IsWindow;
-        Task.Run(async () => {
+        RunBackgroundWork(async () => {
             await Task.Delay(800);
             IsOpenBackgroundPanel = true;
         });

@@ -21,7 +21,7 @@
 
 			<ui:NavigationView Grid.Row="1"
 							   ClipToBounds="True"
-							   PanelContent="{Binding ActivePage}"
+							   Content="{Binding ActivePage}"
 							   SelectedIndex="{Binding CurrentPageId}"
 							   IsOpenBackgroundPanel="{Binding IsOpenBackgroundPanel}">
 				<ui:NavigationView.Items>

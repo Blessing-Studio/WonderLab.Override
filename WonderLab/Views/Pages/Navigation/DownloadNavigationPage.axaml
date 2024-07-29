@@ -43,7 +43,7 @@
 		</Border>
 
 		<controls:Frame Grid.Row="1"
-						Margin="36 0"
+						Margin="36 0" IsVisible="False"
 						Content="{Binding ActivePage.Page}"/>
 	</Grid>
 </UserControl>

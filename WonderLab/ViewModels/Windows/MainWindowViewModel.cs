@@ -36,7 +36,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
     [ObservableProperty] private bool _isOpenTaskListPanel;
     [ObservableProperty] private bool _isOpenBackgroundPanel;
 
-    [ObservableProperty] private NavigationPageData _activePanelPage;
     [ObservableProperty] private ReadOnlyObservableCollection<ITaskJob> _tasks;
     [ObservableProperty] private ReadOnlyObservableCollection<INotification> _notifications;
 
@@ -51,14 +50,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase {
         _settingService = settingService;
         _navigationService = navigationService;
         _notificationService = notificationService;
-
         _navigationService.NavigationRequest += p => {
-            if (p.PageKey is "HomePage") {
-                ActivePage = p.Page;
-            } else {
-                ActivePanelPage = null;
-                ActivePanelPage = p;
-            }
+            ActivePage = p.Page;
         };
 
         WeakReferenceMessenger.Default.Register<BlurEnableMessage>(this, BlurEnableValueHandle);

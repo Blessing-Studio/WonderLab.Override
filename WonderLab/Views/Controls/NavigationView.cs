@@ -12,39 +12,21 @@ using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Styling;
 using Avalonia.Media.Transformation;
+using Avalonia.Controls.Presenters;
 
 namespace WonderLab.Views.Controls;
 
 [PseudoClasses(":ispanelopen", ":ispanelclose")]
 public sealed class NavigationView : SelectingItemsControl {
-    public sealed class NavigationViewTemplateSettings : AvaloniaObject {
-        private double _actualPx;
+    private ContentPresenter _PART_ContentPresenter;
+    private Border _PART_Border;
 
-        public static readonly DirectProperty<NavigationViewTemplateSettings, double> ActualPxProperty =
-                AvaloniaProperty.RegisterDirect<NavigationViewTemplateSettings, double>(nameof(ActualPx), p => p.ActualPx,
-                    (p, o) => p.ActualPx = o);
+    private bool _isRunPanelAnimation;
 
-        public double ActualPx {
-            get => _actualPx;
-            set => SetAndRaise(ActualPxProperty, ref _actualPx,
-                value);
-        }
-    }
-
-    private Frame PART_Frame;
-    private Frame PART_PanelFrame;
-    private LayoutTransformControl PART_LayoutTransformControl;
-
-    private Border _backgroundPanel;
-    private bool _oldIsOpenBackgroundPanel;
-
-    public NavigationViewTemplateSettings TemplateSettings { get; } = new();
+    private event EventHandler AnimationCompleted;
 
     public static readonly StyledProperty<object> ContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(Content));
-
-    public static readonly StyledProperty<object> PanelContentProperty =
-        AvaloniaProperty.Register<NavigationView, object>(nameof(PanelContent));
 
     public static readonly StyledProperty<object> FooterContentProperty =
         AvaloniaProperty.Register<NavigationView, object>(nameof(FooterContent));
@@ -58,11 +40,6 @@ public sealed class NavigationView : SelectingItemsControl {
         set => SetValue(ContentProperty, value);
     }
 
-    public object PanelContent {
-        get => GetValue(PanelContentProperty);
-        set => SetValue(PanelContentProperty, value);
-    }
-
     public object FooterContent {
         get => GetValue(FooterContentProperty);
         set => SetValue(FooterContentProperty, value);
@@ -73,51 +50,46 @@ public sealed class NavigationView : SelectingItemsControl {
         set => SetValue(IsOpenBackgroundPanelProperty, value);
     }
 
-    private DispatcherOperation RunAnimation() {
-        var px = IsOpenBackgroundPanel ? 0 : _backgroundPanel.Bounds.Height + 15;
-
-        Dispatcher.UIThread.VerifyAccess();
-        return Dispatcher.UIThread.InvokeAsync(() => {
-            PART_LayoutTransformControl.Opacity = IsOpenBackgroundPanel ? 1 : 0;
-            PART_LayoutTransformControl.RenderTransform = TransformOperations.Parse($"translateY({px}px)");
-        });
-
+    private void OnAnimationCompleted(object sender, EventArgs e) {
+        _isRunPanelAnimation = true;
+        Dispatcher.UIThread.Post(() => _PART_ContentPresenter.Content = Content, DispatcherPriority.ApplicationIdle);
     }
 
-    protected override async void OnApplyTemplate(TemplateAppliedEventArgs e) {
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e) {
         base.OnApplyTemplate(e);
 
-        //Layouts
-        PART_Frame = e.NameScope.Find<Frame>("PART_Frame");
-        PART_PanelFrame = e.NameScope.Find<Frame>("PART_PanelFrame");
-        PART_LayoutTransformControl = e.NameScope.Find<LayoutTransformControl>("PART_LayoutTransformControl");
-        _backgroundPanel = e.NameScope.Find<Border>("BackgroundPanel");
+        _PART_ContentPresenter = e.NameScope.Find<ContentPresenter>("PART_ContentPresenter");
+        _PART_Border = e.NameScope.Find<Border>("PART_Border");
 
-        await Dispatcher.UIThread.InvokeAsync(() => {
-            PART_LayoutTransformControl.Opacity = 0;
-            PART_LayoutTransformControl.RenderTransform = TransformOperations.Parse($"translateY({_backgroundPanel.Bounds.Height + 15}px)");
-        });
+        AnimationCompleted += OnAnimationCompleted;
     }
 
     protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change) {
         base.OnPropertyChanged(change);
 
         if (change.Property == IsOpenBackgroundPanelProperty) {
-            await RunAnimation();
+            var @bool = change.GetNewValue<bool>();
 
-            await Task.Delay(TimeSpan.Parse("0:0:0.3"));
-            await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent, DispatcherPriority.ApplicationIdle);
+            Dispatcher.UIThread.Post(() => {
+                _PART_Border.Opacity = @bool ? 1d : 0d;
+                _PART_Border.RenderTransform = TransformOperations.Parse($"translateY({(@bool ? 0 : 15)}px)");
+            }, DispatcherPriority.Send);
+
+            await Dispatcher.UIThread.InvokeAsync(() => {
+                _PART_ContentPresenter.Content = null;
+            }, DispatcherPriority.ApplicationIdle);
+
+            await Task.Delay(TimeSpan.Parse("0:0:0.38"));
+            AnimationCompleted?.Invoke(this, EventArgs.Empty);
         }
 
-        if (change.Property == PanelContentProperty) {
-            var dispatcherOperation = RunAnimation();
+        if (change.Property == ContentProperty) {
+            if (_isRunPanelAnimation) {
+                _isRunPanelAnimation = false;
+                return;
+            }
 
-            dispatcherOperation.Completed += async (_, _) => {
-                await Task.Delay(TimeSpan.Parse("0:0:0.3"));
-                await Dispatcher.UIThread.InvokeAsync(() => PART_PanelFrame.Content = PanelContent, DispatcherPriority.ApplicationIdle);
-            };
-
-            await dispatcherOperation;
+            Dispatcher.UIThread.Post(() => _PART_ContentPresenter.Content = change.NewValue, DispatcherPriority.ApplicationIdle);
         }
     }
 }
