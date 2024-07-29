@@ -50,8 +50,8 @@ public sealed class NavigationView : SelectingItemsControl {
         set => SetValue(IsOpenBackgroundPanelProperty, value);
     }
 
-    private void OnAnimationCompleted(object sender, EventArgs e) {
-        _isRunPanelAnimation = true;
+    private async void OnAnimationCompleted(object sender, EventArgs e) {
+        await Task.Delay(TimeSpan.Parse("0:0:0.38"));
         Dispatcher.UIThread.Post(() => _PART_ContentPresenter.Content = Content, DispatcherPriority.ApplicationIdle);
     }
 
@@ -69,6 +69,7 @@ public sealed class NavigationView : SelectingItemsControl {
 
         if (change.Property == IsOpenBackgroundPanelProperty) {
             var @bool = change.GetNewValue<bool>();
+            _isRunPanelAnimation = @bool;
 
             Dispatcher.UIThread.Post(() => {
                 _PART_Border.Opacity = @bool ? 1d : 0d;
@@ -79,7 +80,6 @@ public sealed class NavigationView : SelectingItemsControl {
                 _PART_ContentPresenter.Content = null;
             }, DispatcherPriority.ApplicationIdle);
 
-            await Task.Delay(TimeSpan.Parse("0:0:0.38"));
             AnimationCompleted?.Invoke(this, EventArgs.Empty);
         }
 

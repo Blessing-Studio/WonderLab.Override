@@ -41,11 +41,11 @@
 							<Transitions>
 								<DoubleTransition Property="Opacity"
 												  Duration="0:0:0.35"
-												  Easing="ExponentialEaseInOut"/>
+												  Easing="CubicEaseOut"/>
 
-								<TransformOperationsTransition Duration="0:0:0.35"
+								<TransformOperationsTransition Duration="0:0:0.25"
 															   Property="RenderTransform"
-															   Easing="ExponentialEaseInOut"/>
+															   Easing="CubicEaseOut"/>
 							</Transitions>
 						</Border.Transitions>
 					</Border>
