@@ -12,8 +12,5 @@ public sealed partial class TelemetryInitializer : ITelemetryInitializer {
         telemetry.Context.Cloud.RoleName = "WonderLab.Override";
         telemetry.Context.Cloud.RoleInstance = "WonderLab.Override";
         telemetry.Context.Component.Version = UpdateService.Version;
-        //telemetry.Context.GlobalProperties["Branch"] = BranchSymbol.CurrentDes;
-        //telemetry.Context.GlobalProperties["BranchFramework"] = BranchSymbol.Framework;
-        //telemetry.Context.GlobalProperties["BranchRuntime"] = BranchSymbol.Runtime;
     }
 }

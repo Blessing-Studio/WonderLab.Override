@@ -100,7 +100,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckJavaAndExecuteAsync() {
+    private async Task CheckJavaAndExecuteAsync() {
         ReportProgress("正在检查 Java 相关信息");
         var resultJava = await CheckJavaAsync();
         if (!resultJava.value && !resultJava.canExecute) {
@@ -119,7 +119,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckResourcesAndExecuteAsync() {
+    private async Task CheckResourcesAndExecuteAsync() {
         ReportProgress("正在检查游戏本体资源完整性");
         var resultResource = await CheckResourcesAsync();
         if (!resultResource) {
@@ -151,7 +151,7 @@ public sealed class PreLaunchCheckTask : TaskBase {
         }
     }
 
-    async Task CheckAccountAndExecuteAsync() {
+    private async Task CheckAccountAndExecuteAsync() {
         IsIndeterminate = true;
         ReportProgress("正在验证账户信息");
         var (value, canExecute) = await CheckAccountAsync();

@@ -98,7 +98,7 @@ jobs:
       id: package_version
       uses: Blessing-Studio/get-csproj-version@main
       with:
-        file: WonderLab.Desktop/WonderLab.Desktop.csproj
+        file: WonderLab/WonderLab.csproj
     - name: Build
       run: pupnet --runtime linux-${{ matrix.arch }} --kind appimage -y -o WonderLab.${{ steps.package_version.outputs.version }}.linux-${{ matrix.arch }}.AppImage
     - name: Upload build artifacts
