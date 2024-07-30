@@ -154,6 +154,7 @@ public sealed partial class App : Application {
 
     private static void ConfigureServices(IServiceCollection services) {
         services.AddTransient<GameService>();
+        services.AddTransient<DownloadService>();
 
         services.AddSingleton<TaskService>();
         services.AddSingleton<WrapService>();
@@ -166,7 +167,6 @@ public sealed partial class App : Application {
         services.AddSingleton<SettingService>();
         services.AddSingleton<AccountService>();
         services.AddSingleton<LanguageService>();
-        services.AddSingleton<DownloadService>();
         services.AddSingleton<NotificationService>();
         services.AddSingleton<OobeNavigationService>();
         services.AddSingleton<HostNavigationService>();

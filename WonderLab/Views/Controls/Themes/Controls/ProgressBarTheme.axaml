@@ -55,12 +55,12 @@
                   CornerRadius="{TemplateBinding CornerRadius}">
                 <Border.Transitions>
                   <Transitions>
-                    <!--<DoubleTransition Easing="CircularEaseOut"
+                    <DoubleTransition Easing="CircularEaseOut"
                                       Property="Width"
                                       Duration="0:0:0.6" />
                     <DoubleTransition Easing="CircularEaseOut"
                                       Property="Height"
-                                      Duration="0:0:0.6" />-->
+                                      Duration="0:0:0.6" />
                     <BrushTransition Property="Background" Duration="0:0:0.5" />
                   </Transitions>
                 </Border.Transitions>

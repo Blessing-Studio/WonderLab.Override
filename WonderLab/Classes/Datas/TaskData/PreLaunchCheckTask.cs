@@ -22,6 +22,8 @@ using WonderLab.ViewModels.Dialogs.Setting;
 using CommunityToolkit.Mvvm.Messaging;
 using WonderLab.Classes.Datas.MessageData;
 using Avalonia.Threading;
+using MinecraftLaunch.Classes.Interfaces;
+using WonderLab.Classes.Enums;
 
 namespace WonderLab.Classes.Datas.TaskData;
 
@@ -80,14 +82,15 @@ public sealed class PreLaunchCheckTask : TaskBase {
         try {
             _isReturnTrue = true;
 
-            var res = Dispatcher.UIThread.CheckAccess();
-            await Task.Run(CheckJavaAndExecuteAsync, token);
-            await Task.Run(CheckResourcesAndExecuteAsync, token);
-            await Task.Run(CheckAccountAndExecuteAsync, token);
+            var task1 = Task.Run(CheckJavaAndExecuteAsync, token);
+            var task2 = Task.Run(CheckResourcesAndExecuteAsync, token);
+            var task3 = Task.Run(CheckAccountAndExecuteAsync, token);
 
-            IsIndeterminate = false;
-            ReportProgress(1, "预启动检查完成");
-            CanLaunch?.Invoke(this, _isReturnTrue);
+            await Task.WhenAll(task1, task2, task3).ContinueWith(task => {
+                IsIndeterminate = false;
+                ReportProgress(1, "预启动检查完成");
+                CanLaunch?.Invoke(this, _isReturnTrue);
+            }, token);
         } catch (Exception) {
             _notificationService.QueueJob(new NotificationViewData {
                 Title = "错误",
@@ -121,7 +124,10 @@ public sealed class PreLaunchCheckTask : TaskBase {
 
     private async Task CheckResourcesAndExecuteAsync() {
         ReportProgress("正在检查游戏本体资源完整性");
+
+        var failedCount = 0;
         var resultResource = await CheckResourcesAsync();
+
         if (!resultResource) {
             IsIndeterminate = false;
             _notificationService.QueueJob(new NotificationViewData {
@@ -133,19 +139,32 @@ public sealed class PreLaunchCheckTask : TaskBase {
             var downloadSource = _settingService.Data.IsUseMirrorDownloadSource
                 ? MirrorDownloadManager.Bmcl
                 : null;
-            
-            var resultComplete = await _resourceChecker.MissingResources.DownloadResourceEntrysAsync(downloadSource, args => {
-                //var percentage = args.ToPercentage() * 100;
-                //(percentage, $"{args.CompletedCount}/{args.TotalCount} - {percentage:0.00}%");
-            }, _downloadService.MainDownloadRequest);
 
-            if (!resultComplete) {
-                _notificationService.QueueJob(new NotificationViewData {
-                    Title = "警告",
-                    Content = "有一个或多个资源下载失败，WonderLab 会继续尝试启动游戏，但是大概率会出现问题！",
-                    NotificationType = NotificationType.Warning
-                });
-            }
+            _downloadService.Setup(_resourceChecker.MissingResources.Select(x => new DownloadItemData {
+                Url = x.Url,
+                Size = x.Size,
+                Path = x.Path
+            }));
+
+            _downloadService.Completed += (_, arg) => {
+                if (arg is DownloadResult.Incomplete) {
+                    _notificationService.QueueJob(new NotificationViewData {
+                        Title = "警告",
+                        Content = $"共计 {failedCount} 个文件下载失败，WonderLab 会继续尝试启动游戏，但是大概率会出现问题！",
+                        NotificationType = NotificationType.Warning
+                    });
+                }
+            };
+
+            _downloadService.ProgressChanged += (_, args) => {
+                failedCount = args.FailedCount;
+                string speed = GetSpeedText(args.Speed);
+
+                ReportProgress(((args.TotalBytes > 0) ? (double)args.DownloadedBytes / args.TotalBytes : 0.0) * 100,
+                    $"{args.CompletedCount} / {args.TotalCount} - {speed}");
+            };
+
+            await _downloadService.DownloadAllAsync();
 
             ReportProgress(0);
         }
@@ -218,5 +237,21 @@ public sealed class PreLaunchCheckTask : TaskBase {
         } catch (Exception) {
             return (false, true);
         }
+    }
+
+    private static string GetSpeedText(double speed) {
+        if (speed < 1024d) {
+            return speed.ToString("0") + " B/s";
+        }
+
+        if (speed < 1024d * 1024d) {
+            return (speed / 1024d).ToString("0.0") + " KB/s";
+        }
+
+        if (speed < 1024d * 1024d * 1024d) {
+            return (speed / (1024d * 1024d)).ToString("0.00") + " MB/s";
+        }
+
+        return "0";
     }
 }
