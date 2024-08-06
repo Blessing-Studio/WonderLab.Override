@@ -47,8 +47,6 @@
 		
 		<PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
 		
-		<PackageReference Include="MinecraftLaunch" Version="3.1.0-preview04" />
-		
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.2.24128.5" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.2.24128.5" />
 
@@ -106,6 +104,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\refs\BlessingStudio.Wrap\src\BlessingStudio.Wrap\BlessingStudio.Wrap.csproj" />
+	  <ProjectReference Include="..\refs\MinecraftLaunch\MinecraftLaunch\MinecraftLaunch.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
