@@ -42,9 +42,9 @@ public abstract class PageProvider<TPage> {
 
 public sealed class AvaloniaPageProvider(
     IReadOnlyDictionary<string, PageDescriptor> registeredPages,
-    IServiceProvider services) : PageProvider<UserControl>(registeredPages, services) {
+    IServiceProvider services) : PageProvider<ContentControl>(registeredPages, services) {
 
-    protected override void ConfigureViewModel(UserControl page, object viewModel) {
+    protected override void ConfigureViewModel(ContentControl page, object viewModel) {
         page.DataContext = viewModel;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Avalonia.Animation.Easings;
 using DialogHostAvalonia;
 using Microsoft.Extensions.Logging;
 using WonderLab.Services.Navigation;
+using WonderLab.UI.Controls;
 using ZLogger;
 
 namespace WonderLab.Services;
@@ -18,21 +18,23 @@ public sealed class DialogService {
         _logger = logger;
         _provider = provider;
     }
-
-    public Task ShowDialogAsync() {
+    
+    public Task<object> ShowDialogByViewAsync<TView>() where TView : DialogContentControl {
+        var key = typeof(TView).FullName!;
+        var content = _provider.GetPage(key);
+        
+        _logger.ZLogDebug($"Current key is {key}");
+        
         return DialogHost.IsDialogOpen(PART_DialogHost) 
             ? throw new InvalidOperationException("DialogHost can't be opened")
-            : DialogHost.Show("Blur can be controlled via BlurBackground and BlurBackgroundRadius properties.",
-                PART_DialogHost);
+            : DialogHost.Show(content, PART_DialogHost);
     }
     
-    public Task<object> ShowDialogAsync<TViewModel>() where TViewModel : class {
+    public Task<object> ShowDialogByViewModelAsync<TViewModel>() {
         var key = typeof(TViewModel).FullName!;
         var content = _provider.GetPage(key);
         
-#if DEBUG
-        _logger.ZLogInformation($"Current key is {key}");
-#endif
+        _logger.ZLogDebug($"Current key is {key}");
         
         return DialogHost.IsDialogOpen(PART_DialogHost) 
             ? throw new InvalidOperationException("DialogHost can't be opened")
@@ -40,9 +42,7 @@ public sealed class DialogService {
     }
 
     public void Close(object parameter) {
-#if DEBUG
-        _logger.ZLogInformation($"{parameter}");
-#endif
+        _logger.ZLogDebug($"{parameter}");
         
         if(DialogHost.IsDialogOpen(PART_DialogHost))
             DialogHost.Close(PART_DialogHost, parameter);

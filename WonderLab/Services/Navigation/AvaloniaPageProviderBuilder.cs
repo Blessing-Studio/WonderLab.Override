@@ -10,13 +10,13 @@ public sealed class AvaloniaPageProviderBuilder {
     public IReadOnlyDictionary<string, PageDescriptor> RegisteredPages => _pages;
 
     public void Register<TPage>()
-        where TPage : UserControl {
+        where TPage : ContentControl {
         var key = typeof(TPage).FullName!;
         _pages[key] = new PageDescriptor(typeof(TPage), null);
     }
 
     public void Register<TPage, TViewModel>()
-        where TPage : UserControl
+        where TPage : ContentControl
         where TViewModel : class {
         var key = typeof(TViewModel).FullName!;
         _pages[key] = new PageDescriptor(typeof(TPage), typeof(TViewModel));

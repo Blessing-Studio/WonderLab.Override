@@ -107,6 +107,7 @@
     <SolidColorBrush x:Key="ScrollBarThumbPointerOverBackgroundBrush" Color="{DynamicResource OnSurfaceVariantColor}"/>
     <SolidColorBrush x:Key="ScrollBarThumbBackgroundBrush" Color="{DynamicResource OnSurfaceVariantColor}" Opacity="0.38"/>
 
+    <SolidColorBrush x:Key="DialogHeroIconForegroundBrush" Color="{DynamicResource SecondaryColor}"/>
     <SolidColorBrush x:Key="DialogScrimBackgroundBrush" Color="{DynamicResource ScrimColor}" Opacity="0.32"/>
     <SolidColorBrush x:Key="DialogContainerBackgroundBrush" Color="{DynamicResource SurfaceContainerHighColor}"/>
 </ResourceDictionary>

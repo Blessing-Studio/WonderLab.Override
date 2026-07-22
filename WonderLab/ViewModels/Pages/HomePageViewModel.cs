@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using WonderLab.Services;
+using WonderLab.Views.Dialogs;
 
 namespace WonderLab.ViewModels.Pages;
 
@@ -20,6 +21,6 @@ public sealed partial class HomePageViewModel : ViewModelBase {
 
     [RelayCommand]
     private async Task Show() {
-        await _dialogService.ShowDialogAsync();
+        await _dialogService.ShowDialogByViewAsync<TestDialog>();
     }
 }

@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:wc="using:WonderLab.UI.Controls"
+                    xmlns:wconverter="using:WonderLab.UI.Converters"
+                    xmlns:mi="using:Material.Icons.Avalonia"
+                    xmlns:dha="using:DialogHostAvalonia">
+    <Design.PreviewWith>
+        <Border>
+            <wc:DialogContentControl Title="dddd">
+            </wc:DialogContentControl>
+        </Border>
+    </Design.PreviewWith>
+    
+    <wconverter:IconKindToTextAlignmentConverter x:Key="IconKindToTextAlignmentConverter"/>
+    
+    <ControlTheme TargetType="wc:DialogContentControl" x:Key="{x:Type wc:DialogContentControl}">
+        <Setter Property="MinWidth" Value="200"/>
+        
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid RowDefinitions="auto auto 16 auto 24 auto">
+                    <mi:MaterialIcon IconSize="24"
+                                     Margin="0 0 0 16"
+                                     Kind="{TemplateBinding IconKind}"
+                                     Foreground="{DynamicResource DialogHeroIconForegroundBrush}"
+                                     IsVisible="{TemplateBinding IconKind, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                     Grid.Row="0"/>
+                    
+                    <TextBlock Text="{TemplateBinding Title}"
+                               Classes="HeadlineSmall"
+                               TextAlignment="{TemplateBinding IconKind, Converter={StaticResource IconKindToTextAlignmentConverter}}"
+                               Grid.Row="1"/>
+                    
+                    <TextBlock Text="{TemplateBinding SupportingText}"
+                               Classes="BodyMedium"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="{TemplateBinding IconKind, Converter={StaticResource IconKindToTextAlignmentConverter}}"
+                               Grid.Row="3"/>
+                    
+                    <ReversibleStackPanel Spacing="2"
+                                          ReverseOrder="True"
+                                          Orientation="Horizontal"
+                                          HorizontalAlignment="Right"
+                                          Grid.Row="5">
+                        <Button Name="PART_CloseButton"
+                                Theme="{StaticResource TextButtonTheme}"
+                                Content="{TemplateBinding CloseButtonContent}"
+                                IsVisible="{TemplateBinding IsCloseButtonVisible}"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=dha:DialogHost}, Path=CloseDialogCommand}"/>
+                        
+                        <ItemsControl ItemsSource="{TemplateBinding ExtendButtons}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="2" Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ReversibleStackPanel>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    
+    <ControlTheme x:Key="{x:Type ItemsControl}" TargetType="ItemsControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Padding="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+                    <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

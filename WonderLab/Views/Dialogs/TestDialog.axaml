@@ -1,0 +1,14 @@
+﻿<controls:DialogContentControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:WonderLab.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Title="测试标题"
+             SupportingText="Copy link
+A dialog is a modal window that appears in front of app content to provide critical information or ask for a decision. Dialogs disable all app functionality when they appear, and remain on screen until confirmed, dismissed, or a required action has been taken."
+             x:Class="WonderLab.Views.Dialogs.TestDialog">
+    <controls:DialogContentControl.ExtendButtons>
+        <Button Content="OK" Theme="{StaticResource TextButtonTheme}"/>
+    </controls:DialogContentControl.ExtendButtons>
+</controls:DialogContentControl>

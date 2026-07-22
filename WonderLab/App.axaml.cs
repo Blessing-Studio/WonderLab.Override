@@ -15,6 +15,7 @@ using WonderLab.Services.Navigation;
 using WonderLab.ViewModels.Pages;
 using WonderLab.ViewModels.Pages.Settings;
 using WonderLab.ViewModels.Windows;
+using WonderLab.Views.Dialogs;
 using WonderLab.Views.Pages.Settings;
 using WonderLab.Views.Windows;
 using ZLogger;
@@ -103,18 +104,21 @@ public partial class App : Application {
         services.AddSingleton<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();
 
-        var pages = builder.PageProvider;
-        pages.Register<HomePage, HomePageViewModel>();
-        pages.Register<MinecraftPage, MinecraftPageViewModel>();
+        var provider = builder.PageProvider;
+        provider.Register<HomePage, HomePageViewModel>();
+        provider.Register<MinecraftPage, MinecraftPageViewModel>();
 
         // Settings
-        pages.Register<AboutPage, AboutPageViewModel>();
-        pages.Register<NavigationPage, NavigationPageViewModel>();
-        pages.Register<JavaSettingsPage, JavaSettingsPageViewModel>();
-        pages.Register<LaunchSettingsPage, LaunchSettingsPageViewModel>();
-        pages.Register<AccountSettingsPage, AccountSettingsPageViewModel>();
-        pages.Register<NetworkSettingsPage, NetworkSettingsPageViewModel>();
-        pages.Register<AppearanceSettingsPage, AppearanceSettingsPageViewModel>();
+        provider.Register<AboutPage, AboutPageViewModel>();
+        provider.Register<NavigationPage, NavigationPageViewModel>();
+        provider.Register<JavaSettingsPage, JavaSettingsPageViewModel>();
+        provider.Register<LaunchSettingsPage, LaunchSettingsPageViewModel>();
+        provider.Register<AccountSettingsPage, AccountSettingsPageViewModel>();
+        provider.Register<NetworkSettingsPage, NetworkSettingsPageViewModel>();
+        provider.Register<AppearanceSettingsPage, AppearanceSettingsPageViewModel>();
+        
+        // Dialog
+        provider.Register<TestDialog>();
         
         var appHost = builder.Build();
         ServiceProvider = appHost.Services;

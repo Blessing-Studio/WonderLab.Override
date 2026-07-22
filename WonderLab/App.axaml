@@ -42,6 +42,7 @@
                 <ResourceInclude Source="/UI/Themes/MaterialWindowTheme.axaml"/>
                 <ResourceInclude Source="/UI/Themes/FlyoutPresenterTheme.axaml"/>
                 <ResourceInclude Source="/UI/Themes/SettingsCardItemTheme.axaml"/>
+                <ResourceInclude Source="/UI/Themes/DialogContentControlTheme.axaml"/>
                 <ResourceInclude Source="/UI/Themes/DialogOverlayPopupHostTheme.axaml"/>
                 <!-- <ResourceInclude Source="/UI/Themes/WindowDrawnDecorationsTheme.axaml"/> -->
             </ResourceDictionary.MergedDictionaries>
