@@ -1,11 +1,19 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics;
+using System.Runtime.Versioning;
+using System.Text.Json.Serialization;
+using WonderLab.Enums;
 
 namespace WonderLab.Models;
 
 public record SettingsModel {
     // Game Settings
-    [JsonPropertyName("isFullscreen")] public bool IsFullscreen { get; set; }
     [JsonPropertyName("isolationVersion")] public bool IsolationVersion { get; set; }
+    
+    [JsonPropertyName("gameWindowType")] public GameWindowTypes GameWindowType { get; set; }
+    
+    [SupportedOSPlatform("windows")]
+    [JsonPropertyName("minecraftPriority")]
+    public ProcessPriorityClass MinecraftPriority { get; set; }
     
     // Appearance Settings 
     [JsonPropertyName("color")] public int Color { get; set; }

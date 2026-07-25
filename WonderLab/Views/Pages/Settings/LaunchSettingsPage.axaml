@@ -5,6 +5,8 @@
              xmlns:wc="using:WonderLab.UI.Controls"
              xmlns:mi="using:Material.Icons.Avalonia"
              xmlns:vm="using:WonderLab.ViewModels.Pages.Settings"
+             xmlns:wm="using:WonderLab.UI.Markups"
+             xmlns:we="using:WonderLab.Enums"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
              x:DataType="vm:LaunchSettingsPageViewModel"
              x:Class="WonderLab.Views.Pages.Settings.LaunchSettingsPage">
@@ -49,17 +51,38 @@
                             <ToggleSwitch IsChecked="{Binding Settings.IsolationVersion}"/>
                         </wc:SettingsCardItem>
 
-                        <ComboBox PlaceholderText="Process Priority"
-                                  Theme="{StaticResource SettingsCardItemComboBoxTheme}"/>
+                        <ComboBox PlaceholderText="Game Window Type"
+                                  ItemsSource="{wm:EnumBindingSource we:GameWindowTypes}"
+                                  SelectedItem="{Binding Settings.GameWindowType}"
+                                  Theme="{StaticResource SettingsCardItemComboBoxTheme}">
+                            <Interaction.Behaviors>
+                                <EventTriggerBehavior EventName="SelectionChanged">
+                                    <InvokeCommandAction Command="{Binding ChangeGameWindowTypeCommand}"/>
+                                </EventTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </ComboBox>
                         
-                        
-                        <wc:SettingsCardItem Header="Fullscreen Mode">
-                            <ToggleSwitch IsChecked="{Binding Settings.IsFullscreen}"/>
+                        <wc:SettingsCardItem Header="Custom Window Size"
+                                             IsVisible="{Binding IsCustomSizeCardVisible}">
+                            <StackPanel Spacing="8" Orientation="Horizontal">
+                                <TextBox Width="150" 
+                                         Margin="0 -8 0 0"
+                                         UseFloatingPlaceholder="True"
+                                         PlaceholderText="Width"
+                                         Text="854"
+                                         Theme="{DynamicResource OutlineTextBoxTheme}"/>
+                                
+                                <mi:MaterialIcon Kind="Close"
+                                                 IconSize="20"/>
+
+                                <TextBox Width="150"
+                                         Margin="0 -8 0 0"
+                                         UseFloatingPlaceholder="True"
+                                         PlaceholderText="Height"
+                                         Text="480"
+                                         Theme="{DynamicResource OutlineTextBoxTheme}"/>
+                            </StackPanel>
                         </wc:SettingsCardItem>
-
-                        <ComboBox PlaceholderText="Game Window Resolution"
-                                  Theme="{StaticResource SettingsCardItemComboBoxTheme}"/>
-
                     </StackPanel>
                 </Border>
                 

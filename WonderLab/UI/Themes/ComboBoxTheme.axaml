@@ -33,6 +33,7 @@
     <ControlTheme TargetType="ComboBox" x:Key="SettingsCardItemComboBoxTheme">
         <Setter Property="Padding" Value="16"/>
         <Setter Property="MinHeight" Value="56"/>
+        <Setter Property="MaxDropDownHeight" Value="800"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}"/>
@@ -90,23 +91,24 @@
 					    	</Border.Transitions>
                         </Border>
 
-                        <Popup Name="PART_Popup"
-                               InheritsTransform="True"
-                               IsLightDismissEnabled="True"
-                               WindowManagerAddShadowHint="False"
-                               PlacementTarget="PART_PointerOverBorder"
-                               MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                               IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
-                               MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}">
-                                <ScrollViewer IsScrollChainingEnabled="False"
-                                              IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
-                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}">
-                                    <ItemsPresenter Name="PART_ItemsPresenter"
-                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
-                                                    Margin="{DynamicResource ComboBoxDropdownContentMargin}"/>
-                                </ScrollViewer>
-                        </Popup>
+	                    <Popup Name="PART_Popup"
+	                           InheritsTransform="True"
+	                           IsLightDismissEnabled="True"
+	                           WindowManagerAddShadowHint="False"
+	                           PlacementTarget="PART_PointerOverBorder"
+	                           MaxHeight="{TemplateBinding MaxDropDownHeight}"
+	                           IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+	                           MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}">
+		                    <ScrollViewer Margin="0 4"
+		                                  IsScrollChainingEnabled="False"
+		                                  IsDeferredScrollingEnabled="{TemplateBinding (ScrollViewer.IsDeferredScrollingEnabled)}"
+		                                  VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+		                                  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}">
+			                    <ItemsPresenter Name="PART_ItemsPresenter"
+			                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+			                                    Margin="{DynamicResource ComboBoxDropdownContentMargin}"/>
+		                    </ScrollViewer>
+	                    </Popup>
                     </Panel>
                 </DataValidationErrors>
             </ControlTemplate>

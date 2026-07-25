@@ -4,7 +4,7 @@
              xmlns:mi="using:Material.Icons.Avalonia"
              xmlns:dha="using:DialogHostAvalonia"
              x:Class="WonderLab.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
   
     <Application.Styles>

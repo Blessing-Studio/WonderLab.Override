@@ -49,7 +49,8 @@
                     </KeyFrame>
                 </Animation>
 
-                <Animation Duration="0:0:.15"
+                <Animation Duration="0:0:.2"
+                           Delay="0:0:.1"
                            FillMode="Forward"
                            Easing="CubicEaseOut">
 					<KeyFrame Cue="0%">                        
