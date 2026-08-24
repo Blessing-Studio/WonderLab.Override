@@ -11,10 +11,11 @@ public sealed partial class LaunchSettingsPageViewModel : ViewModelBase {
     public SettingsService Settings { get; }
 
     [ObservableProperty]
-    public partial bool IsCustomSizeCardVisible { get; set; } = Settings.GameWindowType == GameWindowTypes.Windowed;
+    public partial bool IsCustomSizeCardVisible { get; set; }
     
     public LaunchSettingsPageViewModel(INavigationService navigationService, SettingsService settingsService) : base(navigationService) {
         Settings = settingsService;
+        IsCustomSizeCardVisible = Settings.GameWindowType == GameWindowTypes.Windowed; // 你初始化的时候还没 Settings 就用啊（恼）
     }
 
     [RelayCommand]
